@@ -1,0 +1,13 @@
+Normally, we face data sets that are fairly linear or can be manipulated into one. But what if the data set that we are examining really should be looked at in a nonlinear way? Step into the world of nonlinear feature engineering. First, we’ll look at examples of nonlinear data. Next, we’ll briefly discuss the K-means algorithm as a means to nonlinear feature engineering. Lastly, we’ll apply K-means stacked on top of logistic regression to build a superior model for classification.
+
+Examples of Nonlinear Data
+
+Nonlinear data occurs quite often in the business world. Examples include, segmenting group behavior (marketing), patterns in inventory by group activity (sales), anomaly detection from previous transactions (finance), etc. [1]. To a more concrete example (supply chain / logistics), we can even see it in a visualization of truck driver data of speeding against distance [1]:
+
+From a quick glance, we can see that there are at least 2 groups within this data set. A group split between above 100 distance and below 100 distance. Intuitively, we can see that fitting a linear model here would be horrendous. Thus, we need a different type model. Applying K-means, we can actually find four groups as seen below [1]:
+
+With K-means, we can now assign additional analysis on the above drivers’ data set to produce predictive insights to help businesses categorize drivers’ distance traveled and their speeding patterns. In our case, we’ll apply K-means to our own fictitious data set to save us more steps of feature engineering real life data.
+
+K-Means
+
+Before we begin constructing our data, let’s take some time to go over what K-means actually is. K-means is an algorithm that looks for a certain number of clusters within an unlabeled data set [2]. Take note of the word unlabeled. This means that K-means is an unsupervised learning model. This is super helpful, when you…

@@ -1,0 +1,19 @@
+So, what can we learn from our models? Well, first of all, our average price models seem to show us that avocado prices reach their peak each year in the Autumn. In October 2017, conventional avocados peaked at $1.65 and our model forecasts that Autumn spikes will continue to occur through 2018 and 2019. However, the model predicts that conventional avocado prices will trend downwards over the following two years. Between 2015 and 2018, the average conventional avocado price was $1.09. Between 2018 and 2020, the forecasted average price is $1.01, a decrease of about 7 percent.
+
+In stark contrast, the model forecasts that organic avocado prices will experience moderate growth, bolstered by less volatility. The forecasted average price between 2018 and 2020 is $1.84, compared to $1.55 between 2015 and 2018. The model certainly demonstrated a moderate upward trend for organic avocado prices.
+
+However, the growth in average prices is also due in part to decreased volatility, with the standard deviation of prices down to $0.16 for the forecasted period from the $0.36 standard deviation experienced between 2015 and 2018.
+
+Both conventional and organic avocados are forecasted to experience strong growth in terms of units sold over the 2018–2020 period. Conventional avocado production is forecasted to grow over 40 percent from 33.7 million to 47.6 million avocados sold each week on average.
+
+Organic avocados are forecasted to experience even more meteoric growth. A consistent growth trend between 2015 and 2018 is predicted to continue through 2019 with a whopping 74 percent growth between 2018 and 2020. Between 2015 and 2018, suppliers sold about 970,000 organic avocados weekly. Between 2018 and 2020, the number is forecasted to jump to 1.68 million organic avocados.
+
+Discussion
+
+I think these models are really exciting. First, in terms of pattern recognition, it is interesting to see the models picking up on seasonal trends. The price models captured the Autumn price hikes and the volume models captured the spikes that occur in avocado volume each February.
+
+Additionally, the diagnostics look pretty good. Mean Absolute Percentage Error, or MAPE, measures the error between the forecast and observed values, so a lower value indicates a better fitting model. The highest MAPE amongst the four models is for the organic volume model, at around 6 percent, indicating the model is about 94 percent accurate. I am very happy with this level of fit and I am confident in all of the models. At least, I am as confident as an forecasting newbie could be.
+
+If I had to editorialize (which I will gladly do) I would say that the growth forecast for organic avocado volume is somewhat bullish. I am not sure how realistic 74 percent growth is over only two years, but testing several models yielded similar results.
+
+Alternatively, I think that the conventional avocado price model is somewhat bearish. With the Autumn price hike increasing each year since 2015, I was surprised that the model forecasted overall price decreases. However, if it ends up being the case through 2020, you will not see me complaining at brunch.

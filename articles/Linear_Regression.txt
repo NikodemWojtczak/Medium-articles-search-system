@@ -1,0 +1,79 @@
+Linear Regression
+
+Linear Regression is a famous supervised learning algorithm used to predict a real-valued output. The linear regression model is a linear combination of the features of the input examples.
+
+A note on the notation. x_{i} means x subscript i and x_{^th} means x superscript th.
+
+Representation of the Data
+
+As discussed in the definition, linear regression is a supervised learning algorithm, therefore, has a set of N labelled examples, represented as :
+
+Data used to construct a linear regression model.
+
+Here, x_{i} represents a set of properties corresponding to the i_{^th} example. These set of properties are collectively called a feature vector. All the examples from i=1,2,3,…,n have a corresponding real-valued y, which denotes a physical quantity such as cost, temperature, or any other continuous value.
+
+Here each feature vector is 3-dimensional consisting of the area of house in square metres, the number of rooms and the age of house in years. The target variable is the price of house in USD.
+
+Model
+
+Now, as we have our examples ready we want to make our model f(x) that will help us to predict the output y for an unseen x.
+
+Model of linear regression learning algorithm. Here, w is an R-dimensional parameter vector (x is an R-dimensional feature vector) and b is the bias.
+
+The job of the model is to predict a real-value y for an unseen value of the feature vector x. But, we want to find a model such that it does the best job in predicting the values of y, therefore, we want to find values of w and b such that the predictions are as close as possible to the actual answers. It is obvious that different values of w and b result in producing different models, of varying capabilities. Therefore, our job is to find the optimal set of values w* and b* which will minimize the error between the predictions made by the model f(x) and the actual results y for the training set.
+
+The Best Model
+
+As discussed earlier we have N examples and a model f(x) for which we need to find the optimal values of w and b. Let us use all these N examples for finding the optimal values of w and b, popularly called as training our model. We need to find values of w and b such that the following expression is minimum.
+
+Cost function for linear regression.
+
+This is our objective function as we are going to minimize it. Learning algorithms have functions which we try to minimize or maximise. These functions are called as loss function or the cost function. This particular form is called the mean squared error loss function.
+
+If you observe the loss function:
+
+It is simply subtracting the model’s output, f(x_{i}) and the actual output y_{i},
+
+Squaring it,
+
+And finally taking its average.
+
+To understand this better let us assume John, recently appeared for an examination having 10 mathematical questions and the answer key has been published. Now John decides to find out how well has he performed? so, he compares his answer, f(x)_{i} with the corresponding answer y_{i} on the answer key. If the difference between John’s answer and the actual answer f(x)_{i}-y_{i} is 0 he answered that question correctly. If he answered all the questions correctly then the average will also be 0 which corresponds to the best performance, implying the best model. Squaring the error helps to accentuate the error of the model. We could have also taken a cube or higher power but then the derivatives would have been more difficult to work out. We worry about the derivatives of the cost function as setting them to zero gives the optimal value w* and b* for the model.
+
+General Questions and Examples
+
+Let us discuss a few questions that perplexed me while studying about linear regression. But, before we start let’s take a look at a very primitive example of linear regression.
+
+So, John and his friends decided to start studying linear regression from scratch so they began by collecting examples themselves. The examples they collected are shown below.
+
+The tabular form of data. Here x is a single dimensional feature vector any y is a real-valued output corresponding to each feature vector.
+
+After having collected the data, John decides to fit a linear regression model to it.
+
+The linear regression model of form f(x)=wx+b.
+
+This is a model of form f(x)=wx+b where w is a scalar, as x, the feature vector is one dimensional. A better comprehension of this model is to compare this to the equation of a straight line y=mx+c where m is analogous to w and c to b. This is a linear model.
+
+But, can we do better? Can we come up with a model that performs better than the current one? Yes, we can. It is a common confusion that linear regression only comprises of models that are straight lines. However, we can also fit curves to our data by transforming the data. Let’s transform our feature vector by squaring each x_{i} value.
+
+After having transformed our feature vector let us try to fit a model on the new feature vector x² and the output y (original feature vector x is not considered for training the model instead, it’s transformation x_{^ 2} has been used to train the model).
+
+The model is a better fit than the previous linear model. Here the original feature vector x_{i} is transformed to it’s square and then the model is computed.
+
+So, now we have predicted a polynomial model that is better than the linear one by transforming the original feature vector x_{i} to its square. The new model corresponds to f(x)=wx²+b.
+
+This is a plot of the polynomial regression model. Note that this plot is between X and Y with the polynomial model of degree two. The previous plot was between X² and Y, therefore, it was linear.
+
+The capability of the model to predict better results has increased by transforming the feature vectors but we need to be aware of over fitting. Over fitting happens when the model predicts too well during the training phase but makes an error while predicting unseen examples. Over fitting does not reflect the real-world scenario of being dynamic. It does not produce generalised models.
+
+This is an example of overfitting where the model is too accurate on the training examples.
+
+Let’s say that the feature vector is R-dimensional. We have seen the case where R=1 and also predicted a linear and a polynomial model. If R=2 a plane is predicted as the model. Generally linear regression models a hyper plane for a data set with R-dimensional feature vector, x and 1-dimensional output, y.
+
+Hyper plane is a subspace with one less dimension than that of its surrounding space. In case of a 1 dimensional line the point is a hyper plane, in case of a 2 dimensional region a line is a hyper plane, in case of a 3 dimensional space the plane is a hyper plane and so on.
+
+The Bias Term
+
+Let’s discuss the utility of the bias term. Consider the equation of a straight line y=mx. In this case m controls the slope of the line and can rotate the line anywhere but only about the origin.
+
+Suppose you decide to use this model for a trivial linear regression problem. However, any hypothesis that you generate will always pass through the origin and might fail to generalise. Adding the bias term will result in the hypothesis y=mx+c thereby, allowing you to move your line anywhere in the plane. The bias term helps in generalising the hypothesis.

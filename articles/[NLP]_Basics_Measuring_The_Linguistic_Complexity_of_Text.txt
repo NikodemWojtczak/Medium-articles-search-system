@@ -1,0 +1,81 @@
+Photo by Nong Vang on Unsplash
+
+Determining the linguistic complexity of text is one of the first basic steps you learn in natural language processing. In this article, I take you through what linguistic complexity is and how to measure it.
+
+The pre-processing steps
+
+First, you need to proceed with the tokenisation of your corpora. In other words, you need to break the sentences in your corpus of text into separate words (tokens). In addition, you should also remove punctuation, symbols, numbers and transform all words to lowercase. In the line of code below, I show you how to this using the quanteda package.
+
+# Creating a corpus
+
+mycorpus <- corpus(data, text_field = "text") # Tokenisation
+
+tok <- tokens(mycorpus, what = "word",
+
+remove_punct = TRUE,
+
+remove_symbols = TRUE,
+
+remove_numbers = TRUE,
+
+remove_url = TRUE,
+
+remove_hyphens = FALSE,
+
+verbose = TRUE,
+
+include_docvars = TRUE)
+
+tok <- tokens_tolower(tok)
+
+I then add one more step to the pre-processing of my corpora: removing stopwords. This allows you to get more meaningful results when you measure the lexical complexity of text. Why? Because stopwords have little lexical richness and are only used to bind words in a sentence. As such, it is better to remove them in order not to create any noise in your analysis. However, keep in mind that doing this will significantly drop the number of words.
+
+tok <- tokens_select(tok, stopwords("english"), selection = "remove", padding = FALSE)
+
+Note that some measures of lexical complexity may work well on your corpus object (as you’ll see below), and hence you won’t need to go through the pre-processing steps.
+
+Types vs. tokens
+
+In natural language processing, you will often hear the words “types” or “tokens” and understanding what they refer to is important.
+
+Tokens refer to the number of words in your corpus. It refers to any kind of word, even stopwords. The line of code below shows you how to find out the number of tokens in your corpus, using your tokenised object.
+
+ntoken(tok)
+
+Types refer to the number of unique words found in your corpus. In other words, while tokens count all the words regardless of their repetition, types only show you the frequency of unique words. Logically, the number of types should therefore be lower than the number of tokens.
+
+ntype(tok)
+
+Complexity measures — what are they?
+
+In linguistics, complexity is a characteristic of a text but there are multiple measures and hence multiple implied definitions in practice. In natural language processing, these measures are useful for descriptive statistics. I will show you the two most popular ways of assessing textual complexity: how readible your text is (textual readability) and how rich it is (textual richness).
+
+Lexical readability
+
+Readability measures attempt to quantify how hard a text is to read. The usual benchmark taken is children’s books — classified as “simple”. Using the quanteda package, a useful way to start is with the basic function for textual readability shown in the code below.
+
+readability <- textstat_readability(mycorpus, c("meanSentenceLength","meanWordSyllables", "Flesch.Kincaid", "Flesch"), remove_hyphens = TRUE,
+
+min_sentence_length = 1, max_sentence_length = 10000,
+
+intermediate = FALSE) head(readability)
+
+Note that this function allows you to use the corpus object instead of the tokenised one. In your argument, you have to specify which measure of lexical readability you wish to use (click here to find out all the ones you can use). You can include very simple and straightforward ones such as “meanSentenceLength” calculating the average sentence length and “meanWordSyllable” calculating the average word syllables.
+
+Otherwise, you can chose more statistically robust and complicated measures. Popular ones are the Flesch-Kincaid readability score or Flesch’s reading ease score. These two tests use the same core measures (word length and sentence length) but they have different weighting factors. And the results of the two tests correlate approximately inversely: a text with a high score for Flesch’s reading ease should have a lower score in the Flesch-Kincaid.
+
+A higher score in Flesch’s reading ease test indicates material that is easier to read; lower numbers mark passages that are more difficult to read. As a benchmark: a high score should be easily understood by an average 11 year old, while a low score is best understood by university graduates.
+
+Lexical richness
+
+Similar to textual readability, the quanteda package also has a function to assess how rich a text is using lexical diversity measures.
+
+The most popular measure is the Type-Token Ration (TTR). The basic idea behind that measure is that if the text is more complex, the author uses a more varied vocabulary so there’s a larger number of types (unique words). This logic is explicit in the TTR’s formula, which calculates the number of types divided by the number of tokens. As a result, the higher the TTR, the higher the lexical complexity.
+
+dfm(tok) %>%
+
+textstat_lexdiv(measure = "TTR")
+
+Although TTR is a useful measure, you should however keep in mind that it may unfortunately be affected by text length. The longer the text, the less likely it is that novel vocabulary will be introduced. Therefore, longer texts might lean more towards the tokens side of the equation: more words (tokens) are added but less and less represent unique words (types). So should you have a large corpus to analyse, you may want to use additional measures of lexical richness to verify the results of your TTR.
+
+Another measure of lexical richness you may use is Hapax richness, defined as the numbre of words that occur only once divided by the number of total words. To calculate this, simply use a logical operation on the document-feature matrix to return a logical value for each term that occurs once and then sum up the rows to get a count. Last but not least, calculate it as a proportion of the overall number of words (ntokens) for better interpretation within your overall corpora.

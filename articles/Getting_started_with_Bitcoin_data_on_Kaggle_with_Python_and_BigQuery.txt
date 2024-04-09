@@ -1,0 +1,67 @@
+What is Blockchain
+
+Getting started with Bitcoin data on Kaggle with Python and BigQuery
+
+Photo by André François McKenzie on Unsplash
+
+In my previous post, I examined the usability of Python on studying BigQuery data on Kaggle. There, I concluded that, as for now, we could not avoid using BigQuery more extensively than I initially assumed.
+
+(This post is part of a series about analyzing BigQuery blockchain data with Python. For an overview of the project and the posts, see this link.)
+
+In this post, I show a simple and straightforward way to run a query of the BigQuery Bitcoin dataset on Kaggle with the help of pandas and Google’s bigquery Python module. You can see and fork the notebook based on which I wrote this post, and you can read more about the dataset on its BigQuery page.
+
+While there are other ways to access Bitcoin data, Google’s BigQuery dataset collection is the most exhaustive and up-to-date data source on Bitcoin, and it also incorporates data on further cryptocurrencies. On the other hand, using BigQuery through the Google Cloud Platform is an entirely separate set of skills that you need to master to start the analysis. Compared to this, using Kaggle can give you a quick headstart, although — as I pointed out in that previous post — you do need to know some BigQuery SQL. Furthermore, through Google Cloud, in the free plan, you can process only 1TB of data a month, while using Kaggle’s license provides you 5TBs of processing power.
+
+Outline
+
+The BigQuery Client object The general structure of BigQuery datasets and tables An example query Running the query and generating a dataframe Plots
+
+First, I will introduce the BigQuery Client object, which we will use to access the data. With the help of this object, we will get some insights into the high-level structure of BigQuery datasets. Following that, we will write a simple query to access the Bitcoin data.
+
+Because the Bitcoin dataset is vast and because using BigQuery can be very costly (both in terms of memory usage and time), we will also assess the size of the query and the resulting dataframe. While it is not our main focus here, in the end, we will generate a few plots with pandas.
+
+🔧 The BigQuery ‘client’ object
+
+Here we use Google’s official Python library and specifically its bigquery module. After importing the library, we initialize a Client object, which will be our primary tool to access and handle the data.
+
+Because we will often examine the objects we create and use, we create a helper function to simplify this process.
+
+We try it out on our client object. This gives us a sense of what kind of other objects it works with (e.g. 'table', 'database', 'schema', 'model', 'rows', 'job') and what are the operations it supposed to execute (e.g. 'list', 'get', 'update', 'delete').
+
+(If you are interested in the details of the client object, you can read more about it in its documentation or its API description)
+
+📩 Accessing BigQuery datasets and tables
+
+To understand the following steps, it helps if we start with an overview image.
+
+(The image is from Kaggle’s tutorial. It uses the example of the Hackernews dataset, but its logic also applies here).
+
+The structure is relatively straightforward. A client can have multiple projects which have its datasets consisting of various tables. We have already created a client object, so, in this section, we continue with the following steps:
+
+Define the project and the dataset Get the table names Define a table reference Get the table schema Examine the first few lines
+
+While demonstrating these steps, we will frequently examine the attributes of the objects we created. I hope this will make this process more understandable and reproducible.
+
+Besides merely accessing the data, whenever we want to do something else, or whenever we need some information beforehand, we need to be able to navigate ourselves around among datasets and tables. The following steps show us the fundamentals way to do this.
+
+Getting information about the data
+
+One of the primary use of the client object is to get information about the data objects we try to access. For example, looking for the term 'list', our function returns the following attributes.
+
+In line with our intentions, we will use list_tables and list_rows .
+
+(We could also try to list datasets, but the Kaggle license does not allow this). We can find the dataset name listed on its page)
+
+First, we want to list tables. Before any of this, however, we need to define a project through which we access a BigQuery dataset. Because we work through Kaggle’s license, we use the ‘bigquery-public-data’ project. The name of the dataset is ‘crypto_bitcoin’.
+
+We pass these parameters to the list_tables method, which, in turn, returns an iterator.
+
+To have a better look, we list the attributes of the first item it returns.
+
+This list shows the attributes of the table objects in the dataset. Based on it, we will use the table_id attribute, which will return the name of the tables in the dataset.
+
+Let’s examine the transactions table. We can do this, again, through the Client object. Here we list the table-related client attributes and methods.
+
+From among these, we use the get_table method. Doing this will create a reference to the table which we can access to examine its internals.
+
+First, we examine the table’s schema.

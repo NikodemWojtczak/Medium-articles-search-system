@@ -1,0 +1,71 @@
+Mapping knowledge with digital tools to solve healthcare problems in the 21st century
+
+Intro
+
+As I journeyed across medicine, academic research and the biotech world, it became apparent to me that practitioners and researchers struggle to deal with the complexity of the health challenges we encounter today. These health issues require understandings that go beyond physiology and biochemistry, as illness is additionally influenced by society and culture. Furthermore, we also live in a time characterized by emerging conditions ­exacerbated by a changing climate and biodiversity loss, factors that we still struggle to fully comprehend when it comes to impact on human health.
+
+The effects of climate change and loss of biodiversity on human health cannot be understood by reductionist scientific enquiry alone.
+
+In an ideal world, the knowledge and solutions that we create should sufficiently address these issues in all their complexity. Unfortunately, the sheer overload of information makes obtaining an overview a formidable task, causing most researchers to retreat in specialized silos that are more manageable and safer, from a career standpoint.
+
+All this made me realize that the complex health challenges that we face today cannot be solved by the current processes that drive research and knowledge creation in healthcare. If we are to create long-lasting solutions, it will be imperative that we, as researchers, understand the bigger picture and obtain an overview of the many perspectives that contribute to disease in this day and age and unite these into our investigations.
+
+In the search for tools and methods to incorporate diverse perspectives inherent in a health problem, I went on an exploration of fields far from my comfort zone of science and medicine. The first was design thinking, or human-centered design. As a Visiting Fellow at the Center for Design Research at Stanford University, I spent my days learning about how designers solve problems and participated myself in numerous design projects. The experience opened my mind into the possibilities of using design methods to explore complex problem spaces and frame questions differently.
+
+Whilst design methodology was great for creating solutions to practical challenges in healthcare or even aid in organizational transformation, I still lacked a method for obtaining an overview of the research information, which is necessary in order to even begin the design process, further downstream. Driven by this need, I began to venture into another area far beyond my initial expertise, one that transported me into the world of algorithms and networks.
+
+Mapping knowledge
+
+It is known that the human brain processes visual information far more efficiently than written information, a phenomenon that has to do with the brain’s ability to process multiple visuals at the same time compared to one word at a time. Despite this fact, most scientific publications and databases rely heavily on written information. Without being able to visualize, researchers are confined to scrolling through long lists of publications without an immediate ability to obtain an overview of a field. In fact, most researchers that I have encountered have no visual way of keeping track of research in their field other than the occasional scribble on top of a research article that will then be filed away, never to be looked at again. This process has been slightly improved by some new web applications like Dimensions and Meta, though the data is still presented in the form of long lists, rather than visually.
+
+I came across the concept of mapping after discussions with a data scientist who was working with graph databases and networks. From there, I discovered that individuals working on analyzing science itself, such as those in scientometrics and the sociology of scientific knowledge have been using tools from machine learning and data extraction techniques to map the evolution of knowledge. Nonetheless, few outside these specialized sub-communities venture beyond the theoretical domain and into practical applications of their findings, rendering it less relevant for most researchers, practitioners and policy-makers. This may be one reason that explains why there have been little cross-talk between those who study the science of science, and those who actually practice the science.
+
+Together with the data scientist, we begun to explore mapping the field of tuberculosis to find out what this approach could bring. Along the way, we discovered that many of the freely available tools were either too complex for non-data scientists to work with, or lacked sophistication to answer the types of questions we were interested in exploring. Through our explorations, we began to develop a tool of our own that enabled us to browse networks intuitively and play with the data in fun and creative ways.
+
+Visualizing the networks of knowledge enabled me to obtain insights from the data in a way that was simply not possible earlier. For example, using our newly created tool to explore a citation network of the field of tuberculosis, it became apparent that the field was evolving in a very distinct direction, with clear areas of research being abandoned over time. With deeper investigation, the abandoned area was discovered to be TB Diagnostics, an area that the WHO have recently identified as priority due to the large gap of funding for this area. The visualization we created enabled us to see this gap in an overview without the need for manually combing through large amounts of literature, which we believe could facilitate policy-makers’ strategic processes in a far more efficient way. This type of analysis is also relevant for researchers who may be able to visualize their research in the context of the larger field, and even identify potentially interesting research that have been forgotten in recent times, such as seen in this example.
+
+A static screenshot of the interactive citation network using the tool we developed. The program allows users to scroll over each node (research article) and obtain details as well as visualize its direct connections within the network. The network can be seen to have a shape, which tells us that as new articles are published, older ones are no longer being cited. We can observe a clear area that had been thinning out over time, which in this case, corresponded to articles discussing TB diagnostics.
+
+Since then and using our tool, I have analysed patterns in collaboration networks that revealed the different collaboration dynamics between academia and industry, as well as pin-pointed new emerging research areas that are currently on the fringes but represented unexplored potentials.
+
+Analyzing collaboration networks revealed clearly the disconnect between industry and academia in the field of multi-drug resistant tuberculosis. Here, a small cluster involving Johnson and Johnson’s pharmaceutical arm, Janssen Pharmaceuticals can be seen to be disconnected from the main research network.
+
+In order to understand the wider context that surrounds a health topic, I have also analysed twitter networks around the topics of tuberculosis and global health, which provided a broad overview of the ecosystem and sentiments surrounding these subjects.
+
+Examining a twitter network reveals the ideas that are spreading and how they are inter-connected within a health topic, in this case, global health. It gives us an idea about the discourse, or the issues that are important in the community; knowledge that cannot be gathered from official research articles.
+
+Over time through this work, a vision began to emerge, one that I find exciting and deeply meaningful. Importantly, it is a vision, that I believe, addresses a major gap in the way knowledge is being created and utilized, and thus may have a profound potential to transform scientific advancement and benefit society in ways we do not yet foresee entirely.
+
+Vision
+
+You are a researcher who needs to decide on your next investigation in order to write that grant you are about to apply. Alternatively, you could be a policy-maker, who needs to decide whether more money needs to be allocated to a particular area. You could also be a designer working with epidemiologists on the ground looking to create a better system to identify the source of an infectious diseases outbreak.
+
+In each of these instances, your next steps would depend on how well you are able to understand and synthesize knowledge about the field you are about to work on. This process usually involves hours, weeks and months of research into the subject in order to gain an overview of all possible angles of the topic.
+
+Fancy reading through these articles anyone?
+
+Now imagine an alternate reality, where within a few clicks, you find yourself navigating an interactive visual overview of your topic of interest. You then rapidly identify gaps and opportunities to pursue, leading you to create a strategic or research direction that is sound and original. When needed, you can now target your more in-depth research to a very specific area, without losing countless hours digging through irrelevant information. On top of all this, you realize this is so much fun that you just keep exploring, until you stumble upon an interesting insight that made you ask a question you never previously thought of. Incidentally, this question led to the development of that life-changing treatment or amazing product that transformed the health of people in society at large.
+
+If this vision excites you, then I will say that this is not a vision of the far distant future. The tools and know-how to make this a reality already exists, and my task today, is to introduce this into your world and transform the way we utilize knowledge for the greater good.
+
+Data sources that can be used will originate from diverse sources and will be subjected to the same processing to create infoscapes that allow the investigator to play with the visualizations and extract insights.
+
+Implementation
+
+Our tool is currently in the final stages of development, and we foresee that we will be able to go public with this within the year. As a non-technical (data scientist) co-founder, my role is to bridge the worlds of data science and healthcare research. To do this, I intend to build collaborations with experts in the field and create user studies with real world problems. The potential collaborators have already been identified and projects will be initiated over the coming months. User studies are essential to obtain important feedback and will allow us to improve the product further.
+
+It is not enough to develop a digital tool, without developing the know-how for its use. I therefore worked on developing a methodology that allows for a more systematic inquiry into the data. Some of the insights obtained from this work can be seen here. In the coming months, I will continue to work on the methodology and fine-tune it to create a thorough framework that users could refer to when exploring their data.
+
+As we are currently self-financing and do not have external funding sources, the next step will be to actively seek and secure funding for further development of the tool. The user studies will be a crucial component in our ability to attract partnerships or investors. Although we have developed a business plan, identified the growth potential and differentiated our tool from potential competitors, the plan needs to be refined further to be more impactful.
+
+To be clear, this is not a project with a goal of simply launching a Startup in order to market a product. The project is driven by the vision to ensure that society benefits the most from years of scientific inquiry, by ensuring that valuable knowledge is not lost in the sea of information. As such, there may be other paths, that are yet to be explored to enable this vision to become a reality.
+
+For example, this may be in the route of a consultancy service that will be provided together with the product, led by myself, to ensure that users benefit the most from using the tool.
+
+Becoming a female leader
+
+In 2018, I participated in EIT Health’s Empowering Women Leadership in Health Innovation workshop in Barcelona. During this workshop, I realized the extent to which women entrepreneurs were under-represented in the world of entrepreneurship. I also learnt that one of the most crucial things aspiring female entrepreneurs should seek out, is mentorship, something that is currently missing from my endeavour.
+
+What makes Toptal’s offer particularly relevant is the support of mentorship that it provides. I believe that mentorship is not only about imparting technical advice, but more importantly to me, it is about learning from the experience of others who have walked the path previously. My ideal mentor, would be a female leader who have explored different career paths, from working with corporations to starting her own business or consultancy. Working independently means that much time is spent either on one’s own or discussing with the other team member, which results in few opportunities to obtain outside input. Regular discussions with a mentor at this crucial juncture in my career would be both a morale-booster and greatly enhance my outlook and vision, and will widen my horizon towards other avenues to transform this vision into reality.
+
+Changing the world is too big a task to be accomplished on one’s own. With a bit of help, the seed of this idea could sprout, form an intricate network of connections to sustain it, and blossom into a magnificent tree.

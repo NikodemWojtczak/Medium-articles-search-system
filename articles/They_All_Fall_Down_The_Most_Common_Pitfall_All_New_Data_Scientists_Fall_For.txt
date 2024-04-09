@@ -1,0 +1,15 @@
+Look a few years ago and dedicated training courses for data scientists were thin on the ground and the industry tended to be dominated by people coming from three common areas (computer science, physical sciences and mathematics) who had, through self-learning, turned to data science.
+
+Fast forward to now and a quick google will reveal all sorts of dedicated course. Microsoft has its own learning track using edX courses, some websites offer to train you up over a year (for a fee) and “guarantee” you a job at the end of it and the most significant is the large number of universities that all offer yearlong Masters programs in data science.
+
+Photo by Magic Keegan on Unsplash
+
+Is that a problem?
+
+Of course not! In fact, I think it is potentially very good. There will be some training courses that do not offer you a really good experience and are purely cashing in on the demand for data scientists, but that recognised academic and industrial bodies are promoting and developing courses means that its less stressful for the budding data scientist to get into the field.
+
+I feel there is a “but” coming
+
+However, these courses are short. Look at the course contents of most gives an impressive range of skills being taught, but they only have one year to teach you all the skills of a data scientist (often nine areas and a three month project) which means that while you get exposure and learn a good range of skills there’s only a short period to pick up experience with it.
+
+I have also found that one area that doesn’t seem to be covered is an area that applicants consistently fail to notice during technical interviews. My interview technique is not to get applicants to recite mathematics or the technicalities of how an algorithm works as that just falls into you both being the most knowledgeable about the same thing and can be luck of the draw. It is also tempered by the fact I have a terrible long-term memory. Ask me about a statistic that I used two years ago, and I won’t be able to recite the maths, but I will know what it does and where to go to learn more. This has suited me well as for any critical application you’d be expecting to double check and look up your calculations (no one…

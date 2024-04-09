@@ -1,0 +1,83 @@
+Classifying Products as Banned Or Approved using Text Mining- Part II
+
+Connecting the dots -moving from M to L in Machine Learning
+
+In the previous article of this series, We have discussed the business problem, shown how to train the model using fastText and classification of Banned or Approved products based on information like(Product Name, product description, and specifications). To understand a product in the context of Indiamart please refer to this article.
+
+Going from 85% to 98% and aiming more…..
+
+The accuracy of the model as mentioned in the previous article was 85% when we match the results with a human auditor.
+
+In order to improve the accuracy of this model, we have included some additional data while training the model and performed hyper-parameter tuning. In machine learning, more accurate training data gives better results(we can say that for the machine, garbage in is garbage out and vice-versa).
+
+The Hyper-Parameter Tuning:
+
+In fastText, there are some tuning parameters(like Learning Rate(LR),wordN-grams, Charancter_nGrams(minn), Number of iterations(epoch), etc.)which can be optimized to improve the performance of the classifier while training the model. These tuning parameters vary from case to case.
+
+In our case, we ran multiple permutations and combinations on these hyperparameters while training the model and then selected the best among them. Use the below commands to get models with multiple combinations of tuning parameters.
+
+while read p; do while read q; do while read r; do while read s; do fasttext supervised -input ~/Desktop/Banned_Model/train.txt -output ~/Desktop/Banned_Model/hypertuned/$p.$q.$r.$s -lr $p -minn $q -epoch $r -wordNgrams $s -thread 4 -loss hs -lrUpdateRate 100; done ; done
+
+At this stage, we have created more than 2k unique models. Next step was to select the best one among them. The testing command to select the best model based on its precision, recall, and accuracy is as follows:
+
+for b in ~/Desktop/Banned_Model/hypertuned/*.bin ;do ( echo Test results with $b && fasttext test $b /home/Desktop/test\val.txt ); done >> /home/Desktop/banned_hyper_parameters_test.txt
+
+Using this approach we were able to select the best model based on the most suitable combination of hyper-parameters. These hyper-parameters may vary from one use case to another.
+
+The Model Accuracy:
+
+At this stage, the model is able to predict correctly at an accuracy of above 98% when we match the results with a human auditor and we have finalized our Machine Learning model and saved it as a ‘.bin’ file. The next goal was to put this machine learning model on production.
+
+The Model Deployment: Getting things live
+
+The simple way here is to call a REST API and get predictions from the model. As we know there are a number of web dev frameworks written in javascript, ASP.net, PHP, etc. But in our case, we have used python to create our machine learning model and we were looking for a web-based interface in python itself. Here Flask came into the picture.
+
+ML Model deployment using Flask
+
+What is Flask?
+
+Flask is a python based microframework than can be used to develop web applications, websites, deploy the ML model quite easily. The microframework Flask is based on the Pocoo projects Werkzeug and Jinja2. Werkzeug is a toolkit for Web Server Gateway Interface (WSGI) applications and is licensed under a BSD License. Before moving to the deployment we need to download flask and some other libraries.
+
+pip install flask
+
+Let's create a folder Flask_Deploy and copy the Machine Learning model into the same.
+
+mkdir Flask_Deploy
+
+Next step is to create two python scripts, one for handling data pre-processing/cleaning and another one for getting requests to predict results based on textual input.
+
+Import flask in python.
+
+app = flask.Flask(__name__) : To create an instance of Flask @app.route(“/predict”) : Used to specify the flask app route over the web. for e.g: http://0.0.0.0:5000/predict?msg=The input string .“predict and msg” are keys here.
+
+To access the string submitted in the URL(?msg = Input String) we use below attributes:
+
+Input = flask.request.args.get("msg")
+
+flask.jasonify(data): Used to return a python dictionary in a JSON format. app.run(host=0.0.0.0): Used to run flask app on host address. In this example we ar running it on local host.
+
+After creating the web application, we will get a URL that points to our flask endpoint. Thanks Shantanu Aggarwal @ Alok Kumar for helping with this code on such a short notice .In order to handle data pre-processing, we have created a script preprocess.py and saved in the same directory(Flask_Deploy) where we have saved the ML model file so that, we can call it easily whenever required.
+
+script to get requests and predict results.
+
+In our case, we are getting a lot of unnecessary data like special characters, hyperlinks, some stop-words, duplicated word, etc. To handle these we have created the below script as per our use case and saved it as preprocess.py
+
+Script to handle data cleaning and pre-processing:
+
+preprocess.py script
+
+The Final Run :
+
+cd Flask_Deploy
+
+python3 flask_banned_model.py
+
+After deploying the model we are able to check the predictions, model accuracy, latency as well as load handling time of the model. We can also log the results, data input, latency, etc. into a table as per our requirements.
+
+Conclusion:
+
+The ultimate aim of any machine learning model is to go live without much fuss. The above simple but effective model was finally deployed after a lot of team effort and hard work was put in. Also, we are glad to mention that we were able to achieve a remarkable latency of approximately 4 ms for the above model. We are exhaustively testing the model for any issues and the next article in the series will share the performance of the model and the optimization in terms of time and money we were able to save or incur due to this model.
+
+When Team Work Does Wonders !!
+
+The model is a fruit of the continuous efforts by the entire team. Thanks @Vikram Varshney, Sunil Parolia for initiating the project, Prachi Jain for model training and hyper parameter tuning, Pradeep Chopra, @ Ritika Aggarwal for ensuring thorough testing of the model , @Medha Tyagi @Ankita Saraswat for all the product side knowledge @Alok Kumar ,@ Puneet Aggarwal , Shantanu Aggarwal @ Shipra Gupta , @Abhishek Arora for all the help with the deployment of the model , @ Saurabh Singhal , @ Neeta Singhal for comprehensive evaluation of the model and providing wonderful insights throughout.

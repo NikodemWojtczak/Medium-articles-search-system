@@ -1,0 +1,45 @@
+Python can be lots of fun. It’s not a difficult task to re-invent some built-in function that you don’t know exists in the first place, but why would you want to do that?. Today we’ll take a look at three of those functions which I use more or less on a daily basis, but was unaware of for a good portion of my data science career.
+
+Photo by Drew Beamer on Unsplash
+
+While they maybe won’t be a huge time saver (if you understand the logic behind), your code will look much cleaner. Maybe to you it doesn’t sound like a big deal, but the future you will be grateful.
+
+A couple of weeks back I’ve posted an article on some essential pure Python skills, and the article covers some other cool built-in functions, so make sure to check it out:
+
+Without further ado, let’s start with the first one!
+
+map()
+
+map() is a built-in Python function used to apply a function to a sequence of elements like a list or dictionary. It’s probably the cleanest and most readable way to apply some sort of operation to your data.
+
+In the example below the goal is to square numbers in a list. A function for doing so must be declared, to begin with, and then I’ll showcase how you would do it with and without map() function, ergo in a non-pythonic and pythonic way.
+
+nums = [1, 2, 3, 4, 5] # this function will calculate square
+
+def square_num(x):
+
+return x**2
+
+# non-pythonic approach
+
+squares = []
+
+for num in nums:
+
+squares.append(square_num(num))
+
+
+
+print('Non-Pythonic Approach: ', squares)
+
+# pythonic approach
+
+x = map(square_num, nums)
+
+print('Pythonic Approach: ', list(x))
+
+The outputs will essentially be the same, but just take a second to appreciate how much cleaner does pythonic approach looks. There’s no need for looping either.
+
+zip()
+
+zip() is one of my favorites. It enables you to iterate over two or more lists at the same time. This can…

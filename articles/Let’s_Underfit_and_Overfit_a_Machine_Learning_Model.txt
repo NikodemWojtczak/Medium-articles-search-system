@@ -1,0 +1,83 @@
+Let’s Underfit and Overfit a Machine Learning Model
+
+A colleague recently started using the term “underfitting” to refer to a named entity recognition (NER) model missing entities it should have labelled.
+
+I had to set the record straight. That’s not actually underfitting, but I can see how someone would get that impression.
+
+What then is underfitting, or overfitting for that matter?
+
+Let’s train some models that under and overfit data!
+
+We’ll start by generating a dataset with sklearn’s “make_classification” function. Each datapoint will have 2 features (so it’s easily plottable) and a label.
+
+from sklearn.datasets import make_classification # We didn't need to display all params but I like to see defaults
+
+# I've edited some of these
+
+X,y = make_classification(
+
+n_samples=30,
+
+n_features=2,
+
+n_informative=2,
+
+n_redundant=0,
+
+n_repeated=0,
+
+n_classes=2,
+
+n_clusters_per_class=2,
+
+weights=None,
+
+flip_y=0.01,
+
+class_sep=1.0,
+
+hypercube=True,
+
+shift=0.0,
+
+scale=1.0,
+
+shuffle=True,
+
+random_state=None
+
+) # Split examples by class (positive/negative) to give diff colors
+
+pos_feat0 = []
+
+pos_feat1 = []
+
+neg_feat0 = []
+
+neg_feat1 = [] for idx,klass in enumerate(y):
+
+if klass == 1:
+
+pos_feat0.append(X[idx][0])
+
+pos_feat1.append(X[idx][1])
+
+else:
+
+neg_feat0.append(X[idx][0])
+
+neg_feat1.append(X[idx][1]) # And plot them
+
+import matplotlib.pyplot as plt
+
+plt.scatter(pos_feat0,pos_feat1, c='blue')
+
+plt.scatter(neg_feat0,neg_feat1, c='red')
+
+Boom. We have data.
+
+Now we’ll walk through the definitions of under and overfitting, then intentionally pick algorithms that will under and over fit the data.
+
+Underfitting
+
+According to wikipedia.

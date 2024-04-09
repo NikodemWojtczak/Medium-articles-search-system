@@ -1,0 +1,375 @@
+By — Ravindra Shukla ( AI/ML practitioner)
+
+Abstract — Matrix Factorization is a very powerful algorithm with many valuable use cases in multiple industries. Some of the well-known application of the Matrix Factorization is — Netflix 1-million-dollar prize for movie recommendation and Amazon online application (much-refined version) for recommending books to various readers. Although it is a very popular method, it has some limitations. Our focus in the current paper is to understand latent factors and how to make it more prescriptive. The algorithm works well when we have products in the set already rated by a few users OR every user has rated few products. However, if we are including new products in the set which have not been rated by any user or new users in the set whose preferences for the products are not known — it will be difficult to create a recommendation for unrated products and the new users. There are challenges in co-relating the underlying features of the products and users’ preferences based on key features. The paper below addresses the challenge of interpreting latent factors related to the product and the user features. Once we have clarity on the products and the user features — we can move towards the prescriptive journey. It will help in designing future products with more popular features OR finding a market for a particular product.
+
+Background — I generally quote Wikipedia for the understanding of the basic terms and background.
+
+Matrix factorization is a class of collaborative filtering algorithms used in recommender systems. Matrix factorization algorithms work by decomposing the user-item interaction matrix into the product of two lower dimensionality rectangular matrices.
+
+https://en.wikipedia.org/wiki/Matrix_factorization_(recommender_systems)
+
+There is a constant need to correlate two entities around us. Think of scenarios — Patients vs Diseases, Users vs Products, Men vs Women, Users vs Movies preference, and Job applicants vs Open positions. We can expand the concept to many other scenarios in our daily lives and find relevance. When we are trying to find a correlation between two entities, matrix factorization comes very handily.
+
+Use Cases of Matrix Factorization -
+
+· Marketing strategy
+
+· Cross-sell and Up-sell
+
+· Calculate product propensity and customer propensity
+
+· Recommendation Engine/Personalization
+
+· Launching new products
+
+· Understanding customer360
+
+· Filtering and recommendation at job application sites
+
+· Filtering and recommendation in matrimonial or dating sites
+
+The above scenarios are just a few samples, the concept is very generic and has a wide scope for usage.
+
+Innovative use — In-fact in one of our previous projects, we used Matrix factorization to fill missing values in the dataset. The exercise was to calculate health score (a concept very similar to credit score — where higher health score is indicative of better health). Let us say we are missing A1C reading of one patient (P1), we can correlate — which other patients have similar features (age, sex, BMI, demography, blood pressure, cholesterol, lifestyle, etc), to patient P1 and estimate A1C reading of P1 accordingly.
+
+Basics in Machine Learning — Usage of Matrices and vectors
+
+Before we go deep into Matrix factorization and how to interpret latent factors, let us cover some basics in machine learning.
+
+Machine Learning is based on mathematics which involves iterative optimization based on gradient descent (https://en.wikipedia.org/wiki/Gradient_descent) to minimize the error in prediction. Data that is stored in the database cannot be passed as input to the algorithms, it needs to be represented in terms of a matrix. Matrix is a combination of different vectors, which is useful in defining mathematical operations.
+
+A User may have the following features — User-id, User-Name, Address, Age, Sex, Income, Education, preferences for the product’s features, User-type (students, workers, IT workers, Salesperson)
+
+Similarly, we can define the basic features of a patient based on his/her biometric readings.
+
+Products like Laptop will have features such as — touch screen, RAM, CPU, Brand, Color, Cost (range), etc. Products like a Book will have features such as — Author, Subject, period-written, Genre, poetry vs prose, Fiction vs Non-fiction, Long vs short, hardcover vs softcover, paper copy vs e-book, technical books, etc
+
+However, we can’t use the above data as it is in Machine Learning algorithms. Data need to be arranged in the form of vectors and matrices so that we can pass them as a matrix in mathematical operations.
+
+Representing an instance of the entity in mathematical term — Let us see how to represent a patient in N dimension with key features -
+
+A patient can have the following key features (sample) –
+
+· Patient-id — it is a unique identifier useful in the database. However, it is not relevant for machine learning and algorithms to work based on key features. The ID is just an identifier within the database system.
+
+· Name — similar to the Patient-id, no significance in ML
+
+· Other Demographic info (race, ethnicity, marital status, income, education, and employment)
+
+· Age — between 0 to 120 years
+
+· Sex — Male or Female
+
+· Location (State, Country)
+
+· Bio-metric readings (Blood pressure — Systolic (range — 0–200, Diastolic — 0–200), Blood Sugar 0–400, A1C (0–10), Cholesterol (0–400), Smoking — Yes or No, Chronic condition — Yes or No, Comorbidity — Yes or No)
+
+It can have many more features, but the above detail is good enough for our discussion purpose.
+
+Patient record in Epic System database -
+
+An instance of the patient (a record) will be stored in a regular database like below -
+
+A patient record in regular database
+
+To represent a patient in N dimensions as a vector (P) so that we pass it as input in the ML algorithm –
+
+patient record with numeric values only
+
+We need to convert all text data into numbers and make it meaningful so that it can be used in the calculation. There is a special way to expand categorical variables (for example — gender, state, comorbidity, etc). The process is called Onehotencoder. There are many other activities in data pre-processing, but we are not covering those details here (like normalize all the values, clean the missing data, etc before invoking ML algorithms).
+
+The above representation of the patient instance is called the P vector. We combine all instances of patient vector to create the Patient matrix P.
+
+What is the meaning of vector multiplication –
+
+De-factorizing a known matrix (Rating matrix) in two unknown matrices (user features and product features) is key exercise in Matrix Factorization. Let us understand what the significance of multiplication of two matrices is (user matrix and product matrix)
+
+A = a1.i + a2.j + a3.k — Vector A in three dimensions (let us say — this is user feature vector)
+
+B = b1.i + b2.j + b3.k — Vector B in three dimensions (let us say this is product feature vector)
+
+A x B = a1.b1 + a2.b2 + a3.b3 — Multiplication of A and B vectors
+
+Let us say i represents the safety/security, j represents family vehicle and k represents the performance coefficient of the product and user vector. The value of (AxB) will be higher for the user who prefers a higher-performing family vehicle with good security features. For a user who prefers sports car with high maintenance costs will have a lower value of AxB for the same vehicle. We can clearly see a higher value of AxB will indicate better affinity of user A for product B. Let us take an example to understand — what is the significance of two vectors multiplication.
+
+Neeru likes classic action movies, directed by Akira Kurosawa with a good screenplay, good editing, and background music. She does not like horror, comedy or suspense or movies with a poor storyline.
+
+User vector — Neeru — P1
+
+Product vector Q1
+
+Product vector — Q2
+
+If we multiply two vectors –
+
+P1 (Neeru instance of a user) x Q1 (Seven samurai — instance of a product) = (.8x1 + .1x.2 + .3x.5 + .9x.8 + 1x1 + .4x0 + .4x.8 + .2x.2 + .7x1) = 3.75
+
+P1 (Neeru instance of a user) x Q2 (Blair Witch — instance of a product) = (.8x.2 + .1x.8 + .3x.3 + .9x.4 + 1x0 + .4x.2 + .4x.6 + .2x.6 + .7x0) = 1.13
+
+This clearly indicates Neeru prefers watching Seven Samurai over Blair Witch.
+
+Interpreting the latent factors -
+
+Matrix Factorization is based on the following equation -
+
+R = P x QT
+
+· R is a matrix of rated products by various users
+
+· P is the User matrix
+
+· Q is Product matrix
+
+· QT is the transpose of the matrix Q
+
+We do not have the details of Products and Users features. We just have users’ preferences (ratings) for the various products (derived from historical data). The basic approach is — start with assuming certain coefficients for Products and Users matrix, derive the predicted value of the ratings, find the difference between predicted vs actual value as an error, sum the errors, calculate the gradient to change the coefficient value and recalculate the predicted value and error again. Keep iterating till you converge to a certain minimum error. All this can be done with 50 lines of code in Python.
+
+Same above equations with dimensions can be written as -
+
+R [M, N] = P[M, K] x QT[K, N]
+
+R[i,j] — Value of rated product j (Qj) from user i (Pi)
+
+Q [i][1, 2, 3, ….k] = Product Qi vector with k key features
+
+P[j][1, 2, 3, ….k] = User Pi vector defined by k key features
+
+We are assuming to have K latent features in the above equation.
+
+What are the Latent Factors?
+
+In Matrix factorization, our effort is to relate two entities (ex. Products and Users) through key features. Every Product will have some key features and every user liking to the product will depend upon his/her preferences for those key features.
+
+Many of these correlations can be established through Matrix factorization. When I first read about matrix factorization and how to use gradient descent to achieve the prediction, I was excited. So much can be achieved with 50–60 lines of basic coding in python. The excitement was short-lived when I started thinking — how do I make it more prescriptive. Mathematics beauty is lost unless we find a practical way to interpret and expand it.
+
+We do a basic assumption that two entities are related through K latent factors. K is just a number. We do not know what do these K factors represent. That’s why they are also called latent. This creates critical hurdles in making Matrix factorization more prescriptive.
+
+I tried different combinations to derive some meaning of latent factors. One of them was — keep increasing the value of K and see if, after a certain number, the increasing value of K may not have an impact on user and product coefficients. User and product coefficients converge and increasing K further will not matter. It did not work out.
+
+In-fact when I increased the value of K and tried multiple integrations — I started getting different combinations of matrix P and Q coefficients.
+
+Deciphering Matrix decomposition -
+
+Let us analyze the details with an example.
+
+R Matrix — rating for 4 different products by 8 users.
+
+Rating Matrix — R
+
+Let us assume — we have four latent factors. In other words, products have 4 main features and users will have preferences for the products based on these key features.
+
+R [8x4] = P[8x4] X Q[4x4]
+
+P (Users matrix) — expanded for four latent features
+
+Users Matrix — P
+
+QT (Transpose of Product Matrix — Q) — expanded for four latent factors
+
+Product Matrix Transpose — QT
+
+This is a purely Mathematical exercise where we have known values of matrix — R (not all ratings are known). We start by initializing the User matrix and the Product matrix with random values.
+
+User U4 rating for Product P2 (u4p2) is the multiplication of two vectors — User (u4) and Product (p2).
+
+u4p2 = u41.p21 + u42.p22 + u43.p23 + u44.p24
+
+If we notice the above equation — Preference on any product by a particular user is directly proportional to sum of coefficient of various dimensions of two vectors.
+
+Let us look at the Matrix factorization equation again –
+
+R = P x Q
+
+Here both P and Q are unknown. Only a few coefficients of R (users rated products) values are known.
+
+There are multiple solution pairs (P, Q) for R when both are P and Q are variables.
+
+u4p2 = u41.p21 + u42.p22 + u43.p23 + u44.p24
+
+Original Matrix R —
+
+Original Rating Matrix — R
+
+High-lighted cells are the ones that were not rated by users. They become test cells.
+
+Non-lighted cells are where we already know the product ratings.
+
+I tried multiple iterations to solve the values of P and Q matrix and got different results Q every time.
+
+Iteration-1:
+
+Predicted rating Matrix — X after iteration-1
+
+Users Matrix — P after iteration 1
+
+Product Matrix Q after iteration 1
+
+X — Predicted values for User-product rating (R is the original matrix)
+
+P — User matrix after de-factorization
+
+Q — Product matrix after de-factorization
+
+Iteration-2: Output from iteration-2
+
+Matrices after iteration 2
+
+Iteration-3: Output from iteration-3
+
+Matrices after iteration 3
+
+Iteration-4: Output from iteration-4
+
+Matrices after iteration 4
+
+In simple term — we have 8x4 + 4x4 = 48 variables but less than 32 equations. So it’s obvious — we will have multiple pairs for P and Q matrix.
+
+This is the struggle just to get a consistent value of P and Q, besides interpreting what do k1, k2, k3, k4 signify? Unless we have consistency in getting converging values of P and Q, our prediction for unrated products will keep fluctuating.
+
+Issues with the current model –
+
+De-factoring helps us in understanding — how can we predict the preference for other users who have not yet rated/or used certain products. Based on predicted preferences — we can decide the marketing strategy for better sales (cross-sell and up-sell).
+
+1. Number of latent factors are unknown
+
+2. Every iteration will give different matrix for the user and product matrix — this means there is no consistency in the prediction
+
+3. Latent factors are not known — this creates an issue in making model prescriptive. It means — suppose we are launching a new product, we will not be sure — which features we should concentrate more on to get better sales.
+
+Solution -
+
+When we have only one equation R = P x Q, one way to solve this is to fix the variable Q (product features) so that we have to deal with only one variable (P — user features).
+
+Empirically thinking — that is not a bad option. If we are selling certain products, it is better we know what the product’s features are and how many of the key features we have.
+
+Let us understand how fixing the value of K and the matrix Q will help in getting consistent results for P and converging prediction for value R.
+
+When we analyzed above equation –
+
+Product rating (u4p2) = u41.p21 + u42.p22 + u43.p23 + u44.p24
+
+User feature vector — u4 = u41.i + u42.j + u43.k + u44.t
+
+Product feature vector — p2 = p21.i + p22.j + p23.k + p24.t
+
+where i, j, k, t — are four different dimensions of the vector. Each dimension corresponds to a unique feature.
+
+When we fix the value of Q to –
+
+Product Matrix Q (fixed one)
+
+We start getting consistency in the value of P and predicted values of rating (X) and user matrix — P -
+
+Iteration-1:
+
+Rating Matrix X and User Matrix P after iteration 1
+
+The user matrix (P) starts converging. Please see the values for iteration 2, 3, and 4.
+
+Iteration-2:
+
+Matrices after iteration 2
+
+Iteration-3:
+
+Matrices after iteration 3
+
+Iteration-4:
+
+Matrices after iteration 4
+
+Based on the above data — we can determine the User feature vector, which represents User preferences.
+
+Now the key question remains — how to fix the product matrix?
+
+Option-1:
+
+The number of features — K — has to be estimated based on product features understanding.
+
+Coefficient values for the product matrix — can range from 0 to 1 (0 indicates feature does not have any impact on the product, 1 indicates — feature has the highest impact on the product).
+
+Once we know what do features (k1, k2, ….Kn) means, we can assign coefficients ranging from 0 to 1 based on their contribution to the product’s quality.
+
+Both business SME and technical teams need to work together to determine initial key features and determining the weight of coefficients.
+
+Option-2:
+
+The number of features — K — has to be estimated based on product features understanding (similar to option-1).
+
+Now de-factorize matrix R and determine matrix P and Q in a couple of iterations. Take a best guess based on two iterations of Q values and understanding of the product features.
+
+Fix the value of Q and solve for matrix P. Coefficients of matrix P will converge once matrix Q is fixed.
+
+In-fact fixing the value of K and product coefficients are good measures. In that way, we can calculate the equivalent coefficient of the user matrix.
+
+Let us say — we decided to categorize products based on 5 key features and determine — what is the significance of each coefficient in overall product preference — This will help in fixing the relevant features in the user matrix where which coefficient corresponds to which feature will also be known.
+
+Summary of the key steps –
+
+1. Assume K — based on product features understanding
+
+2. Start with random values of P and Q coefficients
+
+3. Iterate and determine the first set of P and Q values
+
+4. Review Q coefficients — try to align Q with product features (Product/Items features should be known)
+
+5. Fix value of Q and number of key features (K — latent factors)
+
+6. Adjust the Q matrix (product features)
+
+7. Use the adjusted value of Q to determine the value of P
+
+Key things to keep in mind –
+
+I have ignored the user’s bias in product rating (just to make calculation simpler).
+
+Product features correspond to the individual dimension. Dimensions are perpendicular to one another. There should be no co-linearity in the feature vector.
+
+While we are determining the Product features let us say k1, k2, k3, k4… we can interpret initial meaning attached to different latent factors based on relative values of coefficients (higher dominating features will have a higher coefficient).
+
+User features will correspond to the same set of product features. Let us say if Product k1 represents the Product security feature, User k1 will indicate user preference for security.
+
+Conclusion –
+
+Recently I was watching Google CEO (Sundar Pichai) speech at Google 2018 I/O where he talked about predicting cardiovascular events based on eye scanned image.
+
+Impact of many past events (medical history, environment, habits, medications, etc) will be influencing many other events (health condition — Cardiovascular event) and eye internals.
+
+A set of events has occurred in the past. Now they are currently influencing the chances of cardiac arrest as well as internal of eyes.
+
+By measuring the changes/conditions of eye scan — we can correlate what is the chance of cardiac arrest.
+
+Understanding common factors which impact heart and Eyes conditions
+
+Similarly, we can find many other usages — Disease correlation vs water quality in different locations.
+
+Above relation, we can also map in terms of neural network layers in deep learning.
+
+Entity 1 (E) — Different types of scanned Eye images
+
+Entity 2 (H) — Different types of heart conditions
+
+Latent factors — Different sets of activities, previous medical history, demography, etc are the feature vectors. They act as input in deep learning models. We can collect various data patient records on — Eye scan and heart conditions. Using Matrix factorization — we can determine the correlation between two entities.
+
+Representation in neural network term
+
+I recently came to know — Prostate cancer is very prevalent in Eastern UP. We just need to collect data of different locations vs disease prevalent in that area, understand what are the possible latent factors and go deeper into prescriptive medicine. This can be very useful in the context of population health management (ACO).
+
+Similarly, we can study the impact of water quality, air quality, industry presence, pollution level, soil quality on various diseases in a different geography.
+
+Audience — Implementing a data science project needs collaboration from both the business team as well as the technical team (data engineering and data science team). The data science group develops the algorithm to model the data and evaluate the performance while the business group helps in understanding the product features and collecting the relevant data for the modeling.
+
+It will be critical to utilize business SME experience in understanding the relevance of the product’s features, putting them into the right sequence, assigning the correct weight while initializing users and products matrix. Hence both the teams need to work closely to create robust/prescriptive systems.
+
+References –
+
+https://www.youtube.com/watch?v=MSpF84kevyU
+
+http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/
+
+https://en.wikipedia.org/wiki/Matrix_factorization_(recommender_systems)
+
+https://www.youtube.com/watch?v=XkY2DOUCWMU&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&index=5&t=0s
+
+http://infolab.stanford.edu/~ullman/mmds/ch9.pdf

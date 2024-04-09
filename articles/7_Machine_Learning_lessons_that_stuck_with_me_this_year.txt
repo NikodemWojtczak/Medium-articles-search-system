@@ -1,0 +1,19 @@
+Member-only story 7 Machine Learning lessons that stuck with me this year
+
+I’ve been a student of Machine Learning for the past two years, but this past year was when I finally got to apply what I learned and solidify my understanding of it. So I decided to share 7 lessons I learned during my “first” year of Machine Learning and hopefully make this article an annual tradition.
+
+1. Data is Queen
+
+Think about the data before you get started
+
+Nowadays, it is relatively easy to learn about Machine Learning thanks to the vast selection of learning resources that exist online. Unfortunately, many of them tend to gloss over the data collection and cleaning steps.
+
+During my first serious Machine learning project, my team and I run into the BIG question of where do we get our data from? We needed thousands of images of animals and after giving up on the idea of scraping the web, we came across the CIFAR-100 dataset. But just when we thought all of our problems where solved, we realized that we needed to pre-process our data (remove background, scale down, turn into vectors etc.) before feeding it into our Deep Learning model. This turned out to be the most time consuming part of our project (aside from training and tweaking our model over night for about a week).
+
+The data part of any Machine Learning project shouldn’t be overlooked, “where is the data coming from?” should be one of the first questions you ask before you get started.
+
+2. Domain Knowledge Matters
+
+Domain knowledge can sometimes matter just as much as technical skills
+
+It is easy to get caught up on the idea that you only need technical skills to solve problems using Machine Learning. The reality is that you’ll have a hard time getting very far if you only think of the problem in front of you in terms of just numbers and algorithms. For once, it can be difficult to come up with project ideas in a domain that you don’t know much about. But even if you manage to come up with a great idea, domain knowledge can be extremely helpful when deciding what kind of data you need to collect and the type of features you should use when…

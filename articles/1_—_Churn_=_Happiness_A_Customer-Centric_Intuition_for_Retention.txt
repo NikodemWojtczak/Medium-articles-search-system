@@ -1,0 +1,113 @@
+KKBOX is Asia’s leading music streaming service and holds the world’s most comprehensive Asia-Pop music library with over 30 million tracks. They offer an unlimited version of their service to millions of people, supported by advertising and paid subscriptions. This delicate business model, however, is dependent on accurately predicting churn of their paid users, which is what I hope to deliver on.
+
+2. Data Understanding
+
+The data for this exercise is publicly available at Kaggle. It was part of a competition hosted by The 11th ACM International Conference on Web Search and Data Mining (WSDM 2018). The data contains the music listening and transaction habits of ~2,300,000 members from January 2015 to March 2017.
+
+— 2.1 Dataset Descriptions —
+
+The datasets we will be using for this project are divided into two versions: v1 and v2. Here, we will only be using v1 files since they contain nearly 3 years worth of data, while v2 only contains a single month.
+
+train_v1: contains unique user ids and whether they churned as of 2/28/2017 . ~800K Records @ 45.56 MB
+
+contains unique user ids and whether they churned as of . ~800K Records @ 45.56 MB transactions_v1: transactions of users up until 2/28/2017 . It contains features related to plan pricing, transaction dates, and membership expiration dates. ~22 Million Records @ 1.68 GB
+
+transactions of users up until . It contains features related to plan pricing, transaction dates, and membership expiration dates. ~22 Million Records @ 1.68 GB user_logs_v1: daily subscriber activity up until 2/28/2017 . This contains features related to the number of unique songs played, total seconds listened to per day, and the number of songs partially listened to. ~400 Million Records @ 29.78 GB
+
+daily subscriber activity up until . This contains features related to the number of unique songs played, total seconds listened to per day, and the number of songs partially listened to. ~400 Million Records @ 29.78 GB members: All user information data. It contains features related to gender, registration method, city, and age. ~5 Million Records @ 417.89 MB
+
+Total: 31.92 GB w/ 22 raw data points across all files, including 4 date fields
+
+Below is the data architecture I used for efficient, data preparation and model building:
+
+Raw Tables (RAW_) — Raw untouched version of all tables and will be used as a clean backup.
+
+— Raw untouched version of all tables and will be used as a clean backup. Working Tables (WRK_) — Cleaned and properly formatted version of all tables. These will serve as the source for our Derived Tables.
+
+— Cleaned and properly formatted version of all tables. These will serve as the source for our Derived Tables. Derived Tables (DRV_) — Table created specifically for our use case. All feature engineering will be performed here.
+
+— 2.2 Notes & Observations —
+
+Given such a large dataset, I decided to use Google BigQuery as a persistent storage solution. For modeling, I used Apache Spark (via Google Dataproc).
+
+Disclaimer: I realize Google BigQuery isn’t intended to be used as a DBMS, and something like a Postgre and MySQL Server would be more appropriate for this use case, but… they offered to let me use it for free!
+
+3. Data Preparation
+
+Please refer to the Create Derived Tables and Features section in the KKBox Churn — Part 1 — ETL notebook
+
+— 3.1 Derived Table Construction —
+
+We will start by building our monthly Derived Tables with all members who have a Membership Expiration Date within each of the respective months. We will also include all member-specific information from the tables, as well as some simply derived features. Lastly, we calculate is_churn with respect to KKBOX’s definition. The result:
+
+We will be using January 2016 and February 2016 as the Training and Validation sets, respectively.
+
+— 3.2 Feature Engineering —
+
+For this project I ended up creating ~230 features, with each of them taking one of two forms; Aggregate and Retrospective Data.
+
+The Aggregate Features were general aggregations of member data that were primarily absolute summations and averages. Examples of these Aggregate Features:
+
+total_spent: The Total Amount Spent Over a Member’s Lifetime.
+
+The Total Amount Spent Over a Member’s Lifetime. spent_per_num_unq: Total Spent / Sum of Number of Unique Songs
+
+The Retrospective Features take three main forms:
+
+Aggregate Data (AVG, STD, SUM) over Time Intervals of 7, 15, 30, 60, and 120 Days from Membership Expiration. Examples:
+
+total_secs_last_15_AVG : # of seconds of music listened to on average within 15 days of expiration
+
+: # of seconds of music listened to on average within 15 days of expiration over_50perc_last_30: # of songs listened to over 50% within 30 days of expiration
+
+Bi-Weekly Activity Blocks. Examples:
+
+SUM_unq_songs_0_15 : SUM Unique Songs within an interval of 0 to 15 days from expiration
+
+: SUM Unique Songs within an interval of 0 to 15 days from expiration AVG_songs_15_30: AVG # of Songs within an interval of 15 to 30 days from the expiration
+
+Comparison of Bi-Weekly Activity Blocks. These features were created to capture trend behavior leading up to a member’s expiration date. Examples:
+
+DIFSUM_unq_songs_0_15_15_30 : Difference of the SUM of Unique Songs within intervals 0–15 and 15–30 days from expiration
+
+: Difference of the SUM of Unique Songs within intervals 0–15 and 15–30 days from expiration DIFAVG_songs_15_30_30_45: Difference of the AVG # of Songs played Per Day within intervals 15–30 and 30–45 days from expiration
+
+— 3.3 EDA and Customer Segmentation Analysis —
+
+Refer to the follow notebooks for this section:
+
+As this article is focused more on the Modeling aspect of the project, I strongly encourage you to visit the corresponding notebooks for this section. As you will see in the first notebook, I like to use a statistical approach to guide the EDA process, especially when dealing with this many features. In addition to this, users were also divided into cluster groups via K-Means for further insight into the existing customer segments and their respective behaviors.
+
+I would define these segments as follows:
+
+The Power Users
+
+Small in numbers but Loyal, this segment of users was the most active across all metrics. As these users tend to have longer membership lengths than the others, their proportional churn was below 1%. This group also had the highest average revenue per user.
+
+Cluster 2, Secondary Power Users
+
+In terms of activity, these users were a close second to our Power Users and contributed to roughly ~16% of the total observed revenue. Like our Cluster 0 users, they have a churn % sitting slightly above 1%.
+
+Cluster 0, The Active Majority
+
+Coming in at third, in terms of activity, we have what we call ‘The Active Majority’. Making up nearly 43% of our observed population these users are the strongest contributors to revenue making up nearly half of total revenue. Although Cluster 2 users were more active, there was virtually no difference between them in terms of Churn % and Average Revenue Per User.
+
+Cluster 1, The Inactive Minority
+
+With the largest amount of churn compared to all other groups, we observed how this segment of customers is significantly less active than the rest of the other groups. What was interesting however was that these users were most likely to have received discounts on their subscriptions and yet many of them ended up churning (34.5% of all users in Cluster 1 who currently underpaid their plan price, churned.) This makes me question whether or not many of these people are even worth spending resources on and reinforces why Customer Lifetime Value is so important when determining who is worth going after.
+
+— 3.4 Handling Class Imbalance —
+
+As discussed in our Exploratory Data Analysis, we are dealing with a significant class imbalance in our Target Variable (Churn), with a disproportion of 97:3, Non-Churn vs Churn. To avoid any dominance by our Non-Churn data, we will start by modeling based on a 50:50 balanced set (by under-sampling the dominant class) and adjust this balance as necessary.
+
+4. Modeling
+
+Refer to the follow notebooks for this section:
+
+We ended up working with two classification estimators on Apache Spark: Gradient Boosted Trees (GBT) and Random Forest Classifier (RFC). There were various models built for this project with many of the features being created as a result of these iterations. Here, I will cover the general evolution that led to our final GBT model (best performing). This section was conducted as follows:
+
+Initial GBT and RFC models built on a 1-to-1 Sample GBT models built on various x-to-1 sampling proportions to reduce overfitting and overall accuracy GBT models built on various x-to-1 sampling proportions and over different feature importance thresholds to further reduce overfitting and overall accuracy
+
+We will refer to churn values as follows: Churn = 0: Positive Class, Customer didn’t Churn. Churn = 1: Negative Class, Customer did Churn
+
+Model #1: 1-to-1 Churn vs Non-Churn Ratio Split

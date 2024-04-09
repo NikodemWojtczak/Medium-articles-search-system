@@ -1,0 +1,19 @@
+TensorFlow 2.0 — Here Is What I’ve Learned From A.I. Day At Google
+
+Believe it or not, there are a lots of different meetups talking about data science and AI here in Singapore.
+
+But my favourite meetups are still TensorFlow and Deep Learning Singapore and DataScience SG.
+
+When I realized that TensorFlow and Deep Learning Singapore was going to organize this one day conference — A.I. Day that talked and showed the latest and greatest technology which is being used in developing and creating real-world AI products… Words simply couldn’t describe how excited I was!
+
+It’s one thing to see people talk about the emergence of these technologies and another to see industry experts break down how some of these products are being made with tips and tricks of the trade.
+
+All the speakers are first-hand practitioners working in the field rather than marketing and sales people.
+
+What’s more exciting is that for the first time in Singapore, this conference invited 4 Google Developer Experts in Machine Learning and 3 speakers from Google Brain — all on the same platform.
+
+If you’re someone who just started or has been playing around with TensorFlow 2.0, I’m sure you’ve watched some of the videos by Paige Bailey— currently the product manager for TensorFlow core as well as Swift for TensorFlow (who was also a developer advocate for TensorFlow core).
+
+Therefore, being able to meet her in person during the conference was beyond my excitement!
+
+And this is exactly what I like about being a part of the data science and open source community — sharing with each other and learning at the same time.

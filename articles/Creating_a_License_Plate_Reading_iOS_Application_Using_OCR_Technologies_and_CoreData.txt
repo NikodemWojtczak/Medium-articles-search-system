@@ -1,0 +1,57 @@
+Testing Three OCR Libraries
+
+Now let’s get to the fun part, OCR!
+
+When it comes to image processing, it’s important to find an image that is easy to process and, more importantly, focused on the subject. Let’s assume that the images are in good quality and already cropped to our interest area.
+
+Since we are making an iOS application, there’s no point in using my old friend OpenCV because it’s not meant to be used in an ARM architecture and won’t be optimized to process complex series of convolutions and transformations (I’m sure that if we could have leveraged OpenCV the results would have been way better).
+
+Here are the images I used to compare the three libraries:
+
+Three images of Moroccan License Plates. Disclaimer: I found these images on google image engine and only used for testing purposes, I don’t know if they are real or not.
+
+TesseractOCRiOS
+
+This library is interesting because it uses the legacy library Tesseract, which is written in C++ and wrapped to work in Swift. I was confident that it would give me a decent result, well I was wrong!
+
+Let’s dive in, first you need to set up your pod file and get your workspace up and running, I’m going to assume that you know how to use pods (There’s a lot of YouTube tutorials that can help you with cocoapods ).
+
+There’s a GitHub repository if you want to check it out: TesseractOCRiOS
+
+I’ve created a function with a completion block that returns a string:
+
+Tesseract OCR for iOS
+
+Well let me be very clear, this one is that worst of all the three. I tried pretty much everything, even taking the images and performing some convolution on my computer to improve the image, but nothing! It’s just not good.
+
+This library will only perform well if the pictures are full black text with pretty simple fonts and with a white background. I also want to point out is that Tesseract is known to be bad with images that contain large text.
+
+SwiftOCR
+
+SwiftOCR is a fast and simple OCR library written in Swift. It uses a neural network for image recognition. As of now, SwiftOCR is optimized for recognizing short, one line long alphanumeric codes (e.g. DI4C9CM). Source: Github
+
+That’s interesting because it’s a different approach then Tesseract where you basically leverage classified and trained data to do the recognition.
+
+SwiftOCR uses neural networks so it should be way better, let’s try it!
+
+So I’ve created a function with a completion block that returns a string:
+
+It can’t be easier than that just four lines of code.
+
+I can 100% confirm that it’s way better than Tesseract, especially on a small block of text. I would say It gave me 20% of the characters but isn’t consistent at all, there’s a huge gradient between each iteration. I’m not sure if I did something wrong or if it’s just unstable.
+
+So to conclude, SwiftOCR is better than Tesseract for this use case, but it’s nowhere near to the expected result. At this point, I am totally depressed (kidding). The results are far from what I need in order to process it and compare it with my database.
+
+SwiftOCR is better but still not good enough!
+
+Google MLVision — Firebase ML Kit
+
+When you go to Google that means that you have reached your limits.
+
+Vision is hard, my little experience with image processing taught me this. You need a huge amount of resources and very specialized crafting to achieve something decent.
+
+You need to download the on-device text recognition. Apparently, it’s not as powerful as the cloud-based one, but I can tell you that it smashed the other libraries (like really smashed).
+
+So, I’ve created a function with a completion block that returns a string:
+
+I’m going to be very straightforward, Google is great period:

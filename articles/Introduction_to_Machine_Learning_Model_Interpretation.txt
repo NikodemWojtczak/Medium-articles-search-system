@@ -1,0 +1,33 @@
+Regardless of what problem you are solving an interpretable model will always be preferred because both the end-user and your boss/co-workers can understand what your model is really doing. Model Interpretability also helps you debug your model by giving you a chance to see what the model really thinks is important.
+
+Furthermore, you can use interpretable models to combat the common believe that Machine Learning algorithms are black boxes and that we humans aren’t capable of gaining any insights on how they work.
+
+This article is the first in my series of articles aimed to explain the different methods of how we can achieve explainable machine learning/artificial intelligence.
+
+Plan for this series
+
+My series of articles will cover both theoretical and practical information about how to make machine learning explainable. The articles will be structured in the following way:
+
+Part 1: Machine Learning Model Interpretability
+
+What is Model Interpretation?
+
+Importance of Model Interpretation
+
+What features are important for the model?
+
+Understanding individual predictions
+
+How to get Feature importance for different types of models
+
+What are Partial Dependence plots and how can they be used
+
+Part 3: Interpreting individual predictions
+
+Local Interpretable Model-Agnostic Explanations (LIME)
+
+SHapley Additive exPlanations (shap values)
+
+Why is interpretability in machine learning important?
+
+Even today data science and machine learning applications are still perceived as black boxes capable of magically solving a task which couldn’t be solved without it. This isn’t at all true then in order for a data science project to succeed the development team must have a good understanding of the problem which they are trying to solve and know what kind of model they need for the problem at hand.

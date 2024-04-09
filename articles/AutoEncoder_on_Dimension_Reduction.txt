@@ -1,0 +1,17 @@
+AutoEncoder on Dimension Reduction
+
+A general situation happens during feature engineering, especially in some competitions, is that one tries exhaustively all sorts of combinations of features and ends up with too many features that is hard to select from. In order to avoid overfitting, one can either select a subset of features with highest importance or apply some dimension reduction techniques.
+
+I vaguely remember that there was one Kaggle competition in which the first prize solution was using autoencoder in dimension reduction. So, in this post, let’s talk a bit on autoencoder and how to apply it on general tabular data. The structure follows:
+
+Walk through a quick example to understand the concept of autoencoder Apply autoencoder on competition data
+
+A Great Example of Autoencoder
+
+There is a great explanation of autoencoder here. Let’s start with the most basic example from there as an illustration of how autoencoder works and then apply it to a general use case in competition data.
+
+The most fundamental autoencoder follow the structure:
+
+Notice that the input and output has same number of dimensions(in fact, the input is used as ‘label’ for the output), and the hidden layer has less dimensions, thus it contains compressed informations of input layer, which is why it acts as a dimension reduction for the original input. From the hidden layer, the neural network is able to decode the information to it original dimensions. From input_layer -> hidden_layer is called encoding, and hidden_layer -> output_layer is called decoding.
+
+Autoencoder, in a sense, is unsupervised learning, as it does not require external labels. The encoding and decoding process all happen within the data set.

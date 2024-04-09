@@ -1,0 +1,89 @@
+BERT is now the go-to model framework for NLP tasks in industry, in about a year after it was published by Google AI. When released, it achieved state-of-the-art results on a variety of NLP benchmarks. It’s referred to as a framework because BERT is not a model per se, but in the words of the authors themselves, it is a “method of pre-training language representations, meaning that we train a general-purpose “language understanding” model on a large text corpus (like Wikipedia), and then use that model for downstream NLP tasks that we care about (like question answering).” For the purpose of this blogpost, when we refer to a BERT model, we mean a model based on the BERT architecture and fine tuned for a particular task using pre-trained weights. But like most deep learning models, it’s a black box. Several papers have attempted to explain it, and created a field that the people at HuggingFace call Bertology . In this blog post we will attempt to explain the decisions of a BERT model on the IMDB Reviews dataset, using an attribution (explained below) method called Integrated Gradients for this task. Update: Google is now using BERT for search, to enable better understanding of natural language queries.
+
+But what makes BERT special?
+
+At the risk of oversimplifying the BERT method, it basically entails training a neural network to learn “language” (please do not take this literally), and then this network is used as a backbone to perform various NLP tasks. This is not very different from transfer learning in computer vision, where you fine-tune for a particular task on a backbone network that is good at “vision” (again, not quite in the human sense) in general.
+
+What made it revolutionary was the fact that is was the first deeply bidirectional language representation, meaning it looked at the words after a given word, not just the preceding words. This, it is believed, is what makes it superior to unidirectional representations.
+
+Additionally, its architecture is transformer based, which helps it weight the context in which a word appears in a sentence. All these factors combined go some way in explaining its success. Its architecture has been explained in great detail by a number of blog posts, here is one by Jay Alammar that I recommend.
+
+Why then explain BERT?
+
+Because of all the points mentioned above, BERT based models are fast becoming THE preferred solution for NLP in a number of companies, for both internal modeling tasks and production scenarios where its size is not an issue. Given the superior accuracy of BERT models on benchmark datasets and tasks, why do we wish to explain it?
+
+As an ML practitioner, it’s important to understand if the model has really developed language understanding or has just learnt simple/spurious correlations; there are already suspicions about how smart it really is. This is especially important as we try and make further advances in NLP.
+
+As a business or product owner whose product is using BERT to serve customers, it’s important to understand it because you don’t want it to discriminate against a customer or be fooled by an adversarial example.
+
+In the rest of this post, we use feature attributions to shine a light on how a BERT model reasons.
+
+But first, what are attributions?
+
+Attributions are scores assigned to each feature in proportion to the feature’s contribution to the prediction. Attributions can be positive or negative depending on whether the feature has a positive or negative impact.
+
+Now, if we want to attribute an importance to a feature, it must be done in the context of a counterfactual. A counterfactual is another X’ that you want to compare against. Counterfactuals are implicit in explanations. For example, when you try and explain being late for work to the trains running slow, you’re indirectly comparing to days when the train runs on time. So your counterfactual here is a day when the trains run on time. Now a counterfactual can be a single instance or a distribution (group of examples), and there are some strong views either way. For our purpose, we’ll consider point counterfactuals.
+
+Now let’s understand it through a practical example, using a simple linear regression model. The model takes N inputs, and maps them to a scalar output. The model function (f) on a given input X1 =(x1, x2, … xn) is described by f(x1, x2, … xn) = a0 + a1*x1 +a2*x2 + a3*x3 + … + an*xn. In the case above, for counterfactual X’, the attribution to feature x1 is a1*(x1 — x1’). If the sum of attributions equals f(X1) — f(X’), the attribution method is said to satisfy the “efficiency” axiom.
+
+Ok, so what is the Integrated Gradients attribution method?
+
+Integrated gradients is a gradient based attribution method developed at Google. It is different from other gradient based methods in that it satisfies certain axioms (e.g., efficiency, defined above, is one of the axioms) and is equivalent to calculating the Aumann-Shapley (Aumann, R. J. and Shapley, L. S. Values of Non-Atomic Games. Princeton University Press, Princeton, NJ, 1974) value for the feature.
+
+We shall not get into the mathematics of Aumann-Shapley values here for the sake of brevity. Integrated gradients is an attribution method that needs a counterfactual for attribution to be explicitly specified. The counterfactual is referred to as a “baseline” by the authors. The standard baselines recommended by the authors of the paper are ones that have no information or signal and ideally have a neutral prediction. For example, a black image for a vision model or empty text for an NLP model. We will be using empty text as a baseline.
+
+The models:
+
+Here we will aim to explain the predictions of a BERT base model fine-tuned on the IMDB movie review dataset, see the extent of its reasoning capabilities on custom movie reviews, and also compare it to a BiLSTM model trained on the same dataset.
+
+The BERT model used is the base uncased model fine-tuned using code adapted from here, without any deep hyper-parameter optimization. It achieves ~90% accuracy on the held out test set. The BiLSTM model was trained using code adapted from here. It achieves ~85% test set accuracy, again, without any hyper-parameter optimization.
+
+Finally, the explanations:
+
+Let’s probe the models’ behavior on some simple, plausible one line reviews. We will add some complexity to them as we go on, but really nothing a child couldn’t handle. We will end by testing the models on a ‘real’ movie review from the point of view of the model.
+
+We shall use Fiddler (full disclosure: I work for Fiddler) for this task. We will import the BERT model and the movie review data into Fiddler, and use its NLP explanation interface to visualize attributions. We will focus mostly on the qualitative aspect of the explanations for the purpose of our discussion.
+
+Our first example, “This was a good movie”. Pretty unambiguous right? The BERT model correctly identifies it as positive, and gives the highest positive attribution to “good”, and some negative attribution to “movie”. The negative attribution to “movie” means that the model would have scored the sentence higher if it had empty text (our baseline), in place of “movie”.
+
+The BiLSTM model also predicts the sentiment correctly, but gives the highest attribution to “this”. Not a very intuitive explanation, as from a human standpoint “good” should receive more importance.
+
+Is this a vulnerability? Let’s add a number of “this”es to “This is a bad movie”, which the model correctly identifies as negative. And sure enough, our intuition is correct. The prediction flips, and is now marked as positive sentiment!
+
+This is a remarkable insight and shows how adversarially vulnerable the BiLSTM model is and how explanations helped surface this vulnerability. The BERT model, however, is not tricked by this particular sleight of hand.
+
+Now can they handle negation?
+
+Yes, BERT is able to predict “this was not a good movie” as a negative review. It does manage to attribute enough negative attribution to “not a” to counter the positive attribution to “good”. It is interesting that this is not how a human may have explained his/her line of thought. They would not have said that “good” in the sentence makes it less likely for the sentence to be negative, which is essentially what the model is saying here.
+
+The BiLSTM model however fails to handle negation, and marks it as a positive review.
+
+What happens if we replace “good” with “bad”? BERT now attributes a positive value to “not”, as now it’s in the vicinity of “ a bad movie”. This is very impressive! This shows that it does have a basic understanding of negation, at least way better than the BiLSTM model.
+
+The BiLSTM model attributes negative values to both “not” and “bad”, so it once again shows weakness at contextual understanding.
+
+Now let’s see how they do on a review with more nuance.
+
+“This movie will not be a waste of your time” is a positive review, even if not overwhelmingly so. The BERT model classifies it as negative, with almost zero probability of being positive. It was not able to handle “not be a waste” contextually, as we can see from the explanations below.
+
+The BiLSTM model actually expresses some doubt, but also thinks it’s negative. The presence of “waste” dominates its decision making.
+
+Now let’s test the models on a training set example, something they both have seen:
+
+The review is “When I was a kid in the 50’s and 60’s anything connected with Disney was by definition great. What happened? They are able to get any actors and actresses they want, the best of their time. But somehow Disney manages to screw things up in spite of their abundant resources. Disney can afford the best writers, the best producers and directors, but still…they screw things up! This movie is crap. The sad thing is that I suspect Disney in their arrogance does not even know when a movie is good or bad. It is only due to the talent of the actors that I can even give it a 3 of 10.”
+
+This is pretty clearly a negative review, and both models identify it as such. The BERT model gives it an almost zero percent chance of being positive, and the BiLSTM model gives it a 0.29 percent chance of being a positive review.
+
+The BERT model gives most attribution to sentences in the latter part of the review, which clearly spell out what the reviewer thought of the movie. It gives a lot of attribution to the full stops after “crap” and “bad”. Remember, that IG attributions consider all possible interactions, so the attribution to the full stop is contextual, and related to its position in the text. Our speculation is that the full stop is important to the BERT model because if it was not for the full stop, the sentence would have continued and may have had words that would enhance/dilute/maintain the sentiment in the sentence. The sentence stopping there has some significance, in this case negative.
+
+The BiLSTM model gives high negative attributions to a lot of random words, and is biased towards words early in the review. This review was from the training set, so it’s possible that the model overfits on it. It also perhaps shows that the long range text understanding of this RNN model has limitations.
+
+So what have we learnt here?
+
+Explanations are a vital part of the ML workflow. They help us assess the capabilities and limitations of our models. This is especially important for models that are faced with free form, open-ended input. Additionally, it’s of theoretical interest to ascertain how intelligent the AI really is. About the BERT model specifically, its explanations seem to be more intelligible than a BiLSTM model. We acknowledge that this may not be a fair comparison of the two architectures as a larger, better optimized BiLSTM model may perform at par with BERT. But even excluding the comparison, the explanations on their own provide some evidence that the language modeling approach now prevalent in NLP has some justification, not just from a predictive accuracy point of view, but also from how the predictions are being obtained by the model.
+
+References:
+
+[1] Sundararajan M, Taly A and Yan Q, Axiomatic attribution for deep networks (2017), ICML’17 Proceedings of the 34th International Conference on Machine Learning — Volume 70
+
+[2] Jacob Devlin, Ming-Wei Chang, Kenton Lee and Kristina Toutanova, BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding (2018), arXiv preprint arXiv:1810.04805v2

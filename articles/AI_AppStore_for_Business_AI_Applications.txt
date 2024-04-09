@@ -1,0 +1,15 @@
+AI AppStore is a marketplace that brings best AI applications to businesses without hassle.
+
+The approach of the AI AppStore is very simple. The plan is bring the benefits of AI to all businesses without having them to hire expensive engineering teams or needing to do large custom development effort.
+
+Each of the Apps:
+
+Solves an end business use-case. Are end user installable and usable through intuitive GUI (No IT team needed). Provides customers with ability to train AI with their own data. Provides advance business users/companies ability to integrate AI function to their existing systems using API/Plugins.
+
+Here you can access the AI AppStore:
+
+For example their Invoice Robot uses AI to scan invoices, identify all the data fields, and automatically input them into your accounting software. It is perfect for accountants, bookkeepers, corporate accounting departments, and small businesses or partnerships, and allows them to completely eliminate data entry tasks related to invoices.
+
+The interesting part is that you can develop you own apps and put them there, and make money when people buy or use you app. They developed something called Document App SDK. If you are a developer, then you can build brand new apps and submit the apps to them. They will evaluate it and then they can publish them on the AppStore. This is the GitHub repo:
+
+There you’ll find all the information you need to create, develop and submit you apps.

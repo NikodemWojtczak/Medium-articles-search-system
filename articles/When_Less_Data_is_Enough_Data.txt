@@ -1,0 +1,19 @@
+At the All Star break (~halfway through the season), the model has an 87% chance of classifying a positive value correctly and the number of wins begins to show a clear delineation between those destined for the playoffs and those that aren’t. Playoff teams have about 8 more wins by this point, on average, and the distributions show separation between the “lower playoff teams” (25th percentile of playoff-team wins) from the “upper non-playoff teams” (75th percentile of non-playoff team wins).
+
+What about the September stretch? Teams play ~25 games in September, so that would correspond to starting at game number ~135–140 on the graph above. There’s a difference of about 15 wins on average by this point and our predictability increases to ~95%.
+
+So, if you want to be ~80% confident on whether you’re team will make the playoffs or not, check for whether they have 23+ wins by their 40th game. If they have 46+ wins by the All-Star break, things are really looking good. And, if going into the stretch your team has 80+ wins, kick back and wait for the playoffs because chances are you’ll be playing October baseball.
+
+The Analyst: Let’s get technical
+
+Project code in R for data manipulation and Python for modeling / visualization is available on GitHub here.
+
+Creating the “Perfect” data set
+
+Effective problem solving starts with accurately framing the question and preparing the data. I knew the question I wanted to answer — Approximately how many games does it take to develop confidence in whether a team will make the playoffs or not? — I just didn’t yet know how to answer it.
+
+In a course I’m taking right now for the MSBA program I’m in, we’re covering probability distributions and quantifying uncertainty. I wondered whether taking a probabilistic approach would be best or if a modeling approach would be better.
+
+Ultimately, I settled on fitting a Random Forest classification model to the data after extensive data prep and cleaning. The ideal data set would be:
+
+At any given point in a season, how many wins does a team have, and did the team make the playoffs that year? Then, with this data set, we can build a model for each game number and compute accuracy metrics on it to reach our desired level of confidence. After much trial and error, I landed on a data set that looks like this:

@@ -1,0 +1,51 @@
+Scientists are usually limited to small samples by legitimate problems, but advertisers use small numbers of participants in their favor by conducting many tiny studies, one of which will produce a positive result. Humans are not great at adjusting for sample sizes when evaluating a study which in practice means we treat the results of a 1000 person trial the same as a 10 person trial. This is known as “insensitivity to sample size” or “sample size neglect”.
+
+Here’s another example; if you consider yourself to be data literate, then you will have no problem with this question:
+
+A certain town is served by two hospitals. In the larger hospital, about 45 babies are born each day, and in the smaller hospital, about 15 babies are born each day. As you know, about 50% of all babies are boys. However, the exact percentage varies from day to day. Sometimes it may be higher than 50%, sometimes lower. For a period of 1 year, each hospital recorded the days on which more than 60% of the babies born were boys. Which hospital do you think recorded more such days? 1. The larger hospital 2. The smaller hospital 3. About the same (that is, within 5% of each other)
+
+If you guessed 2., then congratulations, you are data literate! The reasoning is the smaller the sample size, the more extreme the values. (This is from Judgment under Uncertainty: Heuristics and Biases by Tversky and Kahnemann. I’d highly recommend reading this paper and Thinking, Fast and Slow, to learn about cognitive biases that affect our decision-making.)
+
+You can test the principle that small samples produce extreme results by flipping a coin. With a small sample, say 5 tosses, there is a good chance you get 4 tails. Does this mean the coin always comes up 80% tails? No, this means your sample is too small to draw any significant conclusions.
+
+With smaller sample sizes, we get more extreme results (Source)
+
+This trick is often used when marketing products by asking a small number of people about a particular brand. You can get impressive-sounding numbers (90% of doctors like this toothpaste) if you repeatedly survey small groups and only report the favorable results. Ask a small group, look at the results, throw away the bad, and repeat until you get the stats you need!
+
+The solution to avoid being fooled by small sample sizes is to just look for the number of observations in the data. If not given, then assume whoever took the study has something to hide and the statistics are worthless. Behavioral scientists have shown that most of us are fallible to neglecting sample size; don’t make the same mistake — trust a large number of observations, not shocking statistics from small samples.
+
+5. Look at all the Numbers that Describe a Dataset
+
+Checking the sample size can be one way to avoid getting fooled by data, but only if the sample size is provided. Another trick used to mislead consumers of data is to avoid listing relevant numbers that describe a dataset, such as the count of observations, the spread of the data (range), the uncertainty about the data (standard error), the quantiles of the data, and so on. Each of these can be used to get a deeper dive into the data, which often goes against the interest of whoever presents the dataset.
+
+For instance, if you hear that the average (more on this below) temperature in a city is 62 degrees F for the year, that is not helpful without knowing the maximum and minimum. The city could get as cold as -20 F and as warm as 120 F but still average out to a comfortable value. In this case, as in many others, a single number is not adequate to describe a dataset.
+
+As another example from the book, if you have two children, one of whom tests a 99 on IQ and the other a 102, you really should not tell them to avoid comparisons. Why? Because IQ tests can have a standard error of around 3 points which means a child scoring a 99 once would be expected to score between 96 and 102 about 68% of the time. The overall difference might not be significant and could reverse itself in repeated testing. In other words, by leaving out the expected standard error in the results, you can draw a more drastic conclusion than that offered by the data.
+
+Studies that don’t report more than one number usually have something to hide. Likewise, if a graph looks like it cuts off some of the data, it’s not trustworthy. It’s too easy to change a narrative by subsetting data.
+
+Graphs can change based on data shown (Source)
+
+Think of it this way: if there was a medicine that increased lifespan by 2 years on average would you take it? Would it change your mind if the worst impact was a loss of 12 years of life and the maximum a gain of 14 years? It usually is the details that matter and one summary statistic cannot tell the whole story.
+
+6. Check which Average is Used
+
+Another useful way to tell whatever story you want with data is to vary the definition of “average”. You have 3 options (maybe more if you’re clever):
+
+Mean: sum the values and divide by the number of observations Median: order the values from smallest to greatest and find the middle Mode: find the value that occurs most often
+
+I’ve written about this issue before (see here for details), and the basic idea is: the mean and median of a distribution are the same only if it is normal and we live in a world with mostly non-normal data. This means the mean and median of a dataset are not the same value, often by a considerable amount.
+
+Mean vs Median vs Mode in Normal and Skewed Data (Source)
+
+For example, the mean and median income in the United States differ by about $16,000. By choosing which value to report as the average, politicians, marketers, and CEOs can draw opposing conclusions from the same data.
+
+A skewed distribution with different mean and median (from my story on types of averages.)
+
+The way to avoid this is to look at the mean, median, and mode of a dataset (again you need all these numbers!). Figure out which one is most appropriate (usually the median for highly skewed datasets such as income, city size, life span, housing prices and so on) and use that if you need a one figure summary. If you can, graph the entire set of values in a histogram and look at the distribution. Try to use more than a single number to describe a dataset, and if you report an average, specify which you are using!
+
+7. Use Comparisons to a Common Baseline
+
+When viewing a statistic, the important question often is not what is the value, but how does the current value compare to the previous value? In other words, what is the relative change compared to the absolute magnitude. If I tell you the US GDP was $19.39 trillion in 2017, that sounds incredible because of your everyday experience. However, if you compare that to US GDP in the previous year, $18.62 trillion, it doesn’t look nearly as impressive.
+
+Data is often on scales with which we are unfamiliar, and we need a comparison to other numbers to know if a statistic represents a real change. Is a mean radius of 3389 km for Mars large? I have no conception of what that means until it’s compared to other planets!

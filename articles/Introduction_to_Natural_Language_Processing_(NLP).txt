@@ -1,0 +1,25 @@
+So, What is Natural Language Processing (NLP)?
+
+NLP is an interdisciplinary field concerned with the interactions between computers and natural human languages (e.g. English) — speech or text. NLP-powered software helps us in our daily lives in various ways, for example:
+
+Personal assistants : Siri, Cortana, and Google Assistant.
+
+: Siri, Cortana, and Google Assistant. Auto-complete : In search engines (e.g. Google).
+
+: In search engines (e.g. Google). Spell checking : Almost everywhere, in your browser, your IDE (e.g. Visual Studio), desktop apps (e.g. Microsoft Word).
+
+: Almost everywhere, in your browser, your IDE (e.g. Visual Studio), desktop apps (e.g. Microsoft Word). Machine Translation: Google Translate.
+
+Okay, now we get it, NLP plays a significant role in our daily computer interactions; let’s take a look at some example business-related use-cases for NLP:
+
+Fast-food chains receive a vast amount of orders and complaints daily; manually handling this will be tiresome and repetitive, also inefficient in terms of time, labour and cost. Thanks to recent advancements in conversational AI , they can build virtual assistants that automate such processes and reduce human intervention.
+
+, they can build virtual assistants that automate such processes and reduce human intervention. Brands launch new products and market them on social media platforms; they can measure campaigns’ success rates using metrics such as reach and number of interactions. Still, they can’t understand the consumers’ public sentiment automatically. This task can be automated using sentiment analysis, a text classification task where machine learning models are trained to quantify affective states and subjective information.
+
+NLP is mainly divided into two fields: Linguistics and Computer Science.
+
+The Linguistics side focuses on understanding the structure of language, including the following sub-fields [Bender, 2013]:
+
+Phonetics: The study of the sounds of human language. Phonology: The study of the sound systems in human languages. Morphology: The study of the formation and internal structure of words. Syntax: The study of the formation and internal structure of sentences. Semantics: The study of the meaning of sentences. Pragmatics: The study of the way sentences with their semantic meanings are used for particular communicative goals.
+
+The Computer Science side is concerned with translating linguistic knowledge and domain expertise into computer programs with the help of sub-fields such as Artificial Intelligence.

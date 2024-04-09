@@ -1,0 +1,159 @@
+1. R packages we used
+
+The tidyverse collection of R packages is a useful set of tools for data analysis and visualisation that are designed to work together. It contains the ggplot package, which we use for visualisations. (Need help getting started with R and the tidyverse? Try the R for Data Science website).
+
+We use a function from the readxl package to import Excel files and the lubridate package, which makes working with dates a lot easier. Both are part of the tidyverse, but not loaded automatically along with the tidyverse package.
+
+The geojsonio package is one option that helps us import geographic data structures, such as STP boundaries. The broom and maptools packages are then needed to prepare these for visualisation with ggplot.
+
+Note: if you would like to run this code in your own R session and you haven’t installed these packages already, you will need to do so (once) using the install.packages() function.
+
+2. Data download from NHS Digital
+
+After setting up the tools, we downloaded Winter Daily SitRep 2018–19 Data from the NHS Digital website. Rather than opting for the spreadsheets that contain one week of data each, we went for the more convenient time series file, which contains all data from this winter up to the latest release. One drawback is that the name of this file changes weekly as new data is added (so, should you try to use this code at a later date, you will probably have to adapt the file name).
+
+3. Data import from R-unfriendly spreadsheets
+
+How we tackled multi-line headers with merged cells
+
+Once we opened the file in Excel, we saw a number of sheets containing different indicators. With a few exceptions, most have a similar table structure. As we were interested in patient flow through hospitals, we focused on ‘General and acute beds’ and ‘Beds occupied by long-stay patients’ for now.
+
+What the sheets with these indicators had in common was that there was metadata in the first 13 lines followed by a two-line header. Several columns containing variables (second header line) were grouped within dates (first header line) and the cells around the dates were merged. There were also some empty columns and rows, which we addressed later on.
+
+Example of the Excel layout of Winter SitRep data to be imported into R. Source: NHS Digital.
+
+Unfortunately, this was not yet a tidy table, as the dates that served as column headers were values, not variable names. All this made importing the file into R slightly more challenging. We fixed this by creating a custom import_sitrep() function that would:
+
+read and store the data and the two lines of the header separately, combine the two lines of the header, add the combined header to the data and tidy up column names by removing special characters, and finally convert the table into a tidy table ready for the next step.
+
+But wait, there was one more tricky bit. What happened when we tried to read in the headers one by one?
+
+*Sigh*… they ended up not having the same length. The first header line (containing the dates) was 8 elements shorter. Looking at its left and right side (see above) gave us a hint as to why this might have happened:
+
+In the Excel sheet, the first few cells in this line were empty and when the line was read in, they were converted to NA . The read_xlsx() function then discarded these empty columns (probably) because they were at the beginning.
+
+. The function then discarded these empty columns (probably) because they were at the beginning. There were also some merged cells. During import they were separated and, if empty, converted to NA . Empty columns at the end of the header line also seem to be discarded by read_xlsx() .
+
+So, we needed to find a way to preserve the length of the first header line in our import_sitrep() function. This is how we solved it:
+
+Now that we had our import function, we were ready to read and combine the sheets containing the winter indicators ‘General and acute beds’ and ‘Beds occupied by long-stay patients’.
+
+The data was now tidy, as each variable formed a column and each observation formed a row. Note that the observations for England in the table were followed by values for individual hospital trusts.
+
+4. Data cleaning
+
+Trust exclusions
+
+We excluded the three children’s hospitals when calculating aggregate measures, such as the average bed occupancy within STPs. Our reasoning was that their patient profiles would be different from other acute trusts and this might skew the averages. Nevertheless, we kept track of them at a trust level.
+
+This applies to Birmingham Women’s and Children’s NHS Foundation Trust (code RQ3), Alder Hey Children’s NHS Foundation Trust (RBS) and Sheffield Children’s NHS Foundation Trust (RCU).
+
+How we approached defining ‘missingness’: when is a zero not a zero?
+
+Data collection and validation errors do happen, so finding suspicious data points is an important step during data cleaning.
+
+While this is easy if a value is missing (or NA ), it’s much harder to decide whether a zero truly represents ‘zero events’ or a missing value (in fact, it could even be both within the same data set). To distinguish between the two, at the Health Foundation we came up with the following criteria:
+
+How likely is a ‘zero event’ for an indicator? For example, when counting beds in a large hospital the likelihood of having zero open seems small, but when counting long-stay patients having none seems possible.
+
+How consistent is the zero value, in that trust, over time? Or in plain English: does the value jump from a higher number to zero (and back) or is it hovering somewhere close to zero.
+
+The next two sections describe how we found and dealt with these missing values.
+
+Finding longer periods of missing data
+
+If any hospital trust had missing values, in any indicator, on 4 or more consecutive days during the reporting period, it was excluded from the analysis. We were only looking for these periods in variables where we would not expect any zeros (the list is shown as cols_to_check ).
+
+Why this particular cut-off? We wanted to aggregate the data and calculating weekly averages did not seem justified if we were missing more than half of a week for any trust.
+
+Here’s how we summed up how many consecutive days were zero or NA within each trust/variable combination:
+
+When we filtered for 4 or more consecutive days, we found that:
+
+The trust with the code RTD reported zero long-stay patients (of any length of stay) for the whole reporting period to date, which seemed unrealistic for a general and acute hospital.
+
+reported zero long-stay patients (of any length of stay) for the whole reporting period to date, which seemed unrealistic for a general and acute hospital. Trust RQW had a gap of 7–8 days, that coincided for the indicators shown (we checked this separately in the raw data).
+
+had a gap of 7–8 days, that coincided for the indicators shown (we checked this separately in the raw data). Trust RAX reported zero long-stay patients (of any length of stay) for 6 days during January, but reported a high number before and after.
+
+Based on this, all variables from the trusts RTD, RQW and RAX were excluded from the analysis of this year’s (2018/19) winter data. This left us with 128 out of 134 trusts.
+
+It’s worth noting that with this data-driven approach different trusts might be excluded each year and the number of excluded trusts could change over the winter period as new ‘gaps’ appear. Keep this in mind when making comparisons, both throughout the winter period and between years.
+
+Dealing with shorter data gaps
+
+Next, we checked how many missing or zero values were left:
+
+Most of the remaining gaps (42 out of 54) consisted of only a single day and they were mostly found in variables relating to long-stay patients. To judge whether these looked like real ‘zero events’ or were more likely to be reporting errors, we had a closer look at the data:
+
+Before cleaning: plots showing the subset of trusts reporting ‘0’ in any (non-derived) variable.
+
+Based on the data before and after the zeroes, these were unlikely to be true values. It would have been possible to impute these gaps in some way, for example by taking the mean of day before and the day after. Instead, we took the approach that required fewest assumptions and we just replaced the gaps with NA :
+
+After cleaning: plots showing the same trusts after replacing zeros with NA.
+
+Validating derived variables
+
+Some variables present in the data set were derived from others: for example, total.beds.occd should be the sum of core.beds.open and escalation.beds.open .
+
+We could have discarded derived variables straightaway and then computed them ourselves, in order to be completely sure about how they have been derived and what they mean. Since we were curious about their quality, we first checked if total.beds.open and occupancy.rate had been calculated as expected so we could decide whether or not to replace them (spoiler: yes, we did).
+
+Similarly, if it had been the focus of our analysis, we would also have rederived national aggregates for England.
+
+5. Feature engineering
+
+Adding organisational information on sustainability and transformation partnerships (STPs)
+
+As we wanted to compare indicators between local areas, we decided to calculate averages of winter indicators over hospital trusts within each STP. To do this, we needed to add variables to the raw data that indicated which hospital trust belonged to which STP. Unfortunately, we were not aware that this information was available in a format convenient for data analysis.
+
+So, we manually created and validated a lookup table to map hospital trusts to STPs, using information related to the 2017/18 formation of 44 STPs from NHS England. While some STPs have since changed (for example, three STPs in the north of England merged in August 2018), this was the latest and most comprehensive information available, as far as we are aware.
+
+The allocation of most hospital trusts to STPs was straightforward using this list, but there were a few instances where we had to choose:
+
+If a trust did not appear in any STP list, it was matched according to the location of its main acute site. This was the case for four trusts in Northumberland, Tyne and Wear and North Durham STP.
+
+If a trust was mentioned in more than one STP plan, it was allocated according to the location of its main acute site. This applied to both Chesterfield Royal Hospital NHS Foundation Trust and Epsom And St Helier University Hospitals NHS Trust.
+
+We think this is a reasonable approach when analysing winter indicators, which mainly come from acute trusts, but we would be keen to hear your feedback.
+
+Once we had this lookup table, we imported it into R and merged it with the winter indicators:
+
+The lookup table is also available on Github. Please note that STPs change and develop over time, so if you would like to use it, it’s worth checking that the information is up to date.
+
+Making read-outs comparable between trusts: from raw counts to rates
+
+As hospital trusts come in different sizes and serve different numbers of patients, raw patient counts are not suitable for comparisons between trusts or regions. Percentages or fractions, such bed occupancy rates, are more comparable.
+
+Therefore, we derived the fraction of occupied beds, which are occupied by long-stay patients over 7, 14 or 21 days:
+
+6. Aggregation: monthly averages by STP
+
+In some cases, it might be useful to visualise daily changes, but weekly or even monthly aggregates have the advantage of being less noisy, free of weekday-weekend variation and can potentially be more useful to monitor longer-term trends.
+
+First, we created a new column that contained the corresponding month. The month was then used as grouping variable, along with the trust or STP code, to calculate monthly averages of bed occupancy and long-stay patient rates.
+
+For weekly averages, an alternative would have been to create a new column containing the date of the respective beginning of the week using the cut() function (also shown below).
+
+We know it’s also good practice to keep track of the number of valid observations (as in, not NA ) that we average over within each group used. In this instance, for trust-level aggregates, this represented the number of days within a week. For STP-level aggregates, it corresponded to the number of trusts within the STP.
+
+At this point, we also saved the tidy and aggregated data as a CSV file for visualisation in other programs, such as Tableau.
+
+7. Visualisation: how we mapped STP-level data in R
+
+There are endless ways to creatively visualise aspects of this data (the R Graph Gallery is a great place to get inspired). We wanted to plot a map of STP boundaries and colour-shade them according to the average bed occupancy in each winter month.
+
+STP boundaries are available as a GeoJSON file from the Office for National Statistics (ONS). We downloaded and imported the digital vector file and then created a plot to get a first idea of what was in the file:
+
+Boundaries of Sustainability and Transformation Partnerships in England (2017). Data source: ONS.
+
+Before spatial objects can be used with ggplot, they have to be converted to a data frame. This can be done using the tidy() function from the broom package. To add our data to the map, we then merged the resulting data frame with the winter data.
+
+The cut() function provided a convenient way to divide the variable bed.occupancy into meaningful intervals and to add labels that could be displayed on the map. Converting variables into factors and ordering the factor levels using factor() ensured that the intervals and months were in the right order. We were then ready to plot and save the map:
+
+How could we have improved this map further? One option might have been to interactively display STP averages when hovering over the map using the plotly package, for example.
+
+8. What have we learned?
+
+Lots! No, seriously… Using this workflow, rather than copy and paste, has saved us a lot of time this winter. But beyond that, creating (then revisiting and improving) this workflow turned out to be a great way to work together and to make our analysis more transparent, more reproducible and easier to understand.
+
+Key points we are taking away:

@@ -1,0 +1,29 @@
+The data science jobs are considered to be the sexiest jobs of the 21st century. It’s a bold statement to make, mostly because we’re in 2019 currently, so who knows what the job market will look like in 50 years.
+
+Photo by Alex Radelich on Unsplash
+
+Nevertheless, if we look only at the job titles from the last 15–20 years, then it’s a whole another story. Stay with me in this article and you’ll find out some of the most amazing resources to break into the data science field. Whether you have a degree in some other field or not is completely irrelevant.
+
+Some time back I’ve published an article about ins and outs of being self-taught vs. getting a degree in data science:
+
+That article went in-depth on both options, so check it out if you’re interested in the topic. Today, however, I want to further explore the self-taught route and provide you with some amazing resources to get started.
+
+Who is this article for?
+
+Those without any degree
+
+Those who finished college some time ago and want to switch to data science
+
+Okay, let’s not waste any more time with the intro — now we’ll dive into the real stuff.
+
+What does it mean to be self-taught?
+
+Good question. What it means, in a nutshell, is that you didn’t finish any college degree in a field of interest (let’s say data science), and you’re working in the field of interest (once again, data science), then you’re considered to be a self-taught in that area of interest.
+
+You’re still free to finish online courses and to read books, but you didn’t spend a couple of years behind the college desks getting a formal education.
+
+Okay, now when that’s out of the way, let’s dive into the first way of being a self-taught data scientist.
+
+From 0 Route
+
+You would be in this category if:

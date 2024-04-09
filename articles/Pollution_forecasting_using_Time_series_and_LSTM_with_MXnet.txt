@@ -1,0 +1,33 @@
+Photo by Jake Hills on Unsplash
+
+Time series
+
+Time series analysis is a statistical technique that deals with time series data, or trend analysis. Time series data means that data is in a series of particular time periods or intervals.
+
+TSA(Time series analysis) applications:
+
+Pattern recognition
+
+Earthquake prediction
+
+Weather forecast
+
+Financial statistics
+
+and many more…
+
+MXnet
+
+Apache MXNet (incubating) is a deep learning framework designed for both efficiency and flexibility. It allows you to mix symbolic and imperative programming to maximize efficiency and productivity. At its core, MXNet contains a dynamic dependency scheduler that automatically parallelizes both symbolic and imperative operations on the fly. A graph optimization layer on top of that makes symbolic execution fast and memory efficient. MXNet is portable and lightweight, scaling effectively to multiple GPUs and multiple machines.
+
+Problem
+
+with a newly-minted elite and an economic growth rate of over 10 percent, the environment has taken a backseat in China, the world’s most populous country. Growing pollution has led to unusable waterways, increased incidence of birth defects, and some of the dirtiest air on earth. It’s so nasty that there’s now a word for it: “smogpocalypse”.
+
+Source
+
+Lets Start!
+
+Code
+
+All code used in this is available as notebook. You can directly run it on google colab.

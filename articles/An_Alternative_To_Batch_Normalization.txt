@@ -1,0 +1,61 @@
+The development of Batch Normalization(BN) as a normalization technique was a turning point in the development of deep learning models, it enabled various networks to train and converge.
+
+Despite its great success, BN exhibits drawbacks that are caused by its distinct behavior of normalizing along the batch dimension. One of the major disadvantages of BN is that it requires sufficiently large batch sizes to generate good results(for-eg 32,64). This prohibits people from exploring higher-capacity models that would be limited by memory. To solve this problem Facebook AI Research(FAIR) developed a new normalization technique, Group Normalization(GN).
+
+In this article, we will be mainly focussing on Group Normalization(GN)and how it can be used as an alternative to Batch Normalization(BN) and other normalization variants(Layer Normalization(LN), Instance Normalization(IN)).
+
+Group Normalization
+
+The Group Normalization(GN) paper proposes GN as a layer that divides channels into groups and normalizes the features within each group. GN is independent of batch sizes and it does not exploit the batch dimension, like how BN does. GN stays stable over a wide range of batch sizes.
+
+You will get a deeper understanding of what these lines are trying to convey in the latter section of this article. So hang in tight!!
+
+Group Normalization And Other Normalization Variants
+
+In this section, we will first describe the general formulation of feature normalization and then represent Group Normalization and other variants in this formulation.
+
+(1)General Formula
+
+Equation-1
+
+Here x is the feature computed by a layer and i is an index. For a 2d image, i = (i_N, i_C, i_H, i_W) is a 4d vector of the form (N, C, H, W), where N is the batch size, C is the number of channels, H and W are the spatial height and width. Here µ and σ are the mean and standard deviation computed by:
+
+Equation-2
+
+Here µ and σ are computed over a set of pixels defined by S_i. All these normalization variants differ from each other, based only on how S_i is defined for each of them. The variables m and epsilon define the size of the set and a small constant(for-eg 0.00001) respectively. Epsilon is added to make sure we don’t try to divide by zero while computing x_i, but it also acts to increase the variance slightly for each batch.
+
+(2)Group Normalization And Other Variants Formulation
+
+Normalization Variants. Image from Group Normalization paper
+
+In the above image, each subplot shows a feature map tensor, with N as the batch axis, C as the channel axis, and (H, W) as the spatial axes. The pixels in blue are normalized by the same mean and variance, computed by aggregating the values of these pixels.
+
+In Batch Norm, the set S_i is defined as:
+
+Condition-1
+
+where i_C (and k_C ) denotes the sub-index of i (and k) along the C axis. This means that the pixels sharing the same channel index are normalized together. Here µ and σ are computed along (N, H, W) axes.
+
+In Layer Norm, the set S_i is defined as:
+
+Condition-2
+
+where i_N (and k_N ) denotes the sub-index of i (and k) along the N axis. This means that the pixels sharing the same batch index are normalized together. Here µ and σ are computed along (C, H, W) axes.
+
+In Instance Norm, the set S_i is defined as:
+
+Condition-3
+
+Here µ and σ are computed along (H, W) axes for each sample and each channel.
+
+In Group Norm, the set S_i is defined as:
+
+Condition-4
+
+Here G is the number of groups, which is a pre-defined hyper-parameter (G = 32 by default). C/G is the number of channels per group. The bracket looking thing is the floor operation. GN computes µ and σ along (H, W) axes and a group of C/G channels. For-eg if G = 2 and number of channel = 6 in Normalization Variant image(rightmost) than there will be 2 groups, each having 3 channels(C/G = 6/2) in each batch.
+
+At this point, we have a normalized value, represented as x_i. But rather than use it directly, we multiply it by a gamma value, and then add a beta value. Both gamma and beta are learnable parameters of the network and services to scale and shift the normalized value, respectively. Because they are learnable just like weights, they give your network some extra knobs to tweak during training to help it learn the function it is trying to approximate.
+
+Equation-3
+
+We now have the final batch-normalized output of our layer, which we would then pass to a non-linear activation function like sigmoid, tanh, ReLU, Leaky ReLU, etc.

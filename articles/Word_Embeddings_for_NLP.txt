@@ -1,0 +1,37 @@
+Word Embeddings for NLP
+
+In this article, we will understand how to process text for usage in machine learning algorithms. What are embeddings and why are they used for text processing?
+
+word2vec and GloVe word embeddings
+
+Natural Language Processing(NLP) refers to computer systems designed to understand human language. Human language, like English or Hindi consists of words and sentences, and NLP attempts to extract information from these sentences.
+
+A few of the tasks that NLP is used for
+
+Text summarization: extractive or abstractive text summarization
+
+Sentiment Analysis
+
+Translating from one language to another: neural machine translation
+
+Chatbots
+
+Machine learning and deep learning algorithms only take numeric input so how do we convert text to numbers?
+
+Bag of words(BOW)
+
+Bag of words is a simple and popular technique for feature extraction from text. Bag of word model processes the text to find how many times each word appeared in the sentence. This is also called as vectorization.
+
+Steps for creating BOW
+
+Tokenize the text into sentences
+
+Tokenize sentences into words
+
+Remove punctuation or stop words
+
+Convert the words to lower text
+
+Create the frequency distribution of words
+
+In the code below, we use CountVectorizer, it tokenizes a collection of text documents, builds a vocabulary of known words, and encodes new documents using that vocabulary.

@@ -1,0 +1,99 @@
+Alexa find me a parking. Can AI guide you to a vacant parking slot?
+
+Empty or Occupied Parking Slot?
+
+Finding a vacant spot in a parking lot is a tough ask. It is even difficult to manage these lots if incoming traffic varies a lot. Which slots are vacant at this instant? What time do we need more slots? Are commuters finding it difficult to reach a particular slot? Which car is parked where? Who had parked the car?
+
+We use either a network of ground-mounted occupancy sensor or staff to determine the answers to some of these questions. Sensors are effective but need maintenance and cost about $40 -$80 per node in unit + installation.
+
+For staff, this is cumbersome and error-prone exercise. Even if the staff are assisted with boom barriers and ticketing console at best it gives a broad-based guesstimate about the real occupancy on the ground.
+
+One approach to this problem can be to use security camera footage to detect parking occupancy in real-time using deep-learning. (Link to the complete code at the end)
+
+Approach and Architecture
+
+Marking occupancy of a parking slot is a two-step process. First, we have to find the parking slot within the field of view. Second, we have to detect if the slot is occupied.
+
+One approach is to brute force the problem and manually mark all the slots. However, every time the camera is shifted, panned or zoomed, the laborious process has to be repeated for the new position of the camera.
+
+Parking Slot from Drone image (Github)
+
+The second approach might be to use the white line of a parking lot as a guide for the slot. We could put a canny filter and hough transform to use and detect the polygons. However, not all parking lots are white-laned. Even ones that have been laned, a camera footage taken about 6m above ground the lane will be obscured by parked cars. So unless we use a drone to capture the footage from the top, this will not be of much help either.
+
+We might use the stationary car themselves to discover the parking slots. In a few days worth of parking lot footage, we are likely to find all the slots have been occupied by cars at some point of time. Detecting a stationary car in the footage is a good predictor of the actual parking slot location. Sure, there will be movement while the cars enter/exit the slot. But those are noises which we can tune out.
+
+Once determined the parking slots all that remains is to detect if a car is present or absent in a new frame. It is a simple classification problem within the cropped image of a parking slot. We can run it real-time (~ 1s) on desktops which is receiving the camera stream.
+
+Detecting Parking Slots
+
+We need an object detector for the first part of the problem, which will give us a bounding-box for each of the parking slots. YOLO and MaskRCNN can help us.
+
+YOLO is a nimble and accurate algorithm which gives the bounding box for each detected object along with their classification and an estimate of the likelihood. Earlier object detection algorithms which scanned a scene multiple times with different bounding box sizes and tried to look for a marching candidate. It took a long time and computation resources. YOLO uses CNN layers to make it a one-shot problem. Once the network has been trained detection can be carried out on a computer, with smaller networks and optimizations even on a mobile phone.
+
+Still Life with a Jug and a Bowl of Apples Samuel Peploe 1924
+
+In case of stylistically different (such as the painting above) YOLO does make a fair estimation (bowl, orange) but also makes a miss (book, jug) sometimes.
+
+MaskRCNN besides object detection is an image segmentation algorithm. MaskRCNN classifies each pixel as belonging to an instance of an object. It's an astonishingly difficult task. MaskRCNN builds upon the FCNN networks by aligning the region of interest. This video will help you grasp the core concepts.
+
+Cityscape Dataset
+
+Running on a GPU MaskRCNN needs about 200 ms to process 1 frame so its about a one-sixth of the speed of Yolo which can crank up to 30 Fps on a GPU. But on the other hand, MaskRCNN needs about 20 frames to give a reasonable result while YOLO (which misses out small objects) needs about 5 times as much. It made much more sense to pick a MaskRCNN, have it run over 20 frames captured every hour for two days. YOLO would need about five times as many frames but would have missed some of the slots.
+
+Specializing the networks
+
+In case of very close object instances such as detecting all persons marching down the road YOLO has its weakness. It divides a scene into grids and can detect a certain number of objects per grid. In the case of parking lots, cars parked in the top row are likely to be missed out. I tried to specialize the network to detect only cars. There was a minor improvement in performance.
+
+The final detection is done using a RESNET (or any other classifier). I got it specialized in cars as well. I used the data set made available by CNRPARK since this had images of cars in an orientation that we will normally find in security cameras. I used fit_one_cycle of FastAI and could get over 99.7% accuracy on the validation set within 10 epochs. It's surprising how little data and computational resources are required once you have a trained model.
+
+Empty | Occupied dataset from National Research Council (Cnr) Italy
+
+Detecting parking slots
+
+Once we have the specialized weights, we get to the actual task of detecting parking slots. In self-driving cars, you need to track an object between multiple frames. In parking-slot detection, we need to keep a track of the slot as we move from frame to frame. Cars will come and go their sizes will change and so will the bounding box.
+
+Mapping slots from frame to frame
+
+Intersection over Union (IOU) is a good metric in such problems. For each of the slots we detect a corresponding slot in the subsequent image which has the highest IOU with the former and assign it. Slots whose IOU are below a threshold are likely to be new vehicles which have come and occupied the parking slot.
+
+After running through a few frames, it is also necessary to merge different bounding boxes within a frame itself as some sporadic entry may cause a build-up. A higher IOU threshold is selected at this step to give stable results.
+
+Blue Detection for the first time | Red Occupied | Green Vacant
+
+Removing transient actions
+
+Some of the frames will capture transient motions such as a car entering into the parking lot. These instances of bounding boxes have to be rejected. Running a rejection based on the number of occupied instances for a parking lot over a time-period period gives us control over these sporadic entries.
+
+This will give us a list of parking slots: coordinates and typical occupancy patterns during the training period.
+
+Detecting Occupancy within the slots
+
+Detection is pretty straightforward. We crop the image to a slot as defined by the bounding box in the previous step. All we have to do now is to classify if the car is present or absent. We use our tuned RESNET and it gives us a reasonable result.
+
+Limitations
+
+The system is not yet up to the mark. Let's again split it into two parts detecting slots and detecting occupancy.
+
+You cant detect what you cant see neither can it
+
+Trees, Shades limit the zone of detection. Partial occlusion (with a tree canopy) does work in some cases and not in others. Similarly ground-level cameras (< 6m ) most of the cars within the lot will be hidden behind a few ones which are in the front of the frame. Only in a few of the frames when the front faced parking lots are empty will the lots which are behind will be detected.
+
+With very small objects MaskRCNN and YOLO have a hard time in picking the slots. This can be about 1–5% of the parking slots in a frame. This can, however, be corrected by a human spending less than a minute to provide the correct bounding box. Compared to a painstaking 1–2 hours if he had to annotate all the slots.
+
+That takes us to the second part: Detecting the status of the slots. The classifier does seem to work pretty well. However again small images, weird angles of view, dark, and obstruction limit this step
+
+So where does it all add up. Parking detecting can not extend to all use cases. There is no way you can mount a camera 9m above the floor in most basement parking lots. Trees, Pillars, Posts etc will obstruct the field of view in many locations.
+
+It has its shortcomings and perhaps so do existing methods of detecting occupancy. If we can combine them, it can create a more efficient system.
+
+What can be extended out of it
+
+Parking Ticket | QR Code | Vacant Slots
+
+We can use the system to direct commuters to vacant slots in a parking lot. Existing parking tickets can bear a QR code which can then direct the consumers to the vacant lot using the system. This reduces the number of manual interventions that is required in this step.
+
+Combining License Plate Recognition with occupancy detection we can keep track of which car is occupying which slot. By the same measure, we can also keep a track of who has parked the car.
+
+Ground-based sensors effective but costly
+
+Working in tandem with ground-based systems the facility managers can have a real-time overview of parking inventory levels. Future decision to augment can be based on real historical data. It can also be used to detect who has parked the vehicle by capturing a snapshot of the person parking the car.

@@ -1,0 +1,15 @@
+What to Avoid: Common Mistakes on Data Science Applications
+
+Or what not to do if you want to get noticed in the competitive field of Data Science. Paul May · Follow Published in Towards Data Science · 9 min read · Sep 17, 2019 -- 1 Share
+
+Photo by Clem Onojeghuo on Unsplash
+
+Data science and machine learning careers are still relatively new and I have previously written an article on the problems data scientists often encounter in their jobs because some companies do not know how to use them to their fullest potential.
+
+Interestingly, having given many technical interviews, I’ve seen that many potential data scientists don’t know how to present themselves well. This is especially true for those with little to no experience in industry (fresh graduate of a data science Msc etc.).
+
+This is a huge shame as I (personally) genuinely want everyone to do their best and get the jobs they want, but I do feel bad when I can’t find strong reasons to get them onto the next rung of the recruitment process. I would imagine this holds true for many other people in my position as well. They want you to succeed but we need to know you can before we invest time for an interview. Oddly they aren’t cost free to the business, if you consider you’ll be meeting 2–3 people for an hour each this can quickly add up in lost productivity.
+
+To put a finger on this costs we can make an order of magnitude estimate. A senior data scientist is £ 60,805 a year (£ 31/hour) with a data scientist generally commanding £ 46,820 a year (£ 24/hour). If you consider the senior data scientist will probably have a total of an hours’ worth of phone conversations with you (or about you to a recruiter) and if you pass that you will then have an interview for an hour with two people (a team data scientist performing technical interviewing and the senior doing some softer skills and fit interviews) followed by a 30 minute private group discussion afterwards about the result of the interview. They have then made an investment of 4 hours or around £ 114 in salary costs in you. However, this is a minimum cost because you would need to factor in additional hours or other factors such as HR personnel etc.
+
+So, an interview is an expensive investment in gauging you, making it important everyone does the best they can.

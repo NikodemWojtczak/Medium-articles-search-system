@@ -1,0 +1,25 @@
+Correlation does not imply causation
+
+Photo by Sajjad Zabihi on Unsplash
+
+Smoking cigarettes, as we know today, causes lung cancer. However, that fact was not entirely clear in the 1950s, when the first studies showing a correlation between smoking and lung cancer were published. One of the skeptics was statistician R.A. Fisher, who reasoned that the causality could be the other way around:
+
+“Is it possible then, that lung cancer — that is to say, the pre-cancerous condition which must exist and is known to exist for years in those who are going to show over lung cancer — is one of the causes of smoking cigarettes? I don’t think it can be excluded.”
+
+To be clear, Fisher was not only a statistician but also a heavy smoker, so his view was probably biased. Nevertheless he had a point: correlations alone are not enough to establish causation. What else can explain correlation?
+
+Cigarettes cause lung cancer
+
+Generally, if two variables A and B are correlated, there are at least four possible explanations:
+
+A causes B B causes A A and B are both caused by a third variable, C. Chance (the correlation is spurious).
+
+So how was the causal link between cigarettes and lung cancer established? In the 50s and 60s a large number of studies came out that confirmed the correlation. Furthermore, studies also showed that heavier smokers suffered more cancer than lighter smokers, and that pipe smokers developed more lip cancer while cigarette smokers developed more lung cancer. All that evidence taken together made the case clear. In 1964, the U.S. surgeon general, Luther Terry, made the causal connection official:
+
+“In view of the continuing and mounting evidence from many sources, it is the judgment of the Committee that cigarette smoking contributes substantially to mortality from certain specific diseases and to the overall death rate.”
+
+Smoking, Terry concluded, is a health hazard.
+
+Correlation caused by a third variable
+
+Sometimes correlations appear between two variables simply because both of them are caused by a third, unobserved…

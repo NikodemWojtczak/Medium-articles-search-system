@@ -1,0 +1,137 @@
+Now users have to write in a very formulaic way to use the chatbot. They have to write exactly Quote Jon Snow or News Reddit This is fine if you only want to include simple queries. But what if what want to support functionality for phrases like Quote about Jon Snow or even Quote from Jon Snow when he is talking about Stannis? Yes we could force users to do things in a formulaic way too but that quickly becomes complicated and burdensome for users. Similarly with news, supporting complex queries like Get news from the past 24 Hours on Reddit or even News about Jon Snow in Season 8 becomes arduous at best and impossible at worst.
+
+Slot filling and intent detection
+
+This brings us to machine learning for slot filling and intent detection. A key area for using deep learning in chatbots is to automatically take a user’s inputted string and map the relevant tokens to slots for an API (this is known as slot filling or SLU). A related area is intent detection which focuses on mapping the utterance to an intent. Here is an example of a SLU annotated
+
+Quote about Jon Snow
+
+0 0 B-focus-character I-focus-character
+
+Intent: Quote 0 Quote from Jon Snow when he is talking about Stannis
+
+0 0 B-speaker I-speaker 0 0 0 0 0 I-focus
+
+Intent: Quote 0
+
+Slot filling in a sense is a more fine grained version of named entity recognition (NER). For instance, in a pure NER setting Jon Snow might always have the label character whereas for slot filling the label will change based on the slot he should occupy. The format of annotation is called IOB, this stands for inside-outside-begining. It is meant to show “chunks” of the tokens together.
+
+As the bot’s response will depend on both the slots and the user’s goal many papers focus on joint slot filling and intent detection. Additionally many NLU libraries such as the Rasa-NLU framework provide joint SLU intent detection.
+
+Once we have the slots filled we still need to construct the actual query. The query construction will depend on how your database is set up. As such, in most cases this code you write manually yourself. However, there are some models that learn a direct mapping of the utterance to a SQL query. The vast majority of the time though, you will have an existing API or want to construct one. So let’s look at how you might turn this into a simple API request :
+
+def process_user_text(user_text, model):
+
+# Let's assume model.predict() returns
+
+# intent:str ents:dict (e.g. {"focus_character":"Jon Snow"})
+
+intent, ents = model.predict(user_text)
+
+# Assume this function combines multi-token ents an
+
+# normalizes them to how they appear in the database
+
+ents = combine_normalize_ents(ents)
+
+url = "https://random_site.com/" + intent
+
+requests.post(url, data=ents)
+
+Note although this code resembles the code in the GOT-Bot APIs I have not personally tested this code. I plan on doing so in the next few days. But if you run into errors in the interim let me know.
+
+Now we could use this simple Flask API to handle these requests.
+
+Returning to our previous news example we would label data in the following format to work with the API:
+
+News about Jon Snow in Season 8
+
+0 0 B-character I-character 0 B-season I-season
+
+Intent: News 1
+
+As you can see this format allows us to construct API calls and SQL queries much easier. Now we could define a function (assuming we had already run a NER and tagged the news stories).
+
+Limited data scenarios
+
+The problem of this approach, and of course deep learning in general, is the need for large amounts of labeled training data. One approach that I’m currently researching is the use of meta-learning on many annotated dialogue datasets in order to enable the model to rapidly adapt to just a few examples.
+
+Slot alignment is another interesting (although somewhat limited) approach. Towards Zero-Shot Frame Semantic Parsing for Domain Scaling, a 2017 article by Google Researchers, described using the names of the slots and/or documentation of the slots in the API to effectively perform zero shot filling. The idea is that if the model was already trained on booking an airline then it should also be able to book a bus as the slots should generally overlap (i.e., both would have a start_city , destination_city ). Taking this idea a step further a restaurant based dialogue system might have a restaurant_city (i.e., book me a restaurant in Chicago) and a hotel might have hotel_city . By exploiting similar semantics between phrases a model could learn to fill restaurant_city effectively, even though it was only trained on airline booking data. Of course this approach also has limitations: (1) it cannot work on drastically different domains with little to no overlap; (2) in some cases there actually could be negative transfer (e.g., it performed worse on taxi booking; it confused drop_off and pickup_spot because these are context dependent; even though these could align with start_city and destination_city their representation are not similar). For my use case this approach would likely not work as there are few overlapping semantic slots between the large public slot filling datasets and my GOT chatbot.
+
+Beyond joint slot filling and intent detection models
+
+But even joint NLU models have their limitations as they do not use context. For instance, suppose the user stated Quote from Robert Baratheon and then said Get me another quote from him. In this scenario one of the NLU models previously described won’t know what to do as it does not use conversation history. Similarly, a user might ask the question Who is Jon Snow's mother? the bot would (hopefully) return Lyanna Stark then if the user asked When did she run off with Rhaegar? it would likely not even cast her to a slot. There might also be times when we need to update or ask for additional information about certain slots. For instance, if the user asked for News from the past 24 hours about Season 8? but the API required the news source to be specified the bot might reply From what source? Or alternatively if the user stated Get the scene from episode 2?, the bot might then reply from what season?
+
+End-to-end dialogue models should be able to handle these tasks. One challenge that was created to measure the progress at this task was the Dialogue State Tracking. In particular DSTC2, the second version of the challenge, measured how well models could issue and update API calls and request additional information from the user when needed. One of the first models to do well on this challenge was Memory Networks adopted for goal oriented dialogue. This was done by researchers from Facebook in the paper Learning End-to-End Goal-Oriented Dialog. They showed that Memory Networks outperformed other machine learning methods by large margins.
+
+More recently there have been papers like Mem2Seq that actively incorporate dialogue history with the knowledge base and use them both in response generation. Specifically, Mem2Seq has two parts, a memory encoder which encodes the dialog history and a decoder that uses the encoded dialogue/KB to generate a user response. Mem2Seq acheived SOTA results on the DSTC2 challenge, BABI, and the in-car stanford dataset.
+
+The architecture of Mem2Seq notice how both dialog history and the knowledge base are encoded that is utilized at each turn.
+
+To actually train Mem2Seq for GOT-Bot requires three things: a knowledge base, annotated intents, and slot annotated dialogue histories. This makes it harder to adapt to GOT-Bot as the KB needs to be converted into triplets such as (person, person2, relation).
+
+Question Answering
+
+The line between where question answering begins and slot filling ends is often quite blurry. In research terms we usually see QA as referring to the answering of a question based on unstructured textual data. (It can also be based on a structured knowledge base, but in this circumstance it is particularly confusing where exactly slot-filling ends and QA begins). In the former, this usually means searching and extracting the answer from textual data rather than figuring what slots to fill to query a database. In the context of the Game of Thrones bot it means taking a user question, searching the proper indices on ElasticSearch, and then extracting the correct answer from the returned results. Before going into how exactly let’s look at different types of questions a user might ask:
+
+Essentially there are three categories of questions:
+
+(1) Questions that can be answered by querying the knowledge graph.
+
+Who has the Hound killed?
+
+Who is Jon Snow's father?
+
+What is the motto of house Glover?
+
+Who was Margeary married to?
+
+What region is Harrenhall in?
+
+These questions all have known answers that can be found in a structured knowledge graph. The problem is that we need to turn the user query into SQL or an API request. This is similar to what we need to do with slot-filling. In many cases we can actually cast this as a slot filling problem via phrasing questions as another intent. For instance,
+
+Who has the Hound killed
+
+0 0 0 I-focus_character I-attribute
+
+Intent kb_question`
+
+Or in the case of the following question:
+
+What region is Harrenhall in?
+
+0 I-location-region 0 I-focus_castle 0
+
+Intent
+
+We could then construct an API request in a similiar fashion. However, there is an abundance of datasets with questions to SQL, so in this instance it might make sense to use one of those datasets.
+
+(2) Questions not in the knowledge graph but that still have known answers and can be extracted from the MediaWiki pages or other GOT sites.
+
+How did the war of the five king's start?
+
+What happened during Harrenhal tourney?
+
+What was the war of the five kings?
+
+How did Robert's rebellion end?
+
+Who got the Tyrell's to support the Lannisters?
+
+The most relevant datasets/models for this task are datasets like MS MARCO and TriviaQA. Although many researchers evaluate on SQUAD, in reality you are going to almost never have the exact context paragraph given to you. This makes models that perform well on MS MARCO ideal as they are given a whole list of ranked results and have to extract the correct answer from them.
+
+The QuAC dataset or Question and Answering in Context is similar to the previously mentioned “end-to-end” dialogue models for question and answering. It contains questions and follow up questions that involve multiple dialogue turns. Models like FlowQA can work well at this conversational QA task as they add dialogue history to the base model.
+
+(3) Questions where the answer is subjective or speculative and that require finding similar questions or alternatively performing multi-hop inference.
+
+Why did Sansa trust Joffery?
+
+Who will survive season 8 and why?
+
+If Robb Stark hadn't broken his marriage pack would've the Freys betrayed him?
+
+Who will kill Cersei?
+
+Is Jon the prince that was promised?
+
+These questions have no definitive answers and require either analysis or speculation. Therefore the best solution is to find similiar questions that were already answered. This can be done through the scraped Quora index. However, here we will not use a QA model but a question similarity model. The question similarity can be done using a variety of methods. My current model in production uses a basic ElasticSearch and then reranks the results using the Universal Sentence Encoder + cosine similarity. In order to gather more data to improve ranking the bot currently shows the user all of the top ten results. We can then retrain the model based on the user’s choices. However, there are several problems with this approach. First, in many cases the initial ElasticSearch often does not return good questions. Second, users might return another interesting answer that does not directly answer their question. Still this “weak supervision” means that one can manually annotate the examples much quicker later.

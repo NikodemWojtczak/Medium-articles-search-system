@@ -1,0 +1,31 @@
+When we start to learn Data Science, Machine Learning, Deep Learning or any excited fields that will be using Python as programming language, most probably all of us will be using numpy as well. In this post, I will be writing numpy basics and how to read documentation properly based on my experience of using numpy. Before reading my post, it is good if you know the basics of programming language and python. I will be using python 3.6 as examples.
+
+What is Numpy
+
+You might wonder why all machine learning tutorials will be using numpy, why not other libraries? Please let me talk about what is Python before we go into numpy.
+
+Python is a programming language that we can import library that is written in C++ magically. C++ is a very fast language and the code will be compiled to machine code directly, hence library in C++ can perform faster than library written purely by python.
+
+Numpy is fast! And it is maintained by a lot of great programmers over the Internet.
+
+Numpy is an open source library written in C++, it is the fundamental package for scientific computing with Python. It is very easy to be installed like below:
+
+pip install numpy
+
+It contains a lot of tools, algorithms for most of the machine learning tasks such as
+
+powerful N-dimensional array object sophisticated (broadcasting) functions useful linear algebra, Fourier transform, and random number capabilities
+
+Common technical terms in numpy
+
+shape
+
+np.random.rand(d0, d1, …, dn) — Random values in a given shape.
+
+np.full(shape, fill_value, dtype=None, order=’C’) — Return a new array of given shape and type, filled with fill_value.
+
+Whenever the description said “shape”, it means the array size, or dimension size. If “shape” of a numpy array is [4, 3, 2], meaning it is a 3d array, because the shape itself has 3 values 4, 3, and 2. Let see the image below.
+
+An array with shape of [4, 3, 2]. 4 2d array with [3,2]. For each 2d array, it has 3 rows and 2 columns.
+
+For array with shape of 4d, you can think the array contains many 3d arrays. Then you can imagine the data using 3d array like the image above.

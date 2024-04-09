@@ -1,0 +1,49 @@
+Data Scientists are rock stars! Rock and Roll!
+
+In my previous ML 101 article, I explained how we could apply logistic regression to classify linear questions. In this post, I want to complicate things a little bit by including nonlinear features. Just like the real world, things are intertwined and messy.
+
+Let’s delve into the R.
+
+# Load the dataset
+
+library(tidyverse)
+
+data5 = read_csv("nonlinear.csv")
+
+require(ggplot2)
+
+qplot(X1,X2,colour = Y,data=data5)
+
+As we can see, black dots are surrounded by blue dots. Our job is to find a ML technique to neatly separate these two types of dots.
+
+# build a regular logistic regression
+
+glm_5b = glm(Y~X1+X2,data=data5)
+
+summary(glm_5b) Call:
+
+glm(formula = Y ~ X1 + X2, data = data5) Deviance Residuals:
+
+Min 1Q Median 3Q Max
+
+-0.6944 -0.5504 0.1937 0.3584 0.6213 Coefficients:
+
+Estimate Std. Error t value Pr(>|t|)
+
+(Intercept) 0.71038 0.05672 12.524 <2e-16 ***
+
+X1 -0.05446 0.02496 -2.182 0.0325 *
+
+X2 0.04278 0.02708 1.580 0.1187
+
+---
+
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 (Dispersion parameter for gaussian family taken to be 0.2109993) Null deviance: 16.000 on 71 degrees of freedom
+
+Residual deviance: 14.559 on 69 degrees of freedom
+
+AIC: 97.238 Number of Fisher Scoring iterations: 2
+
+As can be seen, the regular logistic regression fails to consider the nonlinear feature and performs poorly.
+
+Next, let’s project class labels over to finely sampled grid points and plot predictions at each point on the grid colored by class labels.

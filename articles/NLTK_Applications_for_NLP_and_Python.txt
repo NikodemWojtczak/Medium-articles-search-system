@@ -1,0 +1,23 @@
+The Natural Language toolkit’s (NLTK) development started in 2001 by Steven Bird and Edward Loper of the University of Pennsylvania
+
+Last week I completed a Naive Bayes Classifier that determines the differences between Seinfeld and Curb Your Enthusiasm scripts. I began to utilize some functions of the Natural Language Toolkit (NLTK), however there are a few additional parts I could have used that would have simplified my code and saved me time. I will go over some of the preprocessing and analytical functions of NLTK here.
+
+Cleaning
+
+The most fluid part of natural language processing (NLP) is cleaning the raw text data. This process varies depending on the content of your text and the overall goal of your project. Text categorization projects and text prediction projects will have completely different preprocessing steps because the order of the text does not matter in categorization as it does in prediction. The goal of my project last week was to categorize transcripts by the show that they belonged to so I did not need to maintain the order of the text within each document.
+
+My original cleaning function was rudimentary. First I removed the stage notes with regex, then I removed some punctuation from the text with a custom list, made all the text lower case, split the text by spaces, removed character speaking indications and stop words, and finally returned the text. I did this all without the power of NLTK. This function was mostly successful, the outcome varied because the transcripts were written by different fans with different style preferences. The function’s most noticeable issue was that it only removed stop words that were specified which meant that the dimensionality of the corpus was huge. High dimensionality due to included stop words is untenable for deep learning tasks which means that this function would be insufficient.
+
+The NLTK library contains a list of stop words for every supported language (At the time of this writing there are 22 supported languages with stop word lists, you can check them by visiting nltk.org or checking user/nltk_data/corpora/stopwords on your local machine). You must specify which language’s stop word list you want to use or else NLTK will include all stop words for all languages in your analysis. In python you import a stop word list by typing from nltk.corpus import stopwords and you import the punctuation list by typing import string . You can save these lists as custom variables to pull out characters that you don’t want for your projects. Below is the updated cleaning function which utilizes NLTK and specifies that only the english language is to be used.
+
+An updated text cleaning function that uses NLTK. Note that “English” is a parameter for the ‘stopwords’ method. Also, you can add or remove any stop word or punctuation mark included in the NLTK library, which makes customization easier.
+
+After you complete the cleaning step you can move on to stemming and lemmatization.
+
+Analysis
+
+NLTK also includes several analytical functions which allows you to easily calculate important statistics from your corpus. For instance NLTK has its own token frequency counting method. FreqDist creates a list of two element tuples where each tuple represents a word and its frequency count. You can further access the most common elements by calling the .most_common() method. If given a numerical parameter this method will return that number of most common tokens in the document or corpus in descending order. If you are comparing multiple documents of different sizes then you can normalize the frequency count for a more appropriate comparison.
+
+Conclusion
+
+NLTK contains useful tools for text preprocessing and corpora analysis. You do not need to create your own stop words list or frequency function for every NLP project. NLTK saves you time so that you can focus on your NLP tasks instead of rewriting functions.

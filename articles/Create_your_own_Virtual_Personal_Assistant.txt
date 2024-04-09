@@ -1,0 +1,241 @@
+You know about Cortana, Siri and Google Assistant, right? Have you ever imagined that you can make your own virtual personal assistant and customize it as you want? Today, we’ll be doing it here. We’ll be building a personal assistant from scratch in python. Oh, Before getting into it, let me tell you that by no means it’s an AI but just a powerful example of what AI can do, and how versatile and amazing python is. Also, you need to have some experience with python in order to get started with it. So, Let’s begin:
+
+First, We need to install some important packages:
+
+SpeechRecognition : Library for performing speech recognition, with support for several engines and APIs, online and offline.
+
+Pyttsx3 : Pyttsx is a good text to speech conversion library in python.
+
+Wikipedia : Wikipedia is a Python library that makes it easy to access and parse data from Wikipedia.
+
+Wolframalpha : Python Client built against the Wolfram|Alpha v2.0 API.
+
+PyAudio : Python Bindings for PortAudio.
+
+Make sure you have installed all these packages or else you might run into some errors and this is how you install it:
+
+pip install PackageName
+
+PyAudio Installation:
+
+You might run into some errors while installing Pyaudio, I’ve been through the same. You can make use of these steps to avoid the installation errors:
+
+find your Python version by python --version mine is 3.7.3 for example
+
+mine is for example find the appropriate .whl file from here , for example mine is PyAudio‑0.2.11‑cp37‑cp37m‑win_amd64.whl , and download it.
+
+file from , for example mine is , and download it. go to the folder where it is downloaded for example cd C:\Users\foobar\Downloads
+
+install the .whl file with pip for example in my case:
+
+pip install PyAudio-0.2.11-cp37-cp37m-win_amd64.whl
+
+Also, install this to avoid unnecessary errors:
+
+pip install pypiwin32
+
+If you are done installing those packages then we can import them and get back to the code:
+
+import os
+
+import sys
+
+import datetime
+
+import pyttsx3
+
+import speech_recognition as sr
+
+import wikipedia
+
+import wolframalpha
+
+import webbrowser
+
+import smtplib
+
+import random
+
+Now, We’’ll be using ‘SAPI5’ as the TTS engine for pyttsx3 and getting the key for wolframaplha, and defining the client.
+
+engine = pyttsx3.init(‘sapi5’)
+
+client = wolframalpha.Client(‘Get your own key’)
+
+You can get your own key from wolframalpha.com -> Apps -> Key.
+
+Now, We’ll be initializing a variable and getting the necessary voice parameter we need. For female voice, you can set the value as -1 in the second line and -2 for male voice. Next, We’ll be creating a function talk with audio as the input parameter.
+
+voices = engine.getProperty(‘voices’)
+
+engine.setProperty(‘voice’, voices[len(voices) — 2].id) def talk(audio):
+
+print(‘KryptoKnite: ‘ + audio)
+
+engine.say(audio)
+
+engine.runAndWait()
+
+Next, let’s create another function greetMe and this will be used to greet the user when he runs the program. datetime.datetime.now().hour is being used to get the current time in terms of hour and give the output as per the time and the conditions written below. Talk fn will be used to give the output in terms of voice.
+
+def greetMe():
+
+CurrentHour = int(datetime.datetime.now().hour)
+
+if CurrentHour >= 0 and CurrentHour < 12:
+
+talk('Good Morning!') elif CurrentHour >= 12 and CurrentHour < 18:
+
+talk('Good Afternoon!') elif CurrentHour >= 18 and CurrentHour != 0:
+
+talk('Good Evening!')
+
+greetMe() talk('Hey Buddy, It\'s your assistant KryptoKnite!')
+
+talk('tell me about today?')
+
+Next, we’ll be creating another function GivenCommand which is used to recognize the user input, it will define that microphone is used as the source of input and We’ll set the pause threshold as 1. Try except block is used and language to recognized will be set as English-India, and if the voice isn’t recognized or heard We’ll send the text input as a kind of error message.
+
+def GivenCommand():
+
+k = sr.Recognizer()
+
+with sr.Microphone() as source:
+
+print("Listening...")
+
+k.pause_threshold = 1
+
+audio = k.listen(source)
+
+try:
+
+Input = k.recognize_google(audio, language='en-in')
+
+print('Kunal Dhariwal: ' + Input + '
+
+') except sr.UnknownValueError:
+
+talk('Sorry! I didn\'t get that! Try typing it here!')
+
+Input = str(input('Command: ')) return Input
+
+Now, let’s start the main function:
+
+Here, We’ll be declaring some important functions and conditions which will enhance the functionality of our personal assistant and help him to deliver the output and receive the inputs from the user.
+
+if __name__ == '__main__': while True: Input = GivenCommand()
+
+Input = Input.lower() if 'open google' in Input:
+
+talk('sure')
+
+webbrowser.open('www.google.co.in') elif 'open youtube' in Input:
+
+talk('sure')
+
+webbrowser.open('www.youtube.com') elif "what\'s up" in Input or 'how are you' in Input:
+
+setReplies = ['Just doing some stuff!', 'I am good!',
+
+'Nice!', 'I am amazing and full of power']
+
+talk(random.choice(setReplies))
+
+Similarly you can add up more elif with other functionalities like I’ve added one for sending the email.
+
+elif 'email' in Input:
+
+talk('Who is the recipient? ')
+
+recipient = GivenCommand() if 'me' in recipient:
+
+try:
+
+talk('What should I say? ')
+
+content = GivenCommand() server = smtplib.SMTP('smtp.gmail.com', 587)
+
+server.ehlo()
+
+server.starttls()
+
+server.login("Your_Username", 'Your_Password')
+
+server.sendmail('Your_Username', "Recipient_Username", content)
+
+server.close()
+
+talk('Email sent!') except:
+
+talk('Sorry ! I am unable to send your message at this moment!')
+
+Or may be play some music?
+
+elif 'play music' in Input:
+
+music_folder = 'Path
+
+music = ['song']
+
+random_music = music_folder + random.choice(music) + '.mp3'
+
+os.system(random_music) talk('Okay, here is your music! Enjoy!')
+
+Next, We’ll be adding functionalities to use the input to make some searches on wikipedia, google and use wolframalpha.
+
+else:
+
+Input = Input
+
+talk('Searching...')
+
+try:
+
+try:
+
+res = client.Input(Input)
+
+outputs = next(res.outputs).text
+
+talk('Alpha says')
+
+talk('Gotcha')
+
+talk(outputs) except:
+
+outputs = wikipedia.summary(Input, sentences=3)
+
+talk('Gotcha')
+
+talk('Wikipedia says')
+
+talk(outputs)
+
+except:
+
+talk("searching on google for " + Input)
+
+say = Input.replace(' ', '+')
+
+webbrowser.open('https://www.google.co.in/search?q=' + Input) talk('Next Command! Please!')
+
+When all this is done, it is very important for the program to exit. Let’s write a condition for it here:
+
+elif 'nothing' in Input or 'abort' in Input or 'stop' in Input:
+
+talk('okay')
+
+talk('Bye, have a good day.')
+
+sys.exit() elif 'bye' in Input:
+
+talk('Bye, have a great day.')
+
+sys.exit()
+
+That’s it! You have created your own virtual personal assistant.
+
+You can now customize it as you like and set any conditions for it, Also you can add N number of functionalities to it and make it even more amazing.
+
+Complete code: https://bit.ly/2VaBsEU You can get the video demo here on my LinkedIn Post: https://bit.ly/2DW8qU0 If you encounter any error or need any help, you can always make a comment or ping me on LinkedIn. LinkedIn: https://bit.ly/2u4YPoF Github: https://bit.ly/2SQV7ss

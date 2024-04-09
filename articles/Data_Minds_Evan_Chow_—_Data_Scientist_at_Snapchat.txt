@@ -1,0 +1,33 @@
+Data Minds: Evan Chow — Data Scientist at Snapchat
+
+Data Minds is a series that profiles professionals working with data. In this series, you’ll learn about their story, day-to-day, and advice for others Andrei Lyskov · Follow Published in Towards Data Science · 5 min read · Apr 25, 2019 -- 2 Listen Share
+
+With over 300 million monthly active users, and 3 billion snaps created daily, Snapchat is a company with an immense treasure trove of data. This type of data can lend itself to all sorts of interesting analysis and is especially intriguing for those with a social science background. Evan Chow is one of such people, with an undergraduate background in economics, statistics, and machine learning from Princeton University. He’s been a data scientist with Snapchat for two years now, where his work includes causal inference, applied econometrics, quantitative social science research, and anomaly detection.
+
+In this article, we explore how Evan was able to augment his social science background with technical skills, the type of work he does at Snapchat, and the importance of the T-shape model for your career.
+
+On Becoming A Polymath
+
+Talking to Evan it’s clear that he has a wide range of interests spanning both the arts and sciences. While in undergrad, he was fascinated with modeling behavior using economic models, which led him to specialize in economics and statistics. At the same time, he knew the importance of developing programming skills. As a result, he spent his summers interning at tech companies and taking computer science courses during the academic year.
+
+He got his start in data science by tinkering with various projects, from a machine translation tool to an auto-generator for jazz music. His first exposure to industry data science was an internship at Paypal, between his sophomore and junior year. There he was exposed to a wide range of tools and technologies, ranging from time series forecasting to setting up dashboards as well as learning R and ggplot. This experience allowed him to see what data science really looked like in the real world. It also led to an insight that has stuck to him to this day. When his mentor explained the importance of self-sufficient visualizations, he showed him the visualizations of Napoleon in Russia. This example helped him contextualize what a great self-sufficient visualization looks like and informed his work going forward.
+
+With this technical internship under his belt, he felt a renewed interest in computer science. Leveraging this interest, he continued to grow technically and landed a quantitative software engineering internship at Salesforce. In this internship he had a chance to work with one of the security teams, building an algorithm to detect anomalies in large network logs. The summer consisted of a deep dive into machine learning, where he was able to get further guidance from various mentors. Based on feedback from mentors, he learned the importance of not getting siloed into your work and maintaining a view of the big picture.
+
+After his two technical internships, Evan felt his senior year should be dedicated to his first love, economics. His thesis consisted of investigating fine art auctions, specifically how the anchoring bias impacts auction prices. This problem gave him a break from pure tech and allowed him to focus on econometric modeling in a novel space. Talking to experts at auction houses and learning how prices were determined turned out to be an intellectually challenging piece of research. The work was substantial and took many twists and turns, lasting his whole senior year. This extended research continued developing the grit necessary to persevere when his research would hit temporary dead ends.
+
+As his time in university was coming to a close, Evan had a chance to interview with Uber after a recruiter found his resume through a career fair. This led to a job offer and a move to San Francisco where he started his first job as a software engineer on a quantitative team. His work focused on dispatch optimization, ranking, prediction, infrastructure, and analytics. Transitioning from an academic setting, he encountered a lot of hidden and stored tribal knowledge. Whereas before he could read textbooks and research papers to get the information he needed, at Uber he relied more on conversations with domain experts to help him understand and extract useful insights. This first job also gave him a good overview of how systems were built, and expectations for a full-time role. After a year at Uber, he took an opportunity at Snapchat to return to his roots in economics and statistics.
+
+Data Science at Snapchat
+
+Evan joined Snapchat in mid-2017, shortly after their IPO in March. While Uber had a more obvious path to revenue, Snapchat was more indirect as a social network with revenue driven by advertisement. There was a heavier emphasis on understanding users and synthesizing behavioral modeling with engineering. This suited him perfectly as it allowed him to combine the various interests he had developed in University.
+
+Transitioning into this role, his primary focus was acquiring domain expertise so that he could be more useful to decision makers. He acquired this through conversations with coworkers and stakeholders, in addition to achieving quick wins through small projects. Working with data directly turned out to be the quickest path to domain expertise for him. Luckily there was no shortage of questions from various groups in Snapchat, which his manager would help him prioritize.
+
+A large part of what his role consists of is helping people make optimal decisions and understand their impact. As such, determining causality is a big focus, which involves running experimental and quasi-experimental methods, along with simulations to estimate the causal impact of internal and external factors. Another area he looks at is anomaly detection, such as understanding strange behavior or bugs coming from mobile phones.
+
+The type of output he produces also can vary. Occasionally it could be a slide deck which summarized his work and which helped inform immediate decisions. Other times it might be a white paper which contributes to internal knowledge, and which may prove useful in the long run. This leads to the need for juggling both projects which can materialize results in the current quarter, as well as more long-term research projects.
+
+Advice for Others
+
+In terms of advice for others, Evan offered five points:

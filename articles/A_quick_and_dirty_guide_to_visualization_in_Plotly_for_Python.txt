@@ -1,0 +1,85 @@
+A quick and dirty guide to visualization in Plotly for Python
+
+There are endless options to create plots in Python, but one of the libraries that I have started to gravitate towards is Plotly. It is a solid option to create beautiful and presentable plots easily within your Jupyter workflow. It has vast selection of customizable plots that you can use for your visualizations (the entire selection can be seen here).
+
+Okay, so let’s dive into Plotly. There are two flavors of Plotly, one of them is Plotly Express, and the other is Graph Objects.
+
+Plotly Express can be considered as the quicker way to make plots. It can be used for visualization while you are working. The benefit to using Plotly Express is that there is usually very little code, however the amount of customization of the plots that you can do is also limited(compared to Graph Objects, but is comparable to the typical graphing libraries). I personally do not use Plotly Express, so I am not going to cover it here, but you can read up on it in the documentation, and it should be quite easy to use once you have a handle with Graph Objects. This is because I prefer to do general visualization using Matplotlib and Seaborn because of their tighter integration with popular libraries like Pandas. It is when I need to make highly presentable plots, that I turn to Plotly. Here is an example plot in Plotly Express and the code to plot it. It is straight from the documentation. Make sure you have Plotly installed. The details on how to do this based on for your particular device and environment can be found here.
+
+import plotly.express as px
+
+df = px.data.tips()
+
+fig = px.histogram(df, x="total_bill")
+
+fig.show()
+
+Now, about Graph Objects. The downside to using this is that you generally have to write out more lines of code to create these plots, but the upside is that they are highly presentable and extremely customizable. Also, you don’t have to deal with issues like overlapping text and scaling issues like in Matplotlib. More lines of code is usually not an issue for my use case which is to plot out finalized versions of previously created plots.
+
+Here is a simple plot in Matplotlib using some movie data obtained from Box Office Mojo.
+
+import matplotlib.pyplot as plt
+
+plt.bar(top_genres, top_total);
+
+As you can see, it does not scale the axes automatically to look presentable without some extra work on our part. Here is the same plot using Plotly.
+
+plot_top_genres_total = go.Figure()
+
+plot_top_genres_total = go.Figure([go.Bar(x=top_genres,
+
+y=top_total)])
+
+plot_top_genres_total.show()
+
+As you can see, it is much cleaner out of the box. You do not have to spend much of your time trying to make things be readable.
+
+Now, to the part that I promised earlier. You may want to save this snippet.
+
+Here is the code for a complex plot, with multiple axes, multiple charts, color options, legends and axis titles. You could add, remove or change parts of the code to modify the plot.
+
+plot_name = make_subplots(specs= [[{“secondary_y”: True}]]) # For a single axis plot use the following line instead
+
+# plot_name = go.Figure() plot_name.add_trace(go.Bar(x=x_data,
+
+y=y_data_1,
+
+name = ‘Plot 1 Name’,
+
+marker_color= ’#bfa878')) plot_name.add_trace(go.Scatter(x=x_data,
+
+y=y_data_2,
+
+name = ‘Plot 2 Name’,
+
+marker_color= ’#7a4b4b’),
+
+secondary_y = True) plot_name.update_layout(yaxis_title = ”Y Axis Label”,
+
+showlegend = False,
+
+template = ”ggplot2", font = dict(family= ”Calibri”,
+
+size = 24,
+
+color = ’#7a4b4b’)) plot_name.update_yaxes(title_text = ”Secondary Y Axis Label”,
+
+secondary_y = True) plot_name.show()
+
+To change the type of plots you could change the ‘Bar’ and ‘Scatter’ keywords to ‘Histogram’ or ‘Pie’, for instance. Open up the documentation to see what else is available.
+
+To change the plot colors, just search for “Color Picker” on Google. You could then choose your colors and get the RGB values of hex code for it, to replace in the code above.
+
+You could remove the secondary plot by removing the second add_trace line of code and the update_yaxes line.
+
+You can change the font, font size and font color by modifying the details under update_layout.
+
+Make sure all the x and y data are in lists . I have found that processing the data into lists before using it in the plot can help avoid errors. Also, you may have to fix the indents in your environment after you paste it for the code to work.
+
+Here is an example of a plot created using the code above and the same data used above.
+
+The above bit of code could get you through 90 percent of your visualization needs (maybe a little more or little less based on the work you do). After you make a few plots you should get familiar with the code structure of Plotly. You will get a feel of what to change to go beyond the limits of this plot.
+
+A good approach for the last 10 percent, is to try look through the documentation for the kind of plot you want to make, and rather than copy their code, try and integrate it into the code above. Try changing things and get an understanding of how things fit together. Doing so, you will start to gradually develop your own modular system to create visualizations, and save valuable time.
+
+I hope this information helps you to get started with Plotly within minutes and provides a framework for you to learn more of it as your needs become more and more demanding. Good Luck!

@@ -1,0 +1,69 @@
+3. Served ML model on AI Platform
+
+Google Cloud ML Engine (source)
+
+For each tweet coming in, we want to determine if the sentiment expressed (presumably towards the episode) is positive or negative. This means we will have to:
+
+look for a suitable dataset
+
+train a machine learning model
+
+serve this machine learning model
+
+Dataset
+
+When thinking about sentiment analysis, we quickly think of the ‘IMDB Movie Review’ dataset. For this specific purpose though, this classic seemed less suited, since we are dealing with tweets here.
+
+Luckily, the Sentiment140 dataset, which contains 1.6 million labeled (positive and negative) tweets, seems to be perfectly suited for this case. More info, and the dataset, on this Kaggle page. Some examples:
+
+sample from the Sentiment140 dataset
+
+Preprocessing the text is done in a separate class, so that it can later be reused when calling the model:
+
+Model
+
+For the classification model itself, I based myself upon the famous 2014 Yoon Kim paper on Multichannel CNN’s for Text Classification (source). For ease of development (and later deployment), I used Keras as the high-level API.
+
+CNN architecture overview (source)
+
+A CNN-based model provides the additional benefit that training the model was still feasible on my little local workstation (NVidia GTX 1050Ti with 4GB memory) in a decent time. Whereas an RNN-based model (often used for sentiment classification) would have a much longer training time.
+
+We can try to give the model some extra zing by loading some pretrained Word Embeddings. In this case: the Glove 2.7B Twitter embeddings seemed like a good option!
+
+The full code can be found in this notebook.
+
+We trained the model for 25 epochs, with two Keras Callback mechanisms in place:
+
+a callback to reduce the LR when the validation loss plateaus
+
+a callback to stop early when the validation loss hasn’t improved in a while, which caused it to stop training after 10 epochs
+
+The training and testing curve can be seen here:
+
+So we obtain an accuracy of about 82.5%.
+
+Serving the model
+
+AI Platform provides a managed, scalable, serving platform for Machine Learning models, with some nice benefits like versioning built into it.
+
+Now for hosting, there’s one special aspect of our model which makes it a bit less trivial to serve it in AI Platform: the fact that we need to normalize, tokenize and index our text in the same way we did while training.
+
+Still though, there are some options to choose from:
+
+Wrap the tf.keras model in a TF model, and add a Hashtable layer to keep the state of the tokenization dict. More info here.
+
+layer to keep the state of the tokenization dict. More info here. Go full-blown and implement a tf.transform preprocessing pipeline for your data. Great blog post about this here.
+
+preprocessing pipeline for your data. Great blog post about this here. Implement the preprocessing later on, in the streaming pipeline itself.
+
+itself. Use the AI Platform Beta functionality of having a custom ModelPrediction class.
+
+Given that there wasn’t time nor resources to go full-blown tf.transform, and that potentially overloading the streaming pipeline with additional preprocessing seemed like a bad choice, the last one looked like the way to go.
+
+The outline looks like this:
+
+overview of the serving architecture (source: own creation)
+
+Custom ModelPrediction classes are easy enough, there’s a great blogpost by the peeps from Google on it here. Mine looks like this:
+
+To create a served AI platform model from this, we just need to:

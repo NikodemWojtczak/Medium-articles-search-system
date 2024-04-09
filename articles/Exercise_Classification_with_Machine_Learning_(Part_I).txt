@@ -1,0 +1,31 @@
+In this two-part post we’re taking a deep dive into a specific problem: classifying videos of people performing various exercises.
+
+The first post will focus on a more algorithmic approach using k-Nearest Neighbors to classify an unknown video, and in the second post, we’ll look at an exclusively machine learning (ML) approach.
+
+Code for everything we’re going to cover can be found on this GitHub repository. The algorithmic approach (Part I) is written in Swift and is available as a CocoaPod. The ML approach (Part II) is written in Python/TensorFlow and can be found as part of the GitHub repository.
+
+Background
+
+We want to build a system which takes as input a video of a person performing an exercise and outputs a class label which describes the video. Ideally, the video can be of any length, with any frame rate, and from any camera angle. A subset of class labels might be something as follows:
+
+back squats — correct form
+
+back squats — incorrect form
+
+push-ups — correct form
+
+push-ups — incorrect form
+
+And so on…
+
+How to build such a system? One of the trickiest parts is that we need to identify relationships between frames — that is, relationships between the position of the person at each frame. This means we’re dealing with data structures in the time domain, which we’ll call timeseries.
+
+Timeseries in 2 or more dimensions (at least one dimension is always time!)
+
+Given some “unknown” timeseries which has been constructed from an input video, we want to assign a label to the timeseries according to the exercise we predict.
+
+In this example, “A”, “B”, and “C” are potential labels for the unknown timeseries
+
+How to make a timeseries?
+
+I mentioned that we will construct the timeseries from an input video, but how do we do that? Let’s assume that each video contains footage of a single person performing some type of exercise. My strategy was…

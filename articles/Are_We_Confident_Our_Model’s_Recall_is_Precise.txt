@@ -1,0 +1,275 @@
+What will you find in this post?
+
+What is the bootstrap? The .632/.632+ bootstrap method Why should we care about confidence intervals? Bootstrap confidence intervals — why and how? How to interpret a confidence interval? Sample size & confidence interval width And now in Python Here be dragons
+
+1. What is the bootstrap?
+
+The bootstrap is a widely applicable and extremely powerful statistical tool that can be used to quantify the uncertainty associated with a given estimator or statistical learning method. — James et al., 2013
+
+Generally speaking, bootstrap methods are a collection of techniques based on resampling an existing dataset in order to obtain estimates for various statistics. This is accomplished by using our existing dataset to create new bootstrap datasets by drawing from the original dataset with replacement, i.e., data points can appear more than once in a bootstrap generated dataset.
+
+We create many such bootstrap datasets and use them to calculate our statistic of interest. This process enables us to obtain a bootstrap distribution which can be used to estimate the distribution of the sample statistic.
+
+A concrete example
+
+Let us say we would like to find the average number of applications android phone users currently have installed on their devices. To do that we collect data from 1,000 android mobile phone owners, calculate the average number of apps and find that it is 47.038.
+
+However, we would like to get an estimate of how “reliable” or “accurate” this average really is — or in other words — we would like to estimate the standard error of the average we found.
+
+To accomplish the above we apply a bootstrap procedure by doing the following:
+
+Sample (with replacement) 1,000 data points from the dataset. Calculate the average number of applications based on this sample.
+
+We repeat these two steps 1,000 times — each time resampling data points from the dataset and calculating the average.
+
+Fig. 1. Distribution of bootstrap estimates vs. the distribution of estimates based on samples from the true population.
+
+Figure 1 describes two distributions:
+
+The distribution of the estimates for the average number of apps, obtained by generating 1,000 bootstrap samples from a single sample and calculating the average for each bootstrap sample (blue).
+
+and calculating the average for each bootstrap sample (blue). The distribution of the estimates for the average obtained by generating 1,000 samples from the true population and calculating the average for each sample (orange).
+
+We observe that the estimates obtained using the bootstrap estimates are very similar to the values we were trying to estimate:
+
+mean median stdev
+
+Bootstrap estimates: 47.035 47.034 0.125
+
+True estimates: 47.003 47.001 0.123
+
+We now have 1,000 averages we obtained from bootstrap samples. The mean of those averages is 47.035 — this is our bootstrap estimate for the sample mean (the average number of apps in our dataset) and it is very close to the mean of the true estimates — 47.003.
+
+We also calculate the standard deviation of those 1,000 bootstrap estimates and get 0.125 — this is our estimate of the standard error of the sample mean, i.e., it is the estimate for the standard error of the average number of apps we calculated using our dataset.
+
+In other words, we can expect the original sample mean (47.038) to differ from the true mean by 0.125, on average.
+
+The standard error we found can be used to construct a confidence interval. If we assume a normal distribution of the sample mean, the estimates obtained using the bootstrap method allow us to say that there is a 95% probability that the interval [46.79, 47.28] covers (contains) the true average — the average number of apps of all the android phone users in the world.
+
+Note: We won’t elaborate on the method used to construct the above confidence interval since we will be using a different approach in this post.
+
+Why did we use a bootstrap method?
+
+If we can collect more data that’s awesome, but many times we only have a certain amount of data and we have to make do with that — we cannot obtain more data from the original population due to time constraints, budget constraints or various other reasons.
+
+We would like to utilize the available dataset and extract as much information as we can from it, like we did in the above example. Using bootstrap methods allows us to do that (for some purposes).
+
+2. What is the .632/.632+ bootstrap method?
+
+When we set out to estimate a parameter, we are often interested in the “accuracy” of our estimator — we would like to know if our estimator is “stable”, i.e., has low variability.
+
+In this section we discuss a method for obtaining a bootstrap estimate, not to be confused with methods for constructing bootstrap confidence intervals (discussed later).
+
+We obtain an estimate by using an estimator, e.g., to estimate the average height of a population we use the average height of the persons in our sample as an estimator (a function of the data) which produces an estimate (a number).
+
+An estimator can be biased, which means it will tend to overestimate the true parameter, or underestimate it. More specifically it means that the expected value of the estimator will be greater or lesser than that of the parameter it is meant to estimate.
+
+The .632 estimator and the .632+ estimator are bootstrap estimators that address the concern of biased estimation by correcting for the bias (.632+ being the superior yet computationally heavier method).
+
+The .632 estimator was introduced by [Efron, 1983] as an estimator for the error rate of a prediction rule in classifying future observations. The paper showed that the .632 estimator performed better than cross-validation and several other estimators.
+
+However, it was later noted in [Efron & Tibshirani, 1997] that the .632 estimator may suffer from a downward bias when used to estimate the error rate of models which can be highly overfitted. The .632+ estimator corrects for the possible bias issue and produces better estimates.
+
+Note: The bootstrap estimator is actually a smoothed version of the cross-validation estimator [Efron & Tibshirani, 1997], where “smoothed” in this case means reduced variability.
+
+What does .632 stand for?
+
+When we sample from a uniform distribution of n items, the probability to draw a specific item is 1/n and the probability of not drawing it is 1-(1/n).
+
+When we draw n items with replacement (all draws being independent) the probability that a specific item will never be drawn is (1-(1/n))^n which equals 1/e as n approaches infinity (see here).
+
+As we are sampling with replacement this means that on average n*1/e (approx. n*0.368) of the items will not be selected, or in other words, our sample of n items will contain approx. n*0.632 (63.2%) of the items in the dataset (since we sampled with replacement from a uniform distribution).
+
+This result is used to weigh several of the terms the estimator depends upon to correct the bias, hence the name .632 estimator.
+
+Is that all the math?
+
+As the formal definition of the .632 and .632+ estimators depends on formal definitions of the no-information error rate, relative overfitting rate, leave-one-out bootstrap and several other terms, I won’t encumber this section with numerous equations and kindly refer the reader to [Efron & Tibshirani, 1997] for a comprehensive derivation of the estimators and their properties.
+
+For a shorter and well written explanation, please see this answer on CrossValidated.
+
+Hopefully someday Medium will support LaTeX and writing a dozen equations with interleaving text will not require using a dozen images.
+
+3. Why should we care about confidence intervals?
+
+Let’s say we have built a classifier and to evaluate its performance we test it on a single data point and we get it right — Recall is 100%. Great success!
+
+But this sounds funny, right? testing a classifier on a single data point?
+
+So we test it again on 10 data points, and get a Recall of 80%. Still good.
+
+However, evaluating performance using only 10 data points seems weird — what if we tested our classifier on 10 relatively easy examples?
+
+If we choose a different set of 10 data points and evaluate it again we could get a different Recall score.
+
+How about testing our classifier on 100 data points? or 1,000? how many data points are enough? how many data points do we need to determine that our Recall is reliable?
+
+We don’t need to be well versed in statistics to know that if we calculate a number (e.g., an average) based on a small number of observations, that number could be “inaccurate”. We know this intuitively.
+
+Say we try to estimate the average height of the people in our town by measuring the height of only 5 people. We know that our estimate could be totally wrong — we only measured 5 individuals to try and estimate the average height of 100,000 people — obviously there’s a problem with using such a small sample.
+
+Confidence intervals provide us with a range of possible values so that we can gain a better understanding of the variability our estimate is likely to have. The use of the word “likely” in this context is intentional since the properties of realized confidence intervals are not fixed, and may vary according to circumstances.
+
+Confidence intervals in the wild
+
+One domain where confidence intervals are used extensively is epidemiological research. A typical use case can be found in [Janerich et al., 1990] where they studied whether lung cancer is associated with exposure to tobacco smoke within the household.
+
+The researchers conducted a population-based case–control study of 191 patients (who had lung cancer) and an equal number of persons who did not have lung cancer.
+
+Abbreviating the methods and results — to assess whether exposure to tobacco smoke within the household increases the risk of getting lung cancer, the researchers calculated the odds ratio (2.07) and a 95% confidence interval for the odds ratio (1.16 to 3.68).
+
+This means that in the study they found that the odds of getting lung cancer are about twice as large (2.07) for people who were exposed to tobacco smoke within the household compared to those who weren’t. We do note that the confidence interval suggests that the true odds ratio could also be 1.16, i.e., it is possible that people who were exposed to tobacco smoke within the household were only 1.16 times likelier to get lung cancer compared to those who weren’t exposed.
+
+Change the sample size (or the 25 smoker-years threshold chosen in the study) and we may also get a confidence interval which includes 1.0, which would mean that the odds ratio is not statistically significant and the odds of getting lung cancer may be the same for both groups in the experiment.
+
+As we can see, confidence intervals contain information which a single number cannot encompass.
+
+4. Bootstrap confidence intervals — why and how?
+
+Why use bootstrap confidence intervals?
+
+Bootstrap confidence intervals can be constructed using non-parametric sampling, which means we do not need to make any assumptions regarding the distribution of our parameter of interest (or our data for that matter). Bootstrap confidence intervals can also be constructed using parametric sampling, but we will not use this approach in this post.
+
+How to construct bootstrap confidence intervals?
+
+In the code provided later in the post we use the percentiles of the distribution of bootstrap estimates to construct confidence intervals. The motivation to construct confidence intervals based on bootstrap percentiles is that we can use the percentiles of the bootstrap estimates distribution since it (presumably) will be sufficiently similar to the distribution of the parameter we are trying to estimate. This is shown to be quite accurate in some cases, and less in others [Efron & Tibshirani, 1994, ch.13].
+
+Fig. 2. Percentiles of the distribution of bootstrap estimates.
+
+As an example we will construct a 95% confidence interval by using the distribution of bootstrap estimates (figure 2):
+
+The lower bound of the confidence interval will be the 2.5th percentile of the distribution (46.8)— the value below which 2.5% of the bootstrap estimates are found.
+
+The upper bound of the confidence interval will be the 97.5th percentile of the distribution (47.3) — the value below which 97.5% of the bootstrap estimates are found.
+
+As we can see in figure 2, choosing the lower and upper bounds as we did means that 95% of the bootstrap estimates are within the confidence interval, and we say there is a 95% probability that the confidence interval [46.8, 47.3] covers the parameter we are trying to estimate by using a bootstrap method.
+
+If we were trying to estimate a classifier’s Recall for example, then we could say that there is a 95% probability that the interval [46.8, 47.3] covers (contains) the true Recall of our classifier.
+
+We should be aware that there are several methods for constructing bootstrap confidence intervals and the curious reader is encouraged to read [Carpenter & Bithell, 2000] to gain a better understanding of pros and cons of each method. If you require more information regarding the method used in this post it can be found in [Efron & Tibshirani, 1994, ch.13].
+
+In my humble opinion, constructing a more-or-less “accurate” confidence interval and actually using it is preferable to ignoring the information gained from confidence intervals altogether.
+
+5. How to interpret a confidence interval?
+
+The confidence intervals we discuss in this post are frequentist confidence intervals. To be certain that we understand what they mean, we will consider the following example:
+
+Assume we construct a 95% confidence interval for our classifier’s Recall and obtain the interval [0.55, 0.65].
+
+This means: There is a 95% probability that the interval [0.55, 0.65] covers (contains) the true Recall.
+
+It DOES NOT mean: There is a 95% probability that the true Recall is in the interval [0.55, 0.65].
+
+Confused? fear not.
+
+When discussing frequentist confidence intervals (the most common kind of confidence intervals) the true parameter (Recall in our case) is considered to be a fixed number, and not a random variable — it has only a single fixed value, and that value is either inside the confidence interval, or not. There is no probability associated with it. The probability of 95% refers to the method which we use to construct the interval. The method guarantees that the interval will cover the true parameter in 95% of the cases (on average).
+
+Consider the following: we calculate Recall 100 times (each time based on a different sample/test set) and construct 100 confidence intervals at a 95% confidence level.
+
+5 of those 100 confidence intervals will not cover the true Recall (on average) — e.g., one of them could be a confidence interval of [0.55, 0.65] when the true Recall is 0.66, i.e., this confidence interval of [0.55 to 0.65] is one of those 5 confidence intervals which does not cover the true Recall.
+
+Another example: Let’s say we want to find the average height of a Chinese person. The true average height is some fixed number, e.g., 168.3cm. We cannot measure the height of 1.4 billion people, so we use a sample of 1,000 Chinese people and measure their height — the average of our sample is 167.3cm and the confidence interval is [166.1cm, 168.5cm].
+
+We now sample another 1,000 people, measure their height and construct another confidence interval.
+
+We repeat the above process 100 times. By now we have calculated the average height 100 times (once for each sample) and constructed 100 confidence intervals. On average, 5 of those confidence intervals will not cover (contain) the true average height of 168.3cm.
+
+Now let’s assume we only have one sample of 1,000 people, because that’s all our budget can afford. There’s a 5% chance that a 95% confidence interval that we will construct based on our single sample will not cover the true average height.
+
+Note: We can always construct a confidence interval with a higher confidence level, say 99%, at the cost of making the interval wider.
+
+6. Sample size & confidence interval width
+
+The width of the confidence interval is of value to us since it enables us to better understand the variability of our estimate. Wider intervals mean higher variability.
+
+Fig. 3. Bootstrap confidence interval width plotted against sample size.
+
+The above graph (figure 3) illustrates the results of running a simulation where Recall was estimated using a bootstrap method (.632), under specific conditions. Changing the parameters will result in slightly different results, but the main result will remain the same — we can expect to see confidence interval width decrease as sample size increases.
+
+The data in the figure was generated by applying scikit-learn’s logistic regression classifier which was used to obtain bootstrap estimates and confidence intervals for Recall by fitting it on a binary classification dataset generated using make_classification . For each sample size 1,000 bootstrap iterations were run to obtain the bootstrap estimate and confidence interval for Recall. Random noise was added to the dataset to make the classification task a bit harder, much like in the real world where data is (more often than not) noisy.
+
+Some simulation results
+
+For a data set containing 500 data points the bootstrap Recall estimate was 60.6%, but the 95% confidence interval was [48.9%, 70.8%].
+
+This means that we can’t rejoice in the fact that we got a Recall of 60.6% since there is a 95% chance that the confidence interval covers (contains) the true Recall, which could be 50.0%, rendering our classifier as useful as a coin flip.
+
+The same classifier was tested on 1,000 data points and produced a bootstrap Recall estimate of 62.9%, with a 95% confidence interval of [54.5%, 71.3%]. Note that now we can be more certain that our classifier is better than a random guessing of the target class due to the fact that the confidence interval does not include the value 50%.
+
+Note: Bootstrap confidence interval width (as well as other properties) are a function not only of the sample size, but also of the classifier type (linear models, tree based models, etc.), the parameter that is being estimated and the inherent variance of the features in the dataset, to name a few.
+
+7. And now in Python
+
+This section presents a function that you can copy-paste and easily use in your code. The function simply wraps the bootstrap_point632_score function from the mlxtend package for ease of use.
+
+The code includes the bootstrap_estimate_and_ci function as well as a few simple usage examples where we calculate estimates and confidence intervals for Recall, Precision, F1-score, ROC AUC and Accuracy.
+
+Number of bootstrap iterations
+
+We note that [Carpenter & Bithell, 2000] recommend using 1000–2000 bootstrap iterations when calculating bootstrap confidence intervals. If the parameter estimate is all you care about, then 50–200 iterations are usually sufficient [Efron & Tibshirani, 1997].
+
+For large sample sizes and models that are more computationally expensive using a large number of bootstrap iterations can become very time consuming, and so the default number of iterations ( n_splits ) is set to 200. You can choose whether to increase that number to achieve more accurate confidence intervals at the cost of longer computation times.
+
+Usage
+
+The bootstrap_estimate_and_ci function returns the bootstrap estimate, the lower and upper bounds of the bootstrap confidence interval and the standard deviation of the bootstrap estimates (which is also the standard error of the sample estimate), e.g. calling the function like so:
+
+est, low, up, stderr = bootstrap_estimate_and_ci(estimator, X, y)
+
+will return four values, where est is the bootstrap estimate for Accuracy, the 95% confidence interval is [ low , up ] and the standard error of the sample Accuracy is stderr .
+
+The code includes several examples of calling the function with different arguments and various metrics.
+
+Notes regarding the parameters
+
+The default value for score_func is Accuracy, but it can be any of the sklearn classification metrics that has the signature score_func(y_true, y_pred, **kwargs) . If you wish, you could also write your own scoring function to fit your needs, as long as it has the above signature and returns a single number.
+
+is Accuracy, but it can be any of the sklearn classification metrics that has the signature . If you wish, you could also write your own scoring function to fit your needs, as long as it has the above signature and returns a single number. If you wish to use a scoring function like sklearn’s roc_auc_score in order to obtain an estimate and confidence interval for ROC AUC you can see an example in the code. It’s a bit of a hack, yet very simple to implement.
+
+in order to obtain an estimate and confidence interval for ROC AUC you can see an example in the code. It’s a bit of a hack, yet very simple to implement. The default value for method is .632 since the .632+ method is computationally heavier and can greatly prolong runtime. If obtaining an estimate using a better estimator than .632 is very important for you, even at the cost of computation time, you should choose the .632+ method. In all other cases the .632 method should provide good results.
+
+is since the method is computationally heavier and can greatly prolong runtime. If obtaining an estimate using a better estimator than .632 is very important for you, even at the cost of computation time, you should choose the method. In all other cases the method should provide good results. The default value for alpha is 0.05, which will result in a
+
+(1-alpha) * 100% = 95% confidence interval.
+
+If you would like a 99% confidence interval use alpha=0.01 ; For a 90% confidence interval use alpha=0.1 and so on.
+
+8. Here be dragons
+
+Even though confidence intervals are common practice (and even mandatory) in various fields, they are also a subject which is:
+
+Often misunderstood. Often debated.
+
+Iterating the pros and cons of confidence intervals is out of scope for this post, so I will only briefly highlight several of the known issues:
+
+Frequentist confidence intervals vs. Bayesian credible intervals.
+
+Interpreting the width of the intervals as coinciding with their “accuracy”.
+
+Abandoning the use of p-values for the sake of confidence intervals, yet still using confidence intervals to perform statistical inference.
+
+Some of the theoretical properties that are true asymptotically are sometimes thought to hold for each individual case, even though they are not.
+
+The above is by no means a complete list of all possible issues. You can read more about it in [Morey et al., 2016] if you would like to gain a better understanding.
+
+A beautiful interactive visualization of confidence intervals is available in this link in Kristoffer Magnusson’s blog, and the author’s comments are informative and well written.
+
+Statistical inference
+
+This post does not suggest to use confidence intervals for performing statistical significance tests, and does not encourage to regard them as depicting the absolute “truth”, but only as an approximation of it. Therefore, the above issues should not be a major concern.
+
+However, if you do plan to use confidence intervals to perform statistical inference (e.g., analyze medical data to decide on a proper treatment), and especially when dealing with small sample sizes, the world of confidence intervals is one you would probably like to get better acquainted with.
+
+As an example, [Vollset, 1993] compares 13 methods of constructing confidence intervals for binomial proportion and describes their characteristics.
+
+There are many methods for constructing confidence intervals and choosing the “correct” method requires understanding the properties of each one.
+
+Representative sample
+
+We always assume that the sample we have (our dataset) properly and proportionally reflects the key characteristics of the true population, i.e., it is a representative sample. If not, any estimates obtained using such a sample are not reliable and should not be trusted (in most cases).
+
+Confidence regions
+
+Another issue which is not discussed in this post is constructing simultaneous confidence intervals (termed confidence regions) which are a generalization of confidence intervals for the multi-parameter case.
+
+We did not discuss the case of constructing confidence intervals for several parameters simultaneously in a way which guarantees that those intervals will cover the true parameters with probability X, i.e., it is one thing to construct an X% confidence interval for each parameter individually and another to construct an X% confidence region that will simultaneously cover all parameters at a given confidence level X%.

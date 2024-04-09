@@ -1,0 +1,45 @@
+19 Year Old Computer Vision Research Engineer — How? Dyllan · Follow Published in Towards Data Science · 5 min read · Apr 1, 2019 -- 2 Listen Share
+
+My journey from high school flunk to CV research engineer!
+
+Who Am I?
+
+When I was in high school, I was a flunk. Netting just over a 1.8 GPA, I thoroughly disgusted my teachers and academic advisors with my inability to commit to studying a subject. 3 semesters of English, 2 of science, 2 of Spanish, and many more deficient marks will forever remain on my record.
+
+The last semester of my Sophomore year I found a particular interest in problem solving and mathematics, where I received my first A in algebra 2, setting my snowball of passion into motion. Not having to memorize all sorts of trivia or spend hours of reading, and still being able to understand the mathematical techniques I learned in class sparked a fire in me that I had never felt before.
+
+Fast forward to the beginning of my Junior year, and I had rediscovered one of my favorite games of all time: Minecraft. Yes, that Minecraft. Suffice to say that I had put in my fair share of hours in; however, what really pulled in my interest was the programming aspect. The server development community had been well established by the time I had come along but was welcoming, to say the least at my late arrival. I built a couple of small server plugins that caught some wind on the forums I had frequented, and I even did some (paid) work for a few very large servers, ultimately contributing to and leading teams of developers on building core plugins that fit their specific needs. Now, I’m 19 years old working as a Computer Vision Research Engineer at an Artificial Intelligence startup from home.
+
+Hacking Your Way To Success
+
+The reason I bring up my poor academic performance and Minecraft development is because 1) even diamonds were once coal (pun most definitely intended), and 2) any experience you can get is essential to your success in the tech industry, whether it be a game you made on your free time, a web scraper you made for fun, or even a Minecraft mod. Now, of course, there was a huge amount of other things I did software related than just those listed (I have been a hobbyist/freelance programmer for ~3 years now), but those were the most obscure.
+
+I suggest bidding low on some odd jobs on websites like Upwork.com if you’re already comfortable with some specific technologies, if not you should definitely learn a couple. When I say technologies, I don’t mean JUST a programming language, I’m talking about some sort of specific framework, library, API, anything that is somewhat specialized and useful to the development of a project. Anyone can pick up Python or JavaScript and say they’re a software developer, but it takes some grit, talent, and motivation to learn something application specific like Angular (for web development) or TensorFlow (for machine learning).
+
+Even if you come across a job posting with an ambiguous “JavaScript Engineer” or “Software Developer” title, they likely will appreciate a candidate that has experience actually developing applications with different technologies over someone who only spends their time doing algorithmic problem solving on CodeWars or CodeFights — which don’t get me wrong, is an amazing way to improve your programming skills, however it lacks in practicality.
+
+One of the useful frameworks I became familiar with was the Google Chrome Extension Development API. I didn’t choose this randomly just because I thought developing a Chrome Extension would be cool, I did so because I had a problem: Why can’t I use my Xbox controller to do more useful stuff on my computer?
+
+I searched around and there was no easy-to-use software out there for adding remote capabilities to your computer from your game controller. So I did some research and ultimately decided I wanted to incorporate the functionality into a Chrome Extension. So I did, over the past 13 months (since writing this), I have been the sole developer of Chrome Controller
+
+The link is now a 404 because Chrome Controller is dead! It was removed from the Google Webstore. Although the source code can still be found, linked here. — Future Dyllan :(
+
+which is open source and freely available on the Google Webstore (plug not intended) with 3,000+ active users. This project is like the creme of the crop for me, every conversation I have with a recruiter or someone trying to vet my abilities, I bring this up.
+
+You should have your own Chrome Controller so to speak, something that you developed for months and have something to show for. Frankly, no recruiter cares about all those 10 projects you started and abandoned or your FizzBuzz implementation. If you really want to stand out: build something you can market and invest yourself into that you can pridefully announce to that recruiter — your future self will be more than grateful, to say the least.
+
+Community
+
+Another huge move in developing my career was being a part of and ideally contributing to a community of like-minded people. Minecraft was one sure, however, it was very intermediary. The most impactful I have had the honor to be a part of, which also lead to my very speedy employment (only 6 weeks into my mentorship) was SharpestMinds. They are a mentorship program tailored to aspiring Data Scientists, Machine Learning Engineers, Data Analysts, etc.
+
+I can’t stress enough how helpful and hospitable Edouard Harris (one of the founders) was in working with me, even reaching out to me directly for a video call and providing completely hand-picked potential mentors that were relevant to my specific sub-field interests. He made the process enjoyable and easy to digest, which eventually lead to me sending a proposal to my soon-to-be mentor, Joe Papa.
+
+Joe specialized in signal processing, a sub-field of mathematics with a lot of crossover with machine learning. He messaged me back, we set up a phone call and the rest is history! He saw the potential in me that I hadn’t and really pushed me to be confident in my abilities. We had plans to work on various projects related to his specialization however, both Edouard and Joe pushed me to apply to different companies right off the bat. Having been on both sides of the hiring process, they had some amazing insight on ways to optimize marketing myself, which I directly attribute to where I am today.
+
+Your Next Steps
+
+Now that you’ve heard my story, it’s time for you to go and make your own. Something I always tell people when they talk about wanting to get into software is that you literally can. If you aim at a narrow slice of software development, whether it be machine learning, web development, embedded systems, etc as long as you are passionate, consistent, and set goals, you will eventually hit your mark however, that doesn’t mean it will be easy.
+
+Hang In There
+
+There have been weeks where I felt like I wasn’t getting any closer to my goals and even my closest family members told me I was just wasting my time “playing games” and “messing around on the computer”, but as long as you know where you’re headed and are taking the right steps, it’s not a matter of if you’ll succeed, it’s a matter of when.

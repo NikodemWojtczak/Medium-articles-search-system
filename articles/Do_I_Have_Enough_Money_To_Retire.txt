@@ -1,0 +1,25 @@
+Member-only story Do I Have Enough Money To Retire?
+
+A Quantitative Exploration of how Monte Carlo Simulation is Used to Model Uncertainty in Retirement Tony Yiu · Follow Published in Towards Data Science · 10 min read · May 20, 2019 -- 2 Share
+
+If you would like to run the code yourself, you can find it on my Github here.
+
+And this example is for illustrative purposes only. It should not be regarded as financial advice in any way, shape, or form.
+
+“I estimate with 20% confidence that there is a 75% chance that your money will be enough to fund your retirement.”
+
+Wait, what? That’s so confusing.
+
+No financial advisor would actually say that to you — but I wish they would. Customers demand confidence and certainty from the people they hire and finance professionals are trained from day one to deliver their message with confidence (after all, they are trying to sell a service).
+
+But the truth is that quantitatively modeling someone’s retirement is extremely difficult and fraught with uncertainty and unknowns.
+
+The main drivers of this variance are uncertainty around:
+
+Investment returns Inflation How much you will spend annually in retirement How long you will live (and how healthy you will be) Black swans — hard to predict events such as financial crises, wars, white walkers, etc. Model error (error from incorrect estimates and assumptions) Changes to Social Security, income tax rates, capital gains tax rates, etc.
+
+We will use Monte Carlo Simulation to quantitatively explore drivers 1 through 4 in detail below. The others are important as well but I don’t think you want to read a 45 minute blog post ;) so we will save them for another time.
+
+By the end of this post, we will better understand why despite significant advances in analytics and computing power, answering the age old question of “how much money do I really need?” remains as challenging as ever.
+
+Assumptions of Our Example

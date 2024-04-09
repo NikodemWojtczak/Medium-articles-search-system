@@ -1,0 +1,15 @@
+Ethics in Machine Learning
+
+Most of the time, machine learning does not touch on particularly sensitive social, moral, or ethical issues. Someone gives us a data set and asks us to predict house prices based on given attributes, classifying pictures into different categories, or teaching a computer the best way to play PAC-MAN — what do we do when we are asked to base predictions of protected attributes according to anti-discrimination laws?
+
+How do we ensure that we do not embed racist, sexist, or other potential biases into our algorithms, be it explicitly or implicitly?
+
+It may not surprise you that there have been several important lawsuits in the United States on this topic, possibly the most notably one involving Northpointe’s controversial COMPAS — Correctional Offender Management Profiling for Alternative Sanctions — software, which predicts the risk that a defendant will commit another crime. The proprietary algorithm considers some of the answers from a 137-item questionnaire to predict this risk.
+
+In February 2013, Eric Loomis was found driving a car that had been used in a shooting. He was arrested and pleaded guilty to eluding an officer. In determining his sentence, a judge looked not just to his criminal record, but also to a score assigned by a tool called COMPAS.
+
+COMPAS is one of several risk-assessment algorithms now used around the United States to predict hot spots of violent crime, determine the types of supervision that inmates might need, or — as in Loomis’s case — provide information that might be useful in sentencing. COMPAS classified him as high-risk of re-offending, and Loomis was sentenced to six years.
+
+He appealed the ruling on the grounds that the judge, in considering the outcome of an algorithm whose inner workings were secretive and could not be examined, violated due process. The appeal went up to the Wisconsin Supreme Court, who ruled against Loomis, noting that the sentence would have been the same had COMPAS never been consulted. Their ruling, however, urged caution and skepticism in the algorithm’s use.
+
+The case, understandably, caused quite a stir in the machine learning community — I doubt anyone would want to be judged by an algorithm, after all, you cannot blame an algorithm for being unethical, can you?

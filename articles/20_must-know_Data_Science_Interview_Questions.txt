@@ -1,0 +1,5 @@
+20 must-know Data Science Interview Questions
+
+A non-exhaustive(duh) list of some of the good data science questions I have come across. I hope this list is of use to someone wanting to brush up some basic concepts. Kudos to the authors of all the amazing posts mentioned here.
+
+Q. Define mean, mode, median. Explain these concepts to a layman. When is either preferred over the other. Give practical examples.

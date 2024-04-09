@@ -1,0 +1,29 @@
+Recently I am taking the famous CS 61A from UC Berkeley. I want to download the slides and print them all. But there are 36 slides totally. As a lazy programmer, I won’t waste my precious time to click the downloading button 36 times. So I write a simple script to automatically download all the slides.
+
+In this post, I will give a simple introduction about what you need to know to build a simple downloader.
+
+Find the pattern of the download button
+
+First, open the download page. The download button is shown as “8pp” (see below figure), which means one page contains 8 slides.
+
+Ok, next we open the DevTools in Chrome. You can find the DevTools in other browsers too. Clicking the arrow icon in the upper left corner in the DevTools, then move your cursor to the “8pp” button, which will highlight the HTML element in the DevTools.
+
+We can get the below HTML lines. The download links are “assets/slides/01-Functions_8pp.pdf” and “assets/slides/02-Names_8pp.pdf”. These links are in the href attribute in the a tag.
+
+<li><a href="assets/slides/01-Functions_full.pdf" class="label label-outline">full</a></li>
+
+<li><a href="assets/slides/01-Functions_1pp.pdf" class="label label-outline">1pp</a></li>
+
+<li><a href="assets/slides/01-Functions_8pp.pdf" class="label label-outline">8pp</a></li>
+
+<li><a href="assets/slides/01.py" class="label label-outline">01.py</a></li>
+
+...
+
+<li><a href="assets/slides/02-Names_full.pdf" class="label label-outline">full</a></li>
+
+<li><a href="assets/slides/02-Names_1pp.pdf" class="label label-outline">1pp</a></li>
+
+<li><a href="assets/slides/02-Names_8pp.pdf" class="label label-outline">8pp</a></li>
+
+<li><a href="assets/slides/02.py" class="label label-outline">02.py</a></li>

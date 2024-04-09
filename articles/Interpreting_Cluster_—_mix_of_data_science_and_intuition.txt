@@ -1,0 +1,13 @@
+Interpreting Cluster — mix of data science and intuition
+
+So you have your beautiful looking clusters. Now what ? What does these clusters means? Understanding the meaning of clusters is maybe more important than making the clusters. The process of making clusters is more mathematical oriented, however interpreting clusters is a mix of mathematics and intuition. Lets us explore here what are the different ways of understanding and interpreting clusters
+
+Let us take a telecommunication dataset, which shows various data about customers such as
+
+Customer demographic data such as gender, age, whether a senior citizen, partner, dependents, location etc..
+
+Billing and Contract data such as Monthly Charges, Total Charges, Paperless Billing, Contract tenure etc..
+
+Services usage data such as Phone Service, Internet Service, Online Security etc.
+
+A snapshot of the data is shown here

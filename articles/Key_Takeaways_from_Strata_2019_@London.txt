@@ -1,0 +1,27 @@
+Screenshot from https://learning.oreilly.com/videos/strata-data-conference/9781492050568
+
+I spent some of my spare time these weeks watching the keynote speeches from the London Strata 2019. There is something particularly catching my eyes that I want to share with you.
+
+I have subscribed a couple of Podcasts focuses on technology, not that surprisingly, they are all talking about Data Science, Artificial Intelligence these days. So what do these terms mean? Does it mean the technologies we are working on now will disappear shortly? How these new technologies are going to change our life? How are we going to update our skills to adapt these new changes?
+
+Cassie Kozyrkov from Google pointed something very practical at the conference, Making Data Science Useful. A lot more data has been collected than ever before. It’s such a great opportunity to make sure we use the data properly to analyse and build functionalities.
+
+Chief product and information officer Cait O’Riordan from Financial Times talked about how FT uses North Star Metric to increase subscriber growth and enhance the engineering and product team’s performances.
+
+A bit background on North Star Metric (NSM), this is a concept that came from Silicon Valley recent years which is a single metric that captures the core value the product delivers to customers.
+
+Back to Financial Times, this 130-year-old publisher is commercially a subscription-based digital company. Cait shared their experience on how they got a million paying customers using NSM. They did research on revenue, usage, cancellation rate, conversion rate and so on. What they care about is customer engagement at their content.
+
+Shingai Manjengwa, CEO of Fireside Analytics Inc. talked about how to build data science capacity within an organisation, especially on what type of individuals is ready to evolve to be a data scientist.
+
+So, what is data science? In her speech, the answer you can find is, ‘Data Science is the process of analyzing, visualizing and monetizing data’ which means, a data scientist is not a developer, a statistician, or a business analyst but a person who can handle these all which she called it a person with superpower.
+
+And who has the superpower? Self-learners. This is not the first time I saw some people highlight this skill. In this fast-paced world, technologies have changed a lot. Taking myself as an example, I am a Microsoft Dynamics 365 consultant. In my nearly 3 years short career, Microsoft has released new functionalities, deprecated couple of features that have been used in many clients’ systems. I have to learn some new skills to be comfortable in this industry and I believe everyone in other areas has to do the same.
+
+Sandra Wachter from the University of Oxford shared her insights on “Privacy, identity, and autonomy in the age of big data and AI” with her Lawyer hat on. When I was studying Digital Humanities at University College London, I attended a few seminars on Legal and Social aspects of Electronic Publishing. We discussed surveillance and legal access to information, information security and governance.
+
+Sandra mentioned that big tech companies like Facebook, Amazon, Microsoft were recently accused to infer very sensitive information about their users without them actually being aware of it. They were accused to infer ethnicity, race, gender, sexual orientation, health status, all of that, even though their customers didn’t know about that. And even worse than that, this information is then often being shared with third parties, for example, credit institutions.
+
+That sounds scary, does it? Glad that some organisations have put ethical and justifiable data usage on the agenda. She ended her speech with a simple sentence: it is time that we do not just focus on what’s possible, but also on what’s reasonable.
+
+Highly recommend people who are interested in data science to follow the O’Reilly and also the Strata Data Conference. Trust me, you will learn a lot!

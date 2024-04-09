@@ -1,0 +1,11 @@
+In recent years, research related to “humans” in the computer vision community has become increasingly active because of the high demand for real-life applications, among them is instance segmentation.
+
+The standard approach to image instance segmentation is to perform the object detection first, and then segment the object from the detection bounding-box. More recently, deep learning methods like Mask R-CNN perform them jointly. However, as human associated tasks becoming more common like human recognition, tracking etc. one might wonder why does the uniqueness of the “human” category does not taken into account.
+
+The uniqueness of the “human” category, can be well defined by the pose skeleton. Moreover, the human pose skeleton can be used to better distinguish instances with heavy occlusion than using bounding-boxes.
+
+Figure 1: Heavily occluded people are better separated using human pose than using bounding-box.
+
+In this post, I am going to review “Pose2Seg: Detection Free Human Instance Segmentation”, which presents a new pose-based instance segmentation framework for humans which separates instances based on human pose.
+
+In this post I’ll cover two things: First, an overview of Instance Segmentation task. Second, an overview of “Pose2Seg”.

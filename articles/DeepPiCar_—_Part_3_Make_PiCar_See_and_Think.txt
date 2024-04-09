@@ -1,0 +1,215 @@
+DeepPiCar — Part 3: Make PiCar See and Think
+
+Set up computer vision (OpenCV) and deep learning software (TensorFlow). Turn the PiCar into a DeepPiCar. David Tian · Follow Published in Towards Data Science · 7 min read · May 2, 2019 -- 32 Listen Share
+
+Executive Summary
+
+Welcome back! If you have been following my previous two posts (Part 1 and Part 2) on DeepPiCar, you should have a running robotic car that can be controlled via Python. In the article, we will give your car the superpower of Computer Vision and Deep Learning. By the end of the article, it would be transformed into a true DeepPiCar, which is capable of detecting and identifying objects in your room.
+
+OpenCV for Computer Vision
+
+Note that the only Perception Sensor of our PiCar is a USB DashCam. A DashCam gives us a live video, which is essentially a sequence of pictures. We will use OpenCV, a powerful open source computer vision library, to capture and transform these pictures so that we can make sense of what the camera is seeing. Run the following commands (in bold) to install it on your Pi.
+
+Install Open CV and Related Libraries
+
+# install all dependent libraries of OpenCV (yes, this is one long command)
+
+pi@raspberrypi:~ $ sudo apt-get install libhdf5-dev -y && sudo apt-get install libhdf5-serial-dev -y && sudo apt-get install libatlas-base-dev -y && sudo apt-get install libjasper-dev -y && sudo apt-get install libqtgui4 -y && sudo apt-get install libqt4-test -y # install OpenCV and other libraries
+
+pi@raspberrypi:~ $ pip3 install opencv-python
+
+Collecting opencv-python
+
+[Omitted....]
+
+Installing collected packages: numpy, opencv-python
+
+Successfully installed numpy-1.16.2 opencv-python-3.4.4.19 pi@raspberrypi:~ $ pip3 install matplotlib
+
+Collecting matplotlib
+
+Collecting pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 (from matplotlib)
+
+[Omitted...]
+
+Successfully installed cycler-0.10.0 kiwisolver-1.1.0 matplotlib-3.0.3 numpy-1.16.3 pyparsing-2.4.0 python-dateutil-2.8.0 setuptools-41.0.1 six-1.12.0
+
+Test OpenCV Installation
+
+Here are the most basic tests to see if our python libraries are installed. The Python module name for OpenCV is cv2 . If you don’t see any error when running the following commands, then the modules should be installed correctly. Numpy and Matplotlib are two very useful python modules that we will use in conjunction with OpenCV for image processing and rendering.
+
+pi@raspberrypi:~ $ python3 -c "import cv2"
+
+pi@raspberrypi:~ $ python3 -c "import numpy"
+
+pi@raspberrypi:~ $ python3 -c "import matplotlib"
+
+Ok, let’s try to some live video processing!
+
+cd
+
+pi@raspberrypi:~ $ git clone https://github.com/dctian/DeepPiCar.git
+
+Cloning into 'DeepPiCar'...
+
+remote: Enumerating objects: 482, done.
+
+[Omitted...]
+
+Resolving deltas: 100% (185/185), done. pi@raspberrypi:~ $pi@raspberrypi:~ $Cloning into 'DeepPiCar'...remote: Enumerating objects: 482, done.[Omitted...]Resolving deltas: 100% (185/185), done. pi@raspberrypi:~ $ cd DeepPiCar/driver/code
+
+pi@raspberrypi:~ $ python3 opencv_test.py
+
+
+
+If you see two live video screens, one colored and one black/white, then your OpenCV is working! Press q to quit the test. Essentially, the program takes the images captured from the camera and displays it as is (the Original window), and then it converts the image to a black and white image (the B/W window). This is very important as in Part 4: Autonomous Lane Navigation, we will bring up as many as 9-10 screens as the original video images will be processed through many stages, like below.
+
+Install TensorFlow for CPU and EdgeTPU
+
+Google’s TensorFlow is currently the most popular python library for Deep Learning. It can be used for image recognition, face detection, natural language processing, and many other applications. There are two methods to install TensorFlow on Raspberry Pi:
+
+TensorFlow for CPU
+
+TensorFlow for Edge TPU Co-Processor (the $75 Coral branded USB stick)
+
+Install TensorFlow for CPU
+
+The first method installs the CPU version of TensorFlow. We will NOT use Pi to perform any deep learning (i.e. model training), as its CPU is vastly insufficient for backward propagation, a very slow operation required in the learning process. However, we can use the CPU to do inferences based on a pre-trained model. Inference is also known as model prediction, which uses only forward propagation, a much faster computer operation. Even with the CPU just doing inference, it can only do so on a relatively shallow model (say 20–30 layers) in real time. For deeper models (100+ layers), we would need the Edge TPU. As of May 2019, the most recent production version of TensorFlow is version 1.13 (2.0 is still alpha)
+
+pi@raspberrypi:~ $ pip3 install tensorflow
+
+Collecting tensorflow
+
+[omitted...]
+
+pi@raspberrypi:~ $ pip3 install keras
+
+Collecting keras
+
+[omitted...]
+
+Successfully installed h5py-2.9.0 keras-2.2.4 keras-applications-1.0.7 keras-preprocessing-1.0.9 numpy-1.16.3 pyyaml-5.1 scipy-1.2.1 six-1.12.0
+
+Now let’s test and make sure the installation went fine. When you import TensorFlow, it will report some warning messages. But they can be safely ignored. You should not see any errors. (If you do see other errors, please post the commands you typed and the error message in the post down below, and I will try to help.)
+
+pi@raspberrypi:~ $ python3
+
+Python 3.5.3 (default, Sep 27 2018, 17:25:39)
+
+[GCC 6.3.0 20170516] on linux
+
+Type "help", "copyright", "credits" or "license" for more information.
+
+>>> import numpy
+
+>>> import cv2
+
+>>> import tensorflow
+
+/usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: compiletime version 3.4 of module 'tensorflow.python.framework.fast_tensor_util' does not match runtime version 3.5
+
+return f(*args, **kwds)
+
+/usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: builtins.type size changed, may indicate binary incompatibility. Expected 432, got 412
+
+return f(*args, **kwds)
+
+>>> import keras
+
+Using TensorFlow backend.
+
+>>> quit()
+
+Install TensorFlow for EdgeTPU
+
+When the deep learning models are very deep, 100 layers or more, to achieve real-time performance, it needs to run on the EdgeTPU coprocessor instead of the CPU. However, at the time of writing, Edge TPU is so new (release to the general public around early 2019) that it cannot run all models that can run on the CPU, so we have to choose our model architecture carefully and make sure they will work on EdgeTPU. For more details on what models can run on Edge TPU, please read this article by Google.
+
+Follow the instructions below to install EdgeTPU drivers and APIs. When asked if you want to enable the maximum operating frequency , answer y . The models we run will be relatively lightweight for the TPU, I have never seen it run very hot.
+
+cd
+
+pi@raspberrypi:~ $ wget https://dl.google.com/coral/edgetpu_api/edgetpu_api_latest.tar.gz -O edgetpu_api.tar.gz --trust-server-names
+
+--2019-04-20 11:55:39--
+
+Resolving dl.google.com (dl.google.com)... 172.217.10.78
+
+[omitted]
+
+edgetpu_api.tar.gz 100%[===================>] 7.88M 874KB/s in 9.3s
+
+2019-04-20 11:55:49 (867 KB/s) - ‘edgetpu_api.tar.gz’ saved [8268747/8268747] pi@raspberrypi:~ $pi@raspberrypi:~ $--2019-04-20 11:55:39-- https://dl.google.com/coral/edgetpu_api/edgetpu_api_latest.tar.gz Resolving dl.google.com (dl.google.com)... 172.217.10.78[omitted]edgetpu_api.tar.gz 100%[===================>] 7.88M 874KB/s in 9.3s2019-04-20 11:55:49 (867 KB/s) - ‘edgetpu_api.tar.gz’ saved [8268747/8268747] pi@raspberrypi:~ $ tar xzf edgetpu_api.tar.gz
+
+pi@raspberrypi:~ $ cd edgetpu_api/
+
+pi@raspberrypi:~/edgetpu_api $ bash ./install.sh
+
+Would you like to enable the maximum operating frequency? Y/N
+
+y
+
+Using maximum operating frequency.
+
+Installing library dependencies...
+
+[omitted]
+
+Installing Edge TPU Python API...
+
+Processing ./edgetpu-1.9.2-py3-none-any.whl
+
+Installing collected packages: edgetpu
+
+Successfully installed edgetpu-1.9.2 # restart the pi just to complete the installation
+
+pi@raspberrypi:~/edgetpu_api $ sudo reboot now
+
+After reboot, let’s try to test it by running a live object detection program. We will run a demo object detection app from the DeepPiCar repo.
+
+pi@raspberrypi:~ $ cd ~/DeepPiCar/models/object_detection/ pi@raspberrypi:~/DeepPiCar/models/object_detection $ python3 code/coco_object_detection.py
+
+W0420 12:36:55.728087 7001 package_registry.cc:65] Minimum runtime version required by package (5) is lower than expected (10). couch, 93% [[ 4.81752396 167.15803146]
+
+[381.77787781 475.49484253]] 113.52ms
+
+book, 66% [[456.68899536 145.12086868]
+
+[468.8772583 212.99516678]] 113.52ms
+
+book, 58% [[510.65818787 229.35571671]
+
+[534.6181488 296.00133896]] 113.52ms
+
+book, 58% [[444.65190887 222.51708984]
+
+[467.33409882 290.39138794]] 113.52ms
+
+book, 58% [[523.65917206 142.07738876]
+
+[535.19741058 213.77527237]] 113.52ms
+
+------
+
+2019-04-20 12:36:57.025142: 7.97 FPS, 125.46ms total, 113.52ms in tf
+
+You should see a live video screen coming up, and it will try to identify objects in the screen at around 7–8 Frames/sec. Note that the COCO (Common Object in COntext) object detection model can detect about 100 common objects, like a person, chair, TV, couch, book, laptop, cell phone, etc. Don’t let this simple program fool you, this is Deep Learning at work. The object detection model used in this program is called ssd_mobilenet_coco_v2, and it contains more than 200 layers! (For comparison, I have tried earlier to run the COCO object detection model with Pi’s CPU, it was a much longer set up, can only run at 1 Frame/sec, CPU’s utilization is 100%, and CPU temperature heats up very quickly. So running deep models on CPU is not recommended.) Of course, this is just a demo app that confirms that Edge TPU is set up correctly. We will exploit Edge TPU’s full capabilities in Part 6 of this series, Real-Time Traffic Sign and Pedestrian Detection and Handling.
+
+Update (March 2020): Coral EdgeTPU’s installation has been updated since my blog’s published date of Apr 2019. Please follow the current official instructions from Google here to install Tensorflow Lite API and EdgeTPU runtime, so that you can do the object detection example above.
+
+What’s Next
+
+Congratulations, we have now given your car both an eye (camera and OpenCV) and a brain (TensorFlow), so it is indeed a DeepPiCar. Whenever you are ready, head on over to Part 4, where we will teach DeepPiCar to autonomously navigate within lanes.
+
+Here are the links to the whole guide:
+
+Part 1: Overview
+
+Part 2: Raspberry Pi Setup and PiCar Assembly
+
+Part 3: Make PiCar See and Think (This article)
+
+Part 4: Autonomous Lane Navigation via OpenCV
+
+Part 5: Autonomous Lane Navigation via Deep Learning
+
+Part 6: Traffic Sign and Pedestrian Detection and Handling

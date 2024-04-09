@@ -1,0 +1,283 @@
+Training
+
+We are now finally ready for training.
+
+# directory = ...YOUR_DIRECTORY/models/research/object_detection
+
+# type the following into Anaconda Prompt python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
+
+After about 30 seconds to 1 minute, the training process should begin. If the code runs smoothly, you should see the global step number as well as loss at each step displayed. To better monitor training, we launch Tensorboard.
+
+# directory = ...YOUR_DIRECTORY/models/research/object_detection
+
+# type the following into Anaconda Prompt tensorboard --logdir=training
+
+Open up Tensorboard by copying http://localhost:6006/ into your browser. I trained my model for around 30 minutes but your training time may vary depending on your system configuration.
+
+Exporting Inference Graph
+
+Once you are satisfied with the training loss, you can interrupt training by pressing Ctrl + C within the training window. We will now export the inference graph in order to visualize results and run evaluation on the model.
+
+# directory = ...YOUR_DIRECTORY/models/research/object_detection
+
+# type the following into Anaconda Prompt python export_inference_graph.py --input_type image_tensor --pipeline_config_path training/faster_rcnn_inception_v2_pets.config --trained_checkpoint_prefix training/model.ckpt-YOUR_CHECKPOINT_NUMBER(e.g.2859) --output_directory inference_graph
+
+The inference_graph folder should be created at …YOUR_DIRECTORY/models/research/object_detection/inference_graph.
+
+Visualizing Results
+
+Open up object_detection_tutorial.ipynb notebook in the models/research/object_detection/ folder with Jupyter Notebook. I made some edits to the notebook in order to adapt it to our situation. Feel free to copy the edited code into the respective sections. I did not make any changes to the sections not discussed below.
+
+# Imports import numpy as np
+
+import os
+
+import six.moves.urllib as urllib
+
+import sys
+
+import tarfile
+
+import tensorflow as tf
+
+import zipfile from distutils.version import StrictVersion
+
+from collections import defaultdict
+
+from io import StringIO
+
+from matplotlib import pyplot as plt
+
+from matplotlib import patches
+
+from PIL import Image # This is needed since the notebook is stored in the object_detection folder.
+
+sys.path.append("..")
+
+from object_detection.utils import ops as utils_ops if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
+
+raise ImportError('Please upgrade your TensorFlow installation to v1.12.*.')
+
+Comment out the “Variables” and “Download Model” sections.
+
+#Load a (frozen) Tensorflow model into memory PATH_TO_FROZEN_GRAPH = r"...YOUR_DIRECTORY\models\research\object_detection\inference_graph\frozen_inference_graph.pb"
+
+detection_graph = tf.Graph()
+
+with detection_graph.as_default():
+
+od_graph_def = tf.GraphDef()
+
+with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, 'rb') as fid:
+
+serialized_graph = fid.read()
+
+od_graph_def.ParseFromString(serialized_graph)
+
+tf.import_graph_def(od_graph_def, name='')
+
+We need to make changes to the test images directory in order to display the predictions. I made a separate folder called “test_samples” in the images folder and selected the first 3 images (BloodImage_00333 to 00335) to run the test.
+
+# Detection PATH_TO_TEST_IMAGES_DIR = r"...YOUR_DIRECTORY\models\research\object_detection\images\test_samples"
+
+FILE_NAME = 'BloodImage_00{}.jpg'
+
+FILE_NUMBER = range(333,336)
+
+TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, FILE_NAME.format(i)) for i in FILE_NUMBER]
+
+I planned to display the predictions alongside ground truth and hence we need to make reference to the “test_labels.csv”.
+
+import pandas as pd
+
+train = pd.read_csv(r"...YOUR_DIRECTORY\models\research\object_detection\images\test_labels.csv")
+
+train.head()
+
+The below code will display ground truth images on the left and predictions on the right.
+
+for image_path in TEST_IMAGE_PATHS:
+
+image = Image.open(image_path)
+
+# the array based representation of the image will be used later in order to prepare the
+
+# result image with boxes and labels on it.
+
+image_np = load_image_into_numpy_array(image)
+
+# Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+
+image_np_expanded = np.expand_dims(image_np, axis=0)
+
+# Actual detection.
+
+output_dict = run_inference_for_single_image(image_np_expanded, detection_graph)
+
+# Visualization of the results of a detection.
+
+vis_util.visualize_boxes_and_labels_on_image_array(
+
+image_np,
+
+output_dict['detection_boxes'],
+
+output_dict['detection_classes'],
+
+output_dict['detection_scores'],
+
+category_index,
+
+instance_masks=output_dict.get('detection_masks'),
+
+use_normalized_coordinates=True,
+
+line_thickness=5)
+
+figure, (ax2, ax1) = plt.subplots(1, 2, figsize=(20,18))
+
+# plots prediction
+
+ax1.set_title("Predictions (" + image_path[-20:] + ")", size=25)
+
+ax1.imshow(image_np)
+
+
+
+# plots ground truth
+
+original = image
+
+ax2.set_title("Ground Truth (" + image_path[-20:] + ")", size=25)
+
+ax2.imshow(original)
+
+for _,row in train[train.filename == image_path[-20:]].iterrows():
+
+xmin = row.xmin
+
+xmax = row.xmax
+
+ymin = row.ymin
+
+ymax = row.ymax width = xmax - xmin
+
+height = ymax - ymin # assign different color to different classes of objects
+
+if row["class"] == 'RBC':
+
+edgecolor = 'lawngreen'
+
+ax2.annotate('RBC', xy=(xmax-40,ymin+20), size=25)
+
+elif row["class"] == 'WBC':
+
+edgecolor = 'cyan'
+
+ax2.annotate('WBC', xy=(xmax-40,ymin+20), size=25)
+
+elif row["class"] == 'Platelets':
+
+edgecolor = 'aquamarine'
+
+ax2.annotate('Platelets', xy=(xmax-40,ymin+20), size=25) # add bounding boxes to the image
+
+rect = patches.Rectangle((xmin,ymin), width, height, edgecolor = edgecolor, facecolor = 'none', lw=6)
+
+ax2.add_patch(rect)
+
+
+
+plt.tight_layout()
+
+plt.show()
+
+If everything runs correctly, you should see the following:
+
+Just by visual inspection, the model appears to be performing well with only 30 minutes of training time. The bounding boxes are tight and it detected most of the blood cells. Of note, the model is able to detect both large (WBCs) and small (platelets) cells. In certain cases, it even detected RBCs which were not labeled in the ground truth. This bodes well for the generalizability of the model.
+
+Evaluation
+
+As gross visual inspection of the predictions appears satisfactory, we will now run official evaluation using COCO metrics.
+
+First, we have to gitclone the COCO Python API.
+
+# directory = ...YOUR_DIRECTORY/models/research
+
+# type the following into Anaconda Prompt git clone https://github.com/cocodataset/cocoapi.git
+
+This will download the “coco” folder and you should see it in YOUR_DIRECTORY/models/research.
+
+# directory = ...YOUR_DIRECTORY/models/research
+
+# type the following into Anaconda Prompt cd coco/PythonAPI
+
+This will change directory into YOUR_DIRECTORY/models/research/coco/PythonAPI. At this stage, the official instructions calls for typing “make” into the Anaconda Prompt. However, I was unable to get it to work and searching around github and stackoverflow gave me the workaround.
+
+First, you need to have Microsoft Visual C++ Build Tools installed as per answer by “Jason246” here: https://stackoverflow.com/questions/48541801/microsoft-visual-c-14-0-is-required-get-it-with-microsoft-visual-c-build-t
+
+Next, open up the “setup.py” file using code editor at YOUR_DIRECTORY/models/research/coco/PythonAPI and make the following changes.
+
+# change this ext_modules = [
+
+Extension(
+
+'pycocotools._mask',
+
+sources=['../common/maskApi.c', 'pycocotools/_mask.pyx'],
+
+include_dirs = [np.get_include(), '../common'],
+
+extra_compile_args=['-Wno-cpp', '-Wno-unused-function', '-std=c99'],
+
+)
+
+] # to this ext_modules = [
+
+Extension(
+
+'pycocotools._mask',
+
+sources=['../common/maskApi.c', 'pycocotools/_mask.pyx'],
+
+include_dirs = [np.get_include(), '../common'],
+
+extra_compile_args={'gcc': ['/Qstd=c99']},
+
+)
+
+]
+
+Next, run the “setup.py” file.
+
+# directory = ...YOUR_DIRECTORY/models/research/coco/PythonAPI
+
+# type the following into Anaconda Prompt python3 setup.py build_ext --inplace
+
+After this, copy the pycocotools folder at YOUR_DIRECTORY/models/research/coco/PythonAPI to YOUR_DIRECTORY/models/research.
+
+Now, go to YOUR_DIRECTORY/models/research/object_detection/legacy and copy the “eval.py” file to the “object_detection” folder. We can finally run the evaluation script.
+
+# directory = ...YOUR_DIRECTORY/models/research/object_detection
+
+# type the following into Anaconda Prompt python eval.py --logtostderr --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config --checkpoint_dir=training/ --eval_dir=eval/
+
+This will save the evaluation results into the eval/ directory. Just like training, we can use Tensorboard to visualize the evaluation.
+
+# directory = ...YOUR_DIRECTORY/models/research/object_detection
+
+# type the following into Anaconda Prompt tensorboard --logdir=eval
+
+The “eval.py” will also generate a report based on COCO metrics. The results for my model are as follows:
+
+Precision (positive predictive value) is the proportion of true positives over true positives + false positives. Recall (sensitivity) is the proportion of true positives over true positives + false negatives.
+
+With a lenient Intersection over Union (IOU) of 0.5, 96.7% of the positive predictions by the model were true positives. This percentage is reduced to 64.5% when we average out the APs for IOU 0.5 to 0.95 with step size of 0.05. Notably, the model performed poorly on smaller objects with AP of 23.4% and 52.5% for small and medium objects respectively.
+
+Looking at recall, the model detected on average 71.9% of true positives, with poorer performance for small objects.
+
+Summary
+
+In summary, we built a model using Tensorflow Objection Detection API to locate and classify 3 types of blood cells in the BCCD dataset. Future work includes increasing training time, improving performance on small objects and extending model to other datasets.
+
+Thanks for reading.

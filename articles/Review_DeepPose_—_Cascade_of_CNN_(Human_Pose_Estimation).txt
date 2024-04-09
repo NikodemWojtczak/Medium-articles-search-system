@@ -1,0 +1,3 @@
+Review: DeepPose — Cascade of CNN (Human Pose Estimation)
+
+In this story, DeepPose, by Google, for Human Pose Estimation, is reviewed. It is formulated as a Deep Neural Network (DNN)-based regression problem towards body joints. With a cascade of DNN, high precision pose estimates are achieved. This is a 2014 CVPR paper with more than 900 citations. (Sik-Ho Tsang @ Medium)

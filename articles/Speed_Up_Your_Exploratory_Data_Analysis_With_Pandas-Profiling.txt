@@ -1,0 +1,63 @@
+Speed Up Your Exploratory Data Analysis With Pandas-Profiling
+
+Introduction
+
+When importing a new data set for the very first time, the first thing to do is to get an understanding of the data. This includes steps like determining the range of specific predictors, identifying each predictor’s data type, as well as computing the number or percentage of missing values for each predictor.
+
+The pandas library provides many extremely useful functions for EDA. However, before being able to apply most of them, you generally have to start with more general functions, such as df.describe(). Nevertheless, the functionality provided by such functions is limited and more often than not your initial EDA workflow is very similar for each new data set. As someone that does not find great joy in completing repetitive tasks, I recently searched for alternatives and came across pandas-profiling. Instead of just giving you a single output, pandas-profiling enables its user to quickly generate a very broadly structured HTML file containing most of what you might need to know before diving into a more specific and individual data exploration. In the following paragraphs, I am going to walk you through the application of pandas-profiling to the Titanic data set.
+
+Faster EDA
+
+I chose to apply pandas-profiling to the Titanic data set due to the data’s variety in type as well as its missing values. In my opinion, pandas-profiling is particularly interesting when the data is not cleaned yet and still requires further individualized adjustments. To better guide your focus during these individualized adjustments, you need to know where to start and what to focus on. This is where pandas-profiling comes in.
+
+First, let’s import the data and use pandas to retrieve some descriptive statistics:
+
+The code chunk above will yield the following output:
+
+While the output above contains lots of information, it does not tell you everything you might be interested in. For instance, you could assume that the data frame has 891 rows. If you wanted to check, you would have to add another line of code to determine the length of the data frame. While these computations are not very expensive, repeating them over and over again does take up time you could probably better use while cleaning the data.
+
+Overview
+
+Now, let’s do the same with pandas-profiling:
+
+Running this single line of code will create an HTML EDA report of your data. The code displayed above will create an inline output of the result; however, you could also choose to save your EDA report as an HTML file to be able to share it more easily.
+
+The first part of the HTML EDA report will contain an overview section providing you with basic information (number of observations, number of variables, etc.). It will also output a list of warnings telling you where to double-check the data and potentially focus your cleaning efforts on.
+
+Overview Output
+
+Variable-Specific EDA
+
+Following the overview, the EDA report provides you with helpful insights for each specific variable. These also include a small visualization describing the distribution of each variable:
+
+Output for numeric variable ‘Age’
+
+As can be seen above, pandas-profiling provides you with a few helpful indicators, such as the percentage and number of missing values along with the descriptive statistics we saw earlier. Since ‘Age’ is a numeric variable, visualizing its distribution using a histogram tells us that this variable seems to be right-skewed.
+
+For a categorical variable, only minor changes are made:
+
+Output for categorical variable ‘Sex’
+
+Instead of computing the mean, minimum, and maximum, pandas-profiling computes the class counts for categorical variables. Since ‘Sex’ is a binary variable, we only find two distinct counts.
+
+If you are like me, you might be wondering how exactly pandas-profiling computes its output. Luckily, the source code is available on GitHub. Since I am not a big fan of fabricating unnecessary black-box parts in my code, I am going to quickly dive into the source code for a numeric variable:
+
+While this might seem like a huge code chunk, it is actually very easy to understand. Pandas-profiling’s source code includes another function determining the type of each variable. Should the variable be identified as a numeric variable, the function above will produce the output I showed earlier. This function uses fundamental pandas series operations, such as series.mean(), and stores the results in the stats dictionary. The plots are generated using adapted versions of matplotlib’s matplotlib.pyplot.hist function with the intention of being able to handle diverse types of data sets.
+
+Correlations & Sample
+
+Underneath the EDA for each specific variable, pandas-profiling will output both a Pearson and Spearman correlation matrix.
+
+Pearson correlation matrix output
+
+If you would like to, you can set some correlation thresholds in the initial line of code that generated the report. In doing so, you are able to adjust what strength of correlation you deem important for your analysis.
+
+Lastly, pandas-profiling will output a code sample. Strictly speaking, this is not a code sample but just the head of your data. This could lead to issues when the first few observations are not representative of the data’s characteristics in general.
+
+Thus, I would recommend not using this last output for your initial analysis and instead running df.sample(5), which will randomly choose five observations from your data set.
+
+Conclusion
+
+All in all, pandas-profiling provides some useful features, especially if your main objective is either to get a quick and dirty understanding of your data or to share your initial EDA with others in a visual format. Nevertheless, it does not come close to automating EDA. The actual, individualized work will still have to be completed manually.
+
+If you would like to see the entire EDA in one notebook, check out the notebook I used in nbviewer online. You can also find the code on my GitHub repo for Medium articles.

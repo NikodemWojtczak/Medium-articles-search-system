@@ -1,0 +1,29 @@
+In this new episode of doing fun things with Colab and Python, we will use Deep Learning to crop out objects from one image and paste them on to another.
+
+The deep learning part is Image Segmentation aka identifying objects in images which we can subsequently mask and ultimately crop out.
+
+We use the awesome Opencv library for all the cutting and pasting with a dash of Pillow when the authors limited knowledge of Opencv became too obvious.
+
+Just for fun, let’s put a Polar Bear next to Jeff Goldblum.
+
+You can jump into the Colab here:
+
+We start by downloading the images required. For this, we need a foreground image (the image to crop objects out of) and background image (the image to paste it in).
+
+We can view the images.
+
+Foreground Image Credit: https://live.staticflickr.com/1399/1118093174_8b723e1ee5_o.jpg & Background Image Credit: https://live.staticflickr.com/7860/46618564664_be235e82e8_b.jpg
+
+In order to crop out the bear we need to generate a mask. The next couple of cells does this and we get:
+
+Now that we have our mask, we can paste in the foreground image on top of the background image. By passing in the mask, we can ensure only that part of the foreground image gets pasted in and the rest is ignored.
+
+Yay! It works! but we see the bear is pasted at an awkward place. Let’s use the x and y sliders to adjust its position. For this example, we just need to move the bear all the way to the right.
+
+Success! We have put a Polar bear next to Jeff Goldblum!
+
+I’m sure you can come up with more creative examples so give it a go and please do share the results. :)
+
+Colab Link:
+
+And here is the full code:

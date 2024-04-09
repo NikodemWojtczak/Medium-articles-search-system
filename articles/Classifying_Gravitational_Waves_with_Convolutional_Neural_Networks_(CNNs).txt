@@ -1,0 +1,11 @@
+We all have built, trained, evaluated and inspected neural networks on a few common image datasets such as MNIST or CIFAR10. Similar AI techniques have been used for recognizing videos of cats on YouTube channel, for detecting a cancerous tumor or for understanding how climate change affects things.
+
+Now it’s time to try machine learning on a real-world dataset in space exploration.
+
+We invite you to consider the problem of classifying images as either gravitational waves or non-detection events using images from two detectors.
+
+What are Gravitational Waves?
+
+A gravitational wave is a stretch and squash of space and so can be found by measuring the change in length between two objects.
+
+LIGO (Laser Interferometer Gravitational-Wave Observatory), the world’s largest gravitational wave observatory is able to record them extremely precisely. Currently, the data archive holds over 4.5 Petabytes of data. It is expected to grow at a rate of 800 terabytes per year. We were provided with two files containing data in the form of NumPy objects, prepared by Prof. Pavlos Protopapas’s team:

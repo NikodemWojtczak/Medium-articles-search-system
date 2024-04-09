@@ -1,0 +1,43 @@
+Employee benefits packages can help candidates choose to take job offers or look elsewhere. They can also factor into how long a worker stays at a company and how happy they are while there. If they realize that other companies offer better benefits and they’re frustrated with their job already, they may decide it’s not worth it to stick around.
+
+You may have noticed a trend where companies use data science and analytics to enhance their benefits packages. Here’s a look at why that’s such an appealing move for them to make.
+
+Data Analysis Increases Personalization Possibilities
+
+It’s not always easy for companies to figure out which benefits their workers will use. Statistics strongly suggest that one of the reasons for the disuse is because the benefits packages are too generic. A press release from Welltok showed that employers have work to do to satisfy their employees, particularly related to health benefits.
+
+The release indicated that more than 60% of workers seek support from their employers for all aspects of health care support. Additionally, 56% of employees say they’ve received irrelevant assistance, causing them to waste time and money. That’s likely because 84% of respondents said their companies offered generic programs.
+
+Discount retailer Walmart is one of the companies turning to data analytics to steer and streamline workers’ health care decisions. It’s working with a company called Embold Health, which will scrutinize data from public and private health care plans to find the most effective and cost-efficient providers. Besides helping workers find primary care physicians, the system can connect them to specialists that deal with cardiology, obstetrics and more.
+
+Analytics Provide Better Visibility Into Workers’ Compensation Cases
+
+Data science has also opened potential regarding workers’ compensation claims. The specifics surrounding a workers’ compensation claim vary by state. For example, in Pennsylvania, insurance companies have 21 days to decide whether to accept or deny requests for coverage. Some insurance providers use data science to compile a patient’s medical history and look for trends that help them draw conclusions about claims and further treatment.
+
+Taking this approach enables making improvements to patient care decisions and spotting warning signs. For example, an analytics system could flag cases when a patient with an addiction history sees a provider that historically prescribes opioids frequently.
+
+From an employer side of things, companies could take deep dives into incidents that cause people to file workers’ compensation paperwork. If the entity discovers that a substantial number of cases relate to a certain piece of equipment, a department or a time of day, such information might trigger them to make internal changes that reduce injury rates.
+
+Data Science Increases Benefits Awareness
+
+Benefits utilization is something that businesses want to maximize. If they provide employee benefits that rarely get used, those companies waste money, and their workers may see them as out of touch. Evive is a Chicago-based company that analyzes multiple sources of data to learn which ones their clients’ employees use most.
+
+This aim can also reduce the problem of workers failing to take advantage of benefits because they don’t know they exist. According to one Evive case study associated with a food and beverage company, the company wanted to increase registrations for educational webinars that help attendees understand the financial impacts of particular benefits decisions.
+
+Evive used its technology to enhance the employee communications platform and send targeted messages about upcoming webinars, and the efforts paid off. The registrations for a webinar about HSA basics increased by 339.1%, while the attendance rate boosted by more than 340%, for example.
+
+Analytics Can Inform Company Choices
+
+Data analytics are also crucial for illuminating which benefits are most relevant to workers’ changing needs. Lacoste reportedly uses a data analytics platform called Open Blend to assess employees’ well-being and receive live updates that help companies see what’ll help employees stay motivated the most.
+
+Companies can depend on data analytics when making decisions about offering new benefits, too. Doing that could be especially effective regarding benefits that are less common but perhaps should be more widely available. A pet insurance company polled more than 4,000 policyholders and found that 70% would think a pet-friendly workplace was appealing if interviewing for a new job.
+
+Businesses can no longer merely rely on assumptions when picking which benefits to offer or choosing the ones to discontinue. Data analytics platforms can help enterprises sift through employee feedback or other pertinent metrics, ultimately making company representatives feel more confident about their benefits package choices.
+
+More Data Dependence Should Spur Positive Changes
+
+It should now be evident to you why the data science push for benefits packages is favorable for employees and companies alike. When company representatives take the time to analyze the respective data, they’ll be more able to tailor their offerings to match what employees want and need. Doing that increases the likelihood of workers using the benefits available to them.
+
+Then, when workers feel that their employers provide attractive benefits, it’ll be easier for the employees to quantify the perks of staying with an organization rather than leaving it for better opportunities.
+
+Similarly, if workplaces regularly administer surveys to their employees to gauge what’s working and what isn’t, they’ll be able to make efficient adjustments that keep people satisfied.

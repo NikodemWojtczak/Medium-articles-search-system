@@ -1,0 +1,1051 @@
+Football: Why Winners Win and Losers Lose
+
+Intro
+
+In this notebook we will explore modern metrics in football (xG, xGA and xPTS) and its’ influence in sport analytics.
+
+Expected Goals (xG) — measures the quality of a shot based on several variables such as assist type, shot angle and distance from goal, whether it was a headed shot and whether it was defined as a big chance.
+
+— measures the quality of a shot based on several variables such as assist type, shot angle and distance from goal, whether it was a headed shot and whether it was defined as a big chance. Expected Assits (xGA) — measures the likelihood that a given pass will become a goal assist. It considers several factors including the type of pass, pass end-point and length of the pass.
+
+— measures the likelihood that a given pass will become a goal assist. It considers several factors including the type of pass, pass end-point and length of the pass. Expected Points (xPTS) — measures the likelihood of a certain game to bring points to the team.
+
+These metrics let us look much deeper into football statistics and understand the performance of players and teams in general and realize the role of luck and skill in it. Disclaimer: they are both important.
+
+The process of data collection for this notebook is described in this Kaggle kernel: Web Scraping Football Statistics
+
+import pandas as pd
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+import seaborn as sns
+
+import collections
+
+import warnings
+
+
+
+from IPython.core.display import display, HTML
+
+
+
+# import plotly
+
+import plotly
+
+import plotly.figure_factory as ff
+
+import plotly.graph_objs as go
+
+import plotly.offline as py
+
+from plotly.offline import iplot, init_notebook_mode
+
+import plotly.tools as tls
+
+
+
+# configure things
+
+warnings.filterwarnings('ignore')
+
+
+
+pd.options.display.float_format = '{:,.2f}'.format
+
+pd.options.display.max_columns = 999
+
+
+
+py.init_notebook_mode(connected=True)
+
+
+
+%load_ext autoreload
+
+%autoreload 2
+
+
+
+%matplotlib inline
+
+sns.set()
+
+
+
+# !pip install plotly --upgrade
+
+Import Data and Visual EDA
+
+df = pd.read_csv('../input/understat.com.csv')
+
+df = df.rename(index=int, columns={'Unnamed: 0': 'league', 'Unnamed: 1': 'year'})
+
+df.head()
+
+In the next visualization, we will check how many teams from each league were in top 4 during last 5 years. It can give us some info about stability of top teams from different countries.
+
+f = plt.figure(figsize=(25,12))
+
+ax = f.add_subplot(2,3,1)
+
+plt.xticks(rotation=45)
+
+sns.barplot(x='team', y='pts', hue='year', data=df[(df['league'] == 'Bundesliga') & (df['position'] <= 4)], ax=ax)
+
+ax = f.add_subplot(2,3,2)
+
+plt.xticks(rotation=45)
+
+sns.barplot(x='team', y='pts', hue='year', data=df[(df['league'] == 'EPL') & (df['position'] <= 4)], ax=ax)
+
+ax = f.add_subplot(2,3,3)
+
+plt.xticks(rotation=45)
+
+sns.barplot(x='team', y='pts', hue='year', data=df[(df['league'] == 'La_liga') & (df['position'] <= 4)], ax=ax)
+
+ax = f.add_subplot(2,3,4)
+
+plt.xticks(rotation=45)
+
+sns.barplot(x='team', y='pts', hue='year', data=df[(df['league'] == 'Serie_A') & (df['position'] <= 4)], ax=ax)
+
+ax = f.add_subplot(2,3,5)
+
+plt.xticks(rotation=45)
+
+sns.barplot(x='team', y='pts', hue='year', data=df[(df['league'] == 'Ligue_1') & (df['position'] <= 4)], ax=ax)
+
+ax = f.add_subplot(2,3,6)
+
+plt.xticks(rotation=45)
+
+sns.barplot(x='team', y='pts', hue='year', data=df[(df['league'] == 'RFPL') & (df['position'] <= 4)], ax=ax)
+
+As we can see from these bar charts, there are teams that in last 5 years were in top 4 only once, which means it is not something common, which means if we dig deeper, we can find that there is a factor of luck that might have played in favour to these teams. It’s just a theory, so let’s look closer to those outliers.
+
+The teams that were in top 4 only once during the last 5 seasons are:
+
+Wolfsburg (2014) and Schalke 04 (2017) from Bundesliga
+
+Leicester (2015) from EPL
+
+Villareal (2015) and Sevilla (2016) from La Liga
+
+Lazio (2014) and Fiorentina (2014) from Serie A
+
+Lille (2018) and Saint-Etienne (2018) from Ligue 1
+
+FC Rostov (2015) and Dinamo Moscow (2014) from RFPL
+
+Let’s save these teams.
+
+# Removing unnecessary for our analysis columns
+
+df_xg = df[['league', 'year', 'position', 'team', 'scored', 'xG', 'xG_diff', 'missed', 'xGA', 'xGA_diff', 'pts', 'xpts', 'xpts_diff']]
+
+
+
+outlier_teams = ['Wolfsburg', 'Schalke 04', 'Leicester', 'Villareal', 'Sevilla', 'Lazio', 'Fiorentina', 'Lille', 'Saint-Etienne', 'FC Rostov', 'Dinamo Moscow'] # Checking if getting the first place requires fenomenal execution
+
+first_place = df_xg[df_xg['position'] == 1]
+
+
+
+# Get list of leagues
+
+leagues = df['league'].drop_duplicates()
+
+leagues = leagues.tolist()
+
+
+
+# Get list of years
+
+years = df['year'].drop_duplicates()
+
+years = years.tolist()
+
+Understanding How Winners Win
+
+In this section, we will try to find some patterns that can help us understand what are some of the ingredients of the victory soup :D. Starting with Bundesliga.
+
+Bundesliga
+
+first_place[first_place['league'] == 'Bundesliga']
+
+pts = go.Bar(x = years, y = first_place['pts'][first_place['league'] == 'Bundesliga'], name = 'PTS')
+
+xpts = go.Bar(x = years, y = first_place['xpts'][first_place['league'] == 'Bundesliga'], name = 'Expected PTS')
+
+
+
+data = [pts, xpts]
+
+
+
+layout = go.Layout(
+
+barmode='group',
+
+title="Comparing Actual and Expected Points for Winner Team in Bundesliga",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "Points",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+By looking at the table and barchart we see that Bayern every year got more points than they should have, they scored more than expected and missed less than expected (except for 2018, which didn’t break their plan of winning the season, but it gives some hints that Bayern played worse this year, although the competitors didn’t take advantage of it).
+
+# and from this table we see that Bayern dominates here totally, even when they do not play well
+
+df_xg[(df_xg['position'] <= 2) & (df_xg['league'] == 'Bundesliga')].sort_values(by=['year','xpts'], ascending=False)
+
+La Liga
+
+first_place[first_place['league'] == 'La_liga']
+
+pts = go.Bar(x = years, y = first_place['pts'][first_place['league'] == 'La_liga'], name = 'PTS')
+
+xpts = go.Bar(x = years, y = first_place['xpts'][first_place['league'] == 'La_liga'], name = 'Expected PTS')
+
+
+
+data = [pts, xpts]
+
+
+
+layout = go.Layout(
+
+barmode='group',
+
+title="Comparing Actual and Expected Points for Winner Team in La Liga",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "Points",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+As we can see from the chart above that in 2014 and 2015 Barcelona was creating enough moments to win the title and do not rely on personal skills or luck, from these numbers we can actually say that THE Team was playing there.
+
+In 2016 there were lots of competition between Madrid and Barcelona and in the end, Madrid got luckier / had more guts in one particular game (or Barcelona got unlucky / didn’t have balls) and it was the cost of the title. I am sure that if we dig deeper that season we can find that particular match.
+
+In 2017 and 2018 Barcelona’s success was mostly tributed to actions of Lionel Messi who was scoring or making assists in situations where normal players wouldn’t do that. What led to such a jump in xPTS difference. What makes me think (having the context that Real Madrid is very active on transfer market this season) can end up bad. Just subjective opinion based on numbers and watching Barcelona games. Really hope I am wrong.
+
+# comparing with runner-up
+
+df_xg[(df_xg['position'] <= 2) & (df_xg['league'] == 'La_liga')].sort_values(by=['year','xpts'], ascending=False)
+
+EPL
+
+first_place[first_place['league'] == 'EPL']
+
+pts = go.Bar(x = years, y = first_place['pts'][first_place['league'] == 'EPL'], name = 'PTS')
+
+xpts = go.Bar(x = years, y = first_place['xpts'][first_place['league'] == 'EPL'], name = 'Expected PTS')
+
+
+
+data = [pts, xpts]
+
+
+
+layout = go.Layout(
+
+barmode='group',
+
+title="Comparing Actual and Expected Points for Winner Team in EPL",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "Points",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+In EPL we see the clear trend that tells you: “To win you have to be better than statistics”. Interesting case here is Leicester story of victory in 2015: they got 12 points more than they should’ve and at the same time Arsenal got 6 points less than expected! This is why we love football, because such inexplicable things happen. I am not telling is total luck, but it played its role here.
+
+Another interesting thing is Manchester City of 2018 — they are super stable! They scored just one goal more than expected, missed 2 less and got 7 additional points, while Liverpool fought really well, had little bit more luck on their side, but couldn’t win despite being 13 points ahead of their expected.
+
+Pep is finishing building the machine of destruction. Man City creates and converts their moments based on skill and do not rely on luck — it makes them very dangerous in the next season.
+
+# comparing with runner-ups df_xg[(df_xg['position'] <= 2) & (df_xg['league'] == 'EPL')].sort_values(by=['year','xpts'], ascending=False)
+
+Ligue 1
+
+first_place[first_place['league'] == 'Ligue_1']
+
+pts = go.Bar(x = years, y = first_place['pts'][first_place['league'] == 'Ligue_1'], name = 'PTS')
+
+xpts = go.Bar(x = years, y = first_place['xpts'][first_place['league'] == 'Ligue_1'], name = 'Expected PTS')
+
+
+
+data = [pts, xpts]
+
+
+
+layout = go.Layout(
+
+barmode='group',
+
+title="Comparing Actual and Expected Points for Winner Team in Ligue 1",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "Points",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+In French Ligue 1 we continue to see the trend “to win you have to execute 110% because 100% is not enough”. Here Paris Saint Germain dominates totally. Only in 2016 we get an outlier in the face of Monaco that scored 30 goals more than expected!!! and got almost 17 points more than expected! Luck? Quite a good piece of it. PSG was good that year, but Monaco was extraordinary. Again, we cannot claim it’s pure luck or pure skill, but a perfect combination of both in the right place and time.
+
+# comparing with runner-ups df_xg[(df_xg['position'] <= 2) & (df_xg['league'] == 'Ligue_1')].sort_values(by=['year','xpts'], ascending=False)
+
+Serie A
+
+first_place[first_place['league'] == 'Serie_A']
+
+pts = go.Bar(x = years, y = first_place['pts'][first_place['league'] == 'Serie_A'], name = 'PTS')
+
+xpts = go.Bar(x = years, y = first_place['xpts'][first_place['league'] == 'Serie_A'], name = 'Expecetd PTS')
+
+
+
+data = [pts, xpts]
+
+
+
+layout = go.Layout(
+
+barmode='group',
+
+title="Comparing Actual and Expected Points for Winner Team in Serie A",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "Points",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+In Italian Serie A Juventus is dominating 8 years in a row although cannot show any major success in Champions League. I think by checking this chart and numbers we can understand that Juve doesn’t have strong enough competition inside the country and gets lots of “lucky” points, which again derives from multiple factors and we can see that Napoli outperformed Juventus by xPTS twice, but it is a real life and in, for example, 2017, Juve was crazy and scored additional 26 goals (or created goals from nowhere), while Napoli missed 3 more than expected (due to error of goalkeeper or maybe excellence of some team sin 1 or 2 particular matches). As with the situation in La Liga when Real Madrid became a champion I am sure we can find 1 or 2 games that were key that year.
+
+Details matter in football. You see, one error here, one woodwork there and you’ve lost the title.
+
+# comparing to runner-ups df_xg[(df_xg['position'] <= 2) & (df_xg['league'] == 'Serie_A')].sort_values(by=['year','xpts'], ascending=False)
+
+RFPL
+
+first_place[first_place['league'] == 'RFPL']
+
+pts = go.Bar(x = years, y = first_place['pts'][first_place['league'] == 'RFPL'], name = 'PTS')
+
+xpts = go.Bar(x = years, y = first_place['xpts'][first_place['league'] == 'RFPL'], name = 'Expected PTS')
+
+
+
+data = [pts, xpts]
+
+
+
+layout = go.Layout(
+
+barmode='group',
+
+title="Comparing Actual and Expected Points for Winner Team in RFPL",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "Points",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+I do not follow Russian Premier League, so just by coldly looking at data, we see the same pattern as scoring more than you deserve and also interesting situation with CSKA Moscow from 2015 to 2017. During these years these guys were good but converted their advantages only once, the others two — if you do not convert, you get punished or your main competitor just converts better.
+
+There is no justice in football :D. Although, I believe with VAR the numbers will become more stable in the next seasons. Because one of the reasons of those additional goals and points are errors of arbiters.
+
+# comparing to runner-ups df_xg[(df_xg['position'] <= 2) & (df_xg['league'] == 'RFPL')].sort_values(by=['year','xpts'], ascending=False)
+
+Statistical Overview
+
+As there are 6 leagues with different teams and stats, I decided to focus on one, in the beginning, to test different approaches and then replicate the final analysis model on other 5. And as I watch mostly La Liga I will start with this competition as I know the most about it.
+
+# Creating separate DataFrames per each league
+
+laliga = df_xg[df_xg['league'] == 'La_liga']
+
+laliga.reset_index(inplace=True)
+
+epl = df_xg[df_xg['league'] == 'EPL']
+
+epl.reset_index(inplace=True)
+
+bundesliga = df_xg[df_xg['league'] == 'Bundesliga']
+
+bundesliga.reset_index(inplace=True)
+
+seriea = df_xg[df_xg['league'] == 'Serie_A']
+
+seriea.reset_index(inplace=True)
+
+ligue1 = df_xg[df_xg['league'] == 'Ligue_1']
+
+ligue1.reset_index(inplace=True)
+
+rfpl = df_xg[df_xg['league'] == 'RFPL']
+
+rfpl.reset_index(inplace=True) laliga.describe()
+
+def print_records_antirecords(df):
+
+print('Presenting some records and antirecords: n')
+
+for col in df.describe().columns:
+
+if col not in ['index', 'year', 'position']:
+
+team_min = df['team'].loc[df[col] == df.describe().loc['min',col]].values[0]
+
+year_min = df['year'].loc[df[col] == df.describe().loc['min',col]].values[0]
+
+team_max = df['team'].loc[df[col] == df.describe().loc['max',col]].values[0]
+
+year_max = df['year'].loc[df[col] == df.describe().loc['max',col]].values[0]
+
+val_min = df.describe().loc['min',col]
+
+val_max = df.describe().loc['max',col]
+
+print('The lowest value of {0} had {1} in {2} and it is equal to {3:.2f}'.format(col.upper(), team_min, year_min, val_min))
+
+print('The highest value of {0} had {1} in {2} and it is equal to {3:.2f}'.format(col.upper(), team_max, year_max, val_max))
+
+print('='*100)
+
+
+
+# replace laliga with any league you want
+
+print_records_antirecords(laliga) Presenting some records and antirecords:
+
+
+
+The lowest value of SCORED had Cordoba in 2014 and it is equal to 22.00
+
+The highest value of SCORED had Real Madrid in 2014 and it is equal to 118.00
+
+================================================================
+
+The lowest value of XG had Eibar in 2014 and it is equal to 29.56
+
+The highest value of XG had Barcelona in 2015 and it is equal to 113.60
+
+================================================================
+
+The lowest value of XG_DIFF had Barcelona in 2016 and it is equal to -22.45
+
+The highest value of XG_DIFF had Las Palmas in 2017 and it is equal to 13.88
+
+================================================================
+
+The lowest value of MISSED had Atletico Madrid in 2015 and it is equal to 18.00
+
+The highest value of MISSED had Osasuna in 2016 and it is equal to 94.00
+
+================================================================
+
+The lowest value of XGA had Atletico Madrid in 2015 and it is equal to 27.80
+
+The highest value of XGA had Levante in 2018 and it is equal to 78.86
+
+================================================================
+
+The lowest value of XGA_DIFF had Osasuna in 2016 and it is equal to -29.18
+
+The highest value of XGA_DIFF had Valencia in 2015 and it is equal to 13.69
+
+================================================================
+
+The lowest value of PTS had Cordoba in 2014 and it is equal to 20.00
+
+The highest value of PTS had Barcelona in 2014 and it is equal to 94.00
+
+================================================================
+
+The lowest value of XPTS had Granada in 2016 and it is equal to 26.50
+
+The highest value of XPTS had Barcelona in 2015 and it is equal to 94.38
+
+================================================================
+
+The lowest value of XPTS_DIFF had Atletico Madrid in 2017 and it is equal to -17.40
+
+The highest value of XPTS_DIFF had Deportivo La Coruna in 2017 and it is equal to 20.16
+
+Now let’s see those number on a chart.
+
+trace0 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2014],
+
+y = laliga['xG_diff'][laliga['year'] == 2014],
+
+name = '2014',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace1 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2015],
+
+y = laliga['xG_diff'][laliga['year'] == 2015],
+
+name='2015',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace2 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2016],
+
+y = laliga['xG_diff'][laliga['year'] == 2016],
+
+name='2016',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace3 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2017],
+
+y = laliga['xG_diff'][laliga['year'] == 2017],
+
+name='2017',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace4 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2018],
+
+y = laliga['xG_diff'][laliga['year'] == 2018],
+
+name='2018',
+
+mode = 'lines+markers'
+
+)
+
+
+
+data = [trace0, trace1, trace2, trace3, trace4]
+
+
+
+layout = go.Layout(
+
+title="Comparing xG gap between positions",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "xG difference",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+trace0 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2014],
+
+y = laliga['xGA_diff'][laliga['year'] == 2014],
+
+name = '2014',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace1 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2015],
+
+y = laliga['xGA_diff'][laliga['year'] == 2015],
+
+name='2015',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace2 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2016],
+
+y = laliga['xGA_diff'][laliga['year'] == 2016],
+
+name='2016',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace3 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2017],
+
+y = laliga['xGA_diff'][laliga['year'] == 2017],
+
+name='2017',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace4 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2018],
+
+y = laliga['xGA_diff'][laliga['year'] == 2018],
+
+name='2018',
+
+mode = 'lines+markers'
+
+)
+
+
+
+data = [trace0, trace1, trace2, trace3, trace4]
+
+
+
+layout = go.Layout(
+
+title="Comparing xGA gap between positions",
+
+xaxis={'title': 'Year'},
+
+yaxis={'title': "xGA difference",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+trace0 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2014],
+
+y = laliga['xpts_diff'][laliga['year'] == 2014],
+
+name = '2014',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace1 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2015],
+
+y = laliga['xpts_diff'][laliga['year'] == 2015],
+
+name='2015',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace2 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2016],
+
+y = laliga['xpts_diff'][laliga['year'] == 2016],
+
+name='2016',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace3 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2017],
+
+y = laliga['xpts_diff'][laliga['year'] == 2017],
+
+name='2017',
+
+mode = 'lines+markers'
+
+)
+
+
+
+trace4 = go.Scatter(
+
+x = laliga['position'][laliga['year'] == 2018],
+
+y = laliga['xpts_diff'][laliga['year'] == 2018],
+
+name='2018',
+
+mode = 'lines+markers'
+
+)
+
+
+
+data = [trace0, trace1, trace2, trace3, trace4]
+
+
+
+layout = go.Layout(
+
+title="Comparing xPTS gap between positions",
+
+xaxis={'title': 'Position'},
+
+yaxis={'title': "xPTS difference",
+
+}
+
+)
+
+
+
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig)
+
+From the charts above, we can clearly see that top teams score more, concede less and get more points than expected. That’s why these teams are top teams. And totally opposite situation with outsiders. The teams from the middleplay average. Totally logical, no huge insights here.
+
+# Check mean differences
+
+def get_diff_means(df):
+
+dm = df.groupby('year')[['xG_diff', 'xGA_diff', 'xpts_diff']].mean()
+
+
+
+return dm
+
+
+
+means = get_diff_means(laliga)
+
+means
+
+# Check median differences
+
+def get_diff_medians(df):
+
+dm = df.groupby('year')[['xG_diff', 'xGA_diff', 'xpts_diff']].median()
+
+
+
+return dm
+
+
+
+medians = get_diff_medians(laliga)
+
+medians
+
+Outliers Detection
+
+Z-Score
+
+Z-Score is the number of standard deviations from the mean a data point is. We can use it to find outliers in our dataset by assuming that |z-score| > 3 is an outlier.
+
+# Getting outliers for xG using zscore
+
+from scipy.stats import zscore
+
+# laliga[(np.abs(zscore(laliga[['xG_diff']])) > 2.0).all(axis=1)]
+
+df_xg[(np.abs(zscore(df_xg[['xG_diff']])) > 3.0).all(axis=1)]
+
+# outliers for xGA
+
+# laliga[(np.abs(zscore(laliga[['xGA_diff']])) > 2.0).all(axis=1)]
+
+df_xg[(np.abs(zscore(df_xg[['xGA_diff']])) > 3.0).all(axis=1)]
+
+# Outliers for xPTS
+
+# laliga[(np.abs(zscore(laliga[['xpts_diff']])) > 2.0).all(axis=1)]
+
+df_xg[(np.abs(zscore(df_xg[['xpts_diff']])) > 3.0).all(axis=1)]
+
+12 outliers in total detected with zscore. Poor Osasuna in 2016 — almost 30 not deserved goals.
+
+As we can see from this data, being in outlier space top does not yet make you win the season. But if you miss your opportunities or receive goals where you shouldn’t and do that toooooo much — you deserve relegation. Losing and being average is much easier than winning.
+
+Interquartile Range (IQR)
+
+IQR — is the difference between the first quartile and third quartile of a set of data. This is one way to describe the spread of a set of data.
+
+A commonly used rule says that a data point is an outlier if it is more than 1.5 ⋅ IQR above the third quartile or below the first quartile. Said differently, low outliers are below Q1 − 1.5 ⋅ IQR and high outliers are above Q3 + 1.5 ⋅ IQR.
+
+Let’s check it out.
+
+# Trying different method of outliers detection
+
+df_xg.describe()
+
+# using Interquartile Range Method to identify outliers
+
+# xG_diff
+
+iqr_xG = (df_xg.describe().loc['75%','xG_diff'] - df_xg.describe().loc['25%','xG_diff']) * 1.5
+
+upper_xG = df_xg.describe().loc['75%','xG_diff'] + iqr_xG
+
+lower_xG = df_xg.describe().loc['25%','xG_diff'] - iqr_xG
+
+
+
+print('IQR for xG_diff: {:.2f}'.format(iqr_xG))
+
+print('Upper border for xG_diff: {:.2f}'.format(upper_xG))
+
+print('Lower border for xG_diff: {:.2f}'.format(lower_xG))
+
+
+
+outliers_xG = df_xg[(df_xg['xG_diff'] > upper_xG) | (df_xg['xG_diff'] < lower_xG)]
+
+print('='*50)
+
+
+
+# xGA_diff
+
+iqr_xGA = (df_xg.describe().loc['75%','xGA_diff'] - df_xg.describe().loc['25%','xGA_diff']) * 1.5
+
+upper_xGA = df_xg.describe().loc['75%','xGA_diff'] + iqr_xGA
+
+lower_xGA = df_xg.describe().loc['25%','xGA_diff'] - iqr_xGA
+
+
+
+print('IQR for xGA_diff: {:.2f}'.format(iqr_xGA))
+
+print('Upper border for xGA_diff: {:.2f}'.format(upper_xGA))
+
+print('Lower border for xGA_diff: {:.2f}'.format(lower_xGA))
+
+
+
+outliers_xGA = df_xg[(df_xg['xGA_diff'] > upper_xGA) | (df_xg['xGA_diff'] < lower_xGA)]
+
+print('='*50)
+
+
+
+# xpts_diff
+
+iqr_xpts = (df_xg.describe().loc['75%','xpts_diff'] - df_xg.describe().loc['25%','xpts_diff']) * 1.5
+
+upper_xpts = df_xg.describe().loc['75%','xpts_diff'] + iqr_xpts
+
+lower_xpts = df_xg.describe().loc['25%','xpts_diff'] - iqr_xpts
+
+
+
+print('IQR for xPTS_diff: {:.2f}'.format(iqr_xpts))
+
+print('Upper border for xPTS_diff: {:.2f}'.format(upper_xpts))
+
+print('Lower border for xPTS_diff: {:.2f}'.format(lower_xpts))
+
+
+
+outliers_xpts = df_xg[(df_xg['xpts_diff'] > upper_xpts) | (df_xg['xpts_diff'] < lower_xpts)]
+
+print('='*50)
+
+
+
+outliers_full = pd.concat([outliers_xG, outliers_xGA, outliers_xpts])
+
+outliers_full = outliers_full.drop_duplicates() IQR for xG_diff: 13.16
+
+Upper border for xG_diff: 16.65
+
+Lower border for xG_diff: -18.43
+
+==================================================
+
+IQR for xGA_diff: 13.95
+
+Upper border for xGA_diff: 17.15
+
+Lower border for xGA_diff: -20.05
+
+==================================================
+
+IQR for xPTS_diff: 13.93
+
+Upper border for xPTS_diff: 18.73
+
+Lower border for xPTS_diff: -18.41
+
+================================================== # Adding ratings bottom to up to find looser in each league (different amount of teams in every league so I can't do just n-20)
+
+max_position = df_xg.groupby('league')['position'].max()
+
+df_xg['position_reverse'] = np.nan
+
+outliers_full['position_reverse'] = np.nan
+
+
+
+for i, row in df_xg.iterrows():
+
+df_xg.at[i, 'position_reverse'] = np.abs(row['position'] - max_position[row['league']])+1
+
+
+
+for i, row in outliers_full.iterrows():
+
+outliers_full.at[i, 'position_reverse'] = np.abs(row['position'] - max_position[row['league']])+1 total_count = df_xg[(df_xg['position'] <= 4) | (df_xg['position_reverse'] <= 3)].count()[0]
+
+outlier_count = outliers_full[(outliers_full['position'] <= 4) | (outliers_full['position_reverse'] <= 3)].count()[0]
+
+outlier_prob = outlier_count / total_count
+
+print('Probability of outlier in top or bottom of the final table: {:.2%}'.format(outlier_prob)) Probability of outlier in top or bottom of the final table: 8.10%
+
+So we can say that it is very probable that every year in one of 6 leagues there will be a team that gets a ticket to Champions League or Europa Legue with the help of luck on top of their great skills or there is a looser that gets to the second division, because they cannot convert their moments.
+
+# 1-3 outliers among all leagues in a year
+
+data = pd.DataFrame(outliers_full.groupby('league')['year'].count()).reset_index()
+
+data = data.rename(index=int, columns={'year': 'outliers'})
+
+sns.barplot(x='league', y='outliers', data=data)
+
+# no outliers in Bundesliga
+
+Our winners and losers with brilliant performance and brilliant underperformance.
+
+top_bottom = outliers_full[(outliers_full['position'] <= 4) | (outliers_full['position_reverse'] <= 3)].sort_values(by='league')
+
+top_bottom
+
+# Let's get back to our list of teams that suddenly got into top. Was that because of unbeliavable mix of luck and skill?
+
+ot = [x for x in outlier_teams if x in top_bottom['team'].drop_duplicates().tolist()]
+
+ot
+
+# The answer is absolutely no. They just played well during 1 season. Sometimes that happen. []
+
+Conclusions
+
+Football is a low-scoring game and one goal can change the entire picture of the game and even end results. That’s why long term analysis gives you a better picture of the situation.
+
+With the introduction of xG metric (and others that derive from this) now we can really evaluate the performance of the team on a long run and understand the difference between top teams, middle class teams and absolute outsiders.
+
+xG brings new arguments into discussions around football what makes it even more interesting. And at the same time, the game doesn’t lose this factor of uncertainty and the possibility of crazy things happening. Actually now, these crazy things have a chance to be explained.
+
+In the end, we have found that it is almost 100% chance that something weird will happen in one of the leagues. It is just a question of time how epic that will be.
+
+Original work with interactive charts can be found here.

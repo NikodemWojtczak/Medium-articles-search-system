@@ -1,0 +1,19 @@
+How to be less wrong
+
+How much longer will the Berlin Wall stand? This is what went through J. Richard Gott’s head when he visited Germany in 1969.
+
+If you think about it, this is a tough question, as there is not much data available about lifetimes of walls in Germany (in fact, the Berlin Wall is a single datapoint). How then to approach a question like that, where we are almost completely in the dark?
+
+Remains of the Berlin Wall. (Source: Pixabay)
+
+Gott, today a professor in Astrophysics at Princeton University, thought about it like this: there was nothing special about him seeing the Wall on that particular day in that particular year. If you divide the Wall’s entire lifetime into four equal-length segments, then there is a 50% probability that he would have arrived within the middle two segments. This in turn translates into an estimate for how much longer the Wall should remain: between a third of its lifetime so far (if he happened to visit at end of the two middle segments), and three times its lifetime so far (if he happened to visit at the beginning of the two middle segments).
+
+Given that the Wall at the time was 8 years old in 1969, he concluded that with 50% confidence it would last another 3 to 24 years. The Wall lasted another 20 years.
+
+There is a 50% chance that Gott’s visit falls within the middle two segments of the Wall’s existence. (Source)
+
+The Copernican Principle: we are not special
+
+Gott’s reasoning that he did not visit the Wall at any special moment in time is really an application of the much broader Copernican principle, which states that we occupy neither a special place, nor exist in a special time in the Universe’s history. Earth is not a special place, and neither is our Solar System or Milky Way Galaxy. 2019 is not a special time to be alive.
+
+Gott’s calculation based on the Copernican principle can help us arrive at least at an estimate of the timing of an event when we are otherwise completely in the dark. It can be a fun exercise to estimate various world events with it:

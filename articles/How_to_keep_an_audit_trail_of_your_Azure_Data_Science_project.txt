@@ -1,0 +1,121 @@
+1. Introduction
+
+Suppose a machine learning model is running in production and important decisions are based on its predictions. Or suppose that a model has strange outcomes and troubleshooting is needed. An audit trail of the model is then essential that traces back at least the following:
+
+Logging of model predictions
+
+Version and metrics of model
+
+Data and algorithm used in model
+
+Person/team that created model
+
+In this blog, an Azure data science project is defined and then it is discussed how an audit trail can be created. In case you are interested how the project is implemented in detail, refer to my previous blog. Notice that this blog is standalone and it is not necessary to read the previous blog first.
+
+2. Setup of Azure data science project
+
+Azure offers a lot of possiblities to do data analytics and data science. In this project, functionality of popular Azure services is combined to create a predictive endpoint. The setup of the project can be depicted as follows:
+
+2. Setup of Azure data science project using popular Azure services
+
+The Azure services and its usage in this project can be described as follows:
+
+Azure Storage gen 2 is used for storing the data. Data is made immutable and new data is added in separate folders with a timestamp such that it is clear when it is added.
+
+is used for storing the data. Data is made immutable and new data is added in separate folders with a timestamp such that it is clear when it is added. Azure Databricks is used for interactive development and feature engineering of the model. Databricks Spark Clusters are used to by Azure ML Service as Compute to train the model. Notice that an sparkml model is created, but a scikit-learn model could have been created as well.
+
+is used for interactive development and feature engineering of the model. Databricks Spark Clusters are used to by Azure ML Service as Compute to train the model. Notice that an sparkml model is created, but a scikit-learn model could have been created as well. Git is used for source control of the notebooks and is linked as repository to Azure Devops. In this project, git in Azure DevOps git is used, but GitHub could have been taken as well.
+
+is used for source control of the notebooks and is linked as repository to Azure Devops. In this project, git in Azure DevOps git is used, but GitHub could have been taken as well. Azure Machine Learning (ML) Service is used to keep track of the model and its metrics. Azure ML Service SDK is used to create and deploy docker images of the model to Azure Container Container and Azure Kubernetes Service. For an overview of the deployment possibilities using Azure ML Service, see here.
+
+is used to keep track of the model and its metrics. Azure ML Service SDK is used to create and deploy docker images of the model to Azure Container Container and Azure Kubernetes Service. For an overview of the deployment possibilities using Azure ML Service, see here. Azure DevOps is used to setup a build/release pipeline. In the build phase, a docker image is created using git, Databricks Spark Clusters and Azure ML Service SDK. In the release phase, the docker image is deployed as Azure Container Instance for testing and then to Azure Kubernetes Service for production.
+
+is used to setup a build/release pipeline. In the build phase, a docker image is created using git, Databricks Spark Clusters and Azure ML Service SDK. In the release phase, the docker image is deployed as Azure Container Instance for testing and then to Azure Kubernetes Service for production. Azure Container Instance (ACI) is used as test endpoint, whereas Azure Kubernetes Service (AKS) is used for production. AKS is scalable, secure and fault tolerant. Using AKS with Azure ML Service SDK, a lot of features come out of the box, e.g. log and evaluate model data and monitor fail rate, request rate
+
+The setup of this project can be seen as a “best of breed“ approach which has the following advantages/disadvantages:
+
+Advantage of this setup is that teams can use tools they like the most and have most experience with. For instance, use Azure DevOps that is already used for other IT projects. Or use Azure Databricks that is already used for other big data projects within the company.
+
+Disadvantage is that keeping an audit trail and troubleshooting can become more complex. This will be dealt with in the next chapter.
+
+3. Audit trail
+
+Suppose an auditor wants to know why a certain decision was taken using a ML model (e.g. why was this mortage was rejected?). Then it needs to be traced back on what the model decision was based using the audit trail. In the remaining of this chapter, audit trailing will be done on the topics introduced in the first part of this blog as follows:
+
+3a. Logging of model requests and predictions
+
+3b. Version of model, image and HTTP endpoint
+
+3c. Metrics and statistics of model
+
+3d. Data and source code used in model
+
+3e. Person/team that created model
+
+3a. Logging of model requests and predictions
+
+In the data science project, the model was deployed in AKS production using the Azure ML Service SDK. Using Azure ML service SDK and the log and evaluate model data feature, it is possible to log all model requests and predictions. This is logged in the Azure Storage Account that is attached to the Azure ML service workspace in the /modeldata/ folder, see also below:
+
+3a1. Storage account where logging is stored
+
+In the data.csv, the timestamp of the request, input data and predictions can be found, see example below
+
+3a2. Logging of input request and logging
+
+3b. Version of model, docker image and HTTP endpoint
+
+In order to link the model, image and HTTP endpoint, go to your Azure ML Service Workspace in Azure portal and then to deployment tab. Here you can see the IP address of HTTP endpoint and docker image version used in AKS.
+
+3b1. HTTP endpoint, AKS and image
+
+Subsequently, the model version can be found in the model tab.
+
+3b2. Model used in docker image
+
+Notice that the run id that can be found in the tags. This can be used to retrieve the model metrics in the next part.
+
+3c. Metrics and logging of model
+
+Using the run_id in the previous part, you can look up the metrics and statistics of your model. Go to Experiments and use the run_id in the filter to find the metrics of the model.
+
+3c1. Retrieve model metrics
+
+For this model the roc, prc and false/negative positives/negatives were logged. Additionally, you can also images that we were creating using for example matplotlib.
+
+3c2. Display metics of models
+
+3d. Data and source code used in model
+
+In this part, the data and source that was used to train the model will be identified. All source code and data is stored in the repository of the Azure DevOps project, so the model identified in part 3b needs to be linked to the repository.
+
+First, look up the release pipeline that used the Azure ML Service API to deploy image as container. In the project, a night build/release pipeline is created, so the last succesfull release can be looked up, see below
+
+3d1. Last succesfull build/release in Azure DevOps
+
+In the logs of the release, logging of release steps can be found. In the logging of the deploy step, the HTTP IP address and image version can found that corresponds to the IP and version in step 3b, see below.
+
+3d2. Logging of release
+
+Subsequently, download all input of the release by clicking on the artifact box. In this download, all source can be found, see below.
+
+3d3. Download build artifact
+
+In this project, data is not part of version control and is not stored in the artifact. Instead, data is stored on Azure Storage gen 2 and is immutable. New data is added to a new folder with a timestamp. Subsequently, in the build pipeline it is logged which folders were used for training the model such that it can be made clear what data is used.
+
+3e. Person/team that created model
+
+In the previous section, the source code and data was identified that was used to create the model. In this part, it is traced back which person/team changed the code and when this happened. In the build artifact downloaded in step 3c, also the commit id can be found, in this case e670024. When you click on this release, a code difference is made with the previous commit. Also, the person and datetime of change can be found, see below.
+
+3e1. Code compare with previous commit
+
+By clicking on the Parent 1 link, you can trace back to the previous commit until a suspicious change is found. Alternatively, you can also go directly to the commit tab and see an overview with latest commit and start from there, see below.
+
+3e2. Commit overview
+
+Finally, notice that is possible to connect you Azure Git repository with Azure Databricks which is used as interactive development environment in this project, see screenshot below and explanation using this here
+
+3e3. Azure Databricks integration with Azure DevOps
+
+4. Conclusion
+
+In this blog, a setup for a Data Science project was described in which functionality of popular Azure services are combined. It was then discussed how an audit trail can be kept in this project such that it can traced back on which a prediction was based. Having a good audit trail is also helpfull in troubleshooting when model predictions are inexplicable. This can help to bring your project to production, see also architecture below.

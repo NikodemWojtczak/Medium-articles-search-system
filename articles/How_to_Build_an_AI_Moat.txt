@@ -1,0 +1,91 @@
+How to Build an AI Moat
+
+Jerry Chen introduced the concept of “systems of intelligence” to explain how products powered by AI and data can help companies build deep moats to protect their profits and market share from competitors:
+
+Successful companies here can build a virtuous cycle of data because the more data you generate and train on with your product, the better your models become and the better your product becomes.
+
+This is an important insight, but it is not the full story. Better models don’t automatically guarantee a better product. And without the link between the two, you won’t have a moat. Figuring out how to create this virtuous cycle is where product strategy and data strategy meet. This is the topic of this post.
+
+Models, Products, Value
+
+Let’s begin with a simple question: what is the business value of a machine learning model?
+
+By itself, it is zero. Products, not models, create value in the market.
+
+In other words, a model can only generate value as part of a product. It might be automating a routine workflow, detecting anomalies in network traffic, or serving a personalized recommendation. In each case, the value of the model is measured in the context of the product that it powers.
+
+If a model makes a prediction and no product is around to use it, does it create value? (Photo: Jachan DeVol)
+
+Quantifying prediction value
+
+One way to quantify the potential business value of a model is to imagine that the model is 100% accurate. How would that impact your business? The answer can be in terms of dollars, clicks, conversion, or any other quantifiable business metric. I call this the prediction value of the model.
+
+For example, an insurance company might want to automate claim processing using machine learning. A model would extract information from each claim and decide whether or not to approve it. A model with 100% accuracy will reduce cost on agents, reduce handling time, and allow the company to scale more efficiently, so its prediction value is very high.
+
+Not every model has the potential to be so valuable. Some startups pitch AI based solutions that simply don’t have enough of an addressable market. It doesn’t matter that your neural net is 100% accurate if it doesn’t create business value.
+
+Let’s continue the thought experiment. In reality, no model is 100% accurate. So, what would happen to the prediction value if the model were 99% accurate?
+
+Thinking again about the insurance company, a small number of fraudulent or otherwise uncovered claims might be approved. If these claims are very costly, that could wipe off the savings from automatically processing the other 99% of claims.
+
+From a product strategy perspective, this poses an obvious challenge, because building highly accurate models takes lots of time, resources, and especially data. In this case there is a straightforward solution: impose a cap on the value of automated claims. This is a simple example of how product and data insights work together to accelerate value creation. I will get back to this later, but for now let’s continue the thought experiment.
+
+The model value graph
+
+The 99% accuracy question provided us some useful insight, but it is still too optimistic. In reality, the first model you build will be much less accurate. How accurate exactly? That’s not something you know in advance. It depends on many factors, primarily the amount of data and type of problem.
+
+Even though you don’t know if your model’s accuracy will be 60% or 90%, you can still evaluate the prediction value under these different scenarios. You don’t need to actually build any models to answer these questions. In fact, you don’t even need to know much about machine learning!
+
+Let’s take the results of this thought experiment and plot them on a graph, with accuracy on the x axis and prediction value on the y axis. This is the model value graph. Here is what it might look like for the insurance company:
+
+The graph trends upwards, because prediction value always improves as model accuracy improves. But, because of the high cost of any mistake, the model only generates significant value at very high accuracies. This pattern is common in many cases when error tolerance is low.
+
+Hitting diminishing returns
+
+Let’s consider another example. When you call an Uber, you get an estimate of the driver’s time of arrival. That is the output of a prediction by a machine learning model. The prediction value can be measured, for example, by the increase in number of trips booked and reduction in number of trips canceled.
+
+What does the model value graph look like for this model? Even an inaccurate ETA is still somewhat useful to the passenger, resulting in positive prediction value. An accurate ETA is of course more useful, but at some point you hit diminishing returns: knowing the exact time of arrival up to the second won’t affect the number of trips much. In other words, the model value graph plateaus:
+
+This plateau is also a common pattern. It is a much safer situation than the one in the insurance example, because the model generates good value even if it’s not very accurate.
+
+The broken link
+
+But models with plateauing value represent a missed strategic opportunity, because they don’t create a deep moat.
+
+Machine learning models are not static. They can be retrained and improved. When Uber just started, ETA predictions were not very accurate. But as more passengers took trips the company collected more and more data, and the models became more accurate.
+
+Did the product also become better? The model value graph tells us the answer. When the graph plateaus, it means that for this particular model there is not much opportunity to be gained from collecting more data or using more sophisticated modeling techniques. The link between better models and a better product breaks.
+
+The plateau also means that a competitor can quickly catch up and create similar value even if it has much less data. This may be acceptable if the model is just a nice to have feature in your product, but not if it is the core engine of value generation. That is one reason why it’s hard to build a defensible moat on data or deep technology alone.
+
+How to build an AI moat
+
+So how can you build a defensible moat with data and AI? Here is what you would like the model value graph to look like:
+
+This means that your model will generate value even though initially its accuracy may be low. Then, as you collect more data and improve the model, prediction value increases.
+
+This pattern establishes the virtuous cycle between better models and better products, and ensures that a competitor with less data will have a significant disadvantage.
+
+From better models to better products
+
+In practice, it is very difficult for a single model to conform to this model. But a successful AI product doesn’t depend on just one machine learning model. Instead, it harnesses the synergies between an ecosystem of models that collectively improve as more data is generated.
+
+Think again about Uber. In addition to ETA prediction, UberX, the Uber service I discussed earlier, is also powered by models that predict passenger demand and trip patterns. Individually, each of these models may plateau, but collectively their prediction value can keep increasing for a longer period of time.
+
+As you generate more and more data, each of your models can become more accurate. Over time, models whose prediction value was previously low, as in the insurance company case, can improve enough to generate substantial value. Eventually, you may unlock the potential to leverage this new cohort of models to power new products, creating even more value and an even deeper moat.
+
+The AI S-curve
+
+Consider Uber POOL, a newer Uber service that allows passengers traveling in similar routes to share a ride and split its cost. In addition to the UberX models, POOL also relies a set of models that require higher accuracy and sophistication, such as predicting if an additional passenger will join a trip in progress. This model has relatively low error tolerance because a wrong prediction may result in a loss for the company.
+
+As a product, POOL unlocks a new market of more price-conscious customers. This is clearly very valuable for Uber, meaning that the models powering POOL have a high prediction value.
+
+Let’s plot the model value graph for the UberX models and the POOL models together.
+
+As in the ETA prediction example, the models powering UberX start generating value at relatively low accuracies and scale quickly, then plateau. This results in an S-shaped curve. Once accuracy is high enough, the POOL models kick in, and together with the UberX models continue to scale prediction value. Tracing the prediction value for all the models together reveals the steady increase in prediction value behind Uber’s deep AI moat.
+
+This pattern resembles the innovation S-curve, which identifies the opportunity for innovation and disruption in the window between one technology maturing and a new one just beginning to emerge. Similarly, the key strategic question in our case is how to identify when the potential for a new cohort of highly valuable models has emerged and how to leverage it in product innovation. I will continue to explore this topic in future posts.
+
+The bottom line
+
+AI and data have the potential to create deep defensive moats. The key is to establish the link between better models and better products. Models become better as more data is generated, but the prediction value of any individual model tends to plateau. By strategically harnessing new cohorts of more powerful models and the product opportunities that they unlock, successful companies can scale the business value generated from their data and build a deep AI moat.

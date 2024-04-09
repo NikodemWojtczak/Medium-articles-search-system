@@ -1,0 +1,27 @@
+The ethical automation toolkit
+
+A brief history of automation.
+
+1850–1920. The steam engine improves productivity and manufacturing for faster delivery of goods, services and passengers. Automated steam production aids human workforces. Creating rail links often used slave labour and presented the workforce with long hours and dangerous conditions. [1]
+
+Computer Space (1970).
+
+1970. The first arcade game: “Computer Space” uses basic artificial intelligence (AI); essentially randomising the players’ enemies so that they are seemingly intelligent — introduces AI to entertainment and the public domain — encouraging players to return, entering more coins to continue playing. [2]
+
+Robotic arm, iconic imagery of modern car assembly factories.
+
+1993–2007. Early robotics revolutionise manufacturing processes — automating manual labour in factories at considerable scale. [3]
+
+From early home computing to modern.
+
+1995–2005. Information technology allows automated tasks to be prevalent in offices and homes. [4]
+
+2015–2065. Automation, AI and machine learning (ML) will be used, at least partially in every part of human activity.
+
+Automated vehicles and pavement drones — represent our automated future.
+
+2020+. Automated vehicles and delivery drones are just a small representation of an autonomous future.
+
+47% of jobs could be automated within the next 20 years (Signavio.com, n.d.).
+
+The ethics of automating everything.

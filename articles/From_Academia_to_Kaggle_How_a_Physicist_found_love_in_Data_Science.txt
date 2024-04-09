@@ -1,0 +1,13 @@
+I didn’t choose Kaggle Life. Kaggle Life chose me : Bojan Tunguz.
+
+Learning and taking inspirations from others is always helpful. It makes even more sense in the Data Science realm, which is continuously being bombarded with new courses, MOOCs, and recommendations with every passing day. Not only such a lot of choices become overwhelming but also perplexing at times. With this thought in mind, we bring to light the stories of established Data Scientists and Kaggle Grandmasters at H2O.ai, who share their journey, inspirations, and accomplishments with us. These interviews are intended to motivate and encourage others who want to understand what it takes to be a Kaggle Grandmaster.
+
+This time I had the chance to interact with Bojan Tunguz, a Double Kaggle Grandmaster, and a Physicist. Bojan Tunguz, who was born in Sarajevo, Bosnia & Herzegovina and migrated to the United States in 1993. He holds a Ph.D. in Physics from the University of Illinois and a Masters in Applied Physics from Stanford University. He has also taught various Physics courses in reputed universities like Stanford, DePauw, Rhodes College and the University of Illinois.
+
+Bojan is just a single solo gold away from being a Triple Grandmaster, and we are hoping he achieves the feat soon.
+
+Here is an excerpt from my conversation with Bojan :
+
+You have a background in theoretical Physics. How did the transition from academia to industry happen?
+
+Bojan: To paraphrase Hemingway, first suddenly, then gradually. Academic jobs are tough to find, especially in oversaturated fields such as theoretical Physics. They are ten times harder when you are an immigrant. At one point, I decided that settling down and starting a family was much more important than chasing ever-elusive academic appointments. So I was forced to look into alternative options. Initially, I dabbled in tech writing and small-scale desktop manufacturing, but once I discovered data science, I was hooked on to it. Data science…

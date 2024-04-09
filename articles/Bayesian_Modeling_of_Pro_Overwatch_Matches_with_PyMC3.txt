@@ -1,0 +1,55 @@
+Photo by AC De Leon on Unsplash
+
+Professional eSports are becoming increasingly popular, and the industry is growing rapidly. Many of these professional game leagues are based on games that have two teams that battle it out. Call of Duty, League of Legends, and Overwatch are all examples. Although these are comparable to traditional team sports, the novelty of eSports means that less attention has been paid to predicting the outcomes of this burgeoning industry.
+
+How do you model adversarial team games? I was first inspired to start this project by reading Christopher Bishop’s new machine learning eBook, which has a chapter devoted to calculating player rankings in games using the Elo rating system. For those of you familiar with Chess, you may have encountered this metric before. I found a very instructive blog post on The Data Skeptic for this exact topic. All equations posted below were borrowed from the aforementioned Skeptic.
+
+In essence, Elo is a framework where the strength of a player is measured by a single number (r_1 = 2000). The predicted strength of any given team is represented by a Logistic Function (R), and the outcome of a given match as a ratio of the strength of a single team over the sum of their rating (E).
+
+Logistic Function for player i.
+
+Expected Outcome for player i
+
+If a player of strength 2000 is to face off against a player with an Elo rating of 1000, we would predict a very likely win for the former player (E=0.9968).
+
+Rating update for player i (K~32 in Chess)
+
+At the end of each match, the players’ scores are updated based on their relative strengths. If the favored player wins (S_i = 1.0), they gain a small positive adjustment in their score. If the underdog wins the match, they can gain a larger amount, as the result was unexpected. In the given example of the underdog winning, their score would change from 1000 to 1031. The favored player’s score would also decrease.
+
+What does this have to do with Overwatch, the immensely popular team-based shooter? I wondered how someone could model the incredible complexity of a team-based sport that is so dynamic without resorting to incredibly convoluted architectures? I saw an example code on the PyMC3 website about encoding professional rugby teams using Hierarchical Normal Distributions. Having just done a blog post on Hierarchical models, I thought I could try something similar!
+
+Essentially, we are treating each team as a single entity. This is in spite of the fact that teams consist of multiple players, each working autonomously. We will justify this choice in two ways: 1) It is easier to model a team as a single rating, rather than each individual player, 2) the teammates are working together (ideally), so they can be modeled as a collective unit. The Elo rating is also incredibly helpful if two teams have not played against one another before. Without any historical matchups, we can leverage team matches that the two adversaries had in common to make predictions.
+
+Data were scraped from the 2018 season of The Overwatch League. Unfortunately, there are not that many matches from which we can train our model. As the 2019 season is currently ongoing, any interested reader could begin to add this data to the model and see how well it performs! The raw data format had to be cleaned and processed prior to training our model.
+
+Win/Loss aggregations for the regular season
+
+There are two basic ways we can represent our data, which will change how we construct the model. The simplest approach is to make this a classification challenge. Each Overwatch matchup involves multiple rounds, and the winner of the match secures the most winning rounds. For instance, San Francisco Shock beats Florida Mayhem 3–2 . We can represent this as a total of 5 records in the data with varying levels of success and failure (0/1).
+
+Classification or Bernoulli trial for this simple example
+
+We can construct our data split as follows. For each matchup in the regular season, we model each win and loss as a binary target. Each team’s Elo rating will be inferred based on the equations listed above, which transform a rating into a Bernoulli trial. Then, we will use our learned ratings to predict all of the matches in the playoffs. Our PyMC3 model will then consist of a Binomial: for a given matchup, do we predict a success or a failure?
+
+A sample trace of our simple model.
+
+We can also represent our matchups as fractions. For the same example of a 3–2 match, with San Francisco Shock winning, we can encode this as a 0.6 win. Now we have slightly more flexibility, as we can model this as a regression task, or still keep it as a classification. This result offers the model more nuance as well. A 0.8 win is a much more favorable outcome than a 0.6 versus the same opponent.
+
+The ROC suggests the model is decent at predicting matchups
+
+Regardless of your choice, the training error seems to be pretty stable. Our model is able to predict which teams will win based on their Elo distributions. What will happen when we apply this model to the Playoffs?
+
+We are making a few assumptions during our playoffs evaluation:
+
+Teams at the end of the regular season are fixed in skill, players, strategy, etc. That the playoffs are substantive enough that less probable events cannot dominate the results (small number of samples) That our regular season matchups were fairly distributed among all teams (round-robin)
+
+These assumptions will definitely rear their ugly head. There are only 12 playoff matches in 2018, and eliminations come quickly. This means that if a team had a fairly poor match that is un-characteristic of their true skill, they may not have a chance to redeem themselves. Teams also can gain in strength when a true challenge appears, as is the nature of playoffs.
+
+When we apply our model to the playoff data, we get very poor performance. Our model might as well be randomly guessing! What happened here?
+
+Playoff Record and the predictions
+
+In the simplest terms, we had a few teams that upset the apple cart. Philly Fusion (Team 9) beat both Boston and New York (winning 4/5 matches) , despite having a lower Elo rating. Fusion then lost to London Spitfire, who ended up winning the tournament, despite being lower ranked than LA Valiant. Go figure! This is why people love to watch sports, as you never know who might win.
+
+If you are itching to try a few different Bayesian methods to games like this, Allen Downey’s book Think Bayes has a section on modelling teams via Poisson processes and their historical scoring record. Recently Tuan posted an article on Towards Data Science on building a betting strategy for professional soccer leagues, which I think would also apply here.
+
+Feel free to download the data and my notebooks via my Kaggle repo. I also have a Git repo with some selected notebooks. Leave a comment or a question below and I will do my best to answer it. Thanks for reading!

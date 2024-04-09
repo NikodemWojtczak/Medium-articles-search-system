@@ -1,0 +1,7 @@
+Quantum Computer and qubits have been around for a while and there have been many discussions and surprisingly many concerns as well, regarding its applications. Nasa and Google have been working collaboratively on a Quantum Computing project and there were hints earlier this year that Google is on the verge of cracking Quantum Supremacy. A few weeks back in September, a leaked paper from Google was posted on NASA’s website and taken down immediately. But the internet being the internet, copies of the paper resurfaced again and since then there is a lot of discussion going on.
+
+The paper was titled Quantum Supremacy using a Programmable Superconducting Processor. According to Google’s claim, for the first time, a 53 qubit quantum computer used quantum properties to surpass a classical machine at a specific task thereby achieving Quantum Supremacy. But it has not been published in any scientific journal and experts are yet to validate google’s claims but as per a quote from the paper which reads-
+
+“To our knowledge, this experiment marks the first computation that can only be performed on a quantum processor.”
+
+The quantum computer was competing with a super powerful classical computer to simulate the outputs of a pseudo-random quantum circuit, in other words, a number generator.

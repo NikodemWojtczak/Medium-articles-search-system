@@ -1,0 +1,35 @@
+nbconvert is an open source software project that comes bundled with Anaconda. To quote the nbconvert docs, it enables:
+
+presentation of information in familiar formats, such as PDF.
+
+of information in familiar formats, such as PDF. publishing of research using LaTeX and opens the door for embedding notebooks in papers.
+
+of research using LaTeX and opens the door for embedding notebooks in papers. collaboration with others who may not use the notebook in their work.
+
+with others who may not use the notebook in their work. sharing contents with many people via the web using HTML.
+
+This guide is current as of nbconvert version 5.4. Let’s dig in to how to use it!
+
+Install nbconvert and Friends
+
+Although nbconvert comes installed with Anaconda, it can be installed with pip, too. You can convert your Jupyter notebook to some file formats, such as HTML, right out of the box.
+
+However, if you want to covert a notebook to LaTex, PDF, Ascii, reStructuredTExt, or Markdown, you’ll need to install Pandoc and LaTeX. Install info for these packages varies with your machine, and can be found here.
+
+Let’s look at running nbconvert from your shell.
+
+Run nbconvert from the Command Line
+
+From your terminal shell, run jupyter nbconvert --to my_format my_notebook.ipynb .
+
+my_format is one of the conversion options.
+
+my_notebook.ipynb is the name of the file path to your notebook to be converted.
+
+Output Formats
+
+HTML
+
+Turn your Jupyter Notebook into pretty HTML with jupyter nbconvert --to html my_notebook.ipynb .
+
+The default output format is a nicely formatted HTML page. If you want a basic HTML version that might be useful for embedding in another HTML…

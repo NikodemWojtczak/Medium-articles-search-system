@@ -1,0 +1,251 @@
+This is a tutorial on building a Chrome Extension that leverages Serverless architecture. Specifically — we will use Google Cloud Functions in the Back-End of our Chrome Extension to do some fancy Python magic for us.
+
+The Extension we will build is the SummarLight Chrome Extension:
+
+The SummarLight Extension takes the text of he current web page you are on (presumably a cool blog on medium such as mine) and highlights the most important parts of that page/article.
+
+In order to do this, we will setup a UI (a button in this case) which will send the text on our current web page to our Back-End. The ‘Back-End’ in this case will be a Google Cloud Function which will analyze that text and return its Extractive Summary (the most important sentences of that text).
+
+Architecture
+
+A Simple & Flexible Architecture
+
+As we can see, the architecture is very straightforward and flexible. You can setup a simple UI like an App or, in this case, a Chrome Extension, and pass any complex work to your serverless functions. You can easily change your logic in the function and re-deploy it to try alternative methods. And finally, you can scale it for as many API calls as needed.
+
+This is not an article on the benefits of serverless so I will not go into details about the advantages of using it over traditional servers. But usually, a serverless solution can be much cheaper and scalable (but not always…depends on your use case).
+
+The Chrome Extension
+
+Here is a good guide on the setup of a Chrome Extension:
+
+And all the code for the SummarLight Extension can be found here:
+
+The main.py file in the root directory is where we define our Google Cloud Function. The extension_bundle folder has all the files that go into creating the Chrome Extension.
+
+Google Cloud Function
+
+I chose Google instead of AWS Lamba because I had some free credits (thanks Google!) but you can easily do it with AWS as well. It was a huge plus for me that they had just released Google Cloud Functions for Python as I do most of my data crunching in that beautiful language.
+
+You can learn more about deploying Google Cloud Functions here:
+
+I highly recommend using the gcloud sdk and starting with there hello_world example. You can edit the function in the main.py file they provide for your needs. Here is my function:
+
+import sys
+
+from flask import escape
+
+from gensim.summarization import summarize
+
+import requests
+
+import json
+
+
+
+
+
+def read_article(file_json):
+
+article = ''
+
+filedata = json.dumps(file_json)
+
+if len(filedata) < 100000:
+
+article = filedata
+
+return article
+
+
+
+def generate_summary(request):
+
+
+
+request_json = request.get_json(silent=True)
+
+sentences = read_article(request_json)
+
+
+
+summary = summarize(sentences, ratio=0.3)
+
+summary_list = summary.split('.')
+
+for i, v in enumerate(summary_list):
+
+summary_list[i] = v.strip() + '.'
+
+summary_list.remove('.')
+
+
+
+return json.dumps(summary_list)
+
+Pretty straight forward. I receive some text via the read_article() function and then, using the awesome Gensim library, I return a Summary of that text. The Gensim Summary function works by ranking all the sentences in order of importance. In this case, I have chosen to return the top 30% of the most important sentences. This will highlight the top one third of the article/blog.
+
+Alternative Approaches: I tried different methods for summarization including using Glove Word Embeddings but the results were not that much better compared to Gensim (especially considering the increased processing compute/time because of loading in those massive embeddings). There is still a lot of room for improvement here though. This is an active area of research and better text summarization approaches are being developed:
+
+Once we are good with the function we can deploy it and it will be available at an HTTP endpoint which we can call from our App/Extension.
+
+Extension Bundle
+
+Now for the Front-End. To start, we need a popup.html file. This will deal with the UI part. It will create a menu with a button.
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<ul>
+
+<li>
+
+<a><button id="clickme" class="dropbtn">Highlight Summary</button></a>
+
+<script type="text/javascript" src="popup.js" charset="utf-8"></script>
+
+</li>
+
+</ul>
+
+</body>
+
+</html>
+
+As we can see, the ‘Highlight Summary’ button has an onClick event that triggers the popup.js file. This in turn will call the summarize function:
+
+function summarize() {
+
+chrome.tabs.executeScript(null, { file: "jquery-2.2.js" }, function() {
+
+chrome.tabs.executeScript(null, { file: "content.js" });
+
+});
+
+}
+
+document.getElementById('clickme').addEventListener('click', summarize);
+
+The summarize function calls the content.js script (yeah yeah I know we could have avoided this extra step…).
+
+alert("Generating summary highlights. This may take up to 30 seconds depending on length of article.");
+
+
+
+function unicodeToChar(text) {
+
+return text.replace(/\\u[\dA-F]{4}/gi,
+
+function (match) {
+
+return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
+
+});
+
+}
+
+
+
+// capture all text
+
+var textToSend = document.body.innerText;
+
+
+
+// summarize and send back
+
+const api_url = 'YOUR_GOOGLE_CLOUD_FUNCTION_URL';
+
+
+
+fetch(api_url, {
+
+method: 'POST',
+
+body: JSON.stringify(textToSend),
+
+headers:{
+
+'Content-Type': 'application/json'
+
+} })
+
+.then(data => { return data.json() })
+
+.then(res => {
+
+$.each(res, function( index, value ) {
+
+value = unicodeToChar(value).replace(/\
+
+/g, '');
+
+document.body.innerHTML = document.body.innerHTML.split(value).join('<span style="background-color: #fff799;">' + value + '</span>');
+
+});
+
+})
+
+.catch(error => console.error('Error:', error));
+
+Here is where we parse the html of the page we are currently on (document.body.innerText) and, after some pre-processing with the unicodeToChar function, we send it to our Google Cloud Function via the Fetch API. You can add your own HTTP endpoint url in the api_url variable for this.
+
+Again, leveraging Fetch, we return a Promise, which is the summary generated from our serverless function. Once we resolve this, we can parse the loop through the html content of our page and highlight the sentences from our summary.
+
+Since — it can take a little while for all this processing to be done, we add an alert at the top of the page which will indicate this (“Generating summary highlights. This may take up to 30 seconds depending on length of article.").
+
+Finally — we need to create a manifest.json file that is needed to publish the Extension:
+
+{
+
+"manifest_version": 2,
+
+"name": "SummarLight",
+
+"version": "0.7.5",
+
+"permissions": ["activeTab", "YOUR_GOOGLE_CLOUD_FUNCTION_URL"],
+
+"description": "Highlights the most important parts of posts/stories/articles!",
+
+"icons": {"16": "icon16.png",
+
+"48": "icon48.png",
+
+"128": "icon128.png" },
+
+"browser_action": {
+
+"default_icon": "tab-icon.png",
+
+"default_title": "Highlight the important stuff",
+
+"default_popup": "popup.html"
+
+}
+
+}
+
+Notice the permissions tab. We have to add our Google Cloud Function URL here to make sure we do not get a CORS error when we call our function via the Fetch API. We also fill out details like the name/description and icons to be displayed for our Chrome Extension on the Google Store.
+
+And that’s it! We have created a Chrome Extension that leverages a serverless backbone aka Google Cloud Function. The end effect is something like this:
+
+A demo of SummarLight
+
+It’s a simple but effective way to build really cool Apps/Extensions. Think of some of the stuff you have done in Python. Now you can just hook up your scripts to a button in an Extension/App and make a nice product out of it. All without worrying about any servers or configurations.
+
+Here is the Github Repo: https://github.com/btahir/summarlight
+
+And you can use the Extension yourself. It is live on the Google Store here:
+
+Please share your ideas for Extensions (or Apps) leveraging Google Cloud Functions in the comments. :)
+
+Cheers.

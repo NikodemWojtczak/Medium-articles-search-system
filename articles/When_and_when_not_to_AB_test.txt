@@ -1,0 +1,39 @@
+When and when not to A/B test
+
+Photo by Daniil Vnoutchkov on Unsplash
+
+This article discusses the differences of A/B or Split tests and multi-armed bandits for variant testing. It can be used to e.g. choose the best performing set of ads for a digital marketing campaign. Simulating and measuring the performance of both methods in various experiments shows that in most scenarios the Bandit dominates the Split and should be preferred. In addition to the simulation results, all of the required source code is provided plus a simple web app for variant optimization using the Bandit method.
+
+App: optimizer.stagelink.com
+
+Code: github.com/kinosal/optimizer
+
+Story Outline
+
+What is an A/B test and what’s the problem? The alternative: Multi-armed bandits Experiment: Split vs. Bandit Parameters + Conclusion
+
+So let’s get going:
+
+What is an A/B test?
+
+Photo by Robert Anasch on Unsplash
+
+A/B, A/B/n or Split Tests - which is how we will call them - are used to determine which of several alternative scenarios or variants is more likely to generate a desired - successful - outcome or response by testing, measuring and comparing the behavior, i.e. the success rates, in each scenario. There are various use cases for such tests. This article will focus on maximising conversion rates, e.g. from users seeing an online advertisement to clicking on such ad or users completing a purchase after visiting a website.
+
+The outcome or result of a Split Test can be described with a NxM matrix where N rows contain the number of successes and failures = trials - successes for all tested scenarios. In an example where Ad (scenario or variant) 1 has been shown to 1,000 people (trials), 10 of which clicked on the ad (successes), and Ad 2 has been shown to different 1,000 people of which 20 clicked on the ad, this matrix, which is also called a contingency table, looks like this:
+
+Now the objective is to determine whether one of the two ads’ (scenarios’) success rates (likelihood to click) is “significantly” higher than of the other ad (scenario). This would mean there was a high likelihood that the samples drawn in all scenarios do not originate in the same population (or a population with the same - in our case binomial - distribution), which is our null-hypothesis H0 of the success rate being independent from the observed scenarios that we are seeking to invalidate or disprove. This is important so we can eventually conclude that the differences in the scenarios are in fact responsible for the different success rates, and not only the randomness within these scenarios. Statistical significance or confidence level can be explained as the probability of independence = the probability of wrongly rejecting H0 (a type I error) being lower than a predefined p-value. There are several methods to test for significance, we will be focussing on the (Pearson’s) chi-squared test without (Yates’) correction. The p-value can be derived from the observed data displayed in a contingency table via the chi-squared statistic which is defined as
+
+where Oi,j are the observed successes and failures while Ei,j are their respective expected values if the underlying distribution was the same, i.e. 15 successes and 985 failures in the above example. The statistic thus indicates the dissimilarity of the two scenarios, if there is no difference in the observed scenarios chi-square equals zero. The p-value can now be calculated as the right-tailed area under the curve (the integral) of the chi-squared distribution with the proper degrees of freedom (the number of scenarios minus one in our case of two possible outcomes) from the value of the chi-square statistic (more about this later when conducting the experiment). If the p-value is lower than previously defined (as in the desired confidence or significance level) the null-hypothesis can be rejected and the outcomes deemed dependent on the observed scenarios. In the above example chi-squared equals 3.3841 and p is 0.0658 (which might not be low enough to disprove the notion of independence).
+
+So what’s the problem?
+
+As we have seen we need to achieve some level of confidence in our desired outcome (successes or clicks in the above example) to depend on a provided scenario. Only then we can “safely” disregard the inferior scenario or variant - e.g. ad - and thus maximize positive results.
+
+The problem here is one of exploration and exploitation.
+
+In order to exploit the situation by moving completely to the best scenario (e.g. show only that ad), we need to invest in exploring the situation until we are confident enough. This can be expensive since we might be paying to deliver an ad impression and/or because of the opportunity cost induced by not maximizing our return due to a “bad” choice of scenario(s). So, until we reach the desired confidence in our decision to move entirely to the designated superior scenario, we are purely paying to explore; after we have reached this point, we can fully exploit that situation (given the scenarios do not change over time). This doesn’t sound like an optimal solution, does it?
+
+What if we could more gradually and earlier move towards the scenarios we believe might turn out to be superior and thus reduce exploration costs and increase exploitation returns, especially in the short run?
+
+I’m glad you asked.

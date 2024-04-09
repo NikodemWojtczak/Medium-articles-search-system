@@ -1,0 +1,47 @@
+Jupyter Notebooks are a web-based and interactive tool that the machine learning and data science community uses a lot. They are used for quick testing, as a reporting tool, or even as highly sophisticated learning materials in online courses.
+
+So here in this blog, I’m going to list down a few of the shortcuts, magic commands, and nbextensions.
+
+Shortcuts
+
+Press Ctrl+Shift+p or click on the small keyboard icon from the menu bar to get a list of command palette
+
+Shortcuts in both command and edit modes:
+
+Shift + Enter run the current cell, select below
+
+run the current cell, select below Ctrl + Enter run selected cells
+
+run selected cells Alt + Enter run the current cell, and insert it below
+
+run the current cell, and insert it below Ctrl + S save and checkpoint
+
+Shortcuts when in edit mode:
+
+Esc take you into command mode
+
+take you into command mode Tab code completion or indent
+
+code completion or indent Shift + Tab tooltip
+
+tooltip Ctrl + ] indent
+
+indent Ctrl + [ dedent
+
+dedent Ctrl + A select all
+
+select all Ctrl + Z undo
+
+undo Ctrl + Shift + Z or Ctrl + Y redo
+
+or redo Ctrl + Home go to cell start
+
+go to cell start Ctrl + End go to the cell end
+
+go to the cell end Ctrl + Left go one word left
+
+go one word left Ctrl + Right go one word right
+
+Once in command mode, press H (help) to get a list of keyboard shortcuts:
+
+I’m listing down a few of the most commonly used shortcuts. Make sure you are in command mode by hitting Esc :

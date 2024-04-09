@@ -1,0 +1,19 @@
+Why Harley? B/C Data Science Rocks!
+
+Introduction
+
+In a series of posts (why experiments, two-way causal direction, pitfalls, correlation & causation, and Natural experiments), we have covered topics including what, why, and how to conduct experimentation. Regardless of how desirable they appear to be, it is impossible to run experiments for all types of business questions, for various reasons.
+
+It could be unethical to do so. Let’s say we are interested in the effect of undergraduate education on students’ future earnings. It would be fundamentally wrong to randomly assign some high students to receive the education and not to others.
+
+Or, it could be expensive, time-consuming, or technically infeasible. Even top companies like Netflix and Airbnb can’t guarantee the internal validity of randomization at the individual user level all the time.
+
+Under these scenarios, we have to rely on other methods, both observational and quasi-experimental designs, to derive causal effects. As an established quasi-experimental technique, Regress Discontinuity Design, RDD, has been through a long period of dormancy and comes back strong until recently.
+
+In this post, we elaborate on RDD’s underlying constructs, such as research ideology, statistical assumptions, potential outcomes framework (POF), merits, limitations, and R illustration.
+
+What is RDD?
+
+First off, it is a quasi-experimental method with a pretest-posttest design, implying that researchers administer the measure of interest before and after the intervention (treatment).
+
+By setting up a “cutoff” point, we select the subjects slightly above the threshold line as the treatment group and the ones slightly below the line as the control group. Since these two groups are geographically close to each other, we can control potential confounding variables and treat it as an as-if random treatment assignment. If there is any difference in the…

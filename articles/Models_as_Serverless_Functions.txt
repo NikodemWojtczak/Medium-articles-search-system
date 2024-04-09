@@ -1,0 +1,599 @@
+Models as Serverless Functions
+
+I recently published Chapter 3 of my book-in-progress on leanpub. The goal with this chapter is to empower data scientists to leverage managed services to deploy models to production and own more of DevOps.
+
+Serverless technologies enable developers to write and deploy code without needing to worry about provisioning and maintaining servers. One of the most common uses of this technology is serverless functions, which makes it much easier to author code that can scale to match variable workloads. With serverless function environments, you write a function that the runtime supports, specify a list of dependencies, and then deploy the function to production. The cloud platform is responsible for provisioning servers, scaling up more machines to match demand, managing load balancers, and handling versioning. Since we’ve already explored hosting models as web endpoints, serverless functions are an excellent tool to utilize when you want to rapidly move from prototype to production for your predictive models.
+
+Serverless functions were first introduced on AWS in 2015 and GCP in 2016. Both of these systems provide a variety of triggers that can invoke functions and a number of outputs that the functions can trigger in response. While it’s possible to use serverless functions to avoid writing complex code for gluing different components together in a cloud platform, we’ll explore a much narrower use case in this chapter. We’ll write serverless functions that are triggered by an HTTP request, calculate a propensity score for the passed in feature vector, and return the prediction as JSON. For this specific use case, GCP’s Cloud Functions are much easier to get up and running, but we’ll explore both AWS and GCP solutions.
+
+In this chapter, we’ll introduce the concept of managed services, where the cloud platform is responsible for provisioning servers. Next, we’ll cover hosting sklearn and Keras models with Cloud Functions. To conclude, we’ll show how to achieve the same result for sklearn models with Lambda functions in AWS. We’ll also touch on model updates and access control.
+
+3.1 Managed Services
+
+Since 2015, there’s been a movement in cloud computing to transition developers away from manually provisioning servers to using managed services that abstract away the concept of servers. The main benefit of this new paradigm is that developers can write code in a staging environment and then push code to production with minimal concerns about operational overhead, and the infrastructure required to match the required workload can be automatically scaled as needed. This enables both engineers and data scientists to be more active in DevOps, because much of the operational concerns of the infrastructure are managed by the cloud provider.
+
+Manually provisioning servers, where you ssh into the machines to set up libraries and code, is often referred to as hosted deployments, versus managed solutions where the cloud platform is responsible for abstracting away this concern from the user. In this book, we’ll cover examples in both of these categories. Here are some of the different use cases we’ll cover:
+
+Web Endpoints: Single EC2 instance (hosted) vs AWS Lambda (managed)
+
+Single EC2 instance (hosted) vs AWS Lambda (managed) Docker: Single EC2 instance (hosted) vs ECS (managed)
+
+Single EC2 instance (hosted) vs ECS (managed) Messaging: Kafka (hosted) vs AWS Kinesis (managed)
+
+This chapter will walk through the first use case, migrating web endpoints from a single machine to an elastic environment. We’ll also work through examples that thread this distinction, such as deploying Spark environments with specific machine configurations and manual cluster management.
+
+Serverless technologies and managed services are a powerful tool for data scientists because they enable a single developer to build data pipelines that can scale to massive workloads. It’s a powerful tool for data scientists to wield, but there are a few tradeoffs to consider when using managed services. Here are some of the main issues to consider when deciding between hosted and managed solutions:
+
+Iteration: Are you rapidly prototyping on a product or iterating on a system in production?
+
+Are you rapidly prototyping on a product or iterating on a system in production? Latency: Is a multi-second latency acceptable for your SLAs?
+
+Is a multi-second latency acceptable for your SLAs? Scale: Can your system scale to match peak workload demands?
+
+Can your system scale to match peak workload demands? Cost: Are you willing to pay more for serverless cloud costs?
+
+At a startup, serverless technologies are great because you have low-volume traffic and have the ability to quickly iterate and try out new architectures. At a certain scale, the dynamics change and the cost of using serverless technologies may be less appealing when you already have in-house expertise for provisioning cloud services. In my past projects, the top issue that was a concern was latency, because it can impact customer experiences. In chapter 8, we’ll touch on this topic, because managed solutions often do not scale well to large workloads.
+
+Even if your organization does not use managed services in daily operations, it’s a useful skillset to get hands on with as a data scientist, because it means that you can separate model training from model deployment issues. One of the themes in this book is that models do not need to be complex, but it can be complex to deploy models. Serverless functions are a great approach for demonstrating the ability to serve models at scale, and we’ll walk through two cloud platforms that provide this capability.
+
+3.2 Cloud Functions (GCP)
+
+Google Cloud Platform provides an environment for serverless functions called Cloud Functions. The general concept with this tool is that you can write code targeted for Flask, but leverage the managed services in GCP to provide elastic computing for your Python code. GCP is a great environment to get started with serverless functions, because it closely matches standard Python development ecosystems, where you specify a requirements file and application code.
+
+We’ll build scalable endpoints that serve both sklearn and Keras models with Cloud Functions. There are a few issues to be aware of when writing functions in this environment:
+
+Storage: Cloud Functions run in a read-only environment, but you can write to the /tmp directory.
+
+Cloud Functions run in a read-only environment, but you can write to the directory. Tabs: Spaces versus tabs can cause issues in Cloud Functions, and if you are working in the web editor versus familiar tools like Sublime Text, these can be difficult to spot.
+
+Spaces versus tabs can cause issues in Cloud Functions, and if you are working in the web editor versus familiar tools like Sublime Text, these can be difficult to spot. sklearn: When using a requirements file, it’s important to differentiate between sklearn and scikit-learn based on your imports. We’ll use sklearn in this chapter.
+
+Cloud platforms are always changing, so the specific steps outlined in this chapter may change based on the evolution of these platforms, but the general approach for deploying functions should apply throughout these updates. As always, the approach I advocate for is starting with a simple example, and then scaling to more complex solutions as needed. In this section, we’ll first build an echo service and then explore sklearn and Keras models.
+
+3.2.1 Echo Service
+
+GCP provides a web interface for authoring Cloud Functions. This UI provides options for setting up the triggers for a function, specifying the requirements file for a Python function, and authoring the implementation of the Flask function that serves the request. To start, we’ll set up a simple echo service that reads in a parameter from an HTTP request and returns the passed in parameter as the result.
+
+In GCP, you can directly set up a Cloud Function as an HTTP endpoint without needing to configure additional triggers. To get started with setting up an echo service, perform the following actions in the GCP console:
+
+Search for “Cloud Function” Click on “Create Function” Select “HTTP” as the trigger Select “Allow unauthenticated invocations” Select “Inline Editor” for source code Select Python 3.7 as the runtime
+
+An example of this process is shown in Figure 3.1. After performing these steps, the UI will provide tabs for the main.py and requirements.txt files. The requirements file is where we will specify libraries, such as flask >= 1.1.1 , and the main file is where we’ll implement our function behavior.
+
+FIGURE 3.1: Creating a Cloud Function.
+
+We’ll start by creating a simple echo service that parses out the msg parameter from the passed in request and returns this parameter as a JSON response. In order to use the jsonify function we need to include the flask library in the requirements file. The requirements.txt file and main.py files for the simple echo service are shown in the snippet below. The echo function here is similar to the echo service we coded in Section 2.1.1, the main distinction here is that we are no longer using annotations to specify the endpoints and allowed methods. Instead, these settings are now being specified using the Cloud Functions UI.
+
+# requirements.txt
+
+flask #main.py
+
+def echo(request):
+
+from flask import jsonify data = {"success": False}
+
+params = request.get_json() if "msg" in params:
+
+data["response"] = str(params['msg'])
+
+data["success"] = True
+
+
+
+return jsonify(data)
+
+We can deploy the function to production by performing the following steps:
+
+Update “Function to execute” to “echo” Click “Create” to deploy
+
+Once the function has been deployed, you can click on the “Testing” tab to check if the deployment of the function worked as intended. You can specifying a JSON object to pass to the function, and invoke the function by clicking “Test the function”, as shown in Figure 3.2. The result of running this test case is the JSON object returned in the Output dialog, which shows that invoking the echo function worked correctly.
+
+FIGURE 3.2: Testing a Cloud Function.
+
+Now that the function is deployed and we enabled unauthenticated access to the function, we can call the function over the web using Python. To get the URL of the function, click on the “trigger” tab. We can use the requests library to pass a JSON object to the serverless function, as shown in the snippet below.
+
+import requests result = requests.post(
+
+"https://us-central1-gameanalytics.cloudfunctions.net/echo"
+
+,json = { 'msg': 'Hello from Cloud Function' })
+
+print(result.json())
+
+The result of running this script is that a JSON payload is returned from the serverless function. The output from the call is the JSON shown below.
+
+{
+
+'response': 'Hello from Cloud Function',
+
+'success': True
+
+}
+
+We now have a serverless function that provides an echo service. In order to serve a model using Cloud Functions, we’ll need to persist the model specification somewhere that the serverless function can access. To accomplish this, we’ll use Cloud Storage to store the model in a distributed storage layer.
+
+3.2.2 Cloud Storage (GCS)
+
+GCP provides an elastic storage layer called Google Cloud Storage (GCS) that can be used for distributed file storage and can also scale to other uses such as data lakes. In this section, we’ll explore the first use case of utilizing this service to store and retrieve files for use in a serverless function. GCS is similar to AWS’s offering called S3, which is leveraged extensively in the gaming industry to build data platforms.
+
+While GCP does provide a UI for interacting with GCS, we’ll explore the command line interface in this section, since this approach is useful for building automated workflows. GCP requires authentication for interacting with this service, please revisit section 1.1 if you have not yet set up a JSON credentials file. In order to interact with Cloud Storage using Python, we’ll also need to install the GCS library, using the command shown below:
+
+pip install --user google-cloud-storage
+
+export GOOGLE_APPLICATION_CREDENTIALS=/home/ec2-user/dsdemo.json
+
+Now that we have the prerequisite libraries installed and credentials set up, we can interact with GCS programmatically using Python. Before we can store a file, we need to set up a bucket on GCS. A bucket is a prefix assigned to all files stored on GCS, and each bucket name must be globally unique. We’ll create a bucket name called dsp_model_store where we’ll store model objects. The script below shows how to create a new bucket using the create_bucket function and then iterate through all of the available buckets using the list_buckets function. You’ll need to change the bucket_name variable to something unique before running this script.
+
+from google.cloud import storage
+
+bucket_name = "dsp_model_store" storage_client = storage.Client()
+
+storage_client.create_bucket(bucket_name) for bucket in storage_client.list_buckets():
+
+print(bucket.name)
+
+After running this code, the output of the script should be a single bucket, with the name assigned to the bucket_name variable. We now have a path on GCS that we can use for saving files: gs://dsp_model_storage .
+
+We’ll reuse the model we trained in Section 2.2.1 to deploy a logistic regression model with Cloud Functions. To save the file to GCS, we need to assign a path to the destination, shown by the bucket.blob command below and select a local file to upload, which is passed to the upload function.
+
+from google.cloud import storage bucket_name = "dsp_model_store"
+
+storage_client = storage.Client()
+
+bucket = storage_client.get_bucket(bucket_name) blob = bucket.blob("serverless/logit/v1")
+
+blob.upload_from_filename("logit.pkl")
+
+After running this script, the local file logit.pkl will now be available on GCS at the following location:
+
+gs://dsp_model_storage/serverless/logit/v1/logit.pkl
+
+While it’s possible to use URIs such as this directly to access files, as we’ll explore with Spark in Chapter 6, in this section we’ll retrieve the file using the bucket name and blob path. The code snippet below shows how to download the model file from GCS to local storage. We download the model file to the local path of local_logit.pkl and then load the model by calling pickle.load with this path.
+
+import pickle
+
+from google.cloud import storage bucket_name = "dsp_model_store"
+
+storage_client = storage.Client()
+
+bucket = storage_client.get_bucket(bucket_name) blob = bucket.blob("serverless/logit/v1")
+
+blob.download_to_filename("local_logit.pkl")
+
+model = pickle.load(open("local_logit.pkl", 'rb'))
+
+model
+
+We now can programmatically store model files to GCS using Python and also retrieve them, enabling us to load model files in Cloud Functions. We’ll combine this with the Flask examples from the previous chapter to serve sklearn and Keras models as Cloud Functions.
+
+3.2.3 Model Function
+
+We can now set up a Cloud Function that serves logistic regression model predictions over the web. We’ll build on the Flask example that we explored in Section 2.3.1 and make a few modifications for the service to run on GCP. The first step is to specify the required Python libraries that we’ll need to serve requests in the requirements.txt file, as shown below. We’ll also need pandas to set up a DataFrame for making the prediction, sklearn for applying the model, and cloud storage for retrieving the model object from GCS.
+
+google-cloud-storage
+
+sklearn
+
+pandas
+
+flask
+
+The next step is to implement our model function in the main.py file. A small change from before is that the params object is now fetched using request.get_json() rather than flask.request.args . The main change is that we are now downloading the model file from GCS rather than retrieving the file directly from local storage, because local files are not available when writing Cloud Functions with the UI tool. An additional change from the prior function is that we are now reloading the model for every request, rather than loading the model file once at startup. In a later code snippet, we’ll show how to use global objects to cache the loaded model.
+
+def pred(request):
+
+from google.cloud import storage
+
+import pickle as pk
+
+import sklearn
+
+import pandas as pd
+
+from flask import jsonify data = {"success": False}
+
+params = request.get_json() if "G1" in params:
+
+
+
+new_row = { "G1": params.get("G1"),"G2": params.get("G2"),
+
+"G3": params.get("G3"),"G4": params.get("G4"),
+
+"G5": params.get("G5"),"G6": params.get("G6"),
+
+"G7": params.get("G7"),"G8": params.get("G8"),
+
+"G9": params.get("G9"),"G10":params.get("G10")} new_x = pd.DataFrame.from_dict(new_row,
+
+orient = "index").transpose()
+
+
+
+# set up access to the GCS bucket
+
+bucket_name = "dsp_model_store"
+
+storage_client = storage.Client()
+
+bucket = storage_client.get_bucket(bucket_name) # download and load the model
+
+blob = bucket.blob("serverless/logit/v1")
+
+blob.download_to_filename("/tmp/local_logit.pkl")
+
+model = pk.load(open("/tmp/local_logit.pkl", 'rb'))
+
+
+
+data["response"] = str(model.predict_proba(new_x)[0][1])
+
+data["success"] = True
+
+
+
+return jsonify(data)
+
+One note in the code snippet above is that the /tmp directory is used to store the downloaded model file. In Cloud Functions, you are unable to write to the local disk, with the exception of this directory. Generally it’s best to read objects directly into memory rather than pulling objects to local storage, but the Python library for reading objects from GCS currently requires this approach.
+
+For this function, I created a new Cloud Function named pred , set the function to execute to pred , and deployed the function to production. We can now call the function from Python, using the same approach from 2.3.1 with a URL that now points to the Cloud Function, as shown below:
+
+import requests result = requests.post(
+
+"https://us-central1-gameanalytics.cloudfunctions.net/pred"
+
+,json = { 'G1':'1', 'G2':'0', 'G3':'0', 'G4':'0', 'G5':'0'
+
+,'G6':'0', 'G7':'0', 'G8':'0', 'G9':'0', 'G10':'0'})
+
+print(result.json())
+
+The result of the Python web request to the function is a JSON response with a response value and model prediction, shown below:
+
+{
+
+'response': '0.06745113592634559',
+
+'success': True
+
+}
+
+In order to improve the performance of the function, so that it takes milliseconds to respond rather than seconds, we’ll need to cache the model object between runs. It’s best to avoid defining variables outside of the scope of the function, because the server hosting the function may be terminated due to inactivity. Global variables are an execution to this rule, when used for caching objects between function invocations. This code snippet below shows how a global model object can be defined within the scope of the pred function to provide a persistent object across calls. During the first function invocation, the model file will be retrieved from GCS and loaded via pickle. During following runs, the model object will already be loaded into memory, providing a much faster response time.
+
+model = None
+
+
+
+def pred(request):
+
+global model
+
+
+
+if not model:
+
+# download model from GCS
+
+model = pk.load(open("/tmp/local_logit.pkl", 'rb')) if "G1" in params:
+
+# apply model return jsonify(data)
+
+Caching objects is important for authoring responsive models that lazily load objects as needed. It’s also useful for more complex models, such as Keras which requires persisting a TensorFlow graph between invocations.
+
+3.2.4 Keras Model
+
+Since Cloud Functions provide a requirements file that can be used to add additional dependencies to a function, it’s also possible to serve Keras models with this approach. We’ll be able to reuse most of the code from the past section, and we’ll also use the Keras and Flask approach introduced in Section 2.3.2. Given the size of the Keras libraries and dependencies, we’ll need to upgrade the memory available for the Function from 256 MB to 1GB. We also need to update the requirements file to include Keras:
+
+google-cloud-storage
+
+tensorflow
+
+keras
+
+pandas
+
+flask
+
+The full implementation for the Keras model as a Cloud Function is shown in the code snippet below. In order to make sure that the TensorFlow graph used to load the model is available for future invocations of the model, we use global variables to cache both the model and graph objects. To load the Keras model, we need to redefine the auc function that was used during model training, which we include within the scope of the predict function. We reuse the same approach from the prior section to download the model file from GCS, but now use load_model from Keras to read the model file into memory from the temporary disk location. The result is a Keras predictive model that lazily fetches the model file and can scale to meet variable workloads as a serverless function.
+
+model = None
+
+graph = None def predict(request):
+
+global model
+
+global graph
+
+
+
+from google.cloud import storage
+
+import pandas as pd
+
+import flask
+
+import tensorflow as tf
+
+import keras as k
+
+from keras.models import load_model
+
+from flask import jsonify
+
+
+
+def auc(y_true, y_pred):
+
+auc = tf.metrics.auc(y_true, y_pred)[1]
+
+k.backend.get_session().run(
+
+tf.local_variables_initializer())
+
+return auc
+
+
+
+data = {"success": False}
+
+params = request.get_json() # download model if now cached
+
+if not model:
+
+graph = tf.get_default_graph()
+
+
+
+bucket_name = "dsp_model_store_1"
+
+storage_client = storage.Client()
+
+bucket = storage_client.get_bucket(bucket_name) blob = bucket.blob("serverless/keras/v1")
+
+blob.download_to_filename("/tmp/games.h5")
+
+model = load_model('/tmp/games.h5',
+
+custom_objects={'auc':auc})
+
+
+
+# apply the model
+
+if "G1" in params:
+
+new_row = { "G1": params.get("G1"),"G2": params.get("G2"),
+
+"G3": params.get("G3"),"G4": params.get("G4"),
+
+"G5": params.get("G5"),"G6": params.get("G6"),
+
+"G7": params.get("G7"),"G8": params.get("G8"),
+
+"G9": params.get("G9"),"G10":params.get("G10")} new_x = pd.DataFrame.from_dict(new_row,
+
+orient = "index").transpose()
+
+
+
+with graph.as_default():
+
+data["response"]= str(model.predict_proba(new_x)[0][0])
+
+data["success"] = True
+
+
+
+return jsonify(data)
+
+To test the deployed model, we can reuse the Python web request script from the prior section and replace pred with predict in the request URL. We have now deployed a deep learning model to production.
+
+3.2.5 Access Control
+
+The Cloud Functions we introduced in this chapter are open to the web, which means that anyone can access them and potentially abuse the endpoints. In general, it’s best not to enable unauthenticated access and instead lock down the function so that only authenticated users and services can access them. This recommendation also applies to the Flask apps that we deployed in the last chapter, where it’s a best practice to restrict access to services that can reach the endpoint using AWS private IPs.
+
+There are a few different approaches for locking down Cloud Functions to ensure that only authenticated users have access to the functions. The easiest approach is to disable “Allow unauthenticated invocations” in the function setup to prevent hosting the function on the open web. To use the function, you’ll need to set up IAM roles and credentials for the function. This process involves a number of steps and may change over time as GCP evolves. Instead of walking through this process, it’s best to refer to the GCP documentation.
+
+Another approach for setting up functions that enforce authentication is by using other services within GCP. We’ll explore this approach in Chapter 8, which introduces GCP’s PubSub system for producing and consuming messages within GCP’s ecosystem.
+
+3.2.6 Model Refreshes
+
+We’ve deployed sklearn and Keras models to production using Cloud Functions, but the current implementations of these functions use static model files that will not change over time. It’s usually necessary to make changes to models over time to ensure that the accuracy of the models do not drift too far from expected performance. There’s a few different approaches that we can take to update the model specification that a Cloud Function is using:
+
+Redeploy: Overwrite the model file on GCS and redeploy the function will result in the function loading the updated file. Timeout: We can add a timeout to the function, where the model is re-downloaded after a certain threshold of time passes, such as 30 minutes. New Function: We can deploy a new function, such as pred_v2 and update the URL used by systems calling the service, or use a load balancer to automate this process. Model Trigger: We can add additional triggers to the function to force the function to manually reload the model.
+
+While the first approach is the easiest to implement and can work well for small-scale deployments, the third approach, where a load balancer is used to direct calls to the newest function available is probably the most robust approach for production systems. A best practice is to add logging to your function, in order to track predictions over time so that you can log the performance of the model and identify potential drift.
+
+3.3 Lambda Functions (AWS)
+
+AWS also provides an ecosystem for serverless functions called Lambda. AWS Lambda is useful for glueing different components within an AWS deployment together, since it supports a rich set of triggers for function inputs and outputs. While Lambda does provide a powerful tool for building data pipelines, the current Python development environment is a bit clunkier than GCP.
+
+In this section we’ll walk through setting up an echo service and an sklearn model endpoint with Lambda. We won’t cover Keras, because the size of the library causes problems when deploying a function with AWS. Unlike the past section where we used a UI to define functions, we’ll use command line tools for providing our function definition to Lambda.
+
+3.3.1 Echo Function
+
+For a simple function, you can use the inline code editor that Lambda provides for authoring functions. You can create a new function by performing the following steps in the AWS console:
+
+Under “Find Services”, select “Lambda” Select “Create Function” Use “Author from scratch” Assign a name (e.g. echo) Select a Python runtime Click “Create Function”
+
+After running these steps, Lambda will generate a file called lambda_function.py . The file defines a function called lambda_handler which we’ll use to implement the echo service. We’ll make a small modification to the file, as shown below, which echoes the msg parameter as the body of the response object.
+
+def lambda_handler(event, context): return {
+
+'statusCode': 200,
+
+'body': event['msg']
+
+}
+
+Click “Save” to deploy the function and then “Test” to test the file. If you use the default test parameters, then an error will be returned when running the function, because no msg key is available in the event object. Click on “Configure test event”, and define use the following configuration:
+
+{
+
+"msg": "Hello from Lambda!"
+
+}
+
+After clicking on “Test”, you should see the execution results. The response should be the echoed message with a status code of 200 returned. There’s also details about how long the function took to execute (25.8ms), the billing duration (100ms), and the maximum memory used (56 MB).
+
+We have now a simple function running on AWS Lambda. For this function to be exposed to external systems, we’ll need to set up an API Gateway, which is covered in Section 3.3.3. This function will scale up to meet demand if needed, and requires no server monitoring once deployed. To setup a function that deploys a model, we’ll need to use a different workflow for authoring and publishing the function, because AWS Lambda does not currently support a requirements.txt file for defining dependencies when writing functions with the inline code editor. To store the model file that we want to serve with a Lambda function, we’ll use S3 as a storage layer for model artifacts.
+
+3.3.2 Simple Storage Service (S3)
+
+AWS provides a highly-performant storage layer called S3, which can be used to host individual files for web sites, store large files for data processing, and even host thousands or millions of files for building data lakes. For now, our use case will be storing an individual zip file, which we’ll use to deploy new Lambda functions. However, there are many broader use cases and many companies use S3 as their initial endpoint for data ingestion in data platforms.
+
+In order to use S3 to store our function to deploy, we’ll need to set up a new S3 bucket, define a policy for accessing the bucket, and configure credentials for setting up command line access to S3. Buckets on S3 are analogous to GCS buckets in GCP.
+
+To set up a bucket, browse to the AWS console and select “S3” under find services. Next, select “Create Bucket” to set up a location for storing files on S3. Create a unique name for the S3 bucket, as shown in Figure 3.3, and click “Next” and then “Create Bucket” to finalize setting up the bucket.
+
+FIGURE 3.3: Creating an S3 bucket on AWS.
+
+We now have a location to store objects on S3, but we still need to set up a user before we can use the command line tools to write and read from the bucket. Browse to the AWS console and select “IAM” under “Find Services”. Next, click “Users” and then “Add user” to set up a new user. Create a user name, and select “Programmatic access” as shown in Figure 3.4.
+
+FIGURE 3.4: Setting up a user with S3 access.
+
+The next step is to provide the user with full access to S3. Use the attach existing policies option and search for S3 policies in order to find and select the AmazonS3FullAccess policy, as shown in Figure 3.5. Click “Next” to continue the process until a new user is defined. At the end of this process, a set of credentials will be displayed, including an Access key ID and Secret access key. Store these values in a safe location.
+
+FIGURE 3.5: Selecting a policy for full S3 access.
+
+The last step needed for setting up command line access to S3 is running the aws configure command from your EC2 instance. You’ll be asked to provide the access and secret keys from the user we just set up. In order to test that the credentials are properly configured, you can run the following commands:
+
+aws configure
+
+aws s3 ls
+
+The results should include the name of the S3 bucket we set up at the beginning of this section. Now that we have an S3 bucket set up with command line access, we can begin writing Lambda functions that use additional libraries such as pandas and sklearn.
+
+3.3.3 Model Function
+
+In order to author a Lambda function that uses libraries outside of the base Python distribution, you’ll need to set up a local environment that defines the function and includes all of the dependencies. Once your function is defined, you can upload the function by creating a zip file of the local environment, uploading the resulting file to S3, and configuring a Lambda function from the file uploaded to S3.
+
+The first step in this process is to create a directory with all of the dependencies installed locally. While it’s possible to perform this process on a local machine, I used an EC2 instance to provide a clean Python environment. The next step is to install the libraries needed for the function, which are pandas and sklearn. These libraries are already installed on the EC2 instance, but need to be reinstalled in the current directory in order to be included in the zip file that we’ll upload to S3. To accomplish this, we can append -t . to the end of the pip command in order to install the libraries into the current directory. The last steps to run on the command line are copying our logistic regression model into the current directory, and creating a new file that will implement the Lambda function.
+
+mkdir lambda
+
+cd lambda
+
+pip install pandas -t .
+
+pip install sklearn -t .
+
+cp ../logit.pkl logit.pkl
+
+vi logit.py
+
+The full source code for the Lambda function that serves our logistic regression model is shown in the code snippet below. The structure of the file should look familiar, we first globally define a model object and then implement a function that services model requests. This function first parses the response to extract the inputs to the model, and then calls predict_proba on the resulting DataFrame to get a model prediction. The result is then returned as a dictionary object containing a body key. It’s important to define the function response within the body key, otherwise Lambda will throw an exception when invoking the function over the web.
+
+from sklearn.externals import joblib
+
+import pandas as pd
+
+import json
+
+model = joblib.load('logit.pkl')
+
+
+
+def lambda_handler(event, context): # read in the request body as the event dict
+
+if "body" in event:
+
+event = event["body"]
+
+
+
+if event is not None:
+
+event = json.loads(event)
+
+else:
+
+event = {}
+
+
+
+if "G1" in event:
+
+new_row = { "G1": event["G1"],"G2": event["G2"],
+
+"G3": event["G3"],"G4": event["G4"],
+
+"G5": event["G5"],"G6": event["G6"],
+
+"G7": event["G7"],"G8": event["G8"],
+
+"G9": event["G9"],"G10":event["G10"]} new_x = pd.DataFrame.from_dict(new_row,
+
+orient = "index").transpose()
+
+prediction = str(model.predict_proba(new_x)[0][1])
+
+
+
+return { "body": "Prediction " + prediction }
+
+
+
+return { "body": "No parameters" }
+
+Unlike Cloud Functions, Lambda functions authored in Python are not built on top of the Flask library. Instead of requiring a single parameter ( request ), a Lambda function requires event and context objects to be passed in as function parameters. The event includes the parameters of the request, and the context provides information about the execution environment of the function. When testing a Lambda function using the “Test” functionality in the Lambda console, the test configuration is passed directly to the function as a dictionary in the event object. However, when the function is called from the web, the event object is a dictionary that describes the web request, and the request parameters are stored in the body key in this dict. The first step in the Lambda function above checks if the function is being called directly from the console, or via the web. If the function is being called from the web, then the function overrides the event dictionary with the content in the body of the request.
+
+One of the main differences from this approach with the GCP Cloud Function is that we did not need to explicitly define global variables that are lazily defined. With Lambda functions, you can define variables outside the scope of the function that are persisted before the function is invoked. It’s important to load model objects outside of the model service function, because reloading the model each time a request is made can become expensive when handling large workloads.
+
+To deploy the model, we need to create a zip file of the current directory, and upload the file to a location on S3. The snippet below shows how to perform these steps and then confirm that the upload succeeded using the s3 ls command. You’ll need to modify the paths to use the S3 bucket name that you defined in the previous section.
+
+zip -r logitFunction.zip .
+
+aws s3 cp logitFunction.zip s3://dsp-ch3-logit/logitFunction.zip
+
+aws s3 ls s3://dsp-ch3-logit/
+
+Once your function is uploaded as a zip file to S3, you can return to the AWS console and set up a new Lambda function. Select “Author from scratch” as before, and under “Code entry type” select the option to upload from S3, specifying the location from the cp command above. You’ll also need to define the Handler , which is a combination of the Python file name and the Lambda function name. An example configuration for the logit function is shown in Figure 3.6.
+
+FIGURE 3.6: Defining the logit function on AWS Lambda.
+
+Make sure to select the Python runtime as the same version of Python that was used to run the pip commands on the EC2 instance. Once the function is deployed by pressing “Save”, we can test the function using the following definition for the test event.
+
+{
+
+"G1": "1", "G2": "1", "G3": "1",
+
+"G4": "1", "G5": "1",
+
+"G6": "1", "G7": "1", "G8": "1",
+
+"G9": "1", "G10": "1"
+
+}
+
+Since the model is loaded when the function is deployed, the response time for testing the function should be relatively fast. An example output of testing the function is shown in Figure 3.7. The output of the function is a dictionary that includes a body key and the output of the model as the value. The function took 110 ms to execute and was billed for a duration of 200 ms.
+
+FIGURE 3.7: Testing the logit function on AWS Lambda.
+
+So far, we’ve invoked the function only using the built-in test functionality of Lambda. In order to host the function so that other services can interact with the function, we’ll need to define an API Gateway. Under the “Designer” tab, click “Add Trigger” and select “API Gateway”. Next, select “Create a new API” and choose “Open” as the security setting. After setting up the trigger, an API Gateway should be visible in the Designer layout, as shown in Figure 3.8.
+
+FIGURE 3.8: Setting up an API Gateway for the function.
+
+Before calling the function from Python code, we can use the API Gateway testing functionality to make sure that the function is set up properly. One of the challenges I ran into when testing this Lambda function was that the structure of the request varies when the function is invoked from the web versus the console. This is why the function first checks if the event object is a web request or dictionary with parameters. When you use the API Gateway to test the function, the resulting call will emulate calling the function as a web request. An example test of the logit function is shown in Figure 3.9.
+
+FIGURE 3.9: Testing post commands on the Lambda function.
+
+Now that the gateway is set up, we can call the function from a remote host using Python. The code snippet below shows how to use a POST command to call the function and display the result. Since the function returns a string for the response, we use the text attribute rather than the json function to display the result.
+
+import requests result = requests.post("https://3z5btf0ucb.execute-api.us-east-1.
+
+amazonaws.com/default/logit",
+
+json = { 'G1':'1', 'G2':'0', 'G3':'0', 'G4':'0', 'G5':'0',
+
+'G6':'0', 'G7':'0', 'G8':'0', 'G9':'0', 'G10':'0' }) print(result.text)
+
+We now have a predictive model deployed to AWS Lambda that will autoscale as necessary to match workloads, and which requires minimal overhead to maintain.
+
+Similar to Cloud Functions, there are a few different approaches that can be used to update the deployed models. However, for the approach we used in this section, updating the model requires updating the model file in the development environment, rebuilding the zip file and uploading it to S3, and then deploying a new version of the model. This is a manual process and if you expect frequent model updates, then it’s better to rewrite the function so that it fetches the model definition from S3 directly rather than expecting the file to already be available in the local context. The most scalable approach is setting up additional triggers for the function, to notify the function that it’s time to load a new model.
+
+3.4 Conclusion
+
+Serverless functions are a type of managed service that enable developers to deploy production-scale systems without needing to worry about infrastructure. To provide this abstraction, different cloud platforms do place constraints on how functions must be implemented, but the tradeoff is generally worth the improvement in DevOps that these tools enable. While serverless technologies like Cloud Functions and Lambda can be operationally expensive, they provide flexibility that can offset these costs.
+
+In this chapter, we implemented echo services and sklearn model endpoints using both GCP’s Cloud Functions and AWS’s Lambda offerings. With AWS, we created a local Python environment with all dependencies and then uploading the resulting files to S3 to deploy functions, while in GCP we authored functions directly using the online code editor. The best system to use will likely depend on which cloud provider your organization is already using, but when prototyping new systems, it’s useful to have hands on experience using more than one serverless function ecosystem.

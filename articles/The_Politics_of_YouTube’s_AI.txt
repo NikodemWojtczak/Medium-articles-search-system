@@ -1,0 +1,41 @@
+If somebody uploads a video of extreme violence and gore — say, of individuals foaming at the mouth from poisoning, or a father cradling their dying infant — should YouTube’s AI flag and remove it from their site? The obvious answer is: yes.
+
+Or maybe not.
+
+The Scale of YouTube Censorship
+
+Around 300 hours of video is uploaded to YouTube every minute, of every day. The unimaginable scale of content that makes it on the site means that humans alone cannot properly censor all of the violent, explicit or otherwise objectionable material that might be submitted for publication.
+
+Luckily, Google (YouTube’s parent company) has developed algorithms that use advanced machine learning techniques to snuff out harmful content before any damage is done. In just the first quarter of 2019, for example, just over eight million videos were blocked from the site. Of those eight million, over six million were identified and removed by YouTube’s AI, 70 percent of them before a single view was recorded. When it comes to violent extremist content, the numbers fair even better. Even as early as 2017, YouTube’s AI was able to catch 98 percent of terrorist videos uploaded to the site.
+
+Those kinds of numbers constitute a resounding success, considering that image recognition technology today is still a growing, not fully-developed field, and considering the sheer breadth of material these algorithms have to push through. But the rate at which YouTube’s AI removes bad material tells you only part of the story. For all the dangerous videos taken offline, there are also plenty of false positives.
+
+Sensitivity
+
+Say you’re a mall cop, and a few thousand people walk through the doors of your mall every day. How closely will you screen those people who come in and out? How many will you stop, and vet for security purposes? Probably not many, because of the nature of what’s being protected.
+
+But what if you’re a TSA agent?
+
+The nature of what’s being protected obliges you to be more careful in your screening. TSA agents constantly screen airline passengers for even the slightest suspicions, because the risk of allowing a threat to pass is too great.
+
+We might call the difference between being a mall cop and being a TSA agent a sensitivity.
+
+It turns out that sensitivity is just as much a consideration for security-oriented software as it is security-oriented professionals. In the cybersecurity space, for example, malware is often masked to look like ordinary data, in order to try and pass through to a vulnerable computer undetected. Security programs, therefore, must be sensitive to anything that even looks like a virus. Perhaps, for a personal computer, the filter can let a little more pass by. But what about a highly sensitive government computer network? In this case, a program must be tuned to be highly sensitive — to perk its ears up at any warning, even if it means producing many false positives along the way.
+
+Ulrich Kaiser is a music theory teacher from Germany. Last year, after one of his educational videos was taken offline by YouTube’s Content ID system, which logs copyright works and checks that they’re not copied and misused elsewhere on the platform. He wondered why perfectly legal music was being banned from the site, so he began an experiment. He opened a new YouTube account, and began diligently posting public domain music written by long-dead composers. Almost inevitably, each time, his videos were flagged as copyright infringements, and blocked from the site.
+
+Why were the videos being taken down so predictably? For the same reason TSA agents over-screen airline passengers. Meredith Rose, a copyright expert for Public Knowledge, told Vice’s Motherboard: “Algorithmic matching is always going to be imprecise, and companies are legally incentivized to be over-inclusive in their filtering.” Because algorithms aren’t perfect, and international laws are varied and complicated, YouTube is incentivized to over-censor the content on their site, and accept that a certain number of false positives will be created in the process. Music teachers may be rightly dissatisfied, but the alternative — under-censoring — would be far worse.
+
+Consequences of Doing the Right Thing
+
+The amount of content that must be processed every day, coupled with the consequences of publishing dangerous material, means that YouTube’s overseers have, understandably, turned the knob on their censorship algorithms to high.
+
+Unfortunately, it’s not just old classical music that’s taken down by the AI. In February of this year, multiple channels related to Pokemon Go and Club Penguin were flagged for displaying prohibited sexual content. It turns out that YouTube’s AI picked up on their use of the abbreviation “CP”, which it interpreted as reference to child pornography (in Pokemon Go, CP refers to “Combat Power”, and in Club Penguin, CP simply refers to the title of the game). Just a few weeks back, the same AI began flagging videos of fighting robots (a niche sport), interpreting the videos as demonstrations of animal cruelty.
+
+Whenever these false positives arise, they cause a bit of a stir, they’re dealt with, and Google’s AI becomes better for it. A brief interruption in robot fighting is a small price to pay for keeping violent and extreme material off of the platform.
+
+But it’s not always so simple as that. Sometimes, the violent and extreme overlaps with the legitimate and important. I asked you at the beginning of this article: should YouTube’s AI ban video of people — infants, even — being poisoned and dying? The answer seemed, obviously, to be yes.
+
+When journalists and human rights activists on the ground during Syria’s civil war attempted to document the atrocities that Bashar al-Assad’s government was enacting on its people, they turned to YouTube for help. They started taking videos of the atrocities taking place, to show the world just how bad things were. The videos showed horrific violence: people being poisoned, people dying, even children and infants dying. And then, over one hundred thousand of those videos were taken down by YouTube censorship algorithms.
+
+YouTube is an immense platform, with huge power to affect positive change in the world, and a huge responsibility to keep ordinary people safe from harm. The AI that underpins it all is remarkable — almost unbelievably effective — and also imperfect, with a penchant for gaffes both comical and harmful. The good thing is: it’s getting better every year.

@@ -1,0 +1,13 @@
+Troubleshooting GC Notebooks
+
+I recently spent an admittedly embarrassing amount of time figuring out the Jupyter Notebooks service provided by Google Cloud. This is a guide to solving some of the pesky issues I had to deal with, while setting up the service. Varun Chitale · Follow Published in Towards Data Science · 3 min read · Oct 23, 2019 -- Share
+
+I have no infra guys, I have none.
+
+Creating a notebook should be a simple task if things go right. However, I was unable to get it up and working using just the Google Cloud Console. The notebook instance kept initiating, apparently failing at the setting up of proxy.
+
+If the simple process(New Instance — Open Jupyter) works for you, then there is no need to read the guide. However, if you’re here, you probably are looking for more.
+
+Resolving Setting Up Proxy Error
+
+The no-nonsense guide:

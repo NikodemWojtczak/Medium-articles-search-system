@@ -1,0 +1,37 @@
+NLP-WhatsApp
+
+How to use NLP to Analyze WhatsApp Messages
+
+On 17 August 2018, I married the woman of my dreams and wanted to surprise her with a gift the day before the wedding. Of course, as a Data Scientist, I had to communicate that through data!
+
+Our WhatsApp messages seemed like a great source of information. I used NLP to analyze the messages and created a small python package, called SOAN, that allows you to do so.
+
+In this post, I will guide you through the analyses that I did and how you would use the package that I created. Follow this link for instructions on downloading your WhatsApp texts as .txt.
+
+Preprocessing Data
+
+The package allows you to preprocess the .txt file as a specific format is required to do the analyses. Simply import the helper function to both import the data and process it. The import_data is used to import the data and preprocess_data prepares the data in such a way that it is ready for analysis.
+
+from soan.whatsapp import helper # Helper to prepare the data
+
+from soan.whatsapp import general # General statistics
+
+from soan.whatsapp import tf_idf # Calculate uniqueness
+
+from soan.whatsapp import emoji # Analyse use of emoji
+
+from soan.whatsapp import topic # Topic modeling
+
+from soan.whatsapp import sentiment # Sentiment analyses
+
+from soan.whatsapp import wordcloud # Sentiment-based Word Clouds %matplotlib inline
+
+df = helper.import_data('Whatsapp.txt')
+
+df = helper.preprocess_data(df)
+
+After preprocessing the data you will have a few columns: Message_Raw, Message_Clean, Message_Only_Text, User, Date, Hour, Day_of_Week. The Message_Raw contains the raw message, Message_Clean only contains the message itself and not the user or date, and Message_Only_Text only keeps lowercased text and removes any non-alphanumeric character:
+
+Exploratory Data Analysis (EDA)
+
+Now that the data is preprocessed, some initial graphs can be created based on the frequency of messages. Call plot_messages to plot the frequency of messages on a weekly basis:

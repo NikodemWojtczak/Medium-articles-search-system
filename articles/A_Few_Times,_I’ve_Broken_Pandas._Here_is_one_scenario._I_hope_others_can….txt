@@ -1,0 +1,31 @@
+A Few Times, I’ve Broken Pandas
+
+While transitioning a high proportion of my work from Stata to Pandas I’ve tripped over a few roadblocks. Okay, I’ll own it. I wrote some bad code. Here is one example of what I did wrong.
+
+Image credit: Author. “Broken Pandas.” Image Credit: “Via Design Pickle” — More on attributions.
+
+Duplicate Column Names
+
+Other statistical languages more stringently guard against duplicate column names. Pandas, however, can be tricked into allowing duplicate column names.
+
+Duplicate column names are a problem if you plan to transfer your data set to another statistical language. They’re also a problem because it will cause unanticipated and sometimes difficult to debug problems in Python.
+
+To be fair, it isn’t easy to duplicate this, the code below shows how:
+
+How I broke Pandas. Image Credit: “Author’s Screen Capture” — More on attributions.
+
+The use case for the above data frame would be a list of writers that are assigned to write about one of two topics over time. Thus, topic columns are categorical or factor variables.
+
+So, so far, no errors. Until you attempt to map choice labels over the choice values under 'topic' , which is a common operation when manipulating categorical or factor variables.
+
+Error that occurs when a Pandas data frame has more than one identically named columns. Image Credit: “Author’s Screen Capture” — More on attributions.
+
+A quick way to check that your column names are unique is to evaluate 'len(df.columns) == len(set(df.columns)) . If the statement evaluates False this is an indication that you may have duplicate column names.
+
+Stupid mistake. Easy fix.
+
+How I fixed the data frame that I managed to break above. Image Credit: “Author’s Screen Capture” — More on attributions.
+
+Thanks For Reading
+
+Send me your thoughts and ideas. You can write just to say hey. And if you really need to tell me how I got it wrong, I look forward to chatting soon. Twitter: @adamrossnelson | LinkedIn: Adam Ross Nelson| Facebook: Adam Ross Nelson.

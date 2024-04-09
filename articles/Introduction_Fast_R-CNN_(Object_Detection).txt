@@ -1,0 +1,59 @@
+Introduction: Fast R-CNN (Object Detection)
+
+A beginners guide to one of the most fundamental concepts in object detection. shafu.eth · Follow 3 min read · Jul 18, 2019 -- 2 Listen Share
+
+This is the second part of a three-part series, covering systems that combine region proposals with Convolutional Neural Networks (CNN). In the first part, we covered the R-CNN system. You will need to read that first to fully understand this article. You can find it here.
+
+In this part, we will talk about the fast R-CNN system. This paper was published one year after the original R-CNN paper and directly builds on top of it. The R-CNN paper was a major breakthrough in 2014, combining region proposals with a CNN. But it had some problems:
+
+It was slow : You had to calculate a feature map (one CNN forward pass) for each region proposal.
+
+: You had to calculate a feature map (one CNN forward pass) for each region proposal. Hard to train : Remember that in the R-CNN System we had 3 different parts (CNN, SVM, Bounding Box Regressor) that we had to train separately. This makes training very difficult.
+
+: Remember that in the R-CNN System we had 3 different parts (CNN, SVM, Bounding Box Regressor) that we had to train separately. This makes training very difficult. Large memory requirement: You had to save every feature map of each region proposal. This needs a lot of memory.
+
+Fast R-CNN System
+
+So, how did the author try to solve those problems. The major thing introduced in this paper is the following:
+
+We only have one system, that we can train end-to-end.
+
+If you only take one thing with you from this article it’s this: We combine the three different parts that we had in the R-CNN system (CNN, SVM, Bounding Box Regressor) into one architecture.
+
+Architecture
+
+Fast R-CNN architecture. First image in the paper.
+
+This architecture looks more complicated than it actually is. It works like this:
+
+1. Process the whole image with the CNN. The result is a feature map of the image.
+
+The CNN input and output
+
+2. For each region proposal extract the corresponding part from the feature map. We will call this the region proposal feature map. We take the region proposal feature map from the feature map and resize it to a fixed size with the help of a pooling layer.
+
+This pooling layer is called the Region of interest (RoI) pooling layer. If you want to find out more about it, here you can find a greate explanation.
+
+RoI pooling layer
+
+3. Then we flatten this fixed sized region proposal feature map. This is now a feature vector, that always has the same size.
+
+4. This feature vector is now the input to the last part. These are fully connected layers that have 2 outputs. The first is the softmax classification layer, where we decide which object class we found. The second it the Bounding Box Regressor, where we output the bounding box coordinates for each object class.
+
+Results
+
+The fast R-CNN trains the VGG16 network 9 times faster than R-CNN. But the amazing thing about this system is this:
+
+The inference is 213 times faster and achieves a higher mAP. Wow!
+
+Conclustion
+
+In the second part of this series, we talked about the fast R-CNN system and how it tried to improve the R-CNN system. Rember that only one year passed between the two papers and the system improved dramatically, especially in inference time. This illustrates how fast the whole deep learning space moves.
+
+And again, the most important thing summarized in one sentence:
+
+We now have one end-to-end system that we can train with back-propagation.
+
+Thank you for reading and keep up the learning!
+
+If you want more and stay up to date you can find me here:

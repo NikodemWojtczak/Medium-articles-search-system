@@ -1,0 +1,15 @@
+Using EMR Cluster, HiveQL and S3 to analyze cloud data logs
+
+Photo by rm in on Unsplash.
+
+Cloud and IT audits have become a necessity in most organizations as business, governmental and educational entities increasingly migrate their technology infrastructures and processes. They do so in full or in part, to the cloud for reasons involving cost, continuous updates in hardware and software, scale and efficiency.
+
+Due to the complexity and larger scale of the IT Cloud, in addition to being relatively new and fast changing, automated data collection and analysis can become a vital part of Cloud audits and Risk Control Self Assessments (RCSA). As Cloud systems and processes get more complex, automation and turnkey projects for cloud compliance will grow in importance.
+
+Cloud audits could cover a wide range of domains, though the most common ones are Cloud security, Cloud Application usage, Cloud governance and Risk and IAM (Identity and Access Management). Separately, cost and usage audits may also be done.
+
+Background and Context
+
+As infrastructure, platforms, applications and software increasingly move into the cloud — most of them into public cloud, some in private clouds, and still others into a hybrid model — the demand for audits, risk and control assessments and compliance grow in tandem. Since everything that users (and inter-systems functions and processes) do in the cloud is logged (if not, there’s a bigger risk question — why not?), it stands to reason that the starting point and process for cloud related audits and risk / control assessments would be through the logs as well — collection, grouping, analysis, assessment and evaluation and findings/closure.
+
+This article provides a working sample for log analysis, adapted from Amazon cloud documentation, to fit into an audit and control framework — to collect Amazon Web Services (AWS) cloud data logs, analyze them within the same framework in an EMR (Elastic Map Reduce) cluster and store the results within the same cloud framework — in S3, which is the storage area in AWS.

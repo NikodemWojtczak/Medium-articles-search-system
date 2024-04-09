@@ -1,0 +1,253 @@
+Facebook vs. EU Artificial Intelligence and Data Politics
+
+This article is a summary of the paper by the European Union Agency for Fundamental Rights (FRA) called Data quality and artificial intelligence – mitigating bias and error to protect fundamental rights. I then proceed to look at the recent move by Facebook in its data politics; statements made by Zuckerberg; and their recent hiring of previous Deputy Prime Minister Nick Clegg as head of global policy and communications. It is my wish that this makes EU policy more comprehensible and give you an overview of a few actions taken by Facebook in this regard.
+
+What is the FRA?
+
+The FRA is an EU body tasked with "… collecting and analysing data on fundamental rights with reference to, in principle, all rights listed in the Charter" This refers to the Charter of Fundamental Rights of the European Union. These rights of the charter include: dignity, freedoms, equality, solidarity, citizen’s rights and justice.
+
+FRA paper on data quality and AI
+
+FRA has a project on Artificial Intelligence, Big Data and Fundamental Rights was launched in 2018. This assesses the pros and cons for fundamental rights of using artificial intelligence (AI) and big data for public administration and business purposes in selected EU Member States. The paper Data quality and artificial intelligence – mitigating bias and error to protect fundamental rights published in June 2019 is part of this project and my focus for this section.
+
+The paper is a contribution to the ongoing policy discussion on AI and big data. Quotes in this segment will all be from this text.
+
+The report claims algorithms used in machine learning systems and artificial intelligence (AI) can only be as good as the data used for their development. However the critical question asked is how ‘quality’ can be defined. They stress transparency and argue that the volume of data often is valued over quality.
+
+AI is included in the European Commission communication on Artificial Intelligence for Europe: “Artificial intelligence (AI) refers to systems that display intelligent behaviour by analysing their environment and taking actions with some degree of autonomy – to achieve specific goals.
+
+They mention that AI does not refer to a thing, but a set of processes and technological developments.
+
+Within the paper data quality is a broad concept. They highlighted two generic concepts related to data quality, as used in social sciences and survey research:
+
+Errors of representation , which means that the data does not cover well the population it should cover;
+
+, which means that the data does not cover well the population it should cover; Measurement errors, which means that the data does not measure what they intend to measure.
+
+Explaininig how complex algorithms work has been a focus, however it is argued that ML and data science has overlooked the crucial aspect of data quality.
+
+The topic is mentioned repeatedly in other reports and by the European Council. The European Group on Ethics in Science and New Technologies states that discriminatory biases in datasets should be avoided.
+
+European Commission’s High Level Expert Group on AI in its ethics guidelines include data governance as one of the requirements of trustworthy AI.
+
+The “Toronto Declaration” written by a coalition of human rights and technology groups named one risk as “incomplete or unrepresentative data, or datasets representing historic or systemic bias”.
+
+The report refers to machine learning (ML) algorithms involving at least three different data sets:
+
+Training data. In supervised learning data used to learn about the desired outcome are so-called features. The desired outcome is often referred to as labels. This is the basis of how an algorithm learns patterns. Input data. When an algorithm is deployed new unseen features are added. Inferred labels (or predictions, inferences, deduced actions or output data) produced when the unseen data are fed into the ML algorithm.
+
+Within the paper they present a case study focused on data from the Internet to illustrate the potential for ‘errors of representation’.
+
+The report refers to use of big data in EU. Overall, one in three larger enterprises in the EU (33 %) uses big data analytics. The use of data raises questions. They list the following:
+
+Not everyone:
+
+Has access to social media, and coverage varies. Wants access to Internet, social media or other applications.
+
+Some groups are not covered by the data gathered, only from those who relinquish their data. The following figure is presented and is often referred to as the digital divide. Source: FRA, 2019 [based on Eurostat (isoc_ci_in_h)]:
+
+There is also a geographical disparity. Thus data gathered is consequently unrepresentative of certain groups in the population.
+
+Afterwards they proceed to fundamental rights each with a short reference to examples:
+
+Non-discrimination.
+
+Equality between men and women.
+
+Access to a fair trial and effective remedies.
+
+Private and family life
+
+Protection of personal data
+
+Researchers have started analysing this topic by highlighting the importance to consider inferred
+
+
+
+data as personal data. Only then the rights in the GDPR could apply, including the right to know about those data, and access, rectify, delete and object to them.
+
+For automated decision-making, the GDPR requires data controllers to provide meaningful information about the logic involved, as well as the significance and the envisaged consequences of such processing for the data subject.
+
+FRA Assessing data quality
+
+There are questions of completeness, accuracy, consistency, timeliness, duplication, validity, availability and provenance. One specific problem mentioned is:
+
+Biometric data in large scale migration.
+
+Data might be inaccurate and trust in technologies may lead to unfortunate circumstances. One definition of ‘data quality’ is if the data used are “fit for purpose”.
+
+“Consequently, the quality of data depends strongly on the purpose of their use.”
+
+In the paper two general sources of error are mentioned. This is discussed in the context of classical survey research: measurement error and representation error.
+
+Measurement error refers to how accurately the data used indicate or reflect what is intended to be measured.
+
+How must the respondent be evaluated? How much does editing and reorganising data influence this. How do you measure a good employee? As a comment may I add: how do you measure a good user?
+
+Data approximate real world phenomena and there is always an error in measurement. How much error is acceptable? Data will often be labelled by humans (such as labelling pictures) and quality control in the labelling process is therefore vital.
+
+Representation error: If the data does not cover well the population it should cover, the resulting statistics will be incorrect (i.e. biased).
+
+There is the important question of whether data used for building the application can accurately represent future users. People will often start behaving in different ways.
+
+FRA Reliability and validity
+
+Two concepts used in social science to describe measurement errors of certain concepts. It can be done through indicators such as an index; or when direct measurement is not possible, using measurement of related issues.
+
+Reliability: refers to how stable and consistent measurements are.
+
+Validity: the question of whether the data and prediction actually measure what they intend to measure, thus related to errors of representation and measurement.
+
+Unreliable data could have the right target yet show too much variation and uncertainty thus missing the target despite good average results. Large numbers decrease statistic uncertainty, however low quality may not increase validity.
+
+FRA on Data quality in the European Statistical System – lessons for AI
+
+Data quality is according to this paper a competitive advantage. The European Statistical System has a quality deceleration referenced in this paper and I found them valuable to include here:
+
+The quality policy is made public. Procedures are in place to plan and monitor the
+
+
+
+quality of the data production process. Product quality is regularly monitored, assessed
+
+
+
+and reported. The outputs are regularly and thoroughly reviewed,
+
+
+
+including by external experts where appropriate.
+
+This production of statistics is relevant to AI as they are relevant to the machine learning methods used. In the paper it is proposed the main difference between statistics and machine learning is the following. Statistics aim at describing a population with characteristics, correlations and causal explanations. On the opinion of ML the text says the following:
+
+…machine learning is mainly concerned with predicting the characteristics of one unit, such as one person, one company or one country. This has slightly different implications, because accuracy of the prediction becomes even more important compared to general statistics about population groups.
+
+Dataset descriptions for assessment of quality — industry standards
+
+Experts in the field of AI and ML have proposed dataset descriptions referred to as ‘datasheets’, or ‘nutrition labels’. It has been suggested to described datasets in the same way as hardware components to check if they comply with industry standards. The paper claims that there is no standardised ways to describe datasets in the field of AI.
+
+Such a standardisation would have to allow for flexibility to be able to include the variety of possible data formats and collections used in AI applications. This is important because if data are generated for one purpose, it needs to be assessed if they are also fit for another purpose.
+
+Data Documentation Initiative (DDI) has a standardised way of describing datasets (i.e. meta data). In a way this could be useful in sharing for reuse. Context of data collection, methodology and meta-level descriptions are needed. In this way it will be easier to assess the potential errors of a tool using a particular data set. The paper thus argues practices in statistics offer potential avenues for data quality assurance in relation to AI.
+
+FRA Conclusion
+
+ML systems and algorithms making use of data require broader and more flexible ways for assessing and addressing data quality. They propose to ask a few questions to identify problems with a use of an algorithm due to quality:
+
+Where do the data come from? Who is responsible for data collection, maintenance and dissemination?
+
+What information is included in the data? Is the information included in the data appropriate for the purpose of the algorithm?
+
+Who is covered in the data? Who is under-represented in the data?
+
+Is there information missing within the dataset or are there some units only partially covered?
+
+What is the time frame and geographical coverage of the data collection used for building the application?
+
+Since the quality can have implications for discriminatory practices and erroneous systems it is important to mitigate potential problems. The paper argues this can draw on ‘rigour’ from the social sciences and survey research. However they do say:
+
+“New technologies need a holistic assessment of potential fundamental rights challenges […] For an increased understanding of the impact on fundamental rights, interdisciplinary research is required as the topic combines elements from many different areas, including law, computer science, statistics and social science.”
+
+Facebook and its Data Politics
+
+The Federal Trade Commission in EU approved of fining Facebook $5bn to settle privacy violations following the Cambridge Analytica. This fine would be the largest ever by the FTC against a technology company, as well as the largest ever against any company for a privacy violation reports the Guardian on the 12th of July 2019.
+
+The General Data Protection Regulation (GDPR)
+
+GDPR went into effect on the 25th of May 2018 and is the ‘toughest privacy and security law in the world’. On EU’s GDPR page it says:
+
+…fines for violating the GDPR are very high. There are two tiers of penalties, which max out at €20 million or 4% of global revenue (whichever is higher), plus data subjects have the right to seek compensation for damages
+
+After seeing the case of Facebook we can come to understand that this is more than a bold claim. The article refers to:
+
+Personal data : any information that relates to an individual who can be directly or indirectly identified.
+
+: any information that relates to an individual who can be directly or indirectly identified. Data processing : any action performed on data, whether automated or manual.
+
+: any action performed on data, whether automated or manual. Data subject : the person whose data is processed.
+
+: the person whose data is processed. Data controller : the person who decides why and how personal data will be processed.
+
+: the person who decides why and how personal data will be processed. Data processor: a third party that processes personal data on behalf of a data controller. Such as a server.
+
+In particular there are additionally strict rules in regards to consent to make it understandable to a far greater degree. There is also three conditions that may invoke the need to appoint a Data Protection Officer (DPO): (1) if you are a public authority; (2) monitor people systematically on a large scale; (3) large-scale processing of special categories of data (convictions and medicine). The regulation itself is 88 pages and I do not provide a good enough overview here.
+
+Facebook on GDPR
+
+In the expression to comply it seems Facebook created a page on GDPR. They run through an overview of keywords in a few paragraphs. Then they proceed onto the actions that they will take to comply.
+
+Transparency : Facebook’s Data Policy defines how they process people’s personal data. They commit to providing education on their Data Policy. They will do this through (1) in-product notifications and (2) consumer education campaigns to ensure that people understand how their data is being used and the choices they have.
+
+: Facebook’s Data Policy defines how they process people’s personal data. They commit to providing education on their Data Policy. They will do this through (1) in-product notifications and (2) consumer education campaigns to ensure that people understand how their data is being used and the choices they have. Control : provide control over how data is used. Launch of the control centre to make privacy settings easier to understand and update. They remind people as they use Facebook about how to view and edit their settings.
+
+: provide control over how data is used. Launch of the control centre to make privacy settings easier to understand and update. They remind people as they use Facebook about how to view and edit their settings. Accountability: Facebook has Privacy Principles that explain how they think about privacy and data protection. They have a team of people who help ensure that we are documenting our compliance. Additionally, they meet regularly with regulators, policymakers, privacy experts and academics from around the world to inform of their practices.
+
+Zuckerberg Embracing GDPR and Hiring Policy Experts
+
+Mark Zuckerberg has recently actively embraced GDPR although his motivations have been questioned. Zuckerberg is not however the first tech CEO to endorse GDPR-like rules. Microsoft CEO Satya Nadella praised Europe’s laws and Tim Cook called for federal privacy regulation last year. Other countries, such as Canada, are now starting to see if they can bring Facebook to the table for discussion on privacy.
+
+Recently Facebook hired Sir Nick Clegg late 2018, the former UK deputy prime minister, as its head of global policy and communications. This may be due to a series of issues faced by the company in the last years. This includes, but is surely not limited to:
+
+Mark Zuckerberg has called for regulation in four different areas. Harmful content, integrity, privacy and data portability is the key issues he outlines:
+
+Harmful content — he wants overarching rules and benchmarks social apps can be measured by
+
+Election integrity — he wants clear government definitions of what constitutes a political or issue ad
+
+Privacy — he wants GDPR-style regulations globally that can impose sanctions on violators
+
+Data portability — he wants users to be able to bring their info from one app to another
+
+Sir Nicholas William Peter Clegg
+
+There is a positive view on Nick as a translator according to ‘himself’ as reported by New Statesman the 17th of July 2019 his approach is to: “Ignore ideology and partisanship; seek progress and compromise; look for evidence- and reality-based solutions” He speaks five language fluently: English, Spanish, French, German and Dutch.
+
+Then there is the negative as a sellout that he would do almost anything for gain. Clegg, en famille, is installed in a £7m mansion in Menlo Park — “the most expensive zip code” in the US, according to Forbes. In an opinion article in The Guardian it is said he: “betrayed the public and his core vote in student towns on tuition fees”. After having lived in UK as a student for three years I feel this echoes the sentiment of rather a larger group of British youth.
+
+He was recently on a tour of the other European capitals asking for government regulation of Facebook. Clegg went to Westminster School and studied anthropology at Cambridge. He has claimed that politics have been influenced far more by traditional media than new media asserting that there is no evidence of Russian interference in UK elections amongst other statements. He says that Facebook wants to be regulated.
+
+Facebook and China
+
+As apparently proposed by Nick Clegg in his view, Facebook is now arguing its place as a counterweight against China and the rights of the individual opposed to ‘authoritarian social values’. This has become known recently because a hearing of Calibra pushing to introduce a new currency. David Marcus who is head of Facebook’s Calibra said:
+
+I believe that if America does not lead innovation in the digital currency and payments area, others will. If we fail to act, we could soon see a digital currency controlled by others whose values are dramatically different.
+
+Less than year ago, October 2018, in an interview Mark Zuckerberg said to Kara Swisher in Recode:
+
+We grew up here, I think we share a lot of values that I think people hold very dear here, and I think it’s generally very good that we’re doing this, both for security reasons and from a values perspective. Because I think that the alternative, frankly, is going to be the Chinese companies. If we adopt a stance which is that, ‘Okay, we’re gonna, as a country, decide that we wanna clip the wings of these companies and make it so that it’s harder for them to operate in different places, where they have to be smaller,’ then there are plenty of other companies out that are willing and able to take the place of the work that we’re doing.
+
+This message was repeated by Nick Clegg in January 2019. A comprehensive article was written about this in TechCrunch on the 19th of July 2019. The conclusion of the article is resounding: “Perhaps it’s politically savvy to invoke the threat of China to stoke the worries of government officials, and it might even be effective. That doesn’t make it right.” In this manner it is now a question of a large company and its civic responsibility or status as a company.
+
+Civic Responsibility and Data Politics
+
+With mounting regulations and accusations as well as Facebook’s response in this manner it is hard to understand where to go next. Yet we may start considering what happens when a company grows so large with such a large online population discussing their lives in a wide variety of ways.
+
+At a party not too long ago I heard it stated:
+
+“These large technology companies are sometimes as big as countries. Maybe they should start acting like it, and take some civic responsibility.”
+
+Facebook as a state actor or with state-like qualities seems perhaps far fetched to most, me included, however it is a possibility worth considering. Public-private cooperation for a fair data policy that protects people yet is open for innovation is not an easy task.
+
+We could venture into Foucaldian concepts such as biopolitics, bioprospecting and resistance — yes we could of course ask the question of power. Separation of politics and companies with a growing disparity and a question of which perspective relevant here in an international relations (IR) sense has growing relevance. Even in touching upon basic concepts within IR.
+
+Is this realism, liberalism or social constructivism? It seems Facebook Data Policy is moving in the direction from a notion of liberal ‘freedom’ to what Nick Clegg proposes as ‘reality-based solutions’. Both which are equally vague.
+
+From Data Subjects to Data Citizens
+
+From a question of private to state power with a following confusion it would be interesting in this ‘outro’ or ending to look at an academic definition of Data Politics.
+
+Data Politics was defined in a report published December 2017 on Researchgate by Evelyn Ruppert , Engin Isin and Didier Bigo:
+
+We define ‘data politics’ as both the articulation of political questions about these worlds and the ways in which they provoke subjects to govern themselves and others by making rights claims. We contend that without understanding these conditions of possibility — of worlds, subjects and rights — it would be difficult to intervene in or shape data politics if by that it is meant the transformation of data subjects into data citizens.
+
+As such this articulation is of course states that there is data citizenship, which they do not defined yet is implied as. These rights are defined in the article in the context of accumulating data. The authors question whether a citizen has the right to know who:
+
+Owns Distributes Sells Accesses Uses Appropriates Modifies Resignifies
+
+Data Citizenship thus implies a civic duty. If you have the right to your data and you own it you additionally have the responsibility to govern your data. That you exercise authority or control – direct the making and administration of policy in this given area. This foes beyond GDPR, yet gives right to an increased sense of responsibility and duty.
+
+“…every right implies a responsibility; every opportunity, an obligation; every possession, a duty”
+
+- John D.Rockefeller Jr
+
+We must do our best to understand data citizenship and what rights, responsibilities and duties we have in this regard. Particularly in the context of artificial intelligence and data policy which both have achieved a growing amount of attention in international as well as local discussions.

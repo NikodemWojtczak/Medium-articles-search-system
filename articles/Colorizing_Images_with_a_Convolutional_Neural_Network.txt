@@ -1,0 +1,19 @@
+Colorizing Images with a Convolutional Neural Network
+
+What a Deep Learning algorithm says about composition, style, and the relationship between Machine Learning and the arts Thomas Smith · Follow Published in Towards Data Science · 8 min read · Oct 23, 2019 -- 3 Share
+
+Cuban immigrants arrive in Florida ca. 1965. Original image credit CDC, color version using Colorful Image Colorization algorithm credit Gado Images.
+
+Ever seen a hand-colored historical photo? They’re works of art, with a skilled person painstakingly coloring in each part of a black and white photo, adding skin tones, backgrounds, and more. They’ve been popular since the dawn of photography, and are still made today — the only difference is that the artist today uses Photoshop instead of a paintbrush.
+
+Hand colored images, like this lithograph of Cincinnati ca 1840s, were works of art. Credit: New York Public Library/Gado
+
+Hand-colored photos are beautiful, but making them is slow work. You have to make decisions about the colors to add in, have the painting skills to place them into the original photo, etc. Even with modern tools, hiring an artist to colorize a single historical photo costs between $300 and $500.
+
+A Deep Learning Approach
+
+Enter Convolutional Neural Networks. In many cases, the colors in an image are unique — the exact color of a person’s clothing, the perfect shade of green for a tree, etc. are lost forever the second a black and white photo is taken. In other cases, though, colors are predictable — surprisingly so. Skies are usually blue (or could plausibly be blue), greenery is green, people’s skin is skin colored, water is blueish, clothes usually aren’t garish or crazy colors, etc.
+
+Because color is more predictable than you’d think, it’s almost more tractable using Machine Learning than you might initially think. This means you can actually use a Convolutional Neural Network to colorize historical black and white photos.
+
+Colorful Image Colorization is an algorithm which uses a CNN to analyze the colors across a set of color images, and their black and white versions. Training data is easy to obtain here — any color image can be changed to grayscale, and then paired with its color version to make an easy training example. The algorithm uses several feed-forward passes to ultimately take in a grayscale image, and in the words of the algorithm's creators, “hallucinate” a…

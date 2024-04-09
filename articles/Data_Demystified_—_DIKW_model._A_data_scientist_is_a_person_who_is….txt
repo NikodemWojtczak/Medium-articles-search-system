@@ -1,0 +1,25 @@
+Member-only story Data Demystified — DIKW model
+
+Understanding the big picture first will set the stage for success in this journey Anthony Figueroa · Follow Published in Towards Data Science · 5 min read · May 24, 2019 -- 2 Share
+
+Data is one of the biggest new trends in both tech and business in general. Data “experts” are quickly becoming some of the best-paid individuals in the industry, and every single company wants to surf the wave of data capabilities.
+
+It is becoming a fundamental way of understanding the world around us. We can think of data sciences as epistemology or a way of knowing. We can think of it, about a way to approach problems and solving them.
+
+But as with any new trend, we have to ask ourselves: what do all these buzzwords actually mean?
+
+What is a data scientist? In short, a person who is better at statistics than any software engineer and better at software engineering than any statistician.
+
+The goal of this article is to demystify data analysis. We’ll explain what these buzzwords mean, what big data can and cannot do, and which technologies you should explore if you’re jumping on the data train
+
+This article is the first of a four-part series on data analysis. We’ll start with some foundational knowledge, then build on that foundation, step-by-step, to explain the more sophisticated and robust systems in both computational and thinking processes and help you understand why everyone is so crazy about data.
+
+DIKW Pyramid
+
+Before getting into the meet of data analysis, let’s start with a simple, but incredibly important, concept: the DIKW Pyramid. While many people are familiar with the pyramid, few understand how to interpret it, how to use it, and where they themselves stand.
+
+To elaborate on the concept, listen to Jennifer Rowley (2007): “Typically information is defined in terms of data, knowledge in terms of information, and wisdom in terms of knowledge.”
+
+Now let’s explain each level of the pyramid.
+
+Data is just a set of signals or symbols. Nothing more — just noise. It may be server logs, user behavior events, or any other data set. It’s unorganized and unprocessed. It’s inert. And if we don’t know what it means, it’s useless.

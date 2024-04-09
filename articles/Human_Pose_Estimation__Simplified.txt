@@ -1,0 +1,23 @@
+Human Pose Estimation : Simplified
+
+What is Human Pose Estimation anyway?
+
+Human pose estimation is an important problem in the field of Computer Vision. Imagine being able to track a person’s every small movement and do a bio-mechanical analysis in real time. The technology will have huge implications. Applications may including video surveillance, assisted living, advanced driver assistance systems (ADAS) and sport analysis.
+
+Formally speaking, Pose Estimation is predicting the body part or joint positions of a person from an image or a video.
+
+Image courtesy Microsoft COCO Dataset (Lin et al., 2014)
+
+Why this blog?
+
+I have been working on Human Pose Estimation for over 8 months now. The research in this field in vast, both in terms of width and depth. However, most of the literature (research papers and blogs) in Pose Estimation are fairly advanced, making it difficult for someone new to get accumulated.
+
+The scope of future research in Pose Estimation is immense and creating a learning slope can get more people interested. The aim of the blog is to provide a rudimentary understanding of Pose Estimation and possibly spark a interest in the field. Anyone with absolutely no previous experience of Computer Vision can superficially follow the blog. Even a basic understanding of Computer Vision concepts is enough to fully understand the blog.
+
+Problem Definition
+
+As I said earlier, Human Pose Estimation is a field with vast amount of research, both in terms of depth and width. The problem statement can be classified based on the following axes :
+
+Number of People Being Tracked
+
+Depending on the number of people being tracked, pose estimation can be classified into Single-person and Multi-person pose estimation. Single-person pose estimation (SPPE) is the easier of the two, with the guarantee of only one person present in the frame. On the other hand, Multi-person pose estimation (MPPE) needs to handle the additional problem of inter-person occlusion. Initial approaches in pose estimation were mostly focused on SPPE, however with the availability of huge multi-person datasets, the MPPE…

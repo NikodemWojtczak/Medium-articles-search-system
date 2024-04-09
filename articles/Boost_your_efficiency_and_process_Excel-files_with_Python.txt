@@ -1,0 +1,5 @@
+If you work with data, you will get in touch with excel. Even if you don´t use it by yourself, your clients or colleagues will use it. Excel is great for what it is made: table calculation for smaller data sets. But I always hated the kind of excel sheets with one million rows and hundreds of columns. This workbooks are slow and tend to crash after some calculation. So I started to use python for handling large excel files which offer another big advantage: You create code which is reproducible and provide documentation as well. Let´s jump in!
+
+Reading Excel-files with Python
+
+The file we want to process contains nearly 1 million rows and 16 columns:

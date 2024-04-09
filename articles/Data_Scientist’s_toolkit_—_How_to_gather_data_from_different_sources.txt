@@ -1,0 +1,33 @@
+Data Scientist’s toolkit — How to gather data from different sources
+
+Photo by Jakob Owens on Unsplash
+
+Not so long ago!
+
+Do you remember the time when data was sent to you in an external hard drive for your analysis or model building.
+
+Now — as a data scientist, you are not limited to those means. There are several ways of storing data, sharing data as well as different sources to acquire data, augment data.
+
+Below, I’m listing down several ways of gathering data for your analysis
+
+Table of contents:
+
+CSV file Flat File (tab, space, or any other separator) Text File (In a single file — reading data all at once) ZIP file Multiple Text Files (Data is split over multiple text files) Download File from Internet (File hosted on a server) Webpage (scraping) APIs (JSON) Text File (Reading data line by line) RDBMS (SQL Tables)
+
+In Python, a file is characterized as either text or binary, and the difference between the two is important
+
+Text files are structured as sequence of lines. Each line is terminated with a special character called EOL or End of line character. There are several types but most common are
+
+or ,
+
+A Binary file type is basically any type of file that’s not a text file. Because of their nature, binary file can only be processed by an application that know or understand the file’s structure
+
+1. CSV File
+
+Most common format for storing and sharing dataset is comma separated format or a csv file. pandas.read_csv() is THE most useful and powerful method and I strongly recommend you to read its documentation . By using appropriate kind of sep you can load several types of data in dataframe
+
+import pandas df = pd.read_csv('data.csv', sep =',')
+
+2. Flat File
+
+but at times you might receive file that’s tab separated or a fixed width format or…

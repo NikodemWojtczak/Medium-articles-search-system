@@ -1,0 +1,15 @@
+Testing different ML approaches on the same data set to evaluate model performance can be a tedious task. Furthermore, properly tuning deep learning models can take hours, if not days, to do. Luckily, within the past decade, there has been a serious push to develop methods to automate ML model selection and tuning. Although the open source solutions currently available are not silver bullets (and should not be treated as such!), using AutoML when building your ML or DL models can save a significant amount of time, and at least point you in the right direction of an optimal model. In this post, I go over some of the AutoML implementations currently available in Python, and provide specific examples (code included!).
+
+A few of the options currently available for automating model selection and tuning in Python are as follows (1):
+
+The H2O package The auto-sklearn package The TPOT package
+
+In this post, we’ll review AutoML functionality in the H2O package and the TPOT package. Unfortunately, auto-sklearn is only available on Linux operating systems (which I don’t have), so it won’t be covered.
+
+The Data
+
+For this article, we will be using a well-known data set available via the UCI Machine Learning Repository, the breast cancer data set, to classify whether or not the cancer is recurring (binary outcome of 0 or 1), based on a variety of factors. Potential predictor variables include the patient’s age (categorical variable — binned), if the patient has gone through menopause (categorical), and tumor size (categorical — binned), among others. A snapshot of the data set is provided below:
+
+Snapshot of the breast cancer data, available via the UCI repository
+
+Before we run the data through any autoML functions, let’s clean it up a bit. Mainly, we convert all of our categorical variables to numeric using sklearn’s LabelEncoder() function (using label encoding isn’t necessary for H2O, but it is for TPOT):

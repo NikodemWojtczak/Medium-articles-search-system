@@ -1,0 +1,21 @@
+How well does a value-based regression model perform in the 2016 Presidential Election?
+
+Using multiple regression to investigate values predictive of Donald Trump voters in the 2016 election Zach Alexander · Follow Published in Towards Data Science · 6 min read · Dec 30, 2019 -- Share
+
+A D3.js map comparing the actual 2016 election results to the model predictions. Visit www.zach-alexander.com/pres2016-regression to interact with the full visualization.
+
+For some, it may be hard to believe, but the 2020 presidential election is roughly 300 days away. In what is shaping up to be another contentious year in politics, forecasts predict an unprecedented number of voters will turn out to vote for nominees that will undoubtedly have very different agendas for our country’s future.
+
+As the Democratic party seeks to win over ex-Trump voters over the next year, I thought it would be interesting to take a look back at the 2016 election results to identify factors that led to his success. During my analysis, it became quite clear that certain values and ideologies were predictive in estimating the percent of voters that cast their vote for Donald Trump on a state-wide level.
+
+By using linear regression, I created a model that captured close to 87 percent of the variability in the proportion of votes for Donald Trump.
+
+Now, for those that are more statistically savvy, this model would by no means be effective at predicting the outcome of the 2020 election (or even the 2016 election), but it does tell us some valuable things about the way voters feel about certain “hot-button” issues and the effect they have on their decision to vote for President Trump or not.
+
+Datasets used for this analysis
+
+The 2016 election results were ultimately obtained from Townhall.com after scraping their html-formatted table and doing a bit of tidying. If interested, you can read more about this on GitHub. Credit for the web-scraping is attributed to Tony McGovern.
+
+The second dataset that I worked with contained responses to the 2017 American Values Survey. This dataset was found on the Public Religion Research Institute (PRRI) website. It holds a large number of questions related to values ranging from respondent’s views on immigration, gun control laws, health care, and much more.
+
+The topline version of the survey can be found here and more information about the surveying methodology can be found…

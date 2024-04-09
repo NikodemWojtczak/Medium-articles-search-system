@@ -1,0 +1,17 @@
+In the past 7 projects, we implemented the same project using different classification algorithms namely — “Logistic Regression”, “KNN”, “SVM”, “Kernel SVM”, “Naive Bayes”, “Decision Tree” and “Random Forest”.
+
+The reason I wrote a separate article for each is to understand the intuition behind each algorithm.
+
+#100DaysOfMLCode #100ProjectsInML
+
+In a real scenario, when we are given a problem, we cannot predict which algorithm will perform best. Obviously from the problem, we can tell whether we need to apply Regression or Classification algorithm. But it is difficult to know which Regression or Classification algorithm to apply beforehand. It is only through trial and error and checking the performance metrics, we can narrow down and pick certain algorithms.
+
+Today, I will show you how to compare different classification algorithms and pick the best ones. Rather than implementing the entire project using an algorithm and then finding out that the performance is not good, we will first check the performance of a bunch of algorithms and then decide which one to use to implement the project.
+
+Let’s get started.
+
+Project Objective
+
+We are going to use the same dataset we used in Project 10. Our objective is to evaluate several classification algorithms and pick the best ones based on accuracy.
+
+The sample rows are shown below. The full dataset can be accessed here.

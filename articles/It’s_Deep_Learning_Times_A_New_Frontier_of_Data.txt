@@ -1,0 +1,57 @@
+It’s Deep Learning Times: A New Frontier of Data
+
+When people hear the phrase, “Deep Learning,” many have only a vague idea of what it really means. Deep Learning is a Machine Learning paradigm that uses an artificial neural network as a learning model.
+
+But first, why does it matter?
+
+It can help make our lives much easier and convenient.
+
+Okay then, how does it work?
+
+In an artificial neural network, there are three kinds of layers: the input layer, hidden layer and output layer.
+
+In the input layer, input vectors x=(x1,x2,…,xp) are provided to a system in order to test that system. In the output layer, final outputs are provided. The hidden layer is located between the input layer and output layer. When the hidden layers are increased, it becomes Deep. Deep Learning is a Machine Learning paradigm that use this Deep artificial neural network as a learning model. Also, Deep Learning is extremely useful because it is an unsupervised machine learning approach which means that it does not need labeled data.
+
+Because of this technology, we have a wealth of data that can be used for deep learning. Let’s look at some common examples of data.
+
+#1: Images
+
+Image: Justin Freid/Martechtoday
+
+The way of gaining data from visual information is not really a new thing. Facial recognition technology is the typical example that has already been used for the last decade. Face ID from Apple has made us feel familiar with this technology.
+
+However, actually, few people realize how much it’s changing. Recognizing visual information has developed with Deep Learning.
+
+Bloomberg recently released a new website which can scan anything when people use their webcam or smartphone camera. When I scanned the backside of my iPhone through my webcam, the program recognized Apple’s logo, and then Apple’s stock information popped up including the current stock price, company information, press releases and so on. Now people can get whole data whenever they scan any images through their camera.
+
+ASAP54, a fashion app based on Deep Learning, is also a good example of using Deep Learning. This app suggests similar clothes and styles when users take or upload a photo of any clothes they want to find with accumulated input visual values.
+
+#2: Music
+
+Photo by Natalie Cardona on Unsplash
+
+Let’s talk about music. A lot of music-related companies are using music as their data.
+
+The Shazam app can find information of songs including the title, album, release date, and much more from just tapping a button on the app. When people tap a button while listening to a song that they want to identify, the app analyzes the bit of audio being played and then can figure out what the song is.
+
+According to Trey Cooper, 8 million songs/audio files had been stored on Shazam by 2018. Also, as more songs (input value) have been added, the accuracy will be increased too.
+
+#3: Emotion
+
+Photo by Szabo Viktor on Unsplash
+
+Recently, the most interesting data type to emerge is emotion. People have analyzed sentimental data to figure out how and why people express their emotions, which can be often obscured by sarcasm, ambiguity in language in comments, reviews, messages or hashtags.
+
+The Natural Language Tool Kit (NLTK) is commonly used to analyze this kind of data. Sentiment Analysis on Movie Reviews from Kaggle is a good example because after analyzing the text of movie reviews, data scientists can draw conclusions on different aspects such as how popular a particular movie is. Right now, emotion has been analyzed by classifying text and a huge amount of text including people’s emotion is enough to be input as data.
+
+However, now, emotion also can be analyzed in some other different way. People are using emojis in social media conversations, text messages and even making their own emojis to express their sentiment. As more and more youth and adults interact and communicate online with emojis instead of long texts, analyzing emojis has surprisingly become more necessary.
+
+Canvs ai, an emotion-analyzing company, introduced a new way along with this trend. They are analyzing people’s emotions by not only text but also emojis today. According to this company, they break emojis down into 56 emotions, and simply not only putting emotions into positive or negative category. It seems that as people continue to use emojis during their online conversation, the accuracy of analyzing their sentiment by using emojis as an input value will be increased.
+
+What’s the Next Data Set?
+
+Photo by Annie Spratt on Unsplash
+
+In other words, data is not limited to visual images, sounds or texts anymore. Everything can be data these days and can be accumulated to be analyzed. Thus, we can imagine what kind of things can be data in the future.
+
+One possibility is smell being a new form of data. Sometimes, people want to know what they are eating when they inhale the savory aroma of a meal at a restaurant. If smell can be used as data, we can use an app to get food lists which have a similar scent. Recipes and the nearest grocery markets’ information where we can get the ingredients will pop up together. We can check whether the bad odor is a gas leak or just the smell of new carpeting when enough data about the smell has accumulated. Nevertheless, we should look forward to the tremendous changes in how data will be analyzed in the future.

@@ -1,0 +1,227 @@
+Segmentation in marketing is a technique used to divide customers or other entities into groups based on attributes such as behaviour or demographics. It is useful to identify segments of customers who may respond in a similar way to specific marketing techniques such as email subject lines or display advertisements. As it gives businesses the ability to tailor marketing messages and timing to generate better response rates and provide improved consumer experiences.
+
+In the following post, I will be using a dataset containing a number of behavioural attributes for credit card customers. The dataset can be downloaded from the Kaggle website. I will be using the scikit-learn python machine learning library to apply an unsupervised machine learning technique known as clustering to identify segments that may not immediately be apparent to human cognition.
+
+The dataset consists of 18 features about the behaviour of credit card customers. These include variables such as the balance currently on the card, the number of purchases that have been made on the account, the credit limit, and many others. A complete data dictionary can be found on the data download page.
+
+Setting up
+
+I am running the following code in JupyterLab. I am using the iPython magic extension watermark to record the versions of tools that I am running this in. The output of this is shown below if you having any trouble running the code. Library imports are also shown below.
+
+%load_ext watermark
+
+%watermark -d -m -v -p numpy,matplotlib,sklearn,seaborn,pandas -g
+
+import pandas as pd
+
+import numpy as np from sklearn.cluster import KMeans
+
+from sklearn import preprocessing import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+import seaborn as sns
+
+Data cleaning
+
+To begin with, we will need to inspect the data to find out what cleaning and transformation may be needed. The scikit-learn library requires that all data have no null values and that all values must be numeric.
+
+To begin with, I have read in the downloaded csv file.
+
+TRAIN_FILE = 'CC GENERAL.csv'
+
+train_data = pd.read_csv(TRAIN_FILE)
+
+Firstly I run the following to inspect the data types to find out if there are any categorical variables that may need transforming. We can see from the result that all features are numeric except for CUST_ID . But since we won’t need this feature to train the model we don’t have to do any transforming here.
+
+print("Data Types:", train_data.dtypes) output:
+
+Data Types: CUST_ID object
+
+BALANCE float64
+
+BALANCE_FREQUENCY float64
+
+PURCHASES float64
+
+ONEOFF_PURCHASES float64
+
+INSTALLMENTS_PURCHASES float64
+
+CASH_ADVANCE float64
+
+PURCHASES_FREQUENCY float64
+
+ONEOFF_PURCHASES_FREQUENCY float64
+
+PURCHASES_INSTALLMENTS_FREQUENCY float64
+
+CASH_ADVANCE_FREQUENCY float64
+
+CASH_ADVANCE_TRX int64
+
+PURCHASES_TRX int64
+
+CREDIT_LIMIT float64
+
+PAYMENTS float64
+
+MINIMUM_PAYMENTS float64
+
+PRC_FULL_PAYMENT float64
+
+TENURE int64
+
+Running the following code tells me that only two features have null values ‘CREDIT_LIMIT’ and ‘MINIMUM_PAYMENTS’. Additionally, less than 5% of each column has nulls. This means that we should be ok to fill these with a sensible replacement value and should still be able to use the feature.
+
+train_data.apply(lambda x: sum(x.isnull()/len(train_data))) Output:
+
+CUST_ID 0.000000
+
+BALANCE 0.000000
+
+BALANCE_FREQUENCY 0.000000
+
+PURCHASES 0.000000
+
+ONEOFF_PURCHASES 0.000000
+
+INSTALLMENTS_PURCHASES 0.000000
+
+CASH_ADVANCE 0.000000
+
+PURCHASES_FREQUENCY 0.000000
+
+ONEOFF_PURCHASES_FREQUENCY 0.000000
+
+PURCHASES_INSTALLMENTS_FREQUENCY 0.000000
+
+CASH_ADVANCE_FREQUENCY 0.000000
+
+CASH_ADVANCE_TRX 0.000000
+
+PURCHASES_TRX 0.000000
+
+CREDIT_LIMIT 0.000112
+
+PAYMENTS 0.000000
+
+MINIMUM_PAYMENTS 0.034972
+
+PRC_FULL_PAYMENT 0.000000
+
+TENURE 0.000000
+
+The following code fills the missing value with the most commonly occurring value in the column. We could equally use mean or median, or indeed another approach but we will start here and iterate on this if needed.
+
+train_clean = train_data.apply(lambda x:x.fillna(x.value_counts().index[0]))
+
+I am also going to drop the CUST_ID column as we won’t need this for training.
+
+cols_to_drop = 'CUST_ID'
+
+train_clean = train_clean.drop([cols_to_drop], axis=1)
+
+Feature scaling
+
+The final piece of processing I will do before training a model is to scale the features.
+
+The model that I am going to use for clustering in this post is K-Means. The following, in simple terms, is how the algorithm works:
+
+Takes a predetermined number of clusters. Finds the centroids for each of these clusters, essentially the means. Assigns each data point to its nearest cluster based on the squared Euclidean distance. Once trained clusters for new unseen data points can be identified based on Euclidean distance.
+
+As it is reliant on this distance metric feature scaling is a very important consideration. In the example of the data set I am using let’s take two features PURCHASES_FREQUENCY and BALANCE . The feature PURCHASES_FREQUENCY is a number between 0 and 1, whereas BALANCE as it is a monetary value in this dataset is between £0 and £19,043. These features have very different scales which means that if we don’t normalise them so that they are on the same scale. There are likely to be instances where the algorithm will give more weight to one variable.
+
+The following code scales all the features in the data frame. I am using the min_max_scaler for the first iteration. Different techniques for scaling may have different results.
+
+x = train_clean.values
+
+min_max_scaler = preprocessing.MinMaxScaler()
+
+x_scaled = min_max_scaler.fit_transform(x)
+
+train_clean = pd.DataFrame(x_scaled,columns=train_clean.columns)
+
+To illustrate how this looks here are the PURCHASES_FREQUENCY and BALANCE columns before scaling.
+
+And after scaling.
+
+How many clusters?
+
+I mentioned previously that we need to tell the K-Means algorithm the number of clusters it should use. There are a number of techniques that can be used to find the optimal number. For this example, I am going to use the elbow method so named because the chart that it produces is similar in shape to the curve of an elbow. This method computes the sum of squared distances for clusters k. As more clusters are used the variance will reduce until you reach a point at which increasing clusters no longer results in a better model. This is illustrated in the following code borrowed from this article. Thank you Tola Alade!
+
+Sum_of_squared_distances = []
+
+K = range(1,15)
+
+for k in K:
+
+km = KMeans(n_clusters=k)
+
+km = km.fit(train_clean)
+
+Sum_of_squared_distances.append(km.inertia_) plt.plot(K, Sum_of_squared_distances, 'bx-')
+
+plt.xlabel('k')
+
+plt.ylabel('Sum_of_squared_distances')
+
+plt.title('Elbow Method For Optimal k')
+
+plt.show()
+
+You can see that after 8 clusters adding more gives minimal benefit to the model. I am therefore going to use 8 clusters to train my model.
+
+Training
+
+Before training, I am going to divide the data set into a train and test set. The following code divides the data reserving 20% for testing.
+
+np.random.seed(0)
+
+msk = np.random.rand(len(train_clean)) < 0.8
+
+train = train_clean[msk]
+
+test = train_clean[~msk]
+
+I then convert both the train and test set into numpy arrays.
+
+X = np.array(train)
+
+X_test = np.array(test)
+
+Next, I call the KMeans fit method using 8 clusters.
+
+kmeans = KMeans(n_clusters=8, random_state=0).fit(X)
+
+Using the trained model I will now predict the clusters on the test set.
+
+y_k = kmeans.predict(X_test)
+
+I’ll now assign the prediction as a new column on the original test data frame to analyse the results.
+
+test['PREDICTED_CLUSTER'] = y_k
+
+Analysing the clusters
+
+I am going to use the pandas groupby function to analyse a selected number of features for the clusters in order to understand if the model has successfully identified unique segments.
+
+train_summary = test.groupby(by='PREDICTED_CLUSTER').mean()
+
+train_summary = train_summary[['BALANCE', 'PURCHASES',
+
+'PURCHASES_FREQUENCY','CREDIT_LIMIT',
+
+'ONEOFF_PURCHASES_FREQUENCY',
+
+'MINIMUM_PAYMENTS','PRC_FULL_PAYMENT',
+
+'PAYMENTS']]
+
+train_summary
+
+This gives the following output.
+
+Just looking at ‘PURCHASES_FREQUENCY’ we can see that the model has identified some high-frequency purchase segments, clusters 2 and 3. Let’s understand the differences between these two segments to further determine why they are in separate clusters. We can see that cluster 3 has a higher number of total purchases, a higher credit limit, they make frequent one-off purchases and are more likely to pay in full. We can draw the conclusion that these are high-value customers and therefore there will almost certainly be a difference between how you may market to these customers.
+
+As a first iteration of the model, this appears to be identifying some useful segments. There are many ways in which we could tune the model including alternative data cleaning methods, feature engineering, dropping features with high correlation and hyperparameter optimisation. However, for the purpose of this post I wanted to give a high-level end to end view of how to start a machine learning model that performs unsupervised clustering.

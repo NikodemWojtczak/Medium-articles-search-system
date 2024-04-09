@@ -1,0 +1,77 @@
+Kaplan-Meier curves are widely used in clinical and fundamental research, but there are some important pitfalls to keep in mind when making or interpreting them. In this short post, I’m going to give a basic overview of how data is represented on the Kaplan Meier plot.
+
+The Kaplan-Meier estimator is used to estimate the survival function. The visual representation of this function is usually called the Kaplan-Meier curve, and it shows what the probability of an event (for example, survival) is at a certain time interval. If the sample size is large enough, the curve should approach the true survival function for the population under investigation.
+
+It usually compared two groups in a study (like a group that got treatment A vs a group that got treatment B).
+
+Treatment B seems to be doing better than treatment A (median survival time of +/- 47 months vs 30 months with a significant p-value). In this post, I only explore treatment arm A and won’t be comparing two groups versus each other.
+
+Basic Kaplan Meier plot
+
+Let’s start by creating some basic data. We have 10 patients participating in a study (so called “at risk”), with a follow-up of 10 months. Every participant gets an identical treatment.
+
+Cohort without censored data
+
+If we take a closer look at the ‘Follow-up’ and ‘Eventtype’ columns:
+
+The follow-up time can be any time-interval: minutes, days, months, years.
+
+An event type of 1 equals an event. An typical event in a cancer trial can be death, but Kaplan-Meier curves can also be used in other types of studies. Ann, for example, participated in this fictional study for a new cancer drug but died at after 4 months.
+
+An event type of 0 equals a right-censored event.
+
+To keep it simple, there are no censored events in this first example.
+
+The study starts. Every month, one participant experiences an event. Every time an event occurs, the survival probability drops by 10% of the remaining curve (= number of events divided by number at risk) until it reaches zero at the end of the study.
+
+Kaplan Meier plot with censored data
+
+Let’s add some censored data to the previous graph.
+
+Observations are called censored when the information about their survival time is incomplete; the most commonly encountered form is right censoring (as opposed to left and interval censoring, not discussed here). A patient who does not experience the event of interest for the duration of the study is said to be “right censored”. The survival time for this person is considered to be at least as long as the duration of the study. Another example of right censoring is when a person drops out of the study before the end of the study observation time and did not experience the event. In other words, censored data is a type of missing data.
+
+Ann, Mary and Elizabeth left the study before it was completed. Kate did not have an event at the end of the study. The curve is already looking very different compared to the “stairs” pattern from before.
+
+Cohort with censored data (Ann, Mary, Elizabeth and Kate). Note that Andy experienced an event at 6.2 months instead of 7 months in the example above (and was not censored).
+
+Now what is the relationship between events, censoring and the drops on the Kaplan Meier curve?
+
+If we take a look at the first participant that has an event (John), we see that after 1 month we have a drop of 0.1, or 10% of the remaining height:
+
+If we wait a little bit longer, we can see that at month 5, there are 6 patients at risk remaining. Two have had an event and two more have been censored. At the next event, the curve drops 16% of the remaining height (instead of 10% at the start of the study), because less people are at risk:
+
+This goes on until the end of the study period, or until the number of patients at risk reaches 0. The last drop is the largest. At this last drop, the curve drops 50% of the remaining height (or 20% of the total height). Yet still only 1 person experiences an event, the same as at the start of the study (when the drop was only 10% of the remaining (=total) height). This is because only 2 people are at risk at this point in the study.
+
+Importance of confidence intervals
+
+Especially when there are very few patients at risk, the impact of a censored event can have a big impact on the appearance of the KM curve.
+
+In the previous plot, it seems that the survival curve reaches a plateau at 20% survival probability. If we would swap the censored status between Joe and Kate (participants 9 and 10), the KM curve changes drastically and drops to 0 at the end of the study period. In this scenario (curve B), all participants either had an event or were censored.
+
+The event type for Joe and Kate are reversed in scenario B
+
+In other words, only one events marks the difference between the survival curve reaching 0 or reaching a plateau staying stable at 20%.
+
+We can also see this is if we plot the 95% confidence intervals on the KM curve. The confidence intervals are very wide, giving a clue that the study contains very few participants. Furthermore, the 95% CI increases when more time elapses, because the number of censored individuals increases.
+
+Exclude censored data: yes or no?
+
+Small dataset
+
+We can simulate the best case scenario (censoring is equal to no events) and the worst case scenario (censoring is equal to events) and compare this to the actual curve.
+
+The first 3 observations for every scenario (best, worst and actual)
+
+In the best case scenario, the curve stops at 40% survival probability at the end of the study, while in the worst case scenario the curve drops to 0. The median survival times are also very different:
+
+Actual curve: 6.2 months
+
+Best case: 8.1 months
+
+Worst case: 5.5 months
+
+Large dataset
+
+This is even more striking if we increase the sample size. In the simulation, the sample size has increased from 10 to 100, with a follow-up time of 48 months. In this simulation, 40% of the individuals are censored (at random) somewhere between month 0 and month 48. Again, this shows that the median survival time can be substantially different.
+
+Conclusions

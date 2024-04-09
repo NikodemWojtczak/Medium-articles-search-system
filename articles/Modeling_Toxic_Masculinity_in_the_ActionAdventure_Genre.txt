@@ -1,0 +1,75 @@
+Modeling Toxic Masculinity in the Action/Adventure Genre
+
+Photo by Jakob Owens on Unsplash
+
+Action/Adventure movies have been delighting audiences for years. From the thrilling car chase in ‘Bullit’ (1968) to the blistering combat of John Wick 3 (2019), movie-goers flock to the cinema time and time again to get their adrenaline fix.
+
+While there is indeed much enjoyment to be had in the genre, there are some pretty clear problems that I was curious to look into as well. For one, the vast majority of action/adventure films feature a white, male protagonist. Secondly, said protagonists often treat women and supporting characters as objects to be conquered. This is immediately apparent in say the James Bond franchise, but I’ll let this quote from the XXX franchise starring Vin Diesel sum it up:
+
+“Let me simplify it for you. Kick some ass, get the girl, and try to look dope while you do it.”
+
+With all this in mind, I didn’t necessarily seek to uncover what I ended up uncovering in this project. In fact, I initially set out in an attempt to distill personality through dialogue, attempting to map big five traits to spoken word using dimensionality reduction. While I was unable to shed light on personality traits using the techniques below, I was able to find clear toxic patterns of speech across several topics. So…let’s dive in!
+
+The Data
+
+For this project, I utilized a massive film corpus from the University of California Santa Cruz. The corpus is broken down by genre and contains 960 film scripts where the dialog in the film has been separated from the scene descriptions. Here, I chose to look specifically at the action/adventure genre which includes 143 films ranging from Rambo to Die Hard.
+
+I recently completed a project to print out the personality profile of every film protagonist in the corpus in which I go into more detail about the text preprocessing, so I’ll focus on the some of the more detailed NLP techniques and the topic modeling in this post.
+
+Suffice to say that after my initial preprocessing, I had a pandas dataframe with two columns (character and dialogue) for each protagonist in the corpus and each line of their dialogue as individual rows for a total of 127K utterances across approximately 150 characters.
+
+Processing the Natural Language
+
+Photo by Patrick Tomasso on Unsplash
+
+With the data ready to work with, it was now time to bring in the natural language toolkit and get the corpus ready for topic modeling.
+
+The fun part about NLP (natural language processing) is that there are no hard and set rules with respect to processes or tools. Typically, after preprocessing/normalization comes tokenization, stemming/lemming, vectorization, dimensionality reduction and visualization. However, the steps and nuances vary considerably depending on the context. For example, in one situation it might make sense to use bigrams with a count vectorizer and LSA while another makes sense to use trigrams with TFIDF and NMF. You can think of this akin to being an artist in a studio, experimenting with models and sculpting until you have something beautiful.
+
+For purposes of this post, I won’t go through the many iterations (and failures) throughout this project but will instead walk through the steps and model that yielded the best results.
+
+First, I tokenized each sentence into a list of words, removing punctuations and unnecessary characters using Gensim’s simple_preprocess() function as seen in the code below:
+
+Next, I defined bigrams and trigrams. Essentially this captures two words next to each other and ensures that words that should be together such as ‘San Francisco’ remain as one unit. Said another way: Bigrams are two words frequently occurring together in the document. Trigrams are 3 words frequently occurring.
+
+Gensim’s Phrases model can build and implement the bigrams, trigrams, quadgrams and more. The two important arguments to Phrases are min_count and threshold . The higher the values of these param, the harder it is for words to be combined to bigrams. The code for this is also below:
+
+Next, I defined some functions. Namely, I lemmatized the words and took out stop words, Lemmatization is nothing but converting a word to its root word. For example: the lemma of the word ‘trees’ is ‘tree’. Likewise, ‘talking’ –> ‘talk’, ‘geese’ –> ‘goose’ and so on. Stop words are essentially very common words in the english language that we do not want to include in our analysis. Words like ‘the’ ‘and’ ‘for’ etc. For the code below I imported stop words and lemmatization using Spacy.
+
+From Words To Dictionary/Corpus to LDA
+
+Now that I was getting closer to being able to distill this high dimensional data into topics, I next converted my word list into both a dictionary using id2word as well as a corpus. The reason for this is that the two main inputs to the LDA topic model are (you guessed it!) the dictionary( id2word ) and the corpus:
+
+This got me quite close to being ready to model! The final piece of the puzzle was to determine how many topics I’d like to explore. There are a number of techniques here including the silhouette method but I chose to generate what’s called an elbow plot: essentially a heuristic to help find the appropriate number of clusters to run a model on. This method looks at the percentage of variance explained as a function of the number of clusters: One should choose a number of clusters so that adding another cluster doesn’t give much better modeling of the data. On the plot, this is usually the point that looks like an elbow.
+
+In this case, I didn’t have a strong ‘elbow’ to visualize. Perhaps at 3 or 4 but nothing too definitive. This had to be another instance where I tried a few things and interpreted the result quality.
+
+Ok, finally on to the model! I next put both the dictionary and the corpus into my LDA model along with the number of topics I wanted to explore. I found the most intelligible results with 4 topics. Apart from the number of topics, alpha and eta are hyperparameters that affect sparsity of the topics. According to the Gensim docs, both default to 1.0/num_topics prior.
+
+chunksize is the number of documents to be used in each training chunk. update_every determines how often the model parameters should be updated and passes is the total number of training passes. Here is the code for the model:
+
+Great. Now to visualize some results. While it is valid to simply print out the model topics, there is a much more visual and interactive way to display findings: pyLDAvis. Each bubble on the left-hand side plot represents a topic. The larger the bubble, the more prevalent is that topic. With 4 topics I was able to get fairly differentiated (non-overlapping) bubbles with meaningful results as shown below:
+
+Findings + Concluding Thoughts
+
+Across all four topics in the corpus, I saw evidence of commanding and misogynist words. On the more ‘tame’ side there were action words like ‘go’ ‘get’ ‘want’ ‘take’ all the way over to what can only be described as ‘less tame’ words like ‘fuck’ ‘baby’ ‘kill’ etc.
+
+Of course, there are many films in which the protagonist needs to simply…
+
+…but repeatedly words like ‘get’ seem to imply possession and forceful commanding of others, not just a need to get somewhere. Humor aside, this visualization shows that there is a real problem with the writing of action protagonists from the 60s all the way to the present and if I had to name the topics in my above visual I’d say they boil down to:
+
+Commands and Forceful Requests
+
+Threats
+
+Women as Objects
+
+Weaponry
+
+Here’s hoping this trend changes going forward and we see not only a more diverse representation of leading men and women in the action genre but also more empathy in their words and deeds.
+
+That’s all for this project but going forward I’m interested in running through this same process for the other genres represented in the corpus. In the meantime, if you are interested in diving a bit deeper into the code feel free to check out my project repo.
+
+Appendix
+
+Github, LinkedIn, Portfolio

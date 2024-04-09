@@ -1,0 +1,77 @@
+Source of Image: https://libparlor.com/2017/09/27/research-101-qualitative-research-approaches/
+
+There are so many interesting areas of research in the world, and I am sure each one of us at one or the other time in our lives have envisioned creating something that no one has even thought of until now. So eager to show the world that we have got the mettle to do something extraordinary. But the moment you got started, you realized how vast the world is and how so many people across the globe work on so many ingenious ideas to solve a problem or to invent something amazing.
+
+It is at this moment that we realize that we need to understand what people have done before in order to move ahead with our research ideas. Many of us choose to do this to take inspiration from other ideas while others do this to make sure that they are not spending weeks, months or even years working on something that has already been done by someone else in some other part of the world. Thus, in the journey to discover the research world revolving around our problem paradigm, we come across research papers.
+
+These research papers are often filled with technical jargon and mathematical equations that has the capacity to scare anyone. Specially for someone, who is just getting started, it seems specially scary. I am certainly not an expert who can tell you the best way to read a technical research paper or publication, but I can surely share with you how I usually manage to not just read but also understand a paper under 30 minutes or less.
+
+Trust me the first time I started reading a paper, I was scared too. I looked at the paper and didn't even read one page before I started feeling that I needed to learn so many things before I could even start grasping what the paper was talking about. Trust me! It happens to everyone! It is alright to feel that what you know is not enough. Actually, it is at this point that we become self-aware about how much more we need to learn and this is important because no one in the world knows everything. So the least you could do is keep trying.
+
+In general, before you go read any research publication directly, if you are a beginner, I would suggest that you try to grasp the basics of the area that you are interested in. For example, if your chosen problem statement is in the field of Natural Language Processing(NLP), then you should consider understanding how can you interpret natural language and visualize it, how a natural language is processed using different models and frameworks and what are the most popular algorithms used in NLP. After you have a good enough grasp of the basics then get started with the research paper you want to read.
+
+A research paper is usually divided into the following parts.
+
+Parts of a Research Paper: 1. Abstract 2. Introduction 3. Related Work 4. Main Section (usually divided into subsections like describing the idea in detail, Approach taken, etc) 5. Experiments/ Experimental Setup 6. Results 7. Conclusion 8. Acknowledgement 9. References
+
+Please note that this is the structure of research papers in general and this may vary slightly depending upon the area of research and the author’s preferred writing style.
+
+Before we understand each section in detail, let me share with you my strategy.
+
+A simple technique that I use is print out the paper. This may sound annoying to all those tech-savvy people out there who love reading on their laptops, iPad or tablets. Please bear with me. I promise it works! Keep a pencil and highlighter with you. Both are important. Let me explain why. Using the pencil make short notes of any section that you read either on the margin or on the sides. Using the highlighter, highlight the regions you think are important. This may sound childish but trust me it works wonders on your concentration. The trick is to write what you understood every one or two paragraphs in your own words. This not only helps you remember what the paper is talking about but also helps you keep yourself on track and focused on reading through the paper.
+
+Trick 1: Print out the paper. Use a pencil to make short hand notes of any section that you are reading and highlighter to highlight the important points.
+
+Another point to remember is don't get scared by crazy looking mathematical equations. Keep in mind that the authors of the paper were once beginners like you too, and they do want others to understand their work. So be rest assured they did explain what those crazy looking equations mean. Just be patient. Another thing to remember is that instead of looking equations as a whole, try to understand individual elements in the equation first. This helps you grasp what the overall idea is about faster. After all the one secret to success is to persevere until you reach where you want to reach.
+
+Trick 2: Dont be scared of crazy looking mathematical equations. Instead of looking equations as a whole, try to understand individual elements in the equation first. This helps you grasp what the overall idea is about faster.
+
+Let me try to elaborate what does each section represent and how to maximize your understanding.
+
+Before you begin reading a research paper, the first step is to read the Abstract. Abstract are usually short and to the point summary of the entire work presented in the paper. Chances are that if you understand what the abstract is trying to say then you will understand the paper better. If you don’t fully understand the abstract, then don't get disheartened. As the paper unfolds, you will understand what it means.
+
+Abstract: Short and to the point summary of the entire work presented in the paper.
+
+Next comes Introduction. Introduction is usually that part of the paper which introduces the overall idea behind the paper without getting into too much detail. For example, an Introduction could comprise of briefly explaining why the area of research that the paper talks about is relevant and how the work as showcased by the paper is a good way to solve a problem in that area. Read the introduction like you would read the introduction of a play or a book. This is meant to garner your interest and make you curious about the idea discussed in the paper.
+
+Introduction: Introduces the overall idea behind the paper without getting into too much detail about the implementation.
+
+The next section that we focus on is Related Work. This section mentions the other relevant works which have been done to solve the same problem which are worth mentioning and highlight their advantages and disadvantages. The section is important for you to pay special attention to because of two reasons. The first reason is that reading this section helps you know about what other approaches have people come up with to solve either your target problem or similarly correlated problems. This helps you get a starting point to start looking at paper’s whose idea interests you. Go to the references section and identify the paper using the citation number and read it! The more you read, the better informed you would be. One thing to watch out for is don’t take everything that the author of the paper says as gospel of truth. Please remember that anything not referenced in the paper is the author’s own point of view and as we all know that every person has a right to view things differently. So you must read a paper before forming your opinions. The second reason to read this section is because this helps you to understand how the author’s approach will stand out against other competitive approaches. It is always wise to know what else is out there and the difference between them and the paper that you are reading. In a nutshell, Related Work presents a list of research articles that increases our breath in research and can help us in formulating and conceptualizing our problem better.
+
+Related Work: Talks about the ideas and approaches of other researchers across the globe who work on same or similar problems.
+
+The next section that you usually come across is the crux of the paper. The Main Section is usually subdivided into smaller sub sections each of which explains one concept, element or component that the author is presenting. It also consists of the problem formulation. This section is vital to understanding the idea that the paper contains. Don’t forget to make notes as you go on the margin next to the paragraph that you are reading. Every few paragraphs, stop and try to ask yourself what was it about and what you learned. Then write down that on the margin. This has multiple benefits. One obvious benefit is whenever you open the paper again in the future you won’t have to read through it again. You can just read your interpretations in the side and be done with it. Another benefit is that you will remember what you write with your own hand more than what you read only once. It increases your retention capacity.
+
+Main Section: Usually subdivided into smaller sub sections each of which explains one concept, element or component that the author is presenting.
+
+After this section comes the section of Experimental Setup or Experiments. This section usually explains the implementation details about the paper including details about how the author has divided their training, validation and test set (in case of Machine learning, Vision, NLP, related papers)and what experiments have they conducted to showcase that their idea is amazing. These experiments include testing against benchmarked datasets and baselines in the intended area of study. This sections gives you an insight into how you can plan your own experiments and what kinds of baseline models are available for you to test against.
+
+Experimental Setup or Experiments: Explains the implementation details about the paper including datasets,evaluation metrics and experiments conducted against known benchmark models and datasets.
+
+The next section is Results. This section highlights the performance and efficiency of the model, network or idea mentioned in the paper using different evaluation metrics relevant to the area of study. This section can be used as a way to determine how good a idea would be it be for you to use the findings of this paper or take inspiration from their idea to help build your own model.
+
+Results: Highlights the performance and efficiency of the model, network or idea mentioned in the paper.
+
+The section titled Conclusion gives the final more precise summary of what the idea presented in the paper is and how it fares against other models. It also sometimes mentions future scope of study. This helps you solidify your understanding of the paper and double check the conclusion that you drew yourself against that of the authors.
+
+Conclusion: Gives final more precise summary along with future scope of work in the intended area of study.
+
+Acknowledgment is an optional section. In this section, the authors usually thank the agencies or sponsors which helped them in their course of work along with any grant details which enabled the completion of their work. You can skip this sections if your intention was just to read the idea mentioned in the research paper.
+
+Acknowledgment: Contains the details about the sponsors (both industry and academic grants) that helped make their work a success.
+
+Last but not least is the Section of References or Bibliography. This section contains a list of all the research papers or publications that have been referenced in one way or another throughout the paper. This section can be used as a starting point to find similar paper that work in the area that you are interested in.
+
+References or Bibliography: Contains a list of all publications that have been referenced in the paper.
+
+Once you are done reading the entire paper, I would suggest you write a short summary in your own words about what the paper was about and what new thing it introduced. You can also write a line or two about what you found interesting in the paper or even a new idea that might have sparked in your brain upon reading the paper which you can follow on later. This helps us not only retain the paper as a whole at a later time more quickly but also ensures that those fleetingly brilliant ideas that we have on the spur of the moment and later forget, don’t get lost in the day to day humdrum.
+
+Trick 3: Write a short summary in your own words about what the paper was about and what new thing it introduced.
+
+I hope this article helps you on your way to becoming a great researcher someday!
+
+If you liked this article, please follow me on medium or LinkedIn or share this article with your friends!
+
+Thank you for reading!
+
+Never give up and the world will one day recognize your potential. This is the key to success. Just Keep Learning!

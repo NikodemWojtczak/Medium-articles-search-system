@@ -1,0 +1,87 @@
+Interpretation of Kappa Values
+
+The kappa statistic is frequently used to test interrater reliability. The importance of rater reliability lies in the fact that it represents the extent to which the data collected in the study are correct representations of the variables measured. Measurement of the extent to which data collectors (raters) assign the same score to the same variable is called interrater reliability. In 1960, Jacob Cohen critiqued the use of percent agreement due to its inability to account for chance agreement. He introduced the Cohen’s kappa, developed to account for the possibility that raters actually guess on at least some variables due to uncertainty. The scale of Kappa value interpretation is the as following:
+
+Kappa value interpretation Landis & Koch (1977):
+
+<0 No agreement
+
+0 — .20 Slight
+
+.21 — .40 Fair
+
+.41 — .60 Moderate
+
+.61 — .80 Substantial
+
+.81–1.0 Perfect
+
+However past researches indicated that multiple factors have influences on Kappa value: observer accuracy, # of code in the set, the prevalence of specific codes, observer bias, observer independence (Bakeman & Quera, 2011). As a result, interpretations of Kappa, including definitions of what constitutes a good kappa should take circumstances into account.
+
+Simulation
+
+To better understand the conditional interpretation of Cohen’s Kappa Coefficient, I followed the computation method of Cohen’s Kappa Coefficient proposed by Bakeman et al. (1997). The computations make the simplifying assumptions that both observers were equally accurate and unbiased, that codes were detected with equal accuracy, that disagreement was equally likely, and that when prevalence varied, it did so with evenly graduated probabilities (Bakeman & Quera, 2011).
+
+Settings
+
+The maximum number of codes: 52
+
+The number of observers: 2
+
+The range of observer accuracies: 0.8, 0.85, 0.9, 0.95
+
+The code prevalence: Equiprobable, Moderately Varied, and Highly Varied
+
+Settings of parameters in the simulation
+
+Findings
+
+In the 612 simulation results, 245 (40%) made a perfect level, 336 (55%) fall into substantial, 27 (4%) in moderate level, 3 (1%) in fair level, and 1 (0%) in slightly. For each observer accuracy (.80, .85, .90, .95), there are 51 simulations for each prevalence level.
+
+Observer Accuracy
+
+The higher the observer accuracy, the better overall agreement level. The ratio of agreement level in each prevalence level at various observer accuracies. The agreement level is primarily depended on the observer accuracy, then, code prevalence. The “perfect” agreement only occurs at observer accuracy .90 and .95, while all categories achieve a majority of substantial agreement and above.
+
+Kappa and Agreement Level of Cohen’s Kappa Coefficient
+
+Observer Accuracy influences the maximum Kappa value. As shown in the simulation results, starting with 12 codes and onward, the values of Kappa appear to reach an asymptote of approximately .60, .70, .80, and .90 percent accurate, respectively.
+
+Cohen’s Kappa Coefficient vs Number of codes
+
+Number of code in the observation
+
+Increasing the number of codes results in a gradually smaller increment in Kappa. When the number of codes is less than five, and especially when K = 2, lower values of Kappa are acceptable, but prevalence variability also needs to be considered. For only two codes, the highest kappa value is .80 from observers with accuracy .95, and the lowest is kappa value is .02 from observers with accuracy .80.
+
+The greater the number of codes, the more resilience Kappa value is toward the observer accuracy difference. There is a decrement of Kappa value when the gap between observer accuracies gets bigger
+
+Prevalence of individual codes
+
+The higher the prevalence level, the lower the overall agreement level. It is a tendency that the agreement level shifts lower when prevalence becomes higher. At observer accuracy level .90, there are 33, 32, and 29 perfect agreement for equiprobable, moderately variable, and extremely variable.
+
+Standard Deviation of Kappa Value vs Number of codes
+
+Code prevalence matters little along with the increase of code number. When the number of codes is 6 or higher, prevalence variability matters little, and the standard deviation of kappa values obtained from observers with accuracies .80, .85, .90 and .85 is less than 0.01.
+
+Recommendation
+
+Recommendation of interpreting Kappa along with the number of codes
+
+Factors that affect values of kappa include observer accuracy and the number of codes, as well as codes’ individual population prevalence and observer bias. Kappa can equal 1 only when observers distribute codes equally. There is no one value of kappa that can be regarded as universally acceptable; it depends on the level of observers accuracy and the number of codes.
+
+With a fewer number of codes (K < 5), epically in binary classification, Kappa value needs to be interpreted with extra cautious. In binary classification, prevalence variability has the strongest impact on Kappa value and leads to the same Kappa value for various observer accuracy vs prevalence variability combination.
+
+On the other hand, when there are more than 12 codes, the increment of expected Kappa value becomes flat. Hence simply calculate the percentage of agreement might have already served the purpose of measuring the level of agreement. Moreover, the increment of values of the performance metrics apartment from sensitivity also reaches the asymptote from more than 12 codes.
+
+If Kappa value is used as a reference for observer training, using a code number between 6 to 12 would help on a more accurate performance evaluation. Since Kappa value and the performance metrics are sensitive enough to performance improvement and less impacted by code prevalence.
+
+Reference
+
+Ayoub, A., & Elgammal, A. (2018). Utilizing Twitter Data for Identifying and Resolving Runtime Business Process Disruptions. In Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics). https://doi.org/10.1007/978-3-030-02610-3_11
+
+Bakeman, R., & Quera, V. (2011). Sequential analysis and observational methods for the behavioral sciences. Sequential Analysis and Observational Methods for the Behavioral Sciences. https://doi.org/10.1017/CBO9781139017343
+
+Mchugh, M. L. (2012). Interrater reliability: the kappa statistic Importance of measuring interrater reliability. Biochemia Medica, 22(3), 276–282.
+
+Nichols, T. R., Wisner, P. M., Cripe, G., & Gulabchand, L. (2011). Putting the Kappa Statistic to Use Thomas. Quality Assurance Journal, 57–61. https://doi.org/10.1002/qaj
+
+W.Zhu, N. Z. and N. W. (2010). Sensitivity, Specificity, Accuracy, Associated Confidence Interval and ROC Analysis with Practical SAS®. Proceeding of NESUG Health Care and Life Sciences, 1–9.

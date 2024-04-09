@@ -1,0 +1,11 @@
+In a previous blog post: Programming language that rules the Data Intensive (Big Data, Fast Data) frameworks, I have briefly discussed some of the most popular Big Data frameworks and showed that Java is the de-facto programming language in Data Intensive frameworks. Java had significant advantages (e.g. Platform Independence, Productivity, JVM) over other languages during the timeframe 2004–2014 when most of the dominant Big Data frameworks were developed.
+
+In the last 10 years, lots of changes happened in the programming language landscape. Some classic languages have gone through major overhauls and modernizations. Also some very promising, modern programming languages appeared with elegant features. Computer Hardware has gone through major changes (rise of Multi-Core processors, GPU, TPU) as well. Containerization with Docker, Kubernetes came to existence and became mainstream.
+
+If someone or some company wants to develop the next disruptive Big Data framework in 2019 (e.g. next Hadoop, Kafka, Spark), what programming language will be the best fit? The Big Data domain vintage language Java or any other language? First I will discuss the limitations of Java and then I will propose better alternatives in the context of Data Intensive framework development. Most of the points are also valid to develop Cloud Native, IoT and Machine Learning frameworks.
+
+Limitations of Java
+
+Every programming language has its limitations. Also Java, the most dominant Programming Language in the Data Intensive domain, has its fair share of limitations. Here I will discuss the main limitations of Java in the context of Data Intensive framework development.
+
+JVM: JVM plays a huge role for Java being widely adopted and becoming one the most popular programming language. But like many things in life, sometimes the biggest strength is…

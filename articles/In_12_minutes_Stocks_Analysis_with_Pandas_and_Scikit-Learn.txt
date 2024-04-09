@@ -1,0 +1,17 @@
+In 12 minutes: Stocks Analysis with Pandas and Scikit-Learn
+
+Predicting Stocks with Data Analysis
+
+One day, a friend of mine told me that the key to financial freedom is investing in stocks. While it is greatly true during the market boom, it still remains an attractive options today to trade stocks part time. Given the easy access to online trading platform, there are many self made value investors or housewife traders. There are even success stories and advertisements which boast “Get Rich Quick Scheme” to learn how to invest in stocks with a staggering return of 40% and even more. Investing has become the boon for the working professionals today.
+
+The question now are: Which stocks? How do you analyse stocks? What are the returns and risks of this stocks compared to its competitors?
+
+The objective for this publication is for you to understand one way on analyzing stocks using quick and dirty Python Code. Just spend 12 minutes to read this article — or even better, contribute. Then you could get a quick glimpse to code your first financial analysis.
+
+To start learning and analyzing stocks, we will start off by taking a quick look at the historical stocks prices. This will be done by extracting latest stocks data from pandas web-data reader and Yahoo Finance. Then we will try to view the data through exploratory analysis such as correlation heatmap, matplotlib visualization, and prediction analysis using Linear Analysis and K Nearest Neighbor (KNN).
+
+Loading YahooFinance Dataset
+
+Pandas web data reader is an extension of pandas library to communicate with most updated financial data. This will include sources as: Yahoo Finance, Google Finance, Enigma, etc.
+
+We will extract Apple Stocks Price using the following codes:

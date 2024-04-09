@@ -1,0 +1,15 @@
+The Chinese Idiom Chains Game
+
+This is a classical education game that helps pupils learn idioms. Seated in a round table, a pupil comes up with a random Chinese idiom (a Chinese idiom consists of 4 Chinese characters). The next pupil must quickly say another idiom whose first character matches the last character of the given idiom. When someone gets stuck, he must sing a song or perform a dance.
+
+Now with the knowledge of graph DB, a pupil can stop worrying about losing the game and having to perform in front of the class!
+
+Graph Design
+
+The graph structure is as simple as you can imagine. We have one types of node and one types of directed edge. It’s tempting to create a node for each idiom, because an idiom is an entity, just like a user, a movie, a product. If an edge exists between two nodes, we just create an edge. For example, there is an edge pointing from 坚定不移 to 移花接木, because the character 移 connects the two idioms.
+
+Naive design
+
+Someone from a relational DB background might naturally come up with this design, because an edge is simply a match in a JOIN operation. Right?Unfortunately, this seemingly innocuous design turned out to be impractical. We have to exhaustively search for all edges and add them one at a time, resulting in quadratic time complexity.
+
+We can do much better with clever modeling. What if we embed the idiom in edges, instead of…

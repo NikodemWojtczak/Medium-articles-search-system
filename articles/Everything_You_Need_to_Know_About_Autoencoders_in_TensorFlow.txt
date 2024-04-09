@@ -1,0 +1,11 @@
+Everything You Need to Know About Autoencoders in TensorFlow
+
+Photo by Alex wong on Unsplash
+
+Autoencoders are artificial neural networks that can learn from an unlabeled training set. This may be dubbed as unsupervised deep learning. They can be used for either dimensionality reduction or as a generative model, meaning that they can generate new data from input data.
+
+In this post, different types of autoencoders and their applications will be introduced and implemented with TensorFlow.
+
+All the code is available in a Github repo.
+
+Fire up your notebook, and let’s get to it!

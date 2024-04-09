@@ -1,0 +1,7 @@
+A collaborative filtering model/recommendation system seeks to predict the rating or preference a user would give to an item given his old item ratings or preferences. Recommendation systems are used by pretty much every major company in order to enhance the quality of their services.
+
+In one of my first articles, I created a book recommendation system using Keras a high-level API build on Tensorflow. In this article, I will show you how to build the same recommendation system using the FastAI library as well as how to build a neural network based model to get even better results.
+
+For our data, we will use the goodbooks-10k dataset which contains ten thousand different books and about one million ratings. It has three features the book_id, user_id and rating. If you want you can get the all the data files as well as the complete code covered in this article from my Github repository.
+
+If you prefer a visual tutorial you can check out my FastAi videos.

@@ -1,0 +1,73 @@
+A dataset which we might hope to describe, simply and briefly, with just a few numbers. Without intending to shame the authors or editors I shall not name the publication I’ve pulled it from (which is otherwise an excellent piece of work which this misstep barely dampens)
+
+Let’s start with a dataset, and from there explain how we might go about constructing a result, and the merits and dangers of different methods of doing so.
+
+The picture to the left is taken from a publication. Let’s pretend however that the three panels come from an analysis we did — asking 1000 people to guess the number of balls in a jar and it’s total weight.
+
+Each person’s answer can be thought of as a position in a 2D plane — x, the number of balls and y, the weight. If we put a pin in at the x,y coordinates of every person we would see some regions are full of pins (hopefully near the correct answer), and some are nearly empty (like if someone thinks there are 10 balls and it ways a metric ton).
+
+The bottom right panel shows the density of their guesses — like contour lines on a hill — rising to a smooth peak in the region where the most people guessed. The plots above and to the right are, respectively, the distribution of x and y individually (though not quite correct you could think of these as cross-sections of our hill, if we were to cleave it along the x and y direction).
+
+We can see that people are in relatively good agreement about the weight — most answers fall in a small region, and the spread is ~even about that region.
+
+But, the number of balls causes more problems. People tend to overestimate by a much larger amount than they underestimate (imagine three consecutive respondents guessing 10, 100 and 1000). There is a peak — but there’s an asymmetry around it.
+
+It’s in dealing with this asymmetry that the current convention goes awry.
+
+One of the most common ways to summarise data is by looking at the median (if we put all the data in ascending order, the value in the middle) and the 16th and 84th percentile (the values roughly 1/8 and 7/8 of way along our ordered list).
+
+Why these numbers? 16–50–84*
+
+*which coincidentally is my sort code
+
+They relate to every statisticians old friend — the normal distribution — an almost eerily universal representation of how data is grouped at a peak value, and spread evenly around it. This allows us to well describe lots of datasets in just two values — a mean (peak value) and a standard deviation (spread).
+
+We can see that applying this to the y values above we’d get a perfectly good fit. Voila — not a bad result, and in just 2 numbers! (by which I mean if we just wrote down the two numbers — let’s say a mean of 1 kg and a spread of 200 g — you could draw a curve that looks acceptably similar to our data without ever having seen it)
+
+So sensibly applying a normal distribution to appropriate data and recovering two numbers is a great idea. If you can do it, do!
+
+But much of the time, as is the case with our x data, we cannot. There is no way to describe asymmetry in these two parameters, we need a third. We have lots of options but I want to map out 3 — the good, the bad and the ugly.
+
+The ugly (but actually perfectly good) method — mean, standard deviation and skew
+
+What if we made a normal distribution out of wet-sand, and tilted it?
+
+We’d get a skewed distribution, with two assymetric tails. If we tilt our sandpile to the left we get negative skew (more of the distribution above the mean) and to the right positive.
+
+However, we’re still describing our data via the mean and standard deviation, now just with an extra, esoteric parameter. Plenty of readers may have furrowed brows about the choice of which skew is positive and negative, and more so when they’re told how to calculate it.
+
+With these three numbers we almost certainly could reconstruct the distribution of x — but drawing it is a nightmare. We have all the information we need, but just in an abstract form — there are no easy error bars and no obvious way to quote and plot the result.
+
+It’s a perfectly good way of doing things, if you like that sort of thing, but it’s ugly and unintuitive (come at me tho).
+
+The bad method — 16–50–84
+
+I have not yet delivered on my promise of explaining these numbers. Let’s fix that.
+
+16% of the area under a normal distribution lies to the left of 1 standard-deviation below the mean.
+
+84% of the area under a normal distribution lies to the left of 1 standard-deviation above the mean.
+
+Thus if we have normally distributed data these two numbers, when compared to the mean, tell us the standard deviation. Twice.
+
+And when the distribution is not perfectly normally distributed, these two numbers tell us… nothing?
+
+There’s a fundamental problem here — 16 and 84 (and 50 for that matter) are three numbers relevant only to the strictly symmetric normal distribution — and yet we are trying to use them to describe a different, asymmetric distribution.
+
+Theres a disconnect between what we’re measuring and how we’re measuring it. Obviously there’s a relation between the two, but there are some non-linear steps we must take to go from one to the other. This is like measuring the biomass of a forest in terms of the weight of the seeds. There’s information there, but it’s abstracted away from being useful.
+
+As a great demonstration of this, try and draw a distribution given the 16th, 50th and 84th percentile values.
+
+If you’ve drawn anywhere between 0 curves and an infinite number you’ve missed the mark. These three numbers do not sufficiently constrain a curve and do not relate to any model.
+
+Let that sink in for a second.
+
+Hello grainy old friend
+
+The distribution of x in our experiment is a great example of this. Those three dashed lines show the 16–50–84%.
+
+Imagine taking away the distribution and just leaving those — then passing the plot on to someone else and asking them to explain the distribution.
+
+Who would look at those three lines and think to put the peak waaay over to the left. Who would guess at the length of that tail to the right.
+
+Who would, if this was given as a result, be able to interpret the true form of the data.

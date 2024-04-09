@@ -1,0 +1,133 @@
+Getting started with neo4j in 10 minutes
+
+In this article we’ll create our first graph database with neo4j.
+
+After installing neo4j, we’ll explore 2 ways to create the database: Félix Revert · Follow Published in Towards Data Science · 5 min read · Sep 11, 2019 -- 7 Listen Share
+
+manually typing CYPHER queries
+
+generating CYPHER queries using an Excel formula. This is very useful if you start from an Excel file
+
+Before diving into the code, let’s first understand what is neo4j and why it’s important to know this technology.
+
+What’s neo4j?
+
+Screenshot of neo4j browser (source: neo4j website)
+
+To put it in a simple way, neo4j is the mySQL of the graph databases. It provides a graph database management system, a language to query the database, a.k.a CYPHER, and a visual interface with the neo4j browser.
+
+Neo4j is an open source project, maintained by a private company. It comes with a free version that we will use here. Note that I don’t work or receive anything from them.
+
+For me the main advantages of neo4j lie in the following:
+
+The free version is great for prototyping. I’ve never needed the premium version
+
+The neo4j browser gives you a lot of freedom to customize visualizations. It can be used by non data scientist people
+
+The language CYPHER, which is very similar to SQL, allows both simple and complex queries, to get exactly what you want. It takes some time to grasp all the concepts, but after some practice it becomes powerful
+
+The LOAD CSV function, which simplifies the task of creating the graph from a csv file
+
+Another great thing is the multiple APIs available in scripting languages, like Python. But that will come in another article.
+
+I. Setup neo4j
+
+Download neo4j Desktop, and install it
+
+You have to fill the form to download neo4j
+
+2. After installation, click “New Graph” under My Project section, then “create a Local Graph”. Write down the name of the graph, and the password.
+
+3. Run the database, clicking the “play” sign.
+
+Now open the neo4j browser with the new graph you created. A bar at the top will appear and you’ll type queries there
+
+II. Create your neo4j graph database
+
+Let’s say your data is about people and organisations. People are one kind of ‘node’ and Organisations are another kind. They can be connected through a specific relationship. Like someone has worked for a company, someone is the chairman of the company, or a company is the parent of another company.
+
+1. Writing CYPHER queries in the neo4j browser
+
+CYPHER is a flexible language, you can create nodes, relationships and even both together at the same time.
+
+Let’s start the easy and intuitive way: create nodes then relationships.
+
+Create a node with the following syntax:
+
+CREATE ( x: LABEL { ATTRIBUTE_NAME: ATTRIBUTE_VALUE })
+
+Where
+
+x: is a variable name of the node, you could call it whatever. It’s useful when you reuse it for instance to plot the node at the end of the query using RETURN x.
+
+LABEL: is the label of the node. In our case we’ll have 2 labels: Org and Person
+
+For instance
+
+CREATE (p: Org { Name: “Superrobotics Limited” })
+
+Hit enter and you’ll get a confirmation (or an error) that the node was created. In my case, it worked, as mentioned by “Added 1 label, created 1 node…”
+
+By the way, by running the above query we’ve implicitly created a label called Org.
+
+Let’s create a person who is the chairman of this organisation and associate him to the organisation.
+
+CREATE (p: Person { Name: “Patrick Moon” })
+
+Then
+
+MATCH (p:Person),(o:Org)
+
+WHERE p.Name = “Patrick Moon” AND o.Name = “Superrobotics Limited”
+
+CREATE (p)-[r:CHAIRMAN]->(o)
+
+RETURN p,r,o
+
+Adding the RETURN at the end of the query will plot the newly created relationship. Note that neo4j has a color coding that differentiates labels automatically.
+
+Now we kind of understand how CYPHER works: either you create something new and start with CREATE, or you try to find existing things in the graph and you start with MATCH. Nodes are in brackets (), relationships in square brackets [], attributes in curly brackets {}.
+
+____
+
+Note: 2 queries useful to restart the graph from scratch if you mess it up:
+
+Delete all nodes and relationships: match (n)-[r]-() delete n,r
+
+Delete all nodes: match (n) delete n
+
+____
+
+Alright now let’s say we have an Excel with 100+ people linked to organisations, we don’t want to write 100 times the same query. Let’s do it the old classy way in Excel.
+
+2. Pasting CYPHER queries from Excel with an Excel formula
+
+For this example, I copy and pasted data from Wikipedia’s article on the list of CEOs of notable companies — 184 exactly.
+
+What we want is to make a CREATE query for each row, creating at the same time:
+
+a node for the Company
+
+a node for the CEO
+
+a relationship between the two
+
+Let’s do it:
+
+=”CREATE (:PERSON {Name: “””&B2&”””})-[:CEO {Since: “””&D2&”””, Notes: “””&E2&”””}]->(:ORG {Name: “””&A2&”””})”
+
+Note I deleted the first variable within the nodes (p and o) and relationship (r). This is because we’ll send 184 CREATE queries to neo4j at the same time, so we need to make sure it understands that each node (p or o) and relationship (r) is different from the one created one line above.
+
+Once you do copy and paste the formula for all the rows, you’ll get something like this:
+
+Now let’s copy and paste the CREATE formulas into neo4j. Show all the nodes in the graph with
+
+MATCH (n) RETURN n
+
+Conclusions
+
+In this article we’ve gone through the initial steps of installing neo4j and creating your first graph, and it took what, 10–15 minutes? Rather straightforward.
+
+Next step
+
+Searching through the graph for interesting patterns…

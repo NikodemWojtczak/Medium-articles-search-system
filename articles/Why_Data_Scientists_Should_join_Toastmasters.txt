@@ -1,0 +1,23 @@
+Photo by Kane Reinholdtsen
+
+Public speaking used to be a big sore spot for me. I was able to survive it, but just barely. I truly hated it to my core and it caused me a great deal of grief.
+
+And don’t get me started on impromptu speaking — whenever something like that would pop up, I would feel pure terror.
+
+A little over two years ago, I finally had enough and decided I needed to do something about it. I joined a toastmasters group my city. After a few months, I started to become much more relaxed. After only one year in the club, I actually started to look forward to giving speeches and facing the challenge of impromptu speaking.
+
+Imagine being the type of person that volunteers to give a presentation at work, address a crowd, or give a toast off the cuff. Imagine looking forward to speaking at a wedding, meeting, or other event. Imagine being totally comfortable in one of those “networking event” situations where you enter a room crowded full of people you don’t know. Before I started Toastmasters, I used to think people that liked this stuff are from another planet. Now, I feel like I’m getting there myself.
+
+Why should a Data Scientist care about speaking skills?
+
+There are many data-science-specific reasons to treat speaking is a top-priority skill.
+
+Communicating results is a central part of the job
+
+Yes, part of being a data scientist is having skills in mathematics, statistics, machine learning, programming, and domain expertise.
+
+However, technical skills are not close to the entire picture. You might be fantastic at data analysis, but if you can’t communicate your results to others, your work is useless. You’ll wind up producing great analysis that never gets implemented because you didn’t properly explain its value to anyone.
+
+Get an edge in the data science job hunt
+
+To get a data scientist job, there will almost always be an interview component where you have to speak and answer questions you haven’t prepared for in advance. Even if your resume and portfolio look great, you’re going to have trouble getting hired if you bomb the interview. A well executed interview can place you ahead of others who may even…

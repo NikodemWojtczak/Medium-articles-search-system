@@ -1,0 +1,31 @@
+You Don’t Need a Masters To Be a Data Scientist
+
+Here’s my (weird) story on how I became a data scientist without pursuing a master’s degree.
+
+I am not paid for any of the resource I will list below. I am simply sharing what I have done.
+
+For hands-on video tutorials on machine learning, deep learning, and artificial intelligence, checkout my YouTube channel.
+
+University
+
+I enrolled in chemical engineering at McGill University. It is one of the top universities in Canada, and it has quite a good reputation worldwide.
+
+I chose chemical engineering because I was (and still am) very passionate about clean energy technologies. I was motivated in contributing to a cleaner and more sustainable way of producing energy.
+
+Unfortunately, the program fell short of meeting my expectations. Very few classes addressed this topic, and the career perspectives were mostly with big oil companies (or at least, that’s what I saw at that time).
+
+Simply put, I was not enjoying my degree at all.
+
+Feeling I was not going anywhere pursuing chemical engineering, I tried finding a new field.
+
+A friend of mine was a web developer and he even had started his own web development company. He seemed successful and his passion for it inspired me to check it out.
+
+Learning web development while university
+
+So I set myself to learn web development while completing my bachelor’s in chemical engineering.
+
+I first started reading MDN’s web development guide. I immediately fell in love with it. It was very dry, but I learned a lot while reading the documentation and trying things on my own.
+
+However, I wanted to push my skills forward, so I took Colt Steele’s The Web Developer Bootcamp. I had read many great reviews about this course, and I thought it was worth paying a few dollars to try it out.
+
+It turned out to be an amazing course! I absolutely enjoyed it and learned a great deal. I used the course to build a simple portfolio of small projects and…

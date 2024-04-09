@@ -1,0 +1,35 @@
+Use Case
+
+This interface was designed as part of a research project measuring the effect of the left-hand side visualization (horizontal bar chart) on skim reading. Essentially, this interface is designed to be used to summarize the main gist of the document through skim reading. So, as you read, you can click the sentences that you feel mention the main points and you would put in a summary. Think of it as if you were reading and highlighting generally important information, except the visualization is there as a quantitative aid.
+
+However, the crux is the visualization of an information measure alongside the document — this can be leveraged for a variety of purposes including: visualizing the redundancy of information in written drafts, scoping a document’s spread to see if it is interesting, getting a quick glimpse of the main topics within the document, etc.
+
+Colour/Opacity of the Bars
+
+The interface provides a visual of the ‘information’ per line that you can use as a guide as you read. Each bar visualizes and represents the line it is next to. Using an algorithm (that is not perfect), I’ve determined the potential information on each line and coloured the bar accordingly. This means the darker the colour of the bar, the more likely it is that there is important information on its respective line.
+
+Interactivity
+
+Furthermore, it is an interactive interface — once you click a sentence, you let the algorithm know that you have read it. The algorithm then decreases the colour of all lines that give you similar information as the sentence you’ve clicked, indicating that those lines may not be very informative for you anymore. In this manner, the colours of the bars are changing to reflect where the most valuable and important information may be given what you already know.
+
+Lengths of the Bars
+
+The lengths of the bars indicate an increasing or decreasing of information. This means if the bars are getting smaller on the next few lines, then it is likely the next few lines have less information than the current line you’re on. Inversely, if the bars are getting longer, it is likely that there is more information coming along those lines. The lengths of the bars do not change interactively.
+
+Other Features
+
+Other helpful features include the progress bars at the top of this page. The green bar indicates how far you are through the document. The yellow bar on top will fill up as you click sentences, indicating the length of your summary so far. A completely filled yellow bar means your summary is a quarter length of the entire document.
+
+Lastly, a button near the bottom of the page allows you to view your final crafted summary.
+
+To launch a demo of Skimfo and keep it cheap, the algorithm and processing have been simplified compared to the initial design. There may also be small text formatting bugs at times due to the use of limited text processing techniques. Currently, due to the nature and size of the visualization, mobile view is not supported.
+
+Tech Used:
+
+- Python (libraries: flask, nltk, scikit, pandas)
+
+- D3 (for visualization)
+
+I provide options to copy paste a block of text (within 500–5000 words) that I then process to provide the visualization and interactivity. There is also an option for entering a webpage directly, however, due to the ‘finnickeyness’ of web-scraping, this is a limited, buggy option. (Also, sometimes the webpages have security measures to prevent bot-agents scraping.)
+
+In general, this visualization works best with non-creative texts (essays, articles, news, documents, etc.) written with the purpose of providing information to the reader. Try it out with your own text! You may find it reduces your reading times or helps you navigate to the important information — supporting the snap judgements you make as you skim read a text.

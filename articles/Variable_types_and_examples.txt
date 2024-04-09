@@ -1,0 +1,31 @@
+Quantitative
+
+A quantitative variable is a variable that reflects a notion of magnitude, that is, if the values it can take are numbers. A quantitative variable represents thus a measure and is numerical.
+
+Quantitative variables are divided into two types: discrete and continuous. The difference is explained in the following two sections.
+
+Discrete
+
+Quantitative discrete variables are variables for which the values it can take are countable and have a finite number of possibilities. The values are often (but not always) integers. Here are some examples of discrete variables:
+
+Number of children per family
+
+Number of students in a class
+
+Number of citizens of a country
+
+Even if it would take a long time to count the citizens of a large country, it is still technically doable. Moreover, for all examples, the number of possibilities is finite. Whatever the number of children in a family, it will never be 3.58 or 7.912 so the number of possibilities is a finite number and thus countable.
+
+Continuous
+
+On the other hand, quantitative continuous variables are variables for which the values are not countable and have an infinite number of possibilities. For example:
+
+Age
+
+Weight
+
+Height
+
+For simplicity, we usually referred to years, kilograms (or pounds) and centimeters (or feet and inches) for age, weight and height respectively. However, a 28-year-old man could actually be 28 years, 7 months, 16 days, 3 hours, 4 minutes, 5 seconds, 31 milliseconds, 9 nanoseconds old.
+
+For all measurements, we usually stop at a standard level of granularity, but nothing (except our measurement tools) prevents us from going deeper…

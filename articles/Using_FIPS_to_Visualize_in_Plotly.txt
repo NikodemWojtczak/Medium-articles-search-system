@@ -1,0 +1,71 @@
+Recently I have done two visualization projects with Plotly, visualizing average rent per square foot in California and average data scientist salary across the United States. I used two different approaches to visualize data on the map — Scatter plot on Map and Chloropleth Map.
+
+Why Plotly?
+
+Plotly is one of the powerful visualization packages available in Python. One of the advantages of using Plotly is that you may use Python to generate d3 graphs because Plotly is built on top of d3. It takes a very long time to learn d3 but Plotly can help to eliminate the annoying moment and focus more on understanding the data. Plotly has a rich library on map visualization and easy to use. Map is one of the types in Plotly that could ease your frustration.
+
+Scatter Plot on Map
+
+It is a good idea to make scatter plot on map when the data unit is city, so I chose to visualize average data scientist salary cross the United States with this approach because the average salary is based on city.
+
+The process of making this visualization is almost the same as making scatter plot in Plotly, except the background is a map. It means the data is plotting on the map based on longitude and latitude, which corresponds to x and y values, respectively.
+
+Once you have the data frame with average salary and cities ready, then obtain the longitude and latitude of each city and store in the same data frame. The next step is to assign colour you want to differentiate the level of salary. The final step is to define the plot and the layout of the visualization. Plotly is nice because you may go to plotly.graph_objs which you may find Scattergeo for US map.
+
+Figure 1: Data Scientist H1B Base Salary across the United States
+
+This visualization is referenced from the example from the official Plotly documentation, you may find the link at the bottom of the post. If you would like to look at my code, you may also find the link at the bottom of the post too.
+
+Scatterplot on the map is best for visualizing data based on city and very easy interrupting. It has no problem if you try to visualize data no on the US map as there is plenty of non-US maps available. However, it does not work too well if the cities in the data set are very close to each other. For instance, if you have too many data points in the Bay Area, some points stacked on each other that viewers may find it difficult to find the difference in that area.
+
+Choropleth Map
+
+The alternative approach to visualize data on maps is choropleth map. Choropleth map is a county-based map which filled colour the county on the map. It looks like this:
+
+Figure 2: Choropleth to visualize average income per farm across the US
+
+One advantage of a choropleth map is that data points do not stack on each other. You may think it is hard to plot as you cannot use longitude and latitude to plot on the map, but instead, you use FIPS to locate the counties.
+
+FIPS county code
+
+FIPS county code stands for Federal Information Processing Standard which the United States federal government assigns a number on each county in the country. A nice feature of Plotly’s choropleth map is that Plotly takes FIPS county code as a parameter. FIPS county code has 5 digits, the first 2 digits represent the state and the last 3 digits represent the county. For example, the FIPS county code of San Francisco County is 06075. 06 means California, and 075 represent San Francisco. Since the FIPS county code is designated to each county, you would not plot the data on the wrong data in Plotly. You may find the list of FIPS county codes the federal government website and I have included the link at the bottom of this post.
+
+Choropleth Map Example
+
+In one of my projects in graduate school, my professor gave me a data set on rent across California sourced from Craigslist and I decided to find out the median rent per square foot across California. The data set contains a small amount of data outside of California, the nice thing about FIPS is that I can exclude the observations that do not have a FIPS start with 06 because FIPS start with other values are not California.
+
+Once the data is ready, you may import create_choropleth from plotly.figure_factory and pass FIPS, values and colour to create a choropleth. My final visualization looks like this:
+
+Figure 3: Median rent per Square foot by county across California
+
+You may also find my codes on this visualization.
+
+The downside about Plotly making choropleth map is that I only found that useful for US map. One time I attempted to plot a choropleth map on an UK map but I cannot find any package or option support that. The current version is great for visualizing in the US but not outside the US.
+
+Thought
+
+I have mentioned two types of map visualization powered by Plotly — scatter plot on map and choropleth map. Both maps server different purpose of map, depends on whether if you want to plot by city or county. If you want to plot data by city, you should go with scatter plot on map and expect to have longitude and latitude ready. By verse, if you want to plot data by county, choropleth map is a good way and you should have FIPS county code ready. If the data set is coming from the federal government, it is very likely that the FIPS county code has been paired with data already. Therefore, choropleth map from Plotly is a handy package to visualize data on US national data from the federal government.
+
+Reference
+
+Plotly Scatterplot on Map:
+
+https://plot.ly/python/scatter-plots-on-maps/
+
+FIPS county source:
+
+https://www.census.gov/geographies/reference-files/2013/demo/popest/2013-geocodes-all.html
+
+https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=nrcs143_013697
+
+My Github:
+
+https://github.com/jacquessham
+
+Data Salary across the US (Scatterplot on Map):
+
+https://github.com/jacquessham/ds_salary_opt
+
+Median Rent per Square foot by county across California (Choropleth Map):
+
+https://github.com/jacquessham/california_rent

@@ -1,0 +1,99 @@
+In our last post, we learned about feedforward neural networks and how to design them. In this post, we will learn how to tackle one of the most central problems that arise in the domain of machine learning, that is how to make our algorithm to find a perfect fit not only to the training set but also to the testing set. When an algorithm performs well on the training set but performs poorly on the testing set, the algorithm is said to be overfitted on the Training data. After all, our main goal is to perform well on never seen before data, ie reducing the overfitting. To tackle this problem we have to make our model generalize over the training data which is done using various regularization techniques which we will learn about in this post.
+
+Strategies or techniques which are used to reduce the error on the test set at an expense of increased training error are collectively known as Regularization. Many such techniques are available to the deep learning practitioner. In fact, developing more effective regularization strategies have been one of the major research efforts in the field.
+
+Regularization can be defined as any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error. This regularization is often done by putting some extra constraints on a machine learning model, such as adding restrictions on the parameter values or by adding extra terms in the objective function that can be thought of as corresponding to a soft constraint on the parameter values. If chosen correctly these can lead to a reduced testing error. An effective regularizer is said to be the one that makes a profitable trade by reducing variance significantly while not overly increasing the bias.
+
+Parameter Norm Penalties
+
+This technique is based on limiting the capacity of models, by adding a parameter norm penalty to the objective function J.
+
+Where alpha is a hyperparameter that weighs the relative contribution of the norm penalty omega. Setting alpha to 0 means no regularization and larger values of alpha correspond to more regularization.
+
+For Neural networks, we choose to use parameter norm penalty that penalizes on the weights of the affine transformations and leave biases unregularized. This is because of the fact that biases require lesser data to fit accurately than the weights. As weights are used to denote the relationship between the two variables and require observing both variables in various conditions whereas bias controls only single variables hence they can be left unregularized.
+
+L2 Parameter Regularization
+
+This regularization is popularly known as weight decay. This strategy drives the weights closer to the origin by adding the regularization term omega which is defined as:
+
+This technique is also known as ridge regression or Tikhonov regularization.
+
+The objective function after regularization is denoted by:
+
+Corresponding parameter gradient:
+
+A single gradient step to update the weights:
+
+We can see that the weight decay term is now multiplicatively shrinking the weight vector by a constant factor on each step, before performing the usual gradient update.
+
+L1 Regularization
+
+Here the regularization term is defined as:
+
+Which leads us to have the objective function as:
+
+Corresponding gradient:
+
+By observing the gradient we can notice how the gradient is scaled by the constant factor with a sign equal to sign(wi).
+
+Dataset Augmentation
+
+The best and easiest way to make a model generalize is to train it on a large amount of data but mostly we are provided with limited data. One way is to create fake data and add it to our training dataset, for some domains this is fairly straightforward and easy.
+
+This approach is mostly taken for classification problem, A classifier needs to take a complicated, high dimensional input x and summarize it with a single category identity y. This means that the main task facing a classifier is to be invariant to a wide variety of transformations. We can generate new ( x, y) pairs easily just by transforming the x inputs in our training set. This approach isn’t always suitable for a task such as for a density estimation task it is difficult to generate fake data unless we have already solved the density estimation problem.
+
+Dataset Augmentation is a very popular approach for Computer vision tasks such as Image classification or object recognition as Images are high dimensional and include an enormous variety of factors of variation, many of which can be easily simulated. Operations like translating the training images a few pixels in each direction, rotating the image or scaling the image can often greatly improve generalization, even if the model has already been designed to be partially translation invariant by using the convolution and pooling techniques.
+
+Noise Robustness
+
+Noise is often introduced to the inputs as a dataset augmentation strategy. the addition of noise with infinitesimal variance at the input of the model is equivalent to imposing a penalty on the norm of the weights. Noise injection is much more powerful than simply shrinking the parameters, especially when the noise is added to the hidden units.
+
+Another way that noise has been used in the service of regularizing models is by adding it to the weights. This technique has been used primarily in the context of recurrent neural networks. This can be interpreted as a stochastic implementation of Bayesian inference over the weights.
+
+Semi-Supervised Learning
+
+In semi-supervised learning, both unlabeled examples from P (x) and labeled examples from P (x, y) are used to estimate P (y | x) or predict y from x. the context of deep learning, semi-supervised learning usually refers to learning a representation h = f (x). The goal is to learn a representation so that examples from the same class have similar representations. Unsupervised learning provides cues about how to group training examples in representation Space. Using a principal component analysis as a pre-processing step before applying our classifier is an example of this approach.
+
+Instead of using separate models for unsupervised and supervised components, one can construct models in which a generative model of either P (x) or P(x, y) shares parameters with a discriminative model of P(y | x). Now the structure of P(x) is connected to the structure of P(y | x) in a way that is captured by the shared parametrization. By controlling how much of the generative criterion is included in the total criterion, one can find a better trade-off than with a purely generative or a purely discriminative training criterion.
+
+Multi-Task Learning
+
+Multi-task learning is a way to improve generalization by pooling the examples arising out of several tasks. In the same way that additional training examples put more pressure on the parameters of the model towards values that generalize well, when part of a model is shared across tasks, that part of the model is more constrained towards good values, often yielding better generalization.
+
+The model can generally be divided into two kinds of parts and associated parameters:
+
+Task-specific parameters which only benefit from the examples of their task to achieve good generalization. Generic parameters shared across all the tasks which benefit from the pooled data of all the tasks.
+
+Early Stopping of Training
+
+When training a large model on a sufficiently large dataset, if the training is done for a long amount of time rather than increasing the generalization capability of the model, it increases the overfitting. As in the training process, the training error keeps on reducing but after a certain point, the validation error starts to increase hence signifying that our model has started to overfit.
+
+Loss comparison of training and Validation
+
+One way to think of early stopping is as a very efficient hyperparameter selection algorithm. The idea of early stopping of training is that as soon as the validation error starts to increase we freeze the parameters and stop the training process. Or we can also store the copy of model parameters every time the error on the validation set improves and return these parameters when the training terminates rather than the latest parameters.
+
+Early stopping has an advantage over weight decay that early stopping automatically determines the correct amount of regularization while weight decay requires many training experiments with different values of its hyperparameter.
+
+Bagging
+
+Bagging or bootstrap aggregating is a technique for reducing generalization error by combining several models. The idea is to train several different models separately, then have all of the models vote on the output for test examples. This is an example of a general strategy in machine learning called model averaging. Techniques employing this strategy are known
+
+as ensemble methods. This is an efficient method as different models don’t make the same types of errors.
+
+Bagging involves constructing k different datasets. Each dataset has the same number of examples as the original dataset, but each dataset is constructed by sampling with replacement from the original dataset. This means that, with high probability, each dataset is missing some of the examples from the original dataset and also contains several duplicate examples. Model i is then trained on dataset i. The differences between which examples are included in each dataset result in differences between the trained models.
+
+Dropout
+
+Dropout is a computationally inexpensive but powerful regularization method, dropout can be thought of as a method of making bagging practical for ensembles of very many large neural networks. The method of bagging cannot be directly applied to large neural networks as it involves training multiple models, and evaluating multiple models on each test example. since training and evaluating such networks is costly in terms of runtime and memory, this method is impractical for neural networks. Dropout provides an inexpensive approximation to training and evaluating a bagged ensemble of exponentially many neural networks. Dropout trains the ensemble consisting of all sub-networks that can be formed by removing non-output units from an underlying base network.
+
+In most modern neural networks, based on a series of affine transformations and nonlinearities, we can effectively remove a unit from a network by multiplying its output value by zero. This procedure requires some slight modification for models such as radial basis function networks, which take the difference between the unit’s state and some reference value. Here, we present
+
+the dropout algorithm in terms of multiplication by zero for simplicity, but it can be trivially modified to work with other operations that remove a unit from the network.
+
+Dropout training is not quite the same as bagging training. In the case of bagging, the models are all independent. In the case of dropout, the models share parameters, with each model inheriting a different subset of parameters from the parent neural network. This parameter sharing makes it possible to represent an exponential number of models with a tractable amount of memory. One advantage of dropout is that it is very computationally cheap. Using dropout during training requires only O(n) computation per example per update, to generate n random binary numbers and multiply them by the state. Another significant advantage of dropout is that it does not significantly limit the type of model or training procedure that can be used. It works well with nearly any model that uses a distributed representation and can be trained with stochastic gradient descent.
+
+Adversarial Training
+
+In many cases, Neural Networks seem to have achieved human-level understanding the task but to check if it really is able to perform at human-level, Networks are tested on adversarial examples. Adversarial examples can be defined as if for an input a near a data point x such that the model output is very different at a, then a is called an Adversarial example. Adversarial examples are intentionally constructed by using an optimization procedure and models have a nearly 100% error rate on these examples.
+
+Adversarial training helps in regularization of models as when models are trained on the training sets that are augmented with Adversarial examples, it improves the generalization of the model.

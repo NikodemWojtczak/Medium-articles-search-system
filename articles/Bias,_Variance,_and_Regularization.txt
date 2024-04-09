@@ -1,0 +1,15 @@
+A dilemma that every budding data scientist faces is to come to terms with words like overfit, under fit, bias, variance and last but not least regularization.
+
+A funny colleague of mine would give the same answer to all data science problems. “It has to be regularized” and grin afterwards. The funny part is that he would get away with it, because most of the time he was right.
+
+Let’s look at these terms and get them engraved into our memory one by one. This is how I understood each term, please feel free to correct me if you feel I am wrong. Keep the following image as reference to understand these concepts.
+
+Bias: Suppose your machine learning model is performing very badly on a set of data because it is not generalizing to all your data points. This is when you say you model has high Bias. The phenomenon occurs when the model is under fit.
+
+Suppose your machine learning model is performing very badly on a set of data because it is not generalizing to all your data points. This is when you say you model has high Bias. The phenomenon occurs when the model is under fit. Variance: Suppose your machine learning model tries to account for all or mostly all points in a dataset successfully. If it then performs poorly when run on other test data sets, it is said to have high variance. Variance therefore occurs when the model is overfit.
+
+Suppose your machine learning model tries to account for all or mostly all points in a dataset successfully. If it then performs poorly when run on other test data sets, it is said to have high variance. Variance therefore occurs when the model is overfit. Regularization: The regression method used to tackle high variance is called regularization. What Regularization does to overfit models is that, it negates or minimizes the effect of predictor columns with large outliers, by penalizing their regression coefficients. The result is a smoother model which can work well on other test data sets with similar kind of data.
+
+Additional info:
+
+There are two main types of regularizers that I have used through sklearn.

@@ -1,0 +1,21 @@
+Implementing Random Forest in R
+
+Photo by Rural Explorer on Unsplash
+
+What is Random Forest (RF)?
+
+In order to understand RF, we need to first understand about decision trees. Rajesh S. Brid wrote a detailed article about decision trees. We will not go too much in details about the definition of decision trees since that is not the purpose of this article. I just want to quickly summarise a few points. A decision tree is series of Yes/No questions. For each level of the tree, if your answer is Yes, you fall into a category, otherwise, you will fall into another category. You will answer this series of Yes/No questions until you reach the final category. You will be classified into that group.
+
+Taken from here
+
+Trees work well with the data we use to train, but they are not performing well when it comes to new data samples. Fortunately, we have Random Forest, which is a combination of many decision trees with flexibility, hence resulting in an improvement in accuracy.
+
+Here I will not go too much into details about RF because there are various sources outside we can get to understand what is the mathematics behind it. Here is one of them.
+
+This article is more about practical application of RF in classifying cancer patients, so I will jump straight into the coding part. Now let’s open Rstudio and get our hands dirty :)
+
+Implementing RF in R
+
+First of all, we need to load the following packages. If you cannot load them, chances are you have not installed them yet. So please do so first before loading the following packages.
+
+I read the data directly from the web link and name the dataset as Wisconsin. Let’s inspect the data a little bit

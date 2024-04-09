@@ -1,0 +1,25 @@
+A Primer in Computer Vision with Julia
+
+Image by cocoparisienne from Pixabay
+
+This post is a crash course on convolutional neural network (CNN) using Julia. A CNN is a fancy function that can be “trained” to recognize patterns in images. In this blog post, I introduce the “Hello World” of computer vision: the classification of hand-written digits from the MNIST dataset. There are thousands of tutorials on the same topic using Python freely available on the Internet.
+
+Instead, let’s use Julia and the package Flux.jl. Why? Because Julia is fast, and if you have millions of images to analyze, the speedup could be substantial compared to Python. The Jupyter notebook for this blog post can be found here.
+
+Data
+
+The MNIST dataset contains images of hand-written digits (0 to 9) in grayscale and that are nicely centered. Each pixel is represented by a number in between 0 (black) and 255 (white). Each image is 28 by 28 pixels. One way to represent an image is to see it as a 1d-column vector of 28*28 = 784 pixels. However, this representation ignores the “structure” of an image: pixels that are close to each other are informative on the digit we are trying to identify. A CNN is a good tool to keep the spatial structure of an image, while avoiding issues linked to the curse of dimensionality: images are noisy and high-dimensional input data.
+
+A crash course on CNN
+
+Two of the key ingredients of a CNN are a convolutional layer (hence the name) and a maxpool layer.
+
+Convolutional layer
+
+A convolutional layer applies a stencil to each point. The output of a convolutional layer is an “image” of lower dimension, that is informative on some features of the input image (shapes, edges, etc.). The figure below shows how a convolutional layer works:
+
+How a convolutional layer works. Source: https://mitmath.github.io/18337/lecture14/pdes_and_convolutions
+
+Maxpool layer
+
+A maxpool layer is a stencil that selects the maximum value within a square. Below is an illustration of a maxpool layer applied to a 4 by 4 image:

@@ -1,0 +1,15 @@
+MVP over POC
+
+Most service-based companies suffer from a phobia of the word “Product”. So service-based companies develop POCs instead.
+
+Let’s first understand what is what:
+
+Product is an article or substance that is manufactured or refined for sale. Proof of Concept (POC) is a miniature representation of the end-product, with a few working features, that aims of verifying that some concept has practical potential. Minimum Viable Product (MVP) is a development technique in which a new product or website is developed with sufficient features to satisfy early adopters.
+
+Not being a product-based company is no excuse to create half-baked solutions in the name of POCs.
+
+Remember the bottom line is always to create what people want. While POCs focus over a few working features, MVP stresses over the fact that a few working features are useless unless they are satisfying the customer.
+
+Often, predominantly in Deep Learning, the working of the solution has this cloud of uncertainty around its end-result. This makes the client nervous about investing in the proposed solution.
+
+Repeatedly, you will encounter clients who already had a few bad experiences before they approached your organization. Showcasing them something they have a hard time wrapping their head around, especially when they are already frustrated, would frankly be stupid.

@@ -1,0 +1,303 @@
+Many times, as Data Scientists, we have to deal with huge amount of data. In those cases, many approaches won’t work or won’t be feasible. A massive amount of data is good, it’s very good, and we want to utilize as much as possible.
+
+Here I want to introduce the MapReduce technique, which is a broad technique that is used to handle a huge amount of data. There are many implementations of MapReduce, including the famous Apache Hadoop. Here, I won’t talk about implementations. I’ll try to introduce the concept in the most intuitive way and present examples for both toy and real-life examples.
+
+Let’s start with some straightforward task. You’re given a list of strings, and you need to return the longest string. It’s pretty easy to do in python:
+
+def find_longest_string(list_of_strings):
+
+longest_string = None
+
+longest_string_len = 0 for s in list_of_strings:
+
+if len(s) > longest_string_len:
+
+longest_string_len = len(s)
+
+longest_string = s return longest_string
+
+We go over the strings one by one, compute the length and keep the longest string until we finished.
+
+For small lists it works pretty fast:
+
+list_of_strings = ['abc', 'python', 'dima'] %time max_length = print(find_longest_string(list_of_strings)) OUTPUT:
+
+python
+
+CPU times: user 0 ns, sys: 0 ns, total: 0 ns
+
+Wall time: 75.8 µs
+
+Even for lists with much more than 3 elements it works pretty well, here we try with 3000 elements:
+
+large_list_of_strings = list_of_strings*1000 %time print(find_longest_string(large_list_of_strings)) OUTPUT:
+
+python
+
+CPU times: user 0 ns, sys: 0 ns, total: 0 ns
+
+Wall time: 307 µs
+
+But what if we try for 300 million elements?
+
+large_list_of_strings = list_of_strings*100000000
+
+%time max_length = max(large_list_of_strings, key=len) OUTPUT:
+
+python
+
+CPU times: user 21.8 s, sys: 0 ns, total: 21.8 s
+
+Wall time: 21.8 s
+
+This is a problem, in most applications, 20 seconds response time is not acceptable. One way to improve the computation time is by buying a much better and faster CPU. Scaling your system by introducing better and faster hardware is called “Vertical Scaling”. This, of course, won’t work forever. Not only it’s not so trivial to find a CPU that work 10 times faster, but also, our data will probably get bigger, and we don’t want to upgrade our CPU every time the code gets slower. Our solution is not scalable. Instead, we can do “Horizontal Scaling”, we’ll design our code so it could run in parallel, and it will get much faster when we’ll add more processors and/or CPUs.
+
+To do that, we need to break our code into smaller components and see how we can execute computations in parallel. The intuition is as follows: 1) break our data into many chunks, 2) execute the find_longest_string function for every chunk in parallel and 3) find the longest string among the outputs of all chunks.
+
+Our code is very specific and it hard to break and modify, so instead of using the find_longest_string function, we’ll develop a more generic framework that will help us perform different computations in parallel on large data.
+
+The two main things we do in our code is computing the len of the string and comparing it to the longest string until now. We’ll break our code into two steps: 1) compute the len of all strings and 2) select the max value.
+
+%%time # step 1:
+
+list_of_string_lens = [len(s) for s in list_of_strings]
+
+list_of_string_lens = zip(list_of_strings, list_of_string_lens) #step 2:
+
+max_len = max(list_of_string_lens, key=lambda t: t[1])
+
+print(max_len) OUTPUT:
+
+('python', 6)
+
+CPU times: user 51.6 s, sys: 804 ms, total: 52.4 s
+
+Wall time: 52.4 s
+
+(I’m calculating the length of the strings and then zip them together because this is much faster than doing it in one line and duplicating the list of strings)
+
+In this state, the code runs actually slower than before because instead of performing a single pass on all of our strings, we do it 2 times, first to compute the len and then to find the max value. Why it is good for us? because now our “step 2” gets as input not the original list of strings, but some preprocessed data. This allows us to execute step two using the output of another “step two”s! We’ll understand that better in a bit, but first, let’s give those steps a name. We’ll call “step one” a “mapper” because it maps some value into some other value, and we’ll call “step two” a reducer because it gets a list of values and produces a single (in most cases) value. Here’re two helper functions for mapper and reducer:
+
+mapper = len def reducer(p, c):
+
+if p[1] > c[1]:
+
+return p
+
+return c
+
+The mapper is just the len function. It gets a string and returns its length. The reducer gets two tuples as input and returns the one with the biggest length.
+
+Let’s rewrite our code using map and reduce , there are even built-in functions for this in python (In python 3, we have to import it from functools ).
+
+%%time #step 1
+
+mapped = map(mapper, list_of_strings)
+
+mapped = zip(list_of_strings, mapped) #step 2:
+
+reduced = reduce(reducer, mapped) print(reduced) OUTPUT:
+
+('python', 6)
+
+CPU times: user 57.9 s, sys: 0 ns, total: 57.9 s
+
+Wall time: 57.9 s
+
+The code does exactly the same thing, it looks bit fancier, but also it is more generic and will help us parallelize it. Let’s look more closely at it:
+
+Step 1 maps our list of strings into a list of tuples using the mapper function (here I use the zip again to avoid duplicating the strings).
+
+Step 2 uses the reducer function, goes over the tuples from step one and applies it one by one. The result is a tuple with the maximum length.
+
+Now let's break our input into chunks and understand how it works before we do any parallelization (we’ll use the chunkify that breaks a large list into chunks of equal size):
+
+data_chunks = chunkify(list_of_strings, number_of_chunks=30) #step 1:
+
+reduced_all = []
+
+for chunk in data_chunks:
+
+mapped_chunk = map(mapper, chunk)
+
+mapped_chunk = zip(chunk, mapped_chunk)
+
+
+
+reduced_chunk = reduce(reducer, mapped_chunk)
+
+reduced_all.append(reduced_chunk)
+
+
+
+#step 2:
+
+reduced = reduce(reducer, reduced_all) print(reduced) OUTPUT:
+
+('python', 6)
+
+In step one, we go over our chunks and find the longest string in that chunk using a map and reduce. In step two, we take the output of step one, which is a list of reduced values, and perform a final reduce to get the longest string. We use number_of_chunks=36 because this is the number of CPUs I have on my machine.
+
+We are almost ready to run our code in parallel. The only thing that we can do better is to add the first reduce step into a single the mapper. We do that because we want to break our code into two simple steps and as the first reduce works on a single chunk and we want to parallelize it as well. This is how it looks like:
+
+def chunks_mapper(chunk):
+
+mapped_chunk = map(mapper, chunk)
+
+mapped_chunk = zip(chunk, mapped_chunk)
+
+return reduce(reducer, mapped_chunk) %%time data_chunks = chunkify(list_of_strings, number_of_chunks=30) #step 1:
+
+mapped = map(chunks_mapper, data_chunks) #step 2:
+
+reduced = reduce(reducer, mapped) print(reduced) OUTPUT:
+
+('python', 6)
+
+CPU times: user 58.5 s, sys: 968 ms, total: 59.5 s
+
+Wall time: 59.5 s
+
+Now we have a nice looking two steps code. If we’ll execute it as is, we’ll get the same computation time, but, now we can parallelize step 1 using the multiprocessing module simply by using the pool.map function instead of the regular map function:
+
+from multiprocessing import Pool pool = Pool(8) data_chunks = chunkify(large_list_of_strings, number_of_chunks=8) #step 1:
+
+mapped = pool.map(mapper, data_chunks) #step 2:
+
+reduced = reduce(reducer, mapped) print(reduced) OUTPUT:
+
+('python', 6)
+
+CPU times: user 7.74 s, sys: 1.46 s, total: 9.2 s
+
+Wall time: 10.8 s
+
+We can see it runs 2 times faster! It’s not a huge improvement, but the good news is that we can improve it by increasing the number of processes! We can even do it on more than one machine, if our data is very big, we can use tens or even thousands of machines to make our computation time as short as we want (almost).
+
+Our architecture is built using two functions: map and reduce . Each computation unit maps the input data and executes the initial reduce. Finally, some centralized unit executes the final reduce and returns the output. It looks like this:
+
+This architecture has two important advantages:
+
+It is scalable: if we have more data, the only thing we need to do is to add more processing units. No code change needed! It is generic: this architecture supports a vast variety of tasks, we can replace our map and reduce function with almost anything and this way computer many different things in a scalable way.
+
+It is important to note that in most cases, our data will be very big and static. It means the breaking into chunks every time is inefficient and actually redundant. So in most applications in real life, we’ll store our data in chunks (or shards) from the very beginning. Then, we’ll be able to do different computations using the MapReduce technique.
+
+Now let's see a more interesting example: Word Count!
+
+Say we have a very big set of news articles and we want to find the top 10 used words not including stop words, how would we do that? First, let's get the data:
+
+from sklearn.datasets import fetch_20newsgroups
+
+data = news.data*10
+
+For this post, I made the data x10 larger so we could see the difference.
+
+For each text in the dataset, we want to tokenize it, clean it, remove stop words and finally count the words:
+
+def clean_word(word):
+
+return re.sub(r'[^\w\s]','',word).lower() def word_not_in_stopwords(word):
+
+return word not in ENGLISH_STOP_WORDS and word and word.isalpha()
+
+
+
+
+
+def find_top_words(data):
+
+cnt = Counter()
+
+for text in data:
+
+tokens_in_text = text.split()
+
+tokens_in_text = map(clean_word, tokens_in_text)
+
+tokens_in_text = filter(word_not_in_stopwords, tokens_in_text)
+
+cnt.update(tokens_in_text)
+
+
+
+return cnt.most_common(10)
+
+Let’s see how much time does it take without MapReduce:
+
+%time find_top_words(data) OUTPUT: [('subject', 122520),
+
+('lines', 118240),
+
+('organization', 111850),
+
+('writes', 78360),
+
+('article', 67540),
+
+('people', 58320),
+
+('dont', 58130),
+
+('like', 57570),
+
+('just', 55790),
+
+('university', 55440)] CPU times: user 51.7 s, sys: 0 ns, total: 51.7 s
+
+Wall time: 51.7 s
+
+Now, let’s write our mapper , reducer and chunk_mapper :
+
+def mapper(text):
+
+tokens_in_text = text.split()
+
+tokens_in_text = map(clean_word, tokens_in_text)
+
+tokens_in_text = filter(word_not_in_stopwords, tokens_in_text)
+
+return Counter(tokens_in_text) def reducer(cnt1, cnt2):
+
+cnt1.update(cnt2)
+
+return cnt1 def chunk_mapper(chunk):
+
+mapped = map(mapper, chunk)
+
+reduced = reduce(reducer, mapped)
+
+return reduced
+
+The mapper gets a text, splits it into tokens, cleans them and filters stop words and non-words, finally, it counts the words within this single text document. The reducer function gets 2 counters and merges them. The chunk_mapper gets a chunk and does a MapReduce on it. Now let’s run using the framework we built it and see:
+
+%%time data_chunks = chunkify(data, number_of_chunks=36) #step 1:
+
+mapped = pool.map(chunk_mapper, data_chunks) #step 2:
+
+reduced = reduce(reducer, mapped) print(reduced.most_common(10)) OUTPUT:
+
+[('subject', 122520),
+
+('lines', 118240),
+
+('organization', 111850),
+
+('writes', 78360),
+
+('article', 67540),
+
+('people', 58320),
+
+('dont', 58130),
+
+('like', 57570),
+
+('just', 55790),
+
+('university', 55440)] CPU times: user 1.52 s, sys: 256 ms, total: 1.77 s
+
+Wall time: 4.67 s
+
+This is 10 times faster! Here, we were able to really utilize our computational power because the task is much more complex and requires more.
+
+To sum up, MapReduce is an exciting and essential technique for large data processing. It can handle a tremendous number of tasks including Counts, Search, Supervised and Unsupervised learning and more. Today there’s a lot of implementations and tools that can make our lives much more comfortable, but I think it is very important to understand the basics.

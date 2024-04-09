@@ -1,0 +1,179 @@
+Reimagining Plutarch with Tensorflow 2.0
+
+Preamble
+
+Plutarch’s Lives of the Noble Greeks and Romans, also called Parallel Lives or just Plutarch’s Lives, is a series of biographies of famous Ancient Greeks and Romans, from Theseus and Lycurgus to Marcus Antonius.
+
+In the recently published article we looked into training our own word embeddings using gensim library. Here, we’ll primarily focus on the word embeddings layer leveraging the TensorFlow 2.0 platform; the intent is to better understand how the layer works and how it contributes to the success of the larger NLP models.
+
+To help with easy replications, I have adapted the code to Google Colab, and highlighted what is unique to the platform — otherwise the entire code can be run on your local machine using Python 3.6+ and relevant packages. The code is presented throughout the article but I will skip some supplementary or minor code — the entire code can be found in a Github repository of mine.
+
+The text used in this analysis has been made available by Project Gutenberg.
+
+Setting Things Up
+
+On Colab, let’s change the Runtime Type to GPU, then import the latest TensorFlow version — this snippet below will only work on Colab, otherwise simply use pip or conda install commands to upload the latest TensorFlow on your machine.
+
+We will also need the OS and regular expression libraries, and then save & print the file path for future reference:
+
+import os
+
+import re
+
+fpath = os.getcwd(); fpath
+
+Let’s import the text (Plutarch.txt) into the Google Colab drive — we need to keep in mind that our files there are ephemeral and we’ll need to upload them every time after taking a longer break from using the platform:
+
+The code above is also available under the Code Snippets tab in Colab — among many other very useful ones. When executing this code we’ll see Colab uploading the file and then we can click on the Colab Files tab on the left to make sure the file is there along with the Google’s default Sample Data directory.
+
+Let’s read the text and do some basic regex operations:
+
+import re corpus = open(fpath + '/Plutarch.txt', 'rb').read().lower().decode(encoding='utf-8') corpus = re.sub('
+
+', ' ', corpus) #remove new line
+
+corpus = re.sub('\r', ' ', corpus) #remove "return"
+
+Since we’ll be splitting the text into sentences, new line has no meaning for our analysis. Also, while using the text tokenizer I noticed that having “\r” (which signifies the carriage return) creates false unique words, such as “we” and “we\r” — again, not important in our case. Hence both “
+
+” and “\r” need to go.
+
+Building the Dictionary
+
+As we ramp up towards actual word embeddings, let’s tokenize the text into sentences:
+
+import nltk
+
+from nltk.tokenize import sent_tokenize
+
+nltk.download('punkt') #need in Colab upon resetting the runtime
+
+
+
+# tokenize at sentence level
+
+sentences = nltk.sent_tokenize(corpus)
+
+print("The number of sentences is {}".format(len(sentences)))
+
+We will see that the text has a total of 16,989 sentences. Next, we need to calculate the number of words in the longest sentences — the reason will become evident later in the tutorial:
+
+from nltk.tokenize import word_tokenize word_count = lambda sentence: len(word_tokenize(sentence))
+
+longest_sentence = max(sentences, key=word_count)
+
+length_longest_sentence = len(word_tokenize(longest_sentence)) print("The longest sentence has {} words".format(length_longest_sentence))
+
+It turns out the longest sentence is 370 words long. Next, let’s convert the entire text into positive numbers so that we can start speaking a common language with TensorFlow:
+
+From the above we also find out that the text has 20241 unique words, as the tokenizer assigns only one number per same word. To standardize the lengths of all of the sentences (i.e. make the input data into a single, same shape tensor to make it processable / easier for the model— we are here to serve the machines’ needs), we’ll need to convert the list of numbers representing the words (sent_numeric) into an actual dictionary (word_index), and add padding. We could also combine truncating very long sentences with padding the short ones, but in this case we’ll just pad up to the longest sentence’s length.
+
+Vocabulary size (a.k.a. the number of unique words) will go up by 1, to 20,242 as a result of adding the 0 for padding. Type “data[0]” (i.e. the first sentence) to see what the first sentence will look like with the padding.
+
+To be able to translate back and forth between the words and their numeric representations, we’ll need to add the reverse word index for look-ups:
+
+reverse_word_index = dict([(value, key) for (key, value) in word_index.items()]) def decode_data(text):
+
+return ' '.join([reverse_word_index.get(i, '?') for i in text])
+
+It makes sense to double-check the word indexing and conversion — a single mistake will likely throw the whole dataset off to make it incomprehensible. Examples of cross-checking — before and after the conversion — are available in my Github repository.
+
+Photo by Sandra Povilaitis
+
+The Model
+
+Finally, let’s build and run the model. There is a nice tutorial provided by TensorFlow which we are adapting to our needs.
+
+But first, we can simply run the embedding layer only, which will produce an embeddings’ array. I have read that such an array could be saved and used in another model — yes, it can, but outside of skipping the embedding step in the new model, I am not so sure of the utility, as the vectors generated for each word are agnostic to the problem being solved:
+
+We will not spend much time on the above and will rather focus on the models where embedding is just the first part.
+
+Let’s move on and construct the new, very basic model architecture after importing relevant libraries:
+
+The embedding layer — which can typically be used as the first layer in a model — will convert sequences of numerically encoded unique words (as a reminder, 20,241 of them plus padding coded as a zero) into sequences of vectors, the latter being learned as the model trains . Each vector will have 100 dimensions (embedding_dim=100), hence we’ll have a matrix of 20242 x 100 as a result.. The input length will be fixed to the length of the longest sentence, i.e. 370 words, as every single word is perceived by the model to have the same size due to padding. Mask_zero informs the model whether the input value 0 is a special padding value that should be masked out, which is particularly useful in recurrent layers where variable input lengths can be processed by the model.
+
+After training on enough meaningful data words with similar meanings will likely have similar vectors.
+
+Here is the model summary (the model with an additional dense layer is in the github repository):
+
+In the model summary we’ll see that the number of parameters for the embedding layer is 2,024,200, which is 20,242 words times the embedding dimension of 100.
+
+The previously mentioned TensorFlow tutorial is using a reviews dataset with each of the reviews being labeled 1 or 0 depending on the positive or negative sentiment. We do not have the labeling luxury but still want to test drive this model, so will simply create an array of 0s and attach to each of the sentences; the model requires such a structure. This will not be the first or the last time that machine intelligence gets assaulted with an unsolvable task yet still obliges us with a solution. Let’s train this model:
+
+import numpy as np adam = tf.keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+
+model.compile(optimizer='adam',
+
+loss='binary_crossentropy',
+
+metrics=['accuracy']) batch_size = 16989 #number of sentences
+
+data_labels = np.zeros([batch_size, 1]) history = model.fit(
+
+data,
+
+data_labels,
+
+epochs=200,
+
+batch_size=batch_size,
+
+verbose = 0)
+
+The embeddings are trained. Before we turn to visualization, let’s quickly check on gensim for word similarities. First, we need to create the vectors’ file — keep it temporarily in Colab or download to the local machine:
+
+f = open('vectors.tsv' ,'w')
+
+f.write('{} {}
+
+'.format(vocab_size-1, embedding_dim))
+
+vectors = model.get_weights()[0]
+
+for words, i in tokenizer.word_index.items():
+
+str_vec = ' '.join(map(str, list(vectors[i, :])))
+
+f.write('{} {}
+
+'.format(words, str_vec))
+
+f.close() # download the file to the local machine by double-clicking the Colab file or using this:
+
+try:
+
+from google.colab import files
+
+except ImportError:
+
+pass
+
+else:
+
+files.download('vectors.tsv')
+
+Second, let’s
+
+import gensim w2v = gensim.models.KeyedVectors.load_word2vec_format('./vectors.tsv', binary=False) w2v.most_similar('rome')
+
+Finally, let’s check on similarity between Pompey and Caesar, which showed high in the CBOW model we had previously trained:
+
+round(w2v.similarity('pompey', 'caesar'),4)
+
+The relationship between the words is high. Also, as one would expect, Caesar shows highly similar to Rome.
+
+For those interested in more complex models, additional variants, including Recurrent Neural Networks (Long Short-Term Memory) are available in my Github file, but keep in mind they will train much slower than the simple model above.
+
+Visualization
+
+For the embeddings’ visualization, it is hard to beat the TensorFlow Projector, so let’s create the vector and meta (i.e. words corresponding to those vectors) files for its use:
+
+Import the files locally and then we can go to TensorFlow’s Projector, upload the files to replace the default data, and try various options available on the site. Here is the Principal Components Analysis view of the entire vector space for the text:
+
+And here is just the vector space for 100 words that showed up as most similar to “Rome”.
+
+Conclusion
+
+In this article, we briefly looked at the role of the word embedding layer in a deep learning model. In the context of such a model, the layer supports solving a particular NLP task — e.g. text classification — and through iterations trains the word vectors to be the most conducive in minimizing the model loss. Once the model is trained, we can inspect the embedding layer output through similarity calculations and visualizations.
+
+The embedding layer can also be used to load pre-trained word embeddings (e.g. GloVe, BERT, FastText, ELMo), which I believe would typically be a more productive way to utilize models requiring such embeddings — in part due to the “industrial grade” effort and data size required to generate them. However, in cases of specialized text and especially if the corpus on which the word embeddings can be trained is sizeable, training own embeddings can still be more effective.

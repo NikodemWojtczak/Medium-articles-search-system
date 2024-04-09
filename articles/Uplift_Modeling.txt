@@ -1,0 +1,269 @@
+Uplift Modeling
+
+This series of articles was designed to explain how to use Python in a simplistic way to fuel your company’s growth by applying the predictive approach to all your actions. It will be a combination of programming, data analysis, and machine learning.
+
+I will cover all the topics in the following nine articles:
+
+1- Know Your Metrics
+
+2- Customer Segmentation
+
+3- Customer Lifetime Value Prediction
+
+4- Churn Prediction
+
+5- Predicting Next Purchase Day
+
+6- Predicting Sales
+
+7- Market Response Models
+
+8- Uplift Modeling
+
+9- A/B Testing Design and Execution
+
+Articles will have their own code snippets to make you easily apply them. If you are super new to programming, you can have a good introduction for Python and Pandas (a famous library that we will use on everything) here. But still without a coding introduction, you can learn the concepts, how to use your data and start generating value out of it:
+
+Sometimes you gotta run before you can walk — Tony Stark
+
+As a pre-requisite, be sure Jupyter Notebook and Python are installed on your computer. The code snippets will run on Jupyter Notebook only.
+
+Alright, let’s start.
+
+Part 8: Uplift Modeling
+
+One of the most critical jobs of Growth Hacker is to be efficient by all means as much as possible. First of all, you need to be time-efficient. That means you have to quickly ideate, experiment, learn and re-iterate. Second, you need to be cost-efficient. It means bringing the maximum return for a given budget/time/effort.
+
+Segmentation helps Growth Hackers to increase conversion and hence be cost-efficient. But imagine a case that you are about to launch a promotional campaign and you know which segment you want to target. Do you need to send the offer to everyone?
+
+The answer is no. In your current target group, there will be customers who are going to purchase anyways. You will cannibalize yourself by giving the promotion. We can summarize the segments based on this approach like below:
+
+Treatment Responders : Customers that will purchase only if they receive an offer
+
+: Customers that will purchase only if they receive an offer Treatment Non-Responders: Customer that won’t purchase in any case
+
+Customer that won’t purchase in any case Control Responders: Customers that will purchase without an offer
+
+Customers that will purchase without an offer Control Non-Responders: Customers that will not purchase if they don’t receive an offer
+
+The picture is very obvious. You need to target Treatment Responders (TR) and Control Non-Responders (CN). Since they won’t purchase unless you give an offer, these groups are boosting your uplift in promotional campaigns. On the other hand, you need to avoid targeting Treatment Non-Responders (TN) and Control Responders (CR). You will not benefit from targeting TN and, CN will make you cannibalize.
+
+There is one last simple thing to do. We need to identify which customers fall into which buckets. The answer is Uplift Modeling. It has two simple steps:
+
+1- Predict the probabilities of being in each group for all customers: we are going to build a multi-classification model for that.
+
+2- We will calculate the uplift score. Uplift score formula is:
+
+We will sum up the probability of being TR and CN and subtract the probability of falling into other buckets. The higher score means higher uplift.
+
+Alright, let’s see how we can implement this with an example. We will be using the same dataset in the previous article that you can find here.
+
+We start with importing the libraries and functions we need:
+
+Then we will import our data:
+
+df_data = pd.read_csv('response_data.csv')
+
+df_data.head(10)
+
+As you can recall from the previous article, we have the data of customers who received Discount and Buy One Get One offers and how they reacted. We also have a control group that didn’t receive anything.
+
+Column descriptions are as follows:
+
+recency: months since last purchase
+
+history: $value of the historical purchases
+
+used_discount/used_bogo: indicates if the customer used a discount or buy one get one before
+
+zip_code: class of the zip code as Suburban/Urban/Rural
+
+is_referral: indicates if the customer was acquired from referral channel
+
+channel: channels that the customer using, Phone/Web/Multichannel
+
+offer: the offers sent to the customers, Discount/But One Get One/No Offer
+
+Before building the model, let’s apply our calc_uplift function to see the current uplift of this campaign as a benchmark:
+
+calc_uplift(df_data)
+
+Conversion uplift is 7.66% for discount and 4.52% for buy one get one (BOGO).
+
+Next, we will start building our model.
+
+Multi-classification Model for Predicting the Uplift Score
+
+Currently, our label is if a customer converted or not (1 or 0). We need to create four classes for TR, TN, CR, and CN. We know that the customers who received discount and bogo offers are Treatment and the rest is control. Let’s create a campaign_group column make this info visible:
+
+df_data['campaign_group'] = 'treatment'
+
+df_data.loc[df_data.offer == 'No Offer', 'campaign_group'] = 'control'
+
+Perfect, now we need to create our new labels:
+
+df_data['target_class'] = 0 #CN
+
+df_data.loc[(df_data.campaign_group == 'control') & (df_data.conversion > 0),'target_class'] = 1 #CR
+
+df_data.loc[(df_data.campaign_group == 'treatment') & (df_data.conversion == 0),'target_class'] = 2 #TN
+
+df_data.loc[(df_data.campaign_group == 'treatment') & (df_data.conversion > 0),'target_class'] = 3 #TR
+
+In this example, the mapping of the classes are below:
+
+0 -> Control Non-Responders
+
+1 -> Control Responders
+
+2 -> Treatment Non-Responders
+
+3 -> Treatment Responders
+
+There is one small feature engineering step before training our model. We will create clusters from history column and apply get_dummies for converting categorical columns into numerical:
+
+#creating the clusters
+
+kmeans = KMeans(n_clusters=5)
+
+kmeans.fit(df_data[['history']])
+
+df_data['history_cluster'] = kmeans.predict(df_data[['history']]) #order the clusters
+
+df_data = order_cluster('history_cluster', 'history',df_data,True) #creating a new dataframe as model and dropping columns that defines the label
+
+df_model = df_data.drop(['offer','campaign_group','conversion'],axis=1) #convert categorical columns
+
+df_model = pd.get_dummies(df_model)
+
+Let’s fit our model and get the probabilities for each class:
+
+#create feature set and labels
+
+X = df_model.drop(['target_class'],axis=1)
+
+y = df_model.target_class #splitting train and test groups
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=56) #fitting the model and predicting the probabilities
+
+xgb_model = xgb.XGBClassifier().fit(X_train, y_train)
+
+class_probs = xgb_model.predict_proba(X_test)
+
+Variable class_probs possesses the probabilities for each customer. Let’s check out an example:
+
+For this specific customer, we can map the probabilities as below:
+
+CN: 32%
+
+CR: 2%
+
+TN: 58.9%
+
+TR: 6.9%
+
+So the uplift score for this customer is:
+
+0.32 + 0.069- 0.02- 0.589 = -0.22
+
+Let’s apply this to all users and calculate the uplift score:
+
+#probabilities for all customers
+
+overall_proba = xgb_model.predict_proba(df_model.drop(['target_class'],axis=1)) #assign probabilities to 4 different columns
+
+df_model['proba_CN'] = overall_proba[:,0]
+
+df_model['proba_CR'] = overall_proba[:,1]
+
+df_model['proba_TN'] = overall_proba[:,2]
+
+df_model['proba_TR'] = overall_proba[:,3] #calculate uplift score for all customers
+
+df_model['uplift_score'] = df_model.eval('proba_CN + proba_TR - proba_TN - proba_CR') #assign it back to main dataframe
+
+df_data['uplift_score'] = df_model['uplift_score']
+
+By running the code above, we added a uplift_score column in our main dataframe and it looks like below:
+
+It is time to check the most critical part of having this model. Is the model really working? It is a bit hard to evaluate the true performance of uplift modeling. We will check how the uplift is changing across uplift score quantiles to see if we can use the model in real life.
+
+Model Evaluation
+
+To evaluate our model, we will create two different groups and compare them with our benchmark. Groups are:
+
+1- High Uplift Score: Customers have uplift score > 3rd quantile
+
+2- Low Uplift Score: Customers have uplift score < 2nd quantile
+
+We are going to compare:
+
+Conversion uplift
+
+Revenue uplift per target customer to see if our model can make our actions more efficient.
+
+Here is our benchmark for the discount campaign.
+
+Total Targeted Customer Count: 21307
+
+Discount Conversion Uplift: 7.66%
+
+Discount Order Uplift: 1631.89
+
+Discount Revenue Uplift: $40797.35
+
+Revenue Uplift Per Targeted Customer: $1.91
+
+Let’s create the first group and see the numbers:
+
+df_data_lift = df_data.copy()
+
+uplift_q_75 = df_data_lift.uplift_score.quantile(0.75)
+
+df_data_lift = df_data_lift[(df_data_lift.offer != 'Buy One Get One') & (df_data_lift.uplift_score > uplift_q_75)].reset_index(drop=True) #calculate the uplift
+
+calc_uplift(df_data_lift) results:
+
+User Count: 5282
+
+Discount Conversion Uplift: 12.18%
+
+Discount Order Uplift: 643.57
+
+Discount Revenue Uplift: $16089.36
+
+Revenue Uplift Per Targeted Customer: $3.04
+
+The results are great. Revenue uplift per target customer is 57% better and we can easily see that 25% of the target group is contributing to 40% of the revenue uplift.
+
+We will check the same numbers for the group with the lower uplift score:
+
+df_data_lift = df_data.copy()
+
+uplift_q_5 = df_data_lift.uplift_score.quantile(0.5)
+
+df_data_lift = df_data_lift[(df_data_lift.offer != 'Buy One Get One') & (df_data_lift.uplift_score < uplift_q_5)].reset_index(drop=True) #calculate the uplift
+
+calc_uplift(df_data_lift) results:
+
+User Count: 10745
+
+Discount Conversion Uplift: 5.63%
+
+Discount Order Uplift: 604.62
+
+Discount Revenue Uplift: $15115.52
+
+Revenue Uplift Per Targeted Customer: $1.4
+
+As expected, revenue uplift per targeted customer decreased to $1.4. Moreover, the group is 50% of the targeted customers contributed to 37% of the revenue uplift.
+
+By using this model, we can easily make our campaign more efficient by:
+
+Targeting specific segments based on the uplift score
+
+Trying different offers based on customer’s uplift score
+
+In the next article, I’ll be explaining one of the core elements of Growth Hacking: A/B Testing. That will be our final post on this series.
+
+You can find the Jupyter Notebook for this article here.

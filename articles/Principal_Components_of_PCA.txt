@@ -1,0 +1,129 @@
+Photo by Katie Smith on Unsplash
+
+Principal Component Analysis (PCA) is used in machine learning applications to reduce the dimensionality of the data. It has been especially useful for image compression among other applications. In this post we will go through Lindsay Smith’s A Tutorial on Principal Component Analysis with an implementation in python.
+
+Our objective is to develop an intuition for PCA by laying out the mathematical formulations, and go beyond fit and fit_transform methods. Before moving on it is helpful to be familiar with measures of spread and linear algebra. Feel free to skip ahead to the implementation if the explanations seem trivial.
+
+Measures of Spread
+
+Variance
+
+Variance is a measure of spread, and indicates how far a set of number are spread out from their average value. for a one dimensional array X , the variance s2 is:
+
+Xi = The value of the ith entry of array X
+
+X bar = the average of X
+
+n = the number of entries
+
+Covariance Between 2 Dimensions
+
+What if we wanted to measure the joint variability of two random variables? Covariance measures how much the entries vary from the mean with respect to each other. It is given by:
+
+Xi = The value of the ith entry of array X
+
+Yi = The value of the ith entry of array Y
+
+X bar = the average of array X
+
+Y bar = the average of array Y
+
+n = the number of entries, same for X and Y
+
+When looking at the output of the covariance it is important to look at the sign. If it is positive then there is a positive correlation, meaning that X and Y increase together; if it is negative then both increase. If we care about the value then it’s better to use Pearsons’s Correlation Coefficient.
+
+Covariance Between n Dimensions
+
+What if we an n-dimensional data, how to we measure covariance? Recall that covariance is only between 2 dimensions, therefore the result is a covariance matrix. It is useful to know that the number of covariance values we can calculate is:
+
+n = number of dimensions
+
+For example if we had a dataset with dimensions x, y, and z then our covariance matrix C will be:
+
+Linear Algebra
+
+Photo by Alex Block on Unsplash
+
+Eigenvectors
+
+When we multiply two compatible matrices we are effectively doing a linear transformation. Consider a square matrix A and a vector v and the following property:
+
+A = square matrix
+
+v = vector
+
+λ = scalar value
+
+What the above tells us is that v is in fact an eigenvector. Geometrically speaking, the expression means that applying a linear transformation on the vector v returns a scaled version of it.
+
+If A is a diagonalizable n x n matrix then it has n eigenvectors. An important property of eigenvectors is that they are all orthogonal. Later on we will see how we can express the data in terms of these vectors instead of its original dimensions.
+
+Eigenvalues
+
+In the previous section we calculated the eigenvalue without realizing it: it is none other than λ. When calculating eigenvectors, we also calculate eigenvalues. Computing these values can be done by hand as shown in this tutorial. However once the dimensions of A exceed 3x3 then getting the eigenvalues and eigenvectors can be very tedious and time consuming.
+
+PCA Implementation
+
+Photo by Lauren Mancke on Unsplash
+
+We now know the necessary ingredients to implement PCA to a an example of our choice. In this section we will go through each step and see how the knowledge in the previous sections apply.
+
+Step 1: Get the Data
+
+For this exercise we will create a 3D toy data. This is arbitrary data so we can guess in advance how our results will look. To make things easier in the following sections we will convert the data into a toy dataframe.
+
+Please note that our data has no missing values whatsoever, as this is key for PCA to function properly. For missing data we can replace the empty observations with the mean, variance, mode, zeros, or any value of our choosing. Each technique will impute variance to the dataset and is up to us to make the adequate judgement call depending on the situation.
+
+Looking at the data in a 3D scatterplot:
+
+Step 2: Subtract the Mean
+
+For PCA to work we need to have dataset with a mean of zero. We can subtract the average across each dimension easily with the code below:
+
+Step 3: Calculate the Covariance Matrix
+
+Picking pandas again makes our lives easier and we make use of the cov method.
+
+Recall that the non diagonal terms are the covariance of one dimension with another. For example in the sample output below we do not care much about the values but rather about the signs. Here X and Y are negatively correlated, whereas Y and Z are positively correlated.
+
+Step 4: Calculate Eigenvectors and Eigenvalues of Covariance Matrix
+
+We compute the eigenvectors v and eigenvalues w with numpy’s linear algebra package: numpy.linalg.eig. The eigenvectors are normalized such that the column v[:, i] is the eigenvector corresponding to the eigenvalue w[i]. The computed eigenvalues are not necessarily ordered, this will be relevant in the next step.
+
+Step 5: Choosing Components and New Feature Vector
+
+Now that we have eigenvectors and eigenvalues we can begin the dimensionality reduction. As it turns out, the eigenvector with the highest eigenvalue is the principle component of the dataset. In fact the eigenvector with the largest eigenvalue represents the most signficant relationship between the data dimensions.
+
+Our task now is to sort the eigenvalues from highest to lowest, giving us the components by order of significance. We take the eigenvectors we want to keep from the feature vector which is a matrix of vectors:
+
+Let’s look at how we might do that in code. Here we decide to ignore the smallest eigenvalue, therefore our indexing starts at 1.
+
+Step 6: Deriving the New Dataset
+
+In the last part we take the transpose of the vector and multiply it on the left of the original dataset, transposed.
+
+In the code above, the transposed feature vector is the row feature vector where the eigenvectors are now in the rows such that the most significant eigenvectors are at the top. The row data adjust is the mean adjusted data transposed, where the each row holds a separate dimension. Our new data looks as follows:
+
+You might notice the labeling of the axes above is not X and Y. With our transformation we have changed our data to be expressed in terms of our 2 eigenvectors.
+
+Had we decided to keep all eigenvectors our data would be unchanged, just rotated so that the eigenvectors are the axes.
+
+Step -1: Getting the Old Data Back
+
+Suppose we reduced our data for image compression and now we want to retrieve it. To do so let’s review how we got the final data.
+
+We can turn around the expression to get:
+
+As it turns out the inverse of the row feature vector is equal to the transpose of our feature vector. This is true because the elements of the matrix are all the unit vectors of our dataset. Our equation becomes:
+
+Finally we add the mean we subtracted from the start:
+
+In python code this looks like:
+
+Conclusion
+
+Congratulations! We are at the end of the exercise and have performed PCA from scratch to reduce the dimensionality of our data, and then retraced our steps to get the data back.
+
+Although we did not dive into the details of why it works, we can confidently interpret output from packages such as sklearn’s PCA.
+
+For the full python code, feel free to explore this notebook.

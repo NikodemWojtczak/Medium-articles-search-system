@@ -1,0 +1,121 @@
+Can Deep Learning help us to rediscover the past?
+
+Deep Learning (D.L.) has already proven to be an outstanding tool to solve a wide range of problems in computer vision and with practical applications in several fields. However, this kind of techniques hasn’t been widely explored in archaeology and specifically, in the detection of archaeological sites. In this article, I want to tell you about the application of D.L. in the analysis of airborne data to detect archaeological traces.
+
+Rune stone located at Lund University campus, the inscribed runic text describe the death of a King in Northern Europe. Image taken from: https://www.instagram.com/j.org.ls/
+
+The detection of archaeological structures from aerial imagery nowadays relies almost completely on the analysis by a specialist. This is a time-consuming task which requires highly specialized knowledge and which involves an interpretation bias from the person who carries the analysis. As an example in the following image you can see two aerial photographs. One of the contains archaeological structures whereas the other doesn’t.
+
+Example of aerial photographs containing archaeological structures (right) and just a pile of rocks (left). ©Lantmäteriet: I2018 / 00119.
+
+The data used in the detection of archaeological sites from airborne data are of different types. It is not limited to only aerial photographs in the visible range of the electromagnetic spectrum. Multi-spectral aerial images obtained from specialized satellites such as the ASTER Satellite, or the use of Laser mappings provided by LIDAR systems which have the advantage that can go through vegetation and provide a clear mapping of the terrain are used too. In the case of the last one, it has been particularly useful in the detection of archaeological ruins in regions with very dense vegetation, such as the discovery of new sites hidden in the Guatemalan jungle. The detection of these sites could be resumed as the search of terrain anomalies which could belong to the legacy of Ancient Landscapes. This so-called anomalies could be of different types and are called archaeological traces.
+
+Case Study
+
+The data which was provided by the department of Archaeology and Ancient History of Lund University corresponded to aerial images in the visible and near-infrared ranges of the electromagnetic spectrum from 5 regions in southern Sweden Baltic coast (Skåne and Blekinge counties) and Birka in the island of Björkö located in Lake Mälaren. A total of 8 aerial images were provided and these contained legacy marks and topographical anomalies corresponding to graves and structures from the viking ages. These structures have different shapes, being the most notorious the ship-like shape burials.
+
+The resolution of all the images was of 20 cm²/pixel but all of them were of different sizes, so a tiling process was carried to have images of a constant size of 100x100 pixels as it is shown in the image, it is important to notice that because of the way in which the tiling of the aerial images was done (dividing the whole aerial images uniformly in squares of constant size despite their content), in some of the cases the archaeological structures appear divided in different tiles, and in some other cases there is more than one single structure in the tiles.
+
+Example of one of the aerial images after the tiling. It is possible to see the shapes of the different structures marked in different colors. © Lantmäteriet: I2018 / 00119.
+
+After the tilling the final composition of the data by case study is shown in the following table.
+
+Composition of the data set.
+
+From the previous table, we can see that the tiles which have archaeological traces (excluding case 5) correspond barely to the 5.7% of the total data. Case study 4 was chosen as test data set so it was excluded from all of the rest operations, methods and process carried out and it was only used in the end to test the different models. Having in mind the low number of tiles with archaeological traces it was decided that the best approach was to develop a classifier which can distinguish between two different type of data images with archaeological traces which would be positive cases and image without archaeological cases which would be called negatives.
+
+The task
+
+When it comes to analyzing images or data with grid-like topology the most common type of model used within Deep Learning is the Convolutional Neural Networks (CNN’s). These type of networks can be regarded as a variation of multilayer perceptron but with the advantage of being lighter than its predecessor as it based in a shared-weight architecture. In this project 4 different architectures were tested, 3 of them state of the art architectures (these were VGG16, Inception V3 and ReNet50) and one proposed model based in a typical CNN architecture which is shown in the following picture.
+
+CNN proposed for the project.
+
+Usually when the amount of data available is large enough and it represents well the distribution of all the possibilities in which the information can appear for the chosen task, then the network can be trained only with this data as it expected that it will learn all the patterns needed from it to perform well in unseen data. However, when the data available is not enough some other techniques can be applied. Transfer learning is a method which allows making the process more efficient by using the knowledge which has already been trained in a similar task, and it was used for the 3 pre-trained models mentioned before.
+
+One common mistake when using Deep learning is to think that for using it a large amount of data is needed but this is not true. I many of the real-life applications the labeled data is limited as was the case of this problem so in order to solve this issue, apart from using transfer learning data augmentation was also used. An advantage of the aerial imagery type of data is that the features which we were interested in detecting do not depend on the orientation, giving a wide margin to apply image transformation methods
+
+In this project, two different techniques were applied, the first one which could be called as ‘typical’ data augmentation for images consisted in first applying rotations in 90°, 180°, and 270° to all the images, then flipping them vertically, this gave a total of 8 different images. The final step was to choose randomly two of these 8 new created images and again randomly choosing two of the following operations: change in brightness, contrast, hue, saturation, relative luminance or the addition of Gaussian noise; to be applied on the two chosen images. By using these techniques the data set was augmented in a factor of 10, having a final composition of 2070 images with positive traces and 14050 without. However, even by using this method in some cases, the techniques previously stated cannot be generalized to the variety of conditions in which natural data could exist, as it is not portrayed in the data available for training. A method which can deal with this is the use of Generative Adversarial Networks (GANs).
+
+Graphical representation of a GAN network.
+
+GANs are based on a sum-zero game scenario. In this game, there are two participants, the Generator and the Discriminator. The first can be seen as a function which tries to map from some representation space, called the latent space, to space of the data, which in this case are images. The second one is a function that maps from image data to the probability the image is from the real distribution rather than the generator distribution. If the generator distribution is able to match the real statistical data distribution perfectly, then the discriminator will be confused, predicting 0.5 for all the inputs. As an analogy, the generator can be regarded as a forger, whereas the discriminator is an art expert. The generator creates fake paintings with the aim of being realistic while the expert aims to tell apart which are real and which are fakes. An important thing to mention is that the generator has no access to the real images and the only way it learns is through its interaction with the discriminator.
+
+A second data-augmented data set was created by using a model based on a Deep Convolution GAN (DCGAN) to create images with archaeological traces. The results are shown in the following image.
+
+Samples of the images generated using the DCGAN model (left) and real images with archaeological traces.
+
+© Lantmäteriet: I2018 / 00119.
+
+On the left side you can see the images generated whereas in the right some example of real images are shown. Some of them do resemble to archaeological traces but in most of them the resolution is not the sames as in the original ones.
+
+Another issue of the task was the imbalance in the data, being that 94% of the images correspond to the class which we were not interested in detecting, so using the accuracy as performance measurement would not reveal the real performance of the model, being that for example a system which classifies all the images as negatives would obtain a score of 94% of accuracy. For this reason, the Receiver Operating Characteristic (ROC) graph and the Area Under the Curve (AUC) of it were chosen as performance measurements. The ROC curve is a graph which shows the trade-off between True Positives (TP) and False Positives (FP) of classifiers. This is constructed by plotting the values of the rates by varying a threshold value. The output of the network gives a number between 0 and 1 which represents the probability of an image of belonging to the class of images which contains archaeological structures. The AUC tells how much the model is capable of distinguishing between the two classes.
+
+Left: Example of a ROC curve obtained in the validation data set using the data set generated using “typical” data-augmentation techniques. Right: Confusion matrix of a binary classifier.
+
+Each of the models mentioned previously (VGG16, Inception V3, ResNet50 and the proposed model) was trained in the two different data sets obtained using the two mentioned data augmentation methods mentioned before. Using 4-fold cross-validation the values for the regularization techniques Dropout and L2 were chosen. Using the best configuration of each model, a final round of training and testing was carried, in this case training the models in each of the 3 data sets existing: the original one without any kind of data augmentation, the one in which the images were generated using the DCGAN, and finally the one with the typical data augmentation operations.
+
+Results
+
+Each of the models was tested in unseen data, in this case, case study 4 separately for each of the kind of images of this data set, (visible light and infrared aerial images). A resume of the results obtained in the test data-set for each of the different models trained on the different training data sets is shown in the following table.
+
+AUC values obtained in the test data set for each of the two types of aerial images and for the different models trained in the data set generated using “typical” data-augmentation techniques.
+
+As it is possible to see Inception V3 is the model which performs better in the case of images in the visible light range and VGG16, for the case of images in the infrared.
+
+In general it was observed that all the models trained in the data set generated using “typical” data-augmentation techniques performed better than the the two other data sets used during training. In the following pictures the results for VGG16 and Inception V3 are shown.
+
+ROC curves and AUC obtained from the test data set for each of the two types of data after training VGG16 in different data sets (No data augmentation, augmentation using traditional techniques and augmentation using a DCGAN model).
+
+ROC curves and AUC obtained from the test data set for each of the two types of data after training Inception V3 in different data sets (No data augmentation, augmentation using traditional techniques and augmentation using a DCGAN model).
+
+In order to improve the results an additional step was carried, in this case, the use of ensembles. The ensembles were constructed by taking two models trained separately and averaging the output of them. Only the two best models trained in the different data sets were used. The percentage of true positives and false positives are shown in the following table.
+
+Percentage of true positives and false positives detection for the different combinations of
+
+VGG and Inception V3 trained on the data augmented data set.
+
+The performance can also be visualized in the following graph where the ROC curve of each of the ensembles is shown, as it is possible to see, the lowest has an AUC of 0.894 and all of the rest have a value above 0.9. And the best one a AUC of 0.96
+
+ROC curve of the ensembles.
+
+However, these results don’t tell to much so a visual analysis was carried to see the weak points of each of them. For doing so a visual reference is needed and it is shown in the next figure where the colored tiles correspond to zones in which some archaeological structures exist.
+
+Case study 4 in visible light with the tiles with archaeological traces marked in purple.
+
+© Lantmäteriet: I2018 / 00119.
+
+Results obtained using Inception V3 in aerial images in the visible light range. The tiles
+
+are colored according to the classification probability: blue > 0.5, light blue ∈ [0.3, 0.5], yellow
+
+∈[0.1, 0.3]. © Lantmäteriet: I2018/ 00119
+
+Results obtained using VGG16 in aerial images in the near-infrared light range. The tiles
+
+are colored according to the classification probability: blue > 0.5, light blue ∈ [0.3, 0.5], yellow
+
+∈[0.1, 0.3]. © Lantmäteriet: I2018/ 00119
+
+The graphical output of the best ensemble is depicted in the following figure, it is possible to see that only 3 tiles were missing but as I mentioned before the tiles do not correspond to structures by itself but part of the structures, in reality, none of the structures were missed in the detection, just some part of them. Furthermore, some of the false positives which remain here are due to what it could be called, “controversial images”.
+
+Combined results of the predictions using Inception V3 in the visible light data and VGG16
+
+in the infrared. © Lantmäteriet: I2018 / 00119.
+
+An on-site inspection revealed what was the nature of the missing detections and also the false positive ones. Some of them are shown in the next figure.
+
+The figures in the left and in the middle row correspond to the false positives, the ones in the left is an area in which some rocks placed in a circle like order, and the one in the middle. The pictures in the right correspond to a false negatives, in this case only a small part was missed in the detection, in this case the one closer to the images. © Lantmäteriet: I2018 / 00119.
+
+However, the system was also able to detect most of all the structures, and some of them are not trivial to visualize for a non-expert in archaeology (such as myself). Some examples of the correct detections are depicted in the figure below.
+
+Example of images correctly detected with its respective picture at the location. © Lantmäteriet: I2018 / 00119.
+
+Conclusions.
+
+Starting with a very low amount of data, using different data augmentation techniques, transfer learning methods and different CNNs architectures it was possible to make predictions with a rate of 76 % true positives against a 4 % of false negatives in unseen data belonging to a different region than the region from which the training data came from.
+
+The question with which I started was if Deep Learning could help in the discovery of archaeological structures. So the answer is yes, it may not be a trivial task but yes, it is possible.
+
+The improvement and research in these methods are of great importance as nowadays there is more data available than the one which is humanly possible to analyze. The detection of archaeological sites is vital, as it allows the retrieval and protection of these structures which can help in the understanding of many aspects of these ancient civilizations, and in general human history, knowledge which otherwise would be lost forever.
+
+If you would like to read more about the details of this project you can find them here.

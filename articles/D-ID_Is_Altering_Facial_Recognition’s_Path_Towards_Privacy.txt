@@ -1,0 +1,25 @@
+D-ID Is Altering Facial Recognition’s Path Towards Privacy
+
+While the rest of the world was caught up in the rage of selfies, face-timing and photo uploading, three young men saw a future of increasing surveillance and are now seeking to change this. Hessie Jones · Follow Published in Towards Data Science · 8 min read · Jul 18, 2019 -- Share
+
+DEPOSIT PHOTOS
+
+Over the last decade we’ve witnessed the deluge of online photo-sharing. From Pinterest to Instagram to Snapchat the rise of photo-sharing has enabled the soaring activity of selfies, citizen journalism, and events in-the-moment. Brandwatch’s recent stats revealed among 18–24 year-old’s, over 75% use Instagram and Snapchat, and 94% use Youtube:
+
+On Instagram More than 40 billion photos have been shared so far
+
+Over 95 million photos are uploaded each day on Instagram
+
+In Q3 2017, 3.5bn snaps were sent.
+
+The future of image and video is clear based on these previous estimations:
+
+An estimated 84 percent of communications in 2018 were visual.
+
+An estimated 79 percent of internet traffic content in 2018 was video.
+
+Posts that include images produce 650 percent higher engagement
+
+D-ID Co-founders: Eliran Kuta, Gil Perry, and Sella Blondheim
+
+Three young men from Israel were watching the advent of image sharing unfold. Gil Perry, Sella Blondheim and Eliran Kuta were serving in the Israel Defense forces at the time. While the rest of the world was caught up in the rage of selfies, face-timing and photo uploading, Gil, Sella and Eliran saw things very differently,

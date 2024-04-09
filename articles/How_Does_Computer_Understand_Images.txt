@@ -1,0 +1,19 @@
+When we see this image, we can say, without even thinking, that this is an image of an adorable dog. Even an 8-year-old kid would not have any problem identifying the dog in the image.
+
+Have you ever wondered how a computer sees the same image?
+
+I am sure many of you have had that though. I sure did at one point in my life. In this post, I will explain how a computer sees an image and understands it.
+
+A computer sees an image as 0s and 1s. Pixel is the smallest unit in an image.
+
+A digital image is a 2D array of pixels. Each pixel is characterised by its (x, y) coordinates and its value. [1]
+
+When we take a digital image, it is stored as a combination of pixels. Each pixel contains a different number of channels. If it a grayscale image, it has only one pixel, whereas if it is a coloured image, it contains three channels: red, green and blue.
+
+As shown in the above representation of a digital coloured image, each channel of each pixel has a value between 0 and 255. Each of these values represented in binary before a computer can understand the image.
+
+The next question is, how can it say that the given image contains a picture of a dog?
+
+In this case, just being able to read the image is of no use if it cannot understand what it means, or if it cannot describe what the image is about, and what it contains. This is where machine learning comes in.
+
+A machine (or a computer) can be taught how to understand an image and say what the image contains. This is an example of machine learning, teaching a computer to understand and describe an image. It is similar to how we teach kids to identify different alphabets or differentiate between an apple and a banana by showing examples of each case. This is exactly how a computer learns to identify objects in an image.

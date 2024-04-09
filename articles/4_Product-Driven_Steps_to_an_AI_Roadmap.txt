@@ -1,0 +1,65 @@
+4 Product-Driven Steps to an AI Roadmap
+
+What’s so transformative about AI, anyway?
+
+Artificial Intelligence (AI) is regularly breaking new ground, from DeepMind’s AlphaGo Zero teaching itself to play Go and beating human champions to text-generating algorithms so powerful that their creators at OpenAI decided not to release them publicly for fear of malicious use.
+
+While these accomplishments are rightfully generating enormous buzz and inspiring entrepreneurs and investors, most of them lack a specific business application. If AI is in fact a transformative technology, it raises a big question: How can your company use AI to create actual business value, today?
+
+Most AI business applications focus on automation and personalization. But automate what? And personalize how? Technology has automated many previously labor-intensive processes. What makes AI special?
+
+To understand this question, we must first answer a more fundamental one: what kind of products can you build with AI that you can’t build without it?
+
+The answer is simple. With AI, you can build products that make decisions.
+
+Decisions, decisions
+
+Many products use rules to make decisions. But rules are just decisions that someone else made for the product to follow. There’s nothing wrong with that, though over time many rules-based products get increasingly frustrating: ever tried calling an airline or a bank?
+
+Most meaningful decisions just can’t be summarized by a neat set of rules. AI products are special because they can make such complex decisions. Here are some examples:
+
+“Alert: suspicious object detected on the security camera”
+
+“I recommend approving this loan despite a lower credit score than normally required”
+
+“Here is the plan for today’s fitness class based on your goals and recent performance”
+
+The transformative piece here is that without AI, a product can’t make these decisions, so humans have to make them. That means that it’s not a product, it’s a service. The examples above are services provided by security guards, credit analysts, and fitness instructors respectively.
+
+How can you apply this in practice to your company? Naturally, any AI product involves many technical aspects including data collection, processing, and modeling, which are the domain of data science and machine learning experts. But the business and product management aspects of building an AI product are just as important, and can be as tricky. Here are four steps to guide you through this process.
+
+1. Map the decisions
+
+Since AI products are about making decisions, start by mapping the decisions surrounding your product. Are they being made by rules or by humans? What information is needed to make them? What would be the value of the product making some of these decisions by itself?
+
+Consider also decisions that are currently not being made. These are cases that the product treats equally, even though there may be room for personalization or nuance.
+
+These considerations will guide you towards a product-oriented understanding of your AI opportunity.
+
+2. Make an automation plan
+
+Next, consider which decisions you can automate with AI, to what extent and in what order. Again, while these questions depend on many technical aspects, let’s focus on product considerations.
+
+Think about another process of acquiring decisional power: professional growth. How does a line cook become an executive chef? Certainly not by just declaring them the chef one day. In the same manner, you can’t deploy an AI solution out of the box and expect to have a “smart product”.
+
+On the other hand, a cook doesn’t turn into a chef by getting really good at chopping lettuce, even if you let them decide how finely to chop it. Similarly, if your AI use cases are limited to a few incremental, siloed applications you will not be realizing meaningful value from AI.
+
+Developing an AI roadmap is like planning an apprenticeship for your product. It should chart a middle ground, starting with making or supporting simple decisions and gradually evolving to more complex ones.
+
+3. Enable a successful AI apprenticeship
+
+Any successful apprenticeship requires a mentor to set an example. AI applications also need a broad set of examples, including various decisions and their full context. Understanding how to capture these examples is the product aspect of data acquisition and curation, which can be a significant pain point in many organizations.
+
+A good mentor makes decisions in a reasoned manner, even if they can’t be fully explained by simple considerations or rules. The same holds for AI. Take for example an AI solution that automates some of the work of an employee. If a cumbersome process can force the employee to make a bad decision or take measures to sidestep it, the result will be poor or partial data and an unsuccessful AI product. This is a common challenge that requires updating processes and workflows before an AI solution can be developed, regardless of how much data you currently have.
+
+4. Make room for mistakes and uncertainty
+
+The most important part of an apprenticeship is the ability to make mistakes and learn from them. An AI product must also make room for mistakes and uncertainty about the quality of individual decisions, by implementing workflows and mitigators to handle poor decisions.
+
+More broadly, especially in enterprise organizations, this principle applies to business culture: can the business tolerate some growth pains on the path to AI transformation? For example, some important performance metrics may initially drop as your AI makes mistakes. Can your organization handle that? Can you explain why this is a risk worth taking?
+
+The bottom line
+
+Recognizing that AI allows products to make decisions helps to guide your AI roadmap: map the decisions in your product and think about them with a product mindset. And, while this is a requirement for developing a successful AI product, this approach doesn’t actually require any AI. In fact, it is a useful tool for any product manager. Train yourself to identify decisions, build workflows to improve them, mitigate mistakes and learn from them.
+
+A version of this article previously appeared on Mind the Product

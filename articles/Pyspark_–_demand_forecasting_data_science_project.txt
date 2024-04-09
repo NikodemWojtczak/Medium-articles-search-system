@@ -1,0 +1,43 @@
+Pyspark – demand forecasting data science project
+
+In this article, we will build a step-by-step demand forecasting project with Pyspark. Here, the list of tasks:
+
+Import data Filter data Features engineering (features creation) Imputing data Features engineering (features transformation) Applying a gradient boosted tree regressor Optimise the model with Kfold and GridSearch Method Oneshot
+
+I) Import data
+
+First we will import our data with a predefined schema. I work on a virtual machine on google cloud platform data comes from a bucket on cloud storage. Let’s import it.
+
+from pyspark.sql.types import * schema = StructType([
+
+StructField("DATE", DateType()),
+
+StructField("STORE", IntegerType()),
+
+StructField("NUMBERS_OF_TICKETS", IntegerType()),
+
+StructField("QTY", IntegerType()),
+
+StructField("CA", DoubleType()),
+
+StructField("FORMAT", StringType())]) df = spark.read.csv("gs://my_bucket/my_table_in_csv_format", header = 'true', schema=schema)
+
+II) Filter data
+
+Then we will apply some filters, we will only work on hypermarkets and make sure that there are no negative quantities or missing date in the data for example.
+
+df = df.filter(
+
+(F.col("QTY") > 0)
+
+&(F.col("DATE").notNull())
+
+& (F.col("DATE").between("2015-01-01", "2019-01-01"))
+
+& (~F.col("FORMAT").isin(["PRO", "SUP"]))
+
+)
+
+III) Features engineering (features creation)
+
+Then, we will define some variables that will be useful for modeling, such as date derivatives.

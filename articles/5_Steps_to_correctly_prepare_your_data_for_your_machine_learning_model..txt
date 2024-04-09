@@ -1,0 +1,23 @@
+The simplest way to describe any machine learning project is that it’s a program that when given pieces of data it hasn’t seen before, it will process them based on previous experience and tell you something(s) you did not already know.
+
+“Data is the new oil.” — Clive Humb — Chief Data Scientist and Executive Director of Starcount
+
+Data is at the core of nearly every business decision made.
+
+Human resources directors are gathering data from online resources to determine the best people to recruit and confirm details about them. Marketing departments are lasering in on market segmentation data to find consumers who are ready to buy, speeding up the sale-closing process whenever possible.
+
+Business executives must examine bigger trends in the market, such as changes in pricing of resources, shipping or manufacturing.
+
+Your project is only as powerful as the data you bring.
+
+Step 1: Gathering the data
+
+The choice of data entirely depends on the problem you’re trying to solve.
+
+Picking the right data must be your goal, luckily, almost every topic you can think of has several datasets which are public & free.
+
+3 of my favorite free awesome website for dataset hunting are:
+
+Kaggle which is so organized. You’ll love how detailed their datasets are, they give you info on the features, data types, number of records. You can use their kernel too and you won’t have to download the dataset. Reddit which is great for requesting the datasets you want. Google Dataset Search which is still Beta, but it’s amazing. UCI Machine Learning Repository, this one maintains 468 data sets as a service to the machine learning community.
+
+The good thing is that data is means to an end, in other words, the quantity of the data is important but not as important as the quality of it. So, if you’d like to be independent and create your own dataset and begin with a couple of…

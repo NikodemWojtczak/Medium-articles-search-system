@@ -1,0 +1,49 @@
+I was the A/B Testing guy in my previous role. We were driving thousands of visitors from paid channels to our website, so naturally, we wanted to ensure that we were getting the most out of our Ad Spend by optimizing our Conversion Rate. Every other week, I would launch new tests and analyze the results of the previous tests.
+
+On one occasion, when I was wrapping up a Header Image test for one of our Diploma website (I was working for a Private University), I decided to do a simple experiment: I asked my colleagues to rank the variants of the header image by their performance — intending to compare my teammates’ guesses with the actual results. The outcome was surprising, to say the least.
+
+Their guesses were way off. It’s not uncommon; A/B tests are meant to elicit differences between what the customers want and what the marketers think customers want. But some of my teammates were graduates of that Diploma Program, making them our target market. Their strong preference for the statistically worst performing header image got me thinking: maybe there’s a fundamental flaw in the design of A/B tests.
+
+Let me illustrate this: say you decide to A/B test your headline.
+
+After splitting the website traffic equally between Variant A and Variant B, you realize that 70% of total conversions are happening on Variant A and 30% of conversions are coming from Variant B.
+
+As per the methodology of A/B tests — you’ll conclude that Variant A shows superior performance compared to Variant B — therefore it should be made the default headline.
+
+That’s where the fault lies: there’s absolutely no assurance that people who converted on Variant B would have also converted on Variant A. Maybe Variant B’s headline resonated with a subset of your target market represented by that 30% of total conversions. If you decide to go with Variant A, you might end up alienating people who prefer Variant B — thereby hurting your overall Conversion Rate.
+
+Because of my AI startup experience, I have some rudimentary knowledge of Tensorflow, and it seemed like a perfect tool for this problem. The goal was to predict the headline a user will most likely convert on before the page renders. The time restriction for gathering data and making a prediction forced me to rely on client-side attributes for the feature list. Using free services, I was able to find the real IP address of the visitors and subsequently the city they were from. Another API call gave me the current weather conditions in their city.
+
+I had to assign a numeric id to the browsers, OS and city names because Machine Learning models use statistics which makes them incapable of digesting words. Due to the sheer number of cities in the world, I restricted the scope of the ML experiment to Canada — even then, there were hundreds of cities to tag, and it became a mini-project on its own.
+
+In the end, we had the following features to train our model:
+
+timezone — browser name — OS name — browser’s default language — cookie enabled — java enabled — screen width — screen height — screen color depth — the day of the week — the hour of the day — city — min forecast temperature of the day — max forecast temperature of the day — wind speed — wind direction — visibility — atmospheric pressure
+
+To come up with the variations of headlines, we surveyed our colleagues on the “front line”: the Admission Advisers. In essence, we weren’t just trying to predict the best headline, we were trying to guess the intent of a prospect, and in my opinion, no one understands it better than your sales team.
+
+The survey showed that most of our students belonged to two broad categories:
+
+Working professionals who want to get ahead in their careers. Youth who want to enjoy the freedom of studying from anywhere.
+
+To appeal to those two categories, we created the following two website headlines:
+
+BBA For The Working Professional Study for your BBA from Anywhere
+
+The two variants
+
+Now, with our feature set and headline variations locked in, it was time to collect data. The plan was to run each headline until we had 100 data points. Since the Landing Pages were built using Vue.js framework, getting the page to collect data and, at a later stage, make real-time predictions was relatively easy.
+
+It took us four weeks to collect the data — we ran each headline for roughly two weeks and gathered attributes of visitors who converted on those headlines. During that time, I coded the pipeline to make predictions and re-train the model. To keep things simple, I used the Softmax Regression Machine Learning model.
+
+When we had 100 data points for each of the headlines, it was time to train the ML model. I have a confession to make: ideally, at this stage, I should have performed something called Feature Engineering, where you root out insignificant features and combine features that show a strong correlation. But in my eagerness to get the solution out the door as soon as possible, I postponed Feature Engineering to a later date.
+
+The first pass at training the model gave us an accuracy of only 52% — still superior to a coin-flip but we had to do way better than that for the ML model to be viable. Tinkering with hyper-parameters bumped up the accuracy to 67% — not optimum, but we were training the model with 160 data points (40 data points for testing), and we couldn’t possibly expect the performance to be any better than this. Over time, with constant retraining, the accuracy was expected to increase.
+
+Adjusting hyper-parameters to improve the accuracy
+
+There was some housekeeping required before we deployed the model. For example, we had to optimize page load speed to compensate for extra milliseconds added by the real-time prediction algorithm. The strategy was to initially roll out the model for 20% of the total sessions and if things go well, keep increasing that percentage every week by 20% until we achieved a distribution where 80% of the traffic was going to the ML powered page, and 20% was going to the regular page. The reason why we wanted 20% of the traffic to always go to the non-ML powered page was to train the model continuously (our explore exploit strategy).
+
+A month into the deployment, we noticed an increase of 4% in the conversion rate. That number doesn’t look exciting, but for a company that spends millions of dollars on PPC ads, that’s something.
+
+Another metric showed considerable improvement which came as a complete surprise: the time spent by visitors on the page went up by 25%. Since Google’s algorithm rewards websites for user engagement, increase in session duration caused our Cost Per Click to go down by a considerable amount — making our leads cheaper.

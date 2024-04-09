@@ -1,0 +1,199 @@
+Language Models
+
+Generating lyrics automatically is a trivial task. The general way of generating a sequence of text is to train a model to predict the next word/character given all previous words/characters.
+
+The engines that power text generation scripts are called Statistical Language Models, or simply Language Models.
+
+Statistical Language Models
+
+A Language Model is a probabilistic model that can predict the next word of a sequence given the sequence of previous words itself, trying to capture the statistical structure (i.e. latent space) of the text it’s trained on. Technically speaking, it is just a probability distributions over a sequence of words P (w1, w2 , … , wₘ) , from which we iteratively draw the most likely next word evaluating P ( wₙₑₓₜ | w1, w2 , … , wₘ ). This is also part of what happens behind the scenes when Google autocompletes our weird queries (providing even weirder suggestions) and our boring Christmas greetings e-mails.
+
+Apparently, Google Search doesn’t have a good opinion on Christmas songs either
+
+Character-Based Neural Language Models
+
+Language models can be developed at characters level too. The main benefits of character-based language models are their small vocabulary and the flexibility in handling any words, punctuation and particular text structures. This comes at the cost of having bigger models and longer training times.
+
+The most common family of ML techniques used to build Language Models nowadays is Recurrent Neural Networks (RNNs), a powerful type of Neural Network capable of remembering and processing past information through their hidden state neurons.
+
+A simple example of RNN (with a single 3-units hidden layer) forward pass using the training sequence “hello”. For each (one-hot encoded) character in the sequence, the RNN predicts the next character assigning a confidence score to every character in the vocabulary ([“h”, “e”, “l”, “o”]). The objective of the network is to learn the set of weights that maximizes the green numbers in the output layer and minimize the red ones.
+
+When enough data are available, RNNs in their Long Short-Term Memory (LSTM) flavor are preferable due to the fact that they can capture more complex text dependencies and deal better with the exploding/vanishing gradient problem.
+
+Christmas Lyrics Generator
+
+In order to generate our Christmas lyrics, we need a proper data source. Luckily for us, the Internet is plenty of lyrics sites that can be easily scraped.
+
+Data Preparation
+
+Once we get our data source, we need to build the corpus importing the raw text and applying some ordinary text preprocessing like (undesired) punctuation removal and lowercasing.
+
+Since we are working on character-based language models, text must be mapped on a character level. Therefore, a unique character vocabulary has to be built.
+
+The inputs of our Neural Network will be sequences of characters. Thus, we split the corpus into maxlen-sized sequences, sampled every step characters.
+
+Model Design and Training
+
+In this article, we’ll try to build the simplest character-based neural language model possible: a 128-sized single-layered LSTM with softmax activation.
+
+Remember that input sequences and outputs must be one-hot encoded.
+
+The network is trained for 1000 epochs, although the loss seems to stop decreasing significantly after 500–600 epochs.
+
+(Depending on your hardware, this might take from a few hours to several days. Feel free to lower down the number of epochs in order to get your model trained within a reasonable time frame)
+
+The loss stops decreasing significantly after 500 epochs approximately
+
+Text Generation
+
+Once the model is trained, we can start predicting. Given a sequence of characters, the model uses its weights to output a character distribution from where we can sample the next character, iterating the process as long as we like. The way we sample the next character from the output distribution is crucial.
+
+If we always pick the most likely word, the language model training objective causes us to get stuck in loops like “Merry Christmas. Merry Christmas. Merry Christmas”. Which can be considered a legit Christmas carol to be fair, but is probably not what we want to achieve here.
+
+Even if we sample from the distribution, we still need to be careful as the most unlikely tokens might represent a big part of the probability mass. Let’s consider, for instance, that the bottom 50% of the characters tokens has an aggregate probability of 25%. This means that we have 1 chance out of 4 to go off-road, causing an unstoppable error propagation across the whole generation process.
+
+Inspired by statistical thermodynamics, Temperature Sampling is one of the most used sampling methods for text generation. High temperature here means that low energy states are more likely encountered. Therefore, lower temperatures make the model increasingly confident in its top choices, while temperatures greater than 1 decrease confidence.
+
+Results
+
+Let’s see what we get using a temperature of 0.2 and the seed:
+
+“Thank God it’s Christmas
+
+for one day.
+
+Thank God it’s Christmas”
+
+After the first epoch, we achieve something like this:
+
+“Thank God it’s Christmas
+
+for one day.
+
+Thank God it’s Christmas
+
+ooas ih e yl a t e a dle sl an ioe ss th h ihet e ei nen ut seihl ia eet oh ehrn s s lt tee a netert tls otl lo ar e rp h d htl th eotr ene rn h eelianees e hh gi oh hli’e tt ahde o etreaolti atha l n loea rii so n etaeraioio m sl en hlnl t reh e e etr r eir sa ee tr eta eee awrmsesur ru uete errea […]””
+
+Clearly, the model didn’t have time to learn anything about the language of the corpus it is trained on. Here are the lyrics after 10 epochs:
+
+“Thank God it’s Christmas
+
+for one day.
+
+Thank God it’s Christmas
+
+I don’t want to you a little bettle mistletoe
+
+and the star of the stars a star of the stars the children and stars the star who tree.
+
+I want a star of the stars
+
+and the stars and Santa Claus
+
+I want to see the Christmas tree. […]”
+
+It looks like 10 epochs are enough to understand how to stick characters together to get words and sentences, but still not enough to learn the higher structures of the language itself. Note that the resulting model gets stuck in a loop on the word “star” and generally fails in generating something that makes sense.
+
+After 100 epochs, we get:
+
+“Thank God it’s Christmas
+
+for one day.
+
+Thank God it’s Christmas
+
+and a happy new year
+
+and I hall like the world every over the mistletoe
+
+I wish I can to know
+
+I wish you windows to your blood
+
+and I can’t bell me home for Christmas and when it’s Christmas eve
+
+I wanna se Christmas morning
+
+about the sky, because the snow is fall […]”
+
+which is already something an illiterate Christina Aguilera could sing on. Structure and recurrent themes of Christmas carols start emerging, together with creepy nonsense like the “I wish you windows to your blood” line, which sounds more like black metal than Christmas.
+
+Fast-forwarding to 1000 epochs:
+
+“Thank God it’s Christmas
+
+for one day.
+
+Thank God it’s Christmas
+
+you’ ll be what you want
+
+I wish you joy. What a bur and bright
+
+and the mother know early
+
+I don’t your way to hear
+
+I have hold you a kid, fate I wish you a man near mer.
+
+Her handling a thing for the snow.
+
+It’s Christmas time
+
+It’s Christmas time
+
+Christmas without give me a Christmas song
+
+a Christmas bell is ringing. […]”
+
+Now we definitely got something! Nonsense is still there, but the overall quality of the lyrics is decent and the whole thing might sound meaningful.
+
+Lastly, we might consider tweaking a bit with the hyperparameters of our model. For instance, we can try to sample longer and/or more distant input sequences increasing the maxlen and step parameters in the data preprocessing phase. Intuitively, increasing the maximum length of the input sequences means feeding the model with more context to learn from, so we expect better results.
+
+This is what we can get when maxlen is increased from 70 to 120:
+
+“[…] and open wide our heavenly home
+
+make safe the way that leads on high,
+
+and close the path to misery. O come the here and shook
+
+the spend of a Christmas songs
+
+I be a little passing all the night
+
+and in a right bar inning, hallelujah? and all the things of son
+
+that I want in the sky wing
+
+I believe in Santa Claus
+
+I believe I pound the street
+
+to see him rousing all the toys
+
+a time of ghembow keeps and loves, and snow gloria! through the snows of the sky
+
+to see the story Christmas tree, oh Christmas day.
+
+the son of God son of births and down
+
+the son of God son of births and down I’m gonna send the stars and snow
+
+and I want a hippo. […]”
+
+Not sure if it can be considered qualitatively better than the previous one, but next Christmas I will ask for a hippo too.
+
+Conclusion
+
+Future Development
+
+Single-layered LSTMs are just the starting point of Neural Language Modelling, as much more complex networks can be designed to better address the problem of text generation.
+
+We have already seen how hyperparameters can play an important role in developing a decent text generator. We might therefore consider to stack more (bigger) layers in our network, to tune the batch size and to experiment more with different sequence lengths and temperatures as well.
+
+Further Readings
+
+In order to keep the reading accessible to everyone, this article deliberately avoids diving deep into the mathematical and probabilistic fundamentals of neural networks and NLP. Here’s a shortlist of sources where you can explore some of the topics we’ve left behind:
+
+Please leave your thoughts and suggestions in the comments section and share if you find this helpful!

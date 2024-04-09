@@ -1,0 +1,19 @@
+How To Use Deep Learning Even with Small Data
+
+You’ve heard the news — deep learning is the hottest thing since sliced bread. It promises to solve your most complicated problems for the small price of an enormous amount of data. The only problem is you are not working at Google nor Facebook and data are scarce. So what are you to do? Can you still leverage the power of deep learning or are you out of luck? Let’s take a look at how you might be able to leverage deep learning even with limited data and why I think this might be one of the most exciting areas of future research.
+
+Start Simple
+
+Before we discuss methods for leveraging deep learning for your limited data, please step back from the neural networks and build a simple baseline. It usually doesn’t take long to experiment with a few traditional models such as a random forest. This will help you gauge any potential lift from deep learning and provide a ton of insight into the tradeoffs, for your problem, of deep learning versus other methods.
+
+Get More Data
+
+This might sound ridiculous, but have you actually considered whether you can gather more data? I’m amazed by how often I suggest this to companies, and they look at me like I am crazy. Yes — it is okay to invest time and money into gathering more data. In fact, this can often be your best option. For example, maybe you are trying to classify rare bird species and have very limited data. You will almost certainly have an easier time solving this problem by just labeling more data. Not sure how much data you need to gather? Try plotting learning curves as you add additional data and look at the change in model performance.
+
+Fine-Tuning
+
+Photo by Drew Patrick Miller on Unsplash
+
+Okay. Let’s assume you now have a simple baseline model and that gathering more data is either not possible or too expensive. The most tried and true method at this point is to leverage pre-trained models and then fine-tune them for your problem.
+
+The basic idea with fine-tuning is to take a very large data set which is hopefully somewhat similar…

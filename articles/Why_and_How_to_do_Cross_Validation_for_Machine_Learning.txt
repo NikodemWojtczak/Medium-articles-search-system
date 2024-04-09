@@ -1,0 +1,27 @@
+Want to be inspired? Come join my Super Quotes newsletter. 😎
+
+Cross-validation is a statistical technique for testing the performance of a Machine Learning model. In particular, a good cross validation method gives us a comprehensive measure of our model’s performance throughout the whole dataset.
+
+All cross validation methods follow the same basic procedure:
+
+(1) Divide the dataset into 2 parts: training and testing
+
+(2) Train the model on the training set
+
+(3) Evaluate the model on the testing set
+
+(4) Optionally, repeat steps 1 to 3 for a different set of data points
+
+More thorough cross validation methods with include step 4 since such a measurement will be more robust to biases that may come with selecting a particular split. Bias that comes from selecting a particular part of the data is known as Selection Bias.
+
+Such methods will take more time since the model will be trained and validated multiple times. But it does offer the significant advantage of being more thorough as well as having the chance to potentially find a split that squeezes out that last bit of accuracy.
+
+Aside from Selection Bias, cross validation also helps us with avoiding overfitting. By dividing the dataset into a train and validation set, we can concretely check that our model performs well on data seen during training and not. Without cross validation, we would never know if our model is amazing worldwide or just on our sheltered training set!
+
+With all that theory being said, let’s take a look at 3 common cross validation techniques.
+
+An illustration of how overfitting works
+
+Holdout
+
+Holdout cross validation is the simplest and most common. We simply split the data into two sets: train and test. The train and test data must not have any of the same data points. Generally, this split will be close to 85% of the data for training and 15% of the data for testing. The diagram below illustrates how holdout cross validation would work.

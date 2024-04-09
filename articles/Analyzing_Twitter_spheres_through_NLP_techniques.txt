@@ -1,0 +1,13 @@
+Analyzing Twitter spheres through NLP techniques
+
+Exploring a dataset of 8 categories x 10 accounts x 10000 tweets using sentiment analysis, word clouds, and recurrent neural networks Sejal Dua · Follow Published in Towards Data Science · 21 min read · Dec 5, 2019 -- 1 Share
+
+By Sejal Dua and Camille Bowman
+
+Introduction
+
+Twitter is a platform used for all types of communication: shower thoughts, funny encounters, serious news, and more. We were curious about how different types of accounts used Twitter. We looked at 10 big accounts in 8 categories: fast food, airlines, sports leagues, colleges, tech companies, streaming services, news outlets, and celebrities. Using their tweets, we examined the patterns in the words the accounts used through sentiment analysis, word clouds, networks, and recurrent neural networks.
+
+Data Collection
+
+Initially, our plan was to use the Twitter API and the tweepy library to obtain a dataset primarily composed of popular hashtags and geolocation data corresponding to the usage of those hashtags. However, we soon discovered that, with our free developer account, the Twitter REST API would only permit us to mine tweets from the past 7 days, and even if we were to pay, we could only feasibly get our hands on 100 tweets per day. Upon doing some more research, we learned that there were some workarounds. For example, there was a page scroller that could surpass the rate limit of our API queries. But once we started gathering trending tweet data, we faced yet another issue. Twitter is a platform on which users can fully engage with endless content and a vast network of users without ever having to give any location data. People can voluntary check into a location, but this location was often something incredibly vague and quirky (e.g. “Earth”). We assessed all of these factors and determined that the obstacles ahead would be too difficult to overcome given the timeline of our project and the whole overarching purpose of it: to collect big data and use powerful techniques to gain insights from it. From there, we knew we had to find an alternative method of data collection, and we also had to redefine our research question to one that did not involve visualizing geolocation data on a map.

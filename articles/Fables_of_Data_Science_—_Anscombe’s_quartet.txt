@@ -1,0 +1,35 @@
+Fables of Data Science — Anscombe’s quartet
+
+A fable is a short story that teaches a lesson or conveys a moral. Here we explore Anscombe’s quartet and see what horror it warns us against. dearC · Follow Published in Towards Data Science · 5 min read · Jul 18, 2019 -- Share
+
+Once upon a time..
+
+..in a land far far away there used to live a man called Francis John “Frank” Anscombe. He was a statistician of great repute.
+
+He wandered far and wide meeting many fellow practitioners and sat in the Citadel training young apprentices in the sacred art of statistics. The more he talked and trained people he saw a dangerous trend. People tended to ignore visualizations in favor of summary statistics. Everyone said it was too much effort to plot the data.
+
+A worried Frank is a Red Frank
+
+This was a dangerous, Frank was very worried. This plague was spreading was spreading fast, he did not have the time counter it. He had to do something, something that would help stop it.
+
+So he rushed to talk to the council of olders but every one just laughed at him.
+
+“When you have the data’s mean,
+
+What else do you want to examine?
+
+Standard deviation is just sublime,
+
+Plotting is a big waste of time!” — Master PoorPoetrix
+
+Frank had never anticipated that the Council too was poisoned, he had to open their eyes.
+
+So he traveled, traveled northwards into the Lands of Always Winter, to the peak of the Frostfang mountains. There he sat, deep in meditation. And after 5 minutes he realized that it is shit cold out in the mountains and he should have packed more woolen clothes.
+
+Shivering in cold he went around looking for a cave to settle in and as luck would have it he found one.
+
+There Frank meditated and he mediated deep,
+
+though some claimed he just fell asleep.
+
+In his dreams he saw numbers, numbers and more numbers and it was then that he realized that the numbers were the key to his solution. Day after day he pondered on those numbers and finally he solved their mystery.

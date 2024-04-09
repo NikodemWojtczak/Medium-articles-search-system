@@ -1,0 +1,21 @@
+Laying the foundation for PACF: The auto-regressive time series
+
+There are many phenomena in which the past influences the present. The events of yesterday can be used to foretell what will happen today. When such phenomena are represented as a time series, they are said to have an auto-regressive property. In an auto regressive time series, the current value can be expressed as a function of the previous value, the value before that one and so forth. In other words, the current value is correlated with previous values from the same time series.
+
+If a time series is auto-regressive it is often the case that the current value’s forecast can be computed as a linear function of only the previous value and a constant, as follows:
+
+(Image by Author)
+
+Here T_i is the value that is forecast by the equation at the ith time step. Beta0 is the Y-intercept of the model and it applies a constant amount of bias to the forecast. It also specifies what will be the forecast for T_i if the value at the previous time step T_(i-1) happens to be zero. Beta1 tells us the rate at which T_i changes w.r.t. T_(i-1).
+
+The key assumption behind this simple equation is that the variance in T_(i-1) is able to explain all the variance expressed by all values that are older than T_(i-1) in the time series. It is as if T_(i-1) captures all the information associated with values older than itself.
+
+But what if this assumption were not true? What if the variance in T_(i-1) is not able to explain all of the variance contained within T_(i-2)? In that case, the above equation will not be able to feed this unexplained portion of the variance from T_(i-2) into T_i, causing the forecast for T_i to go off the mark.
+
+Fortunately it’s easy to fix this problem adding a term to the above equation as follows:
+
+(Image by Author)
+
+In this equation the extra term Beta2*T_(i-2) seeks to capture the variance contained in values that are older than T_(i-1) that could not be explained by the variance in T_(i-1). It feeds this balance amount of information directly into the forecast for today’s value T_i.
+
+With the background established let’s build the definition and the formula for the partial auto-correlation function.

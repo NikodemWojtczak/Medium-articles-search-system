@@ -1,0 +1,19 @@
+Read the news and you read about the great successes and developments that have occurred within the field of machine learning and artificial intelligence. But root around for a bit and you will find areas where data science has picked up some of the sins of the past.
+
+Photo by Trym Nilsen on Unsplash
+
+Learned Biases in Machine Learning
+
+I thought this would be a good area to cover due to the recent BBC News article that highlighted that because facial recognition software being adopted by the UK police is trained on predominantly white Europeans the system would suffer a much higher error rate with anyone falling outside that group. The article highlighted it could result in much higher false identifications for black and minority ethnic people.
+
+Sadly, this is not a one-off case and if you root around in the news a bit you will find several articles that talk about the problems of machine learning bias.
+
+In 2013 a medical school used prior application results to grade CV’s for the first round of interview selection. It was shown later to display downgrading to non-European sounding names and to females.
+
+In a similar repeat in 2018 Amazon shut down its automated hiring due to a clear bias towards males.
+
+Actually sexism and racism being apparent in algorithms is something some people have debated quite a bit (especially in medical fields, here and here) and boils down to the data itself (and sometimes the algorithm designers) containing a bias that the algorithm picks up on. For a lot of the above technical and higher medical fields are male dominated and the algorithm sees that as a strong indicator of success and uses it (and when it makes predictions on past data it comes out with a good accuracy by using it which only reinforces it).
+
+Why is this important?
+
+For any ethical or moral reason this is behaviour we do not want as the top most reason. It is also important for the health and standing of data science because one of its touted advantages is that it removes the person from the equation making an unbiased and superior decision as a result. If however, it turns out we are teaching it our own prejudices and potentially amplifying them.

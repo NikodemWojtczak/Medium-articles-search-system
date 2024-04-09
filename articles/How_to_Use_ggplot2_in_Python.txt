@@ -1,0 +1,49 @@
+Introduction
+
+Thanks to its strict implementation of the grammar of graphics, ggplot2 provides an extremely intuitive and consistent way of plotting your data. Not only does ggplot2’s approach to plotting ensure that each plot comprises certain basic elements but it also simplifies the readability of your code to a great extent.
+
+However, if you are a frequent user of Python, then implementing the grammar of graphics can be extremely challenging due to the lack of standardized syntax in popular plotting libraries, such as matplotlib or seaborn. Should you still want to make use of the grammar of graphics, then the Python package plotnine provides an alternative for you.
+
+The Grammar of Graphics
+
+In case you should be unfamiliar with the grammar of graphics, here is a quick overview:
+
+Main Components of the Grammar of Graphics
+
+As you can see, there are several components that make up the grammar of graphics, starting with your data. After identifying the data you would like to visualize, you have to specify the variables you are interested in. For instance, you might want to display one variable on the x-axis and another on the y-axis. Third, you have to define what type of geometric object (geom for short) you would like to utilize. This could be anything from a bar plot to a scatter plot or any of the other existing plot types.
+
+These first three components are compulsory. Without data, there is nothing to plot. Without axis definitions, there is nothing to plot either. And finally, without defining a geometric object, you will only see an empty coordinate system. The remaining components making up the grammar of graphics are optional and can be implemented to improve visualizations. Facets refer to specifications of subplots, that is, plotting several variables within your data next to one another in separate plots. Statistical transformations mainly refer to the inclusion of summary statistics in your plot, such as the median or percentiles. Coordinates describe the different coordinate systems available to you. The most used and default coordinate system is the Cartesian coordinate system. Depending on the structure of the data you would like to plot, lesser used coordinate systems, such as the Polar coordinate system, might provide a better way of visualizing your data. Finally, themes provide a variety of options to design all non-data elements of your plot, such as the legend, background, or annotations.
+
+While there are many ways of visualizing the grammar of graphics, I particularly like the one I created above because it implies the additivity of these layers as well as the fact that they are building upon one another. If you have ever used ggplot2, you are familiar with the ‘+’ in its syntax that symbolizes the same idea described above.
+
+plotnine
+
+plotnine is a Python package allowing you to use ggplot2-like code that is implementing the grammar of graphics. By doing so, just as in ggplot2, you are able to specifically map data to visual objects that make up the visualization. This enables you to improve both the readability as well as the structure of your code. While you could set matplotlib’s style to ggplot, you cannot implement the grammar of graphics in matplotlib the same way you can in ggplot2.
+
+Installation
+
+Before getting started, you have to install plotnine. As always, there are two main options for doing so: pip and conda.
+
+Plotting
+
+Having installed plotnine, you can get started plotting using the grammar of graphics. Let us begin by building a very simple plot only using the three requisite components: data, aesthetics, and geometric objects.
+
+Building a plot using the grammar of graphics
+
+As you can see, the syntax is very similar to ggplot2. First, we specify the data source. In our case, the data we are using is the classic mpg data set. Next, we define that the variable ‘class’ is going to be displayed on the x-axis. Lastly, we say that we would like to use a bar plot with bars of size 20 to visualize our data. Let us look at the complete code and the resulting plot:
+
+The code above will yield the following output:
+
+While this is a good start, it is not very nice to look at yet. Let us use other components of the grammar of graphics to beautify our plot.
+
+For instance, we could flip the axes using coord_flip() and customize the plot and axes titles with labs() to improve our plot. Using the code chunk above, our plot would look like this:
+
+Plotting Multidimensional Data
+
+Besides basic plots, you can do almost everything you could otherwise do in ggplot2, such as plotting multidimensional data. If you would like to visualize the relationships between three variables you could add aesthetics to an otherwise two-dimensional plot:
+
+Adding color to the aesthetics will prompt plotnine to display a two-dimensional plot using displ (engine displacement, in liters) on its x- and hwy (highway miles per gallon) on its y-axis and color the data according to the variable class. We have also switched the geometric object to geom_point(), which will give us a scatter instead of a bar plot. Let us take a look at what that would look like:
+
+Conclusion
+
+As you can see, plotnine provides you with the ability to utilize the grammar of graphics within Python. This increases the readability of your code and allows you to specifically map parts of your data to visual objects. If you are already familiar with ggplot2, then you won’t have to learn anything new to master plotnine. If not, here is a link to the ggplot2 website on which you can find out plenty more about the grammar of graphics and all types of geometric objects available to you.

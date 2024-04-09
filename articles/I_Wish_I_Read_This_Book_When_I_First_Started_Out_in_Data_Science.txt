@@ -1,0 +1,23 @@
+I Wish I Read This Book When I First Started Out in Data Science
+
+That could have saved me from tons of mistakes and made my learning journey much more effective Admond Lee · Follow Published in Towards Data Science · 4 min read · May 24, 2019 -- 2 Share
+
+Before digging into the awesome resources I know and trust, an important disclosure: Some of the links below are affiliate links, which means that if you choose to make a purchase, I will earn a commission. This commission comes at no additional cost to you. Please understand that I have experience with all of these resources, and I recommend them because they are helpful and useful, not because of the small commissions I make if you decide to buy something. Please do not spend any money on these resources unless you feel you need them or that they will help you achieve your goals.
+
+Alright, now we have the full disclosure. Let’s dive straight in.
+
+If you’ve read my article — How To Go Into Data Science?, particularly at the part where I recommended a list of books for beginners to kick started their journey in data science, this book — Confident Data Skills wasn’t in the list yet as I hadn’t read the book at the time of writing, not until now.
+
+To be honest with you, I learned the skills mentioned in this book through trials and errors — basically mistakes and hard lessons — that I eventually documented the 5 lessons I have learned from data science in real working experience.
+
+Don’t get me wrong.
+
+I’m not saying that learning from your mistakes throughout your journey is not a good way.
+
+It’s a good way, but perhaps not the best way.
+
+What I’m saying is that learning from mentors — people who are already successful and have been through the path where you are now — is much more effective and is able to shorten your learning time tremendously by standing on their shoulders and learning from their experience.
+
+YES, find mentors that can help your career path in data science, be it in persons, books, courses, webinars, or coaching program.
+
+And recently, I had the chance to read this book — Confident Data Skills written by Kirill Eremenko — the Founder and Director of SuperDataScience as well as the instructor of…

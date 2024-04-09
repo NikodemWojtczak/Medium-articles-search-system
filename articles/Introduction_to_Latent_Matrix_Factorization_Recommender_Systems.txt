@@ -1,0 +1,55 @@
+Latent Factors are “Hidden Factors” unseen in the data set. Let’s use their power. Image URL: https://www.3dmgame.com/games/darknet/tu/
+
+Latent Matrix Factorization is an incredibly powerful method to use when creating a Recommender System. Ever since Latent Matrix Factorization was shown to outperform other recommendation methods in the Netflix Recommendation contest, its been a cornerstone in building Recommender Systems. This article will aim to give you some intuition for when to use Latent Matrix Factorization for Recommendation, while also giving some intuition behind why it works. If you’d like to see a full implementation, you can go to my Kaggle kernel: Probabilistic Matrix Factorization.
+
+Before starting, let’s first review the problem we’re trying to solve. Latent Matrix Factorization is an algorithm tackling the Recommendation Problem: Given a set of m users and n items, and set of ratings from user for some items, try to recommend the top items for each user. There are many flavors and alternate deviations of this problem, most of which add more dimensions to the problem, like adding tags. What makes Latent Matrix Factorization powerful is that it yields really strong results from the core problem, and can be a good foundation to build from.
+
+When working with an User-Item matrix of ratings, and reading an article on matrix factorization, the first place to look is in linear algebra. That intuition is correct, but its not exactly what you’d expect.
+
+Sparse and Incomplete Matrix Algebra:
+
+Traditional Linear Algebra is the bedrock of Machine Learning, and that is because most machine learning applications have something Recommender Systems do not: a data-set without NaNs(incomplete data entries). For example, whenever you’re constructing a model, NaNs, or missing data, are pruned in the data pre-processing step, as most functions cannot work with unfilled values. Functions like Principal Component Analysis are undefined if there are missing values. However, Recommender Systems cannot work if you get rid of NaNs. Those NaNs exist for a reason: not every user has rated every item, and its a bit nonsensical to expect them to. Working with Sparse data is something that can be very different — and that’s what makes Recommendation an interesting problem.
+
+Sparsity complicates matters. Singular Value Decomposition, a factorization of a m x n Matrix into its singular and orthogonal values, is undefined if any of the entries in the Matrix are undefined. This means we cannot explicitly factorize the Matrix in such a way where we can find which we can find which diagonal(or latent) factors carry the most weight in the data set.
+
+Instead, we’re going to approximate the best factorization of the Matrix, using a technique called Probabilistic Matrix Factorization. This technique is accredited to Simon Funk who used this technique in his FunkSVD algorithm to get very successful in the Netflix contest. For more reading, check out Simon’s original post.
+
+The Approach:
+
+I’ll explain the algorithm, then explain the intuition.
+
+We’ll first initialize two matrices from a Gaussian Distribution(alternatively, randomly initialize them). The first one will be a m x k matrix P while the second will be a k x n matrix Q. When these two matrices multiply with each other, they result in an m x n matrix, which is exactly the size of our Rating matrix in which we are trying to predict. The dimension k is one of our hyper-parameters, which represents the amount of latent factors we’re using to estimate the ratings matrix. Generally, k is between 10–250, but don’t take my word for it — use a line search(or grid search) to find the optimal value for your application.
+
+With our Matrices P, Q, we’ll optimize their values by using Stochastic Gradient Descent. Therefore, you’ll have two more hyper-parameters to optimize, learning rate and epochs. For each Epoch, we’re going to iterate through every known rating in our original m x n matrix.
+
+Then, we’ll get a error or residual value e by subtracting the original rating value by the dot product of the original ratings’ user’s row in P and its item’s column in Q.
+
+In normal Stochastic Gradient Descent fashion, we’ll update both of the matrices P and Q simultaneously by adding the current row for P and Q by the learning rate times the product of the error times the other Matrix’s values.
+
+Here it is in python. View it fully in my Kaggle Kernel.
+
+#randomly initialize user/item factors from a Gaussian
+
+P = np.random.normal(0,.1,(train.n_users,self.num_factors))
+
+Q = np.random.normal(0,.1,(train.n_items,self.num_factors))
+
+#print('fit') for epoch in range(self.num_epochs):
+
+for u,i,r_ui in train.all_ratings():
+
+residual = r_ui - np.dot(P[u],Q[i])
+
+temp = P[u,:] # we want to update them at the same time, so we make a temporary variable.
+
+P[u,:] += self.alpha * residual * Q[i]
+
+Q[i,:] += self.alpha * residual * temp self.P = P
+
+self.Q = Q self.trainset = train
+
+
+
+Now that we have the algorithm, why does it work and how do we interpret it’s results?
+
+Latent factors represent categories that are present in the data. For k=5 latent factors for a movie data-set, those could represent action, romance, sci-fi, comedy, and horror. With a higher k, you have more specific categories. Whats going is we are trying to predict a user u’s rating of item i. Therefore, we look at P to find a vector representing user u, and their preferences or “affinity” toward all of the latent factors. Then, we look at Q to find a vector representing item i and it’s “affinity” toward all the latent factors. We get the dot product of these two vectors, which will return us a sense of how much the user likes the item in context of the latent factors.

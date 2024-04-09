@@ -1,0 +1,7 @@
+This is the second post of a series I’m writing about dialogues from my company’s internal Slack group. You can check out the first one here.
+
+If you’re joining us now, we run a private Slack group that’s half experienced data scientists, and half aspiring data scientists. The aspiring half tends to ask great questions, and the experienced half tends to give great answers.
+
+The question we’ll look at today is: When you’re actively job hunting, how should you divide your time between the job hunt itself— applying, interviewing, networking — and keeping your technical skills sharp?
+
+This question comes up a lot. It’s very hard to balance both! Luckily, there are great tactics to make this easier which you’ll find in today’s conversation.

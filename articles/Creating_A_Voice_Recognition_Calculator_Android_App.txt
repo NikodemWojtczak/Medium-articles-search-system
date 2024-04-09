@@ -1,0 +1,43 @@
+Photo by Andres Urena on Unsplash
+
+Automatic Speech Recognition is one of the most famous topics in Machine Learning nowadays, with a lot of newcomers every day investing their time and expertise into it. In this post, we will build a simple end-to-end voice-activated calculator app that takes speech as input and returns speech as output. Inputs include integers and basic mathematical operators, while outputs are the result of the operation uttered by the user.
+
+What This Tutorial isn’t
+
+A theoretical tutorial on how speech recognition works.
+
+A tutorial on Cloud-based speech APIs like Amazon Polly or Google Cloud Speech.
+
+A tutorial on Java syntax and principles.
+
+A tutorial on how the Java-XML communication works on Android.
+
+A tutorial on Android Material Design.
+
+Prerequisites
+
+Basic Android Development knowledge.
+
+Android Studio (you can use other IDEs like Eclipse, but I will be covering Android Studio in this tutorial).
+
+Desired: Basic API knowledge (with no authentication required).
+
+Tutorial Outline
+
+Creating the Android project
+
+Creating the speech-to-text functionality
+
+Dealing with input values (integers and operators)
+
+Calculating the result
+
+Creating the text-to-speech functionality
+
+Creating The Android Project
+
+Let’s start off by opening Android Studio and starting a new project. If you already have a project open, go to File -> Close Project, then follow the figure below:
+
+Choose Empty Activity then click Next:
+
+Choose the project details you want, or keep everything set to default, then click Finish:

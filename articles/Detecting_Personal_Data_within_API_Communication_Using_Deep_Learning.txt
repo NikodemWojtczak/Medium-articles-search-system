@@ -1,0 +1,131 @@
+Overview
+
+Ever wonder how much personal data is scattered around various organizations? Undefined and untethered, a massive amount of personal data — yours, mine, everyone’s — from the borderline personal to the incredibly specific, is just floating around. Mostly, it’s undetected. Almost always, it’s used by the organization that you gave it to, for good reasons. Sometimes, for questionable reasons. Often (very, very often) it’s sold and used, or mis-used, by a third party (and a fourth, and a fifth….). Too often, that personal data is hijacked and used for nefarious purposes. Given the exponential chances for use and mis-use of personal data online, it’s little wonder that the European Union recently passed the General Data Protection Regulation (GDPR), which came in to effect on May 25th, 2018. California followed suit a month later, with the California Consumer Privacy Act (CCPA). If you wonder how many organizations have hold of your personal data, you’re not alone. But what about those organizations themselves? It’s so difficult and time-consuming to monitor that data. The scariest part of this personal-data nightmare might be that the organizations themselves often have no idea where your personal data is stored, what applications it might be flowing through, or where it might end up. The trend toward regulating the flow and uses of personal data is rising, but how can you regulate what you cannot detect?
+
+One of the pillars of the GDPR regulation is that any application dealing with personal data should be “baked in” with privacy, commonly referred to as Privacy By Design (PbD). This is far from a new definition:
+
+“The Privacy by Design approach is characterized by proactive rather than reactive measures. It anticipates and prevents privacy invasive events before they happen. PbD does not wait for privacy risks to materialize, nor does it offer remedies for resolving privacy infractions once they have occurred — it aims to prevent them from occurring. In short, Privacy by Design comes before-the-fact, not after” A. Cavoukian. Privacy by Design — The 7 Foundational Principles, January 2011.
+
+This follows principles similar to Security By Design (which I believe we’re still far from, unfortunately). Both Privacy and Security by Design sound great. But what do you do with the billions of lines of code that have already been shipped and are working in production, transferring and ingesting personal data? Do we wait for a data leak to happen and then apply a fix? To me that sounds like too little, too late.
+
+In search of inspiration, I started researching a related space: cybersecurity. The more I learned, the more similarities I saw between issues of personal data sharing and cybersecurity. The challenge is similar in terms of having to deal with old, new and unknown threats, living within both applications and infrastructure. A common mitigation mechanism is to continuously monitor network traffic, detecting potentially malicious patterns which may translate to a material threat.
+
+I believe that a threat involving the processing of personal data is as relevant as a cybersecurity threat. In both cases it boils down to exposure, which always translates, in one way or another, to financial loss impacting the organizations responsible for handling personal data records. Which in turn impacts how they handle those personal records; which impacts all of us, sometimes in a really big way.
+
+But enough talking, time to get hands on.
+
+Training Dataset Generation
+
+In order to obtain rather decent results with Deep Learning, a significant number of both positive and negative examples is required for training. The more real-world these examples are, the more accurate the predictions will be.
+
+The first challenge I was confronted with was how to obtain such a huge set of examples, given that by definition personal data is confidential and therefore not publicly available.
+
+There are many ways to obtain this kind of data for detecting application security anomalies, such as leveraging dynamic application security testings (DAST) tools, which comprises generating and capturing malicious traffic and then training an analytics model based on that. However, in our case, traffic containing personal data flows does not imply a security threat, so no coverage is provided by DAST tools or the traffic data they typically generate.
+
+Second challenge? In addition to including fictitious personal data, I would need to encode how personal data is typically conveyed in API communication (e.g. REST) as this is what we’re going to run predictions against. For instance, personal data attributes typically represent only a subset of the entire REST API payload.
+
+Finally, I also needed the network to learn both the personal data and payload regularities. Simply put, it had to learn not only the different shapes of personal records, but also — more importantly — what that personal data looked like upon being exchanged throughout the wire.
+
+The approach I took to tackle these challenges was to craft my very own machine-generated dataset — also known as a synthetic dataset — using schemas as the main source.
+
+The good news is that most popular REST APIs are shipped along an OpenAPI (formerly known as Swagger) descriptor.
+
+The OpenAPI Specification, originally known as the Swagger Specification, is a specification for machine-readable interface files for describing, producing, consuming, and visualizing RESTful web services.
+
+So, given an OpenAPI descriptor, I just had to instantiate a RESTful request based on this blueprint, filling in the blanks with fictitious yet well-formatted values, given the data types. A catalog of up-to-date OpenAPI descriptors is available at https://github.com/APIs-guru/openapi-directory. The dataset generator scans this catalog and instantiates a collection of synthetic request payloads based on it which are then used to train the network.
+
+Here’s the core piece of the synthetic request generator:
+
+One of the limitations of REST APIs is that conveying personal information is avoided as much as possible. Instead, one or more less-sensitive identifiers are used, so that the service can resolve to the corresponding PII without disclosing the full record. This derived in a scenario where there were two few positive examples (i.e. containing PII) leading to a highly unbalanced dataset. The approach I took to mitigate this issue (see lines 21–30) was to over-sample by using the most recent positive example — a PII request payload — as a template to generate additional positive examples comprising a few other randomly chosen PII attributes (e.g. SSN, phone number, etc.).
+
+The project is bundled with a pre-generated training dataset living under data/training.csv.
+
+Here’s an extract of what our “fake” payloads look like:
+
+Now let’s get some metrics of the dataset we’ve generated:
+
+0 19278
+
+1 22607
+
+Request containing PII in dataset: 53.97%
+
+We’ve been able to generate a large enough, and balanced, training dataset.
+
+Not bad, right? Let’s use it.
+
+Choosing the DNN engines
+
+As you probably already know there are several great DNN stacks out there, supporting multiple network topologies. We’ll opt for TensorFlow, which is getting a lot of attention lately as it’s where most of the research in this space is happening so far.
+
+In order to keep the AI-related complexity at arm’s length, as well as to be able to iterate quickly, we’re going to abstract on the specific stack (TensorFlow) and go with Keras, which will take care of the heavy lifting required to set up the network layers.
+
+As our DNN stack is implemented in Python, our solution will need to be implemented using the same language for seamless interoperability.
+
+Learning what “personal” means
+
+Which of the available neural network topologies should we use ?
+
+We’re clearly dealing with information following a given set of rules. For instance, a valid JSON document adheres to specific conventions — specified in its syntax— that we want to to take into account. An example of this is that data is separated by commas, curly braces hold Objects, and so on.
+
+Additionally, values can adhere to a myriad of formats, many of which are location-dependent. For instance, a social security number is different from a phone number. Letting the network learn to discriminate further at this level will improve the accuracy of the prediction. Continuing with the previous example, if the attribute name is “ssn” but the corresponding value doesn’t match the learned SSN format, it would score lower than if it were confronted with a well-formed SSN value.
+
+Bottom line, we have to learn sequences, both for the terms of a JSON document and for the character patterns for values defined within it. So far, the best match for this kind of scenario is LSTM (Long-Short-Term-Memory). The main feature that this type of RNN (Recurrent Neural Network) brings to the table is statefulness. Simply put, upon processing an input it takes into account what it has seen before. It has memory. For instance, if it sees the following JSON key/value pair :
+
+{ “ssn”: “744–22–5837” }
+
+Upon learning the sequence of the value part (i.e. “744–22–5837”) it will consider the previously seen key (i.e. “ssn”), adding more confidence in terms of extracting the correct meaning behind the tokens it processes.
+
+Here are the implementation bits. The LSTM hidden layer is fed with the word embeddings — pretty much a dictionary derived from ingesting text from payloads —with separate dropout layers to reduce overfitting; and finally an output layer to produce the PII classification. We’re going to use 100 epochs, as it’s where the model converges with our synthetic dataset. I’d strongly recommend using decent GPU in order to get through this significantly faster.
+
+Now it’s time to train the neural network. By default it’s going to use the dataset that ships with the project (training.csv).
+
+$ python privapi/train.py
+
+Over 99% accuracy! Everything seems promising so far. Next up? Reality check.
+
+Detect Personal Data
+
+Our trained network model is now ready to predict whether a given JSON payload has PII living within it.
+
+Our classifier will walk the folder with example request payloads, and output the predictions obtained using the previously generated neural network model into a CSV file :
+
+Within the ‘predict’ folder we have two examples we’ll run predictions against.
+
+An example non-sensitive Slack API payload for registering a webhook:
+
+And a sensitive request payload — thus containing PII — for the Magento e-commerce solution:
+
+Let’s run the predictor:
+
+$ python privapi/predict.py
+
+This command will walk the folder with example request payloads and output the predictions into a CSV file named predictions.csv which looks like this:
+
+This demonstrates that, at least with these two examples, our predictor did a really good job.
+
+First it detected that the Magento payload was indeed sensitive, and scored almost 100%. Second, it classified the Slack payload as not sensitive, with ~40% accuracy.
+
+It’s interesting to note that this payload contained what could have been mistakenly considered PII (e.g. first and last name), however it didn’t influence the classification strongly enough for the wrong class to be chosen.
+
+I’d suggest you try with your preferred request payloads and see what you get for an outcome.
+
+Take-home experience
+
+I was honestly positively impressed by how the current state-of-the-art AI can contribute in the Privacy domain, mainly by generating awareness with organizations that process and transfer our personal data. I believe there are so many opportunities for machines to learn how to assist in terms of keeping our personal data safe. I’ve named this project PrivAPI and made it public at Github. Feel free to check it out, kick the tires, and contribute.
+
+Where do we go from here
+
+There’s significant room for improvement with PrivAPI. The main areas are:
+
+Streaming: Pull REST API payloads from an event streaming platform and apply the neural network models to new events in order to infer a result (i.e. whether the payload is confidential or not). Finally, push predictions to arbitrary consumers to act upon this.
+
+Pull REST API payloads from an event streaming platform and apply the neural network models to new events in order to infer a result (i.e. whether the payload is confidential or not). Finally, push predictions to arbitrary consumers to act upon this. Online Learning: Instead of separating training and inference, allow for training from received REST API payloads, so that the overall effectiveness of the solution is improved as it’s learning the API traffic patterns within a specific organization.
+
+Instead of separating training and inference, allow for training from received REST API payloads, so that the overall effectiveness of the solution is improved as it’s learning the API traffic patterns within a specific organization. Neural Network Monitoring and Alerting: Monitoring the neural network model for accuracy, scores, SLAs, and other metrics, and providing automated alerting in real time. Finally, feed back metrics to improve or replace the neural network model.
+
+Monitoring the neural network model for accuracy, scores, SLAs, and other metrics, and providing automated alerting in real time. Finally, feed back metrics to improve or replace the neural network model. Additional payload formats: Processing API traffic expressed using an alternative notation should be pretty straightforward, as the neural network is not coupled to this. Supporting XML API payload, for instance, would allow us to monitor SOAP traffic, which is still still very common particularly in enterprise environments.
+
+Any ideas in terms of what would you would like to see in PrivAPI ? Feel free to comment below and contribute a Github pull request.
+
+Check out the code on GitHub:

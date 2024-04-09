@@ -1,0 +1,41 @@
+Tuning your guitar is crucial when you are at the stage of learning because you are creating connections between your different senses. Your ears, fingers and eyes are all learning the guitar. Getting use to of the guitar sounding out of tone is like creating a bad habit, a habit that will spoil your entire experience of falling in love with guitar learning process.
+
+Tuning your guitar can really assist you in the process of falling in love with guitar. So is the case with hyperparameter tuning for Machine Learning & Deep Learning
+
+Hyperparameters are varaibles that we need to set before applying a learning algorithm to a dataset.
+
+The challenge with hyperparameters is that there are no magic number that works everywhere. The best numbers depend on each task and each dataset
+
+Hyperparameters can be divided into 2 categories:
+
+1) Optimizer hyperparameters
+
+1.1 — Learning rate
+
+1.2 — Mini batch size
+
+1.3 — Number of epochs
+
+2) Model Specific hyperparameters
+
+2.1 — Number of hidden units
+
+2.2 — First Layer
+
+2.3 — Number of layers
+
+1. Optimizer Hyperparameters
+
+They are related more to the optimization and training process
+
+1.1 Learning rate:
+
+The single most important hyperparameter and one should always make sure that has been tuned — Yoshua Bengio
+
+Good starting point = 0.01
+
+If our learning rate is too small than optimal value then it would take a much longer time (hundreds or thousands) of epochs to reach the ideal state
+
+Or, on the other hand
+
+If our learning rate is too large than optimal value then it would overshoot the ideal state and our algorithm might not converge

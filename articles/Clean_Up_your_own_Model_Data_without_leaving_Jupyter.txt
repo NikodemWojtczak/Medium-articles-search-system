@@ -1,0 +1,53 @@
+Clean Up your own Model Data without leaving Jupyter
+
+Many machine learning projects start with a Jupyter notebook, and the first few lines of the notebook load the training data. Beyond a quick sanity check that the data looks about right, it can be disruptive to the flow of your programming if you need to step back out of the notebook to clean up or annotate your data.
+
+This article introduces a new open source tool, Innotater, that provides an interactive Jupyter widget allowing a developer to annotate their data directly inline within the notebook. Having an easy way to clean and augment data can quickly lead to better predictive models.
+
+We will use this approach in a computer vision task to, first of all, manually filter out images that should never have made it into our dataset in the first place, improving a simple butterfly classifier.
+
+We then use Innotater to draw butterfly bounding boxes on a subset of our images. This allows us to train a bounding box prediction model that we run on every image in our dataset so we can generate cropped, zoomed-in versions of the originals. Then we go on to train a new classifier with an improved accuracy since the model doesn’t need to consider as much irrelevant background imagery.
+
+Innotater widget embedded in a Jupyter Notebook
+
+This article is aimed at readers with some existing understanding of computer vision models in Jupyter notebooks who may be interested in finding out about the tools for annotating images, and also the ‘trick’ used to improve the model by drawing our own bounding boxes manually and writing a new model to zoom in on that.
+
+All the code is available in Jupyter Notebooks on GitHub here so you can follow along. It is written in Python and uses fast.ai which is a framework that sits on top of PyTorch. Fast.ai keeps things at a pretty high level and provides best practice defaults, so the deep learning code is light.
+
+Obtaining the Raw Data
+
+The task of building a classifier to identify two different butterfly species is borrowed from a previous Towards Data Science article by Bert Caramans. He wrote a script to download photos from Flickr that are tagged either “Gatekeeper” or “Meadow Brown” — two butterfly species that are notoriously confused when volunteers attempt to count butterfly populations in the wild for conservation purposes.
+
+Our first notebook downloads the images from Flickr. Instead of the usual ‘one folder per class’ file storage model, we actually place all images in one folder and build a CSV file listing the supposed class (based on Flickr tag) of each image. The reasons for doing things this way are so that we can extend the CSV to record our manually-drawn bounding boxes, and also easily change the class of the image if we find that the incorrect species has been identified. We can do these things within the Innotater then easily save the modified classes and bounding boxes back to the CSV.
+
+Filtering and Annotating Data
+
+The Innotater tool is designed to be a quick and easy way to step through your images and mark important facts or augment data on each image.
+
+There are a few things we want to note about each image:
+
+Is the classification correct? If the wrong species label has been assigned to the image, we want to change it easily. Does this image belong in our dataset in the first place? In some cases, albums have been tagged with the butterfly species but not all images are really of butterflies at all. So we want to remove them from our dataset. Bounding boxes around the butterfly. We won’t take the trouble to do this for all images, but at least for some images we will draw a tight bounding box around the butterfly.
+
+Bounding boxes will allow us to build a more accurate model at a later stage, although to build our first simple classifier we only actually need data from the first two points above.
+
+The second notebook is used to perform these steps. Please note that you can’t see the Innotater widget in GitHub previews, so hopefully the screenshot below will bring it to life. We use Pandas to read in the CSV and extract three NumPy matrices that will be fed into the Innotater.
+
+classes is a NumPy list of 0's or 1's specifying whether each image in the dataset is (currently) the Gatekeeper or Meadow Brown species.
+
+excludes is also an array of 0’s or 1’s. It starts off as all 0’s but we may turn an entry to 1 in order to exclude the corresponding image from our dataset going forward.
+
+bboxes is a four-column matrix containing x,y,w,h of our bounding box for each image, where (x,y) is the top left corner of the box, w is the width, and h is the height. These all start as 0’s until we draw any boxes manually.
+
+Each row of the matrices above corresponds to the ‘filename’ column in the Pandas DataFrame which we loaded from the CSV.
+
+We’re nearly ready to invoke the Innotater (at home you’ll need to pip install jupyter_innotater too!), but first we need to think about the order in which we step through the images.
+
+Mixing Things Up
+
+Due to the way the CSV was created, we have nearly 500 images of Meadow Brown butterflies at the start of the file, and then nearly 500 Gatekeeper butterflies in the second half. Since we’re not expecting to draw bounding boxes on every single image — maybe just 200 or so — if we step through in the default order then this causes a problem. If we draw bounding boxes on each image we see until we’ve annotated enough then we’ll only have bounding boxes on a subset of the first butterfly species. Gatekeeper butterflies won’t have any!
+
+So in cell number 7 we use a bit of Python/NumPy manipulation to create a new mapping called indexes which specifies a new ordering based on index numbers. The new ordering shows the first Meadow Brown, then the first Gatekeeper, then the second Meadow Brown, and so on…
+
+Invoke the Innotater!
+
+In order to view and edit all important aspects of the dataset, this is how we cause the user interface of the Innotater to appear:

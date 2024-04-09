@@ -1,0 +1,17 @@
+After several failed ML projects due to unexpected ML degradation, I wanted to share my experience in ML models degradation. Indeed, there is a lot of hype around model creation and development phase, as opposed to model maintenance.
+
+Assuming that a Machine Learning solution will work perfectly without maintenance once in production is a faulty assumption and represents the most common mistake of companies taking their first artificial intelligence (AI) products to market.
+
+The moment you put a model in production, it starts degrading.
+
+Why Do ML Models Degrade With Time?
+
+As you may already know, data is the most crucial component of a successful ML system. Having a relevant data set that provides you with accurate predictions is a great start, but how long will that data continue to provide accurate predictions?
+
+In all ML projects, it is key to predict how your data is going to change over time. In some projects, we underestimated this step and it became hard to deliver high accuracy. In my opinion, as soon as you feel confident with your project after the PoC stage, a plan should be put in place for keeping your models updated.
+
+Indeed, your model’s accuracy will be at its best until you start using it. This phenomenon is called concept drift, and while it’s been heavily studied in academia for the past two decades, it’s still often ignored in industry best practices.
+
+Concept drift: means that the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways. This causes problems because the predictions become less accurate as time passes.
+
+The key is that, in contrast to a calculator, your ML system does interact with the real world. If you’re using ML to predict demand and pricing for your store, you’d better consider this week’s weather, the calendar and what your competitors are doing.

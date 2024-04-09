@@ -1,0 +1,15 @@
+Introduction
+
+One of the main application of Machine Learning is modelling stochastic processes. Some examples of stochastic processes used in Machine Learning are:
+
+Poisson processes: for dealing with waiting times and queues. Random Walk and Brownian motion processes: used in algorithmic trading. Markov decision processes: commonly used in Computational Biology and Reinforcement Learning. Gaussian Processes: used in regression and optimisation problems (eg. Hyper-Parameters tuning and Automated Machine Learning). Auto-Regressive and Moving average processes: employed in time-series analysis (eg. ARIMA models).
+
+In this article, I will briefly introduce you to each of these processes.
+
+Historical Background
+
+Stochastic processes are part of our daily life. What makes stochastic processes so special, is their dependence on the model initial condition. During the last century, many mathematics such as Poincare, Lorentz and Turing have been fascinated and intrigued by this topic.
+
+Nowadays, this kind of behaviour is known as Deterministic Chaos and it is a well-distinct ambit from Genuine Randomness.
+
+The study of chaotic systems came to a breakthrough in 1963 thanks to Edward Norton Lorenz. At that time, Lorentz was working on how to improve weather forecasting. What Lorentz noticed during his analysis, was that even small perturbation in the atmosphere can cause climate changes.

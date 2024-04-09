@@ -1,0 +1,19 @@
+When designing a model to perform a classification task (e.g. classifying diseases in a chest x-ray or classifying handwritten digits) we want to tell our model whether it is allowed to choose many answers (e.g. both pneumonia and abscess) or only one answer (e.g. the digit “8.”) This post will discuss how we can achieve this goal by applying either a sigmoid or a softmax function to our classifier’s raw output values.
+
+Neural Network Classifiers
+
+There are many algorithms for classification. In this post we are focused on neural network classifiers. Different kinds of neural networks can be used for classification problems, including feedforward neural networks and convolutional neural networks.
+
+Applying Sigmoid or Softmax
+
+At the end of a neural network classifier, you’ll get a vector of “raw output values”: for example [-0.5, 1.2, -0.1, 2.4] if your neural network has four outputs (e.g. corresponding to pneumonia, cardiomegaly, nodule, and abscess in a chest x-ray model). But what do these raw output values mean?
+
+We’d like to convert these raw values into an understandable format: probabilities. After all, it makes more sense to tell a patient that their risk of diabetes is 91% rather than “2.4” (which looks arbitrary.)
+
+We convert a classifier’s raw output values into probabilities using either a sigmoid function or a softmax function.
+
+Here’s an example where we’ve used a sigmoid function to transform the raw output values (blue) of a feedforward neural network into probabilities (red):
+
+And here’s an example where we’ve instead used a softmax function to transform those same raw output values (blue) into probabilities (red):
+
+As you can see, the sigmoid and softmax functions produce different results.

@@ -1,0 +1,15 @@
+“Premature optimization is the root of all evil.”
+
+― Donald Ervin Knuth
+
+Agile is a pretty well-known term in the software development process. The basic idea behind it is simple: build something quickly, ➡️ get it out there, ➡️ get some feedback ➡️ make changes depending upon the feedback ➡️ repeat the process. The goal is to get the product near the user and guide you with feedback to obtain the best possible product with the least error. Also, the steps taken for improvement need to be small and should constantly involve the user. In a way, an Agile software development process involves rapid iterations. The idea of — start with a solution as soon as possible, measure and iterate as frequently as possible, is Gradient descent under the hood.
+
+Objective
+
+Gradient descent algorithm is an iterative process that takes us to the minimum of a function(barring some caveats). The formula below sums up the entire Gradient Descent algorithm in a single line.
+
+But how do we arrive at this formula? Well, It is straightforward and includes some high school maths. Through this article, we shall try to understand and recreate this formula in the context of a Linear Regression model.
+
+This article is an adaption of the video titled Mathematics of Gradient Descent — Intelligence and Learning by The Coding Train. This article was initially created as notes to supplement my understanding. I’ll highly recommend to see the video too.
+
+A Machine Learning Model

@@ -1,0 +1,51 @@
+Web Scraping Basics
+
+UNESCO is an organization within the United Nations which fights for the preservation of the world’s natural and cultural heritage. There are many heritage sites around the world including ones that contain natural phenomena such as the Great Barrier Reef. Unfortunately, some of the awarded places are threatened by human intervention. We can deconstruct this human intervention problem with the following questions;
+
+1- Which sites are threatened and where are they located?
+
+2- Are there regions in the world where sites are more endangered than in others?
+
+3- What are the reasons that put a site at risk?
+
+We can look at Wikipedia to find the list of places to further solve these questions. When we go to https://www.wikipedia.org/ and search “List of World Heritage in Danger” we end up with https://en.wikipedia.org/wiki/List_of_World_Heritage_in_Danger Wikipedia page. In this page, we can see a table with columns that provide us with feature information of sites that are in danger.
+
+In this article, we are going to use R as the programming language in terms of scraping the data from the web and loading into a dataframe. Please keep in mind, the article only provides basic web scraping techniques to give us an idea around the process and possible web scraping solutions.
+
+We found the data we want to scrape, the next step is to use R to load required into R.
+
+We have a table that we can load to R using readHTMLTable() function from the XML library we have installed earlier.
+
+We are basically telling R that the imported data come in the form of an HTML document. We did this via parser with the function called htmlParse(). With readHTMLTable() function we are telling R to extract all HTML tables it finds in the parsed heritage_parsed object and store them in heritage_tables.
+
+Now let’s select a table that we can use to get closer to answering the business questions that we have established initially. The table that we want to use, should have the site’s name, location, categorical variable of cultural or natural, year of inscription, and year of endangerment.
+
+We were able to get the data table with the required columns we defined earlier. We can perform simple data cleaning. In order to do that, let's look at the structure of the dataframe.
+
+We have 53 sites and 9 variables. We can see the data type of each variable is not accurate, for example, criteria should be categorical variable between natural or cultural, however in this case we have many factors and the data type is recorded as a character string. We can apply basic cleaning methods to our dataset.
+
+Years variable needs to be numeric, some of the year entries are ambiguous as they have several years attached or combined together. Within those values, we select the last given year by using regular expression, something in the lines of [[:digit:]]4$
+
+Let’s also look at the location variable as it looks a lot messier than the year variable.
+
+This variable actually contains three different values within one row, it has the sites location, country and the geographic coordinates in several varieties. What we can do is to get the coordinates for the map. We can use again regular expressions to extract this information.
+
+We were able to retrieve the coordinates and corresponding world heritage sites. This completes the web scraping and data preparation process for further analysis.
+
+The process of web scraping always includes using tools such as parsing and grabbing tables from the web using R or Python Packages. If we want to summarize the technologies for disseminating, extracting and storing web data we can use the below figure.
+
+The most important phase for web scraping is the initial phase where we define the data requirements. What type of data is most suited to answer our business problem in questions? Is the quality of the data sufficiently high to answer our question? Is the information systematically flawed?
+
+When we grab any data from web, we need to keep in mind the roots of the data. The data might have been collected as part of first party data collection or it can be a secondhand data such as a Twitter post or data that was gathered in an offline environment and posted online manually. However, even if we can't find the source of the data, it makes complete sense for us to use the data that is on the web. The data quality depends on the users purpose and application of the data.
+
+Web Scraping Basics have 5 steps that we can define and follow.
+
+1- Figure out what kind of information you need.
+
+2- Find out if you can find data sources on the web that can provide you with the answer to the business problem.
+
+3- Create a theory of data generation process when trying to figure out the data sources. (Example: The data set is coming from a sampling program or survey etc…)
+
+4- Outline the advantages and disadvantages of the data sources. (Make sure it is legal!)
+
+5- Create a decision and if feasible collect the data from different sources to further combine.

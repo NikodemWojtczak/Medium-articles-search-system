@@ -1,0 +1,41 @@
+I. Verify and Install Libraries
+
+First we are going to check if Python is installed and install another library that will help us deal with spreadsheets.
+
+A library is a collection of code that has implemented (usually) hard things to do in a simpler way.
+
+We need to first open up the Terminal which will let us interact with our system. Go to the search on your Mac and find and open up the Terminal
+
+Search and Open the Terminal Application
+
+2. Open up your Terminal, type in python and press Enter
+
+$ python
+
+Note: the dollar sign specifies the beginning of the line of the terminal, there might be a lot of different text at the beginning.
+
+You should see a console appear with the Python version running. I’m running Python 2.7 but this tutorial and code will work up to Python 3.7. Let me know if you encounter any problems.
+
+Type in python and click enter to see the console
+
+If there is an error here, then Google the error and see what you need to do to fix it.
+
+3. If python appeared correctly, first we will need to exit out of python by pressing
+
+Ctrl + d
+
+This will bring us back to the command terminal with the $
+
+Now we are going to install the library that will help us read and handle spreadsheets. It’s called pandas and we are going to install it with the following command. Type the following and press Enter:
+
+$ pip install pandas
+
+We are also going to install another 2 libraries xlrd, openpyxl that help with Excel reading and writing. You won’t be dealing with these libraries but they will need to be installed.
+
+$ pip install xlrd openpyxl
+
+4. If the pandas library is successfully installed, you will see a bunch of text with the last line stating that it was successful. If you encounter an error here, you will need to fix that before proceeding.
+
+There will be a bunch of text and it will not match mine but as long as the Successfully installed statement appears with no errors, you are good
+
+Similarly if the xlrd and openpyxl libraries are successfully installed you would get a similar “Successfully installed” message as pandas

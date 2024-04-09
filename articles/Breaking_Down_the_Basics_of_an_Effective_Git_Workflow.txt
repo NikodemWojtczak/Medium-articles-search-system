@@ -1,0 +1,155 @@
+As a budding Data Scientist, one of the first things that was taught to us was how to use and not break Git. Everything in our course is given to us via a GitHub Enterprise repository, so being able to work with and clone Git repositories to our own machines was a critical skill to have. We would be responsible for keeping our local instructor’s work repository up-to-date based his needs for the class, and also keep a running repository of submissions and projects. Needless to say, being proficient with basic commands in Git was sink or swim for us.
+
+However, seven weeks into the program, we started our first true group project, and me, the masochist, wanted to make sure my group worked out of a centralized Git repository to truly grasp what a real Git workflow feels like. While we are familiar with Git, I wanted to explore what the elements of an easy to use but effective Git workflow would look like for my group of three. This is not meant to be exhaustive guide, but rather a basic reference for how to make Git and GitHub work for smaller teams.
+
+So, let’s break down the steps. In my hypothetical team of “Nate” and “David”, we decide we want to create a new neural network model for our upcoming project. In order to create this feature, we need to work in branches. Branches allow our team to work on several aspects of this project without potentially overwriting a team member’s individual work.
+
+The simple Git workflow in our group, visualized.
+
+Merging
+
+So for Nate to create a feature branch and merge it back into the master branch, he needs to follow these steps.
+
+1. Pull the latest master branch from the remote repository origin
+
+$ git pull origin master
+
+2. Create the feature branch nerual-net
+
+$ git checkout -b neural-net
+
+3. Nate works on his feature, being mindful of changes to files other team members may be working in. He adds the files to be staged, commits the changes, and pushes them to the remote repository.
+
+# add all files in local repository directory, or add files individually
+
+$ git add . # commit files to the HEAD of "neural-net"
+
+$ git commit -m "a short but descriptive commit message" # push commits to remote repository "origin"
+
+$ git push origin neural-net
+
+4. We are now ready to bring neural-net up to speed with master. After he pulls the most up-to-date commits from his remote neural-net branch, Nate pulls master from the remote repository to ensure that changes to master are reflected in his merge
+
+$ git pull origin neural-net
+
+$ git checkout neural-net
+
+$ git pull origin master
+
+Here, Nate is still in branch neural-net but pulls the changes from the master branch.
+
+5. Nate merges neural-net to master. He must first checkout the master branch from the remote repository. He may have to pull master again, depending on where his local master is in the commit history.
+
+$ git checkout master
+
+$ git pull origin master
+
+$ git merge neural-net
+
+$ git branch -d neural-net
+
+This preserves the commit history in neural-net and master. Conflicts may occur, but these can be minimized as long as the team is aware of the changes they are making. In this sequence, Nate also adds the “-d” tag to the “branch” command to delete the nerual-net branch, because he is finished implementing his feature.
+
+Rebasing
+
+“Rebasing” the master branch on the feature branch also works to merge the branches together and retains the commit history. Instead of merging, Nate would rebase the neural-net branch on the commits to master.
+
+“Rebasing” brings in the new commits from master branch if there are commits that are not yet in the feature branch, adds it to the feature branch, and adds the commits from your feature on top of the master. Nate’s commits, in this example, would be the latest in the HEAD, but would incorporate any changes from master as well. For example, here’s a more verbose way of working in a rebase method:
+
+# Create a new branch off of master
+
+$ git checkout master
+
+$ git pull
+
+$ git checkout -b neural-net
+
+$ git push neural-net # Add some commits
+
+$ git commit -a -m "descriptive yet short commit message"
+
+$ git commit -a -m "another descriptive yet short commit message"
+
+$ git push neural-net # Get the latest changes off of master and rebase neural-net
+
+$ git checkout master
+
+$ git pull
+
+$ git checkout neural-net
+
+$ git rebase master
+
+$ git push -f neural-net
+
+From here, neural-net would now be in sync with master.
+
+So Nate finishes his Neural Net feature. With his team’s approval, Nate would then:
+
+$ git checkout master
+
+$ git pull
+
+$ git checkout neural-net
+
+$ git rebase master
+
+$ git push -f neural-net
+
+$ git checkout master
+
+$ git merge --no-ff neural-net
+
+$ git push master
+
+And, finally, Nate’s feature would now be a part of the master branch.
+
+Is this simple? Hypothetically, yes it is relatively similar to the Git workflow we are familiar with in my class, and anyone familiar with Git could make this work for them. However, as with many things humans do, things happen, and with Git, these things are called “merge conflicts”.
+
+Merge Conflicts
+
+So, let’s say during one of merge’s above, Nate checks the status of his repository, and Git throws this message at Nate:
+
+$ git status
+
+# On branch contact-form
+
+# You have unmerged paths.
+
+# (fix conflicts and run “git commit”)
+
+#
+
+# Unmerged paths:
+
+# (use “git add <file>…” to mark resolution)
+
+#
+
+# both modified: stocks.html
+
+no changes added to commit (use “git add” and/or “git commit -a”)
+
+Git doesn’t like that Nate’s version of “stocks.html” is different from the current commit history. The most likely cause of this was that David might have changed the contents of “stocks.html”, committed those changes to master, and Nate was not able to get most current commits from master before attempting to merge his feature.
+
+The good news is this can be resolved. Git is nice enough to mark the problematic area in “stocks.html” in the file by enclosing it in a tag that looks like this:
+
+“<<<<<<< HEAD” and “>>>>>>> [other/branch/name]"
+
+“HEAD” is a reference to the last commit in the currently check-out branch. You can think of the “HEAD”as the “current branch”. An example merge conflict in “stocks.html” may look like this:
+
+<<<<<<< HEAD or neural-net Nate's list of stocks ======= David's list of securities >>>>>>> master A LIST OF STOCKS
+
+Git outlines which lines are not in sync, and trusts the user to resolve them manually to read:
+
+Nate's list of stocks A LIST OF STOCKS
+
+This ensures master and neural-net have the same version of stocks.html
+
+Nate would then commit those changes to master.
+
+$ git add stocks.html
+
+$ git commit -m "Merged master fixed conflict."
+
+NOTE: Not all file types or editors may flag these conflicts, but Git will always highlight where the conflicts exist when describing a merge conflict in the Terminal. However, Git has a built in GUI though that can walk you through the conflicts, and allow relatively simple integration of merge conflicts.

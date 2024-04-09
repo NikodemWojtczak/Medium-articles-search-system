@@ -1,0 +1,43 @@
+Introduction:
+
+Random Forests are another way to extract information from a set of data. The appeals of this type of model are:
+
+It emphasizes feature selection — weighs certain features as more important than others.
+
+It does not assume that the model has a linear relationship — like regression models do.
+
+It utilizes ensemble learning. If we were to use just 1 decision tree, we wouldn’t be using ensemble learning. A random forest takes random samples, forms many decision trees, and then averages out the leaf nodes to get a clearer model.
+
+In this analysis we will classify the data with random forest, compare the results with logistic regression, and discuss the differences. Take a look at the previous logistic regression analysis to see what we‘ll be comparing it to.
+
+Table of Contents:
+
+1. Data Understanding (Summary)
+
+2. Data Exploration/Visualization(Summary)
+
+4. Building the Model
+
+5. Testing the Model
+
+6. Conclusions
+
+Data Background:
+
+We have a sample of 255 patients and would like to measure the relationship between 4 proteins levels and cancer growth.
+
+We know:
+
+The concentration of each protein measured per patient.
+
+Whether or not each patient has been diagnosed with cancer (0 = no cancer; 1= cancer).
+
+Our goal is: To predict whether future patients have cancer by extracting information from the relationship between protein levels and cancer in our sample.
+
+The 4 proteins we’ll be looking at:
+
+Alpha-fetoprotein (AFP)
+
+Carcinoembryonic antigen (CEA)
+
+Cancer Antigen 125 (CA125)

@@ -1,0 +1,11 @@
+TL;DR
+
+Modern vehicles use Deep Learning applied to visual input to “understand” its surrounding scenery. This is true for both connected and Autonomous vehicles — computer vision is used for traffic sign recognition (TSR), lane detection, automatic parking and more.
+
+We attacked a real vehicle using Deep Learning to generate real life Adversarial traffic signs, effective on cars from different manufacturers. We used nothing more than a strong GPU and commercially available printing services
+
+The best part? The attack is 100% blackbox. No need for the vendor code or knowledge of internals, such as the vehicle’s neural network architecture or weights. To tell you the truth, we have all reasons to suspect that the attack works even with traditional computer vision systems.
+
+The attack deliberately causes a real car to make wrong classifications. We took the vehicle to SMART range, an automotive cybersecurity oriented experimentation range affiliated with Harman (our company) & Ben Gurion University, where we tested the attacks in an outdoor scenery.
+
+Checkout the full publication — Fooling a Real Car with Adversarial Traffic Signs & Checkout the video (best viewed on desktop)

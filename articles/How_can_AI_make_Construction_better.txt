@@ -1,0 +1,15 @@
+How can AI make Construction better?
+
+Construction lags other sectors in innovation and productivity. This post explores applications where AI can help bridge the gap. Shuvashish Chatterjee · Follow Published in Towards Data Science · 8 min read · Sep 17, 2019 -- 1 Listen Share
+
+Digital assistant in construction (Illustration by author)
+
+The world will need to spend $57 trillion in infrastructure and housing by 2030 to make room for the rural to urban migrants. The infrastructure and construction industry, which employs 7% of the world’s working-age population, will shoulder the bulk of this responsibility. However, the construction sector has an intractable productivity hurdle. Large projects typically take 20 percent longer to finish than scheduled and are up to 80 percent over budget. In the last two decades, the labor productivity of the construction industry has stagnated at 1%. Financial returns for contractors are often relatively low and volatile. Equally worrying is the proportion of worker fatalities (highest of all other sectors).
+
+Traditionally, the construction industry has been making incremental improvements. Each project is unique, because of which it is not possible to scale up new ideas. Adopting new technologies is impractical. In this post, we will look at a few applications where artificial intelligence can help the sector leapfrog across.
+
+Making construction project management predictable.
+
+There are far too many variables that can throw an execution out of control in the Engineering Procurement and Contracts sector. Labor shortages, inclement weather, supply outages, and regulatory clearances are some parameters that contribute to the inherent variability in project management. Each project is considered unique. This lack of standardization has made the process digitization slow. Daily reports, drawings, contracts, continue to rely heavily on paper-based communications. Information flow between front-line contractors and project planners is erratic and slow-paced. Frontline contractor’s planning horizon is often limited to the next 7 days. Most project management is reactive. The mid-senior level staff is engaged in routine firefighting exigencies.
+
+We can use machine learning to implement day- and week-ahead forecasts. Every site gets a list of activities that are predicted to start on that date. A real-time dashboard lists high-risk activities for cost and time overruns. Operational data sources within construction is limited. However, most sites log inventory levels for project costing. Similarly, project progress is monitored on scheduling tools. AI can weave together such data streams and combine them with weather and historical performance to predict future outcomes. It will enable contractors and site managers to take a realistic view and prioritize interventions.

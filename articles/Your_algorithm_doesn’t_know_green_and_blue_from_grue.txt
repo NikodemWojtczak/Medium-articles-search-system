@@ -1,0 +1,45 @@
+The Tao of Data Science
+
+Your algorithm doesn’t know green and blue from grue
+
+The Tao of Data Science column explores how centuries of philosophers have been tackling the key problems of machine learning and data science.
+
+Nelson Goodman’s little riddle makes even commons sense inductive reasoning feel futile.
+
+Induction refers to learning a general concept from examples.
+
+We have seen lots of snails. Each snail we have seen eats lettuce. Therefore, all snails eat lettuce.
+
+One of the core problems of philosophy is the problem of induction — the question of whether reasoning by induction can lead to knowledge.
+
+In statistical machine learning, we try to create machines that learn from data. The problem of induction calls into question whether this learning process can lead to a machine knowing something.
+
+I want to connect some fundamental machine learning theory to this classical discussion about induction in philosophy. I want to connect basic philosophical work on the problem of induction to the challenges faced by people who build learning machines.
+
+This post on Nelson Goodman’s new riddle of induction represents a initial drop into this rather large cup.
+
+Green, blue, or grue?
+
+Part of the problem of induction is the apparent lack of justification for the seemingly straightforward idea that patterns observed regularly in the past will continue into the future.
+
+Nelson Goodman concocted an interesting riddle, based on wordplay and basic propositional logic that shows how this line of reasoning can lead to conflicting conclusions.
+
+Is this gemstone green, blue, or grue? Photo by Jens Johnsson
+
+Suppose you are a geologist studying gemstones. In the expression “this gemstone is green”, “is green” is what is called a predicate. Suppose this predicate was true for all the gemstones you have ever seen before midnight on January 1, 2020. The rule of induction leads you to conclude that this predicate will be true going forward. Instead of “conclude”, you could say “predict”— you predict that the color of all future gemstones will be green.
+
+The riddle works by switching “is green” for a new predicate and showing that you get a contradiction. The new predicate is “is grue,” where “grue” means “is green and seen before midnight 1–1–2020, or is blue and seen after 1–1–2020”.
+
+Here is a break down of the riddle:
+
+If all the gemstones we saw before 1–1–2020 were green, then the observational statement “all gemstones seen before 1–1–2020 were green” is true. Also, given our definition of “grue,” then the observational statement “all gemstones seen before 1–1–2020 were grue” is also true. Reasoning by induction leads us to conclude from the first observational statement that “all future gemstones will be green.” Similarly, we conclude from the second statement that “all future gemstones will grue.” Since we make both those conclusions, then we are making the combined conclusion that “all future gemstones will be green and grue.” But this is a contradiction. This combined conclusion means that once we pass midnight on 1–1–2020, all gemstones will be both green and blue!
+
+Does this riddle tank logic-based machine learning?
+
+In machine learning, we have many models that use this type of propositional logic as primitives. For example, in his book The Master Algorithm, Pedro Domingos promotes modeling approach based on first-order logic called Markov logic networks. Propositional logic is the foundation for first order logic. How do these frameworks handle “grue”?
+
+Goodman concludes that while inductive reasoning can’t work for all predicates, but it does work for some. However, whether or not it works seems to depend on what language humans use and have used to describe and predict the behavior of our world.
+
+Somehow, it seems that we’d like our algorithms not to depend on humanities biased perception of the world, and how humanity’s spoken languages shape our interpretation of those perceptions. Otherwise, how else could they reveal truly novel insight into the world?
+
+Further reading:

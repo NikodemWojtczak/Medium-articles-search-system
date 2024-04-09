@@ -1,0 +1,89 @@
+Reading SQL queries into Pandas dataframes is a common task, and one that can be very slow. Depending on the database being used, this may be hard to get around, but for those of us using Postgres we can speed this up considerably using the COPY command. However, there are several ways of using the COPY command to get data from SQL into pandas, with different memory/speed tradeoffs. In this article, we’ll test several different methods against each other.
+
+The test dataset is simply the first five million rows of a sample Triage predictions table, which is just one I had handy. I tried to use all thirteen million rows I had in my local Postgres database, but pandas.read_sql crashed so I decided to bring down the dataset to something it could handle as a benchmark.
+
+Included which each method are three statistics:
+
+Peak memory — the highest amount of memory used during the sql read code. This is the important one to see if your program will crash!
+
+Increment memory — the amount of memory that is still used at the end of the sql read code. In theory, this would be the same for all of the methods, but memory leaks can make different methods retain more memory.
+
+Elapsed time — the clock time used by the program.
+
+The pandas version used here is 0.24.1.
+
+First, a quick rundown of the different methods being tested:
+
+pandas.read_sql — the baseline
+
+tempfile — Using the tempfile module to make a temporary file on disk for the COPY results to reside in before the dataframe reads them in
+
+StringIO — Using a StringIO instead of disk; more memory used, but less disk I/O
+
+Compressed BytesIO, pandas decompress — Using a BytesIO instead of a StringIO, and compressing the data; should use less memory, but take longer
+
+Compressed BytesIO, gzip decompress — Same as the other compressed bytesio, but using GzipFile to decompress rather than pandas
+
+Compressed tempfile — Applying the compression idea to the diskfile; should reduce the disk I/O needed
+
+Compressed BytesIO, low compression level — A lower compression level to try and split the difference between uncompressed and compressed methods
+
+pandas.read_sql
+
+This is the baseline. Nothing fancy here.
+
+Peak memory: 3832.7 MiB / Increment memory: 3744.9 MiB / Elapsed time: 35.91s
+
+Using a temporary file
+
+Here is our first attempt of using the COPY command. The data from the COPY command has to go do a filehandle: what simpler way to do this than using a temporary file?
+
+Peak memory: 434.3 MB / Increment memory: 346.6 MB / Elapsed time: 8.93s
+
+That’s…much better. I’m not surprised that the elapsed time is far quicker than read_sql, but I’m a bit surprised that the memory usage is so much different. Anyway, let’s keep going
+
+Using a StringIO
+
+Disk I/O can be expensive, especially depending on what type disk is available. Can we speed it up by using a StringIO for the filehandle? This would take more memory, of course, but maybe that’s a tradeoff we can make.
+
+Peak memory: 434.2 MB / Increment memory: 346.6 MB / Elapsed time: 9.82s
+
+This is a surprising result. I would have expected this to use more memory and be faster, but it’s neither. My hypothesis would be that the peak memory used by the StringIO ends up being surpassed by a spike during the dataframe creation process.
+
+Also of note: the increment memory was the same as the temporary file version, which probably tells us that the 346.6 MB is a good reference for what the baseline for that memory should be without any memory leaks.
+
+Using a Compressed BytesIO, pandas decompression.
+
+Could we bring down on the memory required for the in-memory option? Given the prior results this may seem like a fool’s errand, but I already wrote the code so I’m not going to cut off the test early! Python’s GzipFile interface wraps a filehandle (in this case, a BytesIO) and handles compression. We let pandas handle the decompression by passing `compression=’gzip’` to read_csv
+
+Peak memory: 613.6 MB Increment memory: 525.8 MB, Elapsed time: 1:30m
+
+Not good! It actually used more memory (and leaked some) compared to the uncompressed versions.
+
+Using a Compressed BytesIO, Gzip decompression
+
+Same as the last one, except we bypass pandas’ decompression routines in case they introduced a problem. GzipFile can handle the decompression for us, too!
+
+Peak memory: 504.6 MB Increment memory: 416.8 MB, Elapsed time: 1:42m
+
+Well, this is better RAM-wise than the pandas decompression, for sure, but this is still worse than the uncompressed versions.
+
+Using a Compressed tempfile
+
+The compression idea can also apply to the tempfile method from before. In this case, compression should help us cut down on disk I/O.
+
+Peak memory: 517.2 MB Increment memory: 429.5 MB, Elapsed time: 1:35m
+
+Similar to the other gzip examples. Not a good option.
+
+Using a compressed BytesIO, low compression level
+
+Since we’re trying things out, we have one more avenue to explore: the gzip compression level. The default for all of the prior examples is 9, the highest compression possible. It’s possible that in doing this, it takes extra memory to do the compression in addition to extra time. What if we flip one of them to the lowest compression level (1)?
+
+Peak memory: 761.5 MB Increment memory: 673.8 MB, Elapsed time: 1:13m
+
+Slightly better on time, but worse on RAM: it appears that the gzipping process is using a bunch of memory no matter what and doesn’t stream well.
+
+Conclusion
+
+What did we learn here?

@@ -1,0 +1,93 @@
+Grouping
+
+Suppose if you want to Manipulate on a particular group of data. In this case, let us get only the rows that belong to new york. With group object, you can get a summary of the sum, mean, median of all groups at a time.
+
+Group by City
+
+city_group = df.groupby(‘city’)
+
+A group object was created and if you want to see specific group data, just need to get the group.
+
+city_group.get_group(‘new york’)
+
+Output
+
+new york group
+
+Aggregations
+
+In the above section, we just grouped the data by the city but what if I would like to see the average temperature and average wind speed ???. We will use aggregations here.
+
+Group by and aggregate
+
+df.groupby(‘city’).agg({‘temperature’:’mean’, ‘windspeed’:’mean’})
+
+Output
+
+Mean temperature and wind speed
+
+Merging
+
+In the above sections, we dealt with having a single data frame. If there are two data frames and you would like to analyze them together !!!. In this scenario, the merge plays a key role and simplifies the join of two data frames.
+
+create two data frames
+
+df1 = pd.DataFrame({
+
+“city”: [“new york”,”florida”,”mumbai”],
+
+“temperature”: [22,37,35],
+
+})
+
+df2 = pd.DataFrame({
+
+“city”: [“chicago”,”new york”,”florida”],
+
+“humidity”: [65,68,75],
+
+})
+
+Simple Merge: This gives you the matching rows in both data frames
+
+pd.merge(df1,df2,on=’city’)
+
+Output
+
+Matching rows of two data frames
+
+Outer: Get all rows from both data frames. Add a new parameter (how).
+
+pd.merge(df1,df2,on=”city”,how=”outer”)
+
+Output
+
+Outer join
+
+In similar, we can get all the matching rows along with the left data frame (left join) and right data frame (right join). By specifying parameter how with values left/right.
+
+Crosstab
+
+Suppose if you want to see the frequency count of the event type ( rainy/sunny) in each city. Cross tab makes these things easier.
+
+pd.crosstab(df.city,df.event)
+
+Output
+
+Frequency count of the event by city
+
+Note: We can get any aggregation mean, median, etc. Just we need to pass an extra parameter to the function.
+
+Reshape with melt
+
+If you want to get the columns as rows along with values, suppose for each city I would like to have temperature and wind speed in a separate value column. In this case temperature, windspeed hold a single column and their values hold another column.
+
+pd.melt(df,id_vars=[‘day’,’city’,’event’],var_name=’attribute’)
+
+Output
+
+Reshaped data
+
+References
+
+code basics, https://www.youtube.com/channel/UCh9nVJoWXmFb7sLApWGcLPQ

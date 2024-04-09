@@ -1,0 +1,29 @@
+5 Amazing Tips for Data Visualization
+
+Shutterstock by majcot
+
+Is there a such thing as data visualization block for analysts? Like a painter who stares at a blank canvas or a writer who can’t write that first sentence — you might be an analyst just staring at a wall of data in Excel.
+
+Or maybe you just feel like an old dog that wants to learn a new trick?
+
+This list contains my 5 favorite techniques for consistently pumping out effective data visualizations. It also helps prevent this dreaded data visualization block. Goodbye wall of data… hello insight!
+
+Scatter plot your two most interesting metrics
+
+While reviewing a new dashboard for a stakeholder, we got a comment that really got me thinking. They said, “This is great in describing exactly what happened, but there is not much insight for taking action.”
+
+In Business Intelligence, it is often much easier to visualize what happened rather than visualizing actionable insights.
+
+This is where the scatter plot comes in.
+
+Scatter plots are famously used to assess correlation between two metrics. Often overlooked, they actually have another use case. This variation is often referred to as a quadrant plot.
+
+First, identify two important or interesting metrics. Second, have at least one dimension that you can take action with such as state, employees, or marketing campaigns. Then scatter away!
+
+For example, in marketing, we often care about two metrics. Marketing performance in efficiency (acquiring as many customers as possible at a low marketing spend). Marketing performance in quality (acquiring customers that are high value).
+
+When we scatter these two metrics by campaign we can quickly and clearly see the good and the bad.
+
+Made with Tableau
+
+The action from this scatter plot is to take money away from campaign E and J and put it towards D and H. This works so well because it sorts your dimension into four easy to understand quadrants.

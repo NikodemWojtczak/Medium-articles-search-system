@@ -1,0 +1,89 @@
+“The most beautiful experience we can have is the mysterious.” -Albert Einstein
+
+Introduction
+
+Humans beings have the most densely packed set of neurons (86 billion). This endows us with the intelligence that we possess, our ability to discern abstract concepts, take brilliant cross-domain decisions and conduct blue-sky thinking. If one would just observe their own day to day actions, there is a high possibility that one would be left amazed. The best part is when you try to come up with your own hypothesis of how the brain actually works and also look around such pre-existing frameworks it is no less than appreciating a serene piece of artwork. In this article, I will try to present what makes the brain so powerful and also some of the frameworks and approaches towards understanding the brain, also how it learns.
+
+What makes the brain so special
+
+Picture taken from https://commons.wikimedia.org/wiki/File:Neuron.jpg
+
+According to the Neuron Doctrine, the neuron is the fundamental structural and functional unit of the brain. Neurons pass information to other neurons in the form of electrical impulses from dendrites to axon via cell body. This requires maintenance of ionic potential difference between inside and outside which takes up around 20 % of the daily glucose consumption of the body. Myelin sheath aides in fast lossless long-distance communication of electrical impulses spikes by wrapping around the axon. This happens by a mechanism called Saltatory Conduction where the spike hops from one Node of Ranvier (myelin-sheath gaps) to the other. This show how beautifully the brain encompasses the concept of lossless signal transmission. Connections between two neurons is called a synapse which can be of electrical and chemical nature both. Electrical for fast transmission for functions such as reflex, chemical for learning and memory. Firing the neurons is an energy-intensive process hence all neurons are not firing at the same time. This signals that there might be an amazing energy optimising scheduling algorithm embedded in the brain. The concept of weights in the neural networks probably was inspired from the concept of Hebbian Plasticity which is often understood as Cells that fire together wire together. There are various important components of the brain and each of them are connected with each other. The most interesting one for me is Thalamus which is like a base station, takes the input signals from our sensory organs and then passes it onto the cerebral cortex which is often called the star of the show. The brain is great when it comes to resource management. Many of the tasks that the brain performs are done unconsciously because of which we can multitask something like massive parallel computing. There are many sub networks of neurons that also forms part of a bigger network and connected to smaller networks as well. When it comes to learning and memory brain has different ways in place.
+
+Short term or working memory is our conscious, dynamic memory.
+
+Long term or episodic memory is our memory of the past which we can recall. The interesting thing is that it is biased which is very useful in keeping the track of relevant information instead of everything.
+
+Operant Conditioning is a class of learning where the rewards or punishment influences the learning process. This might have inspired the field of Reinforcement Learning.
+
+The nature of our memory and learning is semantic. It is not just purely information stored on the basis of past experiences but also there are interdependencies between various fragments of memory to form concepts.
+
+Amazing ideas and works
+
+Although there are many great works out there which aims at modelling the activities of the brain but these are my favourites.
+
+Artificial Neural Networks
+
+These are networks which are inspired by the biological networks of neurons. Each node represents a neuron and weights signify how important signal coming from that node is. There is an activation function which acts as a threshold for the signal to pass through and learning happens by back propagating the loss with respect to the true label. Many great variants of neural networks are there CNN, RNN, GAN, Auto-encoders to name a few.
+
+Neural Turing Machines
+
+Turing machine was a brilliant mathematical model which was invented by Alan Turing and had components such as program, tape and register. This paper by DeepMind
+
+Neural Turing Machines
+
+uses an architecture similar to a Turing Machine but keeping everything differential so that the learning can happen by gradient descent but having an additional memory component attached which can be interacted with using attention mechanisms. This serves to be a unique intersection of combination of digital computer design and biology.
+
+Continual Learning
+
+If we learn a few concepts from a certain distribution we can actually use those concepts in a different distribution. It is as if one learns how to eat in a certain environment with a specific cuisine, can also eat a different cuisine somewhere else. So the task remains the same but distribution changes. Neural networks in such cases needs to be trained again on the entire dataset. This is presented in this paper by Friedemann Zenke et al.
+
+Continual Learning Through Synaptic Intelligence
+
+As stated in the paper:-
+
+‘In this study, we introduce intelligent synapses that bring some of this biological complexity into artificial neural networks. Each synapse accumulates task relevant information over time, and exploits this information to rapidly store new memories without forgetting old ones.’
+
+Transfer Learning
+
+The principle is learning gained by performing a particular task is used to solve a different problem which is somehow similar. This is very popular in computer vision and natural language processing where a pre-trained model is used and then fine tunes to perform specific tasks and generally yields great results. When it comes to computer vision there is ResNet, InceptionNet and for NLP there is BERT, GPT-2 and more.
+
+Deep Reinforcement Learning
+
+AlphaGo, AlphaStar, MuZero are all such mind blowing innovations that stun us all uses different flavours of deep reinforcement learning to showcase superhuman intelligence in specific tasks such as playing Star Craft, Go, Chess, Atari games and much more, principally using a reward based mechanism on a deep neural network architecture to optimise the reward function. Major variants of Reinforcement Learning are Model based, value learning based and policy gradients based.
+
+Learning Using Statistical Invariants
+
+This is presented in the paper by Vladmir Vapnik et al.
+
+Rethinking statistical learning theory: learning using statistical invariants.
+
+As stated in the paper:-
+
+‘In the LUSI paradigm, in order to construct the desired classification function, a learning machine computes statistical invariants that are specific for the problem, and then minimises the expected error in a way that preserves these invariants; it is thus both data- and invariant-driven learning.’
+
+‘In this new paradigm, one first selects (using invariants) an admissible subset of functions which contains the desired solution and then chooses the solution using standard training procedures.’
+
+‘LUSI method can be used to increase the accuracy of the obtained solution and to decrease the number of necessary training examples.’
+
+Protein Folding Analysis and Genome Editing
+
+Although this doesn’t directly model the human brain or any of its activities but aim at analysing the biological components that makes up the brain in a greater depth using advanced technologies. Recent innovations like AlphaFold can predict the structure of a particular protein in the body which can help scientist to understand its role in the body. As protein is an important component of every cell, deeper insights about it can unlock a lot of secrets about what makes the brain behave in the way it behaves.
+
+Similarly, genome editing is also being used to study the cells and understanding their underlying working by scientists universally, the most famous technology for this being CRISPR-Cas9. Deeper understanding of genetic sequences in general can answer many questions about how our brain evolved through generations.
+
+Cerebral Organoid
+
+It is an artificially developed mini brain using stem cells of the human body in laboratory setting. It can be very useful in understanding different stages of brain development and might provide deeper insights about the brain.
+
+Conclusion
+
+We as human being develop on concepts and learn from less data. Probably this might be due to evolutionary information embedded in our genes. Nonetheless, the amount of work out there to model the brain activities leaves me stunned every-time I encounter a new idea. For me motivation towards understanding the brain is not about Artificial General Intelligence but more about appreciating such a fantastic creation. What amazes me even more is that how computer science, mathematics, biology, psychology and other fields come together to communicate in a common language to make an attempt to explicate the nature.
+
+There might be a missing part of the puzzle, maybe modelling the brain as a standalone unit might not be a good idea because the functioning of the brain is pretty much dependent upon how sensory organs perceives the environment and how various internal organs behave at once as a whole system.
+
+Nevertheless, as Alan Turing said
+
+“It is possible to invent a single machine which can be used to compute any computable sequence.”
+
+Perhaps we already have that machine between our ears.

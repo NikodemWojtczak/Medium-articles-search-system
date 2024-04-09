@@ -1,0 +1,15 @@
+This is the first article of a three-part series of articles in Getting started Geographic Data Science with Python. You will learn about reading, manipulating and analysing Geographic data in Python. The articles in this series are designed to be sequential where the first article lays the foundation and the second one gets into intermediate and advanced level Geographic data science topics. The third part covers a relevant and real-world project wrapping up to cement your learning. Each tutorial also has some simple exercises to help you learn and practice. All code, dataset and Google Colab Jupyter notebooks are available from the link at the end of this article.
+
+I will focus only on Geographic Vector data in this series. In another coming series, We will learn about satellite images and raster data analysis.
+
+The series contains Three parts:
+
+Introduction to Geographic Data science Geographic data processing Geographic data science project
+
+This is the first part. In this tutorial, we will learn the basics of loading and processing geographic data using Geopandas. Geopandas, the workhorse of Geographic data science in Python, is built on top of Pandas and Numpy libraries. Like Pandas Dataframe, Geopandas data structure contains GeodataFrame and GeoSeries. Geopandas provides not only the capability to read and manipulate geographic data easily but also can perform many essential geospatial operations including among other geometric operations, projections and geographic analysis. You can also visualize and plot maps with Geopandas- It provides a high-level interface to the Matplotlib library- by using the .plot() method on GeodataFrame/GeoSeries.
+
+These are the learning objectives for this part, Introduction to Geographic Data science:
+
+Read and write geographic data in Geopandas. Project and set Coordinate reference systems (CRS). Visualizing maps
+
+1. Reading Geographic data

@@ -1,0 +1,77 @@
+The Abundance of Entropies
+
+I have been guilty of talking about Information Theory and Shannon at inappropriate times, generally, you would find me blurting out Information about Shannon at random social events.
+
+I shouldn’t be making puns, I am clearly bad at them!
+
+Information Information Everywhere!
+
+Some believe that by studying scientific discovery in another day we can learn how to make discoveries. On the other hand, one sage observed that we learn nothing from history except that we never learn anything from history and Henry Ford asserted that history is a bunk. - John R Pierce, An Introduction to Information Theory
+
+John R Pierce’s book An Introduction to Information Theory is beautiful. It’s not highly technical, in fact, it’s a refreshing portrayal of a mathematical theory that I fell in love with.
+
+He argues that many powerful discoveries of science have arisen not through the study of phenomena as they occur in nature, but through the study of phenomena in man-made devices.
+
+Entropy. The mystery word that you will hear constantly during anything related to information theory. In fact, if you’ve worked with Machine Learning you must be really familiar with the term Cross-Entropy!!
+
+Though, we must have all wondered at some point — isn’t entropy used in thermodynamics?
+
+Entropy used in communication is different than that used in statistical mechanics or thermodynamics. The problems that they are dealing with are quite different.
+
+Entropy in Thermodynamics
+
+Rudolf Clausius in 1850’s defined entropy for thermodynamics. Entropy of gas is dependant on its temperature, volume, and mass. Entropy is an indicator of reversibility i.e when there is no change in Entropy, the process is reversible.
+
+Boltzmann’s formula for entropy of gas.
+
+The irreversible physical phenomenon always involves an increase in entropy. Interestingly this was originally formulated by Ludwig Boltzmann between 1872 and 1875! Boltzmann’s formula is the most generalised formula for the thermodynamic entropy.
+
+Thus, an increase in entropy means a decrease in our ability to change thermal energy, the energy of heat, into mechanical energy. An increase of entropy means a decrease of available energy. - John R Pierce, An Introduction to Information Theory
+
+Entropy in Statistical Mechanics
+
+While thermodynamics gave us the concept of entropy, it does not give a detailed physical picture of entropy, in terms of positions and velocities of molecules, for instance. Statistical mechanics does give a detailed mechanical meaning to entropy in particular cases. - John R Pierce, An Introduction to Information Theory
+
+Here we come to the understanding that an increase in entropy means a decrease in order or an increase in uncertainty.
+
+where K is Boltzmann’s constant and Pi is the probability of being occupied.
+
+Entropy in Communication Theory
+
+Communication Theory or what information theory was called back then:
+
+Message source: A writer, speaker anything that produces messages
+
+Message: Data like text document or stuff you want to send to someone.
+
+Amount of information conveyed by the message increases as the amount of uncertainty as to what message actually will be produced become larger. Let’s look at it. You have two friends. One (Person A) constantly keeps sending you memes and the other one is a normal human being (Person B) who has a wide range of topics to talk about. When you hear a beep on your phone and if it’s from Person A there is less uncertainty because you have some idea about the message is going to be so less entropy. Similarly, Person B can send you anything and thus you don’t know what the message is going to be about and uncertainty is higher and higher entropy.
+
+If it’s person A you already think it’s a meme and you open it to find it was a meme. It was predictable, you gained a little information from opening it.
+
+On the other hand, opening the message from Person B which wasn’t predictable gives you more information.
+
+We can also look at the hangman example. You will know more about which movie/book it is if you guess the rarer word in the name than something common as “of” or “the”.
+
+Thus, high entropy means more information
+
+or
+
+Notice now how they are mathematically similar?
+
+Cross-Entropy
+
+In Machine Learning Cross-Entropy is generally used as a loss function. It is the difference between two probability distributions for a given random variable.
+
+Cross-Entropy: Average number of total bits to represent an event from Q instead of P. Ref : https://machinelearningmastery.com/cross-entropy-for-machine-learning/
+
+So when we use Cross-Entropy as a loss function
+
+Expected Probability (y): The known probability of each class label for an example in the dataset (P).
+
+Predicted Probability (yhat): The probability of each class label an example predicted by the model (Q). We can, therefore, estimate the cross-entropy for a single prediction using the cross-entropy calculation described above; Where each x in X is a class label that could be assigned to the example, and P(x) will be 1 for the known label and 0 for all other labels. Ref : https://machinelearningmastery.com/cross-entropy-for-machine-learning/
+
+Associating Information with knowledge
+
+Words, humans constantly play with words. When information is associated with knowledge, there are some problems. We are desperate to associate this with statistical mechanics! Communication theory has its origins in electrical communication, not in statistical mechanics.
+
+Takeaways?

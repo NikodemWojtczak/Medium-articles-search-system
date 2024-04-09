@@ -1,0 +1,25 @@
+This is an application paper about how to solve challenges when developing an Enterprise Knowledge Graph (EKG) service, which incorporates information about 40,000,000 companies. I find this paper is quite practical useful if someone wants to build an EKG for real business. So I write this summary to save you time. If you want to know the detail, I recommend reading the paper directly. PDF is here.
+
+This EKG service is sold to securities companies. Because the securities companies provide investment bank services and investment consulting services, they have to know the information about the small and medium-sized enterprises. So the product can help securities companies to know and to approach target companies better and quicker.
+
+There are two kinds of challenges in this project, the technology challenges, and business challenges.
+
+Business challenges
+
+There are two challenges on the business side.
+
+- Data Privacy: how to provide deep and useful analysis services without violating the privacies of a company and its employees.
+
+- Killer Services on the Graph: EKG is complex and huge, how to make the graph easy to use is a challenge.
+
+The solution for two challenges.
+
+Data Privacy:
+
+- Transform the original data into the rank form or the ratio form instead of using real accurate values (rank form or the ratio form?)
+
+- Obscure critical nodes (e.g., person-related information) which should not be shown when visualizing the EKG as a graph
+
+Killer Services on the Graph:
+
+- Deliver services that directly meet the business requirements of users. For example, the service finding an enterprise’s real controllers tells the investors from investment banks who are the real owner of a company, and the…

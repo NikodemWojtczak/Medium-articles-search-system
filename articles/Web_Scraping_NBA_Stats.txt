@@ -1,0 +1,15 @@
+Every data analysis starts with an idea, hypothesis, problem, etc. The next step usually involves the most important element: data. Today, data is everywhere. For those of us who love diving into data, there are lots of resources to attain this part of the process. Whether it’s through Kaggle or UCI Machine Learning Repository, data is easily available. However, sometimes not all data is available to us. Sometimes, in order to continue a certain data analysis/project, we must do a bit more to get the correct, updated data we need.
+
+This brings us to our topic: web scraping to create a data set. A while back, I worked on a basketball analytics project. The project was an analysis on individual stats of NBA players, and using some of those stats to predict win shares for the 2018 NBA season. As I began the project, I realized that the NBA data sets available on Kaggle did not have all the stats I needed to continue my analysis. Therefore, I decided to do a bit more research.
+
+First of all, my go-to site for all NBA stats is Basketball Reference. This site is essentially an encyclopedia for all things NBA stats. Then came my next question: Why not get the data directly from the Basketball Reference? After further research, I discovered a great Python library that solved this portion of my project: BeautifulSoup . This library is a web scraper that allows us to search through the HTML of a webpage and extract the information we need. From there, we will store the data we scraped onto a DataFrame using pandas.
+
+First, let’s get all the Python libraries we will be using for this project:
+
+from urllib.request import urlopen
+
+from bs4 import BeautifulSoup
+
+import pandas as pd
+
+Now, we determine the HTML page we will be scraping. For this part, I used the individual per game stats of players for the current 2018–2019 NBA season. The page on Basketball Reference looks like this:

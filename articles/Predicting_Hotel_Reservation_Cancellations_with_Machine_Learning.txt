@@ -1,0 +1,373 @@
+Image by Alexas_Fotos from Pixabay
+
+As you can imagine, the cancellation rate for bookings in the online booking industry is quite high. Once the reservation has been cancelled, there is almost nothing to be done. This creates discomfort for many institutions and creates a desire to take precautions. Therefore, predicting reservations that can be cancelled and preventing these cancellations will create a surplus value for the institutions.
+
+In this article, I will try to explain how future cancelled reservations can be predicted in advance by machine learning methods. Let’s start with preprocessing!
+
+Preprocessing
+
+First of all, I should say that you can access the data used in my repository that I will share at the end of my article. I would also like to share that this is the subject of a thesis. [1]
+
+We have two separate data sets, and since we’re going to do preprocessing for both, it makes sense to combine them. But during the modeling phase, we’re going to want to get to these two sets of data separately. So, to distinguish the two, I created the id field.
+
+import pandas as pd h1 = pd.read_csv('data/H1.csv')
+
+h2 = pd.read_csv('data/H2.csv') h1.loc[:, 'id'] = range(1, len(h1) + 1)
+
+
+
+start = h1['id'].max() + 1
+
+stop = start + len(h2)
+
+h2.loc[:, 'id'] = range(start, stop) df = pd.concat([h1, h2], ignore_index=True, sort=False)
+
+Here are the preprocessing steps for this project:
+
+Converting string NULL or Undefined values to np.nan
+
+or values to np.nan Deletion of missing observations from columns with a small number of NULL values
+
+values Filling in missing values according to rules
+
+Deletion of incorrect values
+
+Outlier detection
+
+Step 1 — String NULL or Undefined values to np.nan
+
+import numpy as np for col in df.columns:
+
+if df[col].dtype == 'object' and col != 'country':
+
+df.loc[df[col].str.contains('NULL'), col] = np.nan
+
+df.loc[df[col].str.contains('Undefined', na=False), col] = np.nan null_series = df.isnull().sum()
+
+print(null_series[null_series > 0])
+
+With the code above, we convert string NULL and Undefined values to np.nan values. Then, we print the count of NULL values for each column. Here’s what the result looks like,
+
+Null values
+
+Step 2— Delete some missing values
+
+We can delete NULL values in country, children, market_segment, distribution_channel, because there are few NULL values in these fields.
+
+subset = [
+
+'country',
+
+'children',
+
+'market_segment',
+
+'distribution_channel'
+
+]
+
+df = df.dropna(subset=subset)
+
+Step 3— Fill missing values by rule-set
+
+There are a number of rules specified for the data. [2] For example, values that are Undefined/SC mean that they are no meal type. Since we have previously replaced Undefined values with NULL , we can fill the NULL values in the meal field with SC .
+
+The fact that the agent field is NULL means the reservation didn’t come from any agency. Therefore, these reservations can be considered as purchased directly by the customers, without any intermediary organizations such as agencies and etc. That’s why we’re not deleting NULL values, we’re throwing a random value like 999 instead. The same goes for the company field.
+
+More detailed information can be found in the document in the second link in the references.
+
+df.loc[df.agent.isnull(), 'agent'] = 999
+
+df.loc[df.company.isnull(), 'company'] = 999 df.loc[df.meal.isnull(), 'meal'] = 'SC'
+
+Step 4— Delete wrong values
+
+The ADR field refers to the average price per night of the reservation. Therefore, it is not normal for it to take a value smaller than zero. You can use df.describe().T to see such situations. We delete values that are smaller than zero for the ADR field.
+
+df = df[df.adr > 0]
+
+Step 5 —Outlier detection
+
+For integer and float fields, we determine the lower and upper points using the code below. If there is equation between the lower point and the upper point, we do not do any filtering. If not equal, we remove observations larger than the upper point and observations smaller than the lower point from the data set.
+
+Outlier detection with IQR
+
+The lower and upper points of the fields seem to be below,
+
+IQR results
+
+Finally, we’re going to talk about multivariate outlier detection. [3] This is a special inference in which we work a little more and does not apply to every business. Charges such as $5 or $10 for a 1-night stay can be met normally, but that’s not normal for 10-night stay. Therefore, removing these values, which are considered contrary, from the data set will help our model to learn. So I’ve tried the LocalOutlierFactor and EllipticEnvelope , I’m only going over EllipticEnvelope because it yielded better results, but if you want to check out both, you can look at my repository.
+
+from sklearn.covariance import EllipticEnvelope
+
+import matplotlib.pyplot as plt
+
+import numpy as np # create new features: total price and total nights
+
+cleaned.loc[:, 'total_nights'] = \
+
+cleaned['stays_in_week_nights'] + cleaned['stays_in_weekend_nights']
+
+cleaned.loc[:, 'price'] = cleaned['adr'] * cleaned['total_nights'] # create numpy array
+
+X = np.array(cleaned[['total_nights', 'price']]) # create model
+
+ee = EllipticEnvelope(contamination=.01, random_state=0) # predictions
+
+y_pred_ee = ee.fit_predict(X) # predictions (-1: outlier, 1: normal)
+
+anomalies = X[y_pred_ee == -1] # plot data and outliers
+
+plt.figure(figsize=(15, 8))
+
+plt.scatter(X[:, 0], X[:, 1], c='white', s=20, edgecolor='k')
+
+plt.scatter(anomalies[:, 0], anomalies[:, 1], c='red');
+
+The chart is as follows. The red dots show outlier values.
+
+EllipticEnvelope result
+
+As you can see, it would make sense to leave small values outside the data set, especially after 6 nights. By applying this process, we can save the data set.
+
+df_cleaned = cleaned[y_pred_ee != -1].copy() h1_cleaned = df_cleaned[df_cleaned.id.isin(h1.id.tolist())]
+
+h2_cleaned = df_cleaned[df_cleaned.id.isin(h2.id.tolist())] h1_cleaned = h1_cleaned.drop('id', axis=1)
+
+h2_cleaned = h2_cleaned.drop('id', axis=1) h1_cleaned.to_csv('data/H1_cleaned.csv', index=False)
+
+h2_cleaned.to_csv('data/H2_cleaned.csv', index=False)
+
+Feature Engineering
+
+Another important issue that has to be done before building up a model is feature engineering. Adding or removing features may be more efficient for our model.
+
+Step 1— Correlation
+
+First, I’m going to convert categorical data to integer using LabelEncoder , and then I’m going to look at the correlations. [4] The following code does this,
+
+from sklearn.preprocessing import LabelEncoder
+
+import matplotlib.pyplot as plt
+
+import pandas as pd
+
+import seaborn as sns train = pd.read_csv('./data/H1_cleaned.csv')
+
+test = pd.read_csv('./data/H2_cleaned.csv') df_le = train.copy()
+
+le = LabelEncoder()
+
+
+
+categoricals = [
+
+'arrival_date_month',
+
+'meal',
+
+'country',
+
+'market_segment',
+
+'distribution_channel',
+
+'reserved_room_type',
+
+'assigned_room_type',
+
+'deposit_type',
+
+'agent',
+
+'company',
+
+'customer_type',
+
+'reservation_status',
+
+]
+
+
+
+for col in categoricals:
+
+df_le[col] = le.fit_transform(df_le[col]) plt.figure(figsize=(20, 15))
+
+sns.heatmap(df_le.corr(), annot=True, fmt='.2f');
+
+This code gives us a correlation matrix like the one below,
+
+Correlation matrix
+
+In this matrix, there appears to be a negative high correlation between reservation_status and is_canceled features. There is also a high correlation between total_nights and stays_in_week_nights and stays_in_weekend_nights fields. So, we remove reservation_status and total_nights features from our data set. Since there is a relation between reservation_status_date and reservation_status, we will remove this feature.
+
+columns = [
+
+'reservation_status_date',
+
+'total_nights',
+
+'reservation_status',
+
+]
+
+
+
+train = train.drop(columns, axis=1)
+
+test = test.drop(columns, axis=1)
+
+df_le = df_le.drop(columns, axis=1)
+
+Step 2— Dummy Variables vs Label Encoder
+
+Machine learning models requires numerical data to operate. So before we can model, we need to convert categorical variables into numerical variables. There are two methods we can use to do this: Dummy variables and LabelEncoder .With the code you see below, we create features both using LabelEncoder and using dummy variables .
+
+import pandas as pd new_categoricals = [col for col in categoricals if col in train.columns] df_hot = pd.get_dummies(data=train, columns=new_categoricals)
+
+test_hot = pd.get_dummies(data=test, columns=new_categoricals) X_hot = df_hot.drop('is_canceled', axis=1)
+
+X_le = df_le.drop('is_canceled', axis=1)
+
+y = train['is_canceled']
+
+Then we build a logistic regression model with dummy variables and examine the classification report as a first look at the data.
+
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.metrics import accuracy_score, classification_report
+
+from sklearn.model_selection import train_test_split X_train, X_test, y_train, y_test = train_test_split(X_hot, y, test_size=.2, random_state=42)
+
+
+
+log = LogisticRegression().fit(X_train, y_train)
+
+y_pred = log.predict(X_test) print(accuracy_score(y_test, y_pred))
+
+print(classification_report(y_test, y_pred))
+
+The accuracy score appears to be 0.8584, but the accuracy for reservations that have been cancelled is very low when looking at the classification report. Because our data contains 23720 successful cases and 8697 canceled cases. In such cases, it is preferred to dilute the weighted class or to increase the number of samples for the fewer sampled class. We will first select features with feature selection algorithm and then compare the dummy variables and label encoder using diluted data.
+
+First classification report
+
+Step 3— Feature Selection
+
+Feature selection is one of the most important issues for feature engineering. Here we will use SelectKBest , a popular feature selection algorithm for classification problems. Our scoring function will be chi². [5]
+
+Feature selection
+
+With the above function, we select the best features for both LabelEncoder and dummy variables .
+
+selects_hot = select(X_hot)
+
+selects_le = select(X_le)
+
+Then we compare these features in a simple way.
+
+Dummy variables vs label encoder
+
+The comparison results are as follows,
+
+Dummy variables vs label encoder classification reports
+
+We select these fields because the features we create with dummy variables give better results.
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.utils import resample
+
+import pandas as pd last = test_hot[selects_hot + ['is_canceled']]
+
+
+
+X_last = last.drop('is_canceled', axis=1)
+
+y_last = last['is_canceled'] # separate majority and minority classes
+
+major = selected[selected['is_canceled'] == 0]
+
+minor = selected[selected['is_canceled'] == 1]
+
+
+
+# downsample majority class
+
+downsampled = resample(major, replace=False, n_samples=len(minor), random_state=123)
+
+
+
+# combine minority class with downsampled majority class
+
+df_new = pd.concat([downsampled, minor])
+
+
+
+# display new class counts
+
+print(df_new['is_canceled'].value_counts()) X = df_new.drop('is_canceled', axis=1)
+
+y = df_new['is_canceled'] X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, random_state=42)
+
+With the code above, we have equalized both the number of success reservations and the number of canceled reservations by 8697 and divided our data set into train and test. We will then measure the performance of our models by creating the following class.
+
+Report class
+
+Let’s go to the last step and compare our models!
+
+Modelling
+
+Many models have been tried here, you can see them in my repository. But here I’m going to share the results of the top 2 models and some code that shows how we do hyperparameter tuning . Here’s how it goes,
+
+from sklearn.model_selection import GridSearchCV
+
+from xgboost import XGBClassifier report = Report(X_test, y_test)
+
+xgb = XGBClassifier().fit(X_train, y_train) xgb_params = {
+
+'n_estimators': [100, 500, 1000],
+
+'max_depth': [3, 5, 10],
+
+'min_samples_split': [2, 5, 10]
+
+} params = {
+
+'estimator': xgb,
+
+'param_grid': xgb_params,
+
+'cv': 5,
+
+'refit': False,
+
+'n_jobs': -1,
+
+'verbose': 2,
+
+'scoring': 'recall',
+
+} xgb_cv = GridSearchCV(**params)
+
+_ = xgb_cv.fit(X_train, y_train) print(xgb_cv.best_params_)
+
+xgb = XGBClassifier(**xgb_cv.best_params_).fit(X_train, y_train) report.metrics(xgb)
+
+report.plot_roc_curve(xgb, save=True)
+
+XGBoost results are as follows:
+
+XGB results
+
+If we replace the XGBoost with the GBM using the codes above, the results are as follows:
+
+GBM results
+
+Conclusion
+
+First, I wanted to emphasize the importance of preprocessing and feature selection steps in model building processes in this article. The way to create a successful model is to get clean data.
+
+The optimization of the model established afterwards and especially the problem of classification should not be overlooked the importance of recall values. The accuracy by class is one of the most critical points of classification problems.
+
+Hopefully, it has been a useful article!

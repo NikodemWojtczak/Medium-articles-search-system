@@ -1,0 +1,21 @@
+I have been working on quantitative intraday strategies during the last months. As a side result, I have tested workflows for similar tasks in Python, C, Fortran and Julia. Here are my findings.
+
+The context
+
+To give a background on the nature of the projects that have been tested I will begin clarifying that:
+
+The projects are related to instruments trading (i.e. I design and simulate derivatives market algorithmic/quantitative strategies). I have not used Machine Learning or AI techniques in these strategies, just plain/vanilla statistics and simulation. Handled data sets are large but not huge, normally my simulations cover 30 million records data sets per asset/instrument, every data is used several times, and I do parametric and Monte Carlo analysis. This implies a large number of iterations. I am not an expert programmer and I am not interested in becoming one, I just want to focus on the market logic and the strategies that exploit profitable edges.
+
+My quest is to find the right tool combination that performs well enough and simplify my workflow. Hence the review is based on the perspective of an end-user of these technologies.
+
+This context has some implications:
+
+I need a language that can deal easily and without efforts with large data sets. I need speed. I do not need that much speed to require multi-core or parallel processing. I do not need —at this time— Machine Learning or AI libraries.
+
+This post is the outcome from the journey I have done to find an optimal workflow. It is a subjective but still informed view of each language strengths and weaknesses for this particular endeavour. I hope you find it useful and enjoyable.
+
+The beginnings: Python and R
+
+Approaching the field means that you will probably begin with Python or R, so did I.
+
+R language has been the natural choice for doing statistics in the scientific/academic community well before Data Science term was coined. R is the open-source implementation of the S…

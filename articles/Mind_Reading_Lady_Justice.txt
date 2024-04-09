@@ -1,0 +1,71 @@
+Mind Reading Lady Justice
+
+Photo by walknboston
+
+A few months ago I was hunting for a machine learning side project when I bumped into the Federal Contractor Misconduct Database. Curated by the nonprofit Project on Government Oversight (POGO), each entry in the database represents an incident in which a company working for the federal government was accused of violating a law or regulation. POGO publishes the database publicly to discourage federal agencies from signing further deals with offenders.
+
+A sample entry:
+
+Instance Inadequate Number of Anesthesiologists in Texas
+
+Contractor(s) Humana
+
+Misconduct Type Consumer Affairs
+
+Date Type Date of Consent Orders
+
+Date 10/8/2018
+
+Contracting Party None
+
+Enforcement Agency State/Local
+
+Court Type Administrative
+
+Disposition Type Fine
+
+Total Penalties 700000
+
+Above, you can see the insurance company Humana was accused of not having enough anesthesiologists in their healthcare network in Texas. They must have been a federal contractor to make it into the database, but there’s no contracting party listed, so the violation wasn’t committed as part of a specific job. The Texas state government took them to administrative court and they were ultimately fined $700,000.
+
+I decided to build a piece of machine learning software that could predict the outcome of a given case of contractor misconduct based on the other information in the database. In the example above, the system would be performing well if it correctly predicted that Humana would be fined.
+
+There are other machine learning systems that predict the results of court cases. By my reading, the strongest value proposition is that knowing how likely you are to win a case helps you decide how willing you should be to settle out of court, which either improves the result or saves time and money. For this project, we can imagine either the contractor accused of misconduct or the enforcement agency accusing them might pay for a good enough forecast of the court’s decision. For my purposes here, I didn’t account for some things that would be obvious to someone familiar with this area of the law, e.g., my system doesn’t know that the outcome Found Guilty is only possible when the court type is Criminal .
+
+I began sifting through the input fields, or features, available to my system. I discarded the date field because its meaning is inconsistent, as well as the contractor’s identity because I wanted my predictor to work equally well for contractors with no incidents on record. This left me with four features, all categorical.
+
+High level data flow of prediction in this project
+
+As is common for machine learning problems, my primary problem was the limited amount of data available. POGO’s database is well maintained, but there are only about 2,500 entries. After isolating some of the data for testing I was down to under 2000. And one-hot encoding my categorical features ballooned the number of dimensions up to 112. While it could be better, that ratio meets the commonly used rule of thumb of having ten training examples for every feature. But I also had fourteen target classes, or possible results, to match up with the inputs, so I didn’t let my hopes get too high.
+
+Before modeling, I t-SNE’d and plotted the data:
+
+The relatively orderly separation between the colors here implies it should be possible to make decent predictions. Click through to explore individual incidents.
+
+Ready to start modeling, I spun up a slew of standard classifiers from scikit-learn and, lacking a more specific objective, compared them by F₁ score averaged across the possible outcomes. The non-linear support vector classifiers performed best, with the radial basis function kernel SVC on top with a mean F₁ of 0.663. Not particularly reliable, but a lot better than guessing. (A dummy classifier which guessed disposition types randomly but at the correct frequencies scored 0.087.)
+
+Lobbyist Data
+
+The premise of the misconduct database is that government agencies tend to error in rehiring contractors with spotty records, overlooking more suitable bids. If this favoritism is real, could it affect decisions in misconduct cases as well? For example, a company whose executives swim in the same social circles as government decision makers might win undeserved contracts and also receive lenient treatment from regulators. If so, knowing that a company is well connected would help us make better predictions about their outcomes in court.
+
+I decided to fold in a second data source that spoke to a company’s overall clout in Washington. Lobbying seemed like a good place to start. Due to a transparency law passed in 2007, congressional lobbyists are required to publicly report information about their clients, staff, and activities. Every quarter, each lobbying firm submits a disclosure form with this information, which is then made available online as an XML file.
+
+To get data out of the disclosure forms, I had to write code to parse them and extract the parts I needed. The forms are filled out by lobbying firms manually, poorly normalized, have an inherently flexible structure (e.g., the number of lobbyists listed varies), so I had to make up heuristics as I went to get out clean data. During my exploratory analysis I was amused to see that whoever was managing the The House’s lobbyist disclosures hadn’t bothered to remove their test submissions from the production database, leaving dozens of forms with titles like Ms. QA Test Cycle 6.0.0 .
+
+Once my data extraction got up and running, I tried to identify which contractors from the original database were also listed as clients of a lobbying firm. To my surprise, I was able to find lobbyists for 70% of them by writing some simple string matching code. I extracted a few fields from the lobbyist disclosures and added them to the contractor data set, namely:
+
+Whether the contractor had any lobbyists
+
+The total number of times a lobbying firm listed them as a client
+
+The total number of individual lobbyists listed under those entries
+
+Adding these features into my data set and rerunning the RBF-based SVC yielded a modest bump to my mean F₁, from 0.663 to 0.676.
+
+That result suggests that knowing about the scale of a company’s lobbying efforts helps you figure out what outcome they’ll get in court. It’s tougher to say why. Maybe companies explicitly conspire with members of congress to dodge prosecution. Maybe judges are unconsciously favoring more prestigious companies, who also tend to have more lobbyists. Maybe companies hire lots of lobbyists thinking they can skirt regulation, but they get caught anyway. My best guess is that it’s just about money; companies that spend more on lawyers representing them in court probably also spend more on lawyers representing them to members of congress.
+
+There are a variety of avenues for improving this project, but I’m most interested in introducing another new data source. We could test whether the lobbyist data provided any unique insight by comparing it to a richer source of information about the same companies, of which there are plenty commercially available. Another option is extracting features related to misconduct accusations themselves. Using natural language processing and other techniques on legal documents is an active area of research and entrepreneurship. Given the scope of the project, I was most satisfied that I was able to take two publicly available data sources that didn’t initially seem related and quickly combine them to produce a concrete improvement to my predictor.
+
+You can find my code for this project here.
+
+Luke Persola is a data scientist and engineer located in San Francisco. I’m currently seeking a full time data science position! More at lukepersola.com.

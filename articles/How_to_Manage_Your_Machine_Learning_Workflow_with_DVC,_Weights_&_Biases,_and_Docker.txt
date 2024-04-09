@@ -1,0 +1,9 @@
+Managing a machine learning workflow is hard. Beyond the usual challenges in software engineering, machine learning engineers also need to think about experiment tracking, reproducibility, model deployment, and governance. In this article, I want to show 3 powerful tools to simplify and scale up machine learning development within an organization by making it easy to track, reproduce, manage, and deploy models.
+
+Using Version Control with DVC
+
+In conventional software engineering, Git is the industry standard for version control. Team members work on their own local code, but always sync up their progress and new developments with a central repository. This ensures that everyone is up to date and in sync. It’s a great way of having the work of the team compound on each other, rather than conflicting, which leads to higher output.
+
+Machine learning is a bit trickier since a lot of it is a combination of research and software engineering. For example, the data itself is large, so shared storage can be challenging. Or displaying the changes in Jupyter Notebooks is difficult, as Git doesn’t allow the ability to show changes in graphs from commit to commit.
+
+DVC is a handy tool built to make machine learning models shareable and reproducible. It is designed to handle large files, data sets, machine learning models, and metrics as well as code.

@@ -1,0 +1,539 @@
+Seq2Seq is a type of Encoder-Decoder model using RNN. It can be used as a model for machine interaction and machine translation.
+
+By learning a large number of sequence pairs, this model generates one from the other. More kindly explained, the I/O of Seq2Seq is below:
+
+Input: sentence of text data e.g. “How are you doing?”
+
+Output: sentence of text data as well e.g. “Not so bad.”
+
+And here we have examples of business applications with Seq2Seq:
+
+A chatbot (you can find it from my GitHub)
+
+Machine Translation (you can find from my GitHub)
+
+Question Answering
+
+Abstract Text Summarization (you can find from my GitHub)
+
+Text Generation (you can find from my GitHub)
+
+If you want more information about Seq2Seq, here I have a recommendation from Machine Learning at Microsoft on Youtube.
+
+Now we could understand the versatility of this technique, so let’s take a look at the whole process!
+
+— — — — —
+
+2. Task Definition and Seq2Seq Modeling
+
+For training our seq2seq model, we will use Cornell Movie — Dialogs Corpus Dataset which contains over 220,579 conversational exchanges between 10,292 pairs of movie characters. And it involves 9,035 characters from 617 movies.
+
+Here one of the conversations from the data set:
+
+Mike:
+
+"Drink up, Charley. We're ahead of you." Charley:
+
+"I'm not thirsty."
+
+Then we will input these pairs of conversations into Encoder and Decoder. So that means our Neural Network model has two input layers as you can see below.
+
+This is our Seq2Seq Neural Network Architecture for this time:
+
+copyright Akira Takezawa
+
+Let's visualize our Seq2Seq by using LSTM:
+
+copyright Akira Takezawa
+
+3. Dimensions of Each Layer from Seq2Seq
+
+The Black Box for “NLP newbie” is I think this:
+
+How each layer compiles data and change their Dimension of data?
+
+To make this clear, I will explain how it works in detail. The Layers can be broken down into 5 different parts:
+
+Input Layer (Encoder and Decoder) Embedding Layer (Encoder and Decoder) LSTM Layer (Encoder and Decoder) Decoder Output Layer
+
+Let’s get started!
+
+1. Input Layer of Encoder and Decoder (2D->2D)
+
+Input Layer Dimension: 2D (sequence_length, None)
+
+# 2D
+
+encoder_input_layer = Input(shape=(sequence_length, ))
+
+decoder_input_layer = Input(shape=(sequence_length, ))
+
+NOTE: sequence_length is MAX_LEN unified by padding in preprocessing
+
+Input Data: 2D (sample_num, max_sequence_length)
+
+# Input_Data.shape = (150000, 15) array([[ 1, 32, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+[ 123, 56, 3, 34, 43, 345, 0, 0, 0, 0, 0, 0, 0],
+
+[ 3, 22, 1, 6543, 58, 6, 435, 0, 0, 0, 0, 0, 0],
+
+[ 198, 27, 2, 94, 67, 98, 0, 0, 0, 0, 0, 0, 0],
+
+[ 45, 78, 2, 23, 43, 6, 45, 0, 0, 0, 0, 0, 0]
+
+], dtype=int32)
+
+NOTE: sample_num can be a length of training_data (150000)
+
+Output Data: 2D
+
+NOTE: Input() is used only for Keras tensor instantiations
+
+— — — — —
+
+2. Embedding layer of Encoder and Decoder (2D->3D)
+
+Embedding Layer Dimension: 2D (sequence_length, vocab_size)
+
+embedding_layer = Embedding(input_dim = vocab_size,
+
+output_dim = embedding_dimension,
+
+input_length = sequence_length)
+
+NOTE: vocab_size is the number of unique words
+
+Input Data: 2D (sequence_length, vocab_size)
+
+# Input_Data.shape = (15, 10000) array([[ 1, 1, 0, 0, 1, 0, ...... 0, 0, 1, 0, 0, 0, 0],
+
+[ 0, 0, 1, 0, 0, 1, ...... 0, 0, 0, 0, 0, 0, 1],
+
+[ 0, 1, 0, 0, 0, 0, ...... 0, 0, 1, 0, 0, 0, 0],
+
+[ 0, 1, 0, 0, 0, 1, ...... 0, 0, 0, 1, 0, 1, 0],
+
+[ 0, 0, 1, 0, 1, 0, ...... 0, 0, 1, 0, 1, 0, 0]
+
+], dtype=int32)
+
+NOTE: Data should be a group of One-Hot Vector
+
+Output Data: 3D (num_samples, sequence_length, embedding_dims)
+
+# Output_Data.shape = (150000, 15, 50) array([[[ 1, 1, 0, 0, ...... 0, 1, 0, 0],
+
+[ 0, 0, 1, 0, ...... 0, 0, 0, 1],
+
+...,
+
+...,
+
+[ 0, 1, 0, 0, ...... 1, 0, 1, 0],
+
+[ 0, 0, 1, 0, ...... 0, 1, 0, 0]],
+
+[[ 1, 1, 0, 0, ...... 0, 1, 0, 0],
+
+[ 0, 0, 1, 0, ...... 0, 0, 0, 1],
+
+...,
+
+...,
+
+[ 0, 1, 0, 0, ...... 1, 0, 1, 0],
+
+[ 0, 0, 1, 0, ...... 0, 1, 0, 0]], ....,] * 150000 , dtype=int32)
+
+NOTE: Data is word embedded in 50 dimensions
+
+— — — — —
+
+3. LSTM layer of Encoder and Decoder (3D->3D)
+
+The tricky argument of the LSTM layer is these two:
+
+1. return_state: Whether to return the last state along with the output 2. return_sequences: Whether the last output of the output sequence or a complete sequence is returned
+
+You can find a good explanation from Understand the Difference Between Return Sequences and Return States for LSTMs in Keras by Jason Brownlee.
+
+Layer Dimension: 3D (hidden_units, sequence_length, embedding_dims)
+
+# HIDDEN_DIM = 20 encoder_LSTM = LSTM(HIDDEN_DIM, return_state=True) encoder_outputs, state_h, state_c = encoder_LSTM(encoder_embedding) decoder_LSTM = LSTM(HIDDEN_DIM, return_state=True, return_sequences=True)
+
+decoder_outputs, _, _ = decoder_LSTM(decoder_embedding, initial_state=[state_h, state_c])
+
+Input Data: 3D (num_samples, sequence_length, embedding_dims)
+
+# Input_Data.shape = (150000, 15, 50) array([[[ 1, 1, 0, 0, ...... 0, 1, 0, 0],
+
+[ 0, 0, 1, 0, ...... 0, 0, 0, 1],
+
+...,
+
+...,
+
+[ 0, 1, 0, 0, ...... 1, 0, 1, 0],
+
+[ 0, 0, 1, 0, ...... 0, 1, 0, 0]], [[ 1, 1, 0, 0, ...... 0, 1, 0, 0],
+
+[ 0, 0, 1, 0, ...... 0, 0, 0, 1],
+
+...,
+
+...,
+
+[ 0, 1, 0, 0, ...... 1, 0, 1, 0],
+
+[ 0, 0, 1, 0, ...... 0, 1, 0, 0]], ....,] * 150000 , dtype=int32)
+
+NOTE: Data is word embedded in 50 dimensions
+
+Output Data: 3D (num_samples, sequence_length, hidden_units)
+
+# HIDDEN_DIM = 20
+
+# Output_Data.shape = (150000, 15, 20) array([[[ 0.0032, 0.0041, 0.0021, .... 0.0020, 0.0231, 0.0010],
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+...,
+
+...,
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+[ 0.0021, 0.0065, 0.0008, .... 0.0089, 0.0043, 0.0024]], [ 0.0032, 0.0041, 0.0021, .... 0.0020, 0.0231, 0.0010],
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+...,
+
+...,
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+[ 0.0021, 0.0065, 0.0008, .... 0.0089, 0.0043, 0.0024]], ....,] * 150000 , dtype=int32)
+
+NOTE: Data reshaped by LSTM as a hidden layer in 20 dimensions
+
+Additional Information:
+
+If return_state = False and return_sequences = False :
+
+Output Data: 2D (num_sample, hidden_units)
+
+# HIDDEN_DIM = 20
+
+# Output_Data.shape = (150000, 20) array([[ 0.0032, 0.0041, 0.0021, .... 0.0020, 0.0231, 0.0010],
+
+[ 0.0076, 0.0767, 0.0761, .... 0.0098, 0.0065, 0.0076],
+
+...,
+
+...,
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+[ 0.0021, 0.0065, 0.0008, .... 0.0089, 0.0043, 0.0024]]
+
+, dtype=float32)
+
+— — — — —
+
+4. Decoder Output Layer (3D->2D)
+
+Output Layer Dimension: 2D (sequence_length, vocab_size)
+
+outputs = TimeDistributed(Dense(VOCAB_SIZE, activation='softmax'))(decoder_outputs)
+
+NOTE: TimeDistributedDenselayer allows us to apply a layer to every temporal slice of an input
+
+Input Data: 3D (num_samples, sequence_length, hidden_units)
+
+# HIDDEN_DIM = 20
+
+# Input_Data.shape = (150000, 15, 20) array([[[ 0.0032, 0.0041, 0.0021, .... 0.0020, 0.0231, 0.0010],
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+...,
+
+...,
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+[ 0.0021, 0.0065, 0.0008, .... 0.0089, 0.0043, 0.0024]], [ 0.0032, 0.0041, 0.0021, .... 0.0020, 0.0231, 0.0010],
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+...,
+
+...,
+
+[ 0.0099, 0.0007, 0.0098, .... 0.0038, 0.0035, 0.0026],
+
+[ 0.0021, 0.0065, 0.0008, .... 0.0089, 0.0043, 0.0024]], ....,] * 150000 , dtype=int32)
+
+NOTE: Data reshaped by LSTM as a hidden layer in 20 dimensions
+
+Output Data: 2D (sequence_length, vocab_size)
+
+# Output_Data.shape = (15, 10000) array([[ 1, 1, 0, 0, 1, 0, ...... 0, 0, 1, 0, 0, 0, 0],
+
+[ 0, 0, 1, 0, 0, 1, ...... 0, 0, 0, 0, 0, 0, 1],
+
+[ 0, 1, 0, 0, 0, 0, ...... 0, 0, 1, 0, 0, 0, 0],
+
+[ 0, 1, 0, 0, 0, 1, ...... 0, 0, 0, 1, 0, 1, 0],
+
+[ 0, 0, 1, 0, 1, 0, ...... 0, 0, 1, 0, 1, 0, 0]
+
+], dtype=int32)
+
+After Data passed this Fully Connected Layer, we use Reversed Vocabulary which I will explain later to convert from One-Hot Vector into Word Sequence.
+
+— — — — —
+
+4. Entire Preprocess of Seq2Seq (in Chatbot Case)
+
+Creating A Language Translation Model Using Sequence To Sequence Learning Approach
+
+Before jumping on preprocessing of Seq2Seq, I wanna mention about this:
+
+We need some Variables to define the Shape of our Seq2Seq Neural Network on the way of Data preprocessing
+
+MAX_LEN: to unify the length of the input sentences VOCAB_SIZE: to decide the dimension of sentence’s one-hot vector EMBEDDING_DIM: to decide the dimension of Word2Vec
+
+— — — — —
+
+Preprocessing for Seq2Seq
+
+OK, please put this information on your mind, let’s start to talk about preprocessing. The whole process could be broken down into 8steps:
+
+Text Cleaning Put <BOS> tag and <EOS> tag for decoder input Make Vocabulary (VOCAB_SIZE) Tokenize Bag of words to Bag of IDs Padding (MAX_LEN) Word Embedding (EMBEDDING_DIM) Reshape the Data depends on neural network shape Split Data for training and validation, testing
+
+— — — — —
+
+1. Text Cleaning
+
+Function
+
+I always use this my own function to clean text for Seq2Seq:
+
+Input
+
+# encoder input text data ["Drink up, Charley. We're ahead of you.",
+
+'Did you change your hair?',
+
+'I believe I have found a faster way.']
+
+Output
+
+# encoder input text data ['drink up charley we are ahead of you',
+
+'did you change your hair',
+
+'i believe i have found a faster way']
+
+— — — — —
+
+2. Put <BOS> tag and <EOS> tag for decoder input
+
+Function
+
+<BOS> means “Begin of Sequence”, <EOS> means “End of Sequence”.
+
+Input
+
+# decoder input text data [['with the teeth of your zipper',
+
+'so they tell me',
+
+'so which dakota you from'],,,,]
+
+Output
+
+# decoder input text data [['<BOS> with the teeth of your zipper <EOS>',
+
+'<BOS> so they tell me <EOS>',
+
+'<BOS> so which dakota you from <EOS>'],,,,]
+
+— — — — —
+
+3. Make Vocabulary (VOCAB_SIZE)
+
+Function
+
+Input
+
+# Cleaned texts [['with the teeth of your zipper',
+
+'so they tell me',
+
+'so which dakota you from'],,,,]
+
+Output
+
+>>> word2idx {'genetically': 14816,
+
+'ecentus': 64088,
+
+'houston': 4172,
+
+'cufflinks': 30399,
+
+"annabelle's": 23767,
+
+.....} # 14999 words >>> idx2word {1: 'bos',
+
+2: 'eos',
+
+3: 'you',
+
+4: 'i',
+
+5: 'the',
+
+.....} # 14999 indexs
+
+— — — — —
+
+4. Tokenize Bag of words to Bag of IDs
+
+Function
+
+Input
+
+# Cleaned texts [['with the teeth of your zipper',
+
+'so they tell me',
+
+'so which dakota you from'],,,,]
+
+Output
+
+# decoder input text data [[10, 27, 8, 4, 27, 1107, 802],
+
+[3, 5, 186, 168],
+
+[662, 4, 22, 346, 6, 130, 3, 5, 2407],,,,,]
+
+— — — — —
+
+5. Padding (MAX_LEN)
+
+Function
+
+Input
+
+# decoder input text data [[10, 27, 8, 4, 27, 1107, 802],
+
+[3, 5, 186, 168],
+
+[662, 4, 22, 346, 6, 130, 3, 5, 2407],,,,,]
+
+Output
+
+# MAX_LEN = 10
+
+# decoder input text data array([[10, 27, 8, 4, 27, 1107, 802, 0, 0, 0],
+
+[3, 5, 186, 168, 0, 0, 0, 0, 0, 0],
+
+[662, 4, 22, 346, 6, 130, 3, 5, 2407, 0],,,,,]
+
+— — — — —
+
+6. Word Embedding (EMBEDDING_DIM)
+
+Function
+
+We use Pretraind Word2Vec Model from Glove. We can create embedding layer with Glove with 3 steps:
+
+Call Glove file from XX Create Embedding Matrix from our Vocabulary Create Embedding Layer
+
+Let’s take a look!
+
+Call Glove file from XX
+
+Create Embedding Matrix from our Vocabulary
+
+Create Embedding Layer
+
+— — — — —
+
+7. Reshape the Data to a neural network shape
+
+Function
+
+Input
+
+# MAX_LEN = 10
+
+# decoder input text data array([[10, 27, 8, 4, 27, 1107, 802, 0, 0, 0],
+
+[3, 5, 186, 168, 0, 0, 0, 0, 0, 0],
+
+[662, 4, 22, 346, 6, 130, 3, 5, 2407, 0],,,,,]
+
+Output
+
+# output.shape (num_samples, MAX_LEN, VOCAB_SIZE)
+
+# decoder_output_data.shape (15000, 10, 15000) array([[[0., 0., 0., ..., 0., 0., 0.],
+
+[0., 0., 0., ..., 0., 0., 0.],
+
+[0., 0., 1., ..., 0., 0., 0.],
+
+...,
+
+[1., 0., 0., ..., 0., 0., 0.],
+
+[1., 0., 0., ..., 0., 0., 0.],
+
+[1., 0., 0., ..., 0., 0., 0.]], ..., ], , dtype=float32)
+
+— — — — —
+
+8. Split Data for training and validation, testing
+
+Function
+
+Input
+
+array([[[0., 0., 0., ..., 0., 0., 0.],
+
+[0., 0., 0., ..., 0., 0., 0.],
+
+[0., 0., 1., ..., 0., 0., 0.],
+
+...,
+
+[1., 0., 0., ..., 0., 0., 0.],
+
+[1., 0., 0., ..., 0., 0., 0.],
+
+[1., 0., 0., ..., 0., 0., 0.]], ..., ], , dtype=float32)
+
+Output
+
+array([[[0., 0., 0., ..., 0., 0., 0.],
+
+[0., 0., 0., ..., 0., 0., 0.],
+
+[0., 0., 1., ..., 0., 0., 0.]], ..., ], , dtype=float32)
+
+Now we finished the entire preprocessing process before input the learning data into our LSTM model.
+
+After this, you just have to feed them and wait for finishing the learning.
+
+Thanks for reading, see you in the next article.
+
+— — — — —
+
+References

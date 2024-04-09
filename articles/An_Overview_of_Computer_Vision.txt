@@ -1,0 +1,19 @@
+“If we want machines to think, we need to teach them to see.”
+
+-Fei Fei Li, Director of Stanford AI Lab and Stanford Vision Lab
+
+Computer vision is a field of artificial intelligence that trains computers to interpret and understand the visual world. Machines can accurately identify and locate objects then react to what they “see” using digital images from cameras, videos, and deep learning models.
+
+Starting in the late 1950s and early 1960s, the goal of image analysis was to mimic human vision systems and to ask computers what they see. Prior to this, image analysis had been completed manually using x-rays, MPIs or hi-res space photography. Nasa’s map of the moon took the lead with digital image processing, but wasn’t fully accepted until 1969.
+
+As computer vision evolved, programming algorithms were created to solve individual challenges. Machines became better at doing the job of vision recognition with repetition. Over the years, there has been a huge improvement of deep learning techniques and technology. We now have the ability to program supercomputers to train themselves, self-improve over time and provide capabilities to businesses as online applications.
+
+I like to think of computer vision as working with millions of calculations in order to recognize patterns and to have the same accuracy as the human eye. Patterns can be seen physically or can be observed mathematically by applying algorithms.
+
+The Breakdown of Computer Vision
+
+Images are broken down into pixels, which are considered to be the elements of the picture or the smallest unit of information that make up the picture.
+
+Computer vision is not just about converting a picture into pixels and then trying to make sense of what’s in the picture through those pixels. You have to understand the bigger picture of how to extract information from those pixels and interpret what they represent.
+
+Neural networks and Deep Learning are Making Computer Vision More Capable of Replicating Human Vision

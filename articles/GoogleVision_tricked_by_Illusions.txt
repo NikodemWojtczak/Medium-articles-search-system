@@ -1,0 +1,51 @@
+This tweet by Max Woolf was being talked about everywhere for a while -
+
+I found this interesting. So, I thought of finding out how Google Vision API responds to different types of illusions that were up on the internet.
+
+Classification - Dog 100% (Confidence)
+
+So, in the first image, we can clearly see a dog.
+
+And Vision API classifies as a dog with 100% confidence.
+
+No surprise there.
+
+Classification — Head, nose, jaw, and mouth 85% (Confidence, Avg)
+
+Now let’s rotate the image by 90 degrees to the right.
+
+I’ve marked it for you to easily recognize the part representing a ‘ man with a hat’ - sort of looking sad about being part of a dog’s ear!
+
+Well surprisingly, Vision API got it too! It predicts it as head, nose, jaw, and mouth with around 85% confidence.
+
+Similar results were observed with the following illustration:
+
+Classification — Frog, Toad, Amphibian 65% (Confidence, Avg)
+
+It is classified as a frog, toad, amphibian with around 65% confidence.
+
+Classification — Horse 93% (Confidence)
+
+It classified as a horse! With above 90% confidence.
+
+Google went deeper and classified it as a ‘mane’, ‘stallion’ and ‘mustang’ too!
+
+Apparently Vision API, just like you and me would perceive an image, need it to rotate the image and get an ‘oh I see it now!’ moment.
+
+Orientation does matter.
+
+There’s a catch here though, the Vision API wasn't able to identify objects within an image when camouflaged in the background. It even fails in images where it would have different components merging to cause the illusion of something being made out of them.
+
+You can see for yourself.
+
+Save The Animals Poster by WWF
+
+We can see few hidden animals (marked for easy visualization), but sadly Vision API can just see the flora, not the fauna.
+
+Similarly, here it identifies a tree, a branch, a woody plant, not the face.
+
+That’s it! If you have some questions please feel free to tweet them at me.
+
+Oh, I found this one on the internet -
+
+Follow me to stay updated with my posts. Have a great day! 🎉

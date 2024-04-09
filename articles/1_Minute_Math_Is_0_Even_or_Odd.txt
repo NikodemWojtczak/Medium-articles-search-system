@@ -1,0 +1,29 @@
+A question, that my students frequently ask me is: Is 0 even or odd or both?
+
+Photo by Jeremy Perkins on Unsplash. Zero — a beautiful number.
+
+Is 0 even?
+
+To answer this question, we first need to define what “even” means.
+
+An even number is a number n which can be written as n=2⋅ k for some whole number k.
+
+That means if we divide an even number by 2, there is no rest left!
+
+Can we write 0=2⋅ k for some k? Yepp, we can if we choose k=0.
+
+Awesome. That means that 0 is even!
+
+Is 0 also odd?
+
+Again, we first need to define what “odd” means and the common definition is very similar to the definition of even.
+
+An odd number is a number n which can be written as n=2⋅ k+1 for some whole number k.
+
+Can we write 0=2⋅k+1 for some whole number k? Nope. We can’t because solving this equation for k yields k=-1/2, which is not a whole number.
+
+The Answer
+
+Alright, the proof is done. 0 is even (and only even!).
+
+Not even (pun intended) too difficult, is it?

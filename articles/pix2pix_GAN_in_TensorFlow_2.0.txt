@@ -1,0 +1,39 @@
+The interplay of loss function and network architecture is subtle, and as we will see there are often multiple ways to solve a problem, but first we need to define a conditional loss for a generative adversarial network. The key principle here is the same as any GAN, the generative adversarial min max game between the two networks to optimise the loss function:
+
+where G is the generator and D the discriminator, x the conditional input image, y the true image and z a random noise vector.
+
+(A more detailed discussion here, but the basic idea is G outputs an image such that D(G) is maximised, while D is optimised to output 1 for true images. Why this ever converges, and to what extent we’re barking up the wrong tree, is another interesting discussion here.)
+
+This already has one key difference to the vanilla GAN case: it’s conditional. Conditional here means that rather than receiving just a random noise vector, the generator takes in additional information. This could simply be class information as in the cDCGAN, or as in this case where the conditional information is the original image. Where the vannilla GAN depends as G:z -> y, the conditional GAN goes as G:{x, z} -> y.
+
+Interestingly, this isn’t actually the full picture. When the network trains, it generally learns to ignore the random noise vector, so to keep the network non-deterministic dropout was used to reintroduce the stochastic behaviour.
+
+In many GANs, an L2 regularisation loss is added to the optimisation on the basis that by minimising the Euclidean distance between the target and generated image (MSE), the generator would learn structure and colour of the image. However, it was found that this generally leads to blurred images, so to combat this the L1 regularisation loss is added with some pre-factor weight instead, as:
+
+Which gives the total loss function to optimise as:
+
+The next key question is about the structure of the networks.
+
+In this analysis, the generator is based on a U-Net structure, a variation on an auto encoder, while the discriminator is called patch-GAN.
+
+Generator Architecture
+
+The point of using a U-Net structure is that the network forces all information to be passed through a tight bottle neck in the middle of the network. This forces a latent representation of the input image to be found that can be reconstructed to the original, the idea being that a finite amount of information can pass through - the network is forced to learn an optimal reduced mapping, and cannot simply memorise the training set.
+
+This has one obvious limitation; there is a significant proportion of the output and input image that ought to share the same description. The content of the image is supposed to remain unchanged. The variation in U-Net over an auto-encoder is the addition of a skip connection between each symmetric layer in the U-net structure, as can be seen in figure above. These concatenated layers have the effect of passing higher level information directly at the appropriate scale in the network, and reduce the amount of information needed to pass through the latent bottleneck layer. The idea here is that the information passed through focuses on finer details rather than large scale structure.
+
+The discriminator is more atypical and might need more context. In general terms, the L1 and L2 regularisation is a weak constraint on the network that doesn’t produce sharp details as there are many paths to get a small L value. However, this doesn’t write off this part of the loss function, as it encourages generating the high level structure, which is exploited in the choice of discriminator.
+
+Introducing crisp details to the generated image can be done via a number of paths:
+
+Tuning the weight of the lambda pre-factor on the L1/L2 loss — as discussed above, this caps out with relatively blurred images, generally correct but without sharp details. Adding an additional loss that quantifies the performance of the output image — a number of methods using a pre-trained network to assess the quality of the output images have been tried. Specifically in the case of SRGAN, the distance between the latent space of the VGG network on the target and output images is minimised. Update the discriminator to promote the crisp details — patch-GAN — seems almost too obvious, doesn’t it?
+
+Patch-GAN Discriminator [here]
+
+The way patch GAN works is that rather than classifying the entire image, only a portion (NxN) of the image is classified as real or fake. The ‘patch’ scans over the image, makes a prediction for each, and the mean is optimised.
+
+This assumes the image can be treated as a Markov random field, where pixels separated by N or more pixels are independent. This wouldn’t be true for the entire image when considering high level structure, but is a fair assumption when looking at low level detail.
+
+The advantage here is that fine detail is preserved with the patch-GAN; to pass the discriminator test realistic low level details are encouraged, and the general structure is preserved using the regularisation loss. Another vital advantage of this patch method over a whole image classifier is that it’s fast, as small NxN patches are faster to evaluate and train than one single discriminator. It also scales efficiently to arbitrary sized images.
+
+There are two technical points on the training of the network. Firstly, rather than minimising (1 — log D), the training maximises log(D). Secondly, the Discriminator objective function is halved during training to restrict the rate at which the discriminator trains compared to the generator.

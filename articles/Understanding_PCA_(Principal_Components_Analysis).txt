@@ -1,0 +1,21 @@
+Member-only story Understanding PCA (Principal Components Analysis)
+
+We Discover How Principal Components Analysis Helps Us Uncover the Underlying Trends in Our Data Tony Yiu · Follow Published in Towards Data Science · 10 min read · Jul 6, 2019 -- 11 Share
+
+In data science and finance (and pretty much any quantitative discipline), we are always sifting through a lot of noise in search of signal. Now if only, there were an algorithm that could do that for us…
+
+There is! Today we will explore how PCA (Principal Components Analysis) helps us uncover the underlying drivers hidden in our data — a super useful feature as it allows us to summarize huge feature sets using just a few principal components.
+
+If you are interested in the code that I used to generate the charts below, you can find it on my GitHub here.
+
+Variance is Both Our Enemy and Our Friend
+
+If you have spent some time reading statistics or data science textbooks, you will notice that the main reason we go through all the trouble of building models is to explain variance.
+
+But what does that really mean? Let’s unpack this step by step. First, what do we actually mean by variance? Imagine that our data looks like this:
+
+A Flat Line Has Zero Variance
+
+You are thinking, “Tony why are you showing me a flat line? This is so boring.” And that is exactly the point. If our data was just a flat line, it would be very easy to predict (just predict five all the time) but also completely uninteresting. A flat line is an example of data with zero variance — there is absolutely no vertical variation in the data.
+
+What is an example of zero variance data in real life? It sounds ridiculous but let’s pretend your boss told you to predict the number of floors in a five story building. So every day for 100 days you measure the number of floors of the building in question and at the end you get the chart above, a straight line. When your boss comes back and asks for your prediction, you say with confidence “I predict that tomorrow the building will still be five floors tall!” Rocket science right?

@@ -1,0 +1,39 @@
+According to wikipedia, “feature selection is the process of selecting a subset of relevant features for use in model construction” or in other words, the selection of the most important features.
+
+In normal circumstances, domain knowledge plays an important role and we could select features we feel would be the most important. For example, in predicting home prices the number of bedrooms and square footage are often considered important.
+
+Unfortunately, here in the Don’t Overfit II competition, the use of domain knowledge is impossible as we have a binary target and 300 continuous variables “of mysterious origin” forcing us to try automatic feature selection techniques.
+
+The full notebook can be found here.
+
+Feature Selection vs Dimensionality Reduction
+
+Often, feature selection and dimensionality reduction are grouped together (like here in this article). While both methods are used for reducing the number of features in a dataset, there is an important difference.
+
+Feature selection is simply selecting and excluding given features without changing them.
+
+Dimensionality reduction transforms features into a lower dimension.
+
+In this article we will explore the following feature selection and dimensionality reduction techniques:
+
+Feature Selection
+
+Remove features with missing values
+
+Remove features with low variance
+
+Remove highly correlated features
+
+Univariate feature selection
+
+Recursive feature elimination
+
+Feature selection using SelectFromModel
+
+Dimensionality Reduction
+
+PCA
+
+Baseline Model
+
+We’ll use logistic regression as our baseline model. We first split into test and train sets and scale the data:

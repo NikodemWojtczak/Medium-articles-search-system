@@ -1,0 +1,13 @@
+In simple terms, clustering is nothing but separating observations based on certain properties. In a more technical term, clustering is an unsupervised machine learning algorithm, a process, by which observations (data) are grouped in a way that similar observations are put closer to each other. It is an “unsupervised” algorithm because unlike supervised algorithms (e.g. random forest) you do not have to train it with labeled data, and instead, you put your data into a “clustering machine” along with some instructions (e.g. # of clusters you want), and the machine will figure out the rest and cluster the data based on the underlying patterns and properties.
+
+Lee RCT (1981):
+
+Clustering analysis is a newly developed computer-oriented data analysis technique. It is a product of many research fields: statistics, computer science, operations research, and pattern recognition.
+
+What does it mean for data to be clustered?
+
+The purpose of this article is to highlight some industry applications as well as discuss pros and cons of most frequently used clustering algorithms. In the second part I will demonstrate an implementation of K-means clustering as an example in Python environment. In the end I’ll leave some additional technical notes for practicing data scientists.
+
+Industry applications
+
+Why is clustering so popular in statistics and machine learning fields? This is because cluster analysis is a powerful data mining tool in a wide range of business application cases. Here are just a few of many applications:

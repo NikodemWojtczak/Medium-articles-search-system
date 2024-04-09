@@ -1,0 +1,15 @@
+The Power of Weak Ties
+
+What is a social network?
+
+We all know of the term “social network” in terms of social networking sites such as Facebook and Twitter. On these sites, people are able to communicate and form social connections with other users on the site. As people use these websites, patterns tend to emerge as users group together based on preexisting in-person relationships, as well as through newly-created relationships created during online interactions. While these websites certainly do have the characteristics of a social network, a social network need not be a website.
+
+Social networks, in the most general sense, are ways to model connections between people. People, or actors, in the network are considered nodes (circles), and the connections between them, or edges (lines), represent ties that result from interaction or relationships. These networks may form from any social behavior, such as online communication, in-person communication, and even more abstract forms of connection, such as knowing of a person due to them being your relative.
+
+Social networks are powerful tools that are used in both social sciences such as sociology and psychology, as well as in quantitative fields such as statistics and mathematics. Examining the structure of the network in general, such as density and the number of components, as well as examining individual nodes’ contributions to the network through metrics such as centrality, can provide a lot of insight into complex social phenomena.
+
+What is a weak tie?
+
+Now that we understand what a graph is, we can look into the types of connections in a graph. These can be grouped into absent ties, weak ties, and strong ties.
+
+Absent ties, are, as the name suggests, connections that do not exist in a graph. So if Person A and Person B are not…

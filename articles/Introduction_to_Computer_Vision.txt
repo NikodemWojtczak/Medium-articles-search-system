@@ -1,0 +1,15 @@
+When introducing Computer vision to the masses, we need to include the approaches that have been taken in order to enable systems to reason about developing understanding and as a result, developing useful applications of Computer vision.
+
+There are two main strategies a Computer vision system can apply to derive understanding from the information its has been provided with. They are namely: Bottom-Up and Top-Down approaches.
+
+The bottom-up approach involves using the understanding of information accumulated to conduct further understanding of some arbitrary observation; eventually, all the accumulated understanding leads to a solution or general understanding of the entirety of the observation object.
+
+An example of where a Bottom-Up approach is used in a Computer vision application is in Automatic number plate recognition. This type of application seems to be a reasonable component of a traffic speeding camera.
+
+Automatic number plate recognition(ANPR) via the bottom-up approach work by passing the visual information (number plate) into our computer vision system. The system proceeds to make some form of understanding by identifying the edges in the numbers on the plates. From the edge information, we proceed one level up and start to identify lines by joining up edges (here we can see the transfer of understanding from one level to another). After that, the lines can be joined up to form shapes, and then finally, we observe characters by identifying areas where lines meet, and edges close.
+
+The top-down approach applies background knowledge to generate an understanding from an observation. The background knowledge acts as a referential guide for the selection of parameters that fits a model (similar to the approach of Deep Learning techniques). This approach can be briefly summarized as the process by which an image is broken down into sub-components, and an understanding of the fragmented information is obtained to present an understanding of the entirety of the image.
+
+From this article, we understand the definition of Computer Vision and its components. Also mentioned are some areas where computer vision techniques are applied. Besides this, we have explored approaches computer vision techniques within these systems can take when trying to derive an understanding from the information.
+
+From here on, you can look into some basic low-level image processing techniques such as edge detection, noise reduction, image sharpening, etc.

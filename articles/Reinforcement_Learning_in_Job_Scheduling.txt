@@ -1,0 +1,37 @@
+In October 2015, AlphaGo, an AI-powered system, beat Mr Fan Hui, the reigning 3-times European Champion of the complex board game Go, by 5 points to 0. It was the first time an AI conquered a human in such a sophisticated game.
+
+The thought of writing my first Medium article intrigued me since I believed this could give me a platform to share and contribute something I would like to read from fellow community members. Scientific publications and research papers can be so hard to comprehend by a layperson that it would take him/her days or even weeks to thoroughly understand the terminology and the specifics of the novelty of the academicians’ work. Hence, I took this as a medium (that’s coincidentally a pun) to start writing and explaining a particular scientific contribution, to the best of my knowledge to encourage fellow writers to contribute on parallel lines.
+
+I want to begin my series of articles with the first post based on the publication titled “Multiple Resource Management and Burst Time Prediction Using Deep Reinforcement Learning”.
+
+Beginning with the technicalities, it is imperative to introduce the readers with the ubiquitous problem of resource allocation in the various scientific and technological aspects of our lives. We could talk about resources in any field say radio networks, wireless communication networks, cloud computing, software networking, to name a few. Wherever a system would be present that would be taking a set of tasks/jobs as input would always involve the concept of resource allocation for these set of tasks/jobs.
+
+Talking about resource requirements leads us to the concept of resource clusters and cluster scheduling. Consider an online multi-resource allocation problem which includes resources like CPU, I/O units, memory, etc. (Refer to the diagram shown below).
+
+Such a set of distinct resources clubbed together can be termed as a resource cluster, and each task/job which arrives would require a certain number of units of each resource belonging to this cluster. Our goal has to be to minimize the wastage of any resources, i.e. these resources should not be put idle for a very long time, especially if a future job would require them for its completion. Hence, cluster utilization and efficiency are taken as crucial indicators for proper resource management and scheduling decisions.
+
+To tackle the problem at hand, the authors came up with SchedQRM, an online multi-resource scheduler which takes in a set of jobs as input along with their job signatures (here, job signature refers to values like BSS, ROdata, etc. that can be easily obtained using some basic Linux commands for a set of programming applications/codes). The scheduler makes use of a 2-tier approach to perform the aforementioned task:
+
+Classifies burst time of jobs based on their signature
+
+SchedQRM takes job signature as an input and predicts the burst time for the job using a Deep Neural Network (DNN).
+
+2. Employs a Reinforcement Learning algorithm to find an optimal scheduling policy
+
+The second section consists of the reinforcement learning model, which outputs a scheduling policy for a given job set.
+
+Aim: To optimize average job-slowdown or job completion time.
+
+I guess I introduced some very different terminologies here. Beginning with burst time, it is defined as the time required by the process for its completion. Job slowdown is defined as the ratio of job completion time to its burst time. (Note- Job completion time consists of burst time as well as other waiting times for the job since the time the scheduler received it.)
+
+One of the most difficult challenges faced was to finalize on particular state representation in which the given state would contain all the desired information about the jobs to be scheduled, the number of resource units which were in use and the ones which were available for the upcoming jobs at a particular time step. The following image represents the state representation used. (Please refer the original research paper article for a better understanding of the same.)
+
+Pictorial representation of a sample state.
+
+One of the essential assumptions behind this work has been to have no pre-emption of jobs allowed along with no priority assignment for any job. This showcases a plausible future opportunity to dive deep into this problem statement and tackle a more real-life scenario where such assumptions would not exist.
+
+Talking about the core concept of this article as well as the research publication, reinforcement learning in simple terms refers to a kind of learning where an agent exists in a given environment and is able to take suitable decisions on its own given the type of reward it obtains (positive or negative) on making that particular decision. The formulation of this problem statement and the idea of automating an end-to-end scheduling process was based on this very concept only and hence, we believe, that reinforcement learning, although has been a center of focus for a lot of researchers, can indeed be a promising approach to tackle a wide variety of problem statements.
+
+I hope I have been able to summarize the research article discussed above in an easy-to-understand manner. In the end, I would further encourage the interested audience to go through the research paper and also other relevant contributions made by the research community on this very problem statement to gain deeper insights into the same.
+
+Any kind of feedback concerning this article, as well as the research publication, is most-welcomed. I would appreciate if someone would like to reach out and share their views on this particular problem statement.

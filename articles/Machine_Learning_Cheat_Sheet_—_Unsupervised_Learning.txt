@@ -1,0 +1,23 @@
+Machine Learning Cheat Sheet — Unsupervised Learning
+
+Unsupervised Learning Y Tech · Follow 4 min read · Jun 27, 2019 -- Share
+
+This is a summary of the unsupervised learning techniques, it mainly discusses and compares the differences for different clustering methodologies.
+
+K-Means Clustering
+
+Assign: set K centroids randomly, assign each point to a centroid which is closest to the point Optimize: moving the centroids to optimize the distances that are assigned to them Repeat step 1 and 2: reassign the points to the centroids, and re-optimize
+
+Disadvantages:
+
+Getting 3 Clusters But in Local Minimum
+
+Local Minimum — We can run the K-Means clustering multiple times with different initial conditions to find the best output. Sensitive to noise and outliers
+
+Choosing K
+
+Elbow Method: Plot the ascending values of k versus the total error calculated using that k, to find the minimum total error. Average Silhouette Method: Plot the ascending values of k versus the average silhouette (average distance between points in the same cluster)using that k, to find the maximum average silhouette.
+
+Hierarchical Clustering
+
+Single-Link Clustering

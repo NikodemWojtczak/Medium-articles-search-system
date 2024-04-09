@@ -1,0 +1,27 @@
+Over the past week Google has been under fire as a former police chief accused the internet giant of pushing extremist content, with a search for “British Muslim spokesperson” returning content from a jailed radical cleric as the top search result.
+
+Last month Facebook was criticised for not being able to guarantee that the recent New Zealand massacre video was not still present on its platform.
+
+Twitter has also been reprimanded for not taking down alleged white supremacist content and failing to implement an algorithm to support this effort.
+
+Increasingly we’re seeing greater levels of media attention and public concern directed at the social media giants owing to their seeming inability to control the algorithms that support the distribution of content their platforms serve up to users.
+
+Leaders and spokespeople for the big firms have argued that policing the internet is not their sole responsibility, but many feel that if they are happy to derive super profits from content, then they also have a moral (and some say perhaps a legal) duty of care to do more to moderate their platforms.
+
+But perhaps rather than asking the tech firms to come up with better algorithms we should be stepping back and asking why we believe algorithms alone are the answer?
+
+Despite the hype we are still a long way (Deepmind’s cofounder has talked in terms of decades) from a general AI that’s able to ape human ability to deal with nuance, morality and ethics. Context and adaptive learning are key to these types of ‘human’ decisions and whilst great strides are being made, we have a tendency to overestimate what technology alone can do today.
+
+Whilst many countries now have, or are developing, a national AI strategy and there is little doubt that adaptive algorithmic technologies are learning at an incredible rate, there remains a long way to go.
+
+Perhaps a more appropriate paradigm is to think in terms of human hybrid solutions – where a mixture of scaled technologies such as adaptive AI and machine learning can help to cut through say 80–90 % of the noise, leaving humans to deal with the thorny cases which require difficult judgement calls.
+
+Many examples are already out there whereby algorithms are being used to sift through vast amounts of machine readable data to help identify cases to overturn convictions (for example, in California for marijuana following legalisation of the drug), or in healthcare to help diagnose diseases (for example, the NHS is looking at how to better treat multiple sclerosis as one example). The edge cases that require judgment calls are then filtered through humans.
+
+In fairness to the likes of Google, Facebook and Twitter, they recognise the limitations of current algorithms and do employ vast numbers of human decision makers, or ‘moderators’, to review content (although this brings its own set of contentious issues).
+
+Perhaps they need to be more forthcoming with their public assessment of the limitations of their technology and the reliance they still have on human interventions? It’s not a failure on the part of the algorithms, rather it’s an admittance that there is a much broader journey of discovery and evolution beyond just the power of the technology.
+
+No doubt there is tremendous potential for algorithms to change our lives, and progress is being made at an incredible rate to automate mundane tasks.
+
+As a result, although algorithms will get better at advising on the most difficult of judgement calls, we need to remain realistic about where the boundaries currently lie and accept that humans still have a critical role to play in decision-making.

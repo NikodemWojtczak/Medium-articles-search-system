@@ -1,0 +1,13 @@
+This is actually an assignment from Jeremy Howard’s fast.ai course, lesson 5. I’ve showcased how easy it is to build a Convolutional Neural Networks from scratch using PyTorch. Today, let’s try to delve down even deeper and see if we could write our own nn.Linear module. Why waste your time writing your own PyTorch module while it’s already been written by the devs over at Facebook?
+
+Well, for one, you’ll gain a deeper understanding of how all the pieces are put together. By comparing your code with the PyTorch code, you will gain knowledge of why and how these libraries are developed.
+
+Also, once you’re done, you’ll have more confidence in implementing and using all these libraries, knowing how things work. There will be no myth to you.
+
+And last but not least, you’ll be able to modify/tweak these modules should the situation require. And this is the difference between a noob and a pro.
+
+OK, enough of the motivation, let’s get to it.
+
+Simple MNIST one layer NN as the backdrop
+
+First of all, we need some ‘backdrop’ codes to test whether and how well our module performs. Let’s build a very simple one-layer neural network to solve the good-old MNIST dataset. The code (running in Jupyter Notebook) snippet below:
