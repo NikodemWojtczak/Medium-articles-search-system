@@ -1,0 +1,123 @@
+Building the Pipeline
+
+Below is a summary of the various preprocessing and modeling steps. The high-level steps include:
+
+Preprocessing: load and examine data, cleaning, tokenization, padding Modeling: build, train, and test the model Prediction: generate specific translations of English to French, and compare the output translations to the ground truth translations Iteration: iterate on the model, experimenting with different architectures
+
+For a more detailed walkthrough including the source code, check out the Jupyter notebook in the project repo.
+
+Frameworks
+
+We use Keras for the frontend and TensorFlow for the backend in this project. I prefer using Keras on top of TensorFlow because the syntax is simpler, which makes building the model layers more intuitive. However, there is a trade-off with Keras as you lose the ability to do fine-grained customizations. But this won’t affect the models we’re building in this project.
+
+Preprocessing
+
+Load & Examine Data
+
+Here is a sample of the data. The inputs are sentences in English; the outputs are the corresponding translations in French.
+
+When we run a word count, we can see that the vocabulary for the dataset is quite small. This was by design for this project. This allows us to train the models in a reasonable time.
+
+Cleaning
+
+No additional cleaning needs to be done at this point. The data has already been converted to lowercase and split so that there are spaces between all words and punctuation.
+
+Note: For other NLP projects you may need to perform additional steps such as: remove HTML tags, remove stop words, remove punctuation or convert to tag representations, label the parts of speech, or perform entity extraction.
+
+Tokenization
+
+Next, we need to tokenize the data — i.e., convert the text to numerical values. This allows the neural network to perform operations on the input data. For this project, each word and punctuation mark will be given a unique ID. (For other NLP projects, it might make sense to assign each character a unique ID.)
+
+When we run the tokenizer, it creates a word index, which is then used to convert each sentence to a vector.
+
+Padding
+
+When we feed our sequences of word IDs into the model, each sequence needs to be the same length. To achieve this, padding is added to any sequence that is shorter than the max length (i.e. shorter than the longest sentence).
+
+One-Hot Encoding (not used)
+
+In this project, our input sequences will be a vector containing a series of integers. Each integer represents an English word (as seen above). However, in other projects, sometimes an additional step is performed to convert each integer into a one-hot encoded vector. We don’t use one-hot encoding (OHE) in this project, but you’ll see references to it in certain diagrams (like the one below). I just didn’t want you to get confused.
+
+One of the advantages of OHE is efficiency since it can run at a faster clock rate than other encodings. The other advantage is that OHE better represents categorical data where there is no ordinal relationship between different values. For example, let’s say we’re classifying animals as either a mammal, reptile, fish, or bird. If we encode them as 1, 2, 3, 4 respectively, our model may assume there is a natural ordering between them, which there isn’t. It’s not useful to structure our data such that mammal comes before reptile and so forth. This can mislead our model and cause poor results. However, if we then apply one-hot encoding to these integers, changing them to binary representations — 1000, 0100, 0010, 0001 respectively — then no ordinal relationship can be inferred by the model.
+
+But, one of the drawbacks of OHE is that the vectors can get very long and sparse. The length of the vector is determined by the vocabulary, i.e. the number of unique words in your text corpus. As we saw in the data examination step above, our vocabulary for this project is very small — only 227 English words and 355 French words. By comparison, the Oxford English Dictionary has 172,000 words. But, if we include various proper nouns, words tenses, and slang there could be millions of words in each language. For example, Google’s word2vec is trained on a vocabulary of 3 million unique words. If we used OHE on this vocabulary, the vector for each word would include one positive value (1) surrounded by 2,999,999 zeros!
+
+And, since we’re using embeddings (in the next step) to further encode the word representations, we don’t need to bother with OHE. Any efficiency gains aren’t worth it on a data set this small.
+
+Modeling
+
+First, let’s breakdown the architecture of an RNN at a high level. Referring to the diagram above, there are a few parts of the model we need to be aware of:
+
+Inputs. Input sequences are fed into the model with one word for every time step. Each word is encoded as a unique integer or one-hot encoded vector that maps to the English dataset vocabulary. Embedding Layers. Embeddings are used to convert each word to a vector. The size of the vector depends on the complexity of the vocabulary. Recurrent Layers (Encoder). This is where the context from word vectors in previous time steps is applied to the current word vector. Dense Layers (Decoder). These are typical fully connected layers used to decode the encoded input into the correct translation sequence. Outputs. The outputs are returned as a sequence of integers or one-hot encoded vectors which can then be mapped to the French dataset vocabulary.
+
+Embeddings
+
+Embeddings allow us to capture more precise syntactic and semantic word relationships. This is achieved by projecting each word into n-dimensional space. Words with similar meanings occupy similar regions of this space; the closer two words are, the more similar they are. And often the vectors between words represent useful relationships, such as gender, verb tense, or even geopolitical relationships.
+
+Photo credit: Chris Bail
+
+Training embeddings on a large dataset from scratch requires a huge amount of data and computation. So, instead of doing it ourselves, we normally use a pre-trained embeddings package such as GloVe or word2vec. When used this way, embeddings are a form of transfer learning. However, since our dataset for this project has a small vocabulary and low syntactic variation, we’ll use Keras to train the embeddings ourselves.
+
+Encoder & Decoder
+
+Our sequence-to-sequence model links two recurrent networks: an encoder and decoder. The encoder summarizes the input into a context variable, also called the state. This context is then decoded and the output sequence is generated.
+
+Image credit: Udacity
+
+Since both the encoder and decoder are recurrent, they have loops which process each part of the sequence at different time steps. To picture this, it’s best to unroll the network so we can see what’s happening at each time step.
+
+In the example below, it takes four timesteps to encode the entire input sequence. At each time step, the encoder “reads” the input word and performs a transformation on its hidden state. Then it passes that hidden state to the next time step. Keep in mind that the hidden state represents the relevant context flowing through the network. The bigger the hidden state, the greater the learning capacity of the model, but also the greater the computation requirements. We’ll talk more about the transformations within the hidden state when we cover gated recurrent units (GRU).
+
+Image credit: modified version from Udacity
+
+For now, notice that for each time step after the first word in the sequence there are two inputs: the hidden state and a word from the sequence. For the encoder, it’s the next word in the input sequence. For the decoder, it’s the previous word from the output sequence.
+
+Also, remember that when we refer to a “word,” we really mean the vector representation of the word which comes from the embedding layer.
+
+Here’s another way to visualize the encoder and decoder, except with a Mandarin input sequence.
+
+Bidirectional Layer
+
+Now that we understand how context flows through the network via the hidden state, let’s take it a step further by allowing that context to flow in both directions. This is what a bidirectional layer does.
+
+In the example above, the encoder only has historical context. But, providing future context can result in better model performance. This may seem counterintuitive to the way humans process language since we only read in one direction. However, humans often require future context to interpret what is being said. In other words, sometimes we don’t understand a sentence until an important word or phrase is provided at the end. Happens this does whenever Yoda speaks. 😑 🙏
+
+To implement this, we train two RNN layers simultaneously. The first layer is fed the input sequence as-is and the second is fed a reversed copy.
+
+Image credit: Udacity
+
+Hidden Layer with Gated Recurrent Unit (GRU)
+
+Now let’s make our RNN a little bit smarter. Instead of allowing all of the information from the hidden state to flow through the network, what if we could be more selective? Perhaps some of the information is more relevant, while other information should be discarded. This is essentially what a gated recurrent unit (GRU) does.
+
+There are two gates in a GRU: an update gate and reset gate. This article by Simeon Kostadinov, explains these in detail. To summarize, the update gate (z) helps the model determine how much information from previous time steps needs to be passed along to the future. Meanwhile, the reset gate (r) decides how much of the past information to forget.
+
+Final Model
+
+Now that we’ve discussed the various parts of our model, let’s take a look at the code. Again, all of the source code is available here in the notebook (.html version).
+
+Results
+
+The results from the final model can be found in cell 20 of the notebook.
+
+Validation accuracy: 97.5%
+
+Training time: 23 epochs
+
+Future Improvements
+
+Do proper data split (training, validation, test). Currently, there is no test set, only training and validation. Obviously, this doesn’t follow best practices. LSTM + attention. This has been the de facto architecture for RNNs over the past few years, although there are some limitations. I didn’t use LSTM because I’d already implemented it in TensorFlow in another project, and I wanted to experiment with GRU + Keras for this project. Train on a larger and more diverse text corpus. The text corpus and vocabulary for this project are quite small with little variation in syntax. As a result, the model is very brittle. To create a model that generalizes better, you’ll need to train on a larger dataset with more variability in grammar and sentence structure. Residual layers. You could add residual layers to a deep LSTM RNN, as described in this paper. Or, use residual layers as an alternative to LSTM and GRU, as described here. Embeddings. If you’re training on a larger dataset, you should definitely use a pre-trained set of embeddings such as word2vec or GloVe. Even better, use ELMo or BERT.
+
+Embedding Language Model (ELMo) . One of the biggest advances in universal embeddings in 2018 was ELMo, developed by the Allen Institute for AI. One of the major advantages of ELMo is that it addresses the problem of polysemy, in which a single word has multiple meanings. ELMo is context-based (not word-based), so different meanings for a word occupy different vectors within the embedding space. With GloVe and word2vec, each word has only one representation in the embedding space. For example, the word “queen” could refer to the matriarch of a royal family, a bee, a chess piece, or the 1970s rock band. With traditional embeddings, all of these meanings are tied to a single vector for the word queen. With ELMO, these are four distinct vectors, each with a unique set of context words occupying the same region of the embedding space. For example, we’d expect to see words like queen, rook, and pawn in a similar vector space related to the game of chess. And we’d expect to see queen, hive, and honey in a different vector space related to bees. This provides a significant boost in semantic encoding.
+
+. One of the biggest advances in universal embeddings in 2018 was ELMo, developed by the Allen Institute for AI. One of the major advantages of ELMo is that it addresses the problem of polysemy, in which a single word has multiple meanings. ELMo is context-based (not word-based), so different meanings for a word occupy different vectors within the embedding space. With GloVe and word2vec, each word has only one representation in the embedding space. For example, the word “queen” could refer to the matriarch of a royal family, a bee, a chess piece, or the 1970s rock band. With traditional embeddings, all of these meanings are tied to a single vector for the word queen. With ELMO, these are four distinct vectors, each with a unique set of context words occupying the same region of the embedding space. For example, we’d expect to see words like queen, rook, and pawn in a similar vector space related to the game of chess. And we’d expect to see queen, hive, and honey in a different vector space related to bees. This provides a significant boost in semantic encoding. Bidirectional Encoder Representations from Transformers (BERT). So far in 2019, the biggest advancement in bidirectional embeddings has been BERT, which was open-sourced by Google. How is BERT different?
+
+Context-free models such as word2vec or GloVe generate a single word embedding representation for each word in the vocabulary. For example, the word “bank” would have the same context-free representation in “bank account” and “bank of the river.” Contextual models instead generate a representation of each word that is based on the other words in the sentence. For example, in the sentence “I accessed the bank account,” a unidirectional contextual model would represent “bank” based on “I accessed the” but not “account.” However, BERT represents “bank” using both its previous and next context — “I accessed the … account” — starting from the very bottom of a deep neural network, making it deeply bidirectional.
+
+— Jacob Devlin and Ming-Wei Chang, Google AI Blog
+
+Contact
+
+I hope you found this useful. Again, if you have any feedback, I’d love to hear it. Feel free to post in the comments.
+
+If you’d like to discuss other collaboration or career opportunities you can find me here on LinkedIn or view my portfolio here.

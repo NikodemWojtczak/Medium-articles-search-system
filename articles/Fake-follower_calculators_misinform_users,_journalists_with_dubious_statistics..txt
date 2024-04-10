@@ -1,0 +1,39 @@
+On the left is SparkToro’s current sampling method and Twitter Audit’s method until May 2017. SparkToro asks Twitter for the latest 100k followers, and samples 2k to run its analysis. Twitter Audit requested 75k followers and sampled 5k.
+
+When I asked Casey Henry, co-founder of SparkToro, if he thought that this method was “random” as their app stated (they have since updated their website to clarify their methodology), he said, “The definition isn’t: ‘random of all followers.’ It’s a random sampling of your followers.”
+
+Semantics aside, the potential for error here makes their results effectively worthless for sufficiently large accounts. “Effectively worthless” meaning if SparkToro returns the number “65 percent fake” for Cardi B, what they’re really saying is that the number is somewhere between 1 and 99 percent. You can answer “How many fake followers did Cardi B gain recently?” But expanding that percentage to her millions of followers is akin to predicting how many people will vote for a national candidate after only conducting a poll in Connecticut.
+
+In May 2017, David Caplan, the co-founder of Twitter Audit, began storing old IDs as a way to get around Twitter’s speed limit (diagram on the right). The process is complicated, but essentially if there are more than 1 million followers, Twitter Audit stores one half of the number of followers in their database. They do not check to see if there are any duplicates. Caplan approved the graphic and tried to explain the process the best he could, but he was not willing to share his code.
+
+Caplan admits that he uses stale data, but he said that, until I had reached out, he was unaware that Twitter returns the latest followers first. He added over email, “Back then, the site was more like a toy so I didn’t really care that much about statistical accuracy. I also didn’t think that many people would use it!”
+
+Granted, this half-of-all-followers, duplicate-laden, stale-data method is better than what Twitter Audit had before they updated in 2017. In the most dramatic cases, however, it still can have over a 50 percentage point error spread.
+
+To reiterate, these error bars don’t come from the methods used to separate “real” from “fake” accounts — though that’s always a difficult process prone to error. These additional error bars come from the sampling process alone.
+
+Twitter Audit’s calculation for @realDonaldTrump, samples 5k from their database of 30 million followers, which answers the question “How many fake followers has the President gained since 2017?” It wouldn’t matter as much if we could assume that fake followers were evenly distributed, but reporting from the New York Times has shown that, were someone to buy followers, those accounts are likely to be highly clustered and earlier in Twitter’s history.
+
+To their credit, SparkToro analyzed every user who follows @realDonaldTrump and estimates that 70.2 percent of his followers are fake. In contrast, Twitter Audit, looking only at the latest IDs, posted that @realDonaldTrump has 11 percent fake followers.
+
+Journalists were misled by quick stats.
+
+Journalists may have been too quick to trust a web app that everyone used. Vanity Fair (with the kicker “Numbers Do Not Lie”) cited Twitter Audit to criticize @realDonaldTrump. And Matthew Ingram mentioned Twitter Audit’s stats for @realDonaldTrump in the Columbia Journalism Review. He wrote to me, “I’ve tried to mention and/or link to skeptical assessments of their value whenever I have mentioned them in writing about things like Donald Trump’s fake followers.”
+
+Having been around since 2012, Twitter Audit has become a quick source for journalists. The list of publications goes on: The Washington Post, Newsweek, Quartz, and The Telegraph have all cited Twitter Audit. To be fair, there’s no way for them to have known the platform’s error — even its co-founder wasn’t entirely aware of how wrong the numbers can be.
+
+Both Caplan and Henry mentioned that they’ve run full analyses for some journalists. When asked for specifics and presented with the stories listed above that have cited the app, however, Caplan wrote, “I’m sorry, I don’t have a record of the full audits so I can’t say for sure.” But since none of the authors from the publications listed above would comment, we don’t know which published numbers are more reliable. Both SparkToro and Twitter Audit have said they are always open to running full audits for journalists who ask.
+
+SparkToro wasn’t sympathetic to a hypothetical journalist who took their numbers at face value. “As a reporter, you should be doing your due diligence to understand how that tool works,” said co-founder Henry. I pushed back, citing the app’s misleading methodology. Henry said, “You can take it however you want to take it. You found an edge case. Congratulations.”
+
+The tools weren’t meant to be used on politicians or Katy Perry.
+
+According to their respective founders, Twitter Audit was a tool built to spot accounts that “were literally are a complete fraud,” and SparkToro is an analytics company that can help advertisers assess the value of influencers, most of whom have fewer than 100k followers.
+
+“We’re not advertising or branding ourselves as where you should analyze and criticize 2020 candidates,” said Henry. “That’s not what the tool is for…We could put a red sign on it that says ‘The tool doesn’t do this.’ But it’s a free tool. It wasn’t a priority for us. This is only a small portion of our product.” (It should be noted, however, that SparkToro made a blog post explicitly calculating the fake followers of various politicians, including three Democratic 2020 presidential candidates.)
+
+Twitter Audit shared that fewer than 1 percent of their audits are on accounts with followers greater than 1 million, and SparkToro shared that fewer than 5 percent of their audits are on accounts with followers greater than 100k. Both claim monthly traffic in the tens of thousands.
+
+Other fake-follower calculators exist, but users should be suspicious of any quick results given on accounts with greater than 75k followers. In a public forum, Twitter staff member Andy Piper wrote, “I am not aware of any API method that enables a random sampling of followers.” Meaning, any other fake-follower calculator is probably falling victim to the same problems as SparkToro or Twitter Audit.
+
+In response to my inquiry, both have considered updating their methodology and explaining more clearly the limitations of their platforms. But even as we get slightly more accurate numbers, should users and journalists continue citing them for high-profile individuals? When an account has many millions of followers — when an individual is at the top of the Billboard charts or the President of the United States — is anyone really questioning their influence?

@@ -1,0 +1,117 @@
+“No one ever says: Well… he was a lousy lawyer, but at least he was cheap!!” – Peter Fader
+
+In a previous article I discussed how, beyond prediction, customer retention inevitably comes down to understanding Customer Value and the price we are willing to pay to keep this value. In pursuit of this understanding and its respective implementation, we set out three questions that must be answered:
+
+1) Which Customers Have the Highest Probability of Churning Soon?
+
+2) What is the Lifetime Value for Each of Our Customers?
+
+3) What Retention Offer is Most Appropriate for each Customer?
+
+In addressing Question #1, we developed a churn prediction model that provided several strategies we can leverage in identifying high risk customers/members. As there is no single, optimal strategy due to the various trade-offs, the determination on which specific strategy to use would be based entirely on the amount we would be willing to invest as an attempt to prevent the existing members from leaving.
+
+“So how much should we invest into each of our high-risk customers” you ask? Well, that’s completely dependent on how much we expect them to purchase and contribute over their lifetime. This expectation is referred to as a customer’s Lifetime Value (LTV).
+
+This article is written as a “follow-along” to my repo. Here, I will cover the main ideas, results, and inferences I came across over the course of this project. Now, let’s go ahead and jump straight to Question #2:
+
+What is the Lifetime Value for Each of Our Customers?
+
+Lifetime Value (LTV) and Why is it important?
+
+Often when we think of customer acquisition and retention we immediately move into a cost minimizing (the floor) state of mind. Yet, how is it that when we hire talent we want the best and we are willing to pay (the ceiling) for the best? We need to apply this same exact logic to our Customer Acquisition and Retention efforts. We shouldn’t be obsessing over pennies if there are dollars to be gained!
+
+LTV, aka Value of Acquisition-Retention, is defined as the present value of the future (net) cash flows. This is a forward-looking concept and is not a measure of past profitability.
+
+So how do we calculate LTV? Well, it depends. All revenue streams can be boiled down to either a Contractual or Non-Contractual model. The main difference being that in a contractual setting we observe the time when our customers “die” (example: an application that offers a monthly subscription and a customer doesn’t re-subscribe), whereas in a non-contractual setting, the exact time in which a customer becomes inactive is not observed (example: a customer making a purchase from an ecommerce site and never returning).
+
+Types of Revenue Streams
+
+Each of these models carry their own unique way of evaluating LTV, thus we will only cover discrete, contractual calculations as our use-case deals with a subscription-based, fixed-price business. If you are interested in Non-Contractual LTV analysis, you can refer to this great tutorial.
+
+Calculating LTV in a Discrete, Contractual Setting — The Game Plan:
+
+1) Conduct a Survival Analysis and analyze the survival probabilities of each of our members using Kaplan Meier curves.
+
+2) Create a Cox Proportional Hazard Model (Survival Regression) to investigate the relationship between the survival time (expected lifetime) and our variables.
+
+3) Use this regression model to determine expected lifetime for all members and calculate their respective LTVs.
+
+4) Revisit our Churn Model and the identified high-risk members.
+
+Survival Analysis
+
+Addressing the question ‘how long would it be before a particular event occurs’, Survival Analysis is a branch of statistics originally used in medical and biological disciplines to study the survival times of trial patients suffering from major diseases. Simply put, we refer to this as a ‘time to event’ analysis. This technique can be further applied not just to traditional death events, but to many different types of events of interest in different business domains.
+
+Survival analysis works well in situations where we can define:
+
+A ‘Birth’ event: For our application, this will be when a customer enters a contract with a company. We use this to measure how long a user has been a member (Tenure).
+
+For our application, this will be when a customer enters a contract with a company. We use this to measure how long a user has been a member (Tenure). A ‘Death’ event: This occurs when a customer doesn’t re-subscribe within 30 days of their February 2016 membership expiration date.
+
+Keep in mind, however, that this is more of an Exploratory Data Analysis technique used to evaluate the expected lifetime of different cohort groups by visualizing their respective cumulative probabilities for survival over time. The visual representation of this function is typically referred to as the Kaplan-Meier curve, and it demonstrates the probability of an event (for example, survival) at a certain time interval.
+
+Similar to how we would conduct a bi-variate EDA to understand the behavior and potential effect of individual features before creating a regression model, we conduct a Survival Analysis before creating a Cox Proportional Hazards (CPH) Regression. Let’s now see what information we can gather using a specific type of survival curves called Kaplan-Meier Curves.
+
+The curve above provides some intuition related to the health of our population. Overall, retention seems relatively strong with our members having an ~80% probability of survival at 4000 days. This shows that KKBox is quite a healthy business as the odds of a customer surviving are high. Let’s now break up our data into various cohorts to develop a solid foundation before determining the Lifetime Value for our customers.
+
+Survival Analysis #1: Clustered Customer Segments
+
+In a previous project, we identified the following 4 cohorts based on user activity:
+
+Cluster 3, The Power Users
+
+Cluster 2, Secondary Power Users
+
+Cluster 0, The Active Majority
+
+Cluster 1, The Less-Active Minority
+
+Here we see a clear separation between Cluster 1 (The Less-Active Minority) and the other cohorts. This is a solid follow-up to our segmentation analysis as it further demonstrates how Cluster 1 clearly has the worst expected lifetime of the group (75% Survival vs ~89% for the other groups @ 4000 days). However, in the long run, having your worst customers with 75% chance of survival at ~11 years is a GREAT problem to have.
+
+Survival Analysis #2: Registration Methods
+
+Although KKBox doesn’t provide much information on values for the Registration Method, I find it to be an interesting feature as it could potentially represent ‘how’ the user was on-boarded to the platform.
+
+One of the luxuries of conducting a survival analysis is that we can clearly see the exact factors that contribute to both strong and weak members. Here we see a clear difference in survival rate over all 4 registration methods, with registered_via = 9 and 3 outperforming the rest. Members with registered_via = 10 and 4 seem to die almost instantly. If our assumption of this feature is true, then through attribution we could make a strong case for redistributing our resources in the former 2 methods to acquire more long-lasting members.
+
+From the perspective of process improvement, survival curves also act as a prompt in investigating why 4 and 10 performed so poorly. This is a great example of how we can use survival curves for Optimizing User Acquisition by evaluating marketing campaigns and the types of customers they produce for our company.
+
+Survival Analysis #3: Payment Plan Duration
+
+Companies that utilize subscriptions usually offer various tiers for customers. Typically, one of those tiers are highlighted or distinguished as the company is purposely trying to lure customers to select a default package. With Survival Analysis we can ask the question: How does the choice of what we default people into for these subscriptions impact how long they stay with us as customers?
+
+Here we can see that the choice of plan has a significant effect on membership duration. The plans with larger durations have a worse survivor rate over time compared to the 30-day monthly plan. This could be because once a plan expires, people with large plan durations are less willing to re-subscribe at the same high, one-time payment. Furthermore, what makes this chart so valuable for us is that it tells us how we could Optimize Customer Activation.
+
+Should we default everyone on a 30-day plan then? Well, that depends on the current business strategy. If a business is looking for increased revenue in the short term (365 days or less) for cash flow purposes, defaulting users to the 360-day plan would likely be best. But if the business is prioritizing long-term customer health and equity, then the 30-Day plan is the obvious candidate.
+
+Not only are these Kaplan Meier plots visually appealing, but they clearly explain the underlying patterns with our existing customers. It is such a simple and rudimentary tool, yet it provides valuable information on which we can make clear, effective decisions. Don’t forget, all this insight came simply from calculating the cumulative marginal rate from just two features (tenure and churn)!
+
+Cox Proportional Hazards (CPH) Regression
+
+As previously discussed, our Kaplan Meier curves work with only one feature and ignore the effects of all other features. Hence arises the need for a better model that can simultaneously assess the impact of all numeric and multiple predictors on survival times.
+
+Cox Proportional Hazards (CPH) is a commonly used, semi-parametric model used for investigating the relationship between the survival time and all our variables (including categorical and quantitative predictors). It returns the Expected lifetime for each user by cumulatively calculating an individual’s risk of “death” over time for a given rate of hazard. These ‘Hazards’ can be thought of as something that would increase/decrease chances of survival. In our business problem, for example, a hazard may be the associated likelihood of death (customer churn) due to the type of contract a customer has or the way they registered for the app.
+
+We must emphasize again that the main point of running a CPH regression model is not to analyze who dies and who does not die. Rather, we do this to study effects of our features (also called covariates) on the timing of death. The result of said study is the ability to predict a user’s expected lifetime, which we then in turn use to calculate their respective lifetime value.
+
+CPH Regression Output
+
+The resulting model summary is quite elaborate, so for now we will only focus on the key output: exp(coef). This is interpreted as the scaling of hazard (risk) for each additional unit of the variable:
+
+1: No Effect, no effect on contribution towards death
+
+No Effect, no effect on contribution towards death Below 1: Decrease in Hazard, less of a contribution towards death
+
+Decrease in Hazard, less of a contribution towards death Above 1: Increase in Hazard, more of a contribution towards death
+
+Interpreting the summary:
+
+city_agg is an engineered feature which reduced all cities down to 5 components based on population. The hazard ratio (HR) given under exp(coef) against each predictor shows that the city_agg_4 and city_agg_3 feature with exp(coef) = ~.9 have a minimal effect in decreasing hazard.
+
+is an engineered feature which reduced all cities down to 5 components based on population. The hazard ratio (HR) given under against each predictor shows that the feature with have a minimal effect in decreasing hazard. Cluster_2 and Cluster_3 features with exp(coef) = .77 and .71, respectively (i.e., less than 1) means a decrease in hazard and hence better survival. So, a member being classified as either one of these clusters reduces the chance of death by a factor of . 77 and .71 respectively and thus is a good prognostic for better survival.
+
+features with respectively (i.e., less than 1) means a decrease in hazard and hence better survival. So, a member being classified as either one of these clusters reduces the chance of death by a factor of . respectively and thus is a good prognostic for better survival. city_agg_1, Cluster_1, and registered_via_PCA have hazard ratios = ~2 and above! These are therefore significant “killers” and thus a strong indication of low survival rate.
+
+Now that we have a CPH regression model, we can now calculate expected lifetime and lifetime value.
+
+Estimating Expected Total Lifetime for all members and calculate their respective LTVs.

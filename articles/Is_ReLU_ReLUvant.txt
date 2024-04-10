@@ -1,0 +1,47 @@
+Despite such fancy activation functions available, most of the recent CNN models have adopted only ReLU, which probably means that if not best, it performs as good as any other activation function. The probable reason being: it is simple and makes it easier for backpropagation to rectify the weights and maintain fewer parameters. Hence it helps the model to train and converge faster.
+
+This majorly justifies the preference of ReLU, but we haven’t got the answer to our second question which is: Is there a need to use an activation function after each convolution layer within the network? To answer that, let’s begin our experiment.
+
+Experiment
+
+Let us begin with a ResNet18¹ model with a fully pre-activated ResNet¹ block. In this experiment, we will randomly drop some ReLU activation functions starting from 100% and dropping by 10% in each succeeding experiment keeping all other parameters consistent.
+
+For this experiment, we will be using the CIFAR10² dataset.
+
+Hyperparameters
+
+BATCH_SIZE = 512
+
+MOMENTUM = 0.9
+
+WEIGHT_DECAY = 5e-4
+
+LEARNING_RATE = 0.4
+
+EPOCHS = 24
+
+ReLUPercent =100
+
+Image Augmentation
+
+Height and Width shift range = 0.15625,
+
+Rotation range = 12
+
+Random LR Flip
+
+Optimizer
+
+SGD with momentum of 0.9 and weight decay of 5e-4 is used. One Cycle Learning Rate Strategy with a gradual drop towards the later epochs which has a MaxLR of 0.4 at 5th epoch.
+
+Architecture
+
+The model has 4 ResNet¹ blocks. Unlike traditional ResNet¹, at the end of a ResNet¹ block, we concatenate the input and residual path followed by a pointwise convolution to filter the information being taken ahead.
+
+The model has 25 activation layers (24 ReLUs and 1 softMax).
+
+Benchmark
+
+On the CIFAR10² dataset, this model gives a validation accuracy of≈88% in 24 epochs under 800 secs on Google Colab. This model has ≈ 27M parameters.
+
+Training

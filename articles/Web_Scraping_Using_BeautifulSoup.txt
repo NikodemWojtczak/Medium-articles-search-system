@@ -1,0 +1,37 @@
+“Beautiful Soup is a Python library for pulling data out of HTML and XML files. It works with your favorite parser to provide idiomatic ways of navigating, searching and modifying the parse tree. It commonly saves programmers hours or days of work.”
+
+You can use the pip package manager to install BeautifulSoup.
+
+$ pip install beautifulsoup4
+
+With BeautifulSoup installed let’s get started with our code.
+
+Lines 1–6: Import the required libraries to run the code. Import BeautifulSoup and give it an alias bs . requests library is used to fetch content from a given link. urllib.request is another package that helps in opening and reading URLs. argparse allows us to parse arguments passed with the file execution. os provides functionalities to interact with the filesystem. All packages but BeautifulSoup are a part of the Python standard library and don’t need to be installed.
+
+Lines 8–12: Initialize the argument parser and parse the filename argument. This is the name of the file that we wrote to disk in the previous post. It holds all the links to the image display pages.
+
+Lines 14- 21: os.getcwd() will return the path to the current working directory. split out the .csv extension from the file name, and join it with the current working directory to form our desired output directory to save the images in. The os.path.exists() will return True if the directory exists in the current path else it will return False . Accordingly, os.mkdir(dir_path) will create a directory at the given path.
+
+Lines 23–25: Use the open method to open the csv file. Then, read the file and split it on , , the delimiter in a csv file. links will hold a list of links of image display pages.
+
+Lines 27–28: Find the length of links and print this information. This is the number of images that will be downloaded.
+
+Lines 30–34: Create a function to accept an image URL and download it. In the function, extract the name of the image from the URL itself. Using urlretrieve method in urllib.request , retrieve the image and write it in the given dir_path .
+
+Lines 36–39: Loop over each hyperlink href in the image display links . Using the get method in requests library, fetch the URL. Create a BeautifulSoup object soup passing it the content of the fetched URL. html.parser defines that the given content has to be parsed as HTML.
+
+Now, here’s the tricky part. Once, the parsed HTML content was explored, it was observed that most of the HTML body of the page that is available on the browser, is not available when parsed through Beautiful Soup. The link to the actual image was also missing.
+
+
+
+https://photos.smugmug.com/Event-Photos/Kochi-Navy-Marathon-2018/i-ZGBWR4K/1/cbdceeb9/X3/_54B2663-X3.jpg # Link to the actual image
+
+Reading through the available parsed HTML and comparing it with what was available on the browser, I was able to figure out a small hack. I found out that the <head> tag was available in the parsed HTML and one of it’s meta had a link to a lower resolution version of the actual image.
+
+At line 40–41, the soup.find_all('meta', attrs={"name":"twitter:image”}) method will look for all meta tags with an attribute which has a name twitter:image and create a list of it. There’s only one tag with that attribute name, therefore, we can take the first element from the list and using .get('content') method, fetch the image link.
+
+This could have sufficed, but I wanted the highest resolution image available. Comparing the links of the actual and lower resolution version of the image, I realized the only difference in the link was the presence of ‘XL’ instead of ‘X3’ at two places.
+
+At line 41, using the string method replace I modified the image link and used the download_image function to download the image.
+
+Execute the script providing the filename, let it run for a few minutes, and Voila! Watch it download all the images of a Marathon.

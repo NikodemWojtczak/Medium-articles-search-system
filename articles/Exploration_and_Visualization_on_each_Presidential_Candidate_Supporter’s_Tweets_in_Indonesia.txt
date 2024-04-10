@@ -1,0 +1,51 @@
+Introduction
+
+Hello! Welcome to this article. This time, I want to write about something different from what I’ve written so far. My articles that has been published are about implementing an Artificial Intelligence, especially about Deep Learning. In this article, I want to write about different topic. I think this topic is also important if we want to develop a model. This step should be done before doing modelling. Which is Exploratory Data Analysis (EDA).
+
+Sorry, I’ve been busy on preparing my new job 😫. Even I am busy, I still want to write medium and share my knowledge to all of you 😘. Whenever I have a free time, I write this article little by little.
+
+Photo by freestocks.org on Unsplash
+
+In this article, I also want to write by not only telling how to code it, but also implement it to a real study case. The data that I used is from twitter which I scraped with library. The case is about “Analysis on each presidential candidate’s supporter in Indonesia on 2018”. Even the text is in Indonesian Language, I will try to make you understand what is the meaning of the text and word.
+
+The data that is used in this article is based on the tweet that I crawled. Maybe there are some tweets that the crawler has skipped. Even so, you can say that the data sample of the population which should be representative. The data that I’ve crawled is around 700.000 tweets.
+
+If you are here to have fun on reading the statistic, go on and feel free to skip the technical detail on this article. Oh, I also will not include any conclusion on the insight that we’ve found in the data. I will only write the analysis and the explanation of the visualization. You can create your conclusion on your mind and If you want more, why don’t you also do the EDA ? And of course write it 😃 .
+
+Outline
+
+Why do EDA? Steps Technology Step one : Research Question Step Two : Collect the Data Step Three: Preprocess the Data Step Four : Exploratory Data Analysis Conclusion Afterwords Repository
+
+Why do EDA?
+
+Taken from KDNuggets, the step on doing a Data Science before creating a model are Gather Data, Process the Data, Clean Data, and finally EDA. Actually, doing EDA can help us better on making the model’s quality improves. By knowing the data, we can feel how our learning algorithm learns our data. And well, if you feel that you think it’s impossible that some instance can be predicted, neither do our learner.
+
+The process EDA should be done before modelling in every tasks of Data Science and Machine Learning (except Pure Reinforcement Learning which doesn’t have any data to train). For example, in Natural Language Processing (NLP), when doing Sentiment Analysis, maybe we can make a better model by removing some words which can be found when doing EDA. Another example, in Computer Vision (CV), maybe we can found that the model can’t learn because of the inability of our model to predict some instances because our data have an unique noise or some anomalies, which hasn’t been cleaned previously in the data cleaning step.
+
+There are many others benefit when doing EDA before modelling. Maybe you can get an intuition that can make your model better. which is why we should do this step. If you read my previous article on generating Deep Learning Lyric, I skipped this part. Sometimes in generating the lyric, there are some text that I don’t want it to appear (‘REFF’ for example). And well, I didn’t notice and should have noticed it if I did the EDA first.
+
+Before we do it, we need to know what are the steps. Here we go!
+
+Steps
+
+First, we must define what are the Research Questions ? That means to define what we want to search. These Questions will be the guide on what we will do on the next step. They will also need to be answered in the next step.
+
+There are some examples for a Research Question:
+
+How many tweets that include ‘x’ Hahstags and ‘y’ Hashtags?
+
+Which country have the highest tweet frequency?
+
+List anything you need to search in question form. Typically, you can start to pin down to 5W 1H (What, When, Where, Why, Who, How). In my opinion, since we can gain new insights later, we can increase the number of the questions depending on our finding while focusing on our main Research Question.
+
+UCL Repository
+
+Second, We need to collect the data. Make sure that we search the dataset according to the research question that we have already defined. There are several ways to do this steps. We can search any structured data set in a data set repository such as Kaggle and UCL Repository. Or we can also search any unstructured data by scrapping some social media such as Facebook and Twitter using their API if possible. It depends on your research question. Often, you will not find the data that you need in a structured format out there .
+
+Third, Preprocess, Clean the Data, and Data Wrangling ! This will be the painful and annoying steps to do . Do not let your head explode on doing this step. Why this step is painful? You need to know your data. Find if there are any ‘pests ’out there need to be cleaned. Example of ‘pests ’ in NLP are Typo, Informal Word, Emoticon, Elongated Word, any Many Hidden Bomb There that usually if we remove it, it will make our visualization and model better !
+
+Before doing any of that, if the data is not the structured format, we need to convert it to the structured format for the sake of making cleaning data easier. Let me tell you, we will often go back to this steps many times since we often find the ‘pests’ in the next step.
+
+Photo by Chris Liverani on Unsplash
+
+Finally , we do EDA (Exploratory Data Analysis) . This is where we will answer some of the Research Question defined in the First Steps. Usually we will do some Visualization here to communicate our result. Why we visualize or plot our data when we can see the data by printing the result ? Remember that the result of the analysis will not be seen only for you. The result will be seen by others. For the sake of UX (User Experience) , We need to present the data by visualizing it to make sure the readers become comfortable to see the results. I do not think my article will be seen by many people if I present the result here by cropping the screenshot of the printed result in CLI (Command Line Interface). In this article, we will do EDA in Jupyter Notebook since it has beautiful UX and also can be used to present our data.

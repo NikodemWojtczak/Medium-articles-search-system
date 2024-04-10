@@ -1,0 +1,15 @@
+Finding Business Value in Simple Models
+
+To this day, the most useful predictive model I’ve seen in the wild was a general linear model. It wasn’t the most powerful model, it didn’t make the most accurate or precise predictions, and the engineers in the room didn’t get excited talking about it. However, business users trusted and understood its outputs, and the model was absorbed into their decision-making processes.
+
+I believe there’s a good explanation for why this model was embraced by the non-technical teams, succeeding where numerous complex models failed. The model accomplished something more valuable than regurgitating recommendations or labels — it facilitated a conversation between teams who needed to make important product decisions. As simple as the model was, its impact rippled through the business.
+
+I see a few valuable lessons that can be extracted from this outcome, and throughout this article my goal is to illustrate those lessons.
+
+Lesson 1: Give non-technical teams a reason to care
+
+There is often a wall that stands between technical teams and business teams. Smart people live on both sides of that wall, but in general they speak different languages and are driven by different motivations. What seems important to an engineer might appear trivial to a product manager, and vice versa.
+
+If we don’t all share the same perceptions of what’s really important, it’s natural that wires will be crossed and miscommunications will happen. This has certainly been true for many projects I’ve contributed to. This phenomenon isn’t exclusive to technical and non-technical people; this happens all the time when consultants are producing work for their clients. If we don’t continuously align on expectations, the paths of what the customer wants and what is actually delivered tend to naturally diverge.
+
+Something we can learn from this is: the way you discuss your model matters. You can frame the discussion differently if you are speaking to a technical audience versus a non-technical audience, taking care to emphasize the points that…

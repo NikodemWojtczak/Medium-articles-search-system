@@ -1,0 +1,165 @@
+How I got to Top 10 in Spacenet 4 Challenge Anna · Follow Published in Towards Data Science · 7 min read · Mar 11, 2019 -- 1 Listen Share
+
+Some illustrations by the competition hosts
+
+The task of the challenge in a nutshell
+
+For me, Spacenet4 became the first serious DL competition. Honestly, many things went wrong, but I’ve got an enjoyable and useful experience and managed to improve my skills.
+
+Maybe the most important thing I have taught during this competition: Leaderboard is the only one truth. Mistakes are easy to make anywhere and how fast you find and fix them defines your chances to win.
+
+TLDR
+
+In case you missed last year posts about
+
+@snakers41’s participation in similar challenges:
+
+Spacenet three: Road detector and Crowd AI Mapping challenge
+
+The domain — satellite images of Atlanta suburb taken from different look angles(nadirs) separated into three groups: Nadir, Off Nadir, Very Off Nadir.
+
+The core of the task — identify all building footprints.
+
+Final approach
+
+4 channels images with augs;
+
+UResNeXt101(UNet + ResNeXt101) with transfer learning;
+
+Three heads for each nadir category;
+
+Adam optimizer + lr decay;
+
+Postprocessing with borders mask and watershed;
+
+Polygons approximation;
+
+Example model performance
+
+Challenge
+
+A key challenge of all previous Spacenet competitions was to find objects at the satellite image. This time participants had to identify all buildings at images a satellite has taken from different look angles (nadir, off-nadir, very off-nadir) and target azimuth angles. And not just buildings but footprints.
+
+Changing nadir from 39 to 53
+
+Dataset had 27 collects — pictures of the same place — with nadirs ranging from 7 to 54 degrees.
+
+Collect without buildings
+
+Hmm, collects, sounds not so challenging now. We can take the smallest nadir picture, run some segmentation pipeline on it and get the footprints for all collect’s images just by sliding mask a little. Well, organizers thought the same and dropped all collect’s images from public test keeping only single examples.
+
+So, we had to face all the very-off-nadir problems with building tilts and resolution degradation. Yellow polygons here are predicted masks
+
+However, the nadir itself was hardcoded in the title, which made it possible to use angle as the feature in my model, which was done, but more on that below.
+
+More information about dataset and competitions you can read in the organizer’s article.
+
+My baseline
+
+A baseline would not be a baseline if it required some sophisticated techniques.
+
+Model
+
+A standard approach for segmentation task: Unet-like architecture + transfer learning from Imagenet.
+
+Launched it on 3-channel 896*896 pictures and checked what happened.
+
+Baseline performance. Look pretty good but obviously not perfect
+
+Loss
+
+Composite Binary Cross-Entropy + Dice Loss
+
+MOAR heads
+
+Also, the authors published the article with some interesting experiments for an open baseline. They trained three separate models for each group: nadir, off-nadir and very off-nadir images.
+
+Results were not surprising:
+
+Very off-nadir was predicted worse than others; Each model showed the best quality for images from the same group, i.e the model trained on the only off-nadir images detected well off-nadir, but failed on others.
+
+Three open baseline models evaluation performances from article
+
+By the way, metrics were also counted as the mean value for three nadir categories.
+
+Three-head model
+
+Three separate models is a good idea, but model with three heads sharing encoder layers is better(and much faster).
+
+Eventually this model + a couple of other hacks below became my final submission.
+
+Local validation metrics for some of 3-head model experiments
+
+Five-head model
+
+Besides the look angle, there was an azimuth — nadir is the same, but the satellite flew from the other side. In fact, this is another degree of freedom and two more heads for my model.
+
+Nadir=25 and nadir=34 with different azimuths. Polygons are ground truth
+
+Some other tricks have been tried
+
+Model and data processing
+
+A whole bunch of various encoders — SeNets were the most interesting ones;
+
+— SeNets were the most interesting ones; Attention From my personal experience so far attention doesn’t make something worse, so here it helped too;
+
+From my personal experience so far attention doesn’t make something worse, so here it helped too; Ofc MOAR layers gave some additional points;
+
+gave some additional points; Input with 4 image channels instead of 3 — metrics had gone up a lot;
+
+instead of 3 — metrics had gone up a lot; Standard image augmentations — shift, crop, contrast, etc — I did not try enough experiments with this;
+
+— shift, crop, contrast, etc — I did not try enough experiments with this; TTA — score didn’t change much
+
+Also compared to other competitors in this challenge, our models converged 2–3x slower, probably due to non-ideal augmentations or LR regime.
+
+Optimizer and loss
+
+Loss weighting taking building size and mutual distance into consideration — no improvement;
+
+taking building size and mutual distance into consideration — no improvement; OpenAI AdamW instead of Adam optimizer — works well if you are training a model for productions, but for competition — lacks the last 3–5% of performance;
+
+instead of Adam optimizer — works well if you are training a model for productions, but for competition — lacks the last 3–5% of performance; LR decay. Starting from high values learning rate is gradually decreasing under certain condition(loss plateau, for example). Probably, my model has been overfitting, because fast lr decay improved the score.
+
+There were a bunch of other ideas/heuristics I wanted to try, such as outer datasets, processing occluded houses, ensembling and so on, but got no time for all experiments.
+
+Post-processing and failure cases
+
+Well, that was really painful. Submit score could change dramatically just by setting up another threshold. Most of the failure cases were from the very off-nadir images due to low quality.
+
+Failure cases
+
+Masks(yellow) for tall buildings at off nadir picture
+
+With dense buildings and high threshold masks merged into one, with low threshold large buildings were divided into several smaller ones.
+
+Dense built-up area at very off-nadir with a high threshold. Baseline model. Red lines — masks boundaries, polygons — gt.
+
+Watershed
+
+All these threshold-related problems led to several thoughts.
+
+It was necessary to predict the borders of buildings too, what I did by adding the borders mask to the model output
+
+For the segmentation task, we need a little more sophisticated technique — for example, watershed. A default usage can be found in the examples here, in my case it just broke everything. Solved the problem by adding a couple of heuristics, for example, preventing a division of large houses(masks).
+
+Submission format
+
+… are polygons. That means I had to uncover old libraries and spent some time on an approximation tuning. Actually, masks can be thrown into polygons with all sharp corners, without any approximations, but it takes much more time and the output file is heavier.
+
+Polygon’s approximation from skimage
+
+The first unpleasant moment was that the algorithm was random and the results from trying to trying are not completely the same. The second unpleasant moment — an approximate line is inside -> area is smaller -> probably IoU<0.5 -> mistake
+
+Final submission
+
+I’ve entered the competition and made the first submission a bit late. Most of the mistakes, for example, wrong local validation, had to be corrected literally on the fly. As a result, a bunch of cool ideas remained untested. And, since I didn’t want to risk a place in the top 10 in the last moment, the best SOLO model instead of the ensemble got to the final submission.
+
+Final standings
+
+The final 9th place made it impossible to catch the Top5 monsters even after shakeup. However, still I am a 5-year student, the great motivation was a student’s prize — a prize for the best university team/participant. So, I pulled myself together and went all the way, providing a dockerized solution as per TopCoder guidelines, which also was a bit challenging.
+
+Honestly speaking, I was a bit worried and afraid of missing something, so I’ve written a letter to Topcoder team in hope to find out some organizational stuff, like deadlines and student’s prize requirements. And got no answer. For quite some time I have been asking around on competition forum and in email, but have not got any exact answers from the Topcoder admins for some of the questions yet. It seems a bit frustrating, but I’m still having no clue about student’s prize standings and my updated score on the private validation.
+
+Originally published at spark-in.me on March 3rd, 2019.

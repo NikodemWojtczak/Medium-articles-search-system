@@ -1,0 +1,35 @@
+Member-only story The 5 Classification Evaluation metrics every Data Scientist must know
+
+What do we want to optimize for? Most of the businesses fail to answer this simple question.
+
+Every business problem is a little different, and it should be optimized differently.
+
+We all have created classification models. A lot of time we try to increase evaluate our models on accuracy. But do we really want accuracy as a metric of our model performance?
+
+What if we are predicting the number of asteroids that will hit the earth.
+
+Just say zero all the time. And you will be 99% accurate. My model can be reasonably accurate, but not at all valuable. What should we do in such cases?
+
+Designing a Data Science project is much more important than the modeling itself.
+
+This post is about various evaluation metrics and how and when to use them.
+
+1. Accuracy, Precision, and Recall:
+
+A. Accuracy
+
+Accuracy is the quintessential classification metric. It is pretty easy to understand. And easily suited for binary as well as a multiclass classification problem.
+
+Accuracy = (TP+TN)/(TP+FP+FN+TN)
+
+Accuracy is the proportion of true results among the total number of cases examined.
+
+When to use?
+
+Accuracy is a valid choice of evaluation for classification problems which are well balanced and not skewed or No class imbalance.
+
+Caveats
+
+Let us say that our target class is very sparse. Do we want accuracy as a metric of our model performance? What if we are predicting if an asteroid will hit the earth? Just say No all the time. And you will be 99% accurate. My model can be reasonably accurate, but not at all valuable.
+
+B. Precision

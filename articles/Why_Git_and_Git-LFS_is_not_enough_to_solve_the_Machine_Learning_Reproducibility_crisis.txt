@@ -1,0 +1,209 @@
+Some claim the machine learning field is in a crisis due to software tooling that’s insufficient to ensure repeatable processes. The crisis is about difficulty in reproducing results such as machine learning models. The crisis could be solved with better software tools for machine learning practitioners.
+
+The reproducibility issue is so important that the annual NeurIPS conference plans to make this a major topic of discussion at NeurIPS 2019. The “Call for Papers” announcement has more information https://medium.com/@NeurIPSConf/call-for-papers-689294418f43
+
+The so-called crisis is because of the difficulty in replicating the work of co-workers or fellow scientists, threatening their ability to build on each other’s work or to share it with clients or to deploy production services. Since machine learning, and other forms of artificial intelligence software, are so widely used across both academic and corporate research, replicability or reproducibility is a critical problem.
+
+We might think this can be solved with typical software engineering tools, since machine learning development is similar to regular software engineering. In both cases we generate some sort of compiled software asset for execution on computer hardware hoping to get accurate results. Why can’t we tap into the rich tradition of software tools, and best practices for software quality, to build repeatable processes for machine learning teams?
+
+Unfortunately traditional software engineering tools do not fit well with the needs of machine learning researchers.
+
+A key issue is the training data. Often this is a large amount of data, such as images, videos, or texts, that are fed into machine learning tools to train an ML model. Often the training data is not under any kind of source control mechanism, if only because systems like Git do not deal well with large data files, and source control management systems designed to generate delta’s for text files do not deal well with changes to large binary files. Any experienced software engineer will tell you that a team without source control will be in a state of barely managed chaos. Changes won’t always be recorded and team members might forget what was done.
+
+At the end of the day that means a model trained against the training data cannot be replicated because the training data set will have changed in unknown-able ways. If there is no software system to remember the state of the data set on any given day, then what mechanism is there to remember what happened when?
+
+Git-LFS is your solution, right?
+
+The first response might be to simply use Git-LFS (Git Large File Storage) because it, as the name implies, deals with large files while building on Git. The pitch is that Git-LFS “replaces large files such as audio samples, videos, datasets, and graphics with text pointers inside Git, while storing the file contents on a remote server like GitHub.com or GitHub Enterprise.” One can just imagine a harried machine learning team saying “sounds great, let’s go for it”. It handles multi-gigabyte files, speeds up checkout from remote repositories, and uses the same comfortable workflow. That sure ticks a lot of boxes, doesn’t it?
+
+Not so fast, didn’t your manager instruct you to evaluate carefully before jumping in with both feet? Another life lesson to recall is to look both ways before crossing the street.
+
+The first thing your evaluation should turn up is that Git-LFS requires an LFS server, and that server is not available through every Git hosting service. The big three (Github, Gitlab and Atlassian) all support Git-LFS, but maybe you have a DIY bone in your body. Instead of using a 3rd party Git hosting service, you might prefer to host your own Git service. Gogs, for example, is a competent Git service you can easily run on your own hardware, but it does not have built-in support for Git-LFS.
+
+Depending on your data needs this next could be a killer: Git LFS lets you store files up to 2 GB in size. That is a Github limitation rather than Git-LFS limitation, however all Git-LFS implementations seem to come with various limitations. Gitlab and Atlassian both have their own lists of Git-LFS limitations. Consider this 2GB limit from Github: One of the use-cases in the Git-LFS pitch is storing video files, but isn’t it common for videos to be way beyond 2GB in size? Therefore GIt-LFS on Github is probably unsuitable for machine learning datasets.
+
+It’s not just the 2GB file size limit, but Github places such a tight limit on the free tier of Git-LFS use that one must purchase a data plan covering both data and bandwidth usage.
+
+An issue related to bandwidth is that when using a hosted Git-LFS solution, your training data is stored in a remote server and must be downloaded over the Internet. The time to download training data is a serious user experience problem.
+
+Another issue is the ease of placing data files on a cloud storage system (AWS, GCP, etc) as is often required when to run cloud-based AI software. This is not supported, since the main Git-LFS offerings from the big 3 Git services store your LFS files on their server. There is a DIY Git-LFS server that does store files on AWS S3 at https://github.com/meltingice/git-lfs-s3 But setting up a custom Git-LFS server of course requires additional work. And, what if you need the files to be on GCP instead of AWS infrastructure? Is there a Git-LFS server which stores data on the cloud storage platform of your choice? Is there a Git-LFS server that utilizes a simple SSH server? In other words, GIt-LFS limits your choices of where the data is stored.
+
+Does using Git-LFS solve the so-called Machine Learning Reproducibility Crisis?
+
+With Git-LFS your team has better control over the data, because it is now version controlled. Does that mean the problem is solved?
+
+Earlier we said the “key issue is the training data”, but that was a lie. Sort of. Yes keeping the data under version control is a big improvement. But is the lack of version control of the data files the entire problem? No.
+
+What determines the results of training a model or other activities? The determining factors include the following, and perhaps more:
+
+Training data — the image database or whatever data source is used in training the model
+
+The scripts used in training the model
+
+The libraries used by the training scripts
+
+The scripts used in processing data
+
+The libraries or other tools used in processing data
+
+The operating system and CPU/GPU hardware
+
+Production system code
+
+Libraries used by production system code
+
+Obviously the result of training a model depends on a variety of conditions. Since there are so many variables to this, it is hard to be precise, but the general problem is a lack of what’s now called Configuration Management. Software engineers have come to recognize the importance of being able to specify the precise system configuration used in deploying systems.
+
+Solutions to machine learning reproducibility
+
+Humans are an inventive lot, and there are many possible solutions to this “crisis”.
+
+Environments like R Studio or Jupyter Notebook offer a kind of interactive Markdown document which can be configured to execute data science or machine learning workflows. This is useful for documenting machine learning work, and specifying which scripts and libraries are used. But these systems do not offer a solution to managing data sets.
+
+Likewise, Makefiles and similar workflow scripting tools offer a method to repeatedly execute a series of commands. The executed commands are determined through file-system time stamps. These tools offer no solution for data management.
+
+At the other end of the scale are companies like Domino Data Labs or C3 IoT offering hosted platforms for data science and machine learning. Both package together an offering built upon a wide swath of data science tools. In some cases, like C3 IoT, users are coding in a proprietary language and storing their data in a proprietary data store. It can be enticing to use a one-stop-shopping service, but will it offer the needed flexibility?
+
+In the rest of this article we’ll discuss DVC. It was designed to closely match Git functionality, to leverage the familiarity most of us have with Git, but with features making it work well for both workflow and data management in the machine learning context.
+
+DVC (https://dvc.org) takes on and solves a larger slice of the machine learning reproducibility problem than does Git-LFS or several other potential solutions. It does this by managing the code (scripts and programs), alongside large data files, in a hybrid between DVC and a source code management (SCM) system like Git. In addition DVC manages the workflow required for processing files used in machine learning experiments. The data files and commands-to-execute are described in DVC files which we’ll learn about in the following sections. Finally, with DVC it is easy to store data on many storage systems from the local disk, to an SSH server, or to cloud systems (S3, GCP, etc). Data managed by DVC can be easily shared with others using this storage system.
+
+Image courtesy dvc.org
+
+DVC uses a similar command structure to Git. As we see here, just like git push and git pull are used for sharing code and configuration with collaborators, dvc push and dvc pull is used for sharing data. All this is covered in more detail in the coming sections, or if you want to skip right to learning about DVC see the tutorial at https://dvc.org/doc/tutorial.
+
+DVC remembers precisely which files were used at what point of time
+
+At the core of DVC is a data store (the DVC cache) optimized for storing and versioning large files. The team chooses which files to store in the SCM (like Git) and which to store in DVC. Files managed by DVC are stored such that DVC can maintain multiple versions of each file, and to use file-system links to quickly change which version of each file is being used.
+
+Conceptually the SCM (like Git) and DVC both have repositories holding multiple versions of each file. One can check out “version N” and the corresponding files will appear in the working directory, then later check out “version N+1” and the files will change around to match.
+
+Image courtesy dvc.org
+
+On the DVC side, this is handled in the DVC cache. Files stored in the cache are indexed by a checksum (MD5 hash) of the content. As the individual files managed by DVC change, their checksum will of course change, and corresponding cache entries are created. The cache holds all instances of each file.
+
+For efficiency, DVC uses several linking methods (depending on file system support) to insert files into the workspace without copying. This way DVC can quickly update the working directory when requested.
+
+DVC uses what are called “DVC files” to describe both the data files and the workflow steps. Each workspace will have multiple DVC files, with each describing one or more data files with the corresponding checksum, and each describing a command to execute in the workflow.
+
+cmd: python src/prepare.py data/data.xml
+
+deps:
+
+- md5: b4801c88a83f3bf5024c19a942993a48
+
+path: src/prepare.py
+
+- md5: a304afb96060aad90176268345e10355
+
+path: data/data.xml
+
+md5: c3a73109be6c186b9d72e714bcedaddb
+
+outs:
+
+- cache: true
+
+md5: 6836f797f3924fb46fcfd6b9f6aa6416.dir
+
+metric: false
+
+path: data/prepared
+
+wdir: .
+
+This example DVC file comes from the DVC Getting Started example (https://github.com/iterative/example-get-started) and shows the initial step of a workflow. We’ll talk more about workflows in the next section. For now, note that this command has two dependencies, src/prepare.py and data/data.xml , and an output data directory named data/prepared . Everything has an MD5 hash, and as these files change the MD5 hash will change and a new instance of changed data files are stored in the DVC cache.
+
+DVC files are checked into the SCM managed (Git) repository. As commits are made to the SCM repository each DVC file is updated (if appropriate) with new checksums of each file. Therefore with DVC one can recreate exactly the data set present for each commit, and the team can exactly recreate each development step of the project.
+
+DVC files are roughly similar to the “pointer” files used in Git-LFS.
+
+The DVC team recommends using different SCM tags or branches for each experiment. Therefore accessing the data files, and code, and configuration, appropriate to that experiment is as simple as switching branches. The SCM will update the code and configuration files, and DVC will update the data files, automatically.
+
+This means there is no more scratching your head trying to remember which data files were used for what experiment. DVC tracks all that for you.
+
+DVC remembers the exact sequence of commands used at what point of time
+
+The DVC files remember not only the files used in a particular execution stage, but the command that is executed in that stage.
+
+Reproducing a machine learning result requires not only using the precise same data files, but the same processing steps and the same code/configuration. Consider a typical step in creating a model, of preparing sample data to use in later steps. You might have a Python script, prepare.py, to perform that split, and you might have input data in an XML file named data/data.xml .
+
+$ dvc run -d data/data.xml -d code/prepare.py \
+
+-o data/prepared \
+
+python code/prepare.py
+
+This is how we use DVC to record that processing step. The DVC “run” command creates a DVC file based on the command-line options.
+
+The -d option defines dependencies, and in this case we see an input file in XML format, and a Python script. The -o option records output files, in this case there is an output data directory listed. Finally, the executed command is a Python script. Hence, we have input data, code and configuration, and output data, all dutifully recorded in the resulting DVC file, which corresponds to the DVC file shown in the previous section.
+
+If prepare.py is changed from one commit to the next, the SCM will automatically track the change. Likewise any change to data.xml results in a new instance in the DVC cache, which DVC will automatically track. The resulting data directory will also be tracked by DVC if they change.
+
+A DVC file can also simply refer to a file, like so:
+
+md5: 99775a801a1553aae41358eafc2759a9
+
+outs:
+
+- cache: true
+
+md5: ce68b98d82545628782c66192c96f2d2
+
+metric: false
+
+path: data/Posts.xml.zip
+
+persist: false
+
+wdir: ..
+
+This results from the “ dvc add file ” command, which is used when you simply have a data file, and it is not the result of another command. For example in https://dvc.org/doc/tutorial/define-ml-pipeline this is shown, which results in the immediately preceeding DVC file:
+
+$ wget -P data https://dvc.org/s3/so/100K/Posts.xml.zip
+
+$ dvc add data/Posts.xml.zip
+
+The file Posts.xml.zip is then the data source for a sequence of steps shown in the tutorial that derive information from this data.
+
+Take a step back and recognize these are individual steps in a larger workflow, or what DVC calls a pipeline. With “ dvc add ” and “ dvc run ” you can string together several Stages, each being created with a “ dvc run ” command, and each being described by a DVC file. For a complete working example, see https://github.com/iterative/example-get-started and https://dvc.org/doc/tutorial
+
+This means that each working directory will have several DVC files, one for each stage in the pipeline used in that project. DVC scans the DVC files to build up a Directed Acyclic Graph (DAG) of the commands required to reproduce the output(s) of the pipeline. Each stage is like a mini-Makefile in that DVC executes the command only if the dependencies have changed. It is also different because DVC does not consider only the file-system timestamps, like Make does, but whether the file content has changed, as determined by the checksum in the DVC file versus the current state of the file.
+
+Bottom line is that this means there is no more scratching your head trying to remember which version of what script was used for each experiment. DVC tracks all of that for you.
+
+Image courtesy dvc.org
+
+DVC makes it easy to share data and code between team members
+
+A machine learning researcher is probably working with colleagues, and needs to share data and code and configuration. Or the researcher may need to deploy data to remote systems, for example to run software on a cloud computing system (AWS, GCP, etc), which often means uploading data to the corresponding cloud storage service (S3, GCP, etc).
+
+The code and configuration side of a DVC workspace is stored in the SCM (like Git). Using normal SCM commands (like “ git clone ”) one can easily share it with colleagues. But how about sharing the data with colleagues?
+
+DVC has the concept of remote storage. A DVC workspace can push data to, or pull data from, remote storage. The remote storage pool can exist on any of the cloud storage platforms (S3, GCP, etc) as well as an SSH server.
+
+Therefore to share code, configuration and data with a colleague, you first define a remote storage pool. The configuration file holding remote storage definitions is tracked by the SCM. You next push the SCM repository to a shared server, which carries with it the DVC configuration file. When your colleague clones the repository, they can immediately pull the data from the remote cache.
+
+This means your colleagues no longer have to scratch their head wondering how to run your code. They can easily replicate the exact steps, and the exact data, used to produce the results.
+
+Image courtesy dvc.org
+
+Conclusion
+
+The key to repeatable results is using good practices, to keep proper versioning of not only their data but the code and configuration files, and to automate processing steps. Successful projects sometimes requires collaboration with colleagues, which is made easier through cloud storage systems. Some jobs require AI software running on cloud computing platforms, requiring data files to be stored on cloud storage platforms.
+
+With DVC a machine learning research team can ensure their data, configuration and code are in sync with each other. It is an easy-to-use system which efficiently manages shared data repositories alongside an SCM system (like Git) to store the configuration and code.
+
+Resources
+
+Back in 2014 Jason Brownlee wrote a checklist he claimed would encourage reproducible machine learning results, by default: https://machinelearningmastery.com/reproducible-machine-learning-results-by-default/
+
+A Practical Taxonomy of Reproducibility for Machine Learning Research — A research paper by staff of Kaggle and the U of Washington http://www.rctatman.com/files/2018-7-14-MLReproducability.pdf
+
+A researcher at McGill Univ, Joelle Pineau, has another checklist for Machine Learning reproducibility https://www.cs.mcgill.ca/~jpineau/ReproducibilityChecklist.pdf
+
+She made a presentation at the NeurIPS 2018 conference: https://videoken.com/embed/jH0AgVcwIBc (start at about 6 minutes)
+
+The 12 Factor Application is a take on reproducibility or reliability of web services https://12factor.net/
+
+A survey of scientists by the journal Nature noted over 50% of scientists agree there is a crisis in reproducing results https://www.nature.com/news/1-500-scientists-lift-the-lid-on-reproducibility-1.19970

@@ -1,0 +1,87 @@
+Image by LTDatEHU — Pixabay
+
+In this post, we will download, extract, and query AGROVOC triples using Apache Jena
+
+AGROVOC is a controlled vocabulary covering all areas of interest of the Food and Agriculture Organization (FAO) of the United Nations, including food, nutrition, agriculture, fisheries, forestry, environment, etc.
+
+AGROVOC consists of Resource Description Framework (RDF) triples. Each triple consists of 3 parts (subject, predicate, and object) such as “ Alice — knows — Bob” where “Alice” is the subject, “knows” is the predicate or the relation, and “Bod” is the object. However, since we may have more that one person with the name “Alice”, then it would be better to add a Uniform Resource Identifier (URI) to the subject to make it unique. For example, “http://google.com/developers/teamA/Alice” now it is easier to differentiate between different subjects. A collection of RDF triples called a Knowledge Graph.
+
+Why do we need to extract the triples?
+
+If you look at this URI for water <http://aims.fao.org/aos/agrovoc/c_8309> you will notice that the original entity c_8309 represents “water”. However, we put its ID instead of the actual word “water” since it may exist in other languages as well (check below figure). Therefore, we need to extract the actual words instead of the IDs which is the purpose of the first query.
+
+The page for the entity “c_8309”, notice the entity names in different languages on the right bar
+
+Download the requirements
+
+First, you need to download AGROVOC dataset. Click here or search AGROVOC on Google, then click on “Releases” and download the file “AGROVOC LOD nt (zipped — 44 MB)” the extension “nt” tells you it is a triples file.
+
+You also need to download Apache Jena so we can use SPARQL engine to extract and query the dataset. Click here or search Google for Apache Jena then download “apache-jena-3.13.1.zip (SHA512, PGP)”
+
+Extract the triples
+
+After downloading Apache Jena, we will use two main commands: tdbloader2 and tdbquery. While the first command creates indexing for the triples to make future queries faster, the second command allows us to run a SPARQL query. Please note: to able to use these commands, you need to navigate to apache-jena-<version>/bin/ then run the command, or you need to provide the path to its location such as apache-jena-<version>/bin/tdbloader2
+
+Build the index for the triples
+
+tdbloader2 --loc Indices agrovoc_2019-06-03_lod.nt
+
+Note that: Indices is the directory where the indices will be stored (give any name). agrovoc_2019-06-03_lod.nt is the name of the input file (triples) that we downloaded from AGROVOC.
+
+After that, create a new file (I prefer the extension to be .sparql ) and write the following SPARQL query that extracts the English objects only:
+
+SELECT ?subject ?predicate ?object
+
+WHERE {
+
+?subject ?predicate ?object
+
+FILTER(lang (?object) = 'en')
+
+}
+
+Finally, execute the query using this command:
+
+tdbquery --loc Indices --query English_Query.sparql
+
+English_Query.sparql is the name of the query file. The output can be directed to a file using Linux > command as follows:
+
+tdbquery --loc Indices --query English_Query.sparql > output.txt
+
+Other query examples
+
+Another simple query would be to return the entire knowledge graph (all the triples) without any filtering:
+
+SELECT ?subject ?predicate ?object
+
+WHERE {
+
+?subject ?predicate ?object
+
+}
+
+Run the following query to return all the triples that have “water” as a subject (do not forget to include the URI before water):
+
+SELECT ?predicate ?object
+
+WHERE {
+
+<water> ?predicate ?object
+
+}
+
+Notice in this example, we did not include ?subject in the query since our goal is to return predicates and objects associated with <water> subject.
+
+You can use very helpful commands such as FILTER, GROUP BY, HAVING, etc. which are very similar to SQL syntax. However, other datasets may consist of quads instead of triples. Quads consist of triples with a fourth part known as the context. For example, “Alice — knows — Bobs — GoogleDevDepartment”. You can still use the exact queries with including the context part, since you may have more than one context in the graph. The following query to return all quads where the context is “GoogleDevDepartment”:
+
+SELECT * WHERE {
+
+GRAPH ?GoogleDevDepartment {
+
+?subject ?predicate ?object
+
+}
+
+}
+
+Congratulations, by now you should be able to extract and query knowledge graph!

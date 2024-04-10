@@ -1,0 +1,51 @@
+Often in data-constrained scenarios, scene comprehension has to occur with few time series observations - whether that’s audio, visual, or even radar. We do this using a surprisingly underrated technique called wavelet scattering.
+
+Wavelet scattering (or scatter transform) generates a representation that’s invariant to data rotation/translation and stable to deformations of your data. Uninformative variations in your data are discarded — e.g. an audio sample time-shifted by various amounts. Information for downstream tasks like classification is preserved. Wavelet scattering requires no training and works great with low data.
+
+Its main computation is convolution, making it fast and applicable to images and 1D signals. We focus on signals in this article. We will retrace findings by the signal processing community and relate it to modern machine learning concepts. I show that, yes, we can do great without learning, using 20 samples. Recreate experiments and illustrations in this article with the colab notebook in this link.
+
+Wavelets
+
+A wavelet can be convolved with the signal in the same sense that filters can. I think of convolution as the continuous analog to inner products, where large activation (commonly said in ML) or wavelet coefficient is caused by similarity between the continuous objects. By convolving elements from a dictionary to the signal under inspection, we capture local, spatial dependencies.
+
+Convolution is a pivotal computation in the emergence of deep learning — it is extremely fast. The wavelet scattering implementation used by this article calls a deep learning backend solely for the efficient convolution! Kymatio is a great Python package built by passionate researchers that implement wavelet scattering, leveraging the PyTorch framework.
+
+Real and imaginary components of the Morlet Wavelet from M. Adamczyk et al., Automatic Sleep Spindle Detection and Genetic Influence Estimation Using Continuous Wavelet Transform (2015)
+
+The basic building block of wavelet scattering is the Morlet wavelet. It is a Gaussian windowed sinusoid with deep connections to mammal hearing and vision. By convolving wavelets ψᵥ indexed by different frequency locations v, the wavelet transform of x is the set of scatter coefficients
+
+{ x ∗ ψᵥ }ᵥ
+
+When the wavelet’s sine component has room to dilate (sine wave ‘slowing’ its oscillation), it decomposes the signal at decorrelated scales. That’s good for revealing the signal’s frequency structure, but doing so over the course of a longer time range. The consequence is that a wider Gaussian window trades temporal resolution for increased frequency resolution ( itself a consequence of Heisenberg’s Uncertainty Principle). In practice, the width of the Gaussian window that tapers the sine wave is an important parameter [M. Cohen 2018].
+
+Wavelet Scattering
+
+The historic context of wavelet scattering starts with Fourier transform, the canonical signal processing technique. The shortcoming of Fourier representation includes its instability to signal deformations at high frequency. For a signal x perturbed slightly by a high frequency deformation into x̃, their spectrogram representations look different ( large ‖ FFT(x) -FFT(x̃) ‖ ) even if they remain similar signals to the human eye. This instability is due to sine wave’s inability to localize frequency information, since sine itself has non-localized support.
+
+November, Golden Gardens credit: u/purebredcrab at reddit.com/r/analog
+
+Wavelet transform fixes this by decomposing the signal with a family of wavelets, with various dilation, where every wavelet has localized support (flattening out eventually like the Morlet wavelet). The resulting wavelet representation localizes high frequency components of the signal. Yet because the wavelet operator commutes with translations, the resulting representation becomes translation covariant — shifting a signal also shifts its wavelet coefficients. This makes comparison between translated signals difficult, and translation invariance is key to tasks like classification. How do we achieve a signal representation Φ(x) that is translation invariant, stable under deformations, and offers good structural information at all frequencies?
+
+Wavelet scattering builds a signal representation Φ(x) with a redundant dictionary of Morlet wavelets. While the space of signals X can be really high dimensional, the transform forms a kernel metric over the space of signals, inducing a lower dimensional manifold. Watch Stéphane Mallat discuss the manifold interpretation with visualization.
+
+Readers have probably trained a neural convolution network to encode an image into a latent manifold Z, whose code/latent representation is used for classification or structure discovery — and that’s what is happening in analogy. Wavelet scattering encodes the dataset X where uninformative variability in X: translation, rotation, and scaling — the action of groups — are discarded in the process.
+
+The key benefits of transforming a signal by Φ [J. Bruna and S. Mallat, 2013] is that
+
+Φ is invariant to signal translation.
+
+Denote by xₜ a signal identical to x, except translated in time, then Φ(x) = Φ(xₜ).
+
+Φ is stable under signal deformations.
+
+I.e. Φ is Lipschitz continuous to deformations — difference between scatter representations of a signal with its deformed version is linear. A deformation can be some local displacement/distortion (or a ridiculous amount of distortion, as a later example shows). For Lipschitz constant C>0 and a displacement field τ(u) causing deformations to create x̃,
+
+‖Φ( x ) - Φ( x̃ )‖ ≤ C‖x‖ supᵤ|∇τ(u)|
+
+Where ‖x‖= ∫ ‖x(u)‖²du and supᵤ|∇τ(u)| is the global deformation amplitude.
+
+Φ does not require learning.
+
+The priors introduced by wavelet scattering are nice enough that its performance often makes learning redundant; plus it comes with interpretable features and outputs. In data-constrained scenarios, if comparable data is publicly available, a nice plan is to pipe your small dataset through a pretrained model. But in the difficult situation that your dataset is small and unique, consider wavelet scattering as an initialization for ConvNets and other models. I suspect the future of ‘data constrained learning’ will be in synergizing predefined filters alongside learned filters.
+
+Figure below illustrates stability under deformations. Left we applied scatter transform to the voice of a speaker saying ‘zero’. The scatter representation consists of the coefficients derived from averaging/low pass filter, order 1 wavelets, and order 2 wavelets. Right After applying a displacement field that has mostly masked the structure of the original signal with a sine wave, Φ( x̃ ) is barely affected; the deformation’s effect has been linearized by Φ’s transformation.

@@ -1,0 +1,97 @@
+The word cryptocurrency has taken the financial world by storm, and yet there is a lack of formal and open research being conducted on the data of the digital assets. This blog post intends to build on the Exploratory Data Analysis that was performed in this article. We will use the dataset available here to predict future prices of different cryptocurrencies.
+
+After the EDA, Forecasting is the next step where you want to predict the future values the price is going to take. This can be of great commercial value to people interested in investing in these cryptocurrencies.
+
+We will try to predict the future prices of Bitcoin by using its closing_price feature.
+
+What Model to Use?
+
+To perform forecasting, we will need a machine learning model. Most people think of multi-linear regression when they want to predict values. But for Time-series data, this is not a good idea. The main reason to not opt for regression for Time-Series Data is we are interested in predicting the future, which would be extrapolation (predicting outside the range of the data) for linear regression. And as we know that in linear regression any sort of extrapolation is not advisable.
+
+For time-series data, it is better to use the Auto Regressive Integrated Moving Average, or ARIMA Models.
+
+ARIMA
+
+ARIMA is actually a class of models that ‘explains’ a given time series based on its own past values, that is, its own lags and the lagged forecast errors, so that equation can be used to forecast future values. Any ‘non-seasonal’ time series that exhibits patterns and is not a random white noise can be modeled with ARIMA models. The hypothesis testing performed as discussed below, shows the prices were not seasonal, hence we can use an ARIMA model. We also saw in our EDA phase that no systematic patterns could be identified for any of the cryptocurrencies.
+
+Non-Seasonal Trend of Omisego’s Prices
+
+To create an ARIMA model, we need 3 parameters:
+
+p; the order of the Auto-Regressive term
+
+q; the order of the Moving Average term
+
+d; the number of differencing required to make the time-series stationary
+
+Determining Stationarity
+
+We will need the time-series data to be stationary because, the term Auto Regressive in ARIMA means it is a linear regression model that uses its own lags as predictors. Linear regression models, as you know, work best when the predictors are not correlated and are independent of each other.
+
+To achieve Stationarity, we need to perform differencing: subtract the previous value from the current value. Sometimes, depending on the complexity of the series, more than one differencing may be needed. Before we do this, we need to check if our data already is stationary or not. For this we will use the Augmented Dickey Fuller test. This is a Hypothesis test, assuming the Null hypothesis to be “A unit root is present in an Autoregressive model”. Unit Root tests whether a time series variable is non-stationary and possesses a unit root. If a series has a unit root, its shows a systematic pattern. The Alternate Hypothesis, in this case, will be that “No unit root is present”, which means the time series is stationary.
+
+result = adfuller(df["Close]).dropna())
+
+The test returns a P-value of 0.002114. This is quite less than our significance level set at 0.05, hence we reject the Null Hypothesis and conclude that the data is stationary.
+
+Since the data is stationary, we do not need to perform any differencing. Hence, the value of the parameter d will be 0.
+
+Determining the order of the AR term
+
+p is the order of the Auto Regressive (AR) term. It refers to the number of lags of Y to be used as predictors. We can find out the required number of AR terms by inspecting the Partial Autocorrelation Function(PACF) plot. Partial autocorrelation can be imagined as the correlation between the series and its lag, after excluding the contributions from the intermediate lags.
+
+We can observe that the PACF lag 1 is the only one that is quite significant and it is well above the significance line compared to other values. Hence, we can safely set p to 1.
+
+Determining the order of the MA term
+
+q is the order of the Moving Average (MA) term. It refers to the number of lagged forecast errors that should go into the ARIMA Model. An MA term is technically, the error of the lagged forecast.
+
+Just like how we looked at the PACF plot for the number of AR terms, you can look at the ACF plot for the number of MA terms. The ACF tells how many MA terms are required to remove any autocorrelation in the stationarized series.
+
+Count the number of lags that are well above the significance line. So, let’s tentatively fix q as 8.
+
+Building the Model
+
+Since we have all the parameters we need, we will now build the model.
+
+model = ARIMA(df["Close"], order=(1,0,8))
+
+model_fit = model.fit(disp=0)
+
+print(model_fit.summary())
+
+ARIMA MODEL FOR p=1, d=0, q=8
+
+We can notice that the p-value in P > |z| for the MA terms are much less than 0.05. Hence, we can ideally drop a few MA terms and rebuild the model. Since three terms were significantly above the significance level, let’s set q to 3.
+
+model = ARIMA(df["Close"], order=(1,0,3))
+
+ARIMA Model for revised parameters
+
+Evaluating the Model
+
+Now that the model has been fitted, we will now test our ARIMA model. For this, we will now divide our data set into 2 parts:
+
+Train data (80% of the original Dataset)
+
+Test data (20% of the original Dataset)
+
+X = bit_df["Close"].values
+
+train_size = int(len(X) * 0.80)
+
+predictions = model_fit.predict(train_size,len(X)-1)
+
+test = X[train_size:len(X)]
+
+error = mean_squared_error(test, predictions)
+
+model_fit.predict( ) takes the start and end indexes of the test data. The results are then compared with the Target values of the test dataset by calculating the mean squared error.
+
+The value of the mean squared error comes out to be ~575.24. This error is not significantly large when we see that the data spans over 5 years of daily entries. Nevertheless, the mean squared error value alone does not give us an explicit idea of how accurate our model is. So, we will visualize the comparison of the predicted values and the actual values of the test data.
+
+Actual closing values VS Predicted closing values
+
+Looking at the graph, we can see that the Forecasted values of the closing price and the actual values are very close.
+
+That’s all folks! Have a nice day.

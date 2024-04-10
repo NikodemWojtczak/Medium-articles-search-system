@@ -1,0 +1,207 @@
+Points connected to each other, Image from Pixabay
+
+k-NN is a simple and intuitive instance based learner that works well when the training data is large. It also consumes comparably more memory because the model has to memorize all the points inside the training data. In order to build a k-NN in Node.js one would first think of TensorFlow.js, which is a popular machine learning framework that offers API in JavaScript.
+
+But what if you are an experienced researcher who wanted to twist the model a little bit to see if there can be an improvement? Then you will need to go down another level to change the core architecture. And if you are a beginner, being able to write the model from scratch will surely improve your understanding.
+
+Let us get started!
+
+In case you haven’t yet, you have to first install Node.js. Node.js is a server-side language based on JavaScript, and it is comparably easy to learn. In order to build the k-NN with optimal efficiency, you will need a k-d tree. k-d tree allows searching points in k dimensional space with divide and conquer. It is really useful for designing systems that involves multidimensional data such as k-means or LBS services. More about k-d tree can be found here.
+
+Visualization of a k-d Tree
+
+We can download the entire GitHub repository from here to our project folder, and to import it, we use the following code in JavaScript.
+
+const kdtree = require('./kd-tree-javascript/kdTree');
+
+Now to test if the k-d tree worked, we can use the following code:
+
+const kdtree = require('./kd-tree-javascript/kdTree');
+
+var points = [
+
+{x: 1, y: 2},
+
+{x: 3, y: 4},
+
+{x: 5, y: 6},
+
+{x: 7, y: 8}
+
+];
+
+var distance = function(a, b){
+
+return Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
+
+}
+
+var tree = new kdtree.kdTree(points, distance, ["x", "y"]);
+
+var nearest = tree.nearest({ x: 5, y: 5 }, 2);
+
+console.log(nearest);
+
+The code should print the following object:
+
+[ [ { x: 3, y: 4 }, 5 ], [ { x: 5, y: 6 }, 1 ] ]
+
+We can use the following code to construct our k-d tree, where x and y are the 2 features and train is the training data. The features are divided by their maximum values inside the distance equation. This way, the Euclidean distance calculated wouldn’t be too biased towards any of the feature. There are many other interesting ways to calculate the distance.
+
+const kdtree = require('./kd-tree-javascript/kdTree');
+
+var distance = function(a, b){
+
+return Math.pow((a.x - b.x)/Xmax, 2) + Math.pow((a.y - b.y)/Ymax, 2);
+
+}
+
+var tree = new kdtree.kdTree(train, distance, ["x", "y"]);
+
+var k = 5;
+
+The training data is an array of objects, where each object contains at least the two features inside the k-d tree. Below is an example of how the object is constructed inside a for loop.
+
+var newObject = {
+
+label: newLabel,
+
+x: newX,
+
+y: newY
+
+}
+
+data.push(newObject)
+
+And in order to split the training data we can also shuffle the data with the following code, 80% of the data are shuffled into the training data for this example.
+
+Diagram illustrating how the data is processed
+
+var shuffledData = shuffle(data);
+
+var train = shuffledData.slice(0, Math.floor(shuffledData.length * 0.8));
+
+var test = shuffledData.slice(Math.floor(shuffledData.length * 0.8) + 1, shuffledData.length);
+
+function shuffle(array) {
+
+var currentIndex = array.length, temporaryValue, randomIndex;
+
+// While there remain elements to shuffle...
+
+while (0 !== currentIndex) {
+
+// Pick a remaining element...
+
+randomIndex = Math.floor(Math.random() * currentIndex);
+
+currentIndex -= 1;
+
+// And swap it with the current element...
+
+temporaryValue = array[currentIndex];
+
+array[currentIndex] = array[randomIndex];
+
+array[randomIndex] = temporaryValue;
+
+}
+
+return array;
+
+}
+
+Finally, we can use the following code to run our model.
+
+var total = 0;
+
+var correct = 0;
+
+while(test[total] != null)
+
+{
+
+var nearest = tree.nearest(test[total], k);
+
+var label = test[total].label;
+
+var classa = 0;
+
+// Count k nearest points that is labeled as "Class A"
+
+for(i = 0; i < k; i++)
+
+{
+
+if(nearest[i][0].label == "Class A")
+
+{
+
+classa++;
+
+}
+
+}
+
+// Validate if the actual label matches the majority
+
+if(classa > k - classa && test[total].label == "Class A")
+
+{
+
+correct++;
+
+}
+
+else if(classa < k - classa && test[total].label == "Class B")
+
+{
+
+correct++
+
+}
+
+else if(classa == k - classa)
+
+{
+
+// In the case of a tie, evaluate randomly 50%/50%
+
+if(Math.random() > 0.5 && test[total].label == "Class A")
+
+{
+
+correct++;
+
+}
+
+else if(test[total].label == "Class B")
+
+{
+
+correct++;
+
+}
+
+}
+
+total++;
+
+}
+
+console.log("k-NN accuracy: " + correct/total);
+
+The code basically runs the k-NN algorithm against the test set and count the successfully classified instances. The instance is classified into one of the class if the majority of the k points around it is labeled as that class. In the case when there is a tie, the algorithm randomly puts it into one of the class.
+
+k-NN Illustrated, Image from Medium
+
+Congratulations! You have just learned how to build a k-NN from scratch! Now is up to you to endeavor deeper into the model!
+
+In the End…
+
+I am passionate in many things and data science is one of them. I have also built an BPANN from scratch before the Unity machine learning frameworks was ready. The only ANN I could find back then uses genetic algorithm to train. I did not make that into an article but can do it upon request.
+
+I enjoy learning new things and sharing it with the community, if there is a subject you are particularly interested in please let me know and I may write about it. I am currently writing a long article explaining how AlphaGo works in details, and it will take some time for me to finish.
+
+Stay tuned and have fun in data science!

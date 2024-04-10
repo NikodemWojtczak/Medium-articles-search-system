@@ -1,0 +1,15 @@
+The statistics of the improbable
+
+Photo by Brett Jordan on Unsplash
+
+In 1994, researchers from the Hebrew University at Jerusalem published a paper in the journal Statistical Science, claiming to find evidence that the Book of Genesis predicts the future. The result baffled the researchers as well as the editor, who prefaced the article with the remark that the paper is ‘offered to Statistical Science readers as a challenging puzzle’.
+
+What did the researchers claim to have found, and how?
+
+The Bible Code puzzle
+
+The authors were looking for so-called equidistant letter sequences, the sequences of letters if you look at every 5th letter in the Book of Genesis, for instance. They were testing if the letter sequences thus generated would contain the names, birth dates and death dates of a list of 32 notable Rabbis, covering the entire span of Jewish history. If they were able to find such a pattern, this would prove, in their view, that the Book of Genesis in fact had predictive power.
+
+In fact, the researchers found the ‘Rabbi pattern’ hidden in equidistant letter sequences, which surprised themselves as well as their readers. One reader, journalist Michael Drosnin, made it his mission to find even more patterns, which formed the bulk of his 1997 published book ‘The Bible Code’. What was going on here? Does the Bible really have predictive power?
+
+Of course not. What happened here is an instance of a so-called look-elsewhere effect. The book of Genesis is a massive document. By allowing themselves to vary the start of the equidistant letter sequences, their spacings, as well as the particular version of the Rabbi’s name to look for, the authors were giving themselves a huge amount of wiggle room. And it is this wiggle room that produced the spurious statistical signal: given such a large number of different combinations of search parameters, it is not unlikely at all to detect the list of Rabbis, or any other list of names you might be searching for. The original paper was officially rebutted in 1997, when Brenden McKay and collaborators published ‘Solving the Bible Code Puzzle’ in the same journal.

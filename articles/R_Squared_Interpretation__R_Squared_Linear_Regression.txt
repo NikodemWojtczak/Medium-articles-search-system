@@ -1,0 +1,17 @@
+Photo by Roman Mager on Unsplash
+
+Machine learning involves a lot of statistics. In the proceeding article, we’ll take a look at the concept of R-Squared which is useful in feature selection.
+
+Correlation (otherwise known as “R”) is a number between 1 and -1 where a value of +1 implies that an increase in x results in some increase in y, -1 implies that an increase in x results in a decrease in y, and 0 means that there isn’t any relationship between x and y. Like correlation, R² tells you how related two things are. However, we tend to use R² because it’s easier to interpret. R² is the percentage of variation (i.e. varies from 0 to 1) explained by the relationship between two variables.
+
+The latter sounds rather convoluted so let’s take a look at an example. Suppose we decided to plot the relationship between salary and years of experience. In the proceeding graph, every data point represents an individual.
+
+We can calculate the mean or average by taking the sum of all the individuals in the sample and dividing it by the total number of individuals in the sample.
+
+The variance of the entire dataset is equal to the sum of the distance between every data point and the mean squared. The difference is squared such that points below the mean don’t cancel out with points above the mean.
+
+var(mean) = sum(pi - mean)²
+
+Now say, we took the same people but this time, we decided to plot the relationship between their salary and height.
+
+Notice how the average salary remains the same irrespective of what we take to be the independent variable. In other words, we…

@@ -1,0 +1,135 @@
+Most Python developers and data scientist have already heard of virtual environments. However, managing tens of environments created for different projects can be daunting. pyenv will help you to streamline the creation, management and activating virtual environments.
+
+In the old days, before the virtualenv became popular, I would keep a single global workspace for all my Python projects. Whenever I installed or upgraded one of the libraries, it became immediately available for all the projects. And more often then not it broke some of these projects…
+
+The main advantage of virtual environments is that they constitute a separate workspace (virtualenv) for each of your projects. The packages installed in these workspaces won’t interfere with each other, so that you can safely install, upgrade or remove libraries without affecting other projects.
+
+pyenv is an extension to virtualenv that adds a few more benefits:
+
+possibility to install several Python interpret version next to each other (for example, 2.7 and 3.8 or even PyPy),
+
+peaceful coexistence of the user-installed interpreters and the system Python,
+
+centralised system for managing the virtual environments,
+
+auto-activating virtual environments when changing to a project folder.
+
+Installing Python interpreter 📜
+
+Let’s first take a tour of main features. If you want to try them out for yourself, head on to the installation guide at the end of the blog post.
+
+To create a virtual environment, you need first to make sure that you have a suitable interpreter installed. You can choose among the available interpreters that can be listed with:
+
+pyenv install --list
+
+(you may update this list with cd $(pyenv root) && git pull ) and then install one of them with:
+
+pyenv install 3.8.0
+
+To activate your new environment and start using Python 3.8.0:
+
+pyenv shell 3.8.0
+
+python
+
+This should open the Python prompt with the familiar welcome screen:
+
+Python 3.8.0 (default, Oct 20 2019, 18:15:07)
+
+[GCC 9.1.0] on linux
+
+Type “help”, “copyright”, “credits” or “license” for more information.
+
+>>>
+
+That’s all great, but unless you’re stuck in the 90s, you will prefer one of the modern Python interfaces like notebook or IPython. If so, please read on!
+
+Creating virtual environments 💻
+
+So far we installed the basic Python interpreter along with the standard libraries. However, to make our data science environment fully functional, we need to install the essential packages from the data science stack, such as Jupyter, matplotlib or pandas.
+
+Often times your project will depend on specific version of the packages (not the best practice, but some Python libraries move faster than our projects). To isolate the packages used by a project, we can use virtual environments. You create one using the pyenv-virtualenv extension (see the installation instructions below):
+
+pyenv virtualenv 3.8.0 my-data-project
+
+You can name the environment (here, my-data-project ) as it suits you. To activate the environment type:
+
+pyenv shell my-data-project
+
+Now you are ready to install the libraries you would like to use. You can pull them from the standard Python package repository (PyPi also called cheese shop) and install in the current environment using the pip command:
+
+pip install jupyter notebook matplotlib pandas
+
+It’s a good practice to install only the libraries that you are going to use in the project. If later on, you realize that something is missing, you can still add the packages with pip install . Now, let’s start the notebook server:
+
+jupyter notebook
+
+This should open the Jupyter notebook interface in the browser. Well done! You have just installed Jupyter running in the newest and greatest Python release 🎉! Make sure to try out some of its new features, such as Walrus operator or f-string expressions.
+
+You can also list all Python versions and environment installed on your system with pyenv versions , which should print a list like:
+
+system
+
+3.8.0
+
+3.8.0/envs/my-data-project
+
+The system environment is you default system Python (installed along with your operating system). The other two were created with pyenv.
+
+Auto-activating environments 🚀
+
+There is nothing more frustrating than realising that you had not activated the correct virtual environment just after installing extra libraries. This will surely overwrite the older versions of the packages installed in the currently activated environment and may break your project code. The distinct advantage of pyenv is that it can automatically activate the correct environment for each project. Assume that you have a project directory called predict-prices in your home directory. To select the virtual environment for the project type:
+
+cd ~/predict-prices
+
+pyenv local my-data-project
+
+(it’s common to name the environments after the project, here I used two different names for the project directory and environment to avoid confusion).
+
+Next time, when in your shell you change to the directory containing your project files (or one of its subdirectories) pyenv will activate the right environment for you!
+
+Note that the auto-activation will not work if you previously activated the environment using pyenv shell.
+
+Using your environment in IDEs
+
+If you are not as sehell person, you can also use pyenv with your favourite IDE. Many editors and IDEs are aware of pyenv environments and will detect them for you. Then you will be able to select the environment for your current workspace from a dropdown menu.
+
+Selecting virtual environment in VS code
+
+But pip is only for Python packages…
+
+Although pip is mainly targeted to installing Python packages, it can also install software in other languages. Many Python libraries contain some code written in C or similar languages. For example, the arrays in numpy implement performance-critical operations in C. When installing these packages on your machine, pip can compile such extensions, but it requires availability of the developer tools (compilers, linkers, build tools, headers). However, these days most libraries also provide binaries (compiled code) for your platform (Linux, OSX, Windows) packaged in a format called wheel that can be pulled directly from the package repository without any need for compilation.
+
+Why not conda? 🐍
+
+conda is another great package manager for Python that data scientists love. In many ways, it’s similar to pyenv + virtualenv + pip combo. It provides a rich repository of official packages and a repository of user-contributed packages called conda-forge . And if some packages are not available in these repositories you can still install them using pip . The advantage of conda is that it is multi-platform, language agnostic and supplies all the necessary build tools and shared libraries. The downside is that it requires installation of a separate library called miniconda . The good news is that it is as easy to install miniconda in pyenv as the pip-based environments:
+
+pyenv install miniconda3-latest
+
+Installation
+
+To install pyenv just follow a few simple steps. To start with, clone pyenv git repository to your home directory (pyenv is only supported for OSX and Linux, on Windows you need to use Windows Subsystem for Linux):
+
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+
+Then add pyenv to your system path:
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
+
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
+
+echo -e 'if command -v pyenv 1>/dev/null 2>&1; then
+
+eval "$(pyenv init -)"
+
+fi' >> ~/.bash_profile
+
+Copy-pasting the above lines should just work, but if you need more detailed explanations head over to the official guide.
+
+I also use an extension to pyenv that manages virtual environments, called pyenv-virtualenv. To install it, just clone the git repository:
+
+To enable auto-activation, please copy this command to your terminal:
+
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile
+
+Now, you can logout from your session and login back again for everything to be set in place.

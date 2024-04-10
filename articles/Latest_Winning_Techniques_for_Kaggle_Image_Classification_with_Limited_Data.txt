@@ -1,0 +1,11 @@
+Latest Winning Techniques for Kaggle Image Classification with Limited Data
+
+Tutorial on how to prevent your model from overfitting on a small dataset but still make accurate classifications Kayo Yin · Follow Published in Towards Data Science · 9 min read · Oct 21, 2019 -- 5 Share
+
+In this article, I will go through the approach I used for an in-class Kaggle challenge. I spent about two weeks on the challenge, with a final submission score of 0.97115 which places me second on the final leaderboard. I started off by borrowing ideas from this article, which I recommend as well.
+
+Challenge Introduction
+
+The proposed challenge is a natural images classification task with 13 classes. The first difficulty in this challenge is the scarcity of available data: only 3 859 images for training. The rules of the challenge was not to use external data during training as well. With little data, the model will be more prone to overfitting without learning to generalize.
+
+Moreover, because these images are in grayscale, they contain less information than color images such as the ImageNet dataset, so a pre-trained model on color images cannot be applied directly to this task. Upon further inspection of the dataset, many classes contain images that are visually very similar or containing the same elements. The model will lose accuracy when confusing such classes.

@@ -1,0 +1,63 @@
+Today we all choose between the simplicity of Python tools (pandas, Scikit-learn), the scalability of Spark and Hadoop, and the operation readiness of Kubernetes. We end up using them all. We keep separate teams of Python-oriented data scientists, Java and Scala Spark masters, and an army of devops to manage those siloed solutions.
+
+Data scientists explore with pandas. Then other teams of data engineers re-code the same logic and make it work at scale, or make it work with live streams using Spark. We go through that iteration again and again when a data scientist needs to change the logic or use a different data set for his/her model.
+
+In addition to taking care of the business logic, we build clusters on Hadoop or Kubernetes or even both and manage them manually along with an entire CI/CD pipeline. The bottom line is that we’re all working hard, without enough business impact to show for it…
+
+What if you could write simple code in Python and run it faster than using Spark, without requiring any re-coding, and without devops overhead to address deployment, scaling, and monitoring?
+
+I guess you may “say I’m a dreamer” 😊. Well I am a dreamer, but I’m not the only one! This post will prove it is possible today using by Nuclio and RAPIDS, a free, open- source data science acceleration platform incubated by NVIDIA.
+
+We’ve been collaborating closely with NVIDIA in the last few months to integrate RAPIDS with the Nuclio open source serverless project and Iguazio’s PaaS. It’s now possible to deliver magnitudes faster data processing speeds and scalability with the SAME Python code, and with minimal operational overhead due to the serverless approach.
+
+I will demonstrate the same widely popular use case of crunching live data comprised of Json-based logs. I’ll perform some analytics tasks on it and dump the aggregated results to a compressed Parquet format for further queries or ML training. We will look at batch and real-time streaming (yes, real-time streaming with simple Python code). But first, an overview.
+
+What Makes Python Slow and Not Scalable?
+
+Performance is decent when working with pandas on a small dataset, but that’s if the entire dataset fits in memory and processing is done with optimized C code under the pandas and NumPy layer. Processing lots of data involves intensive IO operation, data transformations, data copies, etc. which are slow. Python is synchronous by nature due to the infamous GIL and is very inefficient when dealing with complex tasks, asynchronous Python is better but complicate development and doesn’t solve the inherent locking issues.
+
+Frameworks like Spark have the advantage of asynchronous engines (Akka) and memory optimized data layouts. They can distribute work to multiple workers in different machines, leading to better performance and scalability, making them the de-facto standard.
+
+RAPIDS Puts Python on Steroids
+
+Our friends at NVIDIA came up with a brilliant idea: keeping Python-facing APIs of popular frameworks like pandas, Scikit-learn and XGBoost but processing the data in high-performance C code in the GPU. They adopted the memory friendly Apache Arrow data format in order to speed up data transfer and manipulation.
+
+RAPIDS supports data IO (cuIO), data analytics (cuDF) and machine learning (cuML). These different components share the same memory structures, so a pipeline of data ingest, analytics, and ML essentially runs without copying data back and forth into the CPU.
+
+The following example demonstrates a use case of reading a large Json file (1.2GB), aggregating the data with pandas API. We can see how the SAME code runs 30 times faster with RAPIDS (see the full notebook here), if we compare the computation without IO it is 100 times faster, meaning we have room to do much more complex computation on the data.
+
+We used a single GPU (NVIDIA T4) which adds about 30% to the price of the server and got 30X faster performance. We just processed 1 gigabyte of complex data per second using a few lines of Python code. WOW!!
+
+If we pack this code inside a serverless function it can run every time user request or periodically, and read or write to dynamically attached data volumes.
+
+Is Real-Time Streaming Possible with Python?
+
+Did you try performing real-time streaming with Python? Well, we did. The following code taken from the Kafka best practice guides reads from a stream and does minimal processing.
+
+The problem is that Python is synchronous by nature and rather inefficient when it comes to real-time or complex data manipulation. This program only generates a throughput of few thousand messages per second and that’s without doing any interesting work. When we add the json and pandas processing used in our previous example (see notebook) the performance is further degraded and we only process 18MB/s. So, do we need to go back to Spark for our stream processing?
+
+No, wait.
+
+The fastest serverless framework is Nuclio, which is now also part of Kubeflow (Kubernetes ML framework). Nuclio runs various code languages wrapped by a real-time and highly concurrent execution engine. Nuclio runs multiple instances of code in parallel (with efficient micro-threads) without extra coding. Nuclio handles auto-scaling within the process and across multiple processes/containers (see this tech coverage blog).
+
+Nuclio handles stream processing and data access in highly optimized binary code and invokes functions through a simple function handler. It supports 14 different triggering or streaming protocols (including HTTP, Kafka, Kinesis, Cron, batch) which are specified through configuration (without changing the code), and it support fast access to external data volumes. A single Nuclio function can process hundreds of thousands of messages per second and more than a gigabyte/sec throughput.
+
+Most importantly though, Nuclio is the only serverless framework today with optimized NVIDIA GPU support. It knows how to make sure GPU utilization is maximized and scales out to more processes and GPUs if needed.
+
+I’m obviously biased here, but it’s also all true.
+
+30x Faster Stream Processing Without Devops
+
+Let’s combine Nuclio + RAPIDS to get the full nirvana of GPU-accelerated, Python-based stream processing. The following code is not so different than the batch processing case, we just placed it in a function handler and collected incoming messages into larger batches to make fewer GPU calls (see the full notebook).
+
+We can test the same function with an HTTP or Kafka trigger : in both cases Nuclio will handle the parallelism and divide the stream partitions to multiple workers without any extra development work on our side. The setup we tested is using a 3 node Kafka cluster and a single Nuclio function process (on a dual socket Intel server with one NVIDIA T4). We managed to process 638 MB/s, that is 30 times faster than writing your own Python Kafka client, and it auto-scales to handle any amounts of traffic. And it used small and trivial Python code!!
+
+In our test we noticed the GPU was underutilized, meaning we can make more complex computation on the data (joins, ML predictions, transformations, etc.) while maintaining the same performance levels.
+
+Ok, so we got faster performance with less development, but the true benefit of serverless solutions is in the fact that they’re “serverless” (read more in my post). Take the same code, develop it in a notebook (see this notebook example) or your favorite IDE, and in one command it is built, containerized and shipped to a Kubernetes cluster with full instrumentation (logs, monitoring, auto-scaling, …) and security hardening.
+
+Nuclio integrates with Kubeflow Pipelines. Build multi-stage data or ML pipelines, with minimal effort you automate your data science workflow, collect execution and artifact metadata allowing to easily reproduce experiment results.
+
+Download Nuclio here and deploy it on your Kubernetes (see RAPIDS examples).
+
+Check out this related article Life After Hadoop: Getting Data Science to Work for Your Business

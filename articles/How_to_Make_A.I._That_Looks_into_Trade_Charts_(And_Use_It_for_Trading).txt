@@ -1,0 +1,11 @@
+We are living in a world most of the things are increasingly depending on computer vision and deep learning. From tagging your summer photos automatically to facial detection by security cameras, it feels like we are living in a dystopian future.
+
+While AI revolution is still happening around us, spring of 2019 was interesting times for me. After finishing a deep learning course, I began tinkering with many different use cases of deep learning such as image classification to Natural Language Processing (NLP). After spending around a couple hours using Python and Keras libraries, I trained a simple Convolutional Neural Network (CNN) which was able to distinguish between a cat and a dog image. Sounds simple enough, some years ago that was a huge task to do and I was having a hard time to believe how simple neural networks solved a complex problem! Normally if you want to do image recognition using CV libraries, you have to do feature engineering, develop your own filters and hard code many features into the code. Even after many attempts, you would be left with an algorithm maybe %60–70 accurate which is far away from what we are able to do with machine learning today.
+
+Deep Learning Methods Looks into Pictures as Matrices
+
+I was completely blown away by the simplicity of deep learning. First I defined a very simple CNN architecture, then labelled my dataset with cat and dog images. After that start the training and watch training accuracy and validation accuracy to go up until a satisfactory metric is reached. That’s it!! Next up, load your model and weights file then run the model.predict command with the file you want to predict and boom! Result is there with the accuracy score!
+
+The simplicity and the accuracy of the deep learning was just beautiful!
+
+Around the same time, I developed an interest over economics and how this day trading thing works. I started reading the Life and Work Principles by Ray Dalio. (If you haven’t read it yet, I can only recommend it )

@@ -1,0 +1,19 @@
+Fun fact: Scikit-Learn doesn’t have any distance metrics which can handle both categorical and continuous data! How can we then use clustering algorithms, e.g. k-NN, if we have a dataset with mixed-type variables?
+
+Photo by Fredy Jacob on Unsplash
+
+Update (27/07/19) — The package has been released at PyPI as Distython. I have published an article to explain how it works.
+
+The big problem that I have faced during my summer internship in the IT Innovation Centre was the lack of existing implementations of distance metrics which could handle both mixed-type data and missing values. It has started my long search for algorithms which can satisfy those requirements. Several research papers later, I have discovered quite interesting distance metrics which can help to improve the accuracy of your machine learning model when dealing with mixed-type data, missing values, or both. I have implemented them in my spare time and published their code implementation on the Github so you can use it easily with Scikit-Learn. But how? I will explain that in this tutorial!
+
+What I love about Towards Data Science, is that it attracts many like-minded people who are passionate about AI and Data Science. That’s why I would like to connect with you on Linkedin! You can also leave any feedback and questions via my personal website.
+
+Overview of Heterogenous Distance Metrics
+
+Photo by Annie Spratt on Unsplash
+
+Before we start, I would like to recommend to look at this paper if you want to get a more in-depth understanding of the algorithms I will talk about. My main goal here is to provide you with an intuitive understanding of those algorithms so you can use my article as a quick reference sheet. You can find the practical part with a code at the end of the article. Let’s get started!
+
+Distance Metrics
+
+But wait… What are actually the distance metrics? The distance metrics measure the distance between two instances in the dataset. They measure the similarity between instances based on their features. For example, imagine patients of a…

@@ -1,0 +1,13 @@
+Member-only story How to build a DIY deep learning framework in NumPy
+
+As a general rule of thumb for learning, you will only understand something in detail once you are able to build it on your own. This is particularly true for technical subjects like machine learning and neural networks. During your first encounter with deep learning, you can take a few large steps by learning and mastering a high level framework such as TensorFlow or PyTorch. However, if you want to go really deep, you need to go back to square one: you need to build your own neural network and optimizer from scratch! This is a common rite of passage for deep learning engineers and researchers. Embracing the fine details of these algorithms will give you a very valuable advantage in the field.
+
+When I undertook this journey recently, succeeding was a level up moment for me. In this post, we will walk through this path together, eventually arriving to a fully functional neural net. If you are familiar with the subject on the high level and know what gradient descent is, you are good to go! (If you are not familiar with gradient descent, check out this post!)
+
+An important note however. Instead of reading this post right away, I encourage you to bookmark this post, then try to build a neural network completely on your own. In my life as a developer and scientist, very few moments carried the same feeling of accomplishment and intellectual satisfaction as watching my first neural network learn.
+
+The code for this post can be found in my GitHub repository https://github.com/cosmic-cortex/neural-networks-from-scratch. (Here, I go a little bit beyond this post: additional layers such as batch normalization and convolutional layers are implemented.)
+
+What is a neural network anyway?
+
+On a high level, a neural network is simply a function, mapping an input (such as an image) to a prediction (a probability distribution on the possible labels for example). Fundamentally, there are two simple operations you want to do with a function: calculate the output and the derivative, given an input. The first one is needed to obtain predictions, the latter one is to train your network with…

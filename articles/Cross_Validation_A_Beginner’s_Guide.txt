@@ -1,0 +1,29 @@
+Cross Validation: A Beginner’s Guide
+
+By: Caleb Neale, Demetri Workman, Abhinay Dommalapati
+
+In beginning your journey into the world of machine learning and data science, there is often a temptation to jump into algorithms and model creation, without gaining an understanding of how to test the effectiveness of a generated model on real world data. Cross validation is a form of model validation which attempts to improve on the basic methods of hold-out validation by leveraging subsets of our data and an understanding of the bias/variance trade-off in order to gain a better understanding of how our models will actually perform when applied outside of the data it was trained on. Don’t worry, it’ll all be explained!
+
+This article seeks to be a beginning to execution guide for three methods of model validation (hold out, k-fold, and LOOCV) and the concepts behind them, with links and references to guide you to further reading. We make use of scikit learn, pandas, numpy and other python libraries in the given examples.
+
+What will be addressed in this article:
+
+What is model validation?
+
+Why is it important?
+
+What are bias and variance in the context of model validation?
+
+What is cross validation?
+
+What are common methods?
+
+Where, and when should different methods be implemented?
+
+How do various methods of cross validation work?
+
+How can we leverage cross validation to create better models?
+
+What is model validation?
+
+Model validation is the process by which we ensure that our models can perform acceptable in “the real world.” In more technical terms, model validation allows you to predict how your model will perform on datasets not used in the training (model validation is a big part of why preventing data leakage is so important). Model validation is important because we don’t actually care how well the model predicts data we trained it on. We already know the target values for the data we used to train a model, and as such it is much more important to consider how robust and capable a model is when tasked to model new datasets of the same distribution and characteristics, but with different individual values from our training set. The…

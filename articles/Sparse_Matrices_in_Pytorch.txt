@@ -1,0 +1,45 @@
+Sparse Matrices in Pytorch
+
+This is part 1 of a series of articles which will analyze execution times of sparse matrices and their dense counterparts in Pytorch. Part 1 deals with CPU execution times, while part 2 extends to GPUs. Let me first give a quick introduction to concepts before diving into the meat.
+
+Pytorch is a library for deep learning written in the Python programming language. Deep learning is a branch of science which is gaining a lot of prominence in recent years due to it powering ‘smart’ technologies such as self-driving cars, speech recognition, and so on. At the core of deep learning lies a lot of matrix multiplication, which is time-consuming and is the major reason why deep learning systems need significant amounts of computational power to become good. Not surprisingly, a key area of research is simplifying these systems so that they can be quickly deployed. One way to simplify them is by making the matrices sparse, such that most of their elements are 0s and can be ignored when doing math. For example, here’s a sparse matrix which we’ll call S:
+
+You might be wondering where and how such matrices occur. Matrices are generally used to depict interactions between entities. For example, the rows of S might indicate different people and the columns different places. The numbers indicate how many times each person visited each place in the last week. Having several 0s is explainable in the sense that each person visited only a particular place or two. The density of a sparse matrix is its fraction of non-zero elements, such as 1/3 in S. Now the question is, is there a better way to store sparse matrices to avoid all the 0s?
+
+There are several sparse formats, the one which Pytorch uses is called the COOrdinate format. It stores the indices, values, size, and number of non-zero elements (nnz) in a sparse matrix. Here’s one way to construct S in Pytorch (outputs are in bold and comments in italics):
+
+S = torch.sparse_coo_tensor(indices = torch.tensor([[0,0,1,2],[2,3,0,3]]), values = torch.tensor([1,2,1,3]), size=[3,4])
+
+#indices has x and y values separately along the 2 rows print(S)
+
+tensor(indices=tensor([[0, 0, 1, 2],
+
+[2, 3, 0, 3]]),
+
+values=tensor([1, 2, 1, 3]),
+
+size=(3, 4), nnz=4, layout=torch.sparse_coo) print(S.to_dense()) #this shows S in the regular (dense) format
+
+tensor([[0, 0, 1, 2],
+
+[1, 0, 0, 0],
+
+[0, 0, 0, 3]])
+
+Pytorch has the torch.sparse API for dealing with sparse matrices. This includes some functions identical to regular mathematical functions such as mm for multiplying a sparse matrix with a dense matrix:
+
+D = torch.ones(3,4, dtype=torch.int64) torch.sparse.mm(S,D) #sparse by dense multiplication
+
+tensor([[3, 3],
+
+[1, 1],
+
+[3, 3]]) torch.mm(S.to_dense(),D) #dense by dense multiplication
+
+tensor([[3, 3],
+
+[1, 1],
+
+[3, 3]])
+
+Now we come to the meat of this article. Does using sparse matrices and functions save time in Pytorch? In other words, how good is the torch.sparse API? The answer would depend on a) matrix size, and b) density. The CPU I used to measure runtimes is my mid 2014 Macbook Pro with a 2.2 GHz Intel Core i7 processor and 16 GB of RAM. So, let’s dive in!

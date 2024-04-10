@@ -1,0 +1,13 @@
+The biggest problem data scientist face today is dirty data. When it comes to real world data, inaccurate and incomplete data are the norm rather than the exception. The root of the problem is at the source where data being recorded does not follow standard schemas or breaks integrity constraints. The result is that dirty data gets delivered downstream to systems like data marts where it is very difficult to clean and unify, thus making it unreliable to utilize for analytics.
+
+Today data scientists often end up spending 60% of their time cleaning and unifying dirty data before they can apply any analytics or machine learning. Data cleaning is essentially the task of removing errors and anomalies or replacing observed values with true values from data to get more value in analytics. There are the traditional types of data cleaning like imputing missing data and data transformations and there also more complex data unification problems like deduplication and repairing integrity constraint violations. All of these are inter-related, and it is important to understand what they are.
+
+Data cleaning and unification problems
+
+Schema mapping looks at multiple structured data and figures out whether they are talking about the same thing in the same way. In the example below, does “building #” and “building code” both represent building number?
+
+Record linkage is where multiple mentions of the same real-world entity appear across the data. The different formatting styles for each source leads to records that look different but in fact all refer to the same entity. In the example below all four table records are referring to the same medical lab.
+
+Missing data refers to values that are missing from a dataset. Missing value imputation is the process of replacing missing data with substituted values. In practice, the problem is more complicated because missing data is not represented by Nulls but instead by garbage, like in the example below.
+
+Integrity constraints ensure that data follow functional dependencies and business rules that dictate what values can legally exist together. Deducing constraints from data can be very difficult, especially since most data relations are non-obvious. In the example below…

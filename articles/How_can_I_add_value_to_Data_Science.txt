@@ -1,0 +1,15 @@
+Post co-authored with Charles Burke
+
+Photo by rawpixel on Unsplash
+
+So you want to be a data scientist but how do you become one? How do you add value to this ever-expanding field? This question is inspired by my experiences in a data science class, where we try to develop “meaningful” indicators using data. A popular stereotype of data science may suggest that technical skills — which enable you to perform complex analysis and create beautiful visualisations are most important when it comes to adding value. But to what extent is it is true? Does technical ability limit one’s ability to work with data? I’ll share with you my experience.
+
+My take on this is, brace yourselves, controversial and contrarian: that technical skills can hinder your ability to add value. To convince you of this, I will tell you why the question, “How can I add value?” may not be the right question to ask; how technical ability might disadvantage a data scientist; and how regardless of background, you can become successful. I will also share my take on the most critical skill to have.
+
+Why the question is poorly framed
+
+Firstly, to me, the question “How can I add value to Data Science” is poorly framed. A better way to ask that question could be: where can I contribute my personal expertise or insight?
+
+The word “add” subconsciously directs me to believe that I literally have to “add” something through my analysis to create meaningful value. However, in the world of data, that may not necessarily be true. In the world of data (which I call Datatopia), data scientists know that simply cleaning data is the start of any meaningful analysis. According to a survey by CrowdFlower, data scientists spend approximately 60% of the time in organising and cleaning data. The reason is simple: if you can’t make sense of the data, figure out what is relevant and what is not, then there is no purpose to the analysis conducted subsequently.
+
+Interestingly, this stage of analysis often requires you to “subtract” information rather than to “add”. Examples include filtering out unnecessary variables and observations, finding duplicates and discrepancies, and deciding what to focus on. Although it may sound trivial, this simple step has tremendous advantages later on in the data analysis process. And guess what at the…

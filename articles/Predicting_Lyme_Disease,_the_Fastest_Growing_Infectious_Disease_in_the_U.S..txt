@@ -1,0 +1,223 @@
+300,000. That’s the number of people each year who are estimated to be infected with Lyme disease in the United States.
+
+But even more concerning, only 10% of those cases get reported annually to the Center for Disease Control and Prevention (CDC). That means that there’s possibly 270,000 people who get infected with this disease every year and may not even know they have it.
+
+Figure 1: Number of Reported Cases of Lyme Disease to the CDC from 2000–2017 (Data Source)
+
+And the number of people affected is growing too. As seen in Figure 1, the annual cases of Lyme disease have more than doubled in the last 20 years. Mostly concentrated in the Northeast and upper Midwest, it continues to spread to new counties every year.
+
+And it’s all as a result of the Black-legged tick, also known as the Deer tick. If you get bitten by an infected tick, the bacteria, Borrelia burgdorferialone, will enter your blood stream and begin its quiet destruction of your immune system.
+
+Within about a week, 70 to 80 percent of people get the characteristic “bull’s-eye” rash, known as Erythema migrans. And this is generally followed by typical flu-like symptoms, like a fever, headache, chills, and general fatigue.
+
+This doesn’t seem like much, but if left untreated, it will cause widespread inflammation to almost every body system. Some of the symptoms include debilitating arthritis and swelling of the joints, facial paralysis, heart palpitations, shortness of breath, and swelling of the brain and spinal cord leading to severe nerve pain and memory loss.
+
+But it doesn’t have to be this way. If diagnosed in the early stages, Lyme disease can be completely cured with certain antibiotics. It all comes down to increasing public awareness and educating healthcare providers in at-risk areas.
+
+This is where machine learning comes in. My idea was to build a classification model that could predict which U.S. counties would have a high incidence of Lyme disease. In doing so, counties at high risk could be informed by the CDC in advance in order to proactively take measures against the infection.
+
+Acquiring the Data
+
+But here’s the issue. Funding for research of Lyme disease is disproportionately lower than other diseases. Thus, there is very little research and surveillance being done on Lyme disease at the moment and publicly available data is extremely limited. That meant that I would have to build my dataset completely from scratch.
+
+Challenge accepted. Let the data wrangling commence.
+
+If you want to follow along with my code, check out my GitHub repository; I’ve organized it chronologically with this article for your convenience.
+
+Target Variable
+
+First, I needed to engineer my target variable. Luckily, the CDC has data on the number of reported cases per county from 2000 to 2017. Although the disease is severely under-reported as previously mentioned, this still gives a good picture of the geographic distribution of the disease.
+
+For consistency, I decided to restrict the data to only 2010–2017 because, as shown in Figure 1, there is an unusually large spike in 2009. Also, it is likely that data from many years ago is not as representative of today, so removing data before 2010 would likely be beneficial for the predictability of the model.
+
+But still, the data in this form won’t work for a classification problem. One issue is that the number of cases is heavily dependent on how many people live in each county. To solve this, I acquired county population estimate data from the Census Bureau. I then merged the datasets together and divided the number of cases per county by that county’s estimated population at the time.
+
+This resulted in a rate of Lyme disease cases per person. Now we have a metric that allows us to more reasonably compare counties to one another.
+
+There’s still one more step though. For supervised learning algorithms, the target variable must be labeled. I found out that the CDC defines a high incidence county as having 10 or more confirmed cases per 100,000 persons. This allowed me to bin the data such that anything above that cutoff was considered a high incidence county and anything below it was a low incidence county.
+
+Features
+
+Okay, but how do we get features for this model? I decided to dive into the research to find out.
+
+In 1998, Stafford et al. showed that tick abundance had a strong positive correlation with Lyme disease infections. So you’d think that by now we would have a well-established national tick surveillance program.
+
+Figure 2: CDC Map Showing Geographic Distribution of the Black Legged Tick (Source)
+
+Well, no. As shown above, all the CDC offers today is a qualitative map showing where the Black-legged Tick might be. Not very helpful.
+
+In the last few years, some states, like Connecticut and North Dakota, have taken the initiative themselves to measure tick concentrations , but until there is a coordinated national surveillance program, nation-wide tick population data will not exist.
+
+Luckily, there is a good proxy for this. Khatchikian et al. showed that environmental factors such as extreme winter temperatures and summer and winter precipitation directly regulate tick population dynamics. This is likely a result of the climate’s effect on acorns. If the climate is optimal for acorn growth, mice and deer populations that eat them will thrive. The ticks that live off of these host animals will also flourish as a result.
+
+This is great news, as there is a plethora of climate data available from the National Oceanic and Atmospheric Administration (NOAA).
+
+I soon found out though that this would be a little harder that expected because there is a limit of 10,000 API requests per day. Given that I needed data for every weather station in every U.S. county for 7 years, it would have taken me about 56 days to download all the data. Not ideal.
+
+I was able to get around this though. Fortunately, I found a page that allowed access to every Global Summary of the Year file and I downloaded all of it to my local computer. Of course, this meant that I now had data for every station in the world starting from around 1900, which amounted to approximately 78,000 CSV files, each corresponding to a particular station.
+
+Obviously, I only wanted a small percentage of that. So, I had to write code to manually parse through each CSV file.
+
+Figure 3: Example of NOAA Global Summary of the Year CSV Files
+
+Above, you can see the general format of each file (there are many more columns that aren’t shown here). Essentially, I took the latitude and longitude from each file and used that as input for the reverse-geocoder python library, which outputs the country, state and county of that location. If it was a U.S. station, I then took only the rows from 2010 to 2017 and appended them to a global dataframe with their associated state and county as new columns.
+
+After over 24 hours of parsing, I was left with a mess of data set. First of all, there were 209 columns with cryptic names, like “DX90” and “EMSD”. I used the provided documentation to determine the meaning of each feature and then through careful research, meticulously removed the ones that weren’t relevant. I also relabeled the columns to have more understandable names.
+
+Figure 4: The Percentage of Missing Values for Each of the 35 Selected Features
+
+The next problem was the large number of missing values as seen in Figure 4. For whatever reason, many of the stations were not consistent in recording and/or reporting their measurements.
+
+I didn’t want to get rid of columns because then I would have lost some of the information that could have been gleaned from the climate data. So instead, I chose to impute all the missing values.
+
+Now, this is an area where we have to be super careful. We need to put in a placeholder that would be reasonably representative of the actual value.
+
+For example, let’s say that the total precipitation value for Montgomery County, Pennsylvania in 2017 is missing. It is reasonable to believe that the average total precipitation of all the counties in Pennsylvania will come close to Montgomery County’s actual precipitation. And so that’s what I did for all the missing values; I found the average for that county’s state in that particular column and imputed the value.
+
+Hawaii and Washington D.C. had no data in several of the columns, so I had to remove them completely. Hawaii is geographically isolated and has no incidence of Lyme disease so there is no issue removing it. Washington D.C. is significantly smaller than any state so it should have no effect on the modeling.
+
+Merging the Target with the Features
+
+Alright, so now that the data was nice and clean, I was almost ready to merge the features with the target.
+
+Since I was trying to build a predictive model, I would need to use the previous year’s climate data to predict the current year’s Lyme disease incidence.
+
+To do this, I created a new column in the features data that contained the next year. I then merged the target data on that column in order to create a one year offset.
+
+Preparation for Modeling
+
+Class Imbalance
+
+Before any modeling, it’s important to check if the data will work well for the algorithms you’ll be using. In the case of classification models, the classes need to be relatively balanced. That means that there should be an equal number of instances for the positive and negative classes.
+
+Figure 5: Class Imbalance in Data
+
+As seen above, this data has a significant class imbalance problem with 85% of the counties having low Lyme disease incidence and only 15% of the counties having high Lyme disease incidence.
+
+But why is this such an issue? Well, if a majority of the counties have a low Lyme disease incidence, then a model will get the best accuracy by guessing that all the counties have a low incidence. In this case, 85% of the time the model would be right. But this comes at a terrible cost of 0% accuracy for the minority class. In other words, our model would be utterly useless for the counties we care about that have a serious Lyme disease problem.
+
+Resampling Techniques
+
+I experimented with many resampling techniques to counteract this. Random undersampling is where you randomly select a small percentage of the majority class and delete the rest of the data points. This removal results in a balance of the majority class with the minority class. But this comes with the obvious downside of losing information, which could reduce the model’s predictability.
+
+Then there’s random oversampling, which randomly selects a portion of the infrequent class and just duplicates those data points. This also results in balanced classes; the caveat here is that having a bunch of rows that are exactly the same could lead to overfitting, where the model just memorizes the over-represented synthetic data and loses its generalizability to real world unseen data.
+
+That’s where Synthetic Minority Over-sampling Technique, also known as SMOTE, comes in. Instead of just copying parts of the minority class, it seeks to create data that are similar but not exactly the same as the original data. On a high level, it randomly generates new points directly between the infrequent class’s data points, leading to completely unique synthetic data.
+
+And lastly, there’s the Adaptive Synthetic Sampling Approach or ADASYN, which is like SMOTE but creates more synthetic data for minority class samples that are harder to learn and fewer synthetic data for minority samples that are easier to learn. This results in a distribution of synthetic data that will strengthen the model’s ability to distinguish between the classes at the decision boundary.
+
+Splitting the Data
+
+Before we can see how these techniques perform, we must partition the data. I split the data into three parts: 60% for training the different models, 20% for validating and optimizing the best model, and 20% as a test set to demonstrate the generalizability of the final model.
+
+Initial Modeling
+
+Now we get to the fun part. I built a modeling pipeline using the imbalanced-learn python package in combination with scikit-learn’s GridSearchCV. This allowed me to do an exhaustive grid search for every combination of hyperparameters and data transformations (like scaling and resampling techniques), while also doing 5-fold cross validation to more robustly test how each combination performed.
+
+The algorithms I ran through this pipeline were:
+
+I’ve provided links to helpful articles in case you are interested in learning more about each model.
+
+Evaluating Each Model’s Performance
+
+Figure 6: ROC Curves for Each Model
+
+After optimizing each algorithm individually, I tested the resulting five models on the validation set. I then plotted them against each other using the Receiver Operating Characteristic Curve, also known as the ROC curve, in Figure 6. The area under the ROC curve (ROC AUC) was used to compare the models.
+
+Simply put, this metric represents the cost versus benefit of the model at every threshold, quantifying how good the model is at distinguishing between the classes. The best models will have curves that are close to the upper left corner and take up the most area in the plot.
+
+As you can see in Figure 6, Random Forest (in pink) is superior to the other models at basically every threshold, with Support Vector Machines (in orange) coming in second; the models had ROC AUC scores of 0.947 and 0.934 respectively. A score of 1 means it perfectly predicts the data, so these are very respectable results.
+
+Interestingly enough, random oversampling produced the best results for both of these models, which demonstrates that sometimes simplicity can outperform even the most sophisticated methods.
+
+Optimizing the Best Model
+
+Figure 7: Distribution of the Best Random Forest Model’s Outputs
+
+Above is the distribution of the predicted probabilities outputted by the best Random Forest model. These numbers represent how likely it is that a particular county will have a high incidence of Lyme disease.
+
+The outputs are right skewed indicating that the model is predicting that most the counties have a low probability of having a high incidence. This is exactly what we want to see, especially since the classes are imbalanced.
+
+Right now, the default threshold for the model is 0.5, meaning that any county with a probability above 0.5 will be classified as high incidence and any county below 0.5 will be classified as low incidence. But what if this threshold is not the most optimal?
+
+That’s a major reason why I picked ROC AUC as my evaluation metric, as it is independent of threshold. This meant that I could then tune the threshold to optimize the model for the costs associated with making mistakes. I set aside an additional 20% of my data specifically for this purpose.
+
+So now we need to determine these costs. This is arguably the most important step in the process as we are going to place the model in the context of the real world, and not just in the vacuum of mathematics. I had to approximate the costs myself but ideally the stakeholder you are working with would be able to give you this information.
+
+As I mentioned earlier, the idea behind this model is to give the CDC a tool to determine which areas they need to target their efforts. If a county is classified as having high Lyme incidence, the CDC would take two specific actions:
+
+Increase public awareness in order to prevent infections from happening in the first place Provide educational resources for healthcare providers to increase the number of early diagnoses.
+
+False Positive Cost
+
+Okay, but what if the model predicts that a county is going to have a high incidence of Lyme disease but it actually doesn’t? This is called a false positive. One implication of this is that people would needlessly limit their time spent outdoors and possibly even decide not to travel to these areas. This decreased outdoor recreation and tourism could hurt local economies.
+
+To approximate this, I used the estimated total economic contributions that National Parks have on local communities, which is about $20.2 billion annually. Obviously, this doesn’t take into account state parks or any other services that would be affected, but it will work for now.
+
+I then tried to find research that quantified how consumer sales decreased during an established epidemic and there wasn’t alot available. Chou et al. found that the SARS epidemic in Asia cost countries between .2% and 1.56% in consumer related industries. SARS is a very different disease but it’s pretty much all there is at the moment to go off of. I chose to use 1% to roughly approximate the economic cost.
+
+Here is how I arrived at the cost per county of a false positive:
+
+Total Cost of a False Positive:
+
+(20.2 billion x .01) / $64,311 lost per county (20.2 billion x .01) / 3,141 counties
+
+False Negative Cost
+
+Now what about the cost of a false negative? That would be where our model predicts that a county won’t have a problem with Lyme disease when it really does.
+
+This is obviously going to be way more expensive of a mistake. More people would needlessly get infected by Lyme disease due to lack of public awareness. And more people would suffer from chronic Lyme disease, as fewer doctors would be educated on early Lyme disease diagnosis.
+
+Zhang et al. found that the average early Lyme disease patient costs $1,310 annually, while a chronic Lyme disease patient costs $16,199. That’s over 12 times more expensive. This was done in 2000, so I had to account for an inflation factor of 1.41.
+
+Additionally, Aucott et al. approximated that 64% of new Lyme disease cases each year were early while 36% were chronic. As previously mentioned, there are about 300,000 of these new cases every year.
+
+Also, to simplify my calculation, I made the assumption that the CDC’s intervention would be completely effective, resulting in all the new Lyme disease cases being caught early.
+
+To find the cost of a false negative, I would just need to find the cost difference between when the CDC does not intervene and when it does intervene. Here were all my calculations:
+
+Number of Annual Early and Chronic Cases:
+
+.64 x 300,000 = 192,000 cases of early Lyme disease
+
+.36 x 300,000 = 108,000 cases of chronic Lyme disease Inflation-Adjusted Cost of Early vs Chronic:
+
+$1,310 x 1.49 = $1,952 per patient with early Lyme disease
+
+$16,199 x 1.49 = $24,137 per patient with chronic Lyme disease Average Cost for High Incidence County Without CDC Intervention:
+
+192,000 early cases / 3,141 counties = 61 early cases per county
+
+61 early cases * $1,952 = $119,065 108,000 chronic cases / 3,141 counties = 34 chronic cases per county
+
+34 chronic cases * $24,137 = $820,641 $119,065 + $820,641 = $939,706 Average Cost for High Incidence County With CDC Intervention:
+
+300,000 early cases / 3,141 counties = 95 early cases per county
+
+95 early cases * $1,952 = $185,430 ------------------------------ Total Cost of a False Negative:
+
+$939,706 - $185,430 = $754,276 lost per county
+
+Finding the Best Threshold
+
+Finally, I calculated the ratio of the costs between the false negatives and positives:
+
+Ratio of False Negative vs False Positive:
+
+$754,276 / $64,311 = 11.73
+
+According to this, false negatives are almost 12 times more costly than false positives. I then plugged this value into my code and found the optimal threshold was 0.17. This means that any county above 0.17 will be classified as high incidence and any below will be low incidence. Refer back to Figure 7 to visualize where that cutoff would be.
+
+Final Results
+
+To prove the generalizability of my final model, I trained the model on all 80% of the previously used data (the 60% training set and the 20% threshold optimizing set) and then tested with the completely unseen 20% test set from the beginning.
+
+The results were even better than during training with a ROC AUC of 0.961.
+
+Figure 8: Confusion Matrix of Final Model’s Outputs
+
+Additionally, the model had a great recall of about 0.949, meaning that it correctly classified about 95% of the high incidence counties. As seen in Figure 8, it only had 28 false negatives out of the 554 high incidence counties.
+
+This of course came at a cost to the precision which was 0.503. This means that only about 50% of the counties that the model predicted to be high incidence were actually high incidence. As seen in Figure 8, the false positives and true positives are roughly the same.
+
+Because false negatives were so much more costly than false positives, these results make complete sense. It was necessary for the model to be imprecise in order for it to correctly classify as many of the high incidence counties as it did.

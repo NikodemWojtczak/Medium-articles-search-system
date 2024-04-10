@@ -1,0 +1,51 @@
+Let’s calculate Z-scores for Airbnb prices in New York
+
+Z-score, also called standard score, according to wikipedia.
+
+In statistics, the standard score is the signed fractional number of standard deviations by which the value of an observation or data point is above the mean value of what is being observed or measured.
+
+Translation: a measure of how far a value is from its population average.
+
+Let’s look at the formula.
+
+It’s pretty straightforward. Subtract the mean of the dataset from the value being evaluated, then divide by the standard deviation.
+
+Let’s play with some data.
+
+First, download the dataset from Kaggle and save it in the same directory as your jupyter notebook (yours filename may be different than mine). Then sample the first few records to see how the data looks.
+
+import pandas as pd
+
+ny = pd.read_csv('airbnb-new-york/AB_NYC_2019.csv')
+
+ny.head(3)
+
+Scipy has a nifty method for evaluating the z-score for every value in the dataset. See below.
+
+from scipy import stats
+
+stats.zscore(ny.price) #=> array([-0.01549307, 0.30097355, -0.01132904, ..., -0.15707024,
+
+-0.4069123 , -0.2611711 ])
+
+But we’ll write our own function as we just want to check a few values.
+
+import numpy as np mean = np.mean(ny.price)
+
+std = np.std(ny.price) def z_score(value, mean, std):
+
+return (value - mean) / std
+
+Now randomly select 5 prices from the dataset.
+
+import random values = [] # randomly select 5 values from price
+
+for i in list(range(0,5)):
+
+value = random.choice(ny.price)
+
+values.append(value) print(values)
+
+#=> [78, 169, 53, 375, 80]
+
+And calculate z-scores for those values.

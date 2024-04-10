@@ -1,0 +1,89 @@
+5 points worth evaluating to become a data scientist.
+
+Data science — the buzz word in market!! isn't it?
+
+Sexiest job of the time, 29% increase in demand year over year and a 344% increase since 2013, easy to get a good salary hike…. etc. etc. etc. :)
+
+Lucrative enough to get into one’s mind and push to switch their career towards becoming a data scientist.
+
+In this article, I will explain, 5 prerequisites of becoming a data scientist which one must be aware before taking decision of moving to data Science as a career option.
+
+I am a data scientist with industry exposure of close to a decade now. Dealing with aspiring data scientists in my data science training/job interviewing experience, one thing I have noticed is only 10–15% of aspirants land up getting a data scientist job.
+
+Why does this happen even after going through training, investing lot of time and money?
+
+It is very important to understand why some folks do good in Data science and others do not, even after training and mentoring.
+
+Here are some key questions one should ask to himself/herself before diving in the field of data science which will help them in taking a right decision. I have not put technical stuff in below points rather just some high-level facts.
+
+Understanding of Data:
+
+Since data science is all about data, so the very first point to check should be “One’s love for data”. To understand why data is so important in data science, watch this video on YouTube — Data Science is 15 minutes
+
+Below questions will help in understanding one’s love for data:
+
+Do you understand language of data or at least what is data/information?
+
+Do you deal with data in your current job?
+
+Do you understand tables(rows/columns) and a bit of unstructured data?
+
+Most important, do you love seeing data and working with data?
+
+If answer to majority of above questions in “yes” then it's a go ahead from “Data” point of view.
+
+Understanding of algorithms/logic:
+
+Algorithms are set of instructions given to computer to do a specific task.
+
+Even If you solve a puzzle on pen and paper, it closely matches with what algorithms do in computers.
+
+Since all the machine learning systems are built on algorithms, it's very important prerequisite to have a basic understanding of what is meant by algorithms and how it is designed at high level using logic.
+
+To give an example, If I put 10 random numbers here for ex — 12,54,32,76,54,31,98, 67,76,87 and the task is to find “the third largest number” then One should be able to think the logic that should go in to get the third largest number.
+
+If one can write the logic that goes in step wise, he/she can understand machine learning algorithms as well. To understand what machine learning at high level is, please watch this video — 4 components of machine learning
+
+Understanding of programming:
+
+No one needs to be a super coder to embark their data science journey.
+
+However, one should have an understanding of how computer codes are written. Few basic stuffs, may be:
+
+What are variables and constants? What is meant by datatype?
+
+What is meant by loops/conditional statements?
+
+What is meant by input/output/functions etc.?
+
+What is meant by client/server/Databases/API/hosting/deployment etc.
+
+If one is comfortable with above questions, the “coding” part is good to go!
+
+Understanding of Statistics:
+
+Statistics is one of the major areas of study in Data science. There is no syllabus in this space, which is a must know for data science, however below topics should not make an aspiring data scientist uncomfortable:
+
+mean, median, mode, stranded deviation/variance, percentiles etc.
+
+distribution/probability/Bayes theorem etc.
+
+Statistical tests like — hypothesis testing, Anova, chi square, p-value etc.
+
+Understanding of business domain:
+
+This point is not a blocker for an aspiring data scientist as above-mentioned points are, however more understanding one has for a particular business area or domain, easier it will be for him/her to do the analysis on the data from that domain.
+
+Out of above-mentioned points, if someone is lagging in one or two, it will always be better to brush those concepts first and then start the data science journey. I assure you; journey will be smoother.
+
+Data science is so called “sexiest job” of 21st century. If you want to know the reasons for calling it so, watch this video on Future of Data Science
+
+If you think, you are ready to become a data scientist, here is the starting point for your journey — How to become a data scientist?
+
+Join our data science community Facebook, Twitter, Instagram, LinkedIn
+
+Link to YouTube channel “Unfold data Science”
+
+Cheers
+
+Aman(amanrai77@gmail.com)

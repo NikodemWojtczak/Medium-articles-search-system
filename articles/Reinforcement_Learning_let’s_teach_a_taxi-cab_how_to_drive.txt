@@ -1,0 +1,19 @@
+Reinforcement Learning is a subfield of Machine Learning whose tasks differ from ‘standard’ ways of learning. Indeed, rather than being provided with historical data and make predictions or inferences on them, you want your reinforcement algorithm to learn, from scratch, from the surrounding environment. Basically, you want it to behave as you would have done in a similar situation (if you want to learn more about the structure of RL, click here to read my former article).
+
+In this article, I’m going to show you how to implement an RL solution using Python and its library gym-OpenAI, which you can easily install by running on your Jupyter console pip install gym. The problem I’m going to present to you is the following:
+
+Your environment consists of a 5x5 matrix, where each cell is a position your taxi can stay at. Then, you have 4 coordinates which represent pick-up and drop-off locations, which are (0,0), (0,4), (4,0), (4,3) (for the sake of coherence with Python language, the first index is 0 rather than 1). We will refer to them as R,G,Y,B and we will index their location with, respectively, 0,1,2,3. Finally, there is one passenger which can be either picked up or dropped off, as well as being transported (hence spending time on the cab). Specifically, this passenger wants to reach point B.
+
+Now, if we import our gym module and initialize the taxi environment, we can see that it replicates what we have been saying so far:
+
+import gym
+
+env = gym.make("Taxi-v2").env
+
+env.render()
+
+As you can see, we have our 5x5 space with our 4 locations, where the blue letter represents the current passenger’s location, while the purple one is the drop-off location. We also have our taxi/agent in that space, which is the yellow rectangle, as well as some walls, represented by the symbol ‘|’.
+
+Now there are two elements which need our attention: states and actions.
+
+Let’s first examine our actions. According to the module imported, the agent can act in 6 ways:

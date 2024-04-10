@@ -1,0 +1,17 @@
+Just a Panda, chillin'
+
+Want to be inspired? Come join my Super Quotes newsletter. 😎
+
+The Pandas library has been a heavenly gift to the Data Science community. Ask any Data Scientist how they like to handle their datasets in Python and they’ll undoubtedly talk about Pandas.
+
+Pandas is the epitome of what a great programming library should be like: easy, intuitive, and far-ranging in its capabilities.
+
+Yet performing thousands or even millions of calculations on a Pandas dataframe, a regular duty for Data Scientists, still remains a challenge. You can’t just throw your data in, write a Python for-loop, and expect your data to be processed in a reasonable amount of time.
+
+Pandas is designed for vectorized operations that work on entire rows or columns in one shot — looping through each cell, row, or column is simply not the way the library was designed to be used. As such, when working with Pandas you should be thinking about things in terms of matrix operations which are highly parallelizable.
+
+This guide will teach you how to use Pandas the way it was designed to be used and to think in terms of matrix operations. Along the way, I’ll show you a few practical time-saving tips and tricks that’ll get your Pandas code running way faster than those dreaded Python for-loops!
+
+Our setup
+
+Throughout this tutorial we’re going to use the classic Iris Flowers dataset. Let’s start getting the ball rolling by loading up the dataset with seaborn and printing out the first 5 rows.

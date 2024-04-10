@@ -1,0 +1,19 @@
+Market Profile: a statistical view on financial markets
+
+A gentle introduction and a short recipe on how to plot market profile in Matplotlib Mario Emmanuel · Follow Published in Towards Data Science · 9 min read · Aug 11, 2019 -- 3 Share
+
+Market profile is a technique used to contextualize current market conditions.
+
+A brief introduction to Market Profile methodology
+
+Market Profile was a technique developed by J. Peter Steidlmayer in the 60s. The methodology represents the statistical distribution of a given market in a given period.
+
+Steidlmayer, son of a wealthy farmer, become a CBOT pit trader in the 60s and eventually become one of the CBOT directors in the early 80s. He merged the concepts of minimum relevant price movement, balance and gaussian distribution to define a methodology that can track how a given market is moving at a given time.
+
+Market profile theory is properly covered in several books and there is also some good material on the Internet. It is a methodology that experienced a great interest during the late 80s and 90s, being Steidlmayer its main promoter—he also was in charge of delivering the first electronic data services at CBOT in the early 80s —. While it is no longer a mainstream analysis technique, it still counts with a base of followers who actively use it.
+
+Market Profile uses time and price to locate the value areas of the trading session (i.e. price areas where the participants consider that the fair price of a given asset/instrument is located). While it is not a trading methodology or system, it is a sound way to analyse the current status of a given market as it helps to clarify if a market is consolidating or trending.
+
+One of the advantages of Market Profile over Volume Profile is that volume data is not required. This is especially interesting for non-regulated OTC markets where volume information is either not available or not significative. It also enables using non-expensive historical data for simulation.
+
+As Market Profile uses the concept of TPO (Time Price Opportunity) to reflect areas of interest, those areas are highly correlated with the high volume areas. So in the end, both methodologies can lead to similar results and it is sometimes actually astonishing to see how similar both profiles are. The explanation is that moving large volumes at a given price in the market requires…

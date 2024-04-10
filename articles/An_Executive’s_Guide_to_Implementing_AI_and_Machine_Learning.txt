@@ -1,0 +1,19 @@
+An Executive’s Guide to Implementing AI and Machine Learning
+
+As a Chief Analytics Officer, I’ve had to bridge the gap between business needs and data scientists. How that gap is bridged is, in my experience, the difference between how well the value and promise of artificial intelligence (AI) and machine learning is realized. Here are a few things I’ve learned.
+
+AI = machine learning (at least in 2019)
+
+Machine learning is a path to get to AI. At least as of 2019, it is the only known viable path that I’m aware of. In the coming years, there may be other approaches. The two terms are not interchangeable, but for our purposes I will focus on machine learning.
+
+Machine learning is a category of tools and approaches where a computer is given a large training set of data that includes an “answer key”. The machine then learns how to derive the answer key from combinations of the inputs. The model is then tested against a different testing data set to determine its accuracy.
+
+Machine learning as a category can include basic statistical tools (e.g. linear regression) that fit this approach. It also includes neural networks, decision trees, and several other tools.
+
+Is machine learning the right tool for the problem you’re trying to solve?
+
+This one has tripped me up in the past.
+
+For example, recently I had a data set with a lot of data collected from hospitals which had, for each employee, fifty measurements (for example, whether they showed up for work on time or whether they were consistently the only experienced person on their shift) and an indicator of whether they resigned in the weeks and months following. The question was: given this data set, could we create a model to predict employees who would resign before they did so, allowing hospitals to intervene early?
+
+We spent months reviewing the data set and had used basic data visualization approaches to determine a set of rules. For example, employees who were just hired were twice as likely to resign than employees who had already worked at the hospital for ten years. Employees in certain…

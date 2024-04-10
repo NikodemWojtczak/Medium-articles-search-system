@@ -1,0 +1,11 @@
+Predicting vs. Explaining
+
+A directed acyclic graph depicting the causal pathways to foetal alcohol spectrum disorders
+
+The Cultural War in Cognitive Science
+
+I recently stumbled across this really juicy debate on natural language processing that took place a few years ago between the old guard of the field, Noam Chomsky, who’s considered as “the father of modern linguistics,” and the new guard, Peter Norvig, Director of Research at Google. When commenting on where the field was heading, Chomsky said the following:
+
+“Suppose that somebody says he wants to eliminate the physics department and do it the right way. The “right” way is to take endless numbers of videotapes of what’s happening outside the video, and feed them into the biggest and fastest computer, gigabytes of data, and do complex statistical analysis — you know, Bayesian this and that — and you’ll get some kind of prediction about what’s gonna happen outside the window next. In fact, you get a much better prediction than the physics department will ever give. Well, if success is defined as getting a fair approximation to a mass of chaotic unanalyzed data, then it’s way better to do it this way than to do it the way the physicists do, you know, no thought experiments about frictionless planes and so on and so forth. But you won’t get the kind of understanding that the sciences have always been aimed at — what you’ll get at is an approximation to what’s happening.”
+
+Chomsky reinforced that sentiment repeatedly elsewhere: that the current definition of success in natural language processing — namely predictive accuracy — is not science. Throwing “some immense corpus of text” into a “complicated machine” is merely “approximating unanalyzed data,” or “butterfly collecting,” that would not lead to “real understanding” of the language. He argues that the main goal of science is to “discover explanatory principles” of how a system actually works, and the “right approach” to achieve that goal is to “let the theory guide the data”: study the system’s basic nature by abstracting away “irrelevant intrusions” through carefully designed experiments — the same way modern science has been conducted since Galileo. In his own succinct words: “Just trying to deal with the unanalyzed chaotic data is unlikely to get you anywhere, just like as it wouldn’t have gotten Galileo…

@@ -1,0 +1,41 @@
+One of the most common and most challenging issues in any Big Data system is to select stratified samples in a way that it’s representative of characteristics of the overall data population. From data annotation to the selection of evaluation dataset, Data sampling is key to success behind every Data Science solution. Efficient sampling is a critical requirement also because it is assumed that the machine learning models trained on this sampled set and the insights generated hold true for the broader set.
+
+Instance selection is the concept of selecting a subset from the population by maintaining the underlying distribution intact so that the sampled data is representative of the characteristics of the overall data population.
+
+Let’s consider you have a population of ~10 Billion unlabelled data points. To solve the kind of problems you have, it might require a supervised approach. Now, the question is How to annotate all of these data points? It’s going to take an enormous amount of time with the help of a lot of human experts unless you figure out a way to automate the annotation process. Even if we manage to have label for all the data, training a Machine Learning model on a very high volume of data is sometimes not feasible due to resource constraint and might consume a very high amount of time to train which also leads to an infeasible state. At the same time, a large volume of data might be similar to each other. Hence introducing redundancy in the pattern. This kind of redundant data doesn’t help much in the learning process of the model. We can reduce the dataset by a substantial amount to decrease training time and increase performance by carefully analyzing all dimensions present in the dataset.
+
+In reality, the way to handle this situation is to calculate the amount of data can be annotated within the available time and available resources and select that many samples out of the population in a way that the sample follows the same underlying distribution of population data. There are 2 ways to achieve this objective:
+
+Quantitative Sampling Data-driven Sampling [Instance Selection]
+
+2 of the primary purposes behind training a Machine Learning model is to either learn a decision boundary between a number of classes/clusters or learn the input data distribution. Statistically speaking, for these cases, the learning would be similar as long the underlying data distribution is unchanged between population and sampled data.
+
+Quantitative Sampling: This sampling technique requires an extensive amount of domain knowledge and an in-depth understanding of the data. The strategy differs based on the type of data whether it’s text data, image data or audio data or video data, etc.
+
+i. Uniqueness: The first step in sampling is to find out the unique data points. Uniqueness can be defined in several ways. In case of text data, if 2 documents have the exact same set of words in the same order they can be considered as duplicate or in case of image data, if the Euclidean distance between 2 image data (of the same size) is less than an epsilon then those can be considered as duplicate. Find out all duplicate data points and only one of those will represent others from duplicates.
+
+ii. Pattern: This step is highly tricky and requires domain knowledge. Mostly manually or through a semi-automated process, we need to identify a set of patterns/structure from the data. If we have a time-series data, maybe a pattern is periodic. Maybe we can find out a pattern is being repeated every month. Then we need to select candidates spread across each month in a year but downsampling data of individual months.
+
+In case of text data, after removing stopwords, we can replace each word by their corresponding “part of speech” as follows:
+
+POS tag of text document
+
+The POS tag sequence can be considered as a structure for a given text and go for deduplication of data based on POS tag sequence. But we need to ensure the vocabulary of words is being maintained in the sample space.
+
+2. Data-driven Sampling: Instance Selection begins by first sampling the data along all dimensions of importance. One of the ways to go about Data-driven Sampling is to first learn the distributed embeddings representation of data in a supervised or an unsupervised way and then follow a greedy algorithm for candidate selection where the idea is to select one data point as representative of all the other data points which lies within delta-ball distance. As depicted in the following picture, each light green or light red circle is a sphere of delta-radius and only one data points from the sphere is selected as representative of the sphere. There are different studies related to the choice of delta. One can choose a smaller delta around centroid and boundary region whereas relatively bigger delta value for other regions. Bigger the delta means more sparse representation. This choice of the delta will ensure a dense population in centroid and boundary region whereas resulting in sparse population around the intermediate region.
+
+Visualization of delta-ball sphere
+
+In case of text data, word2vec, fasttext or Glove embeddings can be leveraged whereas, in case of image data, a low latency classifier model can be trained to obtain distributed embeddings representation.
+
+Conclusion: From Data Collection to Model Maintenance, at every step of a data science product life-cycle, selection of relevant data points plays a vital role to decide:
+
+i. What all data points to be used for annotation by a human expert.
+
+ii. What all data points to be used for Model training.
+
+iii. How to sample Evaluation dataset to measure the performance of a trained model.
+
+iv. What all data points in history require re-run of an updated model so that we re-run model only on selected instances which has a high probability of jumping around the neighbor cluster.
+
+Git: Helper code is available here

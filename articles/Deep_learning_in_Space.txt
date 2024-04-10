@@ -1,0 +1,95 @@
+Artificial intelligence is everywhere. Home appliances, automotive, entertainment systems, you name it, they are all packing AI capabilities. The space industry is no exception.
+
+In the past few months I have been working on a machine learning application that assists satellite docking from a simple camera video feed. If you want to know how deep learning, neural nets and Tensorflow are useful for satellite docking, keep reading.
+
+In this blog post I’ll guide you through the approach, working principles, results and lessons I learned. I don’t pretend to challenge the state of the art in object recognition at all. But, when tracing back on my steps I realize I learned so much. Therefore, I hope my story is useful to you and it inspires you to create your own machine learning applications.
+
+If you prefer to skip the reading and dive straight into the code, everything is available on GitHub: https://github.com/nevers/space-dl
+
+Please note that this post assumes the reader is familiar with the basic principles of Tensorflow, Convolutional Neural Nets (CNN) and how to train them using back propagation.
+
+Credits
+
+A big thanks to Rani Pinchuk for the support, the countless discussions, resulting insights and the time spend on tediously labelling all training data.
+
+Training and evaluation images of the OS-SIM facility by courtesy of DLR.
+
+Magellan space probe, simulated using Unity by Xavier Martinez Gonzalez.
+
+Index
+
+Intermezzo — object segmentation, detection and localization.
+
+Intermezzo — Tensorflow estimators versus manual abstractions.
+
+Dataset preparations
+
+Knowing the detailed dimensions of the satellite, the goal is to create an algorithm that can accurately predict its pose and relative distance from the camera. The dataset for this project was created from a life-size mockup of a satellite mounted on a robotic arm at the DLR OS-SIM facility. The arm simulated various movements whilst a camera recorded a video feed.
+
+The satellite mockup captured by the video camera on the robotic arm. Source: OSM-SIM facility DLR.
+
+I decided to focus my efforts on finding the tip of the satellite. If I could accurately locate it, I was confident I could do the same for at least two other tags on the model. (The ‘tip’ of the satellite is actually part of its docking mechanism.) Given those 3 (or more) points and the 3D model of the satellite, I could then reconstruct the pose of the satellite and relative position with respect to the camera.
+
+The camera recorded 14,424 unlabelled images that I wanted to use for training and evaluating a neural network. One of my worries was that I would have to spend ages on manually labelling the tip on each of those images. Luckily, I learned about OpenCV’s excellent image tagging tool: CVAT.
+
+With CVAT you can bulk-import all the images you want to annotate, play them back as a movie and interpolate annotations that are many frames apart. It also allows the work to be split up amongst multiple people and it even has a nice docker-compose file that allows you to run it at a click of a button.
+
+CVAT saved tons of time and work: it only took a few hours to annotate the tip on each of the 14,424 images. (Actually, I can’t take credit for this work.) For linear motions of the satellite, we simply had to annotate the start and end position and CVAT would interpolate and add all the labels in between. If you ever need a video or image annotation tool, CVAT comes highly recommended.
+
+Annotating the tip of the satellite using boxes in OpenCV’s CVAT.
+
+There are, however, some opportunities for improvement, or rather, features I would love to have. For example, CVAT does not support interpolation between points. As a work-around, boxes had to be used instead of points for all annotations. (The top-left coordinate of the box was used to match the position of the tip.) Also, any frames not annotated, i.e. frames where the tip was not visible, were not included in the XML output.
+
+XML output from CVAT after annotating the images.
+
+In order to make this XML file suitable for training and evaluating the model, it had to be post-processed into the right format. Funny thing is: this seemingly trivial task, actually took quite some iterations to get right. I often had to go back to fix labels, add new labels, update the output format, etc. To me, there’s a lesson to be learned here.
+
+The code that converts the raw data and annotations into a dataset suitable for training and evaluation is an important part of the codebase. It is not just a bunch of obscure one-off terminal commands. You should treat it with respect, as it is part of the playbook that allows you to reproduce your results and your documentation. Version your code, review it, use semantic versioning for your dataset releases and most importantly, make it easy for others working on the same problem to use the dataset by zipping it up and offering it for download.
+
+Once I had a baseline for the dataset build script, colleagues were able to reuse it and share their changes. I have introduced Nexus in our company, and we now use it to distribute all our code artifacts from Java, Python and Docker, including datasets and more.
+
+The dataset build script also allowed quick experiments with different versions of the dataset:
+
+Applying data augmentation: rotation, blurring, sharpening.
+
+Experimenting with different training and evaluation splits.
+
+Tailoring the data to a representation that fits your model.
+
+Converting and packaging the data into a suitable format.
+
+This last point deserves a bit more attention. Because I’m using Tensorflow, I wanted to use the TFRecords data format. Not only because it nicely integrates into the TF Dataset API, but mostly because I assumed that this binary data format would read much more efficiently from disk. Here’s a code excerpt on how I converted the images and labels to a TFRecords file using Python multi-processing. (I wanted to use multi-threading but… in Python-land threads are not cool and GIL said so.)
+
+Convert images and labels to a TFRecords file using multi-processing in Python.
+
+After creating the TFRecords file, I created this script to benchmark and compare the time it takes to read the 13,198 training images from the TFRecords file versus simply reading each image from disk and decoding them on the fly. Surprisingly enough, the TFRecords data format did not really improve the speed of reading the training dataset. The timing outputs below show that sequentially reading from a TFRecords file is slower than reading each image from disk and decoding them on the fly. The difference is marginal but I definitely expected TFRecords to be faster.
+
+If you really want to improve the performance of your data import pipeline, consider parallel processing and prefetching of the data. By simply setting the tf.data.Dataset.map num_parallel_calls argument when parsing the dataset, parallel reading of those very same images from the TFRecords file is 2 times faster than its sequential counterpart. Reading each image from disk and decoding them on the fly is even 3 times faster. However, in the parallel example, reading the TFRecords file is almost 2 times slower than reading the images on the fly. Again not what I expected. I would be happy if someone could point out the issue and share their experiences with TFRecords.
+
+In the end, combining parallel parsing and prefetching allowed me to remove any CPU bottlenecks during training and increased the average GPU utilization from 75% to more than 95% as measured with the nvidia-smi command.
+
+Here are the timing outputs from the script when run on my old 2011 iMac (2,7 GHz Intel Core i5):
+
+Sequential parsing of 13198 images:
+
+TFRecords dataset: 50.13s
+
+Plain PNG files dataset: 49.46s
+
+Parallel parsing of 13198 images:
+
+TFRecords dataset: 26.78s
+
+Plain PNG files dataset: 15.96s
+
+Model principles
+
+Recently, I accomplished Andrew Ng’s Deep Learning Specialization on Coursera. (Ng is pronounced a bit like the n-sound at the end of ‘song’.) These five courses cover the core concepts of Deep Learning and neural networks including Convolutional Networks, RNNs, LSTM, Adam, Dropout, BatchNorm, Xavier/He initialization, and more. The course also details practical case studies from healthcare, autonomous driving, sign language reading, music generation, and natural language processing. Beyond Andrew’s amazing track record, he’s also a great teacher and I must say it was a wonderful experience. I can recommend this course to anyone who wants to get into Deep Learning.
+
+In the 4th course, covering Convolutional Neural Networks, he gave an excellent explanation on object detection using the YOLO algorithm (You Only Look Once). This algorithm performs real-time object detection as you can see below.
+
+Object detection using YOLO. Source: https://pjreddie.com/darknet/yolo/
+
+“YOLO is one of the most effective object detection algorithms that encompasses many of the best ideas across the entire computer vision literature that relate to object detection.” — Andrew Ng
+
+With that, I just couldn’t resist implementing my own naive version of the algorithm. I won’t be explaining the full working principles and details of the original YOLO paper in this post as there are so many excellent blog posts out there doing just that. (Like this one for example.) Instead, I will focus on how I used YOLO to solve my specific localization problem.

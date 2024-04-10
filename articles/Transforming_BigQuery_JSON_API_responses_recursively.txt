@@ -1,0 +1,27 @@
+Flying the nest, recursively
+
+Ever watched the movie Inception? It’s a goodie. A timeline within a timeline within a timeline. And when it all rolls back you see how things fit together. In similar fashion, recursion has a very small footprint in code, but can address huge computational (read “nested”) complexity.
+
+Okay, enough riff-raff, let’s get to it!
+
+BigQuery’s query API return JSON
+
+This is a sample of Google BigQuery’s API response after doing a query:
+
+BigQuery’s query API result looks like this
+
+The schema shows you how the data is structured and the rows indicate, with “f” for field and “v” for value, what values fit into the schema.
+
+Now, isn’t it easier to read and manipulate the JSON when it looks like this?
+
+Transformed BigQuery result into something more manageable
+
+If you agree, then you’re in good hands.
+
+The solution
+
+Here is the node.js code that does this transformation. Feel free to use it, adapt it to your needs and generally make your life simpler and your data happier. The interface to the function is:
+
+convertBQToMySQLResults(schema, rows)
+
+and you pass in the BigQuery results like so:

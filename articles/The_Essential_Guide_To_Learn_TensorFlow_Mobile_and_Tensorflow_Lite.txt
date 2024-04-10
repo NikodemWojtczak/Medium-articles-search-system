@@ -1,0 +1,85 @@
+What is TensorFlow Mobile?
+
+TensorFlow Mobile is used for a mobile platform such as iOS and Android. This is for those developers who have a successful TensorFlow model and want to integrate their model into a mobile environment. This is also for those who are not able to use TensorFlow Lite. Basic challenges one can find in integrating their desktop environment model into the mobile environment are:
+
+To see how to use TensorFlow mobile.
+
+Building their model for a mobile platform.
+
+Adding the TensorFlow libraries into their mobile application.
+
+Preparing the model file.
+
+Optimising binary size, file size, RAM usage etc.
+
+Cases For Using Mobile Machine Learning
+
+Generally, the developer’s associated with TensorFlow use it on high powered GPU’s. But it is very time consuming and a very expensive way to send all device data to across a network connection, running it on a mobile can be an easy way to do it.
+
+
+
+Commonly used cases for on-device deep learning:
+
+a. Image Recognition in TensorFlow
+
+A useful way to detect or get a sense of the image captured with a mobile. If the users are taking photos getting to know what’s in there can be a way to apply appropriate filters or label them so, as to find them whenever necessary. TensorFlow image recognition comes with a wide range of examples of detecting the types of objects inside of images. It also consists of a variety of pre-trained models which can be used to run on mobile devices.
+
+b. TensorFlow Speech Recognition
+
+There are various applications which can build with a speech-driven interface. Many times a user won’t be giving instructions so streaming it continuously to a server would create a lot of problems. To solve this, it’s good to have a neural network running on a device for a particular word rather than listening to the whole conversation.
+
+c. Gesture Recognition in TensorFlow
+
+It is useful to control applications with the help of hands or other gestures, through analyzing sensor data. You can do this with the help of TensorFlow.
+
+Other examples are Optical Character Recognition (OCR), Translation, Text classification, Voice recognition, etc.
+
+What is TensorFlow Lite?
+
+TensorFlow Lite is the lightweight version which is specifically designed for the mobile platform and embedded devices. It provides machine learning solution to mobile with low latency and small binary size.
+
+TensorFlow supports a set of core operators which have been tuned for mobile platforms. It also supports custom operations in models.
+
+TensorFlow Lite tutorial defines a new file format based on FlatBuffers which is an open source platform serialization library. It consists of a new mobile interpreter which is used to keep apps small and faster. It uses a custom memory allocator for minimal load and execution latency.
+
+a. TensorFlow Lite Architecture
+
+The above diagram you see is of TensorFlow Lite architecture. The trained TensorFlow model on the disk will convert into TensorFlow Lite file format (.tflite) using the TensorFlow Lite converter. Then we can use that converted file in the mobile application.
+
+For deploying the Lite model file:
+
+Java API: A wrapper around C++ API on Android.
+
+C++ API: It loads the Lite model and calls the interpreter.
+
+Interpreter: It executes the model. It uses selective kernel loading which is a unique feature of Lite in Tensorflow.
+
+You can also implement custom kernels using the C++ API.
+
+Some of the highlights of TensorFlow Lite are as follows:
+
+It supports a set of core operators which have been tuned for mobile platforms. TensorFlow also supports custom operations in models.
+
+A new file format based on FlatBuffers.
+
+On device interpreter which uses selective loading technique.
+
+When all supported operators are linked TensorFlow Lite is smaller than 300kb.
+
+Java and C++ API support.
+
+TensorFlow Lite Vs TensorFlow Mobile
+
+As you saw what TensorFlow Lite and TensorFlow Mobile are, and how they support TensorFlow in a mobile environment and in embedded systems, you will know how they differ from each other. The differences between TensorFlow Lite and TensorFlow Mobile are as follows:
+
+It is the next version of TensorFlow mobile. Generally, applications developed on TensorFlow Lite will have better performance and less binary file size than TensorFlow mobile.
+
+It is still in early stages so not all the cases cover which is not the case for TensorFlow mobile.
+
+TensorFlow Lite supports selective sets of operators, therefore not all the models will work on TensorFlow Lite by default. Whereas, TensorFlow mobile has fully covered functionality.
+
+So, this was all about TensorFlow Mobile and TensorFlow Lite. Hope you like our explanation.
+
+Conclusion
+
+Hence, in this TensorFlow mobile and Lite article, Lite in TensorFlow has a better performance ratio and small binary file size than its predecessor TensorFlow Mobile. Furthermore, if you have any query, feel free to ask in the comment section.

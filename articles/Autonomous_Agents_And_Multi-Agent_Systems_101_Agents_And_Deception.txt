@@ -1,0 +1,61 @@
+Autonomous Agents And Multi-Agent Systems 101: Agents And Deception
+
+This article provides a brief introduction to the area of autonomous agents and multi-system agents. Furthermore, a perspective of deception mechanisms used by agents is presented. Rafael Belchior · Follow Published in Towards Data Science · 7 min read · May 27, 2019 -- Listen Share
+
+Photo by Debby Hudson on Unsplash
+
+Humans use deception mechanisms to gain an advantage over other humans 😶. Some of the most typical mechanisms are (1), not sharing their beliefs (2), pretending to be able to perform certain actions or even pretending not to be able to perform a certain action. In the Autonomous Agents and Multi-Agent Systems, jargon, (1) corresponds to hidden utilities, (2) to hidden actions and (3) to decoy actions.
+
+One could ask how can an agent use deception to maximize his own reward? Can even an agent use deception techniques? Can an agent can use deception in a cooperative setting?
+
+To answer these questions, we first introduce the notion of an agent [P.Maes, 1993]:
+
+A (rational) agent 🤖 is a system that tries to fulfil a set of goals in a complex environment, by choosing the action with the optimal expected outcome for itself from among all possible actions (the one that has greater utility). Agents need to be autonomous and adaptive, in order to cope with the vicissitudes of environments. In a multi-agent scenario, agents can compete, being their interactions described by a game encounter. For maximising the utility, a utility function ranks different options according to their utility to an individual. Cooperating agents have the same goal and can work together to achieve a common goal.
+
+Nice looking agent. Photo by Alex Knight on Unsplash
+
+In fact, we behave similarly to agents: rational beings wanting to fulfil a set of goals, by choosing the actions that maximise our chances of success. At least sometimes.
+
+To formalize the interaction between agents, which is mostly when deception takes place, let us consider the notions of game and game encounter:
+
+A game is a competitive activity, where players compete with each other (interactions), according to defined rules (strategy) [Wooldridge M., Paterson S., 2002]. Players can only take certain actions defined by the environment. Assuming that agents simultaneously choose an action to perform, the result of their actions depends on the combination of actions. The environment is then changed, according to the cumulative set of actions performed by all agents. This fact arises one question: if all agents influence the environment, and if all agents want to maximise their utility, how should they act? The choice of the appropriate action has some relevant issues, including but not limited to the nature of the goal (what kind, static or dynamic), reusability, the depth of understanding of actions leading to emergent behaviours and the relationship between perceptions and actions. Game theory studies interactions between rational agents who aim to maximise their utility. Agents can negotiate in order to achieve a position favourable to both of them.
+
+Before picturing a game encounter between agents, let us dig deeper into the concept of deception:
+
+Deception is often used by humans to raise the probability of success when negotiating. The ability of an agent to negotiate effectively in the presence of conflicting goals is related to the information that the adversary holds. Let us assume an encounter between two competing agents, with the possibility of them to use the following deception mechanisms i. hidden actions, ii. hidden utilities and iii. decoy actions. Deception techniques can occur on inter-agent negotiation with incomplete information, as negotiation typically assume trustworthy agents, which is not always the case [Zlotkin G., Josenschein J., 1991]. As agents co-exist and might interfere with the outcomes of the actions performed, there is the possibility of cooperation, to help each other and achieve both goals with a lower overall cost.
+
+Let us assume that a game encounter takes place. The game is represented by the bi-matrix b, where agent i and agent j have different goals, gi and gj, respectively. The values of an entrance correspond to the yielded utility to agent i and agent j, respectively. Both agents want to transform the world from the initial to a state si or sj that satisfies its goal. Agent i is the row player and agent j the column player. Both players can perform the same actions, A and B. Deception techniques can be used to maximise the overall utility for one of the agents. The game is expressed on the following table:
+
+Let us suppose that agent i knows that agent j is going to perform an action a. The result yields:
+
+In this case, agent i should also perform action A, because the utility delivered is the greatest. If But if agent j is taking action B, we have:
+
+Therefore, agent i would also choose action B, as one is greater than zero. The optimal strategy of agent i is determined by the choice of agent j. If Agent j informs agent i that he can only take action B (hidden actions), it leads agent i to perform action B (as one is greater than zero and therefore that action is the one delivering the most utility). Nonetheless, agent i can perform action A, yielding utility two for him and utility zero for agent i.
+
+Hidden utility mechanisms are used by agents that do not want to share its utility regarding their actions. If an agent does not share its utility associated with each action, the other will be picking actions (at least initially) guided solely by its utility. Such decisions can lead to sub-optimal options, for instance, when agent j picks action A and agent i picks action B. Let us now suppose that agent j can only perform action A, but is using a decoy action mechanism, pretending that he can perform action B. Cooperative agents rationally always choose action A, as it yields the highest outcome possible. Nonetheless, if agent i is a competing agent that not only aims to maximise its utility but also aims to minimise its adversary utility (zero-sum game), he can rationally choose action B. Decoy actions are a way to protect against agents that are competitive and want to minimise other’s utility. It is clear that an agent can use several deception techniques to maximise its reward, in a competing scenario.
+
+Conversely, in contexts where agents want to minimize the overall cost (maximise the overall utility), typically it does not make sense to use deception mechanisms, as they comprise extra difficulties on the task. In scenarios with no strictly dominant strategy, more rules are needed to solve the game.
+
+The notion of Nash Equilibrium [Nicola G., 1967] and Pareto Optimality [Pareto V., 1906] are important to make conclusions. Nash equilibrium is a set of strategies for each player, such as each player does not have an incentive to unilaterally change its strategy. Nash equilibria are inherently stable and can help solve Game 1. In Game 1, there are two Nash equilibria: when both agents pick the same action. An outcome is Pareto efficient if no other outcome improves a player’s utility without making someone else worse off. The impact of deception influences agents, as they believe an outcome is in Nash equilibrium or is Pareto efficient when in reality it is not.
+
+Nash Equilibrium. Neither of the rocks that compose the pile has the motivation to move. Photo by Debby Hudson on Unsplash
+
+Let us assume that in Game 1, agent i can only pick action A, but tells agent j that he can pick all actions. Given the Nash equilibrium when both agents choose action B, there is room for deception. If Agent i choose action A, while agent j chooses action B, it yields two utility points for agent i and zero utility points for agent j. Conversely, agent i can tell agent j he cannot pick action B, thus suggesting agent j can always pick action A (Nash equilibrium). Agent i can pick action B, thus not earning so much utility but, at the same time, minimising the utility of his adversary. Deception can give the illusion of a Nash equilibrium. This reasoning is analogous to Pareto optimality.
+
+PRINCIPLES TO DESIGN RATIONAL AGENTS From the analysis above, we can extract some principles to design rational agents under self-interest and cooperative contexts.
+
+In self-interest scenarios:
+
+💢 One should hide their utility, to obtain an initial advantage.
+
+💢 One can use decoy actions to protect against the other agent (forcing situations such as Nash Equilibrium).
+
+💢 One can hide their actions if the goal is to minimise the opponent’s utility
+
+Even though these principles are rational, in theory, in practice competition instead of cooperation yields to worse results.
+
+✔️ In cooperative scenarios, in most cases, deception mechanisms do not make sense, as they difficult communication and thus complicate achieving the common goal.
+
+CONCLUSIONS Deception mechanisms can be used by competing agents to maximise their utility, yielding better results in competitive, zero-sum scenarios. Often, a good deal can be obtained through cooperation or strategies such as the Nash Equilibrium.
+
+ACKNOWLEDGEMENTS Thanks to Professor Rui Henriques for the available course materials, which were the basis of this essay, and also for the guidance and suggestions.

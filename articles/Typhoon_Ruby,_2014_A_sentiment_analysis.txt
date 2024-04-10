@@ -1,0 +1,93 @@
+Typhoon Ruby, 2014: A sentiment analysis
+
+In high school, I did a short internship with Dr. Gerry Bagtasa — a university professor at the Institute of Environmental Science and Meteorology, University of the Philippines Diliman. His project involved finding out how Filipinos on Facebook reacted to updates posted by the weather bureau (PAGASA) while tracking Typhoon Ruby (2014).
+
+We took 2,300 comments from 23 Facebook weather updates posted by PAGASA, that tracked the path of Typhoon Ruby as it hit the Philippines. Knowing nothing about Python, and I and a lab partner (Derrick) spent two weeks painstakingly categorizing the comments one by one.
+
+Derrick hard at work on our tiny laptops
+
+Typhoons in the Philippines
+
+Monsoon season in the Philippines is crazy. Every June through August brings a slew of heavy rain, insane floods, and roads blocked by fallen trees and wires, etc. Typhoon Ruby marked one of the worst typhoons in 2014 for the Philippines, claiming 18 lives, injuring 916 people, and causing Php 5.09 billion (USD 114 million) in damages. Although the country has made strides in disaster preparation, there is still a lot to be done — one aspect being information dissemination and feedback. Facebook is an extremely powerful tool in the Philippines, with nearly 98.6% of Internet users on the social media platform. Thus, it makes for a great avenue to find out what updates/information citizens need about the typhoon, and to collect any information users provide as the typhoon unfolds.
+
+Method
+
+We recently covered topic models in class, and my life has changed ever since (kidding). But before that, some data cleaning.
+
+What’s difficult when dealing with Filipino is people come up with a bunch of abbreviations for the same word, and many other creative ways of spelling the word. For example, ‘thanks’ was spelled as ‘thx’, ‘tnx’, and ‘thanxs’ (my mom does this too). Because the patterns were so varied, I sorted the words, focused on more frequent ones, then edited them.
+
+I removed the 25 most frequent words with the intention of removing articles, however words like ‘god’, ‘lord’, ‘amen’, and ‘pray’ ended up in the list — which I removed manually. This points to the large focus on religion and prayer as one of the topics in the comments.
+
+I then generated the corpus of words using code from class, which summarized each comment as a list of keywords and their corresponding counts. For example,
+
+Comment: 'Rosnel Amuan lord pls help our country to be safe amen'
+
+Corpus: [(58, 1), (107, 1), (61, 1), (37, 1), (86, 1), (87, 1)]
+
+Vocab List: 58: 'lord', 107: 'pls', 61: 'help', 37: 'our', 86: 'country', 87: 'safe'
+
+Latent Dirichlet Allocation (and my attempt to explain it)
+
+Then I ran Latent Dirichlet Allocation (LDA) using the gensim package in Python. LDA is an algorithm that aims to uncover the underlying topics or subjects common to some documents, which in our case are the FB comments. LDA requires that we specify the number of topics we expect it to generate. I initially chose 6 since we came up with six general topics for comments when doing our manual classification, but then upon fine-tuning and rerunning the model, it turned out that 7 produced more sensible word lists.
+
+The algorithm initially guesses which words belong to which topics, by randomly assigning each word a topic (represented by a number).
+
+Then, the algorithm updates its guess for each word, by calculating a score for each one of the possible topics. The score is a product of two probabilities:
+
+#1: The probability that a topic is in that document (i.e. based on what my document is about, is there a good chance that this word should be associated with topic x?)
+
+The probability that a topic is in that document (i.e. based on what my document is about, is there a good chance that this word should be associated with topic x?) #2: The probability that the word belongs to a topic (i.e. based on the topics this word has been classified as in other documents, is there a good chance that this word should be classified as topic x?)
+
+The topic with the highest score gets assigned to that word, and this is repeated over and over for all words until the assignments of topics no longer change (i.e. their probabilities have converged to some posterior). This works because the assignments of words to topics keep flipping around until the word finally starts accumulating a higher and higher score for a particular topic. This score influences the assignment of the same word in other documents, which in turn further increases the probability that word w belongs to its topic.
+
+Evaluation
+
+LDA summarizes the Facebook comments based on the topics they are composed of. For example, “God please help save my fellow countrymen” might be classified as 75% About Religion and 25% About Fellow Filipinos. I chose the topic that made up most of the comment – so in this case, the comment would be classified as About Religion.
+
+I then compared it to the original classifications that Derrick and I made. Since the six classifications were divided into more specific categories under the manual classification, I aggregated those and saw how they compared to the model’s prediction.
+
+Results
+
+The algorithm came up with these six sets of words that each represent a topic:
+
+Look at all this Taglish!
+
+Basing off the words and previous classifications, I classified the topics as the following:
+
+Religious/Safety/Filipinos: ingat (stay safe), kababayan (countrymen), dios & panginoon (god), mary (Virgin Mary) Religious: god, lord, protect, praying, help Asking for Updates: update, info, weather, signal, kph, wind, ? (the question mark says a lot!) Scared/Asking for Mercy: have, mercy, jesus Hopeful: sana (hopefully), pagasa (hope) Giving Updates: humina (weakened, as in ‘the typhoon weakened’), landfall, AM, Prayers/Family: pray, prayer, save, family
+
+This then generated the following table
+
+Someone asked to send more typhoons?
+
+Summarizing it, these are the topics we obtain
+
+Evaluation
+
+Admittedly, the model did not do as well as I had hoped. This is the summary from the manual classification that we did before
+
+The distributions are very different, and there are multiple comments classified as Other. This happened because we were manually able to identify a number of other topics that did not fall under these general categories, however, these topics did not appear frequently enough for the model to sufficiently pick up on them.
+
+Upon excluding the comments that were under Other, I found that the model gave an accuracy of 48.78%. Broken down by topic, we see that religious comments were classified more accurately – because they have very distinct keywords that are associated with the topic (‘pray’, ‘lord’, ‘panginoon’, etc.), whereas topics like Giving Updates or Scared/Asking for Mercy are constructed with the same words that other sentences or comments use, and could be much more difficult to classify.
+
+Religious: 70.6
+
+Prayers/Family: 67.1
+
+Religious/Safety/Filipinos: 64.9
+
+Hopeful: 54.4
+
+Asking for Updates: 45.5
+
+Scared/Asking for Mercy: 13.6
+
+Giving Updates: 12.7
+
+What’s Next
+
+While this model did not work out as great as I had hoped, I’m hoping to redo the analysis using other models (maybe embeddings). The applications of topic models in NLP are pretty amazing, and I’m looking forward to applying them to other datasets.
+
+Appendix
+
+Check out the code here

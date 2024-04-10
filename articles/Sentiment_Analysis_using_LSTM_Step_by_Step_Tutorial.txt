@@ -1,0 +1,13 @@
+What is Sentiment Analysis:
+
+Sentiment Analysis from Dictionary
+
+I think this result from google dictionary gives a very succinct definition. I don’t have to re-emphasize how important sentiment analysis has become. So, here we will build a classifier on IMDB movie dataset using a Deep Learning technique called RNN.
+
+I’m outlining a step-by-step process for how Recurrent Neural Networks (RNN) can be implemented using Long Short Term Memory (LSTM) architecture:
+
+Load in and visualize the data Data Processing — convert to lower case Data Processing — Remove punctuation Data Processing — Create list of reviews Tokenize — Create Vocab to Int mapping dictionary Tokenize — Encode the words Tokenize — Encode the labels Analyze Reviews Length Removing Outliers — Getting rid of extremely long or short reviews Padding / Truncating the remaining data Training, Validation, Test Dataset Split Dataloaders and Batching Define the LSTM Network Architecture Define the Model Class Training the Network Testing (on Test data and User- generated data)
+
+1) Load in and visualize the data
+
+We are using IMDB movies review dataset. If it is stored in your machine in a txt file then we just load it in

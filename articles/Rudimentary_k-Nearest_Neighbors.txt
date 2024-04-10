@@ -1,0 +1,27 @@
+Rudimentary k-Nearest Neighbors
+
+Sometimes in data science you find yourself picking up a missile launcher in order to kill a mere ant.
+
+In this case though, we are going to be discussing what is probably the most intuitive machine learning algorithm. Do not be fooled however, in spite of its simplicity, the kNN algorithm could still be extremely effective in some instances.
+
+Some quick notes:
+
+Firstly, kNN is a non-parametric algorithm — this means that it doesn’t assume that your data follows any particular distribution. Another cool thing is that it can perform classification and regression tasks, both of which we’ll be touching on in this post.
+
+Intuition
+
+First we are going to be using a simple representation of a data set to illustrate how we would use kNN to perform a Classification task.
+
+Let Magenta be type A and Black be type B. These points would make up the given data. Let Blue be the data point that we wish to classify based on our given data.
+
+To do this, we are going to choose a value k which would be the number of points that are “most similar” to our new data point.
+
+In this 2 dimensional example, we would choose our similarity measure to be the euclidean distance.
+
+So if we let k=2 for example, then we would be looking for the 2 points that are most similar to our new data point. If we then put that in terms of distance then, we would be looking for the 2 closest points.
+
+The red line touches precisely 2 points.
+
+After this we calculate the proportion of data points per type in the set of our k nearest points. We then choose the type with the highest proportion and assign our new data point to this type.
+
+In our case we have that the 2 nearest points were both black.

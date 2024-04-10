@@ -1,0 +1,13 @@
+So you have a model, now what?
+
+Through the powers of machine learning and the promise of deep learning, today’s conferences, thought leaders and experts in ML and AI have been painting a vision of businesses powered by data. However, despite the groundbreaking research and the constant flood of new papers in the fields of ML and deep learning, much of this research remains just that — research (outside of the few tech giants). Deploying ML models remain a significant challenge. As a data scientist and an ML practitioner, I have myself experienced that it is often more difficult to make the journey from a reliable and accurate prototype model to a well-performing and scalable production inference service than it is to actually build the model. Models need to be retrained and deployed when code and/or data are updated. Therefore, automating the build and deployment of machine learning models is a crucial part of creating production machine learning services.
+
+The deployment and operational aspects of “productionizing” ML models lie at the intersection of various practices and disciplines like Statistical modeling, data science, DevOps, ML engineering, etc. For this reason, it does not fall within the realm of expertise of any one single discipline. Moreover, there are other considerations for a production-traffic serving model outside of the choice of a deployment stack, such as the need for continuous improvement and deployment, security concerns, performance and latency aspects, the ability to support rapid experimentation and A/B testing, allowing for auto-scaling etc.
+
+In this post, I will describe an approach for automating the build and deployment of ML models using AWS Sagemaker and AWS Step Functions.
+
+AWS SageMaker is a complete machine learning (ML) workflow service for developing, training, and deploying models. It comes integrated with Jupyter notebooks for data analysis, exploration and model experimentation. It offers flexible distributed training options and model hosting services for model deployment in a secure and scalable environment through https endpoints. SageMaker comes with many predefined algorithms. You can also create your own algorithms by supplying Docker images, a training image to train your model and an inference image to deploy to a REST endpoint.
+
+What is Docker, anyway?
+
+Docker is an open source project based on Linux containers. It is a tool designed to make it easier to…

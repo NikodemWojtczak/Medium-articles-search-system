@@ -1,0 +1,25 @@
+How to use Pandas to analyze numeric data?
+
+Python already becomes a popular programming language in the data science area. Pandas, one of many popular libraries in data science, provides lots of great functions that help us transform, analyze and interpret data. I am sure that there are already too many tutorials and materials to teach you how to use Pandas. However, in this article, I am not solely teaching you how to use Pandas. Instead, I would like to use an example to demonstrate how to interpret your data correctly and smoothly, with the help of Pandas.
+
+Panda VS Pandas
+
+Photo by Ilona Froehlich on Unsplash
+
+Before we start :
+
+Prepare a python environment Download dataset from Kaggle Import pandas Prepare a python environment
+
+Since we use Python to analyze data, of course first we need to install Python. For a beginner, I strongly recommend you to install Anaconda, since Anaconda will already pre-install a list of libraries that are very useful for data science. And you don’t need to concern about compiler or IDE.
+
+Here is the link for downloading Anaconda Distribution which is free
+
+Go to download
+
+Jupyter Notebook is a great tool to do data analysis as you can see the result part by part so that you can know if the result is what you predict and you can also know if you make any error immediately.
+
+Jupyter Notebook in Anaconda Distribution
+
+After launching Jupyter Notebook, a webpage will pop out and you will see a page like this. You can select and create a path for storing your files. On the right side, there is a “New” button. Click this to create a folder or Python file.
+
+There are too many useful functions and shortcuts provided by Jupyter Notebook. I am not here to describe and explain in detail. Also, I hope you already have some basic knowledge of coding Python…

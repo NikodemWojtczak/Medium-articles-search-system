@@ -1,0 +1,25 @@
+Inception can be one of the most cost-effective building block for capturing large objects and for capturing small objects. They replace the 5x5 convolution in a common Inception block with 2 3x3s.
+
+HyperNet
+
+Multiscale representation and its combination are proven to be effective in many Deep Learning tasks. Combining fine grained details with highly abstracted information in feature extraction layer helps the following region proposal network and classification network to detect object of different scales.
+
+They combine the
+
+1) Last layer
+
+2) Two intermediate layers whose scales are 2x and 4x of the last layer, respectively.
+
+Deep Network Training
+
+They have adopted the residual structures for better training. They add residual connections onto inception layers as well to stabilize the later part of the deep network.
+
+Add Batch Normalization layers before all ReLU activation layers.
+
+The Learning rate policy they use is based on plateau detection, where they detect a plateau based on the moving average of loss, and if its below a certain threshold they decrease the learning rate by a certain factor.
+
+Faster R-CNN with PVANET
+
+Three intermediate outputs from conv3_4, conv4_4 and conv5_4 are combined into the 512 channel multi scale output features which are fed into the Faster RCNN modules
+
+Results

@@ -1,0 +1,51 @@
+Its easy to have a CSV file and implement it in various ML models. But, the difficulty lies in implementing the e2e process of getting a video, extracting images, uploading them on Google cloud storage and later performing AutoML on them, entirely using Python. Nowadays, most of the companies have their own in-built models; if not, then they use Google ML models or others.
+
+I will share with you the process of :
+
+Extracting frames from videos of objects (using OpenCV) Uploading the images on Google Cloud Storage with correct folder structure. Preparing a labelled CSV dataset and uploading it to Google Cloud Storage. Importing the dataset from Google cloud storage to AutoML using above CSV. Training the data and creating the required classification model in AutoML . Testing random images on the model.
+
+Step by step guide for the above mentioned processes
+
+Extracting frames from videos of objects (using OpenCV) :
+
+I have taken 2 videos, around 25 secs each to use them for my problem. In Google Cloud, you need to prepare a bucket to use for your project. But for everything, instead of using the console, I have done in Python. I have used Jupyter notebook to write the Python code.
+
+In the above command we import the required libraries, create project with project path and project Id, bucket name and required modifications.
+
+Uploading the images on Google Cloud Storage with correct folder structure :
+
+Following commands helped me to extract images from the video without ffmpeg function and directly upload them on Google Cloud. I used openCV library to extract the images from the videos. OpenCV-Python is a strong library of Python bindings which has been designed to solve vision problems in computer. While extracting the images, I created 2 sub-folders, cup and watch respectively under my main task folder so that it will get easy to categorize them.
+
+Preparing a labelled CSV dataset and uploading it to Google Cloud Storage :
+
+Finally this creates a demo_data.csv file with the Google storage location URIs and the corresponding labels ( cup and watch ) and uploads it to Google Cloud Storage.
+
+Importing the dataset from Google cloud storage to AutoML using above CSV :
+
+In the above mentioned code, as the dataset is generated, a dataset_id will be provided which we will use to import the images from the CSV into Google Cloud. Don’t worry, importing the data will take some time.
+
+In the code, as we can see certain information have to be provided from our end, such as - compute_region which is by default us-central1 for AutoML processing. Here, I have two labels in my dataset, hence, while importing the dataset from Google cloud storage to AutoML using above CSV, I have set multilabel=True .
+
+For asynchronous data, we need to provide the call back function else it might throw an error. While preparing my code for importing, I was getting an error with code-504 which stated deadline exception. If you face such an error, you can mention timeout exclusively because by default time taken for the task is 60 secs. Once, all the data will get imported, it will print the following output :
+
+Training the data and creating the required classification model in AutoML :
+
+While training the model, the first parameter required is the dataset that is required to be defined by us and we will get the same from the previous step. Second, we need to provide a model name. And lastly, the training budget. The training budget is the number of hours of training to use for the model. In my task, maximum 1 hour is required.
+
+It will take some time to get trained, meanwhile you can just go and grab a cup of coffee. Once you’re back, your model is ready to be tested.
+
+Testing random images on the mode :
+
+Now in the console of Google cloud, you can go and check the statistics of your dataset where you can evaluate your data. If you think, you have got something wrong, you can make the necessary corrections and re-train your dataset once again before its finally prepared to be tested.
+
+In my dataset, I have taken two videos- a cup and a watch. and also while testing raw data, i.e., images here, I can get a specific result. Once, the training has been completed, I took a couple of pictures of several images to test on my model and I was getting results almost accurate to my image.
+
+Conclusion :
+
+We saw how to convert a raw video into images and make a CSV dataset out of it in Python along with importing and training the data without using the Google Cloud console. Now there might arise some other problem (apart from the one I have mention) while importing the data from the CSV file in the Google Cloud. You need to understand the error and do a research for debugging the same. I hope this will clear some of your doubts while making Google Cloud easy for you.
+
+The entire code is available on my github repo : https://github.com/Priktopic
+
+All the best.
+
+Resources : https://cloud.google.com/vision/automl/docs/

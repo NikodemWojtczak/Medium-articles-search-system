@@ -1,0 +1,87 @@
+Let’s look at the word-normalizing code (from my previous two posts) one more time.
+
+The code we wrote previously works fine for a single word. It would even work fine for a few thousand words. But if we need to normalize millions or billions of words, it will take more time than we probably want to spend. That’s the problem of scalability: the amount of data you have to process usually has a direct relationship to how long it takes to process it. Businesses operate on deadlines — if you can’t get results within the time frame you need, then the results won’t do you any good.
+
+In the example, we scale our code by parallelizing it. There are a number of ways to do this — I used Spark because it’s currently one of the more popular ways to process data at scale. I start by creating a DataFrame, which is more or less Python’s version of a spreadsheet. It has two columns — ids and words — and each of those columns have three values. I then convert the DataFrame to a Spark DataFrame, which allows each record to be processed separately and in parallel. I then turn our `normalize_word` function into a Spark “user-defined function” (UDF), which allows the function to be distributed to the different virtual machines that will process the data. For the same reason, I convert our list of stops into a Spark array.
+
+Once I’ve converted all of our non-scalable pieces of code into their scalable counterparts, I can process the dataframe using the UDF. This farms each row of the dataframe out to an “executor” which processes the record using the supplied function and gives me the result:
+
++---+--------+
+
+|ids| norms|
+
++---+--------+
+
+| 1| rr|
+
+| 2|houspous|
+
+| 3| shzm|
+
++---+--------+
+
+Spark lets me tune how many records get sent to each executor, and how many executors I want (or can afford). I can decide how much memory I want each executor to have (I need very little for the example above, but at times I have needed a lot if I was distributing an entire machine learning model).
+
+When we move from thinking about code to thinking about systems of code, I think scalability boils down to three major components: resources management, integrations, and implementation creativity.
+
+Resource management
+
+I find it useful to think about resources in terms of memory, compute power, and disk space. I don’t think there’s any analogy of these things that won’t get me in trouble for being overly-simplistic, but I’ll risk it: if you were trying to ship a lot of goods from one state to another, the number and size of your trucks would be your memory, the speed and horsepower of your trucks would be your compute power, and the size and number of your warehouses would be your disk space. Each component constrains the others. It doesn’t matter how many trucks you have or how fast those trucks can drive if you have no place to store you goods once they reach their destination. And it doesn’t matter how big your warehouse is if your goods don’t fit into your trucks. And neither the size of your warehouses nor your trucks matters if the trucks have no fuel. You get the point.
+
+Even though we’re really only managing three basic kinds of resources, there are many, many ways to manage each of them. Think of all the ways a single truck can break. There are just as many ways you can mess up your memory usage. For a spark job, I typically have to play with the following parameters:
+
+Total number of executors I want to have available to run jobs
+
+Number of cores on each executor (this allows for additional parallelization)
+
+Amount of memory on each executor
+
+Amount of memory overhead I’m willing to incur to move data around on the executors
+
+The maximum size of the data I’m willing to move to and from the executors
+
+The number of “shuffle” partitions into which I want to split the data when joining datasets together or aggregating
+
+There are 10–20 other parameters for which I have preferred defaults that I apply to pretty much any job. And there are dozens of other parameters that I don’t even know about because I’ve never had the need to mess with them. Scalability is only marginally about getting more resources. It’s mostly about learning how to allocate available resources wisely.
+
+Integrations
+
+Sometimes the bottlenecks in your process aren’t the result of technical resource allocation. In other words, sometimes humans mess your stuff up. Some of the most common ways I’ve seen this happen:
+
+Unexpected increase in demand. You’re used to delivering results when requested. You started off with a few requests per week. Now you get a few requests per hour.
+
+You’re used to delivering results when requested. You started off with a few requests per week. Now you get a few requests per hour. Supplier delays. You can’t run your processes until another part of the company gives you their most recent figures. They forget to send them (or they de-prioritize that work, or the person who normally sends them is sick, etc.) You are blocked until they give you their piece of the puzzle.
+
+You can’t run your processes until another part of the company gives you their most recent figures. They forget to send them (or they de-prioritize that work, or the person who normally sends them is sick, etc.) You are blocked until they give you their piece of the puzzle. Natural degradation over time. You train a model and everyone is happy with the results. Over time, people start to become less happy. You pull the old model out and re-evaluate it, finding that it doesn’t perform nearly as well as it did when you put it into service. So you’ve been operating on the basis of bad predictions for several months (or years).
+
+The solution to all of these problems is to ask whether a human really needs to be in the loop in the first place. Does an individual analyst need to hand-roll each report each time it’s requested? Does an individual person over in finance really need to be the one to compile data from a few systems into an Excel report and email it to you? Do you really need to schedule the re-evaluation of an old model on your calendar? All of these things can be partially or wholly automated. There are several common ways to do this:
+
+Data warehouses . Tired of having to ask other people for your data? Get all of the data stored in the same place.
+
+. Tired of having to ask other people for your data? Get all of the data stored in the same place. APIs . Can’t get the data in one place? Teach a computer to ask for it (and other computer to deliver it) so deliveries can run on a set schedule.
+
+. Can’t get the data in one place? Teach a computer to ask for it (and other computer to deliver it) so deliveries can run on a set schedule. Dashboards. Tired of fielding requests for data? Make it self-serve by hanging it on a website and automating the updates.
+
+Integrations allow you to more explicitly and efficiently manage resources that aren’t under your direct control. They also allow you the benefits of alerting and reporting.
+
+Implementation creativity
+
+Often, scalability has more to with how you think about the problem than how you manage technical resources and partnerships. Let me explain what I mean by reference to an example from my own work (which I’ve described in more detail here). In my current job, one way we look at location data is by overlaying mobile location signals with land parcels. Parcels come from city or county assessor’s offices and are used to demarcate property lines. They often look something like this:
+
+It’s useful to us when we can see that a location signal is, say, within a residential parcel, or a parcel on which IKEA pays the taxes. It helps us understand why those signals are where they are. Not all parcels are well labeled, so we had a need to infer labels for unlabeled parcels. In particular, we wanted to differentiate between residential and non-residential parcels. The method for modeling residentialism was really simple: we had tens of millions of parcels that were labeled, and we had a lot of metadata associated with those parcels on which we could train the model to identify the correct label.
+
+The difficulty came when we wanted to actually generate the labels. We had about 140 million parcels that needed a decision. We had trained the model using Python’s scikit-learn library. However, calling a scikit-learn `predict` method through a PySpark user-defined-function creates a couple problems. First, it incurs the overhead of serializing the model object for transport to the executors and then deserializing that object to actually use on the executors. It has to do that for every executor used in the job. Second, it fails to take advantage of scikit-learn’s optimizations, which mostly are due to its dependency on another package — numpy — to quickly perform calculations on whole arrays of data at once rather than loop through individual records.
+
+The overhead in using spark’s row-by-row application of the model was so great that we couldn’t even get the process to finish. The solution, we finally found, was to think creatively about how to apply the trained model:
+
+The above code does a few things:
+
+Map unique parcel ids to a list of the features the model needed to make its prediction.
+
+Group those mapped items into reasonably-sized groups. We found that group of about 50,000 worked well.
+
+Rewrite the user-defined function so it gets applied per group rather than per record. So instead of having to move and apply the model 140 million times, it only needs to happen (140 million / 50,000) = 2,800 times.
+
+As I said, the original implementation hadn’t completed even after running for 48 hours. The new implementation finished in 30 minutes. The lesson: when it comes to scalability, sometimes we need fancy new technology; sometimes we just need a five-minute walk so we can get a fresh perspective. Sometimes we need both.
+
+Scalability is about future-proofing your work. You can’t really anticipate how many people are going to end up wanting what you build or the time frame in which they will want it. You can wait until you are surprised by an unexpected increase in demand, or you can build your systems to limit the extent to which changes in demand can bottleneck your work.

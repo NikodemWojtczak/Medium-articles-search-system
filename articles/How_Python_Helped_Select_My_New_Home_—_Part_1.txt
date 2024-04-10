@@ -1,0 +1,15 @@
+And the plan?
+
+To automate the whole process of checking units and personalize the experience while incurring minimal or zero cost for me.
+
+The Process
+
+First of all, content. I needed to extract the availability of units and other miscellaneous information from HDB website. This can be done using BeautifulSoup package or Selenium in Python. In this case, I went with BeautifulSoup due to the simplistic nature of the task. I won’t be going into details on the implementation as that will be a separate topic. However, for those interested, there are plenty of tutorials online and here’s a pretty good one.
+
+Second, storage. In order to cater to individuals, I will have to store user data on top of units data for future reference, which I went with MongoDB Free Tier Cloud Database (Atlas M0). Atlas M0 was definitely more than enough for the task at hand. Furthermore, Python has pymongo package which made setup really simple.
+
+Most importantly, consumption. How will I want to view this information, get updates from? Also, who else will want to use this? Naturally, since I found my future neighbors from Telegram, it made immediate sense to serve this in the form of a Telegram bot. Without a doubt, I went with python-telegram-bot package given my first-hand experience with the strong support from its community and the amount of customization I could do with it.
+
+Process of setting up an Azure VM
+
+After spending a couple of hours to create basic features such as user signup, notifications when units of their choice are taken and sending of daily summaries, the bot was ready for deployment. Hosting the scripts on a virtual machine will allow the bot to run 24/7. I hosted it on Azure, Microsoft’s very own cloud computing platform. By the way, students get $100 credits when they sign up on Azure. Setting up a VM on Azure was pretty much a piece of cake, purely clicking and deciding the tier and location of my VM. Within minutes, BTO Buddy went live.

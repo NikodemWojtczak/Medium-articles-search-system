@@ -1,0 +1,17 @@
+What I Learned From Interviewing With Top Data Science Teams — Tips for Aspiring Data Scientists Nelson Griffiths · Follow Published in Towards Data Science · 6 min read · Nov 1, 2019 -- Share
+
+What to be prepared for at your next interview
+
+Photo by Daniel McCullough on Unsplash
+
+Over the course of the last year, I spent a decent amount of time looking for a job in data science. I was lucky enough to interview with a few companies with incredible data science teams . The interview processes were stressful, but at the same time enlightening. I learned a lot of things from these interviews that can be helpful no matter where you are interviewing for a data science role.
+
+What I am not going to cover in this article, is how to get interviews at amazing companies. If you are struggling to get interviews, go check out this article I wrote about gaining experience before your first job. Once you get an interview, the real fun begins.
+
+Have a Breadth of Knowledge
+
+For most entry level jobs, you are not expected to be an expert in any specific field of data science (unless you are specifically applying for an NLP position or something similar). You are expected to know a lot of things across the realm of data science however. Almost everywhere I interviewed, the first interview was a technical one. I was asked questions on topics ranging from p-values to random forests to time efficient programming and everything in-between. What companies don’t want is someone who knows how to plug and play with scikit-learn and nothing else, so make sure you have a strong fundamental understanding of the key areas of data science. If you don’t know where to start, these lectures on GitHub cover a lot of the basics. There are plenty more resources similar to this one that work just as well. A good test for if you are “interview ready” on a subject is if you can answer these three questions:
+
+Do I know what _______? Can I explain intuitively how _______ works? If given an unlimited amount of time, could I code _______ from scratch based on my current understanding?
+
+If you can answer yes to the first question for most topics, you won’t crash and burn, but you also won’t blow socks off. If you can answer yes to the second question, you are in a good place and will probably nail the interview question. If you can answer yes to…

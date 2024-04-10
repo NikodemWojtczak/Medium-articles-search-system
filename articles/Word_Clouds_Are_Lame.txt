@@ -1,0 +1,27 @@
+Exploring the limitations of the word cloud as a data visualization.
+
+Author: Shelby Temple; Made with Tableau
+
+Word clouds have recently become a staple of data visualization. They are especially popular when analyzing text. According to Google Trends, it seems that the rise in popularity started around 2009 with search term interest currently just under bar charts.
+
+3 Month Moving Average; Source: Google Trends, Author: Shelby Temple, Made with Tableau
+
+Unlike the bar chart, the word cloud has noticeable limitations as a data visualization. Apparently, I am not alone in thinking this. The data viz catalogue (datavizcatalogue.com) mentions that word clouds are not great for analytical accuracy. Daniel McNichol, in a post published in Towards Data Science, called word clouds the pie chart of text data.
+
+My main problem is that this visualization is usually uninteresting and provides little insight. You typically get a mixture of obvious words and common words.
+
+So you’re telling me, the word “Harry” appeared a lot in Harry Potter. Shocking!
+
+After it really clicked in my head that word clouds are lame, I started to ask myself more questions:
+
+Why is it that whenever there is a new trendy Twitter topic or text to ‘analyze’, people feel the need to post word clouds all over the internet?
+
+What exactly are the limitations of the word cloud?
+
+Is there ever a right time to use word clouds?
+
+The Story Behind Word Clouds
+
+I found the origin story of word clouds in a book called, Introduction to Text Visualization so credits go to Nan Cao and Weiwei Cui.
+
+In this book, they attribute word clouds to a 1976 visualization created by Stanley Milgram, a social psychologist. He asked people to name landmarks in Paris. Then he drew a map with the names of the landmarks as text making the font size bigger if the landmark got more responses.

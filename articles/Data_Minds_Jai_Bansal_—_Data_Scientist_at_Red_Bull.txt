@@ -1,0 +1,15 @@
+Data Minds: Jai Bansal — Data Scientist at Red Bull
+
+Data Minds is a series that profiles professionals working with data. In this series, you’ll learn about their story, their day-to-day, as well as tips and advice for others. Andrei Lyskov · Follow Published in Towards Data Science · 4 min read · Mar 18, 2019 -- Share
+
+Red Bull has the highest market share of any energy drink company in the world, with 6.79 billion cans sold in 2018 alone. As you can imagine, this means that they generate a lot of data. From images that drivers upload to verify delivery, to data on business operations. Jai Bansal has been a data scientist at Red Bull for the past 2 and a half years, with 2 years of previous experience at a startup. In this article, we talk about how he got into data science, what it’s like to be at a company with a budding data culture, the importance of spending 50% of your time learning, and general tips for others looking to break into data science.
+
+From Economics to Data Science
+
+When Jai was doing his masters in Economics at USC in 2010, the term data science hadn’t taken off yet. The term was only coined two years previously (2008), by DJ Patil and Jeff Hammerbacher, early data science leads at LinkedIn and Facebook.
+
+While in school, Jai had a broad set of interests. He knew that he enjoyed Math and had experience with R. But outside of that, he didn’t have the practical data science skills that you might expect today. That soon changed when he landed his first job out of school. At the time, he knew he didn’t want to continue in academia, so he found and interviewed for a data related role at a startup. Instead of waiting for the ‘perfect’ role, he realized it’s better to start working and getting industry experience, sooner rather than later.
+
+Forced to learn all the industry tools to be effective, he soon found himself drinking from a fire hose. While working at this startup wasn’t always the best experience, it did allow him to cut his teeth and get valuable experience. He made sure to be proactive about taking on a wide array of projects at his company, to give him the breadth of exposure that he would need later in his career.
+
+After the first two years there, he realized it was time for a change. He interviewed and joined Red…

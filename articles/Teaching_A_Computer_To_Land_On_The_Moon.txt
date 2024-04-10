@@ -1,0 +1,11 @@
+I spent a fair amount of time last year catching up on what’s happening in machine learning. The tools available now are really impressive — you can implement a complex neural net in just a few lines of code now with the libraries that are available.
+
+I’ve always been fascinated by the idea of machines learning complex tasks like flying by doing them over and over and seeing what worked, so I selected the OpenAI Gym Lunar Lander environment for first experiments. The program doing the learning and control is referred to as an agent.
+
+Agents that learn the correct approach to solving problems without being presented with lots of solved examples are doing unsupervised learning. One method of doing that is to have a training environment which rewards an agent for doing well, so that the agent can reinforce that behavior. This is called reinforcement learning.
+
+The OpenAI Gym provides a consistent training environment simulating different problems — games, physics simulations, and others. It handles giving out the required rewards so that the agent can learn.
+
+There is a neat library for doing this called Keras-RL, which works very nicely with OpenAI Gym.
+
+A video of the training process, sampled at intervals, is shown below. It progresses from effectively random firing of the rockets with crashes to hesitant hovering, to smooth landing. Code for the learning agent is below.

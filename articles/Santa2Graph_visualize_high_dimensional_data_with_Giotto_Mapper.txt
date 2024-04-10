@@ -1,0 +1,19 @@
+Unless you are unnaturally good with numbers, data visualization remains the most immediate and impactful source of insight for data analysis. The visual interplay between features provides insight that will influence many choices down the road like feature engineering and feature selection.
+
+We all like having lots of features. The upside is that there is potentially more information; the downside is the difficulty involved in isolating this information. As we cannot easily visualise objects in more than three dimensions, standard visualisation methods are not well suited for high-dimensional data.
+
+The Mapper algorithm offers a way to visualize the intrinsic shape of data in a single graph. This graph is built by a clever clustering procedure that reveals the coarse structure of the underlying data. Effectively, there are theoretical results which confirm the topological accuracy of the output.
+
+In this article we provide an introduction to the Mapper algorithm, and a tutorial based on the implementation given by the giotto-learn library. One of its cool features allows you to interact with some of the Mapper parameters without re-running the code.
+
+Interactive Mapper available in giotto-learn.
+
+Applications of the Mapper algorithm
+
+Since 2007 Mapper has been used to simplify the visualization of complex interactions. It offers a qualitative analysis on large feature spaces, lending itself to applications in medicine, material science and genomics. More recently it has also been applied to improve the robustness of neural networks.
+
+We summarise below two famous applications of the Mapper algorithm:
+
+With only 200 patients in a study on breast cancer, a specialised method was needed to deal with the 30k dimensions of the genotype’s feature space. The Mapper algorithm has been successfully applied to reach a finer sub-division of the patients, resulting in major improvements for targeted therapies. The same analysis has been performed on two different data sets and provided consistent outputs, proving the algorithm stability.
+
+If you have ever played basketball, you know it has always been played with five positions: point guard, shooting guard, small forward, power forward and center. Using players’ statistics and in-game performance, the Mapper algorithm identifies thirteen new playing styles which reflect modern basketball dynamics. This informs the General Manager of a team on the skills not to miss when building a team.

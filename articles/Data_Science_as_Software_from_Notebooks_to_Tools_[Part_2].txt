@@ -1,0 +1,25 @@
+Machine Learning Part 1: Data pre-processing
+
+What is both the most important but also most time-consuming task in Data Science is data pre-processing: Cleaning data, selecting features or generating new ones. Luckily, we have a plethora of tools available to help us in this task. Let’s start with the general tools used in basically all projects and from there go on to specific domains.
+
+At the very top of every list you always have Pandas. Part 1 already highlighted Pandas as a tool for data exploration, but this library offers so much more, especially in combination with numpy.
+
+A very simple example to show is the Titanic dataset. This dataset contains passenger info from the Titanic and can be used to predict whether a passenger was to survive or not. In this dataset we can already deal with one of the most frustrating but also frequently occurring fact: missing data. In this case, passenger information sometimes misses the age of the passenger. To alleviate this, we can fill these entries with the mean of the passenger age. This Gist shows how:
+
+Getting deeper into machine learning, you will inevitably end up using scikit-learn. This library offers the most comprehensive methods for machine learning you might come across. Here I would like to highlight its pre-processing tools that you can use.
+
+A comprehensive overview for pre-processing capabilities with sklearn can be found on their website, but I would like to give a quick overview of the methods for the titanic dataset.
+
+Scaling your data to a range between 0 and 1 is a pretty standard approach and can be accomplished easily by fitting a scaler method provided by sklearn:
+
+Other prominent methods include nonlinear transformations such as mapping your data to a uniform or a gaussian distribution, encoding of categorial data, discretization of continuous data or generation of polynomial features to name only a few. All in all, it should be clear by now that sklearn offers many tools and methods you can use in your projects to pre-process the data you have.
+
+Having a general library available to use without having a specific domain is great, but oftentimes more than that is needed when you have domain specific problems. Depending on the domain you’re working in, different libraries in Python are available.
+
+Let’s start out with images, since Computer Vision is quite popular and has many opportunities to apply Data Science. Popular libraries here include openCV, imutils by Adrian Rosebrock and Pillow. Frankly, most tasks can already be accomplished with openCV and the other two libraries are great additions to fill in the gaps. If you’re interested in a general introduction to getting started with Computer Vision in Python, you can check out my repository on this: https://github.com/NatholBMX/CV_Introduction
+
+When working with audio data, nothing beats Librosa for general processing of audio data. Extract audio features, detect specifics of your audio (such as onset, beat and tempo, etc.) or decompose spectrograms. Librosa is your go-to solution for audio processing.
+
+As far as textual data is considered, you might use any or all of the Natural Language Processing (NLP) libraries from here: spaCy, gensim, NLTK. These libraries have different features available and you might use them in conjunction. I use spaCy for anything regarding pre-processing of textual data in combination with NLTK’s stemming support. Gensim offers the same functionality but I also prefer this library for training specific models (e.g. Word2Vec).
+
+Using these libraries is a starting point since a lot of problems can already be solved with these libraries. Pre-processing the data is a necessary step

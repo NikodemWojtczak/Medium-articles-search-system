@@ -1,0 +1,99 @@
+In data analysis, data analytical thinking is a framework-based guide. When analyzing problems, we need a lot of skills and tools. Just like in secondary school, you may solve the quadratic equation with the formula method, completing square, extraction of the square root, or the factorization method. There are also techniques in data analysis that we can use in some common analysis scenarios. And they can be helpful in building data analysis models in the future.
+
+In this article, we will share five common data analysis methods: the formula method, the comparison method, the quadrant method, the 80/20 rule, and the funnel analysis. We often use them in combination.
+
+Note: These methods are mainly biased towards the thinking level and are an exploratory analysis of data based on business problems. They are different from the data processing methods in professional statistics.
+
+1. Formula Method
+
+The so-called formula method uses the formula to decompose the influencing factors for a certain index.
+
+Example: Analyze the reasons for the low sales of a product, using the formula method.
+
+Product sales = sales volume * unit price
+
+Sales volume = channel A sales volume + channel B sales volume + channel C sales volume + …
+
+Channel sales volume = number of users * order rate
+
+Number of users = exposure * clicks ratio
+
+Step 1: Find the influencing factors of product sales. Is the sales volume too low or the price setting unreasonable?
+
+Step 2: Find the factors that influence the sales volume. Analyze the sales volume of each channel. Compare it with the previous sales to find out the abnormal ones.
+
+Step 3: Analyze the factors that affect channel sales. Is the number of users or the order rate low? If the order rate is low, it is necessary to see if the advertising content of the channel matches the actual audience of the product.
+
+Step 4: Analyze the factors that affect clicks. Is the exposure not enough or the ratio of the clicks too low? If the ratio of the clicks is low, you need to optimize campaigns. And the exposure is related to the channel.
+
+For that, the formula method is a hierarchical analysis of the problem. It decomposes the influencing factors step by step.
+
+2. Comparison Method
+
+The comparison method is to compare two or more sets of data, which is the most common method in data analysis.
+
+We know that isolated data is meaningless and we see differences through comparison. People compare some variables that directly describe things, such as the length, number, height, width, and so on, to get the ratio, growth rate, efficiency, and other indicators.
+
+The comparison method can find the law of data change. The following figure shows the sales comparison of Company A and Company B. Although the sales of Company A have generally increased and are higher than that of Company B, the growth rate of Company B is higher than that of Company A. Even if the late growth rate of Company B declines, the final sales catch up.
+
+3. Quadrant Method
+
+By dividing two or more dimensions, we use the coordinates to express the value, which is the quadrant method. The quadrant method is based on strategy-driven thinking. We often use it in product analysis, market analysis, customer management, and commodity management.
+
+For example, the following image is a four-quadrant distribution of ad clicks.
+
+If an ad gets high conversion rate (CVR) and high click-through rate (CTR), it means that its target audience is relatively accurate.
+
+If CTR is high and CVR is low, it means that most of the people who clicked in were attracted by the ad itself. The low CVR indicates that the people that the ad is targeting don’t match the actual audience of the product.
+
+A high CVR and low CTR indicate that the audience of the ad and the actual audience of the product are more consistent. The problem is that the content of the ad needs to be optimized to attract more people to click.
+
+And we can abandon the ads with low CVR and low CTR.
+
+Using the quadrant method to analyze events with the same characteristics, you can find the common cause of the problem. In the above advertising case, observing events in the first quadrant, you can summarize effective promotion channels and strategies. The third and fourth quadrants can exclude some invalid promotion channels. At the same time, you can establish optimization strategies for different quadrants.
+
+4. 80/20 Rule
+
+The 80/20 rule is also known as the Pareto Principle. It was named after its founder, the Italian economist Vilfredo Pareto. He noticed that 80 percent of the wealth of Italy during that time was controlled by 20 percent of the population. In data analysis, we can understand that 20% of the data produce 80% of the effect. We need to mine this 20% of data.
+
+It is often related to the ranking and the top 20% are considered valid data. The 80/20 rule analyzes the key parts and applies to any industry. Find the key points, discover their characteristics, and then think about how to make the remaining 80% convert to this 20% to improve the effect.
+
+Typically, it will be used in product classification to measure and build the ABC model. For example, if a retail enterprise has 500 SKUs (Stock Keeping Unit), then which SKUs are important? This is the problem of distinguishing the primary and secondary parts in business operation.
+
+It is common practice to use the product’s SKU as a dimension and use the corresponding sales as a base metric to rank these sales metrics and calculate the percentage of the cumulative sales of each SKU in total sales. For example, we can divide them into 3 classes: Class A (<70%), Class B (70%-90%) and Class C (90%-100%). You can adjust the percentages according to your actual situation.
+
+The ABC analysis model can be used not only to divide products and sales, but also to divide customers and profits. For example, which customers contribute 80% of the profits to the company? If this part of the customer accounts for 20%, then with limited resources, you know to focus on maintaining this 20% of customers.
+
+5. Funnel Analysis
+
+A funnel analysis is a funnel chart, a bit like an inverted pyramid. It’s a streamlined way of thinking. We often use it in the analysis with changes and certain processes like the development of new users, shopping conversion rate, and so on.
+
+The picture above is a classic marketing funnel that shows the whole process from the acquisition of users to the final conversion into the purchase. The funnel model splits the entire purchase process into steps. Then it uses the conversion rate to measure the performance of each step, and finally finds the step with problems through the abnormal data indicators. In this way, we can optimize the step to improve the conversion rate of the overall purchase.
+
+The core concept of the funnel model can be classified as decomposition and quantification. For example, to analyze the conversion of e-commerce, all we have to do is monitor the conversion of users at each level and find the optimizable points for each level. For the users who are not following the process, we specifically build their conversion model and shorten the path to enhance the user experience. However, a single funnel analysis is useless. We should combine it with other methods, such as the comparison with historical data.
+
+Data Analysis Tool
+
+The benefit of using data analysis methods is that it provides a thinking framework that helps you build perspectives on things and problems. Now that we have a thinking framework, we also need effective tools to achieve true data analysis, like Tableau and Python. Here I recommend a free data analytics tool, FineReport, for you to practice. It’s a BI reporting & dashboard software that integrates data display (report) and data entry (filling). It has been successfully selected in the Gartner Global Market Guide, becoming the only manufacturer and product in China to be selected, listed with international giants such as Microsoft, SAP and Oracle.
+
+FineReport allows you to create complex reports through simple drag and drop. Next, I’ll show you some data analysis scenarios using FineReport.
+
+Sales analysis
+
+Real-time order monitoring
+
+Marketing analysis
+
+Population flow analysis
+
+If you are interested in FineReport, you can go to the official website and download it for free. There are also help documents for FineReport Beginners.
+
+You might also be interested in…
+
+6 Key Skills That Data Analysts Need to Master
+
+9 Data Visualization Tools That You Cannot Miss in 2019
+
+A Step-by-Step Guide to Making Sales Dashboards
+
+How Can Beginners Design Cool Data Visualizations?

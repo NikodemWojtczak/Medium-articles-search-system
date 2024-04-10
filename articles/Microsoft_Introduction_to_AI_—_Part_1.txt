@@ -1,0 +1,285 @@
+Image used under licence from Getty Images.
+
+Microsoft Introduction to AI — Part 1
+
+Are you a bit like me and have wanted to learn about Artificial Intelligence although felt a little intimidated by the maths involved? Maybe you thought the concepts were too difficult to understand and you would be out of your depth. I recently completed the Microsoft Introduction to AI course and wrote course notes to help me retain the knowledge that I have learned. I have tried to write these notes in a basic way to make them easy to consume. I’ve recently become an aunt and have bought a few children’s books related to technology and space, I really love how the authors and illustrators have managed to simplify complicated topics. So, I’ve been inspired to treat these topics in a similar way by simplifying them to make them a lot more accessible.
+
+*If you would like to know a little background info behind the course notes and other notes related to tech and product design you can find out more here.*
+
+Summary
+
+The Microsoft Introduction to AI course provides an overview of AI and explores machine learning principles that provide the foundation for AI. From the course you can discover the fundamental techniques that you can use to integrate AI capabilities into your apps. Learn how software can be used to process, analyse and extract meaning from natural language. Find out how software processes images and video to understand the world the way humans do. Learn about how to build intelligent bots that enable conversations between humans and AI systems.
+
+Image created by the author. Microsoft Introduction to Artificial Intelligence Course
+
+The course takes approximately 1 month to complete so 1 medium article I write contains 1 week's worth of content. This means that it would only take you approximately 18 minutes to read 1 week worth of content which is a fast way of learning. The course is free without a certificate however, if you’d like a certificate as proof of completion there is a fee. There are labs associated with this course that I won’t include in the notes as I believe the best way to learn is to actually do the labs. However, these notes are useful if you’d like to know about the fundamental theory behind AI and would like to learn it in a way that might be a lot simpler than other resources. I’ve tried to write it in layman terms and have included visuals to help illustrate the ideas. These notes are useful if you don’t have time to do the course, it’s a quick way to skim through the core concepts. Alternatively, if you have done the course like me you can use these notes to retain what you have learned.
+
+Instructor: Graeme Malcolm — Senior Content Developer at Microsoft Learning Experiences.
+
+Syllabus
+
+The course is broken into the four parts which include:
+
+1. Machine Learning (*this medium article will focus on just this section)
+
+Learn about the fundamentals about AI and machine learning.
+
+Learn how software can be used to process, analyse and extract meaning from natural language.
+
+Learn how software can be used to process images and video to understand the world the way that we do.
+
+Find out how to build intelligent bots that enable conversational communication between humans and AI systems.
+
+Image created by the author.
+
+Machine Learning
+
+The ‘Machine Learning’ part of the course will tackle the following topics:
+
+· What is Artificial Intelligence? · What is Machine Learning? · Supervised · Unsupervised · Regression · Classification · Clustering
+
+Illustration by Michael Korfhage for HR Magazine SHRM.
+
+What is Artificial Intelligence?
+
+Artificial Intelligence (AI) is a way to enable people to accomplish more by collaborating with smart software. Think of it as putting a more human face on technology. AI is technology that can learn from vast amounts of data that is available in the modern world. Learning from this data it can understand our human kind of language and can respond in a similar kind of way. It’s technology that can see and interpret the world the way that we humans do.
+
+Illustration by Justin Middendorp.
+
+What is Machine Learning?
+
+Machine learning (ML) provides the foundation for artificial intelligence.
+
+So what is it?
+
+Machine learning gives computers the ability to learn and make predictions or decisions based on data without explicitly programming that in. Well as the name suggests it’s a technique in which we train a software model using data. A model is a mathematical representation of a real-world process. The model learns from the training cases (training situations or examples) and then we can use the trained model to make predictions for new data cases. The key to this is to understand that fundamentally computers are very good at one thing and that is performing calculations. To have a computer make intelligent predictions from the data, we just need a way to train it to perform the correct calculations.
+
+We start with a dataset that contains historical records which we often call ‘cases’ or ‘observations’. Each observation includes numeric features. Numeric features are basically characteristics of the item we’re working with and they have a numeric value attached to each characteristic.
+
+Illustration by Vecteezy.
+
+Let’s call the numeric feature X.
+
+In general, we also have some value that we’re trying to predict which we’ll call that Y. We use our training cases to train a machine learning model so that it can calculate a value for Y from the features in X. So in very simplistic terms, we’re creating a function that operates on a set of features ‘X’, to produce predictions ‘Y’. Don’t worry if this is confusing it will make more sense in the next sections where we start to apply real world examples.
+
+Now generally speaking, there are two broad types of machine learning and they are called supervised and unsupervised.
+
+Supervised
+
+In supervised learning scenarios, we start with the observations that include known values for the variable that we want to predict. We call these ‘labels’. Since we started with data that includes the label we’re trying to predict, we can train the model using only some of the data and withhold the rest of the data which we can use to evaluate the performance of the model. We then use a machine learning algorithm to train a model that fits the features to the known label.
+
+Since we started with the known label value we can validate the model by comparing the value predicted by the function to the actual label value that we knew. Then when we’re happy that the model works well, we can use it with new observations for which the label is unknown and generate new predicted values.
+
+In this example we know the value of both X (numeric feature) and Y (variable we want to predict). Since we know X and Y we can use this algorithm to train our model. Once the model has been trained and we are happy that it works well we can use this model to calculate Y for when X is unknown. Illustration by Vecteezy.
+
+Unsupervised
+
+Unsupervised learning is different from supervised learning, in that this time we don’t have the known label values in the training dataset. We train the model by finding similarities between the observations. After the model is trained, each new observation is assigned to the cluster of observations with the most similar characteristics.
+
+In this example the value Y is unknown and so the way we train the model is through finding similarities between the observations. The observations are categorised in clusters that have similar characteristics. Once we train the model based on these clusters we can use it to predict the value of Y by assigning a new observation to a cluster. Illustration by Vecteezy.
+
+Regression
+
+Okay, let’s start with a supervised learning technique called ‘Regression’. Imagine we have some historic data about some health trials participants. We have information such as the exercise they have done, the number of calories they have spent and a lot more stats and info about them. In this case we could use machine learning to predict how many calories any new participants might be expected to burn while engaging in some exercises. When we need to predict a numeric value, like for example an amount of money or a temperature or the number of calories then what we use is a supervised learning technique called regression.
+
+For example, let’s suppose Rosy here is a participant in our health study. Here she is doing some weight exercises. We gather some data about Rosy when she first signed up for the study. We also gather data while she’s exercising and capture data using a fitness monitor smart watch.
+
+Now what we want do is model the calories burned using the features we have for Rosy’s exercise. These numeric features (X) are her age, weight, heart rate, duration, and so on. In this case we know all of the features and we know the label value (Y) of 231 calories. So we need an algorithm to learn the function that operates all of Rosy’s exercise features to give us a result of 231.
+
+Illustration by Vecteezy.
+
+Now of course a sample of only one person isn’t likely to give us a function that generalises well. So what we need to do is gather the same sort of data from lots of diverse participants and train our model based on this larger set of data.
+
+Illustration by Vecteezy.
+
+After we’ve trained the model and we have a generalised function that can be used to calculate our label Y, we can then plot the values of Y calculated for specific features of X values on a chart like this.
+
+Image created by the author.
+
+We can then interpolate any new values of X to predict an unknown Y.
+
+Image created by the author.
+
+Now because we started with data that includes the label we are trying to predict, we can train the model using only some of the data and withhold the rest of the data for evaluating model performance.
+
+Then we can use the model to predict (F(X)) for evaluation data and compare the predictions or scored labels to the actual labels that we know to be true. The difference between the predicted and actual levels are what we call the ‘residuals’. Residuals can tell us something about the level of error in the model.
+
+Image created by the author.
+
+Now there are a few ways we can measure the error in the model and these include root-mean-square error (RMSE) and mean absolute (MAE). Now both of these are absolute measures of error in the model.
+
+Image created by the author.
+
+For example an RMSE value of 5 would mean that the standard deviation of error from our test error is 5 calories. Of course absolute values can vary wildly depending on what you are predicting. An error of 5 calories would seem to indicate a reasonably good model. But if we were predicting how long an exercise session takes an error of 5 hours would indicate a very bad model.
+
+So you might want to evaluate the model using relative metrics to indicate a more general level of error as a relative value between 0 and 1. Relative absolute error (RAE) and relative squared error (RSE) produce a metric where the closer to 0 the error, the better the model.
+
+Image created by the author.
+
+The coefficient of determination (CoD(R2)) which we sometimes call R squared is another relative metric but this time a value closer to 1 indicates a good fit for the model.
+
+Image created by the author.
+
+Classification
+
+So we’ve seen how to train a regression model to predict a numeric value. Now it’s time to look at another kind of supervised learning called classification. Classification is a technique that we can use to predict which class or category that something belongs to. The simplest variant of this is binary classification (ones and zeros) where we predict whether an entity belongs to one of two classes. It’s often used to determine if something is true or false about the entity.
+
+For example, suppose we take a number of patients in our health clinic and we gather some personal details. We run some tests and we can identify which patients are diabetic and which are not. We can learn a function that can be applied to these patient features and give the result 1 for patients that are diabetic and 0 for patients that aren’t.
+
+Illustration by Vecteezy.
+
+More generally, a binary classifier is a function that can be applied to features X to produce a Y value of 1 or 0.
+
+Illustration by Vecteezy.
+
+Now the function won’t actually calculate an absolute value of 1 or 0, it will calculate a value between 1 and 0. We will use a threshold value (dotted line in diagram) to decide whether the result should be counted as a 1 or a 0.
+
+The threshold is represented as the dotted line. Image created by the author.
+
+When you use the model to predict values, the resulting value is classed as a 1 or a 0 depending on which side of the threshold line it falls.
+
+Image created by the author.
+
+Because classification is a supervised learning technique we withhold some of the test data to validate the model using known labels.
+
+Image created by the author.
+
+Cases where the model predicts a 1 for a test observation that actually has a label value of 1 these are considered true positives (TP).
+
+Image created by the author.
+
+Similarly cases where the model predicts 0 and the actual label is 0 these are true negatives (TN).
+
+Image created by the author.
+
+Now the choice of threshold determines how predictions are assigned to classes. In some cases a predicted value might be very close to the threshold but is still misclassified. You can move the threshold to control how the predicted values are classified. In the case of the diabetes model it might be better to have more false positives (FP) but reduce the number of false negatives (FN) so that more people who are at risk of diabetes get identified.
+
+Image created by the author.
+
+The number of true positives (TP), false positives (FP), true negatives (TN), and false negative (FN) produced by your model is crucial in evaluating its effectiveness.
+
+Image created by the author.
+
+The grouping of these are often shown in what’s called a confusion matrix shown below. This provides the basis for calculating performance metrics for the classifier. The simplest metric is accuracy which is just the number of correctly classified cases divided by the total number of cases.
+
+Image created by the author.
+
+In this case there are 5 true positives (TP) and 4 true negatives (TN). There are also 2 false positives (FP) and no false negatives (FN). That gives us 9 correct predictions out of a total of 11 which is an accuracy of 0.82 or 82%.
+
+Image created by the author.
+
+Now that might seem like a really good result but perhaps surprisingly accuracy actually isn’t all that useful as a measure of a model’s performance. Suppose that only 3% of the population is diabetic. I can create a model that simply always predicts zero and it would be 97% accurate but it’s completely useless for identifying potential diabetics.
+
+A more useful metric might be the fraction of cases classified as positive that are actually positive. This metric’s known as precision. In other words out of all the cases classified as positives which ones are true and not false alarms.
+
+Image created by the author.
+
+In this case there are 5 true positives, and 2 false positives. So our precision is 5 / (7) which is 0.71 or 71% of our cases identified as positive are really diabetic and 29% are false alarms.
+
+Image created by the author.
+
+In some situations we might want a metric that’s sensitive to the fraction of positive cases we correctly identify. We call this metric recall. Recall is calculated as the number of true positives divided by the combined true positives and false negatives. In other words, what fraction of positive cases are correctly identified?
+
+Image created by the author.
+
+In this case, there are 5true positives and no false negatives. So our recall is 5 out of 5 which is of course is 1 or 100%. So in this case we’re correctly identifying all patients with diabetes. Now recall actually has another name sometimes it’s known as the True Positive Rate.
+
+Image created by the author.
+
+There’s an equivalent rate for false positives compared to the actual number of negatives. In this case we have 2 false positives and 4 true negatives. So our false positive rate is 2/(6) which is 0.33.
+
+Image created by the author.
+
+Now you may remember that the metrics we got were based on a threshold (blue dotted line) of around 0.3 and we can plot the true positive rate against the false positive rate for that threshold like this.
+
+Image created by the author.
+
+If we were to move the threshold back to 0.5 our true positive rate becomes 4 out of 5 or 0.8. Our false positive rate is 1 out of 6 or 0.16 which we can plot here.
+
+Image created by the author.
+
+Moving the threshold further to say 0.7 gives us a true positive rate of 2 out of 5 or a 0.4 and a false positive rate of 0 out of 6 or 0.
+
+Image created by the author.
+
+If we plotted this for every possible threshold rate we would end up with a curved line as shown in the diagram below. Now this is known as a receiver operator characteristic, a ROC chart. Now the area under the curve (AUC) is an indication of how well the model predicts. Generally, you want to see a large AUC with a curve staying as close as possible to the top left corner of the chart. A perfect classifier would go straight up the left and then along the top giving an AUC of one. Now, you can always compare with a diagonal line and that represents how well the model would perform if you simply made a 50–50 guess. It’s an AUC of 0.5. So you’re just simply random guessing 50% of the time true, 50% false. In this case, our model has an AUC of 0.9 which means that our model is definitely outperforming guessing.
+
+The area under the curve (AUC) is an indication of how well the model predicts. Generally, you want to see a large AUC with a curve staying as close as possible to the top left corner of the chart. What is shown in the blue graph is a good example of a model that is outperforming a 50–50 guess. Image created by the author.
+
+Clustering
+
+Well, we’ve seen some examples of supervised learning specifically regression and classification but what about unsupervised learning? Now with unsupervised learning techniques you don’t have a known label with which to train the model. But you can still use an algorithm that finds similarities in data observations in order to group them into clusters.
+
+Suppose for example our health clinic has a website that contains links to articles and medical and healthy lifestyle publications. Now I might want to automatically group similar articles together.
+
+Illustration by Vecteezy.
+
+Or maybe I want to segment our study participants and we can categorise them based on similar characteristics.
+
+Illustration by Vecteezy.
+
+There are a number of ways we can create a clustering model and we’re going to look at one of the most popular clustering techniques which is called k-means clustering.
+
+Image created by the author.
+
+Now the key to understanding k-means is to remember that our data consists of rows of data and each row has multiple features. Now if we assume that each feature is a numeric value then we can plot them as coordinates. Now here we’re plotting two features on a two dimensional grid. But in reality, multiple features would be plotted in n-dimensional space.
+
+We then decide how many clusters we want to create which we call k. We plot k points at random locations that represent the center points of our clusters.
+
+k points are represented as the stars in the diagram. Image created by the author.
+
+In this case, k is 3 so we’re creating 3 clusters. Next, we identify which of the three centroids each point is closest to and assign the points to clusters accordingly.
+
+Image created by the author.
+
+Then we move each centroid to the true center of the points and its cluster.
+
+Image created by the author.
+
+We then reallocate the points in the cluster based on their nearest centroid.
+
+Image created by the author.
+
+We just repeat that process until we have nicely separated clusters.
+
+Image created by the author.
+
+So what do I mean by nicely separated? Well, we want a set of clusters that separate data by the greatest extent possible. To measure this we can compare the average distance between the cluster centers.
+
+Image created by the author.
+
+In addition, the average distance between the points in the cluster and their centers.
+
+Image created by the author.
+
+Clusters that maximise this ratio have the greatest separation. We can also use the ratio of the average distance between clusters and the maximum distance between the points and the centroid of the cluster.
+
+Image created by the author.
+
+Now another way we could evaluate the results of a clustering algorithm is to use a method called principal component analysis (PCA). In this method we decompose the points in a cluster into directions. We represent the first two components of the PCA decomposition as an ellipse.
+
+Image created by the author.
+
+The first principal component is along the direction of the maximum variance or major axis of the ellipse and the second PCA is along the minor axis of the ellipse. A cluster that is perfectly separate from the first cluster shows up as an ellipse with the major axis of the ellipse perpendicular to the ellipse of the first cluster.
+
+Image created by the author.
+
+Every second cluster is reasonably well separated but not perfectly separated.
+
+Image created by the author.
+
+Then it will have a major axis that is not quite perpendicular to the first ellipse. If the second cluster is quite poorly separated from the first then the major axis of both ellipses will be nearly collinear.
+
+Image created by the author.
+
+So the ellipse may be more like a circle because the second cluster is less well defined.
+
+Final Word
+
+Thanks for reading this article, Part 1 of the Microsoft Introduction to Artificial Intelligence course. If you found this helpful then check out all 4 parts on my Medium account or in Towards Data Science. If you had some trouble with some of the concepts in this article (don’t worry it took me awhile for the information to sink in) and you need a bit more info, then enrol for free in the Microsoft Introduction to AI course. It’s helpful to watch the course videos alongside with these notes.
+
+*If you would like to know a little background info behind the course notes and other notes related to tech and product design you can find out more through here.*
+
+A little background
+
+Hi, I’m Christine :) I’m a product designer who’s been in the digital field for quite some time and have worked at many different companies; from large companies (as large as 84,000 employees), to mid size and to very small startups still making a name for themselves. Despite having a lot of experience I’m a product designer who has a fear of suffering from the dunning-kruger effect and so I’m continuously trying to educate myself and I’m always searching for more light. I believe to be a great designer you need to constantly hone your skills especially if you are working in the digital space which is constantly in motion.

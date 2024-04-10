@@ -1,0 +1,23 @@
+Member-only story Build your first Machine Learning Model using TensorFlow Shadab Hussain · Follow 10 min read · Apr 22, 2019 -- Share
+
+Welcome to this article where you will learn how to train your first Machine Learning model using TensorFlow and use it for Predictions! As the title suggests, this tutorial is only for someone who has no prior understanding of how to use a machine learning model. The only pre-requisite for this course is to have a basic understanding of Python programming language. I have tried to keep things simple here, and only introduced basic concepts of machine learning and neural network.
+
+What is TensorFlow: TensorFlow is an end-to-end open-source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in ML and developers easily build and deploy ML-powered applications. Learn more about TensorFlow from here.
+
+We will be using Google Colab for this demo. Google Colab is a free cloud service which can be used to develop deep learning applications using popular libraries such as Keras, TensorFlow, PyTorch, and OpenCV. To know more about Google Colab, click here.
+
+Let’s jump straight to a sample problem we are going to solve using TensorFlow and Machine-Learning concepts.
+
+Let’s assume that we are given the marketing budget spent (in thousands of dollars) by a media-services provider in the last 8 months along with the number of new subscribers (also in thousands) for the same time in the table given below:
+
+Data Set
+
+As you can see there is a trend or relationship between the amount spent and new subscribers gained. As the amount is increasing, the number of new subscribers is also increasing.
+
+If you work out the Maths using theory of linear equation you will find out:
+
+Subscribers gained = 2 * Amount Spent + 40
+
+Our goal is to find this relationship between the amount spent on marketing and the number of subscribers gained using Machine-Learning technique.
+
+Using the relationship found above we can also predict how many new subscribers can be expected…

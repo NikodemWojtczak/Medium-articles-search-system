@@ -1,0 +1,15 @@
+If you’re anything like me, you subscribe to newsletters. Lots of newsletters. Like, too many newsletters. I can’t help myself. When done right, newsletters are an excellent form of content curation that can help deliver interesting and insightful information to you with minimal effort on your part. Lucky for us, data newsletters are no exception to this rule.
+
+In this post, I’ll outline why I think newsletters are such an awesome tool for continued growth in data science. More importantly, I’ll lay out the data science and AI-focused newsletters that I look forward to most throughout the week.
+
+It’s also worth noting that this post has been remastered from a previous post. More concretely, I’ve added more newsletters, elaborated on each one with a small blurb, and cleaned up some structural things.
+
+Why Newsletters?
+
+Looking back on when I started out in data science, one of the first and most valuable things that I did was seek out tons of data newsletters. This forced me to stay on top of the latest news in the ever-changing realm of data science.
+
+It helped me learn techniques and technologies, introduced me to new concepts and learning resources that I wouldn’t have known about otherwise and notified me when it came to networking opportunities, public tech talks, and job openings. Most importantly, it did this on a weekly basis.
+
+Consistently delivered content curation is invaluable in our current world of clickbait titles and fake news. The amount of information out there is overwhelming. Newsletters help solve this problem by differentiating between signal and noise for you. Why take the time to weed through thousands of posts and find the best ones when others will gladly do it for you?
+
+The following collection of newsletters is a perfect example of this. Ranging from data science to machine learning to artificial intelligence, the links delivered by these content curators can serve as a game-changer when it comes to your continued growth as a data scientist.

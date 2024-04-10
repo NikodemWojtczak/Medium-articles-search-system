@@ -1,0 +1,185 @@
+How are the predicted food trends of 2019 holding up so far in the US? Evonne Chan · Follow Published in Towards Data Science · 23 min read · May 9, 2019 -- Listen Share
+
+Towards the end of every year, industry experts, local businesses, journalists, basically everybody will try to predict which foods will be popular in the following year. A variety of things are predicted from the next big beverage, to the new ‘kale’, and even to the new hot restaurant trends. There are extensive lists like this one by Eater which essentially consolidates the lists curated by the likes of New York Times, Uber Eats, Whole Foods and a host of other companies.
+
+Food trends or rather fads, are often fleeting and though some do stay, everybody wants to be ahead of them, especially companies that can maximize profit from the short-lived hype. So, with the first quarter of 2019 now over and done with, I thought it would be interesting to see how these predictions have held up so far. Of course, 3 months isn’t all that much but taking a closer look at where the trends stand now could help predict which foods will come out on top at the end of the year.
+
+The contenders
+
+To start, I chose 30 products from the Eater list that I thought would be interesting to look at. As you go through the list, try and rank them in your head, or at least think about which one you think tops the list for now and which one is at the bottom.
+
+The 30 products in no particular order, are:
+
+To compare the popularity of these products, data was collected from Google Trends for a similar time period, that being the beginning of January to the end of March for both 2018 and 2019. Now, before we move further, the following results should be taken with a grain of salt because the Google Trends data does not represent the actual number of searches but rather just the relative popularity of the query. In fact, the way Google Trends calculates and adjusts the popularity index is through reviewing a random sample of the searches.
+
+Moreover, just because a term like say ‘seaweed’ is googled, it doesn’t necessarily mean that it is being searched because that person actually has interest in seaweed as a food but rather, it could be for a host of other reasons. However, I will say that for most of these search terms, the related popular queries had to do with food. If you’re still confused about how Google Trends data works, here’s a helpful post.
+
+With that little disclaimer out of the way, let’s take a look at the list again, but this time, sorted in descending order of percentage increase of the average popularity index. Were your predictions correct?
+
+The winners and losers
+
+With 30 options on the list, rounding out the bottom of it with a -14.5% decrease in the popularity index is seitan, a meat substitute made out of gluten. Bee pollen doesn’t fall too far behind either, clocking in at -14.4%, just 0.1% higher than seitan. Oat milk, a contender in the dairy alternatives market however, tops the list at a staggering 187.5% increase in popularity index while celtuce finds itself in the second spot at +96.5%.
+
+In it’s entirety, considering that there are quite a few items on there that the average person might not recognize, the list can seem rather daunting to look at. So, lets break it down and take a closer look.
+
+The top 3
+
+1. Oat Milk
+
+Now one might ask what’s the big deal about oat milk anyway? Well, ask any of the cafe’s or even just oat milk enthusiasts who are waiting to get their hands on some of Oatly’s Barista Edition Oat Milk. In case you haven’t heard, it’s completely out of stock on their website. What’s crazier is that a 6-pack of 32 oz (or 1L if you’re a metric system person) of Oatly’s Barista Edition Oat Milk is listed at $25 on Oatly’s website while on Amazon, at the time of writing, a pack of 2, yes just two is listed anywhere between $49.95 to $54.95. Also, just in case you’re wondering, a pack of 6 is going for $139.81 plus $19.99 for shipping.
+
+The great oat milk shortage has caused the prices to sky rocket but fret not, Oatly says they will restock this June 12th. But keep in mind that quantities are limited and you’re only allowed one case per customer. In case you miss your chance then, you could always buy their other products such as Oatmilk Chilled or Low-fat Oat Milk Chilled at your nearest Whole Foods or other participating stores that sell their products. Sorry, what’s that? It’s sold out there too? Huh. Is it really that good? Wait, what exactly is oat milk and what’s the deal with Oatly anyway?
+
+Oat milk… what’s that?
+
+Dairy alternatives have gained much popularity over the few years with the likes of almond milk and soy milk now no longer considered novel products placed in some hidden corner but rather, they have become staples on not only supermarket shelves but in cafe’s and homes too. Oat milk however, had a slow start in America until of course the series of events that led to the great oat milk shortage, which will be explained later.
+
+Photo by Oatly
+
+So if almond milk is technically almond nut juice and soy milk is soy bean juice, what’s oat milk? Well, oat milk is made by blending oats and water together before squeezing it through a cheesecloth to remove any oat remnants. Yes, it’s that simple… but who exactly thought that oat would make a good milk alternative? Professor Rickard Öste, that’s who.
+
+Back in the 90’s, Swedish professor of food science, Rickard Öste and his team developed a process to produce a liquid oat base/drink. They then started the company Oatly and produced oat milk using the now patented process. Of course, the process Oatly uses isn’t simply blending oats and water together. Oatly produces its oat milk in a 7 step process where among the different steps, they use enzymes to solubulize proteins and break down starch before filtering, heat treating the liquid, and packaging it.
+
+One of the most important steps of making oat milk is actually the first step, called the milling step, where they mix the oats and water together. (I know, I just said they do more than just that but hear me out!) Here, they either dry or wet-heat the oats and they do so in order to preserve the beta-glucan content in the drink. The heat treatment inactivates beta-glucanase, which is an enzyme that breaks down beta-glucan, a soluble fibre. So, why do we want beta-glucan in our oat milk? Well other than the health benefits that it confers, that being lowering cholesterol and regulating blood glucose levels, it gives oat milk its thick texture. This is especially important for those who like plant-based milk in their coffee and even more important for baristas.
+
+Barista blends
+
+If you’ve ever shopped around online for plant-based milks, you’ll come to realize that there’s your regular almond, soy or oat milk and then there’s almond milk barista blend or oat milk barista edition. So, why do baristas get a special version? That’s because people expect these dairy alternatives to behave the same way regular milk does when it’s added to coffee… except it doesn’t because well, it’s not milk.
+
+Photo by Califia Farms, Oatly & Alpro
+
+These ‘milks’ definitely will separate out when added to coffee and more notably they just don’t have that same creamy mouthfeel that regular milk does. That’s why if you look at the labels of say any almond or soy milk product, you will see ingredients such as gellan gum or locust bean gum. These gums are thickeners added to the product to make it more viscous and no, don’t worry, it’s not bad for you.
+
+Oat milk however, doesn’t need thickeners because it has beta-glucans which naturally binds water very well thus making the oat milk thicker. Now, just because these plant-based milks are thicker doesn’t mean that they won’t separate out of coffee, it just gives the same mouthfeel and texture as regular milk. To ensure that the milk doesn’t curdle in coffee, is where ingredients like calcium carbonate or potassium citrate come into play. They are usually added to fortify the products with said minerals, but they also prevent the milk from separating once it’s added to coffee. This is because these ingredients act as buffers thus the change in acidity levels means that the plant proteins will no longer coagulate and the milk will not curdle in the coffee. The delicate balance between thickener and the buffering ingredients is what makes the barista version of the milks different. There are usually higher amounts of either one or both ingredients in the barista blends, which is probably why they cost more too.
+
+Photo by Oatly
+
+Oatly’s oat milk on the other hand, uses a different ingredient, one called dipotassium phosphate which they describe as an acidity regulator due to the salt’s basic nature. This property helps prevent the separation of the milk from the coffee. Rapeseed oil is also added to increase the fat content, giving the oat milk a creamier texture to mimic that of regular milk.
+
+Thus, some baristas describe oat milk as the miracle milk because it ‘behaves’ when they use it to make latte art. Its popularity among baristas is what oat milk owes most of its success to anyway. Especially in the US.
+
+Marketing and the great oat milk shortage
+
+Oat milk’s recent surge in popularity may be confusing to some but when looking back at the events that have taken place in the plant-based milk market, it can be easy to understand how oat milk has begun spreading its reach.
+
+Almond milk and soy milk have long been the darlings of dairy alternatives but almond milk became the scapegoat for the California drought back in 2015 and soy milk has been surrounded by controversy over GMOs and estrogen over the years. So, the uncertainty in the market allowed a new contender to step into the ring. Oat milk. But then again, any number of the other plant-based milks like rice milk, pea milk or hemp milk could have capitalized on this uncertainty, so how did oat milk win out?
+
+Well, like I said before, one word. Baristas.
+
+In the year 2016 when Oatly made its American debut, Mike Messersmith, Oatly’s US General Manager and his team, had approached coffee shops and given them samples of their Barista Edition oat milk to test out. Now, imagine you’re a barista circa 2016, making lattes with soy and almond milk. These milk alternatives work, but they’re not great, they’re not milk. But then comes oat milk. You take a sip. Hmm, it tastes pretty neutral, doesn’t mask the taste of coffee like almond and soy does. Interesting. You’re still skeptical after steaming and frothing the milk but when you begin to pour your milk into the cup of coffee, you realize it’s still not like milk but it definitely is better than almond and soy. It’s thicker, creamier and right, the art! You didn’t have to struggle to make it this time! You take a sip of the coffee, noticing how the rich flavours of the coffee are able to shine through, not tasting that hint of almond or soy instead. You have to tell your other barista friends, your customers! You have to tell anyone that will listen.
+
+At least, I assume that’s how it went down, but the main point is, word soon spread among the coffee community that there was a new plant-based milk in town and it was like this miracle milk. From then on, it just really began to take off. It was in a few coffee shops at first and then a few turned into hundreds and hundreds turned into thousands. Next thing you know, they were on the supermarket shelves too! And then, all at once, they weren’t. Not on the supermarket shelves, not in the coffee shops. In fact, it was all sold out. It was too much demand, all too soon and Oatly was struggling to keep up, in fact, they still are. They’re trying their best though and have plans to open their new factory in Millville, New Jersey to help cope with the demand. Hopefully, the next time you check your local coffee shop or grocery store, you’ll find it.
+
+Introducing oat milk to the American market through coffee shops was a smart decision on Oatly’s part. It’s much easier to say ‘yeah, sure, why not?’ when your barista asks if you would like to try oat milk instead of soy or almond today, compared to heading to the supermarket and picking up a whole new carton or bottle of oat milk instead of your regular choice. The latter is the strategy pea milk tried out and based on the data, it doesn’t seem to be working so well.
+
+Pea… milk?
+
+Yep, you read right. Pea milk. No, it isn’t a mushy green liquefied mess and no it doesn’t taste like the vegetable either. The drink is made out of yellow peas. The peas are milled into flour and then water is added to that flour, resulting in pea milk. Some say it has a taste comparable to almond milk but has a tangy after-taste, meanwhile others say it tastes like soy milk.
+
+The company that invented pea milk, Ripple, was founded in 2015 and the product has been on the shelves for several years. However, it hasn’t had quite the success oat milk has had.
+
+Photo by Dr. Archer Atkins at archerfriendly.com
+
+Pea milk is higher in protein and creamier than almond and soy milk (it has thickeners as part of its ingredients list too) so, it could potentially be an up and coming strong contender in the dairy alternatives market but, it still isn’t seen much in coffee shops. Neither is it generating as much interest as oat milk has been considering that pea milk’s popularity dropped by 1.4% in 2019.
+
+Perhaps there’s still some apprehension to the idea of pea milk. After all, I’m sure most of you conjured up the image of a green mushy liquid when you first read the words pea milk. That and maybe the after-taste has people turning away from pea milk. With oat milk showing no signs of slowing down, it looks like pea milk might have to step up their game in order to capture a larger portion of the ever growing plant-based milk market and with Ripple’s recent introduction of their barista style plant-based milk, they just might. All they have to do now is to get the coffee community behind them. Who knows? The baristas might just lead another revolution in the dairy-free milk industry.
+
+2. Celtuce
+
+This thick stemmed and green leaf vegetable has many names such as asparagus lettuce and stem lettuce, but the name celtuce itself, coined by W Atlee Burpee, the man who introduced the vegetable to America, comes from the combination of celery + lettuce, yet some still call it celery lettuce too. Sometimes, the vegetable is also referred to as Chinese lettuce as well since it’s found mostly in Chinese cuisine. Though, the Chinese themselves call the vegetable wosun or qingsun.
+
+Photo by Vmenkov, Wikimedia Commons
+
+Different types of celtuce are found in different areas in China and the type determines whether mainly the stem will be used in the dish or both the leaves and the stem will be used. The leaves are said to be delicious stir-fried but the stem however seems to be the centre of attention when it comes to this vegetable. The stem is said to be crunchy, crisp and even tastes a little nutty. In Chinese cuisine, the stem is sliced up and either pickled or stir-fried, both resulting in delicious dishes.
+
+Most of the time, in America, the vegetable is found on the menu of high-end restaurants as the vegetable isn’t really widely available at your local supermarket. Instead, you usually find them at the local Asian grocer, along with other produce you probably haven’t heard of before.
+
+Celtuce has been recommended on many year-end food trends prediction lists, mostly for the fact that it has been on countless menus of fine-dining restaurants (e.g: Kinship, Melisse & etc.). They’re predicting that the trend will now trickle down through to the masses. Though you will have a hard time finding celtuce at the grocers, the quaint vegetable seems to be popping up more frequently at the farmer’s market now considering that they are a rather easy crop to grow. However, it isn’t just celtuce that has been gaining popularity, in fact greens in general seem to be having a good first quarter of 2019.
+
+Rise of the vegetables
+
+There was a time where meat reigned supreme but vegetables seem to be stealing the spotlight as of late. Vegetarian and vegan options on a menu were scarce just about a decade or two ago but now it is nothing but a norm. Nowadays, people are looking for more ways to include vegetables in their diet, curious to try out different greens instead of the regular lettuce and broccoli. Though, that’s not to say meat has completely fallen off its pedestal but vegetables surely are climbing their way up. Take a look at some of the vegetables taking 2019 by storm.
+
+With the exception of beets, all vegetables saw individual growth in popularity between the two years. However, a large percentage increase doesn’t mean that it is more popular overall. Take the celtuce numbers for example. More people are interested in celtuce in 2019 vs. 2018 but that doesn’t mean more people are interested in celtuce over beets. Beets are still popular overall, it’s just that fewer people are interested in it this year compared to the last.
+
+But, what exactly has caused this shift in consumers seeking out more vegetables though? The answer is keto. Seeing that for many of the vegetables, the related queries have been about whether these vegetables are in accordance with the keto diet, a low carb, high fat diet, it’s got to be keto. With more and more people following the keto diet, it is apparent that low carb vegetables are in while high carb ones are out, which probably also explains why the high carb beet has dropped in popularity. However, an anomaly to this theory is cassava which is a high carb vegetable.
+
+Cassava has seen an increase in popularity this year by 30.1% to be exact. This is mostly due to the rise of cassava flour and the fact that it can be used to make tortillas. Compared to corn flour, cassava flour is grain-free and gluten-free thus making many make the switch. Although the high carb flour does not meet the keto diet requirements, it meets the requirement of another popular diet called peganism, which stands for paleolithic veganism.
+
+The paleolithic diet has been making its rounds for a while now. In case you aren’t quite sure what it is, the paleo diet is a diet plan where you eat foods that you would have during the Paleolithic era when humans were hunters and gatherers. This means that their diet consists of lean meats, fish, vegetables and grains. Peganism is essentially an offshoot of this diet where you draw key points from both diets. It’s the paleolithic diet but with a focus on veganism. So pegans will eat mostly vegetables, grains etc. but unlike vegans, they are allowed to eat meat and dairy products, however, only sparingly though.
+
+I know, I know, with so many diet trends fading in and out, it’s hard to keep track sometimes with what’s hip and what’s not. To make things easier, here’s a look at three diets expected to do well this year. So far, it’s looking good.
+
+As can be seen above, keto is still by and large the most popular diet, but both peganism and semi-vegetarianism are showing upward trends too. Although not pictured, the paleo diet saw a decrease of 0.3% which shows that these diets that have a strong focus on consuming vegetables seem to be leading the way in 2019.
+
+Though semi-vegetarianism also known as the flexitarian diet shows the lowest percentage increase for this quarter compared to the other diets, it could very well pick up steam as the months roll on. It is the only diet of the three that isn’t exactly restrictive. The flexitarian diet, like the others, asks that you consume more vegetables but it does not condemn the consumption of meat or dairy, instead it endorses the act of introducing more plants and grains into your diet, encouraging you to gain most of your protein from plants and beans such as lentils and etc. Essentially, it’s like vegetarianism but without the commitment. Casual vegetarianism, if you will.
+
+These diets, and the general trend of moving away from meat has much influence over the public’s general interest in the items on this list. In fact, it could explain the rise of the next item too.
+
+3. Fonio
+
+Native to West Africa, this grain has been hailed as the next quinoa. It comes in two types, that being black fonio and white fonio. However, the latter is the more popular one. Traditionally, in Senegal, it is prepared similarly to rice and eaten with mafé, a peanut sauce.
+
+Photo by Yolele Foods at yolelefoods.com
+
+Like quinoa, it is an alternative to the standard white rice. Compared to rice, fonio has a higher protein and fibre content. It is also rich in amino acids, particularly methionine and cysteine which are two amino acids that are typically lacking in many other popular grains. Iron, magnesium, zinc and B vitamins, are also higher in fonio than in rice. This is important as those who choose to exclude meat from their diet sometimes struggle to obtain enough of these nutrients from their diet.
+
+Though definitely better than rice, how does it shape up next to one of the most popular rice alternatives, quinoa?
+
+When compared individually, fonio had a higher percentage increase in popularity. However, in terms of general notoriety, quinoa is definitely the more popular one. This is no surprise considering the limelight that it has been enjoying for the past few years.
+
+Quinoa although technically a seed and not a grain, has been hailed as a superfood for quite some time now. It’s high in protein and fibre, and packed with nutrients. Compared to fonio, it’s actually higher in fibre and in most cases, depending on the product, higher in protein too. Both are gluten-free though, so that’s a relief for all those who have celiac disease. But if fonio is meant to take the title from quinoa, where then does fonio clearly stand-out?
+
+Minerals, that’s where.
+
+Data from Gatom Foods
+
+Calcium, iron, magnesium, zinc. Fonio bests quinoa in terms of content of those 4 minerals but why does that matter though? What do these minerals do for us anyway?
+
+Well, iron is needed for the formation of red blood cells while zinc is needed for the body’s immune system. Calcium on the other hand, ensures that your bones stay strong and healthy while magnesium is necessary for energy metabolism and helps in muscle contraction as well as blood clotting.
+
+Ensuring that you reach the average requirement of these minerals are beneficial to the body. However, a national US survey conducted by NHANES for 2007–2010 showed that Americans were generally consuming inadequate amounts of these 4 minerals. Magnesium being the highest where 52% of the general population was found to be consuming below the estimated average requirement while for calcium, zinc and iron, that value was 44%, 11% and 7% respectively.
+
+With more and more Americans moving towards vegetarian or vegan diets, this is worrying. Considering that meat is a good source of magnesium and iron, and the fact that milk is usually the main source of calcium in the average diet, cutting these products out of your diet could spell trouble for most. However, by turning to products like fonio, one can obtain the nutrients needed while still maintaining a vegetarian/vegan diet.
+
+Minerals aside, vegetarians/vegans also struggle with getting enough protein when they cut out meat because they are used to low protein vegetables like broccoli, asparagus and other leafy greens. That’s why they turn to grains like quinoa or fonio to ensure they get enough proteins. Other vegan/vegetarian friendly options are popular ones such as tofu, seitan and more recently, plant-based meat. Here’s a quick look at how these alternatives to meat stack-up against each other.
+
+Tofu and seitan which were once the go-to replacements for meat due to their high protein content, however they find themselves taking the back-seat this year with a decrease in popularity by 0.4% and 14% respectively.
+
+Seitan, a food made from gluten has seen a substantial drop in popularity as more and more consumers move towards gluten-free foods. Tofu on the other hand which is made out of fermented soybeans has long stood supreme, but with the rise of plant-based meats, there’s been a slight decrease in popularity. However, do keep in mind that tofu still is more popular overall compared to both seitan and Beyond Meat. Though, that may change soon.
+
+Meat but plants
+
+Beyond Meat, a company that specializes in plant-based meat has seen a surge in popularity this year with general hype surrounding the industry lending to an increase in searches. The term has a seen a whopping 58.2% increase compared to 2018. Now some of you might be scratching your head at the term plant-based meat because how is that even possible? Oh, but it is and it’s taking the country by storm.
+
+Beyond Burger, Photo by Beyond Meat
+
+In recent years, the meat industry has come under harsh criticism due to issues such as animal cruelty to sustainability. Videos of cramped cages and mistreatment of the animals were shared relentlessly over social media and post after post on the environmental impact meat production circled around the net. From the inefficient land use, to the water needed to generate the feed needed for livestock to the greenhouse gas emissions from cattle, it seemed like there were so many environmental cons to producing meat. Yet, for many, it was hard to give up meat because there was no alternative that tastes like it.
+
+Enter plant-based meat. First there were patties that looked just like beef patties. Then there were meatballs, sausages, taco meat, and with each month, there seems to be a new product. Companies such as Impossible Foods and Beyond Meat have been the pioneers of the plant-based meat industry, with new companies cropping up at every turn. But, let’s back up a little bit here because it’s interesting that they have all these products but how exactly to they make plants look and taste like meat?
+
+Well, for the patties, Impossible Foods uses soy protein isolate while Beyond Meat uses pea protein isolate (thus it is a soy-free product). These are the base of the patties and is also responsible for much of the protein content of the patties. Then ingredients like canola, coconut or sunflower oil helps give it that juicy texture that we are accustomed to when eating meat. Potato starch, methylcellulose, xantham gum, gum arabic and etc. help bind the patty together to keep it from crumbling apart. It also helps to provide the right texture to mimic that of a beef patty.
+
+To really top things of, these plant-based meat patties even bleed like beef patties. They have that classic red-pink hue that red meat has. To achieve that, Impossible Foods uses heme. They use soy leghemoglobin to be specific and they do so by using genetically engineered yeast to mass produce it thus making it more sustainable and time efficient than extracting it from soy itself. The compound not only confers the red colour to meat but it is also what makes the patty taste like red meat. According to Impossible Foods, heme is the compound that’s found in high quantities in animal tissues and is what gives raw meat that bloody taste. During cooking, heme catalyzes which thus gives meat the meaty taste and aroma. So, really, they killed two birds with one stone… or perhaps three because heme confers colour, taste and aroma.
+
+Beyond Meat on the other hand, takes a different approach, the non-GMO approach. They use beet juice extract to give their patties that red, meaty look. The juice is pressed and then dehydrated in order to concentrate the colour. For taste, they isolate molecules in meat that give that meaty taste and aroma and then they pinpoint and match them to similar molecules found in plants. These are then used to give their patty a similar taste to that of red meat. Perhaps all together it is a lengthier process but some people shrink away at the mention of GMO or anything related to genetic engineering so, being a GMO-free product draws in customers who are seeking products that align with their beliefs.
+
+Taking the leap
+
+It was hard to get people to give plant-based meat a chance at first. The texture wasn’t right, there was a weird after-taste. But as time went on, and new formulations were put out, the public seemed to gravitate towards the product. From crumbly patties, to juicy ones that even bleed like meat, the industry has grown leaps and bounds. What once was a novel product found in select restaurants, now finds itself on the menu at big fast food chain restaurants like Burger King’s Impossible Whopper, Carl’s Jr.’s Beyond Burger and Del Taco’s Beyond Taco. Even LinkedIn’s very own Jeff Weiner is a fan of the Impossible Burger.
+
+LinkedIn’s CEO, Jeff Weiner and his thoughts on the Impossible Burger.
+
+Predicting trends aren’t too easy but in this case, it seems like analysts and journalists alike had gotten it right. Just last week, Beyond Meat went public with its IPO price placed at $25 per share. By the end of the day, the prices had soared to 163% above that at $67.75. This made Beyond Meat the best-performing IPO in about two decades. So now, everyone wants a piece of Beyond Meat.
+
+With plant-based meat gaining widespread consumer acceptance, more companies are looking into releasing their take on it. Tyson Foods expects their products to be released in the coming months, Whole Foods will be stocking Lightlife’s plant-based burgers soon and surely there will be a host of announcements from various companies that will follow suit. Despite the looming threat of competitors racing to take a piece of the pie themselves, Beyond Meat’s CEO, Ethan Brown, seems unfazed. In fact, he likes it. “I think competition is good — it helps to grow awareness of the sector,” He said to Vox’s Sigal Samuel. Perhaps he’s right. The sector only seems to garner more interest with every day. Yet, there are whispers of another competitor that’s attempting to take away from the traditional meat industry. Lab grown meat, an obviously sustainable alternative to actually raising a cow. When it becomes commercially accessible to the masses, will plant-based meat be a thing of the past? Guess we’ll have to wait a few more years to find out.
+
+Trend or Fad?
+
+There is no true science to predicting food trends. Some analysis is involved and a lot of guessing is done because humans, we’re often an unpredictable bunch. With food trends, sometimes it’s hard to tell which one will stay for years to come and which one will fade into oblivion after just a few months. Sometimes all it really takes is one viral video to sway it either way. Are we all going to be oat milk drinking, celtuce crunching, fonio munching people by the end of the year? It’s hard to say.
+
+In any case, these food trend predictions lists will continue to be churned out at the end of every year and many will flock to read them… only to forget about most of the items by the time mid-January swings by. Yet, I think it’s interesting to follow these lists, to see how some of the items eventually do win out over the others, solidifying its place as a food trend. They always seemingly appear out of nowhere, but if you look closely enough, there’s always a story behind them.
+
+Methodology:
+
+This project used data from Google Trends. Data regarding each item was extracted for months January — March for both 2018 and 2019 for the USA region before being compared to each other. Graphs and charts were made using Tableau and edited in Photoshop.

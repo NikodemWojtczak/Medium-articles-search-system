@@ -1,0 +1,17 @@
+Regularization for Neural Networks with Framingham Case Study
+
+In this post, I discuss L1, L2, elastic net, and group lasso regularization on neural networks. I describe how regularization can help you build models that are more useful and interpretable, and I include Tensorflow code for each type of regularization. Finally, I provide a detailed case study demonstrating the effects of regularization on neural network models applied to real clinical and genetic data from the Framingham study.
+
+Benefits of Regularization
+
+Regularization Can Make Models More Useful by Reducing Overfitting
+
+Regularization can improve your neural network’s performance on unseen data by reducing overfitting.
+
+Overfitting is a phenomenon where a neural network starts to memorize unique quirks of the training data (e.g. training data noise) instead of learning generally-applicable principles. A model that has “overfit” will get high performance on the training data but bad performance on the held-out test data, meaning the model won’t be useful in the real world because it won’t perform well on data it has never seen before. Since the whole point of neural network models is to solve real problems on new data, we want to avoid overfitting so that we obtain a practically useful model.
+
+Here is an example of overfitting in a classification problem:
+
+In this classification task we want to learn a line that separates the red dots from the blue dots. The black line represents a good classifier that appears to capture the general principle of where the blue dots and red dots are in the space. The green line represents a classifier that has suffered from overfitting because it’s too specific to this exact training set of red and blue dots.
+
+Observe how the green classifier line does worse on an unseen test set, even though the unseen test set is following the same general layout of blue and red dots. Also notice that the black…

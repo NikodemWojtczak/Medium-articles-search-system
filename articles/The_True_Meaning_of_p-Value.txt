@@ -1,0 +1,29 @@
+We’ve learnt about p-values many times before. First, in the statistics book we crammed at university; second, when we read some articles assuring us they were legitimate; and finally now as we decide how to run our businesses. Throughout this, we’re told definitions, and hopefully, we’ve learnt enough to regurgitate something about null hypotheses and probabilities — but do we really understand?
+
+Understanding is more than knowing a definition, and to effectively use p-values it’s necessary to have a ‘feel’ for what they mean. To do this, we’ll take a visual approach.
+
+In fact, when you look into p-values through visuals, they’re remarkably straight-forward, and that’s what I’d like to share with you today.
+
+We’ll follow this rough guideline:
+
+How can I be sure my Conversion Rate is what I think it is?
+
+Measuring Probabilities
+
+The AB Test Scenario
+
+The first few paragraphs will cover some basics so feel free to skip over these, but don’t forget to check the visuals!
+
+Let’s start by looking at a simple p-value before moving on to the all-important AB Test scenario that shapes product decisions around the world in all your favourite apps, services and programs. Hopefully, after reading this (or bookmarking) you can understand the p-value in all its glory, like I finally have.
+
+Note that the following content will be around e-commerce products but take note the understanding can be applied when dealing with various outher scenarios.
+
+Your First CVR
+
+Imagine this: you’ve launched a new website, and you’d like to know what your conversion rate (CVR) is, so you begin to measure the sessions and the conversions. Using these you can calculate a simple proportion for the conversion rate as:
+
+CVR = Conversions / Sessions
+
+You measure 1000 sessions and 50 conversions which gives you a CVR of 5% — awesome! But wait, how accurate is that 5%?
+
+If you measure another 1000 sessions, will you get another 50 conversions or will it be something different? This is where our friend…

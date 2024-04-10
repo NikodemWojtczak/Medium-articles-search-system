@@ -1,0 +1,15 @@
+The aim of this article is to outline our process for using NLTK and Natural Language Processing methods to clean and preprocess text data and turn song lyrics into a matrix of numerical values, so we can train a Machine Learning Algorithm that can classify each song’s genre based on its lyrics.
+
+What is Natural Language Processing (NLP for short)?
+
+NLP refers to analytics tasks that deal with natural human language, in the form of text or speech. These tasks usually involve some sort of machine learning, whether for text classification or for feature generation, but NLP isn’t just machine learning. Tasks such as text preprocessing and cleaning also fall under the NLP umbrella.
+
+The most common python library used for NLP tasks is the Natural Language Tool Kit, or NLTK. NLTK is a sort of “one-stop shop” for all things NLP. Unlike most other Python Libraries and ML models, NLTK and NLP are unique in the sense that in addition to statistics and math, they also rely heavily on the field of Linguistics. Many of the concepts and methods for working with text data described throughout the rest of this article are grounded in linguistics rules.
+
+Obtaining Data: Where did we get our data?
+
+We found a CSV on Kaggle with 300,000 song lyrics ranging from 11 different genres and 6–7 different languages. The dataset had information on the Song Title, Artist, Year, Album, Genre, and a column with the full song Lyrics.
+
+Cleaning and Pre-Processing Text Data
+
+Now that we have our data, the fun part begins. First, we need to preprocess and clean our text data. As you might have already suspected, preprocessing text data is a bit more challenging than working with more traditional data types because there’s no clear-cut answer for exactly what sort of preprocessing and cleaning we need to do. When working with traditional datasets, our goals are generally pretty clear for this stage — normalize and clean our numerical data, convert categorical data to a numeric format, check for and deal with multicollinearity, etc. The steps we take are largely dependent on what the data already looks like when we get a hold of it.

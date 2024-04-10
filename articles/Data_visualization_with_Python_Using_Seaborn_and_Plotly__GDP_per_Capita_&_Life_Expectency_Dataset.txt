@@ -1,0 +1,59 @@
+Data visualization with Python Using Seaborn and Plotly_ GDP per Capita & Life Expectency Dataset
+
+Photo by Lukas Blazek on Unsplash
+
+This tutorial is intended to help you get up-and-running with python data visualization libraries very quickly. I choose seaborn and plotly that is the most used and awesome tools to visualize fully-interactive plots and make data looking great.
+
+Also you will get to discover the relationship between economy and social factors. The dataset we would be dealing with in this illustration is GDP per Capita, Social support, Healthy life expectancy, Freedom to make choices, Generosity… in all over the world.
+
+I use jupyter notebook that you can get access from Anaconda packages.
+
+If you want to install Anaconda here.
+
+Seaborn Brief Overview
+
+Seaborn is a visualization library based on matplotlib, it works very well with pandas library.
+
+One of the reasons to use seaborn is that it produces beautiful statistical plots. It is very important to realize that seaborn is a complement and not a substitute to matplotlib.
+
+To install seaborn, you can use pip or conda at your command line or terminal with:
+
+!pip install seaborn
+
+or
+
+!conda install seaborn
+
+Import libraries
+
+Let us begin by importing few libraries, numpy (numerical python library), pandas for dataframe and dataseries, seaborn and matplotlib for visualization.
+
+import numpy as np
+
+import pandas as pd
+
+import seaborn as sns
+
+import matplotlib.pyplot as plt
+
+%matplotlib inline #use it to show plot directly below the code
+
+2. Read data using pandas
+
+This data called ‘2019.csv’ in format csv file. that is the dataset that we gonna work with throughout this tutorial.
+
+head() function return top 5 rows of dataframe as we can see below:
+
+df= pd.read_csv('2019.csv')
+
+df.head()
+
+Ditribution plots
+
+1.distplot:
+
+What i do here is simply plot a distribution of a single column in a dataframe (GDP per capita) using sns.distplot(dataofsinglecolumn).
+
+To remove kernal density estimation plot you can use kde=False.
+
+bins=30 represents the number of bins that define the shape of the histogram, i use 8 bins in the left plot and 30 for the other so you can see the difference.

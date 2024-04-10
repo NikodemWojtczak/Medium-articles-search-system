@@ -1,0 +1,15 @@
+Learning rate scheduler
+
+ESPNetv2 introduces a variant of the cosine learning rate, wherein the learning rate is decayed linearly until cycle length and then restarted. At each epoch t, the learning rate ηₜ is computed as:
+
+Figure 1: Cyclic learning rate policy with linear learning rate decay and warm restarts
+
+F aster training
+
+With the learning rate scheduler described above, we train ShuffleNetv2 for a total of 120 epochs with a batch size of 512 across four TitanX GPUs using SGD with momentum at two different FLOP settings: (1) 41 MFLOPs and (2) 146 MFLOPs. For the first 60 epochs, we set ηₘᵢₙ, ηₘₐₓ, and T to 0.1, 0.5, and 5, respectively. For the remaining 60 epochs, we set ηₘₐₓ=0.1, T=60, and ηₘᵢₙ=ηₘₐₓ/T. The figure below visualizes the learning policy for 120 epochs.
+
+Figure 2: Cyclic learning rate scheduler with warm restarts for faster training proposed in the ESPNetv2 paper.
+
+Results on the ImageNet dataset
+
+Results are given in Figure 3 and Table 1. We can clearly see that the learning rate scheduler (discussed above) enables faster training while delivering similar performance as the linear learning rate scheduler in ShuffleNet paper.

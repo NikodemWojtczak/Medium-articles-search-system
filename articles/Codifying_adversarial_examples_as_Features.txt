@@ -1,0 +1,37 @@
+Adversarial examples, being a huge nuisance for AI practitioners, are nevertheless a huge bonus in AI theory, helping us understand the internals of the machine learning models and algorithms, and energizing emerging technologies like GAN.
+
+So it is not surprise that the new paper, which I’m going to review here, generated buzz in the industries.
+
+Or if you prefer to read it using another PDF reader application, here.
+
+One of the problems of computer vision algorithms (see Hinton’s Coursera course for details) is indirect inference. Here the data flow can be expressed in this diagram:
+
+The difficulty of computer vision algorithms is that there is no direct link from the object to the label. Instead, a picture is taken of the object, represented as pixels and the algorithm learns to derive the label from the pixels, not from the object itself. The algorithm is not sure what you mean by the labels. If you present to it an image of the sheep grazing on the hillsides, the algorithm does not know a priori if the sheep are the white objects, or a green mass below, or the blue stuff above. So you need to present a lot more training data to the algorithm to convince it that a sheep is not the same as sky or grass. Still it may learn the wrong thing. For example, it may learn identifying cats vs. dogs based on the fir or other secondary characteristics. Here lies the vulnerability, that by manipulating the pixels you can make the algorithm misidentify the object.
+
+To fight the adversarial learning it was proposed to update the optimization algorithm to minimize not the cost function, but the maximum of the cost function under the adversarial distortions:
+
+In this paper, in addition to using the adversarial loss function, it is also proposed to identify the robust features, i.e. the features that don’t change the sign of the correlation under adversarial distortions.
+
+One thing to mention about this paper, is that by features they really mean activations of the penultimate layer. In this case we can use simple Pearson correlation, because all non-linearity was processed in the earlier layers.
+
+The first thing the paper attempts to do is disentangling of the robust and non-robust features. First we train the model using the adversarial loss function, then replace the training data with the modified data that only generate the robust features:
+
+here the condition is that only robust features are correlated with the label, and the correlation of non-robust features with the label is zero. This data set is found by using backpropagation, but updating the inputs, not weights and biases (much like in white box adversarial learning), minimizing the square difference of the activations of the penultimate layer:
+
+After getting the modified data set, another round of training is performed on it, this time using standard (non-adversarial) training. The resulting model is found to work well in both standard and adversarial settings. This result is really good news, because training using adversarial loss function is very slow, and you don’t want to do it too often. Here we do it only once, then generate the new test data, and then using efficient standard training procedures for doing our training experiments. In my opinion, this is the best practical result of the paper.
+
+In a similar way you can generate non-robust data set, without using the adversarial training. The results are presented on the picture below:
+
+In my opinion, the authors did not achieve disentanglement of robust and non-robust features, because different training procedure was used, and so there is an inevitable overlap between the two.
+
+In the next experiment the authors intentionally mislabeled the examples with a random label. They found that the model trained using robust features remembers the original data set and corrects the mislabeled data itself, whereas the standard classifier learns new and incorrect classification. This is both good and bad news. While it shows that the model is robust to mislabeling, it also means reduced generalization and and usefulness for transfer learning.
+
+The theoretical framework of this paper lies in representation of the data points as a mixture of two Gaussian distributions, corresponding to the two classes in the binary classification problem. The parameters of the distributions are found using maximum likelihood method and correspond to the parameters in the logistic regression. This is a known method in statistical learning, going back decades ago. Adversarial robust learning uses the same method, but expands the sample to include all possible adversarial examples:
+
+So increasing the adversarial noise ε effectively increases learned Σ, blending the combined distribution.
+
+Conclusion
+
+This paper is a development of the general framework for adversarial robust learning, that is actively worked on in the last couple of years. Rather than focus on the model, it turns attention to the data, generating the data set based on the original, that, when trained, produces a robust model. This, I believe, is the biggest contribution of the paper, since you can save time avoiding doing slow and expensive adversarial training, other than the first time in order to produce the robust data set.
+
+References

@@ -1,0 +1,35 @@
+Web Scrape Twitter by Python Selenium (Part 1) WY Fok · Follow 7 min read · Nov 9, 2019 -- Share
+
+(PS: My Twitter https://twitter.com/mydatasciencej1)
+
+Introduction
+
+One popular application of Python is web scraping. Web scraping means extracting data from a website by software or programming. There are tons of data on the Internet that can be used for data analytics. However, it is impractical, if not impossible, to manually copy and store data. At this moment, web scraping is what we need.
+
+There are some famous Python packages that perform web scraping like requests (an inbuilt package), BeautifulSoup, Scrapy, and Selenium. Today I will demonstrate how to use Selenium to web scrape. And the objective is to web scrape all tweet traffics of my data science twitter account link.
+
+(PS: There is a more direct way connecting Twitter by using Tweepy package. I use Twitter as an example only in this article. There are many different applications by using web scraping. Moreover, as far as I know, there is no function of checking the tweet analytics.)
+
+More information about Selenium can be found via:
+
+Content
+
+Prerequisites
+
+Begin of tutorial
+
+Ending
+
+Prerequisites
+
+Install Selenium
+
+pip install Selenium
+
+2. Download a Driver and include the path in PATH
+
+https://selenium-python.readthedocs.io/installation.html#drivers
+
+A Driver is used to control your browser by using the Python program. Depending on your browser, select a suitable driver. Then you either place the path of this driver in PATH environment or you declare the path of the driver every time in your Python script. I would recommend to include in your PATH environment directly so you don’t need to set the path every time.
+
+3. Basic HTML language

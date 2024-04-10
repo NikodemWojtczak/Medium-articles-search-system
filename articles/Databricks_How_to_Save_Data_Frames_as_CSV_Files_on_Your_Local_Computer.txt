@@ -1,0 +1,17 @@
+Photo credit to Mika Baumeister from Unsplash
+
+When I work on Python projects dealing with large datasets, I usually use Spyder. The environment of Spyder is very simple; I can browse through working directories, maintain large code bases and review data frames I create. However, if I don’t subset the large data, I constantly face memory issues and struggle with very long computational time. For this reason, I occasionally use Databricks. Databricks is a Microsoft Azure platform where you can easily parse large amounts of data into “notebooks” and perform Apache Spark-based analytics.
+
+If you want to work with data frames and run models using pyspark, you can easily refer to Databricks’ website for more information. However, while working on Databricks, I noticed that saving files in CSV, which is supposed to be quite easy, is not very straightforward. In the following section, I would like to share how you can save data frames from Databricks into CSV format on your local computer with no hassles.
+
+1. Explore the Databricks File System (DBFS)
+
+From Azure Databricks home, you can go to “Upload Data” (under Common Tasks)→ “DBFS” → “FileStore”.
+
+DBFS FileStore is where you create folders and save your data frames into CSV format. By default, FileStore has three folders: import-stage, plots, and tables.
+
+2. Save a data frame into CSV in FileStore
+
+Sample.coalesce(1).write.format(“com.databricks.spark.csv”).option(“header”, “true”).save(“dbfs:/FileStore/df/Sample.csv”)
+
+Using the above code on the notebook, I created a folder “df” and saved a data frame “Sample” into CSV. It is important to use coalesce(1) since it saves the data frame as a whole. At the end of this article, I will also demonstrate what happens when you don’t include coalesce(1) in the code.

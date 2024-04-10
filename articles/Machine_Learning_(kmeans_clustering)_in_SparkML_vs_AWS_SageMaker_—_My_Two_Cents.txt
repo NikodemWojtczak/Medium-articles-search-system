@@ -1,0 +1,13 @@
+Machine Learning, the ability to learn from data, has been one of the most successful and disruptive use-cases of Big Data. In the landscape of data and analytics, one has access to myriad of tool-set to undertake machine learning tasks of varying nature and complexity.
+
+However when one is operating on data at scale, generally the traditional Machine Learning libraries in the go-to languages like R and Python (e.g. pandas, scikit-learn) fall short as these natively operate in a single machine where the data to be analyzed should fit within memory (though there are approaches like out-of-core learning that are available to circumvent that but it has its own set of caveats). Thus for true machine learning at scale, distributed training and inference pipelines become crucial. This by itself isn’t a trivial task but the availability of frameworks and libraries facilitate the process significantly. Libraries like Mahout (that operated on good old MapReduce) and SparkMLLIB (Spark’s RDD based Machine Learning library) were among the first players in this category and since then we have seen the advent of many other like. This trend has went in a few tangents as follows:
+
+1. Maturity of Spark’s Machine Learning Library (SparkML) which now supports the versatile Dataframe/Dataset API and provides coverage to a number of algorithms and feature engineering transformations
+
+2. Availability of libraries that work seamlessly with Spark e.g. Sparkling Water, DeepLearning4J, XgBoost4J, Stanford Core NLP Wrapper for Spark given the unprecedented growth of Spark being the leading distributed computation framework
+
+3. Integration and compatibility of deep learning libraries like TensorFlow with other distributed computing frameworks like Apache Beam (e.g. TensorFlow Transform and is well supported in in Google Cloud Platform)
+
+4. Availability of Cloud native machine learning frameworks and libraries e.g. SageMaker from AWS
+
+Among all of these trends, the core driver had been to enable and democratize scalable machine learning so that organizations can focus more on the actual work instead of bogging down with the underlying complexity of how this all operates under the hood.

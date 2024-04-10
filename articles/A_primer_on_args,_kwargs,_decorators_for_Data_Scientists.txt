@@ -1,0 +1,33 @@
+Python has a lot of constructs that are reasonably easy to learn and use in our code. Then there are some constructs which always confuse us when we encounter them in our code.
+
+Then are some that even seasoned programmers are not able to understand. *args, **kwargs and decorators are some constructs that fall into this category.
+
+I guess a lot of my data science friends have faced them too.
+
+Most of the seaborn functions use *args and **kwargs in some way or other.
+
+Or what about decorators?
+
+Every time you see a warning like some function will be deprecated in the next version. The sklearn package uses decorators for that. You can see the @deprecated in the source code. That is a decorator function.
+
+In this series of posts named ‘Python Shorts,’ I will explain some simple constructs provided by Python, some essential tips and some use cases I come up with regularly in my Data Science work.
+
+This post is about explaining some of the difficult concepts in an easy to understand way.
+
+What are *args?
+
+In simple terms, you can use *args to give an arbitrary number of inputs to your function.
+
+A simple example:
+
+Let us say we have to create a function that adds two numbers. We can do this easily in python.
+
+def adder(x,y):
+
+return x+y
+
+What if we want to create a function to add three variables?
+
+def adder(x,y,z):
+
+return x+y+z

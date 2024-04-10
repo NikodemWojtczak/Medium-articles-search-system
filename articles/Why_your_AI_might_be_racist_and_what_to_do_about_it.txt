@@ -1,0 +1,117 @@
+Individually reasonable correlations can cause an AI to gain a racial bias
+
+Even well-designed AI systems can still end up with a bias.
+
+This bias can cause the AI to exhibit racism, sexism, or other types of discrimination. Entirely by accident.
+
+This is usually considered a political problem, and ignored by scientists. The result is that only non-technical people write about the topic.
+
+These people often propose policy recommendation to increase diversity among AI researchers.
+
+The irony is staggering: A black AI researcher is not going to build an AI any different from a white AI researcher. That makes these policy recommendations racist themselves. It still makes sense to increase diversity among AI researcher for other reasons, but it certainly won’t help to make AI system less racist.
+
+Racism among humans is a social problem, but racism in an AI is an engineering problem.
+
+Racism in an AI needs to be addressed just like any other kind of engineering problem. Getting political is likely to backfire and can cause more harm than good.
+
+So how can an AI be racist, exactly?
+
+The good news:
+
+An AI has no political agenda of its own. It is only going to be deliberately racist if it has been trained to be racist.
+
+The bad news:
+
+It is very easy to train an AI to be racist by accident.
+
+In this article, I’m going to explain how racial biases can appear in AI. I will also discuss some ways to deal with this problem on a technical level.
+
+(By the way: The same arguments also apply to biases against women or other types of discrimination.)
+
+1. Biased data
+
+It is possible to make an AI biased by training it on biased data. This can easily happen by accident unless you are very careful.
+
+Take for example this article, about an AI that was trained on public data. The AI ended up with a racial bias because its training data was based on the internet: https://www.theregister.co.uk/2019/09/05/ai_racist_sexist/
+
+As we all know, the internet is not the nicest place. An AI trained on it will adopt its preconceptions, and turn out horrible. It’s a general principle of training an AI: garbage in, garbage out.
+
+It is also possible to use reasonable data without any racial bias, and still end up with a biased AI anyway:
+
+The dataset must have a representative amount of data from each racial group. That’s because the amount of effort an AI puts into learning about a race is proportional to its frequency in the dataset. Face recognition AI’s tend to work better on white people than any other race. Skewed training datasets are part of the reason for this.
+
+If you are conscientious, it is not too difficult to fix this problem. Often, you can choose your dataset more diligently, so it contains less bias and has a more representative distribution of races.
+
+Where that isn’t possible, you can at least annotate your data with indicator variables about their source. In this way, you can teach the AI to model biases in the training data explicitly. After that, pick the most racist of the data sources. Tell the AI to unlearn anything that differentiates that data from the rest. This is like pointing at the most racist people and ordering the AI not to emulate them. It’s not a perfect solution, but it is better than nothing.
+
+Note that problems can also arise even if the training process is unbiased. It’s possible that a particular AI algorithm is just objectively less capable of some tasks than others.
+
+For example: a self-driving car has a harder time detecting black people at night than white people, because their skin is harder to see in the dark. This is not racist, just unfortunate. It’s obviously still a problem, though. To fix it, you need to ensure that you put an appropriate amount of effort into teaching the AI how to solve these more difficult tasks.
+
+2. Correlation does not equal causation
+
+Once the training data is fair and unbiased, we still have to deal with a problem in the AI itself. It doesn’t really matter if you are using a neural network here, or something else. Virtually all popular forms of AI suffer from this:
+
+The core problem we have is that the AI has no idea what any of its inputs mean in reality.
+
+The AI just gets numbers as input, without understanding their real-world implications. It has to learn that causality on its own, but it can only make guesses, and will often turn out to be wrong.
+
+For example, suppose we are training an AI to accept or reject job applications. One neighbourhood in the city is a crime-ridden ghetto. All previous applicants from the area were bad. The AI ‘learned’ that coming from this area means you are a terrible applicant. Now the AI receives a new application: A young black woman, who won a Nobel prize. That woman has really bad luck: The AI has no idea what a ‘Nobel prize’ is because it has never encountered one in an application before. It just notices that she comes from the same neighbourhood where everyone before her was terrible. So the AI rejects the application immediately.
+
+It gets worse:
+
+Many machine learning algorithms are not explainable. That means it is not possible to make an AI explain the reasons behind its decisions.
+
+There are some algorithms that are explainable, like decision trees. You would think that detecting racism in explainable algorithms is easy. This is only partly true.
+
+In an explainable algorithm, you can check directly if ‘race’ is being used to make a decision. However, this does not allow you to notice indirect correlations. Maybe the AI ‘learned’ that growing up in a certain neighbourhood makes for a bad candidate. A neighbourhood that happens to be predominantly black. It takes effort to detect such correlations and account for them.
+
+So to prevent racial bias, we have to find a way to detect spurious correlations. But we can’t just check for the effects of race on the data directly. That would not suffice, because we can’t rule out indirect correlations that still lead to a racial bias.
+
+Even worse: We sometimes do get genuine correlations between race and other attributes. Let’s say for example that we are building a medical diagnosis system. We do want the AI to learn that some diseases appear more frequently in different races. If we blindly eliminate all racial correlations in a medical diagnosis system, we could get a lot of people killed.
+
+So what can we do to solve this problem?
+
+I can’t give a definite answer, because this is an extremely complex problem with a lot of special cases. The following approach could work as a baseline, but is by no means perfect:
+
+First, make sure that you explicitly use race as an input of your AI. This goes against what you normally hear in political correctness lectures. Unlike a human, an AI does not have an implicit bias, nor does it adopt any biases from its creator. This means that adding race as a feature makes it easier to test for accidental correlations, and has no negative effects.
+
+Create a Generative Adversarial Network (GAN). Train the GAN to create fake training data.
+
+This takes care of any accidental correlations in the data: A fake created by the GAN will be created in such a way that the AI can’t tell the difference. This does not guarantee that the AI won’t learn spurious correlations. That task is impossible. It will however guarantee that the AI is unable work around its own anti-racism mechanism in the later stages.
+
+Now comes the tricky part: Pick some features of the training data that you believe should not influence the prediction. For any person in the training data, you can now ask the GAN to generate an ‘equivalent’ person of a different race. While generating these fake people, you must only vary the selected safe features. This ensures that the fake person is realistic, but does not have strange characteristics that would throw off the prediction.
+
+You now have the ability to create fake data to reduce the bias in your dataset. Because these fakes differ only in features that are irrelevant to the task, this will not have any negative effects.
+
+Note that this only works if you have made a good choice for the features that may be altered.
+
+It is also possible that the GAN will not be able to create any good fakes using only the irrelevant features. If this happens, you probably have a lot of genuine racial correlations in the data.
+
+Once you are done with training the GAN, the actual predictive part begins:
+
+Build your main AI system, the one that should make a prediction, on top of the Discriminator network of the existing GAN. This ensures that the predictor network will only use derived features that we know can’t contain a racial bias.
+
+Now train the new system with all your data.
+
+During the training you can explicitly test for racism. For any given person, you can create an equivalent person of another race and test if the prediction is different for that person. By giving negative feedback on each such case, you can punish racism in the AI directly.
+
+You now have a trained neural network that does whatever you wanted it to do, and that is very unlikely to have a racial bias.
+
+Disclaimer
+
+You should not just blindly implement this the way I just described it. Depending on your usecase, there could be a lot of side effects. It adds a lot of complexity and multiple interactions, which could backfire in any number of ways. This is really just a general description of how the problem of racist AI could be tackled in theory. It’s not ready for implementation.
+
+If anyone has an idea for a better approach, I would welcome hearing about it in the comments.
+
+Also note that this adds a lot of overhead to model training. It could reduce the performance of the AI as a side effect.
+
+Is it worth having a less racist AI, if the AI is also dumber and makes more mistakes? What if that AI makes life-or-death decisions? How do you even quantify what counts as a worthwhile tradeoff here? This is a political question that I am not touching with a ten foot pole.
+
+Your main takeaways from this article should be:
+
+AI can easily be racist by accident.
+
+2. Preventing this is very difficult.
+
+3. This is primarily an engineering issue, not a social issue.

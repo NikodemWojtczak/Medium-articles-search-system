@@ -1,0 +1,79 @@
+Concept drift is a drift of labels with time for the essentially the same data. It leads to the divergence of decision boundary for new data from that of a model built from earlier data/labels. Scoring randomly sampled new data can detect the drift allowing us to trigger the expensive re-label/re-train tasks on an as needed basis…
+
+Nothing lasts forever. Not even a carefully constructed model on mounds of well-labeled data. Its predictive ability decays over time. Broadly, there are two ways a model can decay. Due to data drift or due to concept drift. In case of data drift, data evolves with time potentially introducing previously unseen variety of data and new categories required thereof. But there is no impact to previously labeled data. In case of concept drift our interpretation of the data changes with time even while the general distribution of the data does not. This causes the end user to interpret the model predictions as having deteriorated over time for the same/similar data. The fix here requires a re-labeling of the affected old data and re-training the model. Both data and concept can simultaneously drift as well, further vexing the matters…
+
+Rather like having the Lakers play the Patriots in the World Series, when both the concept/game and the data/players change there would be a lot of head scratching in the stands…
+
+This post is about the detection of concept drift in a post-production scenario where a model trained on older data is in place for classifying new incoming data. Continuous re-labeling of old data and retraining thereof is prohibitively expensive so we want to detect concept drift and act on it as needed. For ease of illustration and visualization we stick to 2-d (i.e. two features) and two classes that divvy up the feature space. But the approach to detection is generic. Once the drift is detected, the model needs to be updated. The details will depend on the application but in general:
+
+if we diagnose a concept drift,the affected old data needs to re-labeled as well and model re-trained.
+
+if we diagnose a data drift, enough of the new data needs to be labelled to introduce new classes and the model re-trained
+
+a combination of the above when we find that both data and concept have drifted
+
+The focus of this post is concept drift. Data drift is the subject of the next post in this series. We look at some code snippets for illustration but the full code for reproducing the reported results here can be downloaded from github.
+
+Update (8/21/2020): Came across a nice article (and with a list of references) on this topic at neptune.ai by Shibsankar Das. Best Practices for Dealing with Concept Drift.
+
+1. Concept Drift
+
+Concept drift arises when our interpretation of the data changes over time even while the data may not have. What we agreed upon as belonging to class A in the past, we claim now that it should belong to class B, as our understanding of the properties of A and B have changed since. This is pure concept drift. Clearly needs further explanation and context. For example a piece of text can legitimately be labelled as belonging to one class in 1960 but belonging to a different one in 2019. So the predictions from model built in 1960 are going to be largely in error for the same data in 2019. See Figure 1 below for an extreme example perhaps but one that serves to illustrate the problem when the rules of the game change.
+
+Figure 1. Data has not changed. But our interpretation and assigned class thereof have.
+
+2. Shifting Decision Boundaries
+
+Concept drift can be seen as the morphing of decision boundaries over time. Consider a simulated 2-class situation in Figure 2.
+
+Figure 2. Concept drift can be detected by the divergence of model & data decision boundaries and the concomitant loss of predictive ability
+
+At time t1 the line y = x cleanly separates the classes with some good separation to boot. We train a SVM classifier on this data and the obtained model decision boundary agrees perfectly with the decision boundary the data was simulated with. All is well for a while and our predictions are on target
+
+New data comes in at a later time t2 and we label it manually (the only way to test if the predictions are still good!). All labeling would be as per our understanding of the data at the time we label it. That is the key point. As our interpretation of the data has evolved, we end up placing some data in A (while having placed similar data in B at time t1) and some other data in B (while having placed similar data in A at time t1).
+
+Thus the new data has an apparent decision boundary that does NOT agree with the model decision boundary built on older interpretation of similar data. So the predictions based on the model will be in error for the zones marked.
+
+So the continual morphing of the data decision boundary is at the crux of concept drift. The only way to detect it then of course is to make the effort to label at least some of the new data on a routine basis and look for degradation in the predictive ability of the model. When we feel that the degradation is no longer tolerable we will need to rebuild the model with the data re-labeled as per the current understanding of the data.
+
+3. Simulating Concept Drift
+
+We continue with a similar problem as shown in Figure 2 but in a quantitative light so as to trigger a ‘rebuild!’ signal when the performance of the model decays to a threshold value. Here is the problem statement.
+
+The data decision boundary is linear (to keep it simple, not a requirement) making a 5 degree angle with the horizontal to start off. We train an SVM classifier on this well-labeled data. New batches of data arrive with each batch obeying a decision boundary that is rotated counter clockwise by 0.2 degrees. We randomly sample 10% of the new data in the batch and evaluate the f1-score as per the model at hand. If the f1-score is below a acceptable value, we trigger a re-label task and continue with step 2 above
+
+3.1 Generate data
+
+The classes A and B each will start off with 1000 data points. Every new batch adds 125 points to each class. The data decision boundary ( w) is different for each batch.
+
+3.2 Build an SVM classifier
+
+We build an SVM model on labeled data and obtain the f1-score for test/sampled data using the same.
+
+3.3 Detect decay
+
+Twenty five randomly chosen data points (10% of the batch) are labeled and compared with predictions from the latest model at hand. When the f1-score of the sample falls below a threshold (0.925 here) we trigger a re-label/re-train task.
+
+3.4 Re-label
+
+As the data decision boundary rotates and deviates farther and farther from the model’s decision boundary, the model predictions continually get worse. When the f1-score for the sampled data drops to about 0.925 we re-label all the data as per the current data decision boundary. Now, in our simple geometry with 2-features and linear data/model decision boundaries the misclassified new data is easy to figure out. But in general it will not be so we re-label all the data.
+
+3.5 Re-train to complete the loop
+
+The model needs to be re-trained using the updated labels so as to recover its predictive ability.
+
+4. Results
+
+Figure 3 below confirms what we have been expecting. After drifting over several batches, the newly sampled data is plotted along with the starting/final (by when the f1-score has deteriorated to 0.925) data decision boundaries. These plots show the amount of new data that would be misclassified by the previously built model. Re-labeling as per the final data decision boundary and rebuilding the model at that point recovers the perfect f1-score. All the data is plotted after a rebuild to show that the updated model’s decision boundary perfectly separates the two classes.
+
+Figure 3. As the new data obeys a continuously rotating decision boundary, the model predictions for randomly sampled new data get steadily worse. The misclassified zones are visible when just the new data alone is plotted. When a threshold for quality is breached, we trigger a task to re-label all the data as per the decision boundary of the new data and rebuild the model. The dense plots after rebuild show all the data to be perfectly separated by the model/data decision boundary.
+
+Figure 4 below shows the model decay as the concepts drift followed by a recovery upon re-label & rebuild tasks. The total angle of rotation is the proxy for concept drift.
+
+Figure 4. The f1-score of the model suffers as the model’s decision boundary gets farther and farther away from the decision boundary of the new data. It recovers upon rebuilding
+
+5. Conclusions
+
+Concept drift driven model decay can be expensive to fix given the need for manual re-labeling of old data. Drift can be detected via global measures such as worsening f1-scores for sampled new data. We could do a complete re-label of all data here as our labeling is not manual but rather formula driven. It will likely not be possible in a real situation however. Even a rough identification of the old data that needs to be re-labeled could help with lowering the manual work. Something that requires further work.
+
+We will move on to data drift and the associated issues in the next post.

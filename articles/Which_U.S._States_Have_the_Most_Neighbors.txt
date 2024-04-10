@@ -1,0 +1,17 @@
+Photo by Joey Csunyo on Unsplash
+
+This is going to be a pretty quick and dirty post on using python to determine whether one U.S. state (or any arbitrary geography) borders another U.S. state (or any other arbitrary geography).
+
+Our input will be a GeoJSON (just a JSON describing a complex shape) of U.S. States, which you can get from my GitHub here. And, our output will be a dictionary in python which maps each U.S. state to a single number indicating how many neighboring states it has.
+
+Our main tool for this post will be the python library shapely which helps us manipulate complex geographies in python.
+
+The procedure will be pretty straightforward: for each U.S. state, we can loop over every other U.S. state and then check whether or not the two states touch. If they do, we can update a running list of neighboring states for the current state in question.
+
+First we will need to convert the GeoJSON into objects that shapely can understand. The two main shapely objects that we’ll be using are:
+
+Polygon objects: basically a single bounded shape
+
+objects: basically a single bounded shape MultiPolygon objects: basically a collection of Polygon objects (because some U.S. states consist of multiple geographic pieces)
+
+Here’s the code to parse the GeoJSON:

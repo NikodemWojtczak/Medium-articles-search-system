@@ -1,0 +1,85 @@
+This is the sort of thing an artificial neural network can figure out — without ever explicitly introducing the concept of wealth to the model.
+
+Vanilla autoencoders are a good idea, but the requirement for a bottleneck layer forces our network to do some summarizing. This tempers the model’s ability to do good representation learning.
+
+That’s why DAE is such a good idea! Instead of compressing our examples, we can open them up; we can expand each example into a higher-dimensional space that includes latent features, explicitly expressing information learned from the entire dataset in each example.
+
+Why Tabular Data?
+
+These techniques work really well in research, but we rarely ever see tabular data in papers. I want my readers to start considering using DAE for tabular data.
+
+This is because in the mundane, ordinary, day-to-day grind of data scientists, tabular data is what we have.
+
+Data-driven businesses are packed with huge distributed data storage systems, all stuffed with millions of rows and columns of tabular data.
+
+Though underrepresented in ML research, the vast majority of our information is stored in tables.
+
+DAE For Tabular Data: A Success Story
+
+In 2017, a Kaggle competition winner revealed his winning strategy: representation learning with DAE.
+
+This was a completely tabular dataset.
+
+Say what you will about DAE for tabular data, but the proof is in the pudding. Michael won the contest using DAE.
+
+Noise for Tables
+
+The challenge with tabular data is the fact that each column represents its own unique distribution. We have categories, numbers, ranks, binary values, etc., all mashed into the same example.
+
+This poses a significant challenge for applying DAE: what kind of noise do we use?
+
+Some of the original research in DAE corrupts input values by setting them to zero. For categorical columns, “zero” doesn’t make sense. Do we just randomly set some values to the category encoded as zero? That doesn’t seem appropriate.
+
+Swap Noise
+
+The key to Michael’s winning solution was a type of noise that he calls “swap noise.”
+
+It’s a really simple idea that’s uniquely qualified for tabular data.
+
+Instead of setting values to zero or adding some Gaussian noise to them, we’ll just randomly pick some cells in our dataframe — and replace their values with values from the same column but randomly sampled rows.
+
+This provides a computationally cheap way to sample values from the distribution of a column while avoiding the need to actually model these distributions.
+
+The noise comes with a parameter: how likely is it that we swap a given value? The kaggle-winning recommendation:
+
+“15% swapNoise is a good start value.”
+
+— Michael Jahrer, Porto Seguro Safe Driver Competition Winner
+
+That is, 15% of cells in a table should be randomly replaced with values from their own columns. Start here and tune the nob to see what works best for your dataset.
+
+dfencoder — DAE for Tabular Data
+
+I wanted to try this out for myself. I thought, “wouldn’t it be nice if a pandas dataframe had a method to apply swap noise?”
+
+It doesn’t really make sense for the pandas to have this feature, but I would find it helpful. I decided to implement it myself. Thus, dfencoder was born. The very first feature: EncoderDataFrame. It’s a pandas dataframe with .swap(), a method that returns a copy of the dataframe with swap noise (default .15) applied.
+
+Example of .swap() method usage.
+
+From there, the project just sort of snowballed into what it is now: a complete end-to-end framework for building and training DAE with tabular data.
+
+To learn more about how to use the framework, take a look at the demo notebook. (Project is still in development but free to use under BSD license.)
+
+Applications of DAE
+
+We’ve discussed DAE as feature extractors. But what else can they do for us?
+
+There are many applications, but just to name a few:
+
+Feature Imputation
+
+Anomaly Detection
+
+Feature Extraction
+
+Exploratory Analysis (e.g., category embeddings)
+
+You can see how to approach these use cases in the dfencoder demo notebook.
+
+Maybe you or your organization just has a bunch of unused tables of data — if you have some compute resources sitting around unused, why not apply them to learning useful representations of your data?
+
+EDA and More with TensorboardX
+
+I don’t like Tensorflow, but one great thing about the ecosystem is Tensorboard. There is nothing like it for alternative deep learning libraries.
+
+Fortunately, there’s TensorboardX — an extension of Tensorboard for general use.

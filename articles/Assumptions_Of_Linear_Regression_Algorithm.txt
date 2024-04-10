@@ -1,0 +1,103 @@
+Assumptions Of Linear Regression Algorithm
+
+T hese Assumptions which when satisfied while building a linear regression model produces a best fit model for the given set of data. Gomathi tamilselvam · Follow Published in Towards Data Science · 7 min read · May 24, 2019 -- 6 Listen Share
+
+Linear Regression — Introduction
+
+Linear Regression is a machine learning algorithm based on supervised learning.It performs a regression task to compute the regression coefficients.Regression models a target prediction based on independent variables.
+
+Linear Regression performs the task to predict a dependent variable value (y) based on a given independent variable (x).So this regression technique finds out a linear relationship between x(input) and y(output).Hence it has got the name Linear Regression.The linear equation for univariate linear regression is given below
+
+Equation of a Simple Linear Regression
+
+y-output/target/dependent variable; x-input/feature/independent variable and theta1,theta2 are intercept and slope of the best fit line respectively, also known as regression coefficients.
+
+Example Of A Simple Linear Regression:
+
+Let us consider a example wherein we are predicting the salary a person given the years of experience he/she has in a particular field.The data set is shown below
+
+Here x is the years of experience (input/independent variable) and y is the salary drawn (output/dependent/variable).
+
+We have fitted a simple linear regression model to the data after splitting the data set into train and test.The python code used to fit the data to the Linear regression algorithm is shown below
+
+The green dots represents the distribution the data set and the red line is the best fit line which can be drawn with theta1=26780.09 and theta2 =9312.57.
+
+Note-theta1 is nothing but the intercept of the line and theta2 is the slope of the line.Best fit line is a line which best fits the data which can be used for prediction.
+
+Description of the Data Set which is used for explaining the assumptions of linear regression
+
+The data set which is used is the Advertising data set. This data set contains information about money spent on advertisement and their generated Sales. Money was spent on TV, radio and newspaper ads.It has 3 features namely TV, radio and newspaper and 1 target Sales.
+
+First 5 rows of the data set
+
+Assumptions of Linear Regression
+
+There are 5 basic assumptions of Linear Regression Algorithm:
+
+Linear Relationship between the features and target:
+
+According to this assumption there is linear relationship between the features and target.Linear regression captures only linear relationship.This can be validated by plotting a scatter plot between the features and the target.
+
+The first scatter plot of the feature TV vs Sales tells us that as the money invested on Tv advertisement increases the sales also increases linearly and the second scatter plot which is the feature Radio vs Sales also shows a partial linear relationship between them,although not completely linear.
+
+2.Little or no Multicollinearity between the features:
+
+Multicollinearity is a state of very high inter-correlations or inter-associations among the independent variables.It is therefore a type of disturbance in the data if present weakens the statistical power of the regression model.Pair plots and heatmaps(correlation matrix) can be used for identifying highly correlated features.
+
+Pair plots of the features
+
+The above pair plot shows no significant relationship between the features.
+
+Heat Map(Correlation Matrix)
+
+This heatmap gives us the correlation coefficients of each feature with respect to one another which are in turn less than 0.4.Thus the features aren’t highly correlated with each other.
+
+Why removing highly correlated features is important?
+
+The interpretation of a regression coefficient is that it represents the mean change in the target for each unit change in an feature when you hold all of the other features constant. However, when features are correlated, changes in one feature in turn shifts another feature/features. The stronger the correlation, the more difficult it is to change one feature without changing another. It becomes difficult for the model to estimate the relationship between each feature and the target independently because the features tend to change in unison.
+
+How multicollinearity can be treated?
+
+If we have 2 features which are highly correlated we can drop one feature or combine the 2 features to form a new feature,which can further be used for prediction.
+
+3.Homoscedasticity Assumption:
+
+Homoscedasticity describes a situation in which the error term (that is, the “noise” or random disturbance in the relationship between the features and the target) is the same across all values of the independent variables.A scatter plot of residual values vs predicted values is a goodway to check for homoscedasticity.There should be no clear pattern in the distribution and if there is a specific pattern,the data is heteroscedastic.
+
+Homoscedasticity vs Heteroscedasticity
+
+The leftmost graph shows no definite pattern i.e constant variance among the residuals,the middle graph shows a specific pattern where the error increases and then decreases with the predicted values violating the constant variance rule and the rightmost graph also exhibits a specific pattern where the error decreases with the predicted values depicting heteroscedasticity
+
+Python code for residual plot for the given data set:
+
+Error(residuals) vs Predicted values
+
+4.Normal distribution of error terms:
+
+The fourth assumption is that the error(residuals) follow a normal distribution.However, a less widely known fact is that, as sample sizes increase, the normality assumption for the residuals is not needed. More precisely, if we consider repeated sampling from our population, for large sample sizes, the distribution (across repeated samples) of the ordinary least squares estimates of the regression coefficients follow a normal distribution. As a consequence, for moderate to large sample sizes, non-normality of residuals should not adversely affect the usual inferential procedures. This result is a consequence of an extremely important result in statistics, known as the central limit theorem.
+
+Normal distribution of the residuals can be validated by plotting a q-q plot.
+
+Q-Q Plots
+
+Using the q-q plot we can infer if the data comes from a normal distribution. If yes, the plot would show fairly straight line. Absence of normality in the errors can be seen with deviation in the straight line.
+
+Q-Q Plot for the advertising data set
+
+The q-q plot of the advertising data set shows that the errors(residuals) are fairly normally distributed.The histogram plot in the “Error(residuals) vs Predicted values” in assumption no.3 also shows that the errors are normally distributed with mean close to 0.
+
+5.Little or No autocorrelation in the residuals:
+
+Autocorrelation occurs when the residual errors are dependent on each other.The presence of correlation in error terms drastically reduces model’s accuracy.This usually occurs in time series models where the next instant is dependent on previous instant.
+
+Autocorrelation can be tested with the help of Durbin-Watson test.The null hypothesis of the test is that there is no serial correlation. The Durbin-Watson test statistics is defined as:
+
+The test statistic is approximately equal to 2*(1-r) where r is the sample autocorrelation of the residuals. Thus, for r == 0, indicating no serial correlation, the test statistic equals 2. This statistic will always be between 0 and 4. The closer to 0 the statistic, the more evidence for positive serial correlation. The closer to 4, the more evidence for negative serial correlation.
+
+Summary of the fitted Linear Model
+
+From the above summary note that the value of Durbin-Watson test is 1.885 quite close to 2 as said before when the value of Durbin-Watson is equal to 2, r takes the value 0 from the equation 2*(1-r),which in turn tells us that the residuals are not correlated.
+
+Conclusion:
+
+We have gone through the most important assumptions which must be kept in mind before fitting a Linear Regression Model to a given set of data.These assumptions are just a formal check to ensure that the linear model we build gives us the best possible results for a given data set and these assumptions if not satisfied does not stop us from building a Linear regression model.

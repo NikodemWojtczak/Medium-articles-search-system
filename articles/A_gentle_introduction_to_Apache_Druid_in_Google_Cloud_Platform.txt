@@ -1,0 +1,31 @@
+Concept and purpose
+
+In order to have a clear understanding of Apache Druid, I’m going to refer what the official documentation says:
+
+Apache Druid (incubating) is a real-time analytics database designed for fast slice-and-dice analytics (“OLAP” queries) on large data sets. Druid is most often used as a database for powering use cases where real-time ingest, fast query performance, and high uptime is important.
+
+In my resume with Druid, we could analyze billions of rows not only in batch but also in real-time since it has many integrations with different technologies like Kafka, Cloud Storage, S3, Hive, HDFS, DataSketches, Redis, etc.
+
+Some of the most interesting characteristics of Druid are:
+
+Cloud-Native, making easy horizontal scaling
+
+Support SQL for analyzing data
+
+API REST enable for querying or uploading data
+
+The purpose of testing Druid in GCP was that was needed a tool where could be uploaded millions of rows (event-oriented) in batch and then analyze with a traditional data visualization tools like Tableau or Qlik having Druid as the main processing engine so since I didn’t know about the correct quantity of servers was mandatory to use a flexible environment like GCP and start with the simplest deployment.
+
+General Architecture
+
+For a production cluster, Druid is composed mainly of 6 processes: Coordinator, Overlord, Broker, Historical, Middlemanager, and Router where is recommended to organize in 3 types of servers: Master, Query, and Data. Depending on the necessity is probable to have more than one of these servers.
+
+Master
+
+Compose of Coordinator and Overlord.
+
+Manages data ingestion and availability: it is responsible for starting new ingestion jobs and coordinating the availability of data on the “Data servers” [Druid documentation]
+
+Query
+
+Compose of Routers and Brokers.

@@ -1,0 +1,19 @@
+Exploratory Data Analysis with Python in B2B Marketing
+
+This project focuses on conducting Exploratory Data Analysis (EDA) for B2B Marketing using Python. We will use data from Olist, an e-commerce platform that connects small and medium business with top Marketplaces in Brazil, as an example. Besides providing the method and the code, I also want to discuss the fundamentals in B2B Marketing and how these insights from EDA can help Olist to make a better marketing decision. All the Python code is provided on my GitHub.
+
+Introduction
+
+Olist is a platform that connects small and medium business with the marketplaces in Brazil (Extra, Shoptime, Walmart, Submarino, .etc) and helps the merchants to sell at these marketplaces. Unlike in some countries, the fast-growing e-commerce sector in Brazil is dominated by a number of large-size marketplaces rather than by a few marketplaces (Ex: Amazon and Ebay in the U.S.). Therefore, a merchant has the incentive to operate in multiple marketplaces to maximize their revenue. With the limitation in human resources as the main pain point, the merchant would want to use Olist to manage its sales channel in different marketplaces and streamline the stock management and the order fulfillment process.
+
+Olist’s business model
+
+With this B2B2C model, Olist’s marketing team have 2 main objectives:
+
+From the seller side, they want to increase the number of merchants using Olist platform.
+
+From the buyer side, they want to maximize the e-commerce sales of the merchants on these marketplaces.
+
+The scope of this analysis focuses more on the seller side (B2B) of Olist. With a given dataset, I will conduct the exploratory data analysis (EDA) that can bring some helpful insights into Olist’s B2B marketing team.
+
+Marketing & Sales process for B2B:

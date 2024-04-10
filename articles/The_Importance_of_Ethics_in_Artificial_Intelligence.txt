@@ -1,0 +1,17 @@
+Photo by ThisIsEngineering on Pexels
+
+Member-only story The Importance of Ethics in Artificial Intelligence
+
+“Just because we can, doesn’t mean we should” could be something to keep in mind when it comes to innovating with technology. The arrival of The Internet has 10x’d the speed of innovation and allows us to pretty much create anything we can think of. Artificial Intelligence is a great example of a space in which we can build whatever we like and then some, but should we?
+
+As ethical as its developer
+
+Ethics (noun): moral principles that govern a person’s behavior or the conducting of an activity. ( “many scientists question the ethics of cruel experiments”)
+
+We, humans, have something called “a moral compass”. It’s an agent that sits in our brain and basically tells right from wrong. When you see an injustice, your brain tells you something isn’t right. The actions that come from it are up to you, but you can tell right from wrong. The standards of your moral compass strongly depend on your upbringing and environment, but most people have one of these compasses. It’s also what companies build their ethics and compliances on, what’s right and what is wrong and how do we set rules based upon that.
+
+Artificial Intelligence is lacking such a compass. As a matter of fact, it’s lacking any kind of compass. Artificial Intelligence can only separate right from wrong based on data that has the label “right” and the label “wrong” attached to it. AI doesn’t have awareness of itself, nor does it have something called “empathy” which is the fundament of ethics. The only moral compass there is when talking about AI, is that of its developer who then sets the bar for what is right and what is wrong. If the developer has a low moral compass, he/she might develop AI with bad intentions, and vice versa. That doesn’t mean AI will actually always live by those standards, as AI isn’t coded, it’s trained. Meaning it could be made with good intentions, but still, draft into something less morally approved or “for good” as one might have hoped.
+
+So, why is Ethics in technology such a big deal?
+
+Well, if we don’t build technology based on ethics and make sure we understand the outcome…

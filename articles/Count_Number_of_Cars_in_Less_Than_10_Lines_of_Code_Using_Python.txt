@@ -1,0 +1,17 @@
+When travelling in a car as a kid, did you ever play a game where you counted the number of cars that passed by? That used to be my favourite game as a kid.
+
+In this post, I will teach you how to build your own car counter program in just 10 lines of code using Python.
+
+You will need to install the following python libraries if it is not already installed:
+
+opencv-python
+
+cvlib
+
+matplotlib
+
+tensorflow
+
+keras
+
+Here is the code to import the required python libraries, read an image from storage, perform object detection on the image, display the image with a bounding box and label about the detected objects, count the number of cars in the image and print it.

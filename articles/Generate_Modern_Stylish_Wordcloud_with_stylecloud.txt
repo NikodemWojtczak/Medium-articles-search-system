@@ -1,0 +1,59 @@
+Almost every Text Analytics Project with a need to find insights from Text Corpus would contain a word cloud. But as many of you remember, Wordclouds have got a very boring image and perception in the minds of a data scientist that we always try to beautify them — ultimately giving up in the process — except a few would choose some masking image and then try to get the wordcloud in that shape. That’s the maximum level where most of us would take our wordclouds.
+
+But deep down, all of us have always wished for modern-stylish-beautiful wordclouds. That wish has become true with this new python package — stylecloud by Max Woolf (who’s famously known as minimaxir )
+
+About styelcloud
+
+stylecloud is a Python package that leverages the popular word_cloud package, adding useful features to create truly unique word clouds that are stylistic including gradients and icon shapes.
+
+stylecloud installation
+
+stylecloud is just one pip away
+
+pip3 install stylecloud
+
+stylecloud — Basics
+
+stylecloud offers two ways to generate a style-wordcloud:
+
+stylecloud as a CLI command that could be invoked from your Terminal/Shell/Cmd Prompt to generate wordcloud (fast and stylish)
+
+as a CLI command that could be invoked from your Terminal/Shell/Cmd Prompt to generate wordcloud (fast and stylish) Typical pythonic way of importing the stylecloud package and creating the wordcloud using stylecloud() in the code
+
+Sample Text File
+
+For this article, We’ll consider the iconic inaugural address of former US President Barack Obama in 2008 when he was elected as the POTUS.
+
+Download the file — 2009–01–20-inaugural-address.txt — from here
+
+stylecloud — CLI
+
+Simply, open your Terminal or Command Prompt and try this below command stylecloud pointing to the file that we downloaded above
+
+stylecloud --file_path 2009-01-20-inaugural-address.txt
+
+This simple command from stylecloud results in this beautiful plot (automatically saved in the same current directory as stylecloud.png )
+
+That’s simple, fast and beautiful isn’t it? ⚑
+
+stylecloud — in Python Script
+
+stylecloud in CLI is for normal humans, but we are coders who like to code in Python . So let’s build the same in Python with the following 2 lines of code.
+
+import stylecloud stylecloud.gen_stylecloud(file_path = "2009-01-20-inaugural-address.txt")
+
+stylecloud — Customization
+
+Now, let’s say we don’t want it in the shape of a flag but in the form of twitter logo. After all, this is the age of internet, isn’t it? A little change in the code — just a new argument to give the specific fontawesome icon name would get us the twitter-shaped stylecloud of Mr. Obama’s speech.
+
+stylecloud.gen_stylecloud(file_path = "2009-01-20-inaugural-address.txt", icon_name= "fab fa-twitter")
+
+Now, Let’s change the color palette a bit and also a dark theme (which everyone’s fond of these days)
+
+stylecloud.gen_stylecloud(file_path = "2009-01-20-inaugural-address.txt", icon_name= "fab fa-twitter", palette="cartocolors.diverging.TealRose_7", background_color="black")
+
+That’s real Dark! And if you’re a fan of Linkedin (instead of Twitter), not to leave you behind — here’s your Linkedin Icon-shaped style-wordcloud
+
+Summary
+
+Thanks to Max Woolf , We’re gifted with this amazing library stylecloud. We just quickly learnt how to play with this modern-stylish wordcloud generator both as a CLI tool and in Python script. The PNG files and notebook can be found here.

@@ -1,0 +1,39 @@
+2. The Short-Time Fourier Transform
+
+A complete understanding of time series representation in the frequency domain requires a deepening of linear algebra and calculus for expanding a signal in a series of functions.
+
+Such an approach, though, will not be taken here: those who already understand this mathematical abstraction would find a practical code for implementing a frequency analysis in Python. In the same way, those who are facing periodic signals for the first time may start deepening their theoretical understanding from these simple examples.
+
+Before we start coding, I will provide a brief definition (please don’t get scared with the symbols… If you want, you may just page down to skip this block): Fourier has proved that it is possible to expand a great number of functions into pure harmonic functions series (i.e. a sum of sines and cosines). By the way, from the Euler’s formula we know we can represent harmonic functions as a complex exponential:
+
+Now consider that we can expand a given signal y(t) into a Fourier Series:
+
+where c_ω are the Fourier coefficients obtained by the Fourier transform of the signal; and e^iωt is the harmonic base function that represents the frequency ω.
+
+What is important to have in mind is that each coefficient — what our computer will be calculating for us — is associated with a harmonic base function, which in turn relates this coefficient to a specific frequency. Then, if we know the value of each coefficient, we could know the intensity of each frequency component present in the signal y(t).
+
+Another important aspect one should consider is that these base functions have infinite duration and therefore are not suitable for representing signals with discontinuities or of which the location in time or space is also desired (i.e. when we seek to know in which period of the signal a given frequency or rhythm happens the most).
+
+The Short-Time Fourier Transform (STFT) is a way to overcome this. Its strategy consists of multiplying each basis function of the transform by a window function, w(t). This latter thus being limited to a given period of time, i.e. having non-null values just for a limited interval.
+
+Considering the function space in the Fourier transform can be defined by trigonometric functions in its complex form, for the STFT we create a new basis defined both by frequency (ω) and position (τ):
+
+The shape and length of w(t) must be chosen accordingly to the analysis interest. The shape depends on the function used to generate it and determines its capability of frequency resolution. On the other hand, the length ( N) defines the window interval and therefore its temporal resolution.
+
+Many window functions can be used and tried out (an overview of their main features and differences can be found here). For our purpose — or when in doubt about which one to pick — the Hann window can be a satisfying choice:
+
+Let us now return to our Python code. Once we have understood the basic principles the STFT relies on, we can make use of the signal module from SciPy library to implement an spectrogram — which consist of plotting the squared magnitude of the STFT coefficients.
+
+So, with the code below we will compute the STFT for our first signal (page up and seek for the sign1). Also, we must consider that the SciPy implementation will always set the frequency axis accordingly to half of the sampling frequency, the reason why I set the plt.ylim() command.
+
+Okay, I do agree with you that this result is far short of what I expected. The good news is that (almost) everything is a matter of adjustment. To make things easier, let’s write the following function:
+
+To test it, we will create a new signal whose values are easy to understand and manipulate, a 100Hz sine wave with amplitude 1000. Since we will keep it lasting 10s, with the same sampling rate of 1kHz, we can use the array time defined before.
+
+The purpose to start with a simple signal is that it allows us to check whether there is a gross error in our code or not. Fortunately, it’s not the case! The plot frequency range goes up to 500Hz, half the sampling frequency, as expected. Also, we can precisely see the 100Hz component, which values are normalized (you will find the details on the normalization strategy here).
+
+Going further, we can specify other parameters to our STFT. To create the charts below I set different values for the nperseg parameter, which correspond to the window function size. For the left image, nperseg = 64, while for the right one nperseg = 2048. Note how a larger window results in a much more accurate frequency resolution. And vice versa.
+
+There is no specific rule to determine the number of samples per segment. However, it’s useful to consider 1/4 of the sampling rate. E.g. for a 1kHz sampling rate, the nperseg parameter is set by default to 256. This tradeoff can become clearer if we analyze our complex signal, which we generated with components from 0.25 to 123Hz:
+
+In the plot above all the known frequency components of the signal become evident, although there is lower time resolution. For some applications, 250ms are insignificant. For others, it can be limiting. I must anticipate to you that there is no analytical tool that may offer accuracy both in time and frequency, as demonstrated by the Heisenberg’s principle — but this will be subject for a next post.

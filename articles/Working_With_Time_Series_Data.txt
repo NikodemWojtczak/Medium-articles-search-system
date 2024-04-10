@@ -1,0 +1,59 @@
+Working With Time Series Data
+
+NYC’s daily temperature chart (November 1, 2019 to December 11, 2019) produced with Matplotlib
+
+Data scientists study time series data to determine if a time based trend exists. We can analyze hourly subway passengers, daily temperatures, monthly sales, and more to see if there are various types of trends. These trends can then be used to predict future observations. Python has numerous libraries that work well with time series. I worked with the Campbell Soup Company’s stock prices over the last ten years, the first five trading dates are below:
+
+Campbell Soup Company stock price obtained from Yahoo Finance organized in a Pandas dataframe
+
+Preparing the Data
+
+Whether your data comes from a database, a .csv file, or an API you can organize your data with Python’s Pandas library. Once you load your data into pandas you will need to check the data type of the time based column. If the values are in string format you will need to convert the datatype to a pandas datetime object. The stock price date column was a string datatype in the format “year-month-date.” I utilized pandas’ to_datetime method to convert this column to a datetime object:
+
+cpb.Date = pd.to_datetime(cpb.Date)
+
+Note: I stored the data in a pandas dataframe called ‘cpb’
+
+Once the date column is converted to the proper data type then you can set the index of the dataframe to this column with the set_index method.
+
+The data types of the ‘Date’ column before and after the to_datetime() and set_index() methods are applied. Note the change in the number of columns, this occurs when the index column is set.
+
+You may have multiple dataframes with different time intervals. This creates the need for resampling the frequency of the data. Let’s say you want to merge a dataframe with daily data and a dataframe with monthly data. This creates the need for downsampling, or grouping all of the daily data by month to create consistent intervals. Once the data is grouped then you need a compatible metric, usually the mean of the more frequent data, to restore consistency. These steps can be achieved in one line with the .resample() and .mean() methods:
+
+cpb[‘Adj Close’].resample(‘MS’).mean()
+
+The MS parameter corresponds to monthly resampling. If the values resampled are more frequent than the parameter used then this is called downsampling. A list of the .resample() method’s valid interval parameters can be found in the “DateOffset objects” table here.
+
+Downsampling from daily values to monthly values with the .resample() method
+
+If the values resampled are less frequent than the parameter used then this is called upsampling. Null values are added where the new date intervals are created. I upsampled the values from daily prices to twice daily. In our stock price scenario pandas will assign the original price to the midnight time stamp and the null value to the noon time stamp:
+
+The stock price data upsampled to twice daily. Hourly time stamps have been added at midnight and noon.
+
+Pandas' forward fill and back fill options are two methods for dealing with these NaN values. .ffill() fills the NaN value with the value recorded earlier in the day:
+
+Forward filling the NaN values. Each noon value was filled in with the value recorded before that time.
+
+.bfill() fills the NaN value with the value recorded later in the day:
+
+Back filling the NaN values. Each noon value was filled in with the value recorded after that time.
+
+Visualization
+
+I previously wrote about OHLC (Open-High-Low-Close) charts, the article contains the code for replicating the chart below:
+
+The Campbell Soup Company OHLC chart created with Plotly
+
+There are several charts we can use to analyze time series data. One that is helpful for price data is the period-over-period chart. The year-over-year price chart for Campbells is below:
+
+Campbell’s Year Over Year Price Change in monthly intervals
+
+In 2016 and 2017, Campbell’s nominal adjusted monthly stock price was comparatively higher, like we saw in the OHLC chart. This year over year chart doesn’t reveal trends well because we are dealing with nominal prices and not growth rate change (see below):
+
+The year over year growth percentage for the Campbell Soup Company in monthly intervals
+
+There appears to be consistent growth between August and September and consistent decline between February and April in Campbell’s stock price. These potential trends should be analyzed further.
+
+Conclusion
+
+Utilizing Python, data scientists can prepare time series data for analysis. Pandas has methods for filling in missing values based on the values of nearby dates. Through visualizations like the ones above we can see if there are trends worth investigating further. Once a trend is discovered it can be used to predict future observations.

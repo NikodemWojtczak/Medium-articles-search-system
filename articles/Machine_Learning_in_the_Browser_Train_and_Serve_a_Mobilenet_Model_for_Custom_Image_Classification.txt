@@ -1,0 +1,25 @@
+Machine Learning in the Browser: Train and Serve a Mobilenet Model for Custom Image Classification Erdem Isbilen · Follow Published in Towards Data Science · 6 min read · May 12, 2019 -- 4 Share
+
+Photo by Louis Hansel on Unsplash
+
+Tensorflow.js
+
+There are several ways of fine-tuning a deep learning model but doing this on the web browser with WebGL acceleration is something that we experienced not such a long time ago, with the introduction of Tensorflow.js. I will use Tensorflow.js together with Angular to build a Web App that trains a convolutional neural network to detect malaria-infected cells with the help of Mobilenet and Kaggle dataset containing 27.558 infected and uninfected cell images.
+
+Demo WebApp
+
+Visit the live demo application to see the codes in action. The application runs in the Google Chrome browser without any issue.
+
+Visit my GitHub repository for the full code of this project. You can find the images in the assets folder in this repository as well as the CSV file required to load the images into the browser. You should unzip the images and place them into the assets folder of the Angular project you are working on.
+
+Mobilenet as Base Model
+
+As I mentioned above, I will use the ‘mobilenet’ as a base model for our custom image classifier. The pre-trained ‘mobilenet’ model, which is tensorflow.js compatible, is relatively small (20MB) and can be directly downloaded from the Google API storage folder.
+
+Uninfected and parasitized cells, which are 2 classes I would like to classify with our custom model whereas the original ‘mobilenet’ model is trained to classify 1000 different objects.
+
+I will use all ‘mobilenet’ layers other than the last 5 layers and add a dense layer with 2 units and softmax activation on top of this truncated model to make the modified model suitable for our classification task.
+
+I will not train all layers, as this will require a lot of time and computational power. It is also not necessary for our case as we use a pre-trained model which has a lot of representations learned already. Instead, I will freeze the majority of the layers and keep only the last 2 ones trainable.
+
+Pre-Processing of Malaria Cell Images

@@ -1,0 +1,15 @@
+One of the best challenges in Machine Learning tends to let the model speak themself. It not also is important to develop a strong solution with great predicting power, but also in a lot of business applications is interesting to know how the model provides these results: which variables are engaged the most, the presence of correlations, the possible causation relationships and so on.
+
+These needs made the Tree-based model a good weapon in this field. They are scalable and permits to compute variable explanation very easy. Every software provides this option and each of us has at least once tried to compute the variable importance report with Random Forest or similar. With Neural Net this kind of benefit is considered taboo. Neural Network is often seen as a black box, from which it is very difficult to extract useful information for another purpose like feature explanations.
+
+In this post, I try to provide an elegant and clever solution, that with few lines of codes, permits you to squeeze your Machine Learning Model and extract as much information as possible, in order to provide feature importance, individuate the significant correlations and try to explain causation.
+
+THE DATASET
+
+Given a real dataset, we try to investigate which factors influence the final prediction performances. To achieve this aim we took data from UCI Machine Learning Repository. The privileged dataset was the Combined Cycle Power Plant Dataset, where were collected 6 years of data when the power plant was set to work with full load. Features consist of hourly average variables: Ambient Temperature (AT), Ambient Pressure (AP), Relative Humidity (RH) and Exhaust Vacuum (V) to predict the net hourly electrical energy output (PE) of the plant.
+
+The variables engaged are related by Pearson correlation linkages as shown in the matrix below.
+
+Correlation Matrix
+
+GRADIENT BOOSTING FEATURE IMPORTANCE

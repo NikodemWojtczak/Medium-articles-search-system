@@ -1,0 +1,15 @@
+Three Practical Ways to Scale Machine Learning in the Real World
+
+As NeurIPS sent the AI world a sobering message, the robotics industry seems to have a more pragmatic take on scaling machine learning solutions. Bastiane Huang · Follow Published in Towards Data Science · 6 min read · Dec 27, 2019 -- Share
+
+NeurIPS (Neural Information Processing Systems Conference), just ended with a record-high number of attendees that even a lottery system could barely accommodate. 9,000 tickets were sold out in 12 minutes, showing exploding interests to AI from all over the world. However, while AI innovations start to happen not just in academia but also in industry, most companies still struggle to identify high-value use cases and scale AI in the real world.
+
+The company I work for provides machine learning software to enable more autonomous and dexterous robots in factories and warehouses. To bridge the gap, I work closely with robotics companies and system integrators to productize frontier machine learning research.
+
+Last week I flew to the other side of the world. The International Robot Exhibition (IREX), the world’s largest robotics event, took place in Tokyo. Here, leading robotics companies demonstrated various ways of applying AI and ML in robotics.
+
+AI enables a move away from automation (hard-programmed) to true autonomy (self-directed)
+
+Previously I talked about how AI launched the next generation of Robotics 2.0 era. In the past, robots were used mostly in mass production lines. They are programmed to perform the same tasks with high precision and speed but couldn’t react to changes or surprises.
+
+However, as consumer demands for customization grow and the labor force continues to shrink, we need more autonomous and flexible robots. Therefore, companies started to experiment with ways to incorporate ML into robotics, enabling robots to handle a wide range of tasks that traditional robots couldn’t. At IREX, ML is used in improving robot vision and control as well as scalability for real-world use cases.

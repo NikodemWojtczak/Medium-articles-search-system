@@ -1,0 +1,41 @@
+Picture taken from AWS Docs
+
+Imagine the last thousand data points you want to observe in real time is drawn on 2D graph like above. Our app will be able to capture those red points which imply an outlier, an anomaly. On top of that, we also build an alerting system that is going to be triggered whenever a red point is present.
+
+Pipeline
+
+Input
+
+The input of our app actually can be any streamed data. However, we need it to be actionable data in order for our anomaly detection app to make sense. Method logs in the backend, click/touch events from mobile applications or database change events will do fine due to their nature giving us the ability to observe client actions.
+
+Stream
+
+How do we ingest and stream the data we have into our app ? AWS Kinesis is a very handy tool which is easy to use, easy to configure and self-managed. Frankly, Kinesis consists of 3 different services; for streaming, we will be using Kinesis Data Streams.
+
+In order to create a Kinesis Data Stream, you need to give it a name, and select shard count for it. Shards are processing units of Kinesis streams, as of the time I am writing this story, a shard can ingest up to 1MB/sec and 1000 records/sec, and emit up to 2MB/sec. For most basic applications, 1 shard is enough to process your input data.
+
+Ingestion
+
+Now that we have created the stream, we can ingest the live data. There are official libraries to use AWS tools, for example:
+
+boto for Python 2
+
+for Python 2 boto3 for Python 3
+
+for Python 3 aws-sdk for node.js
+
+We only need the name of the stream that we want to put the records, and permission to write to that stream.
+
+Data Analytics App
+
+To process the data and capture anomalies from our live data, we will use Kinesis’ another service called Kinesis Data Analytics. This is a very flexible tool which gives us the ability to preprocess the data before being processed by the app, then process the data with enriched SQL engine, and postprocess the data captured by the app.
+
+Preprocessor is a AWS Lambda function that is triggered by Kinesis Data Streams, which may enrich the data or clean the data. If we want to use some other data in the app, we may enrich our input with that data. Also, we might want to clean the input by doing type casting or remove unused fields.
+
+Anomaly Detection is the name of our Kinesis Data Analytics app. It is written with SQL which is enriched with special analytics functions. I will go further into this in the next part.
+
+Postprocessor is a AWS Lambda function that is triggered by Kinesis Data Analytics for each of its results. You may do whatever you want to do with the result. You might attach it to an alerting system, or you might call an endpoint, or you might want to train a model with that data. The flexibility is there.
+
+Alert
+
+AWS serves this tool called Simple Notification Services which you use to create alerting systems. In our case, we send the results from anomaly detection app to an SNS topic. Then every user that subscribed to that topic will be notified with a service of our selection, let’s say, an email.

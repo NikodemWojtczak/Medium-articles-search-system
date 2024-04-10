@@ -1,0 +1,13 @@
+New in Hadoop: You should know the Various File Format in Hadoop.
+
+A few weeks ago, I wrote an article about Hadoop and talked about the different parts of it. And how it plays an essential role in data engineering. In this article, I’m going to give a summary of the different file format in Hadoop. This topic is going to be a short and quick one. If you are trying to understand, how’s Hadoop work and it’s a vital role in Data Engineer, please visit my Article on Hadoop here or happy to skip it.
+
+The file format in Hadoop roughly divided into two categories: row-oriented and column-oriented:
+
+Row-oriented:
+
+The same row of data stored together that is continuous storage: SequenceFile, MapFile, Avro Datafile. In this way, if only a small amount of data of the row needs to be accessed, the entire row needs to be read into the memory. Delaying the serialization can lighten the problem to a certain amount, but the overhead of reading the whole row of data from the disk cannot be withdrawn. Row-oriented storage is suitable for situations where the entire row of data needs to be processed simultaneously.
+
+Column-oriented:
+
+The entire file cut into several columns of data, and each column of data stored together: Parquet, RCFile, ORCFile. The column-oriented format makes it possible to skip unneeded columns when reading data, suitable for situations where only a small portion of the rows are in the field. But this format of reading and write requires more memory space because the cache line needs to be in memory (to get a column in multiple rows). At the same time, it is not suitable for streaming to write, because once the write fails, the current file cannot be recovered, and the line-oriented data can be resynchronized to the last synchronization point when the write fails, so Flume uses the line-oriented storage format.

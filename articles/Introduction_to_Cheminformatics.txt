@@ -1,0 +1,19 @@
+What is Cheminformatics?
+
+With the increase of computational power, machine learning has found many applications in different fields of science. One of them is chemistry, where scientists apply machine learning models to predict various molecule’s properties such as its solubility and toxicity [1] or use it for drug discovery.
+
+Cheminformatics is a field of science where computational methods like machine learning are applied to solve various problems in chemistry [2]. It poses very challenging problems such as converting 3D molecule structures into inputs to the ML model, tackling the scarcity of data, or trying to get a better understanding of which molecule’s features are important for predictions [3].
+
+In this article, I will gently introduce you to a few problems that are currently faced in Cheminformatics and list some of the available libraries and datasets to get you started in this exciting and challenging field!
+
+How to Represent the Molecule Structure
+
+Molecules can be visualized as a 3D quantum mechanical object which consists of atoms with a well-defined location within the molecule [4]. You can extract a plethora of information here: relative distance to each molecule, atomic number, the shape of the electron probability cloud and many others.
+
+Photo by Holger Link on Unsplash
+
+However, it is quite difficult to retain all of that information while converting it into input for the machine learning model. Fortunately, there are a few existing molecules representations that are trying to address this problem.
+
+SMILES
+
+SMILES is a text-like representation of the molecules and it stands for Simplified Molecular Input Line Entry. Besides its awkward-sounding name, it is one of the most popular ways of representing the molecule. In fact, some deep learning models directly accept SMILES as input [5].

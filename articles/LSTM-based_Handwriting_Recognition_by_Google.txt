@@ -1,0 +1,27 @@
+Handwriting is a one of the challenge in NLP task. It is because it can be various among different people. On the other hand, some characters (e.g. English) are quite similar. As a human beginning, we leverage contextualize information, lexicon matching.
+
+Sometimes, “O” can be written as “0” while human begin has the capability to distinguish whether it is “O” or “0” from contextualize information. For example, “0” will be used in phone number while “O” will be used as part of English word. Another skill is lexicon searching. It helps to guess words even though we cannot recognize every single characters.
+
+Handwriting in different language (Carbune et al., 2019)
+
+How can we tackle in via deep learning era? This story will discuss about Fast Multi-language LSTM-based Online Handwriting Recognition (Carbune et al., 2019) and the following are will be covered:
+
+Data
+
+Architecture
+
+Experiment
+
+Data
+
+Carbune et al. leverage both open and close dataset to validate the model. As usual, IAM-OnDB dataset is used to train a model. During the experiment, they use two representations which are Raw Touch Points and Bézier Curves .
+
+Raw Touch Points
+
+Data will be convert to 5-dimensional points which are x coordinate, y coordinate, timestamp of the touchpoint since the first touch, pen-up or pen-down and new stroke or not. Some preprocessing a necessary
+
+Since the size of image can be various, normalization of x and y coordinates are necessary. Surrogate are 20% larger than observed touch points if writing area is unknown
+
+Equidistant linear resampling along the strokes with value of 0.05. In other word, a line of length 1 will have 20 points.
+
+Bézier Curves

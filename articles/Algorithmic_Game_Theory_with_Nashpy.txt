@@ -1,0 +1,15 @@
+Game Theory is a method of studying strategic situations. A ‘strategic’ situation is a setting where the outcomes which affect you depend not just on your own actions, but on the actions of others as well. Let’s think about the market of firms: if the scenario is that of Perfect Competition, all the firms are price takers, hence they do not have to worry about the strategic setting of the price. Similarly, if the scenario is a Monopoly, the only firm in the market can set its own price without caring about other firms’ strategies.
+
+Everything between perfect competition and monopoly is a strategic situation.
+
+Algorithmic game theory is an area in the intersection of game theory and computer science, with the objective of understanding and design of algorithms in strategic environments.
+
+In this article, I’ll show you a very intuitive implementation of Game Theory in Python, with the aid of the library Nashpy. As the name suggests, Nashpy provides algorithmic ways to find the Nash equilibrium of the game.
+
+The Nash equilibrium of a game is a profile of strategies where all the players are doing the best response analysis (we will explain this concept later on). Basically, it finds an equilibrium strategy profile s* such that everyone is playing their best response.
+
+But what does it means ‘best response’?
+
+To better understand this concept, let’s have a look at the well-known Prisoner’s Dilemma:
+
+The idea is that there are two Players (the prisoners) which have to decide whether to cooperate with each other, not revealing the other’s name while interviewed by the police. If both cooperate, they will have a utility of 3 each. However, they are incentivized not to cooperate, since the one who will not cooperate will gain a utility of 4 (while the other will gain nothing). However, if both make the same reasoning, they will end up not cooperating, which means gaining only 1 of utility each. Why are they going to deviate from cooperation? Let’s examine the best response analysis of Player 1 (P1)

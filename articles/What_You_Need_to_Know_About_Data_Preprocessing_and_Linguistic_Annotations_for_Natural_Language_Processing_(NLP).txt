@@ -1,0 +1,17 @@
+What You Need to Know About Data Preprocessing and Linguistic Annotations for Natural Language Processing (NLP)
+
+Note to the reader: Python code is shared in GitHub
+
+PC: Brett Jordan from Upsplash
+
+The advancement in Machine Learning has led remarkable progress in Natural Language Processing (NLP), the field of Artificial Intelligence that gives computers the ability to understand human language. Natural language refers to the language that is spoken and written by people, and NLP extracts information from the words and sentences using algorithms. NLP extends into Natural Language Generation (NLG), the ability to formulate phrases like a human, and Natural Language Understanding (NLU), the ability to build comprehension of phrases. By using Machine Learning algorithms to train on thousands of years of existing literature, we’re able to to develop patterns and rules more efficiently than we can program them manually. Further, Machine Learning is particularly useful for human language application because expressions (written or spoken) don’t always follow logical and consistent rules.
+
+Machine Learning is used through out the different stages of the NLP pipeline
+
+In this article, we’ll review some steps that commonly take place in the data wrangling process in an NLP project. The goal is to shed some light on how text data is processed by a computer so you know how they can and will continue to be used in the digital world. There are many open-source libraries that makes NLP very easy to implement such as NLTK, Genism, spaCy, etc. We’ll illustrate using spaCy and provide some familiarity.
+
+Let’s take a look at this sample text from an article regarding Ocean Cleanup:
+
+sample_text='A huge trash-collecting system designed to clean up plastic floating in the Pacific Ocean is finally picking up plastic, its inventor announced Wednesday.\'
+
+1. Converting text to lowercase helps to reduce the size of the vocabulary for our text data. Similarly, converting accented character such as café to cafe, expanding contraction such as won’t to will not, and spell checking might also be considered depending on your project

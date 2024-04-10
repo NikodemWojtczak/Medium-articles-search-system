@@ -1,0 +1,27 @@
+Whether you like it or not, guest reviews are becoming a prominent factor affecting people’s bookings/purchases.
+
+Think about your past experience. When you were looking for a place to stay for a vacation on Expedia/Booking/TripAdvisor, what did you do? I am willing to bet you’d be scrolling down the screen to check on the reviews before you knew it.
+
+As a business owner or employee, if you still have doubts about how important guest reviews impacts the business, it may be worth checking out some stats:
+
+In other words, guest reviews clearly influence people’s booking decision, which means, you’d better pay attention to what people are saying about your hotel!
+
+Not only do you want good reviews, but also them in a way that can help you learn the most about your customers. Reviews can tell you if you are keeping up with your customers’ expectations, which is crucial for developing marketing strategies based on the personas of your customers.
+
+Reviews are important and you, as hotel owners, need to start leveraging it.
+
+What is sentiment analysis
+
+Sentiment analysis, also called opinion mining, is a text mining technique that could extract emotions of a given text — whether it is positive, negative or neutral, and return a sentiment score. This technique is usually used on reviews or social media texts.
+
+In this article, I’ll show you how to effectively collect hotel reviews using web scraping tool and conduct sentiment analysis using Python.
+
+Scrape reviews using Octoparse
+
+The web scraping tool I used is called Octoparse. It is a do-it-yourself web scraper built for people without coding backgrounds, like myself. I’ll show you how to use Octoparse to scrape the reviews of the #1 ranked hotel in New York City — Hotel Giraffe by Library Hotel Collection.
+
+Here is the link to the web page:
+
+https://www.tripadvisor.com/Hotel_Review-g60763-d99762-Reviews-Hotel_Giraffe_by_Library_Hotel_Collection-New_York_City_New_York.html#REVIEWS
+
+First, we will import our targeted web URL in Octoparse.

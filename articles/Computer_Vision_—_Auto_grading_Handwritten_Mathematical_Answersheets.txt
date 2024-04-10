@@ -1,0 +1,91 @@
+( Note: I have not added all the code here, if you want to check you can visit my GitHub where I have the tutorial in a ipynb notebook )
+
+Workflow
+
+Workflow diagram
+
+There are two modules in the workflow Workspace detection module and Analysis Module. Workspace Detection module is responsible for detecting multiple work spaces in a given sheet of paper.
+
+Analysis module is responsible for detecting and localizing characters in lines in any given single workspace, and mathematically analyzing them and then drawing red, green boxes depending upon their correctness.
+
+Workspace Detection
+
+Workspace detection module assumes that there are valid rectangular boxes in the given scanned worksheet. This image below shows the worksheet design. Three largest rectangular boxes in this worksheet are the work-spaces.
+
+Worsheet design
+
+Workspace detection module is done using openCV. We will first find the rectangular boxes, then sort them based on their positions in the worksheet. Since there are many rectangles in the worksheet, we will have to select the valid work-spaces among the other rectangles. Let’s see how each step is done
+
+Step 1: Finding Rectangular Boxes
+
+Rectangles are formed by two horizontal and vertical lines. So the first step is to find all the horizontal and vertical lines ignoring digits, symbols or anything that is written on the worksheet.
+
+This code below will first create a binary image called “vertical_lines_img” which contains all the vertical lines that are present in the worksheet, then another binary image called “horizontal_lines_img” which contains all horizontal lines that are present in the worksheet.
+
+Next, we have to add image “vertical_lines_img” with “horizontal_lines_img” to get the final image.
+
+Adding vertical and horizontal line
+
+Contours are defined as the line joining all the points along the boundary of an image that are having the same intensity.
+
+OpenCV has findContour() function that helps in extracting the contours from the image. Each individual contour is a Numpy array of (x,y) coordinates of boundary points of the object. We can use that to find all the objects in the final image (Only objects in the final image are the rectangles).
+
+Since final image is just the binary version of the original image coordinates of the rectangles in the final image is equal to the coordinates of the rectangles in the original image.
+
+Now we know the coordinates lets draw them on the original image using openCV’s drawContours() function.
+
+Code to find and draw the contours
+
+Step 2: Sorting the contours
+
+Now we have found all the rectangles, its time to sort them top-to-bottom based on their coordinates. This code below will do that for us.
+
+Function to sort contours Code Reference
+
+Sorted contours
+
+sort_contours function will return contours and bounding boxes(top-left and bottom-right coordinates) sorted in the method we have given. In this case method is top to bottom.
+
+Step 3: Selection based on area
+
+There are many rectangles, but we only need the three largest ones. How can we select the three largest rectangles?…. One answer is to find the area of the rectangles, then choose the top 3 rectangles which have the maximum area.
+
+Overall solution
+
+These selected rectangles are the work-spaces that are then extracted from the worksheet and sent to the Analysis Module.
+
+Analysis Module
+
+Analysis module as explained above will first detect the lines, predict the characters in each line and finally forms an equation with the predicted characters then evaluate them by marking boxes.
+
+Line Detection
+
+Detecting the lines is the tricky part, everyone has their way of solving equations some solve step by step, some can solve in just one line, some might write steps for pages and some writes exponents way away from the equation confusing the module to treat those exponents as a separate line.
+
+Our line detection module assumes that there is a sufficient gap between lines and there is some intersection between exponential characters and line. First, the detected work-spaces are converted to binary images then compressed in a single array to take the forward derivative. Wherever there is a line there will be a change in the derivative.
+
+Change in derivatives of a binary image
+
+The above code is just a glimpse of how line extraction works. To see complete code click extract_line.
+
+Character Segmentation and Exponential detection
+
+After detecting all the lines we have to send the extracted line images to the text_segment function which will use openCV’s find contours to segment the characters and sort them using the function sort_contours described above where method is now set to left-to-right.
+
+It’s easy for us to say whether the given number is an exponent or not but for the model it’s not that easy. Assuming that the exponents are at-least above half of the line, we can drew a baseline at the center of the image any character which is above the baseline is considered as an exponent.
+
+Exponential detection
+
+Optical Character Recognition
+
+We can use MNIST dataset for digits (28*28 pixels) and Kaggle’s Handwritten Mathematical symbols dataset for symbols(45*45 pixels) to train the model.
+
+MNIST IMAGES
+
+How MNIST is actually created?
+
+Handwritten digits of 128 * 128 pixels collected from 500 different writers. A Gaussian filter is applied to the image to soften the edges The digit is then placed and centered into a square image by preserving the aspect ratio. The image is then down-sampled to 28 × 28 pixels using bi-cubic interpolation
+
+Images of symbols are preprocessed in the same way as MNIST digits before training. The reason for preprocessing is that the two data-sets we have chosen have different characteristics like dimensions, thickness and line width this makes hard for the deep learning model to find the patterns. Preprocessing helps us reduce the variations among digits and symbols.
+
+Almost 60,000 images of digits and preprocessed symbols were trained on Deep Columnar Convolutional Neural Network (DCCNN) a single deep and wide neural network architecture that offers near state-of-the-art performance like ensemble models on various image classification challenges, such as MNIST, CIFAR-10, and CIFAR-100 datasets. This model achieved atmost 96 % accuracy.

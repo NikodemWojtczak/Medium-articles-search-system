@@ -1,0 +1,131 @@
+Data science projects tend to end at reports of accuracy and sleek plots. In this post we are going to look into the next step: How to create a model that is ready for deployment.
+
+For this purpose we are going to use Amazon SageMaker and break down the steps to go from experimentation to production readiness. We will follow a high level approach, which means AWS will pick some parameters for us.
+
+Before moving on, make sure you have a AWS account and access to a Jupyter Notebook.
+
+Set Up a Notebook Instance
+
+Photo by ASHLEY EDWARDS on Unsplash
+
+The first step is logging into the Amazon console and look for SageMaker in case it’s not visible.
+
+Next we click on create notebook instance.
+
+We name the notebook and the pricing for running it is determined by the instance type. Here we use ml.t2.medium however it is recommended to see the pricing page for the best pick. For this application we can keep the elastic inference as None.
+
+We to set the role, which is a kind of security certificate and determines permissions such as what resources the notebook has access to. We click on it and select Create a new role
+
+Since there are no additional buckets we want our notebook to access we select None and click on create role. The most important condition here is the second line.
+
+Finally we click on crate notebook instance at the very bottom of the page. After a few moments the status of your notebook should show InService. As soon as that happen AWS will charge us for using the instance, so make sure to turn it off when not in use.
+
+Cloning the Deployment Notebook
+
+From the picture above click on Open Jupyter to be redirected to a familiar setup.
+
+On the top right click on New and open a Terminal and change directories. We then clone this git repository that contains the notebook and close it when done.
+
+Back in the home tab we see that a sagemaker directory was added. We navigate to where the notebook is inside the sagemaker_ml folder.
+
+Download the Data
+
+The IMDB dataset can be like a rite of passage for data scientists in general, and NLP practitioners specifically. We are going to use this data to predict user sentiment with XGBoost.
+
+The first step is downloading the data. We can make use of command line code within the notebook:
+
+The GNU documentation provides ample resources for commands like the one above.
+
+Prepare the Data
+
+We will not go through this in detail here, and only provide a brief overview. However feel free to check the full process in the notebook.
+
+This is a NLP exercise so we need to process the raw information into data and corresponding labels. We then strip the text of any html tags, perform stemming with NLTK, and extract a bag of words.
+
+At the end of this processing, we should have our testing and training data ready.
+
+Classify with XGBoost
+
+XGBoost clasifier requires that the dataset bet written to a file and stored using Amazon S3. We further split the trainig dataset in two parts: training and validation.
+
+We will write those datasets to a file and upload the files to S3. Furthermore we will do the same with the test set input upload it to S3. This is so that we can use SageMaker’s Batch Transform functionality to test the model once fitting is done.
+
+The documentation for the XGBoost algorithm in SageMaker requires that the saved datasets should contain no headers or index and that for the training and validation data, the label should occur first for each sample.
+
+At this point it is good practice to save up on memory available to us and we can set text_X, train_X, val_X, train_y and val_y to None:
+
+Upload Training Validation Files to S3
+
+For this part we will draw heavily on the SageMaker API documentation and the SageMaker Developer Guide.
+
+the upload_data method uploads local file or directory to S3. It is a member of object representing our current SageMaker session. This method uploads the data to the default bucket, created for us by AWS if it doesn’t exist already, into the path described by the key_prefix variable. If we navigate to the S3 console, we should find our files there.
+
+Create XGBoost Model
+
+We consider a model on SageMaker to be three components:
+
+Model Artifacts
+
+Training Code (Container)
+
+Inference Code (Container)
+
+The Model Artifacts are the actual model itself. For this case the artifacts are the trees created during training.
+
+The Training Code and the Inference Code are used to manipulate the training artifacts. The training code uses the training data that is provided plus the created model artifacts, and the inference code uses the model artifacts to make predictions on new data.
+
+SageMaker runs the training and inference codes by making use of docker containers, a way to package code and ensure that dependencies are not an issue.
+
+Fit XGBoost
+
+Fitting the model is done by accessing the S3 input.
+
+When a model is fit using SageMaker, the process is as follows.
+
+A compute instance (a server somewhere) is started up with the properties that we specified.
+
+When the compute instance is ready, the code, in the form of a container, that is used to fit the model is loaded and executed.
+
+When this code is executed, it is provided access to the training (and possibly validation) data stored on S3.
+
+Once the compute instance has finished fitting the model, the resulting model artifacts are stored on S3 and the compute instance is shut down.
+
+Test
+
+We use batch transform to perform inference on a large dataset in a way that is not realtime. This allows us to see how well our model performs.
+
+The advantage of this is that we don’t need to use the model’s results immediately, instead we can perform inference on a large number of samples. The method is also useful in that we can perform inference on the entire testing set.
+
+To perform the transform job we need to specify the type of data we are sending that it is serialized correclty in the background. Here we are providing the model with csv data so we specify text/csv.
+
+In addition, if the data is too large to process all at once then we need to specify how the data file should be split it. Again this is a csv file, therefore each line is a single entry, we tell SageMaker to split the input on each line.
+
+With the code above, the transform is running in the background. We call the wait method to wait until the transform job is done and receive some feedback.
+
+The transform job is executed and the estimated sentiment of each review has been saved on S3. We want to work on this file locally and copy it to the data directory data_dir.
+
+A convenient way to do is inside jupyter is found in the AWS CLI command reference.
+
+Finally, we can read the output from the model.
+
+We need to convert the output into something more usable for our purposes. We convert the sentiment to be 1 for positive and 0 for negative. Finally we can print out the accuracy: 86%, not bad!
+
+Cleanup
+
+Photo by Paweł Czerwiński on Unsplash
+
+As we perform operations on larger and larger data, keeping track of how much memory we use becomes essential. We might run out of memory while performing operations and/or incur costly expenses.
+
+The default notebook instance on SageMaker might not have a lot of excess disk space. As we repeat exercises similar to this one, we might eventually fill up the alloted disk space, leading to erros which can be difficult to diagnose.
+
+Once we are done with a notebok, it is good practie to remove the files we created along the way. We can do this from the terminal or from the notebook hub.
+
+After we are done, be sure to return to the SageMaker Notebook Instances and stop the instance.
+
+Summary & Next Steps
+
+In this post we saw how we can create a model on AWS SageMaker that is ready for deployment. The workflow should be the same as a typical machine learning exercise with some additional steps.
+
+The main takeaway is to keep an eye on where and how the data is being stored, what decisions are being made on our behalf, and how to keep memory from overflowing.
+
+Congratulations! We now have a sentiment analysis model ready for deployment!

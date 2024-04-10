@@ -1,0 +1,11 @@
+Panoptic Segmentation with UPSNet
+
+A new task called Panoptic Segmentation has been proposed by the computer vision community. Panoptic Segmentation requires a scene to not only be broken down semantically but also requires that each instance of a class, say a car or person, be labeled uniquely. It requires that an algorithm understand the difference between amorphous stuff like the sky and ground and countable things like cars and persons. The following picture from the paper that introduced the task makes the differences between the different tasks clear:
+
+While previous approaches have focused on using heuristic methods to combine outputs to produce panoptic segmentation, Uber Research proposed a unified end-to-end trainable architecture called UPSNet that leverages the complementarity between the semantic and instance segmentation tasks to improve both accuracy and performance.
+
+The architecture uses the same backbone as that of Mask R-CNN (ResNet with FPN). On top of this backbone, there are two parallel and independent heads: semantic head and instance head. Finally, the outputs of these two heads go into another head called the panoptic head.
+
+The instance head is identical to that used in Mask-RCNN. While the semantic head is notable for its use of deformable convolutions, the Panoptic Head is the main contribution of this paper. The panoptic head is responsible for producing the final outputs by processing the semantic and instance results. It is completely parameter-free and thus requires no training. What happens here is that if there are pixels for which there are no instance outputs, then the semantic head’s output is directly accepted for those pixels. For pixels that both have an instance label and semantic label, softmax is used to determine if it should be labeled as that instance or semantic class.
+
+Additionally, the authors also construct logits for an ‘unknown’ class in order to avoid making wrong predictions. The rationale behind this is that for any pixel if the maximum of logit for a…

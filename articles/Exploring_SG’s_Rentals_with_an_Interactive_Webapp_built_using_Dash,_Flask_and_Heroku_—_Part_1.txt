@@ -1,0 +1,23 @@
+Exploring SG’s Rentals with an Interactive Webapp built using Dash, Flask and Heroku — Part 1
+
+1. INTRODUCTION
+
+Have you ever played around with some fun Data Science problems, and arrived at some truly interesting insights or ML solutions, only to realize at the end of the day that all you ever have is an Ipython Notebook full of codes that will never reach an audience? Or maybe, it will only be read by your fellow DS practitioners, whom you have spent a considerable amount of time convincing to clone your repo, download your notebooks and — out of sheer respect for you — make an effort to read through the entire thing to eventually realize your brilliance
+
+You are left unsatisfied. On one hand, you want your work to be appreciated by a wider audience, not just your fellow technical peers but also your non-technical ones. Maybe you want to share it with your friend who is curious about DS but may not fully understand the codes, simply because he/she has never actually dived that deep. Maybe you want to show off to your non-engineers friends, colleagues, bosses or even that cute girl/guy whom you sit next to in “Business Analytics 101” :)).
+
+On the other hand, you feel that perhaps you could have done more, that you need to step up your game to produce something more finalized, something that more or less resembles a finished product, with which you can proclaim “Aha! I built this. Isn’t that cool?”
+
+I was at one point feeling like this with my most recent project. I decided to take it to the next level by building a fully interactive Webapp — even though I’ve never built one before — where users can play with the data, build their model, pick their important features and get back a certain prediction/results.
+
+Finally, I succeeded — building my first ever ML Webapp. You can check out the app HERE. This is an app about exploring rental properties in Singapore — where I’m staying.
+
+The app consists of 3 sections
+
+A. The first section that allows users to play with the data by specifying min & max rental rates, then choose the features and the property type they are interested in and the app returns back some interactive visualizations
+
+B. The second section allows users to propose a hypothetical property and the app will attempt to predict its rental rate using on a model built in-situ by the users via some guided questions
+
+C. The last section allows users to propose a hypothetical property, specify which attributes are important to them and the app returns most similar properties to the one proposed based on the established criteria
+
+I used Flask as my Webapp framework to create my server-side Python program, Plotly Dash to serve my interactive visualizations, and the usual suspects Numpy, Pandas, Scikit-learn as tools to build up parts and parcels of my program. Last but not least, I used the free app-hosting site Heroku to deploy my work. Check them out here: https://www.heroku.com/home

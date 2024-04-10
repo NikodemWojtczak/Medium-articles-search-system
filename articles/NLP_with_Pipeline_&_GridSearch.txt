@@ -1,0 +1,125 @@
+Natural Language Processing or NLP for short, is all the rage with artificial intelligence assistants such as Alexa, Siri, and Google Assistant. It seems like only yesterday when I saw J.A.R.V.I.S for the first time in the Iron Man movie. Seeing this sparked my interest even more in how we interact with computers. A computer that is able to hear and respond like a human? How does it work? It seems like magic, but in reality the computer is breaking words down into more simple forms, and in some cases creating lists of those forms to sort through. The computer looks for patterns or relationships between certain words and then can make predictions based on those relationships.
+
+We are going to use Pipeline and GridSearch to run several models and confirm which one will be best at predicting the location of a post given any blog topic. For instance, would a model be able to tell with a certain effectiveness if my post would be found in NHL or Fantasy Hockey? I will be using a dataset of my own for this, however the code is reproducible in most situations.
+
+Let’s start building!
+
+First you will want to import libraries and the dataset, a step I will not show the imports as the list could get quite long. We will be starting after the data has already been cleaned and is in a form that we can begin modeling.
+
+Let’s declare our variables! We will want to create and X and Y variables, and use train test split.
+
+# Creating X, y Variables
+
+X, y = df[‘post’], df[‘blog_topic’] # Setting up train test split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+What we have done here is split our dataset into two datasets: training data and testing data. We have now declared our X variable to be the blog post, and our Y variable to be the blog topic. We want our model to take in a blog post and predict if that post should be in the NHL or Fantasy Hockey topic.
+
+Pipeline
+
+Pipeline will take in models with certain parameters that we can then pass through a GridSearch to see which model and parameters give the best results.
+
+# Pipeline & Gridsearch setup
+
+# TFIDF pipeline setup
+
+tvc_pipe = Pipeline([
+
+(‘tvec’, TfidfVectorizer()),
+
+(‘mb’, MultinomialNB())
+
+]) # Randomforest pipeline setup
+
+rf_pipe = Pipeline([
+
+(‘tvec’, TfidfVectorizer()),
+
+(‘rf’, RandomForestClassifier())
+
+]) # Fit
+
+tvc_pipe.fit(X_train, y_train)
+
+rf_pipe.fit(X_train, y_train) # Setting params for TFIDF Vectorizer gridsearch
+
+tf_params = {
+
+‘tvec__max_features’:[100, 2000],
+
+‘tvec__ngram_range’: [(1, 1), (1, 2), (2, 2)],
+
+‘tvec__stop_words’: [None, ‘english’],
+
+
+
+} # Setting up randomforest params
+
+rf_params = {
+
+‘tvec__max_features’:[2000],
+
+‘tvec__ngram_range’: [(1, 2)],
+
+‘tvec__stop_words’: [‘english’],
+
+‘rf__max_depth’: [1000],
+
+‘rf__min_samples_split’: [100],
+
+‘rf__max_leaf_nodes’: [None]
+
+}
+
+Now that we have our models, let me give you a fair warning. RandomForest will take some time to run, and I would recommend only running a model if you have the suitable computational power.
+
+Parameters must be specified to a model and built as a dictionary with a key and a value. The method here is that our model variable for RandomForest is ‘rf’ and we need to use a double underscore ‘__’ between our variable and the parameter. For instance, if we want to set amount of leaf nodes in RandomForest, we need to write it out in our parameters like this: ‘rf__max_leaf_nodes’:[None]’. To avoid getting an error, we need to pass every dictionary value in list form using brackets ‘[ ]’ even if it’s only one. You do not need to call every parameter, only the ones you are trying to use in the model.
+
+GridSearch
+
+For setting up GridSearch, we will be passing our Pipeline through with the parameters we built. We will be running a standard cross validation on our model with a fold of five.
+
+# Setting up GridSearch for Randomforest
+
+rf_gs = GridSearchCV(rf_pipe, param_grid=rf_params, cv = 5, verbose = 1, n_jobs = -1) # Setting up GridSearch for TFIDFVectorizer
+
+tvc_gs = GridSearchCV(tvc_pipe, param_grid=tf_params, cv = 5, verbose =1, n_jobs = -1) # Fitting TVC GS
+
+tvc_gs.fit(X_train, y_train) # Fitting Randomforest CV GS
+
+rf_gs.fit(X_train, y_train)
+
+When using a GridSearch, we pass the Pipeline as the estimator. We then have to give it a param_grid which is the parameters we setup when we built the Pipeline. It is recommended that you use either three-fold or five-fold cross validation. I prefer using five-fold cross validation, but you can pass three in for ‘cv’.
+
+I recommend setting ‘verbose = 1’ and ‘n_jobs = -1’ when running any model. Verbose will tell us the elapsed time and how long the model takes to run. The n_jobs parameter allows us specify how many cores we want to use on our CPU. This can cut the time down when running our model. Using -1 here will tell it to use all the cores on your CPU. This process will take the longest, as the model is now training itself on the dataset. We will then use it to give us an accuracy score that will tell us how well our model performed.
+
+Scoring
+
+Now that we have built and fit our model, we want to score it on both the training data and the testing data. Do you remember that we split it up into two datasets earlier? We ‘trained’ or ‘fit’ our model on the training dataset. We will also score it with the training dataset to see if it can use features (X variable) to determine our target (y variable).
+
+Let’s score the models:
+
+# Scoring Training data on TFIDFVectorizer
+
+tvc_gs.score(X_train, y_train) #score: 0.8742193813827052 # Scoring Test data on TFIDFVectorizer
+
+tvc_gs.score(X_test, y_test) #score: 0.8627148523578669 # Scoring Training data on RandomForest
+
+rf_gs.score(X_train, y_train) #score: 0.9380648005289839 # Checking Test score on RandomForest
+
+rf_gs.score(X_test, y_test) #score: 0.881004847950639
+
+Looks like both models performed well! Actually the TFIDF Vectorizer outperformed the RandomForest. When we are looking at our scores, we want the training score and the testing score to be as close to one another as possible. Here RandomForest has a larger distance between the training and test score, whereas our TFIDF Vectorizer is almost the same score. We can look at the two models and see that RandomForest is overfit given the difference in scores. We would want to choose TFIDF Vectorizer as the model to use for our predictions.
+
+Importance
+
+So we know what model performs the best. What about the words it used to make those predictions? When using a Pipeline, we need to ‘step’ into the estimator and from there we can see what features (words) it has found to be the most important when making predictions. Let’s use this to make a data frame column and sort it by most important.
+
+tvc_title = pd.DataFrame(rf_pipe.steps[1][1].feature_importances_, tvc_pipe.steps[0][1].get_feature_names(), columns=[‘importance’]) tvc_title.sort_values(‘importance’, ascending = False).head(20)
+
+The code above will give us a data frame with the top 20 most important words that our model used to make its predictions. From here we could create some visualizations to better represent our model.
+
+Conclusion
+
+With the information above we can conclude that with the power of Natural Language Processing, we can predict which blog topic a post would likely be located with 88% effectiveness. How could this be useful? From a business perspective, we would want to know whether or not a post will be in the topic we are targeting so that we can focus on the audience that will most likely see that post. We can also show the features that have the greatest importance when it comes to producing predictions and see the how much each feature had an impact on our predictions.

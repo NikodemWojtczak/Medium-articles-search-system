@@ -1,0 +1,29 @@
+How to Adjust DetectNet
+
+Photo by Christian Wiediger on Unsplash
+
+DetectNet is an object detection architecture created by NVIDIA. It can be ran from NVIDIA’s Deep Learning graphical user interface, DIGITS, which allows you to quickly setup and start training classification, object detection, segmentation, and other types of models.
+
+There are two basic DetectNet prototxt files provided by NVIDIA:
+
+one for single class (which is the original) which can be found here, and one for two classes which can be found here.
+
+DetectNet’s original architecture is written in Caffe. I could not find much documentation on the architecture besides 2 blog posts present in NVIDIA’s website and few tutorials which (mostly) reiterate the blogs’ content. I did find that a lot of information has been accumulated under one particular GitHub issue, issue #980 under the NVIDIA/DIGITS repository.
+
+Here are the highlights I collected from the GitHub issue:
+
+The images in your training set should not be of different sizes. If they are, you should pad them or resize them to be of equal dimensions. The resizing or padding can be done in the DIGITS dataset creation step.
+
+DetectNet is sensitive to bounding boxes in the size range of 50x50 pixels to 400x400 pixels. It has difficulty identifying bounding boxes which are outside of this range.
+
+If you want to detect objects smaller than the size DetectNet is sensitive to, you may either resize the images to be larger so most bounding boxes will fit DetectNet’s preferred range, or you may change the model’s stride to be smaller.
+
+The image dimensions must be divisible by the stride. For example, 1248 and 384 (DetectNet’s default image size) are divisible by 16.
+
+If you are training a model using an image resolution different from the original architecture (which expects images of width 1248 and height 384), you need to change the specified image dimensions within the architecture on the lines 57, 58, 79, 80, 118, 119, 2504, 2519, and 2545 (these lines refer to the single class DetectNet prototxt).
+
+To change the model stride, you must change the default stride value (16) to your desired value in the lines 73, 112, 2504, 2519, and 2545 (these lines refer to the single class DetectNet prototxt).
+
+If you specify a smaller stride, you will need to reduce the layers in the network in order to adjust the dimensionality. One way to reduce the dimensionality is by changing the kernel and stride parameters of the pool3/3x3_s2 layer to be 1. This layer is present from line 826 to 836 (these lines refer to the single class DetectNet prototxt).
+
+For multiclass object detection in which you want to detect more than 2 classes, you may change the 2-class DetectNet prototxt [5]. Lines dependent on the number of classes are:

@@ -1,0 +1,13 @@
+Member-only story Practical Graph Neural Networks for Molecular Machine Learning
+
+Up until recently, practitioners would use molecular fingerprints (essentially one-hot encodings of different molecular substructures) as input into machine learning models. However, the field is starting to move towards automatically learning the fingerprints themselves (automatic feature engineering) using deep learning. Here is a demonstration for implementing a simple neural fingerprint. Laksh · Follow Published in Towards Data Science · 5 min read · Dec 20, 2019 -- 3 Share
+
+1. Chemical Fingerprints
+
+Chemical fingerprints [1] have long been the representation used to represent chemical structures as numbers, which are suitable inputs to machine learning models. In short, chemical fingerprints indicate the presence or absence of chemical features or substructures, as shown below:
+
+Chemical fingerprints
+
+A brief summary of chemical fingerprints is provided in another of my blog posts here.
+
+Fingerprints can easily be computed in Python with RDkit [2] like so:

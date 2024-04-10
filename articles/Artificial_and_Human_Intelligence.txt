@@ -1,0 +1,97 @@
+Prescriptive Analytics is the area of Artificial Intelligence dedicated to prescribe best possible next actions. It relies on a set of techniques which I will illustrate using a simple and familiar problem everyone knows: packing luggage. My wife and kids might not know it, but they are using Business Rules (BR), Machine Learning (ML), and Decision Optimization (DO).
+
+Humans
+
+Artificial Intelligence (AI) is “intelligence demonstrated by machine”. A good way to develop but also to understand AI is to understand human intelligence. Human decisions result from a mixture of emotions, intuitions and deductions. There is a huge amount of literature about this. What is important is that humans are impacted by several considerations:
+
+Limited memory. Humans have limited memory, and sometimes, even when faced with the exact same situation than previously encountered, they are able to make the exact same bad decision. My grand-mother’s most repeated recommendation was: “making a mistake is not an issue, but making the same mistake twice is really stupid”. Some commonly heard similar advice is that “either we succeed or we learn”.
+
+Limited processing. When calculations or deductive logic are required and when the problem size grows, strong rational skills are required, and humans are definitely limited.
+
+Emotions. Humans have emotions. Emotions are probably the most impacting factor for human decision-making. Studies show that the a person does not always make the same decision for the same problem, as it depends on their emotional state on the day.
+
+Environment. Under pressure, when tired, due to severe weather, human decisions can also be impacted.
+
+Let’s take an example
+
+Putting aside these limitations, we make decisions using a mix of techniques which are also the basis of Artificial Intelligence. And recently, I started to use a simple and familiar example to illustrate these different techniques:
+
+Last summer, my family and I took a plane to go on holiday and we all had to pack our luggage. This is a simple and common decision-making problem. What should I put in my suitcase? How many T-shirts? Should I bring one book or two? Should I take swimsuits or sweaters?
+
+Adrián
+
+My younger kid, Adrián, just follows the rules provided by his mother: “Mum told me to put one pair of socks, and one shirt per day, then to put one book, and then some toys if I can make it fit”
+
+Being able to execute rules is intelligence. In fact, most of our education systems are dedicated to teach our children this ability to understand instructions in the form of rules and execute them and, by the way, this level is largely enough for minimal survival in human society. At home, at school, and at work, lots of human don’t need or use any other type of intelligence.
+
+These techniques corresponds to Business Rules Management Systems.
+
+The quality of the decisions is mostly impacted by (1) the quality of the rules and (2) the ability to execute them correctly. So in addition to rules execution, an important requisite is to be able to formulate the decision process as a set of prioritized if-then rules.
+
+One important benefit of BR is the explicitation of the rules. Decisions are easily predictable, understandable and explainable.
+
+Hugo
+
+My older kid, Hugo, proceeds differently. He has learnt on his own, based on looking at his mum packing luggage for summer holidays many times.
+
+Indeed, in our complex world, it is not always possible to explicitly provide all the rules about everything to your kids, so you expect them to learn, looking at you and looking at other models you tell them are good. You eat healthy food, do sport, and read books, expecting your kids to look at you and reproduce these good habits.
+
+This is another level of intelligence, where humans can just learn on their own. Some humans (not all) use this kind of intelligence. A very limited type of learning is at least not to repeat the same mistake twice (see grandmother’s advice above).
+
+This example, of course, corresponds to Machine Learning.
+
+It highlights the importance of historical training data. Hugo had to see his mother pack luggage many times before he could be autonomous. This is a benefit of data-driven techniques like Machine Learning: you don’t need to understand and formulate the business problem nor the exact way you will solve it. But the quality of Hugo’s packing highly depends on whether he learned from someone or alone, and who he learned from. If he had learnt by looking at me, then the outcome could have been quite worse.
+
+Also it is interesting to note how well this example illustrates the training and bias difficulty of Machine Learning: as Hugo has seen his mother pack many times for summer holidays (to the beach), he would have trouble if we would have to pack luggage to go skiing…
+
+Mónica
+
+The third type of intelligence is what my wife, Mónica uses. She knows that the airline luggage weight limit is 23 kg, she knows what items are mandatory or not, and she takes into account destination weather to set preferences between optional items.
+
+Based on these constraints and preferences, she can mentally calculate that this item plus that item would not comply with the weight limitation, or that this set of items offers a better global satisfaction than this other set.
+
+There are not so many decisions, constraints and objectives here so that she can optimize the decisions mentally.
+
+Reasons for the packing being wrong could be, for example, a bad prediction of the destination weather, or a misunderstanding of airline regulations.
+
+This is how Decision Optimization works.
+
+Just like Business Rules, Decision Optimization is a knowledge-driven technique. Making decisions requires some data (limited to the current problem, you don’t need historical data), but also some formulation of the business problem, this is what we call the optimization model. The instance data plus the optimization model are fed into an optimization engine which uses maths to return the optimal solution.
+
+So how to decide?
+
+Ideally, intelligent humans know when to use each level of intelligence. Sometimes, deciding does not require you to develop an optimization model (e.g. decide where to go out for dinner tonight), but sometimes it helps (e.g. to decide how to invest your savings). Sometimes it is right not to follow some law.
+
+With Artificial Intelligence, a similar situation occurs, where different approaches, which are still not always easy to combine, may have different benefits and inconveniences. This is why it is critical to understand these different techniques and be able to identify when each one would better apply and when they can be combined efficiently.
+
+A summary of pros and cons of each technique could be as follows.
+
+Business Rules:
+
+pros: rules are explicit and outcomes are easy to explain
+
+cons: need to state the rules, and decisions are not necessarily optimal
+
+Machine Learning:
+
+pros: no need to formulate or even precisely understand the problem
+
+cons: risk of bias and difficulty to explain the outcome
+
+Decision Optimization:
+
+pros: optimal solutions
+
+cons: need to formulate the business constraints and objectives
+
+Watson Studio is a Data Science platform providing tools for descriptive, predictive and prescriptive analytics, where both Machine Learning and Decision Optimization can be easily combined.
+
+For an introduction of Prescriptive Analytics with respect to other areas of Data Science, you may read this.
+
+alain.chabrier@ibm.com
+
+https://www.linkedin.com/in/alain-chabrier-5430656/
+
+@AlainChabrier
+
+Some of the content and ideas of this post have been published previously here.

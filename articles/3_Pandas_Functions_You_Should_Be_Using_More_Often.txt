@@ -1,0 +1,25 @@
+3 Pandas Functions You Should Be Using More Often
+
+There’s no denying that Pandas is a powerful library. If you are a daily Python user, it might just be your favorite library for data analysis and some quick visualizations. Dario Radečić · Follow Published in Towards Data Science · 5 min read · Oct 23, 2019 -- 7 Share
+
+Photo by Stan W. on Unsplash
+
+With that being said, it’s very easy to get used to some core concepts of Pandas and to neglect further exploration of its capabilities. I mean, who hasn’t been guilty of reinventing the wheel? While it’s not necessarily a bad thing (because you know exactly what your code should do), often there are smarter ways to achieve the same.
+
+Today I want to share with you 3 functions that I wasn’t using as much as I should so far, and I also want to show you what exactly I mean by reinventing the wheel. A couple of weeks back I’ve written a similar article, only related to pure Python. If you are someone who reinvents the wheel much, don’t hesitate to check it out:
+
+Okay, enough talk, let’s dive into some Pandas.
+
+The Dataset Used
+
+As with many of my articles, I’ll be using the famous Titanic dataset. I’m sure you know how to import it, so here’s what you should have before proceeding:
+
+Are we on the same page? Good, let’s proceed.
+
+1. idxmin() and idxmax()
+
+In a nutshell, those functions will return the ID (the index position) of the desired entry. In the Titanic example, maybe you want to find the index position of the youngest/oldest person. Let’s go even further, you’re interested only in the name of that person.
+
+A typical programmer approach would be to reinvent the wheel because you aren’t aware that idxmin() and idxmax() exist. Here’s one approach:
+
+You’re basically subsetting and returning the value for the desired attribute. Not the cleanest of code, but could be worse. Here’s how to achieve the same by utilizing previously mentioned functions:

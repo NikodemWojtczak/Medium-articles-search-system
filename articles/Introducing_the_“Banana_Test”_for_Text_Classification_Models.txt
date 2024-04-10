@@ -1,0 +1,15 @@
+Introducing the “Banana Test” for Text Classification Models
+
+Introduction
+
+There are millions of instances in which businesses have collected free-form text in their systems. In order to automate business processes that utilize this data, the free-form text often needs to be bucketed into higher-level categories. Text classification models are capable of classifying such free-form text quickly and effectively… for the most part.
+
+Regardless of the reported validation/test accuracy, there are a number of gotchas that can cause even the most well-trained text classification model to fail miserably at making an accurate classification. In particular, text classification models tend to fail when faced with text they have never seen seen before.
+
+If your goal is maximizing accuracy for a new text classification model, you should consider using the Banana Test. Despite the silly name, it’s a very real technique that you can use to improve the quality of your models.
+
+What is the Banana Test?
+
+The Banana Test is intended to be applied as a deciding factor (usually in combination with the confidence interval) for whether a given classification can be trusted. Since a machine learning model will always classify data by default and the confidence interval it provides is little more than a measure of probability (rather than accuracy), the Banana Test helps ensure that a model only classifies new data when it has adequate training data to make a confident decision. How it works and why it’s important are both very simple concepts.
+
+To explain the name of the test, the word “banana” has never been relevant to any company I’ve worked for. Due to my prior experience as a product owner before branching into data science, I came to believe that defining proper acceptance criteria is essential to developing a good product. So, as a form of acceptance criteria for any new text classification model being built, I enforce that my models should never confidently classify a text string that has the word “banana” in it.

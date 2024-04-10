@@ -1,0 +1,15 @@
+Researchers came up with the concept of CNN or Convolutional Neural Network while working on image processing algorithms. Traditional fully connected networks were kind of a black box — that took in all of the inputs and passed through each value to a dense network that followed into a one hot output. That seemed to work with small set of inputs.
+
+But, when we work on a image of 1024x768 pixels, we have an input of 3x1024x768 = 2359296 numbers (RGB values per pixel). A dense multi layer neural network that consumes an input vector of 2359296 numbers would have at least 2359296 weights per neuron in the first layer itself — 2MB of weights per neuron of the first layer. That would be crazy! For the processor as well as the RAM. Back in 1990’s and early 2000’s, this was almost impossible.
+
+That led researchers wondering if there is a better way of doing this job. The first and foremost task in any image processing (recognition or manipulation) is typically detecting the edges and texture. This is followed by identifying and working on the real objects. If we agree on this, it is obvious to note that detecting the texture and edges really does not depend on the entire image. One needs to look at the pixels around a given pixel to identify an edge or a texture.
+
+Moreover, the algorithm (whatever it is), for identifying edges or the texture should be the same across the image. We cannot have a different algorithm for the center of the image or any corner or side. The concept of detecting edge or texture has to be the same. We don’t need to learn a new set of parameters for every pixel of the image.
+
+This understanding led to the convolutional neural networks. The first layer of the network is made of small chunk of neurons that scan across the image — processing a few pixels at a time. Typically these are squares of 9 or 16 or 25 pixels.
+
+CNN reduces the computation very efficiently. The small “filter/kernel” slides along the image, working on small blocks at a time. The processing required across the image is quite similar and hence this works very well. If you are interested in a detailed study of the subject, check out this paper by Matthew D. Zeiler and Rob Fergus
+
+Although it was introduced for image processing, over the years, CNN has found application in many other domains.
+
+An Example

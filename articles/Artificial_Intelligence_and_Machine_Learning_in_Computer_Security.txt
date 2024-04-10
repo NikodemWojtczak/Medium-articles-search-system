@@ -1,0 +1,53 @@
+Artificial Intelligence and Machine Learning in Computer Security
+
+A brief overview of how AI/ML could be used in Computer Security Tanmay Dureja · Follow 5 min read · May 9, 2019 -- Listen Share
+
+It is still not very clear how much Artificial Intelligence and Machine Learning should be used in Information Security. We don’t want any Machine Learning system to gain control over the decision-making process and that is not because it could be a threat to ‘Homo Sapiens’ but because Artificial Intelligence still identifies a lot of false positives when it comes to cyber-attacks. Humans should always have control in the decision process when it comes to an attack. Artificial Intelligence is still a distorted subject.
+
+The advantages of Machine Learning in security can help us in areas such as Anti-malware, Risk Analysis, and anomaly detection. There are deficiencies in the automation, speed, and decision-making accuracy of these technologies. Machine Learning is also applied in the construction of ransomware and malware by malicious hackers. On the other hand, companies use Machine Learning to analyze and classify malware.
+
+It can be said that the main benefit of both Machine Learning and Artificial Intelligence is that they both can reduce the complexity of the analysis performed by humans.
+
+How Artificial Intelligence and Machine Learning could be used for Cybersecurity
+
+Artificial Intelligence is not something that can emulate human decision-making and that is the limits Artificial Intelligence solutions for cyber security. Artificial Intelligence is great at dealing with information and trying to understand normal and anomalous behavior. But an Artificial Intelligence system cannot just simply recognize behavior and add a security layer to the network and software.
+
+Machine Learning is used to compensate that, as it uses data from the past and analyses to use it for the future.
+
+Artificial Intelligence algorithms are fed months of activity logs to achieve competence at identifying anomalies and threats. The information provided is used to set a base for normal performance and calculate and compare new occurrences using that. These patterns help the machine learning system to recognize a threat to the system.
+
+Time is of the essence when we are talking about security. A hacker can infiltrate a system and either steal critical data or hold it for a ransom in less than 30–40mins. The tools being used to protect the system should immediately recognize an attack or threat to the system and notify the administrators. The Artificial Intelligence algorithms should be able to do that if they are implemented in the system.
+
+Hackers or cybercriminals are always looking for ways to attack a system and for those attacks to be effective have begun leveraging Artificial Intelligence tools, so to stay ahead in the game and bump up the security, companies need to implement the best available Artificial Intelligence tools and Machine Learning software.
+
+Cloud and AI
+
+Shift to Cloud Infrastructure
+
+The new shift to cloud computing has been a blessing for companies and has revolutionized how companies operate on the web, they can host large scale servers and use software services over the internet by using cloud platforms like Amazon Web Services, Google Cloud, Microsoft Azure, while not worrying about hosting the servers and worrying about the equipment and it’s maintenance.
+
+The shift to cloud can also produce vulnerabilities for companies as all their data is stored on cloud, that is at a remote location and if the cloud-provider’s services are breached, all the data stored with them has a risk of exposure.
+
+Now, Artificial Intelligence and Machine Learning systems are software based and so very easy to deploy on cloud infrastructure. E.g. Anti-Virus software require a constant internet connection to match a threat in real time and to keep their database updated. With Intelligent Machine Learning Software watching over systems, companies can secure their cloud environments and protect against the most typical means of malware penetration. So, in addition to the security provided by the cloud provider, a company can place its own security measures on the deployed system.
+
+Importance of Human Interaction
+
+One of the most persistent myths about AI is that it will make human analysts redundant in the future.
+
+Even the strongest Artificial Intelligence cybersecurity tools that exist still require collaboration with the human world. Machine learning systems are getting better at natural language processing and trend analysis, but at the end of the day, humans still do a better job at interpreting spoken and
+
+written text. Computers son not have the ability to think critically or creatively, both of which are possessed by humans, which are required to make an informed decision.
+
+Computers are great for automating tasks and solving complex problems which could be achieved by humans, but they are outperformed by computer systems in terms of processing and calculations. What the computer systems lack are intuition and creativity. The Artificial Intelligence ‘uprising’ has always been about machines working with humans and providing humans with the context and information they need to make informed decisions and not about replacing humans with machines. Data is the greatest challenge faced by humans in terms of security, the amount of data generated everyday is unimaginable and this is where machines excel, automating simple tasks such as processing and classification to ensure analysts are left with a manageable quantity of actionable insights.
+
+General examples of Artificial Intelligence used in Security
+
+Pattern Recognition to identify malware, etc.
+
+Anomaly Detection to detect unusual activity, data, or processes
+
+Natural Language Processing (NLP) to convert unstructured text into structured intelligence.
+
+Predictive Analytics to process data and identifying patterns.
+
+Machines play a huge role in our daily lives as they can process large amounts of data in minimal time, which would take a long time if a group of people attempted to process the same. The machines cannot decide yet, but they can help in analyzing the information which can be used. Of course, the process of turning individual data points into actionable intelligence requires a much longer sequence of steps, that is where machines are used and can progress.

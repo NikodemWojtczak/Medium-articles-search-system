@@ -1,0 +1,105 @@
+This is a continuation of my earlier post on compositional data analyses where I showed the pitfalls of treating compositional data as absolute data instead of relative data. In this post, I will summarize the techniques we can use to correctly analyze compositional data with specific examples demonstrated using RNA-Seq data.
+
+Two main strategies exist for treating Compositional Data and specifically NGS data:
+
+1. Normalization to get back the absolute counts
+
+2. Compositional Data Analysis (CoDA) methods that transform the data using within sample references (Ex: ALR, CLR)
+
+Normalization to Absolute Counts
+
+This is the most widely used technique in NGS data pre-processing when comparing across samples is desired. The relative read counts are ‘normalized’ to the total read depth to ‘recover’ the absolute counts. This, however, does not recover the absolute counts when the total absolute amounts of RNA or cells or the amount of relevant biological material significantly changes across samples. This more often leads to a false sense of security for the analyst and leads to treating these ‘normalized’ samples as absolute counts. This can result in erroneous conclusions when comparing across samples. Let’s prove that to ourselves using simulated data.
+
+Simulation Details
+
+Here, I simulated data for 100 genes, where
+
+a. 5 genes have the true log fold change of 1 between control and experimental conditions (approximates tolerance or no growth under selection),
+
+b. 2 genes have the same true log fold change of > 1 in the experimental conditions (resistant and exhibit growth under selection), and
+
+c. 2 genes have the same true log fold change of < 1 in the experimental conditions (not resistant or tolerant),
+
+I simulated 5 different cases where different proportions of the remaining 91 genes are changed. Of the genes that change, ~90% are depleted, and ~10% are enriched in each case.
+
+The depletion/enrichment of the other genes affects the relative count values and the read-depth normalized counts even though the total read depth is fixed at 200K reads
+
+Read Depth Normalized (RDN) Counts
+
+Differential Expression or Abundance: Even though all the reads have the same total depth (sum of counts), the log fold changes (LFCs) of genes calculated using the read depth normalized counts (RDN counts) are shifted compared to the true log fold changes (See Fig 1 below). Interestingly, the direction of the shift is not always predictable based on the fraction of genes changed. For example, when ~70% of the genes are changed, the LFCs calculated using the RDN counts are shifted down compared to the true LFCs. On the other hand, the LFCs calculated using the RDN counts are shifted up compared to the true LFCs when 90% of the genes are changed. This is because the absolute true counts in the former case are higher than the latter case. In general, we cannot anticipate or estimate the true total absolute counts for a sample.
+
+Fig 1: Comparing True Log-Fold Changes to Log-Fold Changes Calculated using RDN Counts
+
+2. Correlation Between Genes: To see how things compare between relative counts and absolute counts., I calculated the correlation for the non-constant genes across all the 5 samples (each with either 0.1, 0.2, 0.4, 0.6, 0.9 fractions of changed genes). I used both the true counts and relative counts using Polyester simulated count data at 200K read depth.
+
+Fig 2: Comparing True Correlations Between Genes to Correlations Calculated using RDN Counts
+
+As we can see from the figure above, some of the correlation coefficients calculated using the RDN counts, are significantly different from the true correlation coefficients, with a negative bias.
+
+The 2 examples above show the pitfalls of using RDN counts to estimate the differential expression or correlation between genes. Instead of using RDN counts, one should always use spike-in controls when trying to recover absolute counts from relative compositional data. We will show that next
+
+Spike-in Normalized Counts
+
+To truly correct for the change in the absolute counts, we need spike-in controls or genes that we add into all our samples at the same abundance (amount) just before the sequencing step. Doing this will normalize all the samples to the same total abundance scale and makes the comparisons correct. This only works when the data are closed due to sequencing (because we are adding the spike-ins just before sequencing), and will not help if the constraint is biological or happens upstream of the sequencing step. In that case, we need to add in the spike-ins before this constraining step, but it is not always possible to do so due to physical and biological limitations of adding the spike-ins.
+
+Let’s see how this works using our data. In our data, we have 92 different controls or spiked-in genes that have the true absolute abundance. Let’s use these to ‘normalize’ the data and therefore bring all samples to the same absolute count scale.
+
+Differential Expression or Abundance: Fig 3 below is analogous to Fig 1 but with spike-in normalized counts instead of RDN counts. The plot has artificial jitter (noise) added to show all data, but the true data all lie along the diagonal. This indicates the power of spike-ins. Properly designed spike-ins can recover the absolute counts (up to a constant multiplicative factor), provided the spike-ins are added just before the step that leads to closure or constraints in the data, which is not always possible.
+
+Fig 3: Comparing True Log-Fold Changes to Log-Fold Changes Calculated using Spike-in Normalized Counts
+
+2. Correlation Between Genes: Looking at correlations between genes, we see that the coefficients calculated using the spike-in normalized counts can recover the true coefficients. Fig 4 below:
+
+Fig 4: Comparing True Correlations Between Genes to Correlations Calculated using Spike-in Normalized Counts
+
+So, it seems like we found the solution to our problem. All we have to do is add some controls and we are good! Not so fast, unfortunately. In this simulated case, the source of closure for the compositional data is sequencing and we were able to add some controls right before we simulated the sequencing data. In real-life data generation process, the sources of closure can occur anywhere in the usually complicated workflow of extracting DNA/RNA. Also, the biological system itself could be inherently compositional (For example the capacity for a cell to produce RNA is limited), in which case no spike-ins introduced outside the cell can recover the true absolute counts.
+
+Compositional Data Analysis (CoDA) Methods
+
+An alternative to spike-in normalization is using CoDA methods that typically transform the count data with respect to an in-sample reference. Additive Log-Transformation (ALR) and Centered Log-Transformation (CLR) are examples of some commonly used CoDA transformations. These methods are first proposed by John Aitchison originally in 1986. The core idea being that the log-ratio transformations of the components relative to another reference component can be treated as any other unconstrained data. This transforms the data from the original simplex space (as in our ternary diagram in the first part) to the Euclidean space. This allows us to use all classical analyses techniques on these data.
+
+A cautionary note: These techniques do not claim to open the data as do the ‘normalization’ methods from the previous section. These techniques are also applicable to all data, whether they are relative or absolute. Another point to note is normalizing using spike-ins is the same as using the Additive Log-Ratio (ALR) transformation. The benefit of using the general ALR transformation is that it is applicable even when we do not have spike-ins that have constant abundance across samples. The disadvantage with the general ALR transformation is we need to choose the reference properly to make sense of the data and answer the relevant questions.
+
+Lets now look at the CoDA methods in more detail using the same data set that we used as before.
+
+1.Differential Expression or Abundance: There are many methods to find changes in compositional data before and after treatment. Many of these methods surprisingly come from the Microbiome literature, whereas the gene expression literature mostly relies on traditional methods like DESeq2 and EdgeR, which do not explicitly take into account the compositional nature of the data. DESeq2 and EdgeR implicitly assume that the absolute abundances do not change due to the treatment. This is equivalent to using the Centered Log-Ratio (CLR) transformation from the CoDA methods. This transformation uses the geometric mean of the genes or components as the reference, and therefore all results have to be interpreted with respect to the geometric mean. At this stage, it is tempting to translate this assumption to mean that the geometric mean of the genes does not change between control and treatment. Maybe the geometric mean changes, maybe it does not, there is no way to know for sure without orthogonal information beyond the relative counts from sequencing. Most users of DESeq2 and other Differential Expression tools fall for this trap and conclude any significant changes called by the algorithms to mean significant changes in the absolute counts. Instead, these are just significant changes with respect to the geometric mean of all components.
+
+There are emerging methods to apply statistical rigor to DA in compositional data. The most popular methods are ALDEx2 and ANCOM. The main philosophy of these methods is to rely on log-ratio tests of transformed relative data with respect to a reference component and to carefully interpret these results. The main issue with these methods is that the results can only be interpreted with respect to the chosen reference, and no guidance is provided on how to choose the reference. Giuliano Cruz pointed me to a more recent methodology that uses Differential Ranking (DR) and lays out a more reasoned approach to choosing a reference. This is what I will use here briefly, and hopefully, in some future post go into the gory details of running some of these algorithms.
+
+The main idea of DR is to choose some random reference component to calculate the log ratios for all components in both treatment and control. In the next step, these components are ranked in the order of their the difference Δ(log-ratio) between treatment and control conditions. This rank-order of Δ(log-ratio) values calculated using the known relative counts should be identical to the rank of the Δ(log-ratio) values calculated using the unknown true absolute counts. For example, I show below the Δ(log-ratio) values calculated using the relative counts vs. Δ(log-ratio) values calculated using absolute counts, for the case where 90% of the genes are differentially expressed:
+
+Fig 5: Δ(log-ratio) values Calculated using Absolute vs. Relative Counts
+
+As you can see, the magnitude of the Δ(log-ratio) values are different depending on whether we use the relative or absolute counts, but the rankings of Δ(log-ratio) values stay the same. This does not mean that the top-ranking genes have higher counts in treatment vs control, and the low-ranking genes have lower counts. It could so happen, that the top-ranking genes have depleted absolute counts in the treatment conditions compared to the control condition, but the lower-ranked genes have even worse depletion in the treatment condition. In short, we cannot say anything about the changes in absolute reads between treatment and condition.
+
+I will now choose the top-ranking gene as my reference and again calculate the Δ(log-ratio) values using this new reference.
+
+Fig 6: Δ(log-ratio) Values Calculated using the Top-Ranking Gene as Reference
+
+From this plot, we can use an arbitrary cut-off of 0.5 and choose any genes beyond this as our potential DA genes to test further. Of course, if we want more genes to test, we can relax the cut-off.
+
+Another recommendation to get around choosing reference is to have some sort of positive or negative controls in the population. Suppose, we know a gene that will increase in absolute abundance in the treatment condition, then we can use this gene as the natural reference for calculating log-ratios and rank-order the Δ(log-ratio) values. Any log-ratio greater than 1 implies that the gene is better than the positive control, and log-ratio less than 1 implies worse than the positive control. Even better, is to have 2 controls to bound the effect size, and interpret the log-ratios with reference to both of these genes.
+
+In my simulation, I only have one sample per replicate, and therefore could not do any statistical analyses. In a future post, I will generate multiple replicates per condition and play with ALDEx2, ANCOM, and DR algorithms to test their sensitivity and specificity.
+
+2. Correlation Between Genes: As shown in part 1 of this series, correlation is not sub-compositionally coherent and therefore does not follow one of the principles of CoDA. Briefly, the correlation coefficient between any two genes depends on the other components or genes present in the data. Aitchison first proposed using the variance of log-ratio transformed values (VLR) to estimate the dependency of 2 variables. For example, to calculate the dependency between features or genes, g, and h, across n samples, we would use:
+
+VLR is sub-compositionally coherent and therefore doesn’t lead to spurious correlations. The main issue with using VLR is that even though it equates to 0 when genes g and h are perfectly correlated, it doesn’t have an upper limit when the genes are perfectly independent. And that makes it difficult to compare VLR for one gene pair against VLR for another gene pair because of this scaling issue. Several methods/metrics are proposed based on VLR to estimate the dependencies between compositions, the most notable being SparCC, SPIEC-EASI, and proportionality. In this blog, I only review proportionality in some detail. All these methods attempt to use VLR to derive metrics that are analogous to correlation coefficients and therefore can be compared across different pairs of components.
+
+Three proportionality based metrics are proposed in the R package propr based on work by Lovell et. al. and Quinn et. al. These metrics are calculated on log-transformed data. For definitions see the propr package. Ai below refers to the log-transformed values for a gene or component ‘i’ in the data. Ai could be absolute or relative counts and the definitions still apply.
+
+phi (Φ) = var(Ai -Aj)/var(Ai) rho (⍴) = var(Ai -Aj)/(var(Ai) + var(Aj)) phis (Φs) = var(Ai -Aj)/var(Ai +Aj)
+
+The closest metric to traditional correlation coefficient is rho which ranges from -1 to 1. phi is unbounded and can vary from 0 to Inf, and phis is a symmetric variant of phi and is a monotonic function of rho. I will focus on rho in the rest of the blog.
+
+a. Using Absolute Counts: We can recover the absolute counts from relative counts if we have a spike-in control. Since we already have spike-in data available to us, I will calculate the rho values using the spike-in transformed data, i.e. A¹ = log(TPM_counts¹/Spike_TPM_counts) for gene 1 using spike_TPM_counts as the normalization counts. This will recover the original absolute counts. Now, we can calculate the rho values using the equation above. I plot the correlation between absolute counts and the rho values below:
+
+Fig 7: Correlations of True Absolute Counts Between Genes vs. Rho Values Calculated using Spike-Normalized Data
+
+As can be seen from this plot, using proportionality we can capture most of the original correlations between the true absolute counts. Of course, this is a contrived example, where we have a good spike-in available to retrieve the absolute counts. Even with this contrived example, we still see some differences between the true correlations and the proportionality values calculated using the spike-in normalized counts. This is due to the way the proportionality based metrics are calculated which makes them extremely sensitive to the estimates of the variances of the log-transformed values. Here we only have 5 samples to calculate the variances and in most cases, the first 3 samples have the same values. This I suspect leads to the formulae to calculate the metrics to break down. Have to grok on this a little bit more. The evidence for this hypothesis is that, if we only look for components that have distinct values in at least 4 different samples, then the correlation values and the proportionality metrics match pretty well as can be seen below:
+
+Fig 8: Correlations of True Absolute Counts Between Genes vs. Rho Values Calculated using Spike-Normalized Data: Only for Genes with At Least 4 Distinct Values out of 5 Samples
+
+In general, rho and other proportionality based measures have good precision and poor recall, and having more samples gives better estimates for the variances and therefore for the rho values. Also, boot-strapping is generally used to establish a cut-off for calling relationships significant. For example, in the plot above, the cut-off for significant ‘rho’ values could be 0.75.
+
+b. Using Relative Counts: The world is unfairly complex, and we don’t usually have a nice spike-in lying around for us to use, unfortunately 😢 . So we have to instead use relative data, or more specifically, the additive log-transformed (ALR) relative data. Or we can use centered log-transformation (CLR) if we are confident that the geometric mean of the counts does not change across samples (which we know does not hold for our simulated data here). In essence, the best we can do in such cases is to calculate the relationships between relative data. So, let’s compare the rho values for relative data (with respect to a chosen reference gene) against the correlations between true absolute counts. The plots below show this for the correlation between relative counts calculated using 2 randomly chosen reference genes:

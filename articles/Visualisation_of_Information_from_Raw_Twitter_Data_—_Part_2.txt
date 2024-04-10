@@ -1,0 +1,15 @@
+Visualisation of Information from Raw Twitter Data — Part 2
+
+Want to find out user activity, see if certain users are Bots, make a Time Series of the Tweet Publications and much more? Read on then! James Thorn · Follow Published in Towards Data Science · 9 min read · Jun 27, 2019 -- 2 Share
+
+The previous post covered how to download data from Twitter regarding a certain topic, getting this data ready in a Jupyter Notebook, discovering insights from this data, and explored some very cool visualisation techniques. If you have not read it, you can find it here:
+
+This second post will describe other awesome visualisations, while also exploring some more information that can be obtained from the downloaded tweets.
+
+We will start by discovering information about the users who are posting the tweets:
+
+#Lets take a look at the users who are posting these tweets: print("There are {} different users".format(tweets['Username'].nunique()))
+
+In my case, the tweets were posted by 59508 different users.
+
+Using our neatly prepared dataframe we can see who are the users that posted the most tweets, and something even cooler: see the chance of the highly active users being Bots!

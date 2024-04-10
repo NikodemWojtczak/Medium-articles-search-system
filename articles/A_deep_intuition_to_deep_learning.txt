@@ -1,0 +1,61 @@
+Wondering why deep learning works? Here is the intuition behind it.
+
+This blog is wholly inspired by the lectures of Professor Mitesh Khapra from IIT Madras. It is quite lengthy and if you want to skim through to just get a gist, please feel free to skip perceptron and move to sigmoid neuron.
+
+Motivation Behind Deep Learning
+
+Consider an example of predicting whether a user will like a particular movie or not. Some of the factors that influence the decision are— genre, director, screenplay, ratings etc. In general, the structure of a machine learning or a deep learning problem is that you have a target variable which is to be predicted, and a set of factors influencing the target. So, with the knowledge of available historical data about the factors and the target, the model has to predict the future targets, given the factors.
+
+“Deep Learning is the process of learning the target variable as a function of the influencing input features/variables.”
+
+In fact, machine learning also does the same as the above definition. However, machine learning (ML) is limited in its capabilities to learn, when it comes to complexities in real world problems. Not to blame ML, as it is not “crafted” to learn these complexities themselves.
+
+Deep Learning, on the contrary is designed to learn complex functions from data. By complex functions, what I mean is the non-linearity existing in the relationship between the features and the target. Let us see why a neural network is capable enough to learn these complexities soon as we proceed.
+
+Perceptron — The basic element of a neural network
+
+A neural network is comprised of large number of perceptrons connected together as a network. A perceptron is a binary classification algorithm that learns a line that separates two classes. The basic principle of a perceptron is as follows —
+
+If the “weighted” sum of inputs/features is > 0, predict class 1, else predict class 0. Shown below is one perceptron that takes continuous valued features as input and gives binary output.
+
+A perceptron where x denotes input features and w denotes weights
+
+Definition of perceptron
+
+Please note from the above figure that our perceptron also includes a constant term in the x*w equation (marked in red), which is called “bias”.
+
+Using the training data, where we know the class labels, the “weights” on each feature is learned.
+
+The weights are learned by framing an objective function such as — (y*x*w). If you observe, this function will be > 0 only when the sign of y and x*w are the same. i.e., only when the function x*w is predicting the target correctly. We need to find “w” vector that gives us most number of correct predictions.
+
+Now it should be clear, that an objective function shall be framed negative of sum of y*x*w for all points and we need to minimize it. Stochastic gradient descent shall be used to learn the weight vector, now that we have an objective function.
+
+I will leave perceptron at that, it is fine if you get the rough idea about this. You need to know that if weighted sum of inputs is > 0, then perceptron “fires” (predicts class 1), else it does “not fire” (predicts class 0).
+
+Now, consider the movie example from the introduction. Imagine we have only one feature — critic rating, to decide whether we like a movie or not, also assume the weight on this feature is 1 and bias is -0.5. If the critic rating is 0.49, the perceptron will predict 0 and if the critic rating is 0.51, the perceptron will predict 1.
+
+Example of a harsh judgment
+
+Is this how human brain works in real world? No. This is why we have “sigmoid neuron”.
+
+Sigmoid neuron
+
+Following is the visual representation of perceptron decision boundary and sigmoid’s boundary.
+
+Sigmoid is smoother, less harsh and more natural than perceptron. It is given by the following equation.
+
+Sigmoid function
+
+The output of the sigmoid function ranges between 0 and 1. This is a quite reasonable method of classification since you can look at it as probability values. Now, we have enough knowledge to delve into why deep learning works.
+
+Why deep learning works?
+
+Recollect that we are trying to learn the target variable as a function of input variables. Let me introduce some terms.
+
+Target variable — “y”
+
+Input feature vector “x”
+
+True relationship between “x” and “y” — “f(x)”
+
+In 1989, a very powerful theorem called “Universal Approximation Theorem” was published proven to the world by a scientist. The theorem is as follows

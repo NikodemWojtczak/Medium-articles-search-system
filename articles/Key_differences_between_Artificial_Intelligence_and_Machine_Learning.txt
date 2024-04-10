@@ -1,0 +1,33 @@
+Artificial intelligence and machine learning are two of the most popular buzzwords in the market and many times are used interchangeably. They have become a part of everyday life, but that does not mean we understand them well. Lot of confusion exists between what is machine learning and what is AI. in most companies; marketing overlooks this distinction for advertising and sales.
+
+Let us go through some of the main differences between Artificial intelligence and machine learning in the following sections.
+
+What is Machine Learning
+
+In Machine learning, algorithms acquire the knowledge or skill through experience. Machine learning relies on big data sets to remind the data to find common patterns.
+
+For example, say you provide machine learning program with lots of images of skin conditions along with the what do those conditions mean. The algorithm can mine this image data and help to analyze skin condition in the future. The algorithm examines images and identifies patterns that exist between these images that have similar conditions.
+
+When the algorithm is given a new skin image (whose condition is unknown) in the future, it will compare the pattern that is present in the current image with the pattern it learned from analyzing all the past pictures and be able to able to predict what kind of skin condition it is.
+
+If there are new skin conditions or if the existing patterns of the skin conditions changes, the algorithm will not predict those conditions correctly. One has to feed in all the new data to the algorithm for it to learn to predict based on new skin conditions.
+
+Similarly, if you feed algorithms with customer data set that has samples of customers who churned as well as examples of customers who have not churned, it can mine this data to understand patterns that exist for customers churned as well as the pattern that exists for customers who do not churn. If new customer information is given, it can compare the pattern that exists in the customer information provided with the pattern it learned before and can predict if this customer will churn or not.
+
+If there are any changes in customer Behavior, the algorithm has to be fed with the new data that captures the new customer behavior for it to be able to predict in the future accurately.
+
+What is Artificial Intelligence
+
+On the other hand, Artificial Intelligence learns by acquiring knowledge and learning how to apply it. The aim of artificial intelligence is to increase the chances of success and to find the optimal solution. AI is the study to train the computers to attempt to do things which at present human can do better. AI tends to be used in situations where adapting to new scenarios are important.
+
+Let’s take a simple video game where the goal is to move through a minefield to go from one side to the other side using a self-navigating car. Initially, the car does not know what is the best path to take to avoid the landmines. Say we do simulated runs to get lots of data about which path works and which does not. That is the data that can be fed to the machine learning, so it learns from the past driving experience and uses that to navigate the car safely.
+
+Let’s complicate the problem. Let’s say the location of the land mines is moved. The machine learning algorithm will no longer do a good job. Machine learning does not know that there are land mines exist. All it knows is what pattern that exists in the path that was taken from the data provided initially and that is the same path it will continue to guide unless new data is provided for it to learn from.
+
+On the other hand, what AI will do with that data is to analyze why these paths are changing and codify rules for identification of those (dangerous) spots and how to avoid them may be by leaving a visible trail. It learns the knowledge and applies them similar to how a brain will work. When the mines are changed, AI will start looking for those dangerous spots and slowly begin to avoid them by following the new trails just as how the human brain learns & adapts.
+
+Summary
+
+In summary, machine learning uses the experience to look for the pattern it learned. AI uses the experience to acquire knowledge/skill and also how to apply that knowledge for new environments.
+
+Both AI & ML can have valuable business applications. But ML has gotten lot more adoption for solving the critical business problems in many companies.

@@ -1,0 +1,73 @@
+I’ve decided to write a series of blog posts about design patterns for software systems in the world of A.I..
+
+Over the course of our work, I felt (and continue to feel) the lack of literature and focus in the area of design patterns and principles for software systems in the world of A.I.
+
+We came up with many design ideas, which we found to be good solutions to recurring problems (which by definition makes them design patterns).
+
+From my conversations with colleagues in the industry — I also believe they might be generic and useful for many other teams in the world of A.I. and algorithms.
+
+All the patterns and principles I will present in these blog posts have been in extensive use in our team for a few years, and we are certain they are a key component in our capability to scale quickly and reliably, providing hundreds of hospitals with solutions for over 10 life-threatening medical conditions in just a few years.
+
+I believe these posts will be highly valuable for both senior and junior engineers and researchers in A.I. teams, who feel that lack of engineering processes and methodologies is causing significant overhead, reduced agility, and reduced velocity in development, research and delivery to customers.
+
+In this blog post I’ve decided to focus on “SOTA tests” — a central design pattern for tests of A.I. systems. In future blog posts — I will cover additional patterns for tests and other areas, such as continuous delivery of algorithms — and would love to hear ideas for topics from readers.
+
+Pattern #1: SOTA (state-of-the-art) Tests
+
+In software testing in general there’s always a conflict between writing tests to high-level components (e.g. end-to-end tests for your entire system) and writing low-level tests for smaller modules. The former gives you very good coverage, and the latter gives you a very localized notion to where the problem is — but you have to write a lot of them to get the coverage.
+
+Both are important for scaling up.
+
+In parallel, from my experience, I advocate to start from writing end-to-end tests, for two reasons:
+
+They’re much simpler to write, and require much less expertise in the design of tests to execute well. A.I. systems tend to have a lot of highly complex moving parts, which are constantly changing and evolving as you add more complexity to your algorithm. The end-to-end test will give you an immediate awareness that there’s a problem somewhere. It might take you a few hours to find where the problem is, but it’s much better than to discover you have a problem only 3 months after it was created. So many changes have been introduced into your code at that time frame, and it can even take weeks (from our experience) to pin-point the problem.
+
+A good design of end-to-end tests for the “entire system”, is to build a test that runs a specific “user story” through the system. This is a general principle of end-to-end tests, relevant to every domain of software. By a “user story” I mean a meaningful and complete interaction of the user with your system.
+
+If we look at our “research system”, often called the “research pipeline”. To clarify, this is the part of the code which receives data and algorithm configuration (e.g. hyperparameters) as input, and outputs the new algorithm’s binaries (e.g. trained weights) and the measurement of its performance (e.g. excel with metrics).
+
+The users of this system are of course the algorithm engineers\researchers.
+
+Let’s say they’ve used this system to build an algorithm for detection of spine fractures, and achieved SOTA performance (the best performance achieved so far on this problem).
+
+The SOTA test will test the “user story” that includes all the steps it took the engineer to build this algorithm and to achieve SOTA performance, and it will verify that — when using the same data and hyperparameters — we still achieves SOTA performance with the current version of the research infrastructure code (which might be significantly different from the version used to originally achieve the SOTA performance 6 months ago).
+
+Practically in order to run it, you need to:
+
+a. Run something pretty much identical to the script the engineer ran in order to build that algorithm; In many A.I. systems running the same SOTA script many times will result in different performance due to the random nature of many components. Since we are interested in reproducibility — it is advisable to “seed” all the random number generators your infrastructure is using (e.g. python’s random, numpy, tensorflow, etc.), with the same “random seed” that was used when originally achieving the SOTA. You might not be aware of all of them (e.g. some of them are used beneath your feet by the libraries you’re using), but it is important to make an effort to understand everything that is randomized and make sure everything is seeded.
+
+b. Assert the SOTA was achieved:
+
+Determine which metrics really define your SOTA (e.g. recall, precision, AUC, or any other metric\s), and determine the SOTA value for each metric (e.g. 95% recall @ 90% precision). In this aspect I advise to measure the “downstream metrics” — the metrics that are as close as possible to what the user feels. In a previous paragraph I mentioned seeding the random number generators for reproducibility. The truth is that in many deep learning systems this will help a lot, but it is not enough. Some sources of randomness can’t be controlled that easily (for example if you’re using multiple threads to prefetch the data onto the RAM during training, a “race condition” will cause the exact order of data-samples to be different between runs). Therefore, when building the test, I suggest to run “noise experiments” on your SOTA to measure the standard deviation among several identical runs. Use this measured deviation as the tolerance for the comparison between the reproduced result and the original SOTA result.
+
+The advantage of the SOTA tests for the research infrastructure:
+
+Reliability — Many of the algorithms most companies develop are very similar to their previous algorithms (“squeezing the juice out of your pipeline”). For example — building a spine fractures detection algorithm can be achieved using many features of your system that are common to the ones used for building the stroke detection algorithm. If you build things right — when you get to the 10th algorithm — training a new algorithm can become a “single-click” action (I can share more on that on a different blog post if many readers show the demand). Therefore — testing the system is still able to achieve SOTA performance on previous algorithms verifies the vast majority of features that will be required for future algorithms as well. Accordingly — it is a very good starting point for making sure your system is working reliably before starting to develop a new algorithm. Developing a new algorithm with a buggy research system, might make you reach the conclusion that you are facing an infeasible algorithmic challenge — while in reality there’s a very sneaky bug in your system. Ensure reproducibility — One of the basics of being agile and lean is the ability to ship the minimal viable product (a minimal version of your vision) fast to your customers — get user feedback, and iteratively improve. Therefore, it is a good practice to make compromises in your algorithm, ship it fast, and use the customer feedback in order to guide future improvement efforts.
+
+The first step of facilitating such an iterative process is having the ability to reproduce the previous generation — the SOTA test reduces the time it will take you from weeks to a single click. Therefore, I see SOTA tests as an enabler for a lean and agile process in A.I. teams.
+
+It is widely known that tests are very valuable not only for reliability, but also to serve as documentation for users of the system; I’ve spoken to many teams who don’t remember where they stored the data annotations (or how they pre-processed the data) for an algorithm they’ve developed a few months ago. They had to send the data to re-annotation, waste a lot of time and risk they will still not be able to reproduce their results.
+
+I’ve spoken to many teams who had to resume developing an old algorithm, and the researcher scratches her head and doesn’t remember ‘which of these five scripts was used to develop it, if any’.
+
+The SOTA test is an *executable* documentation of your research — that’s the best kind of documentation because it gives you a huge RED alert when it’s out of date. It tells you exactly where you stored your data and which manipulations you performed on it at each step. It tells you exactly what hyper-parameters you used to reach SOTA performance. It tells you exactly which environment you used to reach SOTA performance and how to build it. Since you run it all the time — it promises you that this information is always up-to-date (e.g. if someone moves the data to a different path, the test fails).
+
+Building an automated test that reproduces your SOTA, is a good way to make sure you didn’t perform any manual transformations in the process that are not documented anywhere, which is a very common phenomenon, especially in the data preparation phase and between different stages of training.
+
+When to run the SOTA tests
+
+Optimally, tests should be run as often as possible, even while you are developing and refactoring the code. This is true for the “fast” subset of your test-suite, which as a rule-of-thumb — should run at a pace of hundreds of tests per second.
+
+Usually the tests I described above take more time — each test can take between minutes to even days for many types of algorithms. This makes it unrealistic to run these tests during the development/refactoring process.
+
+In parallel, I believe these tests have high value that is complementary and cannot be achieved by using only “fast” unit tests. The mode of work we found most beneficial for these (usually) slow tests was as follows -
+
+Running the SOTA tests once a week and before merging significant changes (each test takes between one to a few days to complete). At the early days we would run the tests manually at these time periods, and eventually we implemented a Jenkins pipeline that runs these tests on a cloud VM. The tests run in a fully automated way, and we receive the status (success/failure) on a dedicated Slack channel.
+
+Once a SOTA test has failed, we prioritize someone to investigate and fix usually within a day. In this aspect we were inspired by the Toyota manufacturing methodology, which stipulates that once you have a malfunction in a part of your manufacturing line (and the research infrastructure is our manufacturing line) — the best overall manufacturing efficiency will be gained by immediately fixing the problem.
+
+To recap — In this blog post we introduced a central design pattern for testing A.I. software — SOTA tests. Building these tests correctly will take you a very small effort (a few days for the first version that will give you 80% of the value, a few weeks for the rest), and provide you with very significant benefits — both in the reliability of your pipeline, as well in the reproducibility of algorithms developed in the past. These benefits will result in significant acceleration in the research\ development\ release velocity of your team and will facilitate a “lean” development process.
+
+This pattern has been in extensive use in our team for a few years, and we are certain it is a key component in our capability to scale quickly and reliably, providing hundreds of hospitals with solutions that support the treatment of over 10 life-threatening medical conditions in just a few years.
+
+In future blog posts — I will cover additional patterns for tests and other areas, such as continuous delivery of algorithms — and would love to hear ideas for topics from readers.

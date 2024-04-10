@@ -1,0 +1,27 @@
+It’s always to use as much data as you can when building machine learning models. I think we all are aware of the issue of overfitting, which is essentially where the model you build replicates the training data results so perfectly its fitted to the training data and does not generalise to better represent the population the data comes to, with catastrophic results when you feed in new data and get very odd results.
+
+Photo by Jacek Dylag on Unsplash
+
+What can you do to prevent this?
+
+Look online and you will find reams and reams of articles about overfitting, what it is and how to prevent it. These have been done to a great degree so I won’t repeat them all here but usually these can be controlled most easily by segregating the available data you have before you start.
+
+What data segregation's are there?
+
+The most basic way is to take the whole set of available data and split it into three different samples (with no duplication) and given the following labels:
+
+Training
+
+Validation
+
+Test
+
+Training, Test and Validation sets of data each carry out a specific purpose and will usually not be of the same size. Indeed some of the most used values are a 3:1:1 split (or 60% training, 20% validation and 20% test)
+
+Training Data
+
+This is the meat of the data. This is what is used to train and create the models you use. Naturally the more data you have in training the better you can expect the model to generalise to it. This generally has around 60% of all the available data in it.
+
+Validation Data
+
+This is the set of data that is used for tuning and improving your model. Whenever you train a model you use it against the validation set in order to generate some predictions and score its performance. You can then tweak the model, re-train it and run it against this data again to see if an improvement has been made. This can be a very iterative step. You want a reasonable size of data here to cover the parameter space the model will be exposed to, but not too much that your model does not have enough data to train…

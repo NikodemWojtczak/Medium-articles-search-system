@@ -1,0 +1,15 @@
+Picture: Thinkstock
+
+Explainable AI or Explainable Data Science is one of the top buzzwords of Data Science at the moment. Models that are explainable are seen as the answer to many of recently recognised problems with machine learning, such as bias or data leaks.
+
+A frequently given reason to make models more explainable is that they will then be trusted more readily by users, and sometimes it appears people assume the ideas are almost synonymous. For example, the paper introducing the influential LIME method of explaining black box models was titled ‘Why Should I Trust You?’, as if having an explanation for how a model came to its decision was a short direct step away from trusting it. Is this really the case however?
+
+An immediate problem with this equivalence is that trust is given at an emotional level whereas an explanation is a more technical artifact — the assumption behind explaining a model is that there are a certain number of pieces of information which can be provided to ensure the user understands what the model is doing. In contrast to gain trust means crossing a number of emotional thresholds.
+
+Hence, while it is true that an overly opaque model can be a huge obstacle to gaining a user’s trust, it isn’t the whole story — and there may even be occasions that an opaque model is trustworthy if some other conditions are met.
+
+Firstly, let’s revisit some ways that a model explanation can be useful.
+
+Explainable models can be shown to subject matter experts allowing them to identify the model’s flaw. An explainable model may sometimes help us to find a way to get a better result — e.g. a model of survival time could potentially offer some clues on how improve survival time, although the clues could be somewhat indirect It is more straightforward to troubleshoot an explainable model because its decision making process is clearer.
+
+Hence, there are reasons to make a model explainable that don’t immediately correspond to winning trust, although they may be a path to trust themselves. For example, incorporating a local subject matter expert’s opinion into a model may help them to trust it. At the same time, the goals listed above are clearly ends in themselves.

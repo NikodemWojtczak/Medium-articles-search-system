@@ -1,0 +1,45 @@
+1. Import Libraries
+
+First off, let’s import the required libraries: Pandas for data structuring, Matplotlib and Seaborn for graph plotting and statistics, and GeoPandas for geographical map plotting.
+
+2. Import the Data
+
+Let’s import and clean it in order to remove any unwanted variables and to organize the ones we want.
+
+, where life ladder is a DataFrame with countries as rows and ‘Life Ladder’ as a column, world is a GeoDataFrame with the position of every country in the world, and gdp_2016 is a DataFrame with the GDP per capita — adjusted by PPP — in 2016, which is also the year of the happiness data.
+
+Now, let’s join the DataFrames together and select the data for African countries.
+
+This it what we have up to this point: a DataFrame with all the African countries, their geographic positions —needed for plotting them geographically — , their Life Ladder values, and their GDP per capita. All that’s left to do is plot the data!
+
+3. Plot the Data
+
+First, let’s plot the Life Ladder data. Now, if we simply ask Python to plot the African data, it will give us a color scheme which is ‘normalized’ for Africa, but it is more interesting to know how happy Africa is in comparison with the rest of the world. Otherwise, we would only know how happy Africans are among other Africans.
+
+In order to solve this, we need to specify that the minimum and maximum values come from the whole ‘Life Ladder’ data, and not just from the African data.
+
+With this piece of code, we have an African map with a color scheme which considers happiness all throughout the world, where the grey countries are the ones with no data. Moreover, the legend also considers this —dark blue are the really happy countries in the world, and light blue; the really unhappy.
+
+Life Ladder — 2016
+
+Insight 1: The ‘happiest’ African country is roughly 60% as happy as the happiest country in the world. Meanwhile, the ‘unhappiest’ African country is among the unhappiest ones in the world.
+
+Similarly, we can also plot the GDP per capita.
+
+GDP per capita, by PPP — 2016
+
+Insight 2: Nothing unsual here; The country in Africa with the highest GDP per capita has only around 25–30% of the GDP per capita of the highest one in the world.
+
+If we put both African maps side by side, we can clearly see that GDP per capita and happiness don’t relate in a 1:1 manner in Africa. If that were the case, they would have very similar colors. Instead, despite the GDP per capita map being practically white, the happiness one is much more colorful.
+
+Let’s see the mean:
+
+If we take 4952.85/22462.79=0.22 we get the fraction of the average African GDP per capita by the average non-African GDP per capita. Similarly, 4.27/5.74=0.74 gives us the same for happiness.
+
+Insight 3: Despite having around 22% of the average wealth per capita of the rest of the world, African countries have around 74% of the average ‘happiness’ of the rest of the world. Insight 4: Insight 3 does not imply that GDP per capita does not impact happiness! It only means that, as is, African countries are poor, but they aren’t as unhappy as they are poor.
+
+In order to conclude how GDP per capita impacts happiness marginally, we need to run a regression.
+
+Insight 6: Because the orange slope is higher than the blue one, this means that, if you are poor, a unit of GDP per capita has a much bigger effect on your happiness than if you are rich! In economic terms, happiness is marginally decreasing in GDP per capita.
+
+Feel free to message me if you’d like to comment or criticize! The entire code can be found below.

@@ -1,0 +1,127 @@
+Support Vector Machines — Soft Margin Formulation and Kernel Trick
+
+Learn some of the advanced concepts that make Support Vector Machine a powerful linear classifier Rishabh Misra · Follow Published in Towards Data Science · 8 min read · Apr 30, 2019 -- 4 Listen Share
+
+SVM’s soft margin formulation technique in action
+
+Introduction
+
+Support Vector Machine (SVM) is one of the most popular classification techniques which aims to minimize the number of misclassification errors directly. There are many accessible resources to understand the basics of how Support Vector Machines (SVMs) work, however, in almost all the real-world applications (where the data is linearly inseparable), SVMs use some advanced concepts.
+
+The goal of this post is to explain the concepts of Soft Margin Formulation and Kernel Trick that SVMs employ to classify linearly inseparable data.
+
+If you want to get a refresher on the basics of SVM first, I’d recommend going through the following post.
+
+Linear Inseparability
+
+Before we move on to the concepts of Soft Margin and Kernel trick, let us establish the need of them. Suppose we have some data and it can be depicted as following in the 2D space:
+
+Figure 1: Data representation where the two classes are not linearly separable
+
+From the figure, it is evident that there’s no specific linear decision boundary that can perfectly separate the data, i.e. the data is linearly inseparable. We can have a similar situation in higher-dimensional representations as well. This can be attributed to the fact that usually, the features we derive from the data don’t contain sufficient information so that we can clearly separate the two classes. This is usually the case in many real-world applications. Fortunately, researchers have already come up with techniques that can handle situations like these. Let’s see what they are and how they work.
+
+Soft Margin Formulation
+
+This idea is based on a simple premise: allow SVM to make a certain number of mistakes and keep margin as wide as possible so that other points can still be classified correctly. This can be done simply by modifying the objective of SVM.
+
+Motivation
+
+Let us briefly go over the motivation for having this kind of formulation.
+
+As mentioned earlier, almost all real-world applications have data that is linearly inseparable.
+
+In rare cases where the data is linearly separable, we might not want to choose a decision boundary that perfectly separates the data to avoid overfitting. For example, consider the following diagram:
+
+Figure 2: Which decision boundary is better? Red or Green?
+
+Here the red decision boundary perfectly separates all the training points. However, is it really a good idea of having a decision boundary with such less margin? Do you think such kind of decision boundary will generalize well on unseen data? The answer is: No. The green decision boundary has a wider margin that would allow it to generalize well on unseen data. In that sense, soft margin formulation would also help in avoiding the overfitting problem.
+
+How it Works (mathematically)?
+
+Let us see how we can modify our objective to achieve the desired behavior. In this new setting, we would aim to minimize the following objective:
+
+equation 1
+
+This differs from the original objective in the second term. Here, C is a hyperparameter that decides the trade-off between maximizing the margin and minimizing the mistakes. When C is small, classification mistakes are given less importance and focus is more on maximizing the margin, whereas when C is large, the focus is more on avoiding misclassification at the expense of keeping the margin small.
+
+At this point, we should note, however, that not all mistakes are equal. Data points that are far away on the wrong side of the decision boundary should incur more penalty as compared to the ones that are closer. Let’s see how this could be incorporated with the help of the following diagram.
+
+Figure 3: The penalty incurred by data points for being on the wrong side of the decision boundary
+
+The idea is: for every data point x_i , we introduce a slack variable ξ_i . The value of ξ_i is the distance of x_i from the corresponding class’s margin if x_i is on the wrong side of the margin, otherwise zero. Thus the points that are far away from the margin on the wrong side would get more penalty.
+
+With this idea, each data point x_i needs to satisfy the following constraint:
+
+equation 2
+
+Here, the left-hand side of the inequality could be thought of like the confidence of classification. Confidence score ≥ 1 suggests that classifier has classified the point correctly. However, if confidence score < 1, it means that classifier did not classify the point correctly and incurring a linear penalty of ξ_i .
+
+Given these constraints, our objective is to minimize the following function:
+
+equation 3
+
+where we have used the concepts of Lagrange Multiplier for optimizing loss function under constraints. Let us compare this with SVM’s objective that handles the linearly separable cases (as given below).
+
+equation 4
+
+We see that only ξ_i terms are extra in the modified objective and everything else is the same.
+
+Point to note: In the final solution, λ_i s corresponding to points that are closest to the margin and on the wrong side of the margin (i.e. having non-zero ξ_i ) would be non-zero as they play a key role in positioning of the decision boundary, essentially making them the support vectors.
+
+Kernel Trick
+
+Now let us explore the second solution of using “Kernel Trick” to tackle the problem of linear inseparability. But first, we should learn what Kernel functions are.
+
+Kernel Functions
+
+Kernel functions are generalized functions that take two vectors (of any dimension) as input and output a score that denotes how similar the input vectors are. A simple Kernel function you already know is the dot product function: if the dot product is small, we conclude that vectors are different and if the dot product is large, we conclude that vectors are more similar. If you are interested in knowing about other types of Kernel functions, this would be a good source.
+
+The “Trick”
+
+Let us look at the objective function for the linearly separable case:
+
+equation 5
+
+This is a modified form of the objective in equation 4 . Here, we have substituted the optimal value of w and b . These optimal values can be calculated by differentiating equation 4 with respect to these parameters and equating it to 0.
+
+We can observe from equation 5 that objective depends on the dot product of input vector pairs ( x_i . x_j ), which is nothing but a Kernel function. Now here’s a good thing: we don’t have to be restricted to a simple Kernel function like dot product. We can use any fancy Kernel function in place of dot product that has the capability of measuring similarity in higher dimensions (where it could be more accurate; more on this later), without increasing the computational costs much. This is essentially known as the Kernel Trick.
+
+How it Works (mathematically)?
+
+A Kernel function can be written mathematically as follows:
+
+equation 6
+
+Here x and y are input vectors, ϕ is a transformation function and < , > denotes dot product operation. In the case of dot product function, ϕ just maps the input vector to itself.
+
+Kernel functions essentially take the dot product of transformed input vectors.
+
+Now let us consider the case depicted in figure 4 below. We see that there is no linear decision boundary in 2d space that could perfectly separate the data points. A circular (or quadratic) decision boundary might do the job, however, linear classifiers are not capable of coming up with these types of decision boundaries.
+
+Figure 4: Points in 2D space are separable by a circular decision boundary.
+
+In figure 4 , each point P is represented by the features of form (x,y) in 2D space. Looking at the desirable decision boundary, we can define a transformation function ϕ for a point P as ϕ(P) = (x^2, y^2, √2xy) (why we came up with such a transformation would be clear in just a moment). Let’s see what the Kernel function looks like for this type of transformation for two points P_1 and P_2 .
+
+equation 7
+
+If we observe the final form of the Kernel function, it’s nothing but a circle! This means we have changed our notion of similarity: instead of measuring similarity by how close the points are (using the dot product), we are measuring similarity based on whether points are within a circle. In this sense, defining such a transformation allowed us to have a non-linear decision boundary in 2D space (it is still linear in the original 3D space). It could be a lot to keep track of, so following is a brief summary of the decisions we have taken:
+
+1 - Each point P is represented by (x,y) coordinates in 2D space. 2 - We project the points to 3D space by transforming their coordinates to (x^2, y^2, √2xy) 3 - Points which have high value of x.y would move upwards along the z-axis (in this case, mostly the red circles). - Points which have high value ofwould move upwards along the z-axis (in this case, mostly the red circles). This video provides a good visualization of the same. 4 - We find a hyperplane in 3D space that would perfectly separate the classes. 5 - The form of Kernel function indicates that this hyperplane would form a circle in 2D space, thus giving us a non-linear decision boundary.
+
+And the main takeaway is:
+
+By embedding the data in a higher-dimensional feature space, we can keep using a linear classifier!
+
+A caveat here is that these transformations could increase the feature space drastically and that increases the computational costs. Is there any way we can reap the aforementioned benefits while not increasing the computational costs much? Turns out there is!
+
+Let us try to rewrite the Kernel function in equation 7 :
+
+equation 8
+
+Whoa! So the value of Kernel function (thus, the similarity between points in 3D space) is just the square of the dot product between points in 2D space. Pretty great, right?! But how did this happen?
+
+The reason for this is that we chose our transformation function ϕ wisely. And as long as we continue to do that, we can circumvent the transformation step and calculate the value of Kernel function directly from the similarity between points in 2D space. This, in turn, would also curb the computational costs. We have many popular Kernel functions which have this nice property and can be used out of the box (we don’t need to search for perfect ϕ ).
+
+Concluding Remarks
+
+With this, we have reached the end of this post. Hopefully, the details provided in this article provided you a good insight into what makes SVM a powerful linear classifier. In case you have any questions or suggestions, please let me know in the comments. Cheers! 🥂

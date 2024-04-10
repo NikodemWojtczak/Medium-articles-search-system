@@ -1,0 +1,17 @@
+Machine Learning for Content Moderation — Challenges
+
+Overview
+
+For an introduction to the topic of machine learning for content moderation, read the Introduction of this series:
+
+Now that we have gone over an overview of machine learning systems used for automatic content moderation, we can address the main challenges faced by these systems. These potential problems can lead to difficulties in evaluating the model, determining approaching classifier thresholds, and using it fairly and without unintentional bias. Since content moderation systems act on complex social phenomena, they face problems that are not necessarily encountered in other machine learning contexts.
+
+Varying definitions
+
+For many applications of content moderation, it is difficult to provide an explicit definition of the phenomenon of interest. These topics are often very complex social phenomena, whose definitions are topics of constant academic debate. For example, cyber-bullying has various definitions in academic texts, and so it is difficult to create an all-encompassing definition that everyone can agree on. For this reason, instructions provided to manual content labelers may not be clear enough to produce very reliable labels.
+
+This leads to two problems.
+
+First, it may appear to users that the content moderation system is inconsistent, if some things that users deem to be violating rules are removes and some are not. This may lead users to not trust the content moderation mechanisms or believe that it is unfairly targeting certain users. Since, from the user perspective, these systems are nebulous black boxes, it is difficult to explain how such inconsistencies may arise.
+
+The other problem is that the labeled training data may have contradictory data points. If labeling inconsistencies cause two very similar data points to have opposing labels, then…

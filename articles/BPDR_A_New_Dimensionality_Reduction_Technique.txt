@@ -1,0 +1,91 @@
+BPDR: A New Dimensionality Reduction Technique
+
+An Introduction
+
+Dimensionality reduction algorithms such as LDA, PCA, or t-SNE are great tools to analyze unlabeled (or labeled) data and gain more information about its structure and patterns. Dimensionality Reduction gives us the ability to visualize high-dimension datasets which can be extremely helpful for model selection. I believe that this subset of Machine Learning — call it data exploration — is wildly underdeveloped compared to its counterparts (like supervised learning or deep learning).
+
+My view: If someone is starting a new machine learning project, the first thing they do will be an exploratory analysis of the data. Different researchers have their own ideas about how in-depth this step should be, however, the results of the data exploration is knowledge gained about the dataset at hand. This knowledge proves to be extremely valuable down the road when the researcher runs into various problems like model selection and hyper-parameter tuning.
+
+By starting at the root and developing beautiful data exploration algorithms that will give the user quality information about the underlying patterns of a dataset, we can thus develop better machine learning pipelines as a whole.
+
+Some binary numbers. (Photo Credit: Fotomay/Shutterstock)
+
+The idea behind BPDR was inspired by an image compressor that I wrote for a class in college. The idea is bit-packing: encoding various data points into one — long — binary string.
+
+I will spare many of the nitty-gritty details on how the algorithm is constructed. For those interested in the ‘behind the scenes’ of this algorithm, the code can be viewed on my GitHub here.
+
+The Algorithm
+
+A general overview of the algorithm is the following: The original data columns (which all must be numerical) are first ranked by importance. The data is then normalized to be centered around 0. Next, there are N, 128-bit strings constructed to represent the n_components we are trying to reduce to. The normalized data is binary packed into the 128-bit strings in the order of their feature importance. Finally, we are left with packed binary numbers that can be converted back to integers.
+
+For a 4 column dataset that will be reduced to 2 columns, the binary packing looks like this:
+
+binary string 1 -> 0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0 (128-bits)
+
+| most important |2nd important col|
+
+----------------------------------- binary string 2 -> 0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0 (128-bits)
+
+|3rd important col|4th important col|
+
+----------------------------------- -> repeat this packing for each row
+
+Once again, this section is made as a general overview on how the algorithm works, however, it is not very in depth.
+
+How to Use BPDR
+
+I structured the BPDR module such that it mimics how other dimensionality algorithms work in the Scikit-Learn package. Here is an example of its use on the iris dataset.
+
+First, the BPDR repository needs to be cloned from GitHub. After navigating to the BPDR directory, run pip install -r requirements.txt to obtain the proper packages to run the algorithm. Now we are finally ready to open a new file and begin exploring data.
+
+First, we must import the required packages into our module: We will be obviously using BPDR, as well as the all-to-popular iris dataset, and matplotlib for some visualization:
+
+from bitpack import BPDR
+
+from sklearn import datasets
+
+import matplotlib.pyplot as plt
+
+Next, we load our dataset:
+
+iris = datasets.load_iris()
+
+iris_data = iris.data
+
+iris_targets = iris.target >>> iris_data[0]
+
+[5.1 3.5 1.4 0.2]
+
+We see that there are 4 columns (all numerical). Let us reduce this dataset to 2 columns so that we can graph and visualize the reduced components. We first need to create an instance of the reduction object and initialize its parameters.
+
+bpdr = BPDR(n_components=2)
+
+Next, by calling the fit_transform function, the data passed in, will then be reduced and returned in a new array:
+
+bpdr_data = bpdr.fit_transform(iris_data, iris_targets) >>> bpdr_data[0]
+
+[7.686143364045647e+17, 4.0992764608243425e+18]
+
+Since we passed in labels, we can look at some variance metrics that evaluate how well the reduced data explains the original data:
+
+>>> print(bpdr.variances)
+
+[3.476833771196913e+36, 4.83034889579370e+36, 9.75667133492751e+36] >>> print(bpdr.scaled_variances)
+
+[0.5774239158754918, 0.8022123454852088, 1.6203637386392993] >>> print(bpdr.mean_variance)
+
+6.021284667306044e+36
+
+For more information on how these variances are calculated please visit the documentation for the repository.
+
+Finally, we now have a dataset that is 2 columns wide which can be graphed and visualized. When component 1 is graphed on the X-axis and component 2 is graphed on the Y-axis, the graph looks like this:
+
+Iris dataset after BPDR reduction
+
+The different colors in the graph represent the different labels of the flowers. It is evident that there are distinct clusters for each label group. This structure indicates that the algorithm did a good job representing the full data in a lower dimension. As a comparison, we look at the same graph but with principle component analysis:
+
+Iris dataset after PCA reduction
+
+The BPDR reduction actually creates a dataset that is more linearly separable than PCA. This does not mean BPDR is a better algorithm for all data, it simply means that it is worth investigating, especially when performing linear regression type models.
+
+All the code for this article is available in a Jupyter Notebook in the GitHub repository.

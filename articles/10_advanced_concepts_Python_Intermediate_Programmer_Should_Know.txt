@@ -1,0 +1,29 @@
+10 advanced concepts Python Intermediate Programmer Should Know
+
+Want to become an expert python developer then read this blog to know about 10 advanced concepts in python. Pulkit Agrawal · Follow Published in Towards Data Science · 7 min read · Apr 30, 2019 -- 2 Listen Share
+
+How is Everything Object in Python? Comprehension (Multiple and Nested) Extended Keyword Arguments (*args, **kwargs) Closures and Decorators Generators and Iterators Protocol Context Managers @staticmethod and @classmethod Inheritance and Encapsulation Operator Overloading Python Packages and Program layout
+
+I will explain all the topics one by one.
+
+How Everything in python is Object?
+
+Strings are objects. Lists are objects. Functions are objects. Even modules are objects. everything is an object in the sense that it can be assigned to a variable or passed as an argument to a function.
+
+Anything you can (legally) place on the right-hand side of the equals sign is (or creates) an object in Python.
+
+> def hello():
+
+print("say hello") > hi = hello() > hi()
+
+"say hello" >hello()
+
+"say hello"
+
+Objects:
+
+An Identity(id) A value(mutable or immutable)
+
+Mutable: When you alter the item, the id is still the same. Ex: Dictionary, List
+
+Immutable: String, Integer, tuple

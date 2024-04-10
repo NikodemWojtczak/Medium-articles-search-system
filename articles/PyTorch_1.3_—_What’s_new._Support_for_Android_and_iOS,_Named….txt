@@ -1,0 +1,115 @@
+PyTorch 1.3 — What’s new?
+
+Facebook just released PyTorch v1.3 and it is packed with some of the most awaited features. The three most attractive ones are:
+
+Named Tensor — Something that would make the life of machine learning practitioners much easier. Quantization — For performance critical systems like IoT devices and embedded systems. Mobile Support — For both Android and iOS devices.
+
+I would be talking in brief about all of these and will link to some other important features.
+
+Named Tensors
+
+PyTorch v1.3 finally added the support for named tensors which allows users to access tensor dimensions using explicitly associated names rather than remembering the dimension number. For example, up until now in computer vision related tasks, we had to remember the general structure of a batch as follows — [N, C, H, W]. Where N is batch size, C is number of channels, H and W are height and width of images respectively. We had to keep track of such a structure while performing operations on this batch but now we can just use the dimension name rather keeping track of its index. Additionally, these named representations can provide augmented runtime error checks. I will discuss them further in this article.
+
+Creating Named Tensors.
+
+batch.names prints the name of each dimension on tensor batch in order.
+
+Alignment by name
+
+Use align_as() or align_to() to align tensor dimensions by name to a specified ordering.
+
+In computer vision models often the representation of a batch needs to change in between [N, C, H, W] (for forward and backward pass of model) and [N, H, W, C] (for plotting and saving images). Until now this had to be done counter intuitively as batch.permute([0, 2, 3, 1]) but now it can be done in a much easier way by using the align_as() or align_to() operator.
+
+For a large number of dimensions, normal permute operator needs an explicit list of all dimensions even for exchanging the positions of just two dimensions. However, in the case of named tensors, the permutation or reordering of the dimensions can be done in an easier and simpler way as follows:
+
+Check names
+
+Apart from making tensors more intuitive, named tensors also provide additional error checks. An operator, when applied on named tensors (in case of binary operator any one or both named tensors) will implicitly check that certain dimension names match at the run time. This provides extra security against errors. This is shown in the example below:
+
+In the above example, if not for named tensors, batch1 and batch2 can be added without any error because height = width = 100. However, batch2 has the height and width dimension interchanged and adding it to batch1 might not be the intended operation. Thanks to named tensors, this logical error will be caught by name checking as (’N’, ‘C’, ‘H’, ‘W’) and (’N’, ‘C’, ‘W’, ‘H’) are not the same.
+
+When are the names matched?
+
+The rules are pretty much like the broadcasting rules for the dimensions in numpy or PyTorch. Quoting the official PyTorch docs:
+
+Two names match if they are equal (string equality) or if at least one is None . Nones are essentially a special “wildcard” name.”
+
+This is showcased in the example below:
+
+Name propagation
+
+After performing operations on tensors you don’t need to enter the dimension names again, they will automatically be propagated. PyTorch makes use of two operators — match and unify for name propagation.
+
+match is the same operator as defined above, it checks whether the two named tensors can be matched or not.
+
+is the same operator as defined above, it checks whether the two named tensors can be matched or not. unify is an operator used to determine which of the two input tensor’s name shall be propagated the resulting tensor. Quoting the official PyTorch docs:
+
+unify(A, B) determines which of the names A and B to propagate to the outputs. It returns the more specific of the two names, if they match. If the names do not match, then it errors.
+
+Name propagation is showcased in an example below:
+
+Unary operator:
+
+Binary operator:
+
+Limitations
+
+At the time of writing this article, the named tensor functionality is in experimental mode and maybe subjected to many changes. However, one of the biggest current limitations of named tensors is that they don’t fully support the Autograd engine. Although the gradient computations for named tensors is perfectly same but the autograd engine completely ignores the name and along with it, the additional security they provide.
+
+Quantization
+
+PyTorch 1.3 now supports Quantization of tensors. This is something Tensorflow already supports and was much awaited in PyTorch. Quantization is a fairly simple yet elaborate concept. I will try to write about them in brief with a high level of abstraction here by answering the three questions — What, Why and How.
+
+What is Quantization?
+
+Quantization is the technique of performing operations in a low-precision format or converting high precision data formats to low precision data formats. This is done for example by treating a 32-bit floating point format as an 8-bit fixed point format. If interested, you might read about the fixed-point and floating-point arithmetic and their related complexities to better understand the need of Quantization.
+
+Why Quantization?
+
+The whole purpose of pursuing research and creating neural network models is to deploy them and make them available for the public good. While the model training need only grows proportionally to the number of researchers and machine learning practitioners, the need for mode inference grows proportional to the number of consumers. To allow more and better access to the end users, the representation of the models deployed for inference needs to be much more compact than their representation while training. Another thing to keep in mind is that backpropagation needs high precision representations for the model weights and biases. However, during inference, the models are much more robust and do not require high precision representation. Thus, a model of size 113.9MB in 32 bit floating point representation can be quantized as int8 to be of size 76.8MB.
+
+How to use Quantization in PyTorch v1.3?
+
+Quoting the official PyTorch documentation:
+
+PyTorch supports INT8 quantization compared to typical FP32 models allowing for a 4x reduction in the model size and a 4x reduction in memory bandwidth requirements. Hardware support for INT8 computations is typically 2 to 4 times faster compared to FP32 compute.
+
+For Quantization, PyTorch introduced three new data types as follows:
+
+torch.quint8 — 8-bit unsigned integer.
+
+— 8-bit unsigned integer. torch.qint8 — 8-bit signed integer.
+
+— 8-bit signed integer. torch.qint32 — 32-bit signed integer.
+
+PyTorch now offers three kinds of quantization methods for models:
+
+Post Training Dynamic Quantization — Quantize weights ahead of time but dynamically quantize the network activations at runtime. It is done as follows: torch.quantization.quantize_dynamic(model, dtype=torch.qint8) Post Training Static Quantization — Quantize both weights and activation bias and scale factors ahead of time. This is done by calling a calibration function. For more details refer the original documentation. Quantization Aware Training — In this model is trained on FP32 representation but is then quantized to a lower precision precision representation like INT8. This is used in the rare cases where normal quantization can not provide accurate results. Thus, we get down to training the model with quantized values.
+
+Another thing to notice is that PyTorch support Quantization from ground up. This means, we can also quantize tensors with the following equation (very intuitive) and code:
+
+This equation is used for the int representation of the quantized tensor that can be accessed using t.int_repr()
+
+Here is the list of all supported operations on quantized tensors.
+
+Mobile Support
+
+The natural purpose of allowing quantization is shipping PyTorch models on performance critical mobile phones (and other devices). They have implemented an end-to-end PyTorch API for both Android and iOS. This will have a great impact on reducing inference latency and user privacy. However, PyTorch mobile is currently in an early experimental stage where it has several limitations. For example, the current version only supports forward propagation (inference) and no backward operations are supported.
+
+You can access the hello world tutorials for both iOS and Android on the official PyTorch website.
+
+More updates
+
+Apart from these three major updates, PyTorch v1.3 has implemented several other changes and bug fixes. You can view the list of all the changes on the official PyTorch Github repository. Some of these features are:
+
+TPU support for PyTorch on Google Cloud. Here’s a Github repo showing how to use TPUs with PyTorch.
+
+Extended support for TensorBoard: 3D Mesh and Hyperparameter
+
+Major updates to the torchscript (mostly for mobile phones)
+
+Performance improvements in torch.nn , torch.nn.functional , Autograd engine and more.
+
+Additionally, if you want to port your code from a previous version of PyTorch to PyTorch v1.3, you need to take of care features which might cause errors or unintended behavior. Some of these features are (I am directly quoting these changes from the previously mentioned release notes):
+
+Data Type promotion: For example, torch.tensor(5) + 1.5 outputs a tensor with value 6.5. In earlier versions, the output would’ve been 6. Data Type promotion for in-place operators: For example, consider the following code: a = torch.tensor(0); a.add_(0.5) in earlier versions, this would’ve given a tensor with value 1 as the output. But as of now, PyTorch no more support in-place operations with a lower datatype hence the above piece of code outputs an error. torch.flatten: Output of torch.flatten(torch.tensor(0)) is tensor([0]) compared to tensor(0) earlier. Rather than returning a 0D tensor, it now returns a 1D tensor. nn.functional.affine_grid : when align_corners = True, changed the behavior of 2D affine transforms on 1D data and 3D affine transforms on 2D data (i.e., when one of the spatial dimensions has unit size). Previously, all grid points along a unit dimension were considered arbitrarily to be at -1, now they are considered to be at 0 (the center of the input image). torch.gels: removed deprecated operator, use torch.lstsq instead. utils.data.DataLoader made a number of Iterator attributes private (e.g. num_workers, pin_memory). Additional changes in pyTorch for C++..

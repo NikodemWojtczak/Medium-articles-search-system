@@ -1,0 +1,33 @@
+Member-only story Log Transformation Base For Data Linearization Does Not Matter
+
+Code for this demonstration can be found here:
+
+Today a colleague asked me a simple question:
+
+“How do you find the best logarithm base to linearly transform your data?”
+
+This is actually a trick question, because there is no best log base to linearly transform your data — the fact that you are taking a log will linearize it no matter what the base of the log is.
+
+My colleague was skeptical and I wanted to brush up on my algebra, so let’s dive into the math!
+
+Premise
+
+Let’s assume you have exponential data. This means your data is in some form similar to the following:
+
+This means our data is non-linear. Linear data is arguably the best form of data we can model, because through linear regression we can directly quantify the effects of each feature on the target variable by looking at its coefficient. Linear regression is the best type of model for giving humans an intuitive and quantitative sense of how the model thinks our dependent variable is influenced by our independent variables versus, for example, the black boxes of deep neural nets.
+
+Derivation
+
+Since we know the base here is e, we can linearize our data by taking the natural log of both sides (ignoring the constant C₁):
+
+Now if we plot ln(y) vs. x, we get a line. That’s pretty straightforward, but what happens if we didn’t know that the base of our power was e? We can try taking the log (base 10) of both sides:
+
+but it doesn’t seem to look linear yet. However, what if we introduce the logarithm power rule?
+
+But log(e) is a constant! therefore we have:
+
+This means that our base 10 log is still directly proportional to x, just by a different scaling factor C, which is the log of the original base e in this case.
+
+What does it look like?
+
+We can also visualize this with some python code!

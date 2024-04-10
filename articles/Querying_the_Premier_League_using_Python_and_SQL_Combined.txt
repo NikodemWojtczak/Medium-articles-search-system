@@ -1,0 +1,13 @@
+Querying the Premier League using Python and SQL Combined
+
+Image Courtesy of Chaos Soccer Gear via Unsplash
+
+It may be useful sometimes to convert an Excel sheet into a MySQL database. This conversion will enable querying operations to be undertaken using straightforward SQL queries. Using Python, we can simply convert a limited Excel spreadsheet into a MySQL database.
+
+To demonstrate how this is possible, I will use a Sports example. Having witnessed Liverpool’s triumphant display against Barcelona in the UEFA Champions League (07/05/19), I will choose an example close to home, the Premier League Table.
+
+From Excel to MySQL via Python
+
+I first download the Premier League Table and populate it into an Excel file as shown below. Crucially, I then save this Excel file as a ‘comma separated values file (csv)’.
+
+To begin, I first use the open function and the read() method to read this ‘Premier_league.csv’ file as a string, fString. I then create an empty list, and split this string at every new line character. I then split the line further at each specified comma in the string, and append to my fList. To validate, I print out my fList. Here I can see I have a nested list, with the first element of fList representing the columns, the second element representing the team occupying first place and so forth.

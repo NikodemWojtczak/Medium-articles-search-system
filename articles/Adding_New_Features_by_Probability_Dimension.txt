@@ -1,0 +1,21 @@
+Introduction:
+
+Feature engineering is an important subject in Machine Learning. If we want our machine to learn, we need to give meaningful information to it. Deep learning architectures may not require well created features, because they can actually create features by themselves. But, this would create a need for a huge data set which will also need big amount of computation power.
+
+For feature creation, we need to know about the subject that machine learning will work on. If it is signal processing, we need to know about signal processing. If it is finance, we need to know some finance so that we will know which features we can create.
+
+Method:
+
+Another type of feature that may be applied in most of the areas is probability. Probability of a value to exist in an example with other existing values may be a meaningful feature.
+
+Example: Let’s assume that we have a digit image 0 as given below. We will create the probability of existence of each value while the other values exist.
+
+Digit 0 Image
+
+We will create probability of each value and map it by increasing the dimension of our matrix. (Representations are written in Python language)
+
+Flatten the image. (2D to 1D) (imgFlat) Create a zero-valued matrix which has the dimensions (valueRange,len(imgFlat)). Value range is the range we will determine later. Map the imgFlat values to our zero-valued matrix as a binary matrix(We will determine Value Range here. Let’s assume that our value range is 10. Value range is the range that we will map our image values. The values in image will be mapped to the values between 0 and 10.). Our imgFlat with mapped values is [ 0, 3, 10, 7, 2, 0, 0, 6, 8, 5, 8, 1, 1, 7, 2, 1, 7, 1, 1, 5, 1, 1, 7, 1, 0, 6, 3, 5, 6, 0, 0, 3, 9, 7, 1, 0]. So, let’s create our binary matrix according to the imgFlat values.
+
+Binary Mapping
+
+4. So, we flattened our matrix. Then, we added one more dimension. To this…

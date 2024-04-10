@@ -1,0 +1,31 @@
+Three ways to split your data into batches compared for time & memory efficiency and code quality.
+
+Introduction
+
+With increasing volumes of the data, a common approach to train machine-learning models is to apply the so-called training on batch. This approach involves splitting a dataset into a series of smaller data chunks that are handed to the model one at a time.
+
+In this post, we will present three ideas to split the dataset for batches:
+
+creating a “big” tensor,
+
+loading partial data with HDF5,
+
+python generators.
+
+For illustration purposes, we will pretend that the model is a sound-based detector, but the analysis presented in this post is generic. Despite the example is framed as a particular case, the steps discussed here are essentially splitting, preprocessing and iterating over the data. It conforms to a common procedure. Regardless of the data comes in for image files, table derived from a SQL query or an HTTP response, it is the procedure that is our main concern.
+
+Specifically, we will compare our methods by looking into the following aspects:
+
+code quality,
+
+memory footprint,
+
+time efficiency.
+
+What is a batch?
+
+Formally, a batch is understood as an input-output pair (X[i], y[i]) , being a subset of the data. Since our model is a sound-based detector, it expects a processed audio sequence as input and returns the probability of occurrence of a certain event. Naturally, in our case, the batch is consisted of:
+
+X[t] - a matrix representing processed audio track sampled within a time-window, and
+
+- a matrix representing processed audio track sampled within a time-window, and y[t] - a binary label denoting the presence of the event,

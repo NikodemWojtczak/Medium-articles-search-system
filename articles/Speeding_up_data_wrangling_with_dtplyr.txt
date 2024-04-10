@@ -1,0 +1,15 @@
+Generating the dataset
+
+We generate an artificial dataset. The first thing that came to my mind is an order registry, in which we store:
+
+id of the client
+
+of the client name of the product
+
+of the product date of purchase
+
+of purchase amount of product purchased
+
+of product purchased the unit price of a certain product
+
+As this is only a toy example, we do not dive deeply into the logic behind the dataset. We can agree that it vaguely resembles a real-life scenario. For testing the performance of different approaches, we generate 10 million rows of data.

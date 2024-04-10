@@ -1,0 +1,13 @@
+What is elo?
+
+Elo is a calculated score used to rank players in head-to-head competitions like chess or basketball games. Many people have seen the actual formula behind this algorithm because Andrew Garfield writes it on the window of a Harvard dorm room in The Social Network.
+
+Image from https://www.akitaonrails.com
+
+How Important is it?
+
+When Magnus Carlsen played Fabiano Caruana for the Chess World Championships, Magnus had an Elo rating of 2,835 vs. Fabiano’ s 2,832. Does this difference matter at all? With an Elo of ~1,250, what are my chances of beating Magnus? In this article I detail how I used Python to gather, transform, and analyze data to understand how important Elo is for predicting the winner of a game.
+
+Gathering the Data
+
+To understand Elo’s relationship to the predicted outcome of a game, I first scraped data from over 100,000 games on chess.com with the below script. Here I loop through through chess games by appending a random number to the end of the url “https://www.chess.com/live/game/” and pull the game result with the helper function get_chess_info(). This function returns a string like the below example, so I then use a second helper function, parse_text(), to transform this into useful data.

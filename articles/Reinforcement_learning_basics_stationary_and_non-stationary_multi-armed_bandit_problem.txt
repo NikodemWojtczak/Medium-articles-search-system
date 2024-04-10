@@ -1,0 +1,107 @@
+Photo by Benoit Dare on Unsplash
+
+The multi-armed (also called k-armed) bandit is an introductory reinforcement learning problem in which an agent has to make n choices among k different options. Each option delivers a (possibly) different reward from an unknown distribution which usually doesn’t change over time (i.e. it is stationary). If the distribution changes over time (i.e. it is not stationary), the problem gets harder because previous observations (i.e. previous games) are of little usefulness. In either case, the goal is to maximize the total reward obtained.
+
+This article reviews one (of many) simple solution for both a stationary and a non-stationary 5-armed bandit across 1000 games. Note that only some remarks of the full code will be showcased here, for the fully functional notebook, please see this github repository.
+
+5 stationary bandits
+
+First of all, let’s just define the 5 stationary bandits shown in the image below and that will become the agent’s options.
+
+class Bandit:
+
+def __init__(self, mean, std):
+
+self.mean = mean
+
+self.std = std
+
+
+
+def sample(self, n=None):
+
+return np.random.normal(self.mean, self.std, n)
+
+Distribution of each bandit (unknown for the algorithm)
+
+For the sake of simplicity, each of them follows a normal distribution with mean 1, 2, 3, 4 and 5 respectively and all of them have a standard deviation of 5. This means that a reward of, let’s say 3, in a single pull is highly likely in all of the bandits, but the expected reward of 1000 games will vary hugely from one bandit to the other. In fact, if one always chooses the bandit b1, the expected reward is 1000, while if one does the same with the bandit b5 then the expected reward rises up until 5000 (a 5x increase). Remember that, in this example, the best bandit is number 5.
+
+Of course, if one knew these distributions beforehand, then the problem will be trivial: just choose the bandit with the highest expected value and stick with it. This is where the trade-off between exploration and exploitation comes in: given that one has imperfect information about the environment, it is necessary to keep exploring it (i.e. trying different bandits) in order to gain knowledge about the best option to choose or it will be very probable to get stuck in a local optima (pure exploitation, a greedy algorithm), but if one only explores, then the information obtained is not being used and no optima gets achieved (pure exploration).
+
+Just to make sure the above concept get understood, suppose that after trying each bandit once their outcome is:
+
+Then a pure exploitation algorithm will pull the real worst bandit (b1) for a long time (until the average of b1 gets below 0, which may be never) just because it randomly happened to be the best in the initialization step. On the contrary, a pure exploration algorithm will sample the five bandits uniformly and its expected value will be of:
+
+which is a suboptimal result.
+
+A simple solution is to combine these two approaches and just be greedy but explore in a proportion ε of the time. In the figure below, one can see an implementation of this for ε = 0 (pure exploitation), ε = 0.01 and ε = 0.10. The greedy algorithm dominates in the early phases of the search, but those that explore quickly realize that there are better bandits and outperform the greedy algorithm.
+
+# Plays the bandits n times during t time steps
+
+datas = {}
+
+n = 20
+
+t = 1000
+
+es = [0, 0.01, 0.10] for e in es:
+
+# Play n times
+
+for i in range(n):
+
+# Get t time-steps of each bandit
+
+if i == 0:
+
+data = sample_bandits(bandits, e, t)
+
+else:
+
+data = data.append(sample_bandits(bandits, e, t))
+
+
+
+datas[e] = data
+
+Average score for ε = 0, ε = 0.01 and ε = 0.10
+
+As the problem is stationary, once one is confident on being sampling the best bandit, no longer exploration is needed; hence, in the limit (i.e. with ∞ steps), the ε = 0.01 algorithm will be the best performer. Nevertheless, if one has confidence in the stationarity of the problem, then the best strategy will be to do an initial search (ε = 0.10) and then switch to exploitation mode (ε = 0)!
+
+The figure below shows that by playing this game 20 times, the mixed algorithms consistently sampled the best bandit a higher percentage of the time. Notice how ε = 0.10 looks stagnated near 90%, this is natural because it is coded to choose one non-optimal bandit 10% of the time. On the contrary, ε = 0.01 keeps increasing, and with time it will get to 99%.
+
+Percentage of optimal action for each ε policy across 20 games.
+
+Another way to look at it is to check the number of samples per bandit across the 20 games, and as shown below, the greedy algorithm gets usually confused between the bandit 4 and 5, while ε = 0.10 finds the best bandit quite easily.
+
+Number of samples per bandit per policy.
+
+5 non-stationary bandits
+
+In real life, it is common to find distributions that change over time. In this case, the problem gets harder to solve just because previous observations are less useful: they might not be reflecting the truth about the current state of the bandit. An easy (but very restrictive) way of handling this is just to take into account a number m of previous observations, which is the approach that is being used here. Note that this raises many issues, such as:
+
+Changes may be very different than m, in which case information is getting either mixed or wasted.
+
+This approach assumes that the new distribution of the bandit has nothing to do with the previous distribution, which is often not the case.
+
+Alternative approaches such as using exponentially weighted means, weighted block means or even fitting a time series model to find an indicator of when a distribution changes and tune the exploration rate accordingly may be more accurate given the problem’s nature.
+
+In order to tweak these bandits into being non-stationary, a simple probabilistic mutation on the distribution’s mean and standard deviation is used (with a 1% mutation probability), but changes may also come every X number of steps or with a non-uniform probability or they might even change the shape of the distribution.
+
+def mutate_bandit(bandits, proba):
+
+for bandit in bandits:
+
+if np.random.random() < proba:
+
+bandit.mean += np.random.randint(-100,200)/100
+
+bandit.std += np.random.randint(-50,75)/100
+
+In this case, one would expect a pure exploitation algorithm to perform very poorly. This intuition is confirmed with the figure below, which shows that the ε = 0 algorithm only chooses the best bandit about 30% of the time, which is not much better than a purely random choice (20%). ε = 0.10 manages to discover when the best bandit changes more frequently and keeps being the best performing algorithm. On the other hand, ε = 0.01 is not improving anymore since its low exploration rate doesn’t allow it to find the changing best bandit quickly.
+
+Percentage of optimal action for each ε policy across 20 games on a non-stationary bandit problem.
+
+The takeaway
+
+Finally, if one needs to remember something about this article it should be: just like the k-bandit problem, real-world problems, in which the true nature is unknown, need a mixture of exploration and exploitation to be addressed efficiently.

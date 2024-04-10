@@ -1,0 +1,47 @@
+Methodology
+
+Download and Explore New York City Dataset
+
+In order to segment the neighborhoods of New York City, a dataset is required that contains the 5 boroughs and the neighborhoods, that exist in each borough, with respective latitude and longitude coordinates. This dataset is downloaded using the mentioned URL.
+
+Once the .json file is downloaded, it is analyzed to understand the structure of the file. A python dictionary is returned by the URL and all the relevant data is found to be in the features key, which is basically a list of the neighborhoods. The dictionary is transformed, into a pandas dataframe, by looping through the data and filling the dataframe rows one at a time.
+
+As a result, a dataframe is created with Borough, Neighborhood, Latitude and Longitude details of the New York City’s neighborhood.
+
+Upon analysis, it is found that the dataframe consists of 5 boroughs and 306 neighborhoods.
+
+Further, ‘geopy’ library is used to get the latitude and longitude values of New York City, which was returned to be Latitude: 40.71, Longitude: -74.01.
+
+The curated dataframe is then used to visualize by creating a map of New York City with neighborhoods superimposed on top. The following depiction is a map generated using python ‘folium’ library.
+
+RESTful API Calls to Foursquare
+
+The Foursquare API is used to explore the neighborhoods and segment them. To access the API, ‘CLIENT_ID’, ‘CLIENT_SECRET’ and ‘VERSION’ is defined.
+
+There are many endpoints available on Foursquare for various GET requests. But, to explore the cuisines, it is required that all the venues extracted are from ‘Food’ category. Foursquare Venue Category Hierarchy is retrieved and returned request is further analyzed.
+
+Upon analysis, it is found that there are 10 major or parent categories of venues, under which all the other sub-categories are included.
+
+As said earlier, the ‘FOOD’ category is the matter of interest. A function is created to return a dictionary with ‘Category ID’ & ‘Category Name’ of ‘Food’ & it’s sub-categories.
+
+This above function takes the parent ‘Category ID’ and returns the ‘Category Name’ and ‘Category ID’ of all the sub-categories.
+
+To further understand the results of GET Request, the first neighborhood of the ‘New York City’ dataset is explored. The first neighborhood returned is ‘Wakefield’ with Latitude 40.89 and Longitude -73.85. Then, a GET request URL is created to search for Venue with ‘Category ID’ = ‘4d4b7105d754a06374d81259’, which is the ‘Category ID’ for ‘Food’, and radius = 500 meters. The returned request is then examined, which is as follows:
+
+As, the aim is to segment the neighborhoods of New York City with respect to the ‘Food’ in its vicinity, it is further required to fetch this data from all the 306 neighborhoods’ venues.
+
+To overcome the redundancy of the process followed above, a function ‘getNearbyFood’ is created. This functions loop through all the neighborhoods of New York City and creates an API request URL with radius = 500, LIMIT = 100. By limit, it is defined that maximum 100 nearby venues should be returned. Further, the GET request is made to Foursquare API and only relevant information for each nearby venue is extracted from it. The data is then appended to a python ‘list’. Lastly the python ‘list’ is unfolded or flattened to append it to dataframe being returned by the function.
+
+It is inquisitive to know that Foursquare API returns all the sub-categories, if a top-level category is specified in the GET Request.
+
+Pickle
+
+Pickle is a very important and easy-to-use library. It is used to serialize the information retrieved from GET requests, to make a persistent ‘.pkl’ file. This file can later be deserialized to retrieve an exact python object structure. This is a crucial step as it will counter any redundant requests to the Foursquare API, which is chargeable over the threshold limits.
+
+The returned ‘dataframe’ is as follows:
+
+As of now, two python ‘dataframe’ are created:
+
+1. ‘neighborhoods’ which contains the Borough, Neighborhood, Latitude and Longitude details of the New York City’s neighborhood, and
+
+2. ‘nyc_venues’ which is a merger between ‘neighborhoods’ dataframe and its ‘Food’ category venues searched with ‘Radius’ = 500 meters and ‘Limit’ = 100. Also, each venue has its own Latitude, Longitude and Category.

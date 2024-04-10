@@ -1,0 +1,25 @@
+Chapter-2: Python Data Structure — Data Type
+
+Welcome to the second part of Machine learning and data analysis series based on a graduate course offered by Inha University, Rep. of Korea. In this part, we will discuss Data structures in python. However, if you are viewing this for the first time then we encourage you to follow the first part first where we discussed basic python, installation of IDEs like Anaconda, Pycharm and also about some python libraries like Numpy, Matplotlib, etc.
+
+Data Structures are the different ways of the programming languages of storing data on your computer so that data can be accessed easily and worked efficiently. It basically defines the relationship between the data and the different operations performing on the data. Generally, data structures are divided into two categories: Primitive and non-primitive data structures. Integers, float, strings, and Booleans are the basic data structure sometimes called building blocks of data manipulation which are included in Primitive data structures. Arrays, Lists, Tuples, set, dictionaries are included int non-primitive data structures. In this article we’ll discuss the following Data Types:
+
+1. Scalar (Integer, Float, Boolean, None)
+
+2. String
+
+3. Bytes
+
+4. List
+
+5. Tuple
+
+6. Dictionary
+
+7. Set
+
+8. Bool
+
+1. Scalar (Integer, Float, Boolean, None)
+
+A scalar is a type that can have a single value such as 5 , 3.14 or 'Arman' . Sometimes strings are also considered as a scalar but here we described it separately. Python comes with a number of built-in datatypes. The basic built-in scalar types are:

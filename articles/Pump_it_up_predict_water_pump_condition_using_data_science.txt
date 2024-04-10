@@ -1,0 +1,145 @@
+Pump it up: predict water pump condition using data science
+
+How can data science and machine learning in Python be used to predict how water pumps are functioning in Tanzania? Shiao-li Green · Follow Published in Towards Data Science · 6 min read · Dec 20, 2019 -- Listen Share
+
+Pump image courtesy of Flickr user Christopher Jensen
+
+DrivenData’s competitions are in the context of building a better world. Pump It Up looks at determining the functionality of water pumps in Tanzania. In data terms, the data is a comma-separated values (CSV) file of 38 features and the goal is to predict one of three classes (functional, not functional, functional needs repair).
+
+The code isn’t anything too fancy but provides a good baseline approach that can be improved on, more about that later. In short, you’ll learn a bit about each step of the process and achieve an f1 score in the 70s!
+
+This post will cover:
+
+Interpreting the competition Exploratory data analysis Model selection Evaluation Conclusion and tips
+
+Interpreting the competition
+
+The dataset is a reasonable size — 59,400 entries, so we should not feel obliged to use all 38 features (characteristics) in our model!
+
+F1 score is a metric to evaluate how well a technique is doing. It’s particularly useful when there is an imbalance in the data, the classes don’t have an even distribution.
+
+A table indicating the data imbalance in the training set.
+
+F1 score is a harmonic mean and takes into consideration precision and recall. Mathematically, it looks like this:
+
+Precision asks how often our model is correct when it predicts a positive event, that is:
+
+Recall, on the other hand, asks how well our model predicts the positive events:
+
+The F1 score combines these two metrics like this:
+
+Exploratory Data Analysis
+
+We’ve already seen that there’s a clear class imbalance, but what about the type of information that we have available. How do we make sure it is processed appropriately when we feed it into a model?
+
+Which columns are superfluous? For now, let’s ignore
+
+‘date_recorded’, ‘gps_height’, ‘longitude’, ‘latitude’, ‘wpt_name’, ‘num_private’, ‘subvillage’, ‘lga’,’ward’, ‘recorded_by’, ‘extraction_type_group’, ‘extraction_type’, ‘scheme_name’, ‘management’, ‘waterpoint_type_group’, ‘source’, ‘source_class’, ‘quantity_group’, ‘quality_group’, ‘payment_type’
+
+This leaves us with the remaining 19 features:
+
+amount_tsh — total static head (amount of water available to waterpoint
+
+funder — who funded the well
+
+installer — the organisation that installed the well
+
+region — geographic location
+
+region_code — geographic location (coded)
+
+district_code — geographic location (coded)
+
+population — population around the well
+
+public_meeting — True/False
+
+scheme_management — who operates the waterpoint
+
+permit — if the waterpoint is permitted
+
+construction_year — year the waterpoint was constructed
+
+construction_type — the kind of extraction the waterpoint uses
+
+construction_type_group — the kind of extraction the waterpoint uses
+
+construction_type_class — the kind of extraction the waterpoint uses
+
+management_group — how the waterpoint is managed
+
+payment — what the water costs
+
+water_quality — the quality of the water
+
+quantity — the quantity of water
+
+waterpoint_type — the kind of waterpoint
+
+Next, any columns that have string/word like information need to be changed to numerical values and we’ll have to ensure that there is no implied proximity. To implement this, we use a process called one-hot-encoding. This takes all the different possible values (n) in a column and expands the column to have n columns with a 1 or 0 indicating whether a specific value is met. For example, the quantity column has five possible values: dry, enough, insufficient, seasonal and unknown. A snapshot of this feature before and after one-hot-encoding would look like this:
+
+A table showing how the quantity column is transformed through one-hot-encoding.
+
+The funder and installer columns had a huge number of unique values, so we can use a function to only expand these columns to the top n values (specify n as a parameter in the function). Any values that do not fall within these values are labelled as other. This allows us to reduce the number of columns that we feed through any model, while still representing a substantial amount of the data.
+
+Finally, the labels for the status group need to be changed to numerical values so that the models understand the input. It is a toss-up between transforming them to ordinal classes versus one-hot-encoding. In this instance, the models we use anticipate one column, so we make do with the ordinal transformation, but in some instances, this implied proximity may not be appropriate.
+
+These steps are summarised through the following function. By creating a function, we can call and adapt it to any version of the data. The conversion of status group labels to numerical values should happen separately as these are only present for the training data.
+
+Code for data pre-processing.
+
+Model selection
+
+When considering which model to use, we first narrow down to models that are appropriate for classification rather than regression problems. In this instance, we try six different approaches.
+
+A random forest is a series of decision trees in which the leaf nodes indicate the predicted class.
+
+XGBoost is a sophisticated decision tree algorithm that uses gradient boosting (errors are minimised through looking at the rate of change).
+
+Decision trees use the whole dataset to create a decision process for each feature.
+
+K-nearest neighbours looks at k data points nearest to the current one and goes with the majority classification.
+
+Support vector machines look at creating planes as boundaries that differentiate the categories, trying to maximise the distance between the classes.
+
+Logistic regression also creates decision boundaries but instead minimises the log-likelihood function.
+
+Implementing the models is relatively easy, import the relevant classes and then feed in the data, accepting the default parameters for initial exploration.
+
+Code for model implementation.
+
+Evaluation
+
+To evaluate model performance, we set aside a subset of the training data, known as the validation set. This allows us to predict the classes for this portion of data and directly compare the predictions to the known classes. For each model, we can print the classification report which provides us with classification metrics including precision, recall, F1 score and accuracy. We implement this on the validation set comparing the true and predicted labels using the line
+
+print(classification_report(y_test,clf.predict(X_test)))
+
+As said previously, accuracy would not be an appropriate metric in this instance because of the data imbalance, so instead, we use F1 score.
+
+Graph showing the respective metrics for each type of model (0–1).
+
+Another consideration when evaluating the models is the run time. This is proportional to the computational steps and results in a trade-off between performance and speed.
+
+Graph showing the respective run times for each type of model in seconds.
+
+On considering the combined results of the graphs, it appears that using a random forest or decision tree would be most appropriate given the training data. However, it may turn out that results are different when the model predicts results for the test data.
+
+Conclusion and Tips
+
+For this approach to the Pump it Up challenge, the random forest and decision tree models performed best, however, all models could perform better with hyperparameter tuning (looking at the parameters for setting up each model). All code and data for this project can be found in this GitHub folder.
+
+Don’t feel obliged to use all the features/variables given in the dataset.
+
+Try out a few different models.
+
+Consider which metric is most appropriate to evaluate the models.
+
+Once you have performed some initial exploration, optimise the code structure through creating functions.
+
+Until next time…feel free to share any comments/questions with me!
+
+References
+
+DrivenData. (n.d.). Pump it Up: Data Mining the Water Table. Retrieved from https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/
+
+Dar, O., Enahoro, P., Green, S., & Stark, A. (2019, October). Sprint 2, Team 1. Retrieved from https://github.com/shiaoligreen/practical-data-science

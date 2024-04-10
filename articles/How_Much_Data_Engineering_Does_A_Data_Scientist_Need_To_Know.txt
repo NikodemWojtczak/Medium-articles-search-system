@@ -1,0 +1,17 @@
+“It is a capital mistake to theorize before one has data.” Sherlock Holmes
+
+Data Engineering BEFORE Data Science
+
+Data Science has become a huge buzzword in the last 5 years. Every company wants to do some of this famous Data Science and the topic remains one of the highest-priorities for companies turning to AI in 2019. However, in practice, the challenge proves to be very difficult and Data Science often remains a very distant goal that many never seem to reach.
+
+The last few years have shown that Data Engineering, an essential step prior to Data Science & AI, remains a step that many companies totally miss, rush or ignore. In consequence, many Data Scientists end up doing the job of Data Engineers and barely have any time or opportunities to build valuable Data Science projects.
+
+When it comes to separating the job of a Data Engineer & a Data Scientist, the line can be a little blurry. It can confuse companies into hiring the wrong person for the job, thereby frustrating their Data Scientists.
+
+The Overlap between the two roles
+
+Data Scientists & Data Engineers frequently have overlaps in their knowledge. Overlapping knowledge is good, since both need to be able to communicate and help each other. They should understand each other’s decision and each other’s tasks for the cooperation to be as smooth as possible.
+
+While no one should expect for a Data Scientist to cover the job of a Data Engineer (nor the other way around!), some Data Engineering knowledge can be essential for Data Scientists.
+
+Cloud Computing

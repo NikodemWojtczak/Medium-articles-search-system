@@ -1,0 +1,33 @@
+Suggestions from the team at NeuroFlow, a healthcare technology and analytics company enabling behavioral health access and engagement across the continuum of care
+
+Speaking on a panel at Comet.ml meetup with Bill Lynch, Michelle Morgenbesser and Jean-Francois B. Guertin
+
+Last month, our lead data scientist Bill Lynch and I were invited to attend a panel in New York hosted by Comet.ml covering how data science and product teams work together. As a product leader of a healthcare software and analytics company, I couldn’t have signed up fast enough. The event was marked by a great discussion and interesting questions covering an emerging topic in technology companies about how these two critical business units can collaborate successfully. Bill and I have rounded up some of the lessons learned we shared with the audience during our time working together at NeuroFlow:
+
+Project selection is inherently collaborative
+
+Data science touches every part of the business, driving some of the highest-value initiatives in a product organization. Consequently, we’ve found that projects sitting between product and data science often require buy-in from other stakeholders. The conversations with these other functions might happen at various times (i.e prioritization and scope approval comes from leadership and perhaps architecture from engineering), but they’re key to helping move the project along and head in the right direction to ultimately deliver value to the business.
+
+Communicate the value early and often
+
+For better or worse, moving targets can often be associated with data science initiatives; that’s why it is important to show progress given the longer timeline of these efforts — what’s working and not working can be as important as building the thing itself. We’ve found that every two weeks, sharing data science milestones, blockers, and project updates to relevant stakeholders in the company helps to accomplish this and let people ask questions that we might not have thought of.
+
+Striking the right balance
+
+We’ve noticed a pattern where engineers solve defined problems, while data scientists solve undefined problems. Therefore, it is important to do some proper customer discovery for substantial AI projects. Go out and ask customers if the machine learning model or algorithm you are considering will be truly useful and solve a key problem for them. Given how constrained we are for time and resources, we can’t afford to spend weeks developing something and then hearing from a customer, “Huh, that’s interesting, but what I really need is this or that.” End users need to not only get the results of a model, but be able to intuit what it’s doing and why. It’s not easy, but you need to strike a balance between going down interesting and fun rabbit holes — that sometimes lead to innovations and breakthroughs — while delivering immediate value.
+
+Measurement is key
+
+Monitoring data science efforts in a quantitative fashion is critical. We breakdown the metrics of data science projects at NeuroFlow into three distinct categories:
+
+Business metrics (ie revenue goals)
+
+Product metrics (ie app downloads and usage)
+
+Model metrics (ie precision, F1 scores)
+
+We’re on a mission to bridge the gap between physical and mental health, and proper data science will serve as a catalyst for doing so. We hope these tips help other companies trying to navigate the tricky but important dynamic between data science and product! Did we miss or forget anything? Let us know with a comment or reach out at julia@neuroflowsolution.com.
+
+About NeuroFlow:
+
+NeuroFlow is a healthcare technology and analytics company enabling behavioral health access and engagement across the continuum of care. Combining validated techniques, data science, and behavioral economics, NeuroFlow allows hundreds of clinics, health systems, and providers to objectively assess, track, and engage patients using evidence-based practices to support their mental health. For more information, visit www.neuroflowsolution.com.

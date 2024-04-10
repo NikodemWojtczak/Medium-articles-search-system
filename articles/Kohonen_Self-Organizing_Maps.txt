@@ -1,0 +1,65 @@
+P roperties
+
+A Self-Organising Map, additionally, uses competitive learning as opposed to error-correction learning, to adjust it weights. This means that only a single node is activated at each iteration in which the features of an instance of the input vector are presented to the neural network, as all nodes compete for the right to respond to the input.
+
+The chosen node — the Best Matching Unit (BMU) — is selected according to the similarity, between the current input values and all the nodes in the grid.
+
+The node with the smallest Euclidean difference between the input vector and all nodes is chosen, along with its neighbouring nodes within a certain radius, to have their position slightly adjusted to match the input vector.
+
+By going through all the nodes present on the grid, the entire grid eventually matches the complete input dataset, with similar nodes grouped together towards one area, and dissimilar ones separated.
+
+A Kohonen model with the BMU in yellow, the layers inside the neighbourhood radius in pink and purple, and the nodes outside in blue.
+
+Variables
+
+t is the current iteration
+
+n is the iteration limit, i.e. the total number of iterations the network can undergo
+
+λ is the time constant, used to decay the radius and learning rate
+
+i is the row coordinate of the nodes grid
+
+j is the column coordinate of the nodes grid
+
+d is the distance between a node and the BMU
+
+w is the weight vector
+
+w_ij(t) is the weight of the connection between the nodes i,j in the grid, and the input vector’s instance at the iteration t
+
+x is the input vector
+
+x(t) is the input vector’s instance at iteration t
+
+α(t) is the learning rate, decreasing with time in the interval [0,1], to ensure the network converges.
+
+β_ij(t) is the neighbourhood function, monotonically decreasing and representing a node i, j’s distance from the BMU, and the influence it has on the learning at step t.
+
+σ(t) is the radius of the neighbourhood function, which determines how far neighbour nodes are examined in the 2D grid when updating vectors. It is gradually reduced over time.
+
+Algorithm
+
+Initialise each node’s weight w_ij to a random value Select a random input vector x_k Repeat point 4. and 5. for all nodes in the map: Compute Euclidean distance between the input vector x(t) and the weight vector w_ij associated with the first node, where t, i, j = 0. Track the node that produces the smallest distance t. Find the overall Best Matching Unit (BMU), i.e. the node with the smallest distance from all calculated ones. Determine topological neighbourhood βij(t) its radius σ(t) of BMU in the Kohonen Map Repeat for all nodes in the BMU neighbourhood: Update the weight vector w_ij of the first node in the neighbourhood of the BMU by adding a fraction of the difference between the input vector x(t) and the weight w(t) of the neuron. Repeat this whole iteration until reaching the chosen iteration limit t=n
+
+Step 1 is the initialisation phase, while step 2–9 represent the training phase.
+
+Formulas
+
+The updates and changes to the variables are done according to the following formulas:
+
+The weights within the neighbourhood are updated as:
+
+The first equation tells us that the new updated weight w_ij (t + 1) for the node i, j is equal to the sum of old weight w_ij(t) and a fraction of the difference between the old weight and the input vector x(t). In other words, the weight vector is ‘moved’ closer towards the input vector. Another important element to note is that the updated weight will be proportional to the 2D distance between the nodes in the neighbourhood radius and the BMU.
+
+Furthermore, the same equation 3.1 does not account for the influence of the learning being proportional to the distance a node is from the BMU. The updated weight should take into factor that the effect of the learning is close to none at the extremities of the neighbourhood, as the amount of learning should decrease with distance. Therefore, the second equation adds the extra neighbourhood function factor of βij(t), and is the more precise in-depth one.
+
+The radius and learning rate are both similarly and exponentially decayed with time.
+
+The neighbourhood function’s influence β_i(t) is calculated by:
+
+The Euclidean distance between each node’s weight vector and the current input instance is calculated by the Pythagorean formula.
+
+The BMU is selected from all the node’s calculated distances as the one with the smallest.
+
+Further Reading

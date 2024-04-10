@@ -1,0 +1,17 @@
+With only 80 MBs, Google has brought AI powered speech recognition offline. It is described as an end-to-end, all neural, on device, speech recognizer. This allows a user to dictate notes, emails, text messages and voice searches faster and more reliably. The new recognizer works at the character level. As you dictate, the speech recognizer outputs words in real time, character by character, similar to someone typing out what you are saying.
+
+This image compares the production, server-side speech recognizer (left panel) to the new on-device recognizer (right panel). Image credit: Akshay Kannan and Elnaz Sarbar
+
+Françoise Beaufays, a research scientist and team lead at Google’s speech recognition and mobile input group stated “Imagine if you had a keyboard where you couldn’t click on the keys whenever the connectivity was lousy. You just wouldn’t use that keyboard.”
+
+“By taking the system offline, dictation will become a more natural choice.”
+
+Previously, diction was achieved by recording the users’ voice input, sending it to the cloud, comparing the entire input against a huge online database or decoder, then finally, combining them to provide a text output. In my experience, dictating to my phone consisted of speaking slowly and only a few words at a time, then staring at a loading bar, then finally reading the written output and checking for errors. If my internet connection was ever spotty, waiting for voice diction felt like:
+
+At that point, I just physically typed out what I dictated and questioned why I even tried to use voice diction.
+
+So what does this have to do with data science? And how are cats involved?
+
+Statistical models and machine learning! HMMs, RNN-Ts, CTC, DNNs, LSTMs, CNNs, a brief history and fun with letters!
+
+Traditionally, voice diction has used Hidden Markov Models as a basis to predict output. A hidden Markov model is a statistical model that has two states, observations and hidden states. Hidden states…

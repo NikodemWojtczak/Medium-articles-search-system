@@ -1,0 +1,35 @@
+Model Training
+
+In the model training stage, we use the collected image sets to train GAN models capable of generating new images related to each selected urban context. To this end, two distinct GAN architectures are employed: StyleGAN and Pix2Pix, the particular implementations of which are discussed below. Once trained, each of these models prove valuable in their own way, as each offers a distinct interface for the production of synthetic urban images.
+
+Pix2Pix
+
+Pix2Pix (Isola et al., 2016) is an architecture for a particular kind of GAN: a conditional adversarial network that learns a mapping from a given input image to a desired output image. From the perspective of a user of a trained Pix2Pix model, we offer an input image that conforms to some mapping convention (such as a color-coded diagram of a facade, or an edge drawing of a cat) and receive in return an image that results from the transformation of this input into some desired output (such as a photographic representation of a facade, or of a cat).
+
+The particulars that guide the training of a Pix2Pix model strongly depend upon the specifics of the implementation employed. This project relies upon a “high-definition” version of this architecture implemented in Pytorch (Wang, 2019). Some modifications of this implementation were required: in particular, to correct problems with unwanted artifacts forming in cases of low-contrast source images (as seen in the figure below). Following suggestions offered by the community of Pix2Pix users, zero paddings were replaced with reflection paddings, and the learning rate was temporarily adjusted to 0.0008.
+
+Synthetic image artifacts encountered while training.
+
+Once trained, each model operates as implied by the nature of a conditional GAN and by the structure of the training data: given a greyscale depthmap image that describes a desired three-dimensional urban scene, a synthetic RGB sceneographic image is returned. Since these models are trained on subsets of data segregated by site, each model produces synthetic images specific to just one urban place: the Rotterdam model produces images that “feel” like Rotterdam, while the San Francisco model generates ones that appear more like San Francisco. This feature allows for direct comparisons to be drawn.
+
+Results derived from Pix2Pix model: synthetic images of San Francisco, CA (left) and Rotterdam, NL (right).
+
+StyleGAN
+
+In contrast with a traditional GAN architecture, StyleGAN (Karras et al., 2018) draws from “style transfer” techniques to offer an alternative design for the generator portion of the GAN that separates coarse image features (such as head pose when trained on human faces) from fine or textural features (such as hair and freckles). Here, in comparison to the Pix2Pix model, the user experience is quite different: rather than operating by mapping an input image to a desired output, users select a pair of images from within the latent space of a trained model, and hybridize them. Rather than a simple interpolation between points in latent space, however, these hybrids correspond to the coarse and fine features of the given pair.
+
+Fake images drawn from all nine sites studied.
+
+As above, the particulars that guide the training of a StyleGAN model strongly depend upon the specifics of the implementation. This project relies on the official TensorFlow implementation of StyleGAN , which was employed without modification to train a single model on a combination of RGB sceneographic data drawn from all nine urban places. Once trained, the model may be queried either by sampling locations in latent space, or by providing coarse-fine pairs of locations in latent space to more precisely control different aspects of the synthetic image.
+
+Building upon the former technique of taking samples in latent space, linear sequences of samples may be combined to produce animations such as the ones discussed below.
+
+Image Generation
+
+In the image generation stage, we develop methods for interfacing with the trained models in useful ways. This task is non-trivial, since each GAN model, once trained, is capable of producing a vast and overwhelming volume of synthetic images, which is described in terms of a high-dimensional latent space. The StyleGAN model offers a unique form of guiding the generation of images as combinations of features drawn from other images selected from latent space. The Pix2Pix model offers quite a different interface, with new synthetic images generated as transformations of arbitrary given source images: in our case, these are depth-maps of urban spaces. We present here a brief overview of these methods, and leave a more complete unpacking and visual analysis of the resulting images to a future post.
+
+Pix2Pix Image Generation
+
+Here, greyscale depthmap images are produced by sampling a scene described in a 3d CAD model. These depthmaps of constructed scenes are then used as the source image by which the Pix2Pix models for each urban place produces a synthetic photographic scene. By providing precisely the same input to models trained on different urban places, direct comparisons between the salient features picked up by the transformation models may be made.
+
+For example, while each of the synthetic images below were produced by sampling the same depthmap, we can clearly see those imagistic properties that characterize each of the urban places sampled. A large massing that appears in the depthmap is interpreted by the Rotterdam model as a large brick housing block, as is typical in the Dutch city, while the Pickwick Park model renders this massing in a manner typical of the Northern Florida flora, suggesting the mass of a mossy Live Oak. A long and receding urban wall is broken up by the Alamo Square model into a series of small scale forms, an interpretation that expresses the massing of a line of Edwardian townhouses that dominate this San Francisco neighborhood; this same urban form is understood as something resembling a red-brick industrial warehouse building by the model trained on images from the Bushwick area of Brooklyn.

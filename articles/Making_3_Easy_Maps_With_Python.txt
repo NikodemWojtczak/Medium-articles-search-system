@@ -1,0 +1,25 @@
+In working with geospatial data, I’ve often needed to visualize this data in the most natural way possible: a map. Wouldn’t it be nice if we could use Python to quickly and easily create interactive maps of your data? We’ll be using a data set on all Starbucks locations in Los Angeles County for this tutorial. By the end of this introductory post you will be able to create:
+
+A basic point map of all Starbucks locations in LA County
+
+of all Starbucks locations in LA County A choropleth map which shades in zip codes in LA County based on how many Starbucks are contained in each one
+
+which shades in zip codes in LA County based on how many Starbucks are contained in each one A heatmap which highlights “hotspots” of Starbucks in LA County
+
+Let’s do it!
+
+You will need …
+
+The Python package pandas. This is used to easily manipulate data in Python
+
+This is used to easily manipulate data in Python The Python package folium . This is used to very easily create maps
+
+. This is used to very easily create maps A spreadsheet with latitude/longitude of Starbucks in LA County (on my GitHub here )
+
+) A GeoJSON (basically a json which describes a complex shape) of LA County (here) and a GeoJSON of all the zip codes in LA County (here)
+
+To get familiar with the data, here’s a snapshot of the first few rows:
+
+We only need to worry about the latitude, longitude, and zip fields for this analysis.
+
+Here are the needed Python imports, loading the Starbucks data, and loading the LA County GeoJSON:

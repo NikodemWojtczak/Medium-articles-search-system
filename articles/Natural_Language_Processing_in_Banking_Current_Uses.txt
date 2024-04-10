@@ -1,0 +1,21 @@
+Banks are using a branch of Artificial Intelligence called natural language processing (NLP) to automate certain document processing, analysis and customer service activities. Three applications include:
+
+Intelligent document search : finding relevant information in large volumes of scanned documents.
+
+: finding relevant information in large volumes of scanned documents. Investment analysis : automating routine analysis of earnings reports and news so that analysts can focus on alpha generation.
+
+: automating routine analysis of earnings reports and news so that analysts can focus on alpha generation. Customer service & insights: deploying chatbots to answer customer queries and understand customer needs.
+
+We will cover real-life examples of what banks are doing in these areas. First, let’s go over what natural language processing is capable of.
+
+Introduction to Natural Language Processing
+
+Natural Language Processing (NLP) is a branch of Artificial Intelligence that enables computers to understand human language and respond in kind. This involves training computers to process text and speech and interpret the meaning of words, sentences and paragraphs in context.
+
+Human-Computer Interactions
+
+Human-computer ‘conversations’ can be broken down as follows (we’ll get to the specific AI methods a little later):
+
+We provide text or speech input (e.g. typing into a chatbot interface or talking to a smart speaker). The computer converts the text/speech into a format it understands (e.g. converts speech to text and words to vectors). This helps computers cluster and classify different words. The computer figures out meaning and context using its own data sets. The computer determines an appropriate response and converts it to text or speech that we understand, and responds to us.
+
+We interact with apps that use natural language processing every day:

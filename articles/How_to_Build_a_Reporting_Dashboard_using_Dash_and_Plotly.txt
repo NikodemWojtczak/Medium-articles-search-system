@@ -1,0 +1,11 @@
+In this blog post, I will provide a step-by-step tutorial on how to build a reporting dashboard using Dash, a Python framework for building analytical web applications. Rather than go over the basics of building a Dash app, I provide a detailed guide to building a multi-page dashboard with data tables and graphs.
+
+I built the reporting dashboard as a multi-page app in order to break up the dashboard into different pages so it less overwhelming and to present data in an organized fashion. On each dashboard page, there are two data tables, a date range selector, a data download link, as well as a set of graphs below the two dashboards. I ran into several technical challenges while building the dashboard and I describe in detail how I overcame these challenges.
+
+The completed Dashboard can be viewed at https://davidcomfort-dash-app1.herokuapp.com/cc-travel-report/paid-search/ and the code is provided in Github. (The data used in the app is random data and the names for the products are “dummy” names.)
+
+Figure 1: Dashboard built using Dash
+
+Figure 2: Second Part of Dashboard
+
+Table of Contents

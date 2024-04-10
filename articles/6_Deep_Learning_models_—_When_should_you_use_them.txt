@@ -1,0 +1,35 @@
+Member-only story
+
+How and when to use different deep learning models.
+
+6 Deep Learning models — When should you use them?
+
+Introduction
+
+Deep Learning is a growing field with applications that span across a number of use cases. For anyone new to this field, it is important to know and understand the different types of models used in Deep Learning.
+
+In this article, I’ll explain each of the following models:
+
+Supervised Models
+
+Classic Neural Networks (Multilayer Perceptrons)
+
+Convolutional Neural Networks (CNNs)
+
+Recurrent Neural Networks (RNNs)
+
+Unsupervised Models
+
+Self-Organizing Maps (SOMs)
+
+Boltzmann Machines
+
+AutoEncoders
+
+Supervised vs Unsupervised Models
+
+There are a number of features that distinguish the two, but the most integral point of difference is in how these models are trained. While supervised models are trained through examples of a particular set of data, unsupervised models are only given input data and don’t have a set outcome they can learn from. So that y-column that we’re always trying to predict is not there in an unsupervised model. While supervised models have tasks such as regression and classification and will produce a formula, unsupervised models have clustering and association rule learning.
+
+Classic Neural Networks (Multilayer Perceptrons)
+
+Classic Neural Networks can also be referred to as Multilayer perceptrons. The perceptron model was created in 1958 by American psychologist Frank Rosenblatt. Its singular nature allows it to adapt to basic binary patterns through a series of inputs, simulating the learning…

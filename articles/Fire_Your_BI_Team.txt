@@ -1,0 +1,29 @@
+Fire Your BI Team
+
+The term “Business Intelligence” gained widespread popularity in the 1990s and was originally defined as “concepts and methods to improve business decision making by using fact-based support systems.” Clearly, this sounds like a strategically important function for any company.
+
+So why the harsh headline? While the description above may capture what BI teams did in the 1990s, that’s not what BI teams have been up to in the last decade. As adoption and sophistication of data analytics changed, BI teams became the bottom-feeders of the analytical ecosystem while data scientists received all the fun and glory. BI teams ended up being order-takers executing precise requests prescribed by people who do not do analytics for a living. This has severely reduced their impact.
+
+But it doesn’t have to be like this. And you don’t need to fire your BI team. We can restore BI’s place in the analytical ecosystem by changing their mandate and how they interact with stakeholders. This will lead to more impactful insights while ensuring that the analysts themselves feel professional ownership and purpose.
+
+Let’s walk through why and how.
+
+To see what’s wrong with BI today just consider the common, ticket-based engagement model: The BI analyst receives a ticket, executes the request, returns the answer, gets feedback through more tickets, and the cycle continues. A conversation may not even take place.
+
+Now, if you’re someone who works with BI teams you might think this type of engagement model is exactly what you want. Fair enough — it does sound efficient and organized.
+
+But trust me, it’s not what you want.
+
+Just think about the nature of the work required to extract meaningful and actionable insights. Even if the goal is to keep the analysis simple, you always end up on an analytical journey that involves slicing the data by segments, creating baselines, constructing derived metrics, and often more. This requires ownership and creativity from the analyst.
+
+But in the BI engagement model, the analyst is merely following someone else’s train of thought. Ownership and creativity are lost.
+
+So what’s the solution here? First, always kick off any “BI” analysis or dashboard with these two questions: (1) what’s the problem we’re trying to solve? and (2) what actions are we looking to take? From there, the onus is on the analyst to seek the question behind the question and share insights as they surface. Tickets will be replaced with face-to-face meetings and a symbiotic partnership will be formed. And if people can’t find time for that, then the question wasn’t important to begin with.
+
+If you’ve gotten this far, you might think I’m suggesting to convert all BI analysts into data scientists. But that’s not the case. While ETL and data exploration are core to any team that turns data into cashflows, there are some key differences:
+
+Data scientists should (mainly) be focused on efforts that lead to “data products” based on advanced methods. This could be ML models that drive product recommendations, or pricing and matching algorithms.
+
+The focus of the analysts, on the other hand, might be to deliver a slide deck with strategic recommendations or a dashboard. In fact, I favor the term “strategic analytics” for these teams because it describes the purpose of their roles.
+
+Both functions — data science and strategic analytics — are tremendously important, have clear purposes, require different competencies, and offer rewarding career paths. Most companies need both teams, but they don’t need a BI team. So if you’re managing a BI team, it’s time to change their mandate and the stakeholder engagement model. And let’s retire the term “Business Intelligence” once and for all.

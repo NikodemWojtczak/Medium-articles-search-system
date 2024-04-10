@@ -1,0 +1,47 @@
+Buyers beware, fake product reviews are plaguing the internet. How Machine Learning can help to spot them.
+
+Opinion spamming is a situation that is aggravating, for instance, CBS News reports that 52% of product reviews posted in Walmart.com are “inauthentic or unreliable”, while at least 30% of reviews posted at Amazon are fake. The problem of identifying opinion spamming remains an open topic, despite the fact that several researchers have addressed it already.
+
+What makes businesses to incur in product deceptive reviews? The main driver is getting ahead of the competition for positioning their product or service to influence the public and organizations to make a purchase, therefore increasing their sales. The fraud takes place by posting fake negative reviews and giving unjust ratings to products from the competition.
+
+It is known that “Amazon Mechanical Turk”, an internet crowdsourcing marketplace that allows requesters (businesses or individuals) to coordinate human labor to carry out a task, was employed to crowdsource fake reviews for a hotel chain. Given that this problem has grown to alarming rates, Yelp.com, a business directory service that publishes crowd-sourced reviews about businesses, launched a sting operation in order to unmask those businesses who buy fake reviews.
+
+I will discuss the method that Mukherjee et al. present in their paper for detecting spam in product reviews. They called their model “Author Spamicity Model” (ASM). It is based on unsupervised learning which models spamicity as latent, shortly meaning that the model variables are “hidden”. It is also a Bayesian inference framework. The aim of the model is to cluster the categorization of this latent population distributions into spammers and not spammers.
+
+Please note that when I refer to products, I will be including also services.
+
+How can we identify that a review may be fake? In order to develop their model, the authors define nine variables as observed features, the first five they categorize them as author features that have values in the interval [0, 1] (denoting a Beta distribution), where a value close to 0 or 1 denotes non-spamming or spamming, respectively. In the other hand, variables 5 to 9, represent review features, and they assume a binary value, 0 for non-spamming, and 1 for spamming (denoting a Bernoulli distribution):
+
+Content Similarity (CS). Spammers are prone to copy reviews for comparable products. Cosine similarity is used to capture content similarity in these reviews. Maximum Number of Reviews (MNR). The unusual behavior of posting several reviews in one day by the same author, can be a sign of spamming. Reviewing Burstiness (BST). Refers to the frequency (short) to which an author posts a review. This author is usually a new member of the site. Meeting this condition may signify a tendency to incur in deceptive reviews. Ratio of First Reviewers (RFR). This metric quantifies the fact that early reviews have an impact on sales of newly launched products. Duplicate/Near Duplicate Reviews (DUP). Identical or quasi identical reviews may indicate a spamming behavior. This feature is similar to CS, but in this case pertains to the review features. Extreme Rating (EXT). In order to deliver the most or the least benefit to a review, spammers usually mark the product with either one or five stars. Rating Deviation (DEV). Spammers will try to divert the average sentiment on reviews, by placing theirs. These types of reviews are identified when this quantified deviation exceeds a threshold. Early Time Frame (ETF). This feature captures how early the review was made. The rationale is, spammers are most likely to review earlier, close to the launch of the product to achieve the greatest impact. Rating Abuse (RA). Refers to the action of star-qualifying the same product multiple times.
+
+How does ASM work? In order to illustrate the model, I have simplified its functioning in the following schema (See Figures 1-A and 1-B), for a mathematical representation please refer to the paper.
+
+Figure 1-A
+
+Figure 1-B
+
+ASM commences by taking in all the reviews by all the authors, where these reviews are organized by the features that we have discussed. Each sphere represents an observable variable (i.e. feature). Once the features are collected (See Figure 1-A node A) they are processed by the model and learn the “latent behavior distributions for spam and not spam” (Murkherjee et al.). Therefore, ASM solves a clustering problem (K = 2).
+
+The spamicity is modeled as latent as ASM functions in the Bayesian context. It is a generative process because it emits the nine features with their probability of spamming.
+
+In order to perform an inference, the model uses “Collapsed Gibbs Sampling” (CGS) that represents a technique for approximating the posterior probability distribution. CGS belongs to the family of algorithms of Markov Chain Montecarlo.
+
+Once the ranking functions have been inferred, they are processed using the Learning to Rank supervised technique, that basically takes the rankings obtained by ASM and generates a single aggregated ranking function (see Figure 1-A node C).
+
+In my opinion, this paper presents a technique that can improve significantly the detection of opinion spammers in product reviews. It is innovative because presents an unsupervised method for detecting fake reviews. The authors claim having achieved a superior level of accuracy compared to strong competitors. I believe that opinion spamming will start to decrease as more businesses providing this type of information start to implement ML techniques like ASM, meanwhile consumers must be skeptical and get informed using sites that filter fake reviews.
+
+A Mukherjee, A Kumar, B Liu, J Wang, M Hsu… — Proceedings of the 19th …, 2013 — dl.acm.org
+
+P Resnik, E Hardisty — 2010
+
+GEP Box, GC Tiao — 2011 — books.google.com
+
+by JA López — ‎2017
+
+— — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — -
+
+Dear reader, I am interested to know from you:
+
+When you buy online, do you feel influenced to decide by the local review that is presented? Or in addition to, you look for one or more external reviews? What is the products review site that you trust more, if you use one? What do you think may be a solution to this problem that is growing at alarming rates?
+
+Thanks for participating, you can leave a comment to respond.

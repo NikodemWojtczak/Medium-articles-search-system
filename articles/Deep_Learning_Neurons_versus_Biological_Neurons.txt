@@ -1,0 +1,93 @@
+Deep Learning Neurons versus Biological Neurons
+
+In recent years, “deep learning” AI models have often been touted as “working like the brain,” in that they are composed of artificial neurons mimicking those of biological brains. From the perspective of a neuroscientist, however, the differences between deep learning neurons and biological neurons are numerous and distinct. In this post we’ll start by describing a few key characteristics of biological neurons, and how they are simplified to obtain deep learning neurons. We’ll then speculate on how these differences impose limits on deep learning networks, and how movement toward more realistic models of biological neurons might advance AI as we currently know it.
+
+Biological Neurons
+
+Typical biological neurons are individual cells, each composed of the main body of the cell along with many tendrils that extend from that body. The body, or soma, houses the machinery for maintaining basic cell functions and energy processing (e.g., the DNA-containing nucleus, and organelles for building proteins and processing sugar and oxygen). There are two types of tendrils: dendrites, which receive information from other neurons and bring it to the cell body, and axons, which send information from the cell body to other neurons.
+
+Information transmission from a transmitting neuron to a receiving neuron is roughly composed of three stages. First, the transmitting neuron generates a spatially- and temporally-confined electrical burst, or spike, that travels along the neuron’s axon (and axonal branches) from the cell body to the terminal ends of the axon. An axon terminal of the transmitting neuron is “connected” to a dendrite of a receiving neuron by a synapse. The spike causes the transmitting neuron’s synapse to release chemicals, or neurotransmitters, that travel the short distance between the two neurons via diffusion.
+
+Specialized receptors on the receiving neuron recognize (bind with) specific neurotransmitters, and initiate a number of cellular events (most of which are ignored in this post) when neurotransmitter molecules bind to the receptors. One of those events is the opening of cellular channels which initiate another electrical wave, this time propagating through the receiving neuron’s dendrite toward its cell body (this may be in the form of a spike, but typically the wave is more spatially diffuse than spike-based transmission along axons — think of water being pushed through a pipe).
+
+Thus, information from one neuron can be transmitted to another. When a neuron receives multiple excitatory spikes from multiple transmitting neurons, that electrical energy is accumulated at the neuron’s cell body, and if enough energy is accumulated in a short period of time, the neuron will generate outgoing spikes of its own, and relay them to other neurons.
+
+There are three remaining aspects to discuss in order to understand the modeling that takes us from biological neurons to deep learning neurons.
+
+Rate-coding
+
+Synaptic strength
+
+Excitatory and inhibitory transmission
+
+Rate-coding
+
+A neuron that receives only a small number of excitatory spikes will produce and send few spikes of its own, if any. If that same neuron receives many excitatory spikes it will (typically) send many spikes of its own. Although spikes in biological neurons have a distinctly temporal characteristic, the temporal resolution is “blurred” in deep learning neurons. For a given unit of time, the spiking activity of the deep learning neuron is represented as a number of spikes (an integer) or more typically, an average spiking rate (a floating-point number).
+
+In this contrived example, three neurons in the visual system receive indirect input from one of three groups of color-sensitive cones cells in the eye. Each neuron is therefore maximally responsive to a particular wavelength of light, and spiking activity is reported as the average spike rate (normalized to [0,1]). Thus, the input wavelength is “encoded” by the collective spike rates of the three neurons.
+
+Note, however, that in biological neurons, information is encoded in the relative timing of spikes in individual or multiple neurons, not just in the individual neuron spiking rates. Thus, this type of information coding and transmission is absent in deep learning neurons. The impact of this will be discussed further below.
+
+Synaptic strength
+
+Not all spikes are equal. When a propagating spike reaches an axonal terminal, the amount of electrical energy that ultimately arises in the dendrite of the receiving neuron depends on the strength of the intervening synapse. This strength is reflective of a number of underlying physiological factors including the amount of neurotransmitter available for release in the transmitting neuron and the number of neurotransmitter receptors on the receiving neuron.
+
+Regardless, in deep learning neurons, synaptic strength is represented by a single floating-point number, and is more commonly referred to as the weight of the synapse.
+
+Excitatory and inhibitory neurotransmitters
+
+Up until now, we have only considered excitatory neurotransmission. In that case, spikes received from a transmitting neuron increase the likelihood that a receiving neuron will also spike. This is due to the particular properties of the activated receptors on the receiving neuron. Although an oversimplification, one can group neurotransmitters and their receptors into an excitatory class and an inhibitory class. When an inhibitory neurotransmitter binds to a inhibitory receptor, the electrical energy at the dendrite in the receiving neuron is reduced rather than increased. In general, neurons have receptors for both excitatory and inhibitory neurotransmitters, but can release (transmit) only one class or the other. In the mammalian cortex, there are many more excitatory neurons (which release the neurotransmitter glutamate with each spike) than inhibitory neurons (which release the neurotransmitter GABA with each spike). Nonetheless, these inhibitory neurons are important for increasing information selectivity in receiving neurons, gating neurons off and thus contributing to information routing, and preventing epileptic activity (chaotic firing of many neurons in the network).
+
+In deep learning networks, no distinction is made between excitatory and inhibitory neurons (those having only an excitatory or inhibitory neurotransmitter, respectively). All neurons have output activity that is greater than zero, and it is the synapses that model inhibition. The weights of the synapses are allowed to be negative, in which case inputs from transmitting neurons cause the output of the receiving neuron to be reduced.
+
+Deep Learning Neurons
+
+The simplified models of biological neurons, as described above, can be assembled to form the stereotypical neuron in deep learning models.
+
+The deep learning neuron receives inputs, or activations, from other neurons. The activations are rate-coded representations of the spiking of biological neurons. The activations are multiplied by synaptic weights. These weights are models of synaptic strengths in biological neurons, and also model inhibitory transmission, in that the weights may take on negative values. The weighted activations are summed together, modeling the accumulation process that happens in the cell body of a biological neuron. A bias term is added to the sum, modeling the general sensitivity of neuron. Finally, the summed value is shaped by an activation function — typically one that limits the minimum or maximum output value (or both), such as a sigmoid function. This models the intrinsic minimum spiking rate of biological neurons (zero) or the maximum rate (due to details in the physiological mechanisms by which spikes are generated).
+
+Advancing AI
+
+Temporal coding
+
+Deep learning relies on rate-based coding, in which each neuron’s activation is a single numeric value that models the average spiking rate in response to a given stimulus (be it from other neurons or from an external stimulus). The collective set of spiking rate values within a single layer of the network is typically organized as a vector of numbers, and this vector is referred to as the representation of an external stimulus, at that layer.
+
+The expressiveness of rate-based neural coding is much lower than that which is possible with neural codes (representations) based on the relative time between spikes on multiple neurons. As a simple example of the existence of this type of code in biology, consider the auditory system. When sound waves reach our ears, our brain processes them to determine the type of animal, object, or phenomenon that produced the sound, but also to estimate the direction from which the sound came (localization). One way in which sound location is determined is based on the fact that sounds from the right will reach the right ear first, then the left ear. Auditory neurons close to the right and left ears exhibit spike timing that reflects this acoustic timing difference. Auditory neurons the are more medially located (near the midline of the body) receive input from neurons near both ears and are selective for the location of the sound, thanks to this temporal coding.
+
+Acoustic information enters the brain via the outer ears, and is transduced to spikes in the auditory nerves by the left and right cochleas (spirals in the image). Perception of azimuth location is partly determined by time-difference-of-arrival of sounds at the ears, which is encoded as timing differences in spikes in auditory neurons in the left versus right side of the brain. Groups of auditory neurons near the midline of body are sensitive to this temporal coding, and respond selectively to the perceived location (azimuth, elevation) of an incoming sound.
+
+More generically, consider the simple example of a single neuron receiving input from two other neurons, each of which send identical input: a short train of N uniformly spaced (in time) excitatory spikes over 100 ms. All else being equal, this will generate some stereotypical response in the receiving neuron. In contrast, if one of the input neurons sent all if its spikes in the first 20 ms (of the 100 ms interval), and the other input neuron sent all of its spikes in the final 20 ms, the response of the receiving neuron is likely to be notably different. Thus, even though the spiking-rate of the input neurons is identical in each scenario (10N spikes/sec) the temporal coding is quite different, and the response of the receiving neuron can be quite different as well. Importantly, there can exist many input-output combinations when using a temporal code, even when the number of input spikes is low, constant, or both. This is what we mean by a more expressive coding scheme. In regards to AI, a model that utilizes temporal coding can conceivably perform much more complex tasks than a deep learning model with the same number of neurons.
+
+Consider a neuron that receives input from one neuron. The image above represents three example spike sequences (spikes are depicted as vertical lines) from the input neuron. Under a rate-based coding model like that of deep learning, the output of the receiving neuron would be the same in each example (because the input would be identical in each case: 3 spikes/time-unit). In the case of a temporal coding, the output could be different for each example, accommodating a more expressive AI model.
+
+In addition to the expressiveness, differences in spike timing can allow the model to learn by means that model those of biology — e.g., spike-timing-dependent plasticity (STDP) of synapses. Such learning can be implemented locally and efficiently, in contrast to the gradient descent (backpropagation) approach used in deep learning. But we’ll save that topic for a future post of its own.
+
+Inhibitory neurons
+
+Based on our simple description of biological and deep learning neurons, the distinction between excitatory and inhibitory neurons can be mimicked by deep learning neurons. Namely, one can mimic a biological inhibitory neuron simply by ensuring its deep learning equivalent has negative values for all synaptic weights between its axons and the dendrites of neurons to which it projects. Conversely, when mimicking a biological excitatory neuron, such synapses should always have positive weights. However, training and implementation will be easier if one simply requires that all synapses are positive-valued (perhaps by applying a ReLU function to the weights after each training iteration), and use an activation function that produces negative (positive) values for the inhibitory (excitatory) neurons.
+
+[Technical aside: In either case, there could be additional training challenges due to the zero-valued gradients of weights that are equal to zero. Unlike ReLU non-linearities in activation functions, we cannot rely on stochastic gradient descent (batches of randomly selected samples) to push the weight values away from zero.]
+
+Why might one want inhibitory neurons anyway? Why not just let inhibition be implemented at the synapse level rather than the neuron level, as in current deep learning models?
+
+It’s not certain, but one possibility is that the use of explicit inhibitory neurons helps to constrain the overall parameter space while allowing for the evolution or development of sub-network structures that promote fast learning. In biological systems, it is not necessary for the brain to be able to learn any input-output relationship, or execute any possible spiking sequence. We live in a world with fixed physical laws, with species whose individual members share many common within-species behavioral traits that need not be explicitly learned. Limiting the possible circuit connectivity and dynamic activity of a network is tantamount to limiting the solution space over which a training method must search. Given this, one approach to advancing AI is to use neuroevolution and artificial life approaches to search for canonical sub-network structures of excitatory and inhibitory neurons, which can be modularly assembled into larger networks during more traditional model training (e.g., supervised learning via gradient descent).
+
+Another potential benefit of inhibitory neurons, related to the use of structured canonical circuits as just mentioned, is that inhibitory neurons may effectively “gate off” large numbers of neurons that are unnecessary for processing of a given sample or task, thereby lowering energy requirements (under the assumption that the hardware is designed to take advantage of this situation). Furthermore, if the network is properly structured, this may facilitate information routing in such networks — conceptually carrying information from neurons that extract it to neurons that perform a particular subtask with/on that information. For example, routing low-level visual information (pixels, lines, or arc) to areas that extract object identity, to areas that determine relative object location, or to both.
+
+Low-energy spike-based hardware
+
+Another way in which greater biological realism could benefit AI is not through extended fundamental capabilities, per se, but through greater energy efficiency. The human brain consumes only about 13 Watts — equivalent to a modern compact fluorescent light bulb — while providing vastly more cognitive power than low-energy GPUs designed for mobile applications, or even energy-hungry deep learning models implemented on powerful workstation GPUs.
+
+Even if no other fundamental changes were made to deep learning neurons aside from these energy savings, the ability to utilize ~100 billion neurons and 100–1000 trillion synapses (rough estimates for the human brain) with such low-energy requirements is likely to remarkably advance AI functionality. Alternatively, current models could be operated at a fraction of the energy costs, allowing them to be easily implemented at the edge, since processing could be done locally rather than wirelessly transmitting raw data to the cloud for processing (wireless transmission is a notable energy drain).
+
+The energy efficiency of biological neurons, relative to conventional computing hardware, is largely due to two characteristics of these neurons. Firstly, biological neurons transmit only short bursts of analog energy (spikes) rather than maintaining many bits that represent a single floating-point or integer number. In conventional hardware, these bits require persistent energy flow to maintain the 0 or 1 state, unless much slower types of memory are used (non-volatile RAM).
+
+Secondly, memory is co-located with processing in biological neurons. That is, the synaptic strengths are the long-term memory of the network (recurrent connectivity can maintain short-term memory, but that’s a topic for some other post), they are involved in the processing (spike weighting and transmission), and are very close to other aspects of the processing (energy accumulation in the cell body). In contrast, conventional hardware is regularly transmitting bits from RAM to the processor — a considerable distance and a considerable energy drain.
+
+Numerous research labs and private companies are working towards novel hardware that will provide these benefits. Outlooks vary, but we may see viable, commerical-off-the-shelf memristor-based hardware in as soon as a decade. It should be noted that spiking-based algorthims have, to-date, marginally under-performed those based on deep learning neurons. Yet, the ability to utilize a larger number of neurons, and the increased volume of research that will go into spiking-based algorithms once the availability of relevant hardware becomes evident, will likely reverse that state of affairs.
+
+Conclusion
+
+In our opinion, the similarity between deep learning models and biological brains has been hugely overstated by many media articles in recent years. Nonetheless, neuroscientists and many AI researchers are well aware of these discrepancies and are working to bring greater neural realism to AI models, with the hope of advancing beyond the deep learning plateau we may be marching toward.
+
+We’ve left out numerous other differences between biological and deep learning neurons that may account for the vast differences between mammalian intelligence and that of current AI. Differences in the networks of such neurons are also critical. Watch for our future posts on “true” recurrence in networks, network micro- and macro-architecture, and other topics.

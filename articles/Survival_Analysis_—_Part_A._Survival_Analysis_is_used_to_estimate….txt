@@ -1,0 +1,237 @@
+Survival Analysis — Part A
+
+An introduction to the concepts of Survival Analysis and its implementation in lifelines package for Python. Taimur Zahid · Follow Published in Towards Data Science · 16 min read · Mar 18, 2019 -- 13 Listen Share
+
+Photo by Markus Spiske on Unsplash
+
+Survival Analysis is used to estimate the lifespan of a particular population under study. It is also called ‘Time to Event’ Analysis as the goal is to estimate the time for an individual or a group of individuals to experience an event of interest. This time estimate is the duration between birth and death events[1]. Survival Analysis was originally developed and used by Medical Researchers and Data Analysts to measure the lifetimes of a certain population[1]. But, over the years, it has been used in various other applications such as predicting churning customers/employees, estimation of the lifetime of a Machine, etc. The birth event can be thought of as the time of a customer starts their membership with a company, and the death event can be considered as the customer leaving the company.
+
+Data
+
+In survival analysis, we do not need the exact starting points and ending points. All the observation do not always start at zero. A subject can enter at any time in the study. All the duration are relative[7]. All the subjects are bought to a common starting point where the time t is zero (t = 0) and all subjects have the survival probabilities equal to one, i.e their chances of not experiencing the event of interest (death, churn, etc) is 100%.
+
+There may arise situations where the volume of the data prevents it to be used completely in Survival Analysis. For such situations, Stratified Sampling may help. In Stratified Sampling, your goal is to have an equal or nearly equal amount of subjects from each group of subjects in the whole population. Each group is called a Strata. The whole population is stratified (divided) into groups based on some characteristic. Now, in order to pick a certain number of subjects from each group, you can use Simple Random Sampling. The total number of subjects is specified at the start and you split the total number required among each group and you pick that number of subjects randomly from each group[12].
+
+Censorship
+
+It is important to understand that not every member of the population will experience the Event of Interest (death, churn, etc) during the study period. For example, there will be customers who are still a member of the company, or employees still working for the company, or machines that are still functioning during the observation/study period. We do not know when they will experience the event of interest as of the time of the study. All we know that they haven’t experienced it yet. Their survival times are longer than their time in the study. Their survival times are thus, labelled as ‘Censored’[2]. This indicates that their survival times were cut-off. Therefore, Censorship allows you to measure lifetimes for the population who haven’t experienced the event of interest yet.
+
+It is worth mentioning that the people/subjects who didn’t experience the event of interest need to be a part of the study as removing them completely would bias the results towards everyone in the study experiencing the event of interest. So, we cannot ignore those members and the only way to distinguish them from the ones who experienced the event of interest is to have a variable that indicates censorship or death (the event of interest).
+
+There are different types of Censorship done in Survival Analysis as explained below[3]. Note that Censoring must be independent of the future value of the hazard for that particular subject [24].
+
+Right Censoring: This happens when the subject enters at t=0 i.e at the start of the study and terminates before the event of interest occurs. This can be either not experiencing the event of interest during the study, i.e they lived longer than the duration of the study, or could not be a part of the study completely and left early without experiencing the event of interest, i.e they left and we could not study them any longer.
+
+This happens when the subject enters at t=0 i.e at the start of the study and terminates before the event of interest occurs. This can be either not experiencing the event of interest during the study, i.e they lived longer than the duration of the study, or could not be a part of the study completely and left early without experiencing the event of interest, i.e they left and we could not study them any longer. Left Censoring: This happens when the birth event wasn’t observed. Another concept known as Length-Biased Sampling should also be mentioned here. This type of sampling occurs when the goal of the study is to perform analysis on the people/subjects who already experienced the event and we wish to see whether they will experience it again. The lifelines package has support for left-censored datasets by adding the keyword left_censoring=True. Note that by default, it is set to False. Example[9]:
+
+Interval Censoring: This happens when the follow-up period, i.e time between observation, is not continuous . This can be weekly, monthly, quarterly, etc.
+
+This happens when the follow-up period, i.e time between observation, is . This can be weekly, monthly, quarterly, etc. Left Truncation: It is referred to as late entry. The subjects may have experienced the event of interest before entering the study. There is an argument named ‘entry’ that specifies the duration between birth and entering the study. If we fill in the truncated region then it will make us overconfident about what occurs in the early period after diagnosis. That’s why we truncate them[9].
+
+In short, subjects who have not experienced the event of interest during the study period are right-censored and subjects whose birth has not been seen are left-censored[7]. Survival Analysis was developed to mainly solve the problem of right-censoring[7].
+
+Survival Function
+
+The Survival Function is given by,
+
+Survival Function defines the probability that the event of interest has not occurred at time t. It can also be interpreted as the probability of survival after time t [7]. Here, T is the random lifetime taken from the population and it cannot be negative. Note that S(t) is between zero and one (inclusive), and S(t) is a non-increasing function of t[7].
+
+Hazard Function
+
+The Hazard Function also called the intensity function, is defined as the probability that the subject will experience an event of interest within a small time interval, provided that the individual has survived until the beginning of that interval [2]. It is the instantaneous rate calculated over a time period and this rate is considered constant [13]. It can also be considered as the risk of experiencing the event of interest at time t. It is the number of subjects experiencing an event in the interval beginning at time t divided by the product of the number of subjects surviving at time t and interval width[2].
+
+Since the probability of a continuous random variable to equal a particular value is zero. That’s why we consider the probability of the event happening at a particular interval of time from T till (T + ΔT). Since our goal is to find the risk of an event and we don’t want the risk to get bigger as the time interval ΔT gets bigger. Thus, in order to adjust for that, we divide the equation by ΔT. This scales the equation by ΔT[14]. The equation of the Hazard Rate is given as:
+
+The limit ΔT approaches zero implies that our goal is to measure the risk of an event happening at a particular point in time. So, taking the limit ΔT approaches zero yields an infinitesimally small period of time [14].
+
+One thing to point out here is that the Hazard is not a probability. This is because, even though we have the probability in the numerator, but the ΔT in the denominator could result in a value which is greater than one.
+
+Kaplan-Meier Estimate
+
+Kaplan-Meier Estimate is used to measure the fraction of subjects who survived for a certain amount of survival time t[4] under the same circumstances[2]. It is used to give an average view of the population[7]. This method is also called the product limit. It allows a table called, life table, and a graph, called survival curve, to be produced for a better view of the population at risk[2]. Survival Time is defined as the time starting from a predefined point to the occurrence of the event of interest[5]. The Kaplan-Meier Survival Curve is the probability of surviving in a given length of time where time is considered in small intervals. For survival Analysis using Kaplan-Meier Estimate, there are three assumptions [4]:
+
+Subjects that are censored have the same survival prospects as those who continue to be followed.
+
+Survival probability is the same all the subjects, irrespective of when they are recruited in the study.
+
+The event of interest happens at the specified time. This is because the event can happen between two examinations. The estimated survival time can be more accurately measured if the examination happens frequently i.e if the time gap between examinations is very small.
+
+The survival probability at any particular time is calculated as the number of subjects surviving divided by the number of people at risk. The censored subjects are not counted in the denominator[4]. The equation is given as follows:
+
+Here, ni represents the number of subjects at risk prior to time t. di represents the number of the event of interest at time t.
+
+For the Survival Curve for the Kaplan-Meier Estimate, the y-axis represents the probability the subject still hasn’t experienced the event of interest after time t, where time t is on the x-axis[9]. In order to see how uncertain we are about the point estimates, we use the confidence intervals[10]. The median time is the time where on average, half of the population has experienced the event of interest[9].
+
+Nelson Aalen Fitter
+
+Like the Kaplan-Meier Fitter, Nelson Aalen Fitter also gives us an average view of the population[7]. It is given by the number of deaths at time t divided by the number of subjects at risk. It is a non-parametric model. This means that there isn’t a functional form with parameters that we are fitting the data to. It doesn’t have any parameters to fit[7].
+
+Here, ni represents the number of subjects at risk prior to time t. di represents the number of the event of interest at time t.
+
+Survival Regression
+
+Survival Regression involves utilizing not only the duration and the censorship variables but using additional data (Gender, Age, Salary, etc) as covariates. We ‘regress’ these covariates against the duration variable.
+
+The dataset used for Survival Regression needs to be in the form of a (Pandas) DataFrame with a column denoting the duration the subjects, an optional column indicating whether or not the event of interest was observed, as well as additional covariates you need to regress against. Like with other regression techniques, you need to preprocess your data before feeding it to the model.
+
+Cox Proportional Hazard Regression Model
+
+The Cox Proportional Hazards Regression Analysis Model was introduced by Cox and it takes into account the effect of several variables at a time[2] and examines the relationship of the survival distribution to these variables[24]. It is similar to Multiple Regression Analysis, but the difference is that the depended variable is the Hazard Function at a given time t. It is based on very small intervals of time, called time-clicks, which contains at most one event of interest. It is a semi-parametric approach for the estimation of weights in a Proportional Hazard Model[16]. The parameter estimates are obtained by maximizing the partial likelihood of the weights[16].
+
+Gradient Descent is used to fit the Cox Model to the data[11]. The explanation of Gradient Descent is beyond the scope of this article but it finds the weights such that the error is minimized.
+
+The formula for the Cox Proportional Hazards Regression Model is given as follows. The model works such that the log-hazard of an individual subject is a linear function of their static covariates and a population-level baseline hazard function that changes over time. These covariates can be estimated by partial likelihood[24].
+
+β0(t) is the baseline hazard function and it is defined as the probability of experiencing the event of interest when all other covariates equal zero. And It is the only time-dependent component in the model. The model makes no assumption about the baseline hazard function and assumes a parametric form for the effect of the covariates on the hazard[25]. The partial hazard is a time-invariant scalar factor that only increases or decreases the baseline hazard. It is similar to the intercept in ordinary regression[2]. The covariates or the regression coefficients x give the proportional change that can be expected in the hazard[2].
+
+The sign of the regression coefficients, βi, plays a role in the hazard of a subject. A change in these regression coefficients or covariates will either increase or decrease the baseline hazard[2]. A positive sign for βi means that the risk of an event is higher, and thus the prognosis for the event of interest for that particular subject is higher. Similarly, a negative sign means that the risk of the event is lower. Also, note that the magnitude, i.e the value itself plays a role as well[2]. For example, for the value of a variable equaling to one would mean that it’ll have no effect on the Hazard. For a value less than one, it’ll reduce the Hazard and for a value greater than one, it’ll increase the Hazard[15]. These regression coefficients, β, are estimated by maximizing the partial likelihood[23].
+
+Cox Proportional Hazards Model is a semi-parametric model in the sense that the baseline hazard function does not have to be specified i.e it can vary, allowing a different parameter to be used for each unique survival time. But, it assumes that the rate ratio remains proportional throughout the follow-up period[13]. This results in increased flexibility of the model. A fully-parametric proportional hazards model also assumes that the baseline hazard function can be parameterized according to a particular model for the distribution of the survival times[2].
+
+Cox Model can handle right-censored data but cannot handle left-censored or interval-censored data directly[19].
+
+There are some covariates that may not obey the proportional hazard assumption. They are allowed to still be a part of the model, but without estimating its effect. This is called stratification. The dataset is split into N smaller datasets based on unique values of the stratifying covariates. Each smaller dataset has its own baseline hazard, which makes up the non-parametric part of the model, and they all have common regression parameters, which makes up the parametric part of the model. There is no regression parameter for the covariates stratified on.
+
+The term “proportional hazards” refers to the assumption of a constant relationship between the dependent variable and the regression coefficients[2]. Thus, this implies that the hazard functions for any two subjects at any point in time are proportional. The proportional hazards model assumes that there is a multiplicative effect of the covariates on the hazard function[16].
+
+There are three assumptions made by the Cox Model[23]
+
+The Hazard Ratio of two subjects remains the same at all times.
+
+The Explanatory Variables act multiplicatively on the Hazard Function.
+
+Failure times of individual subjects are independent of each other.
+
+Some built-in functionality provided by the lifelines package [11]
+
+print_summary prints a tabular view of coefficients and related stats.
+
+prints a tabular view of coefficients and related stats. hazards_ will print the coefficients
+
+will print the coefficients baseline_hazard_ will print the baseline hazard
+
+will print the baseline hazard baseline_cumulative_hazard_ will print the N baseline hazards for the N datasets
+
+will print the N baseline hazards for the N datasets _log_likelihood will print the value of the maximum log-likelihood after fitting the model
+
+will print the value of the maximum log-likelihood after fitting the model variance_matrix will present the variance matrix of the coefficients after fitting the model
+
+will present the variance matrix of the coefficients after fitting the model score_ will print out the concordance index of the fitted model
+
+will print out the concordance index of the fitted model Gradient Descent is used to fit the Cox Model to the data. You can even see the fitting using the variable show_progress=True in the fit function.
+
+in the function. predict_partial_hazard and predict_survival_function are used to inference the fitted model.
+
+and are used to inference the fitted model. plot method can be used to view the coefficients and their ranges.
+
+method can be used to view the coefficients and their ranges. the plot_covariate_groups method is used to show what the survival curves look like when we vary a single (or multiple) covariate while holding everything else equal. This way we can understand the impact of a covariate in a model.
+
+method is used to show what the survival curves look like when we vary a single (or multiple) covariate while holding everything else equal. This way we can understand the impact of a covariate in a model. the check_assumptions method will output violations of the proportional hazard assumption.
+
+method will output violations of the proportional hazard assumption. weights_col=’column_name’ specifies the weight column that contains integer or float values that represents some sampling weights. You also need to specify robust=True in the fit method to change the standard error calculations.
+
+Aalen’s Additive Model
+
+Like the Cox model, this model is also a regression model but unlike the Cox model, it defines the hazard rate as an additive instead of a multiplicative linear model. The hazard is defined as:
+
+During estimation, the linear regression is computed at each step. The regression can become unstable due to small sample sizes or high colinearity in the dataset. Adding the coef_penalizer term helps control stability. Start with a small term and increase if it becomes too unstable[11].
+
+This is a parametric model, which means that it has a functional form with parameters that we are fitting the data to. Parametric models allow us to extend the survival function, hazard function, or the cumulative hazard function past our maximum observed duration. This concept is called Extrapolation[9]. The Survival Function of the Weibull Model looks like the following:
+
+Here, λ and ρ are both positive and greater than zero. Their values are estimated when the model is fit to the data. The Hazard Function is given as:
+
+Accelerated Failure Time Regression Model
+
+If we are given two separate populations A and B, each having its own survival functions given by SA(t) and SB(t) and they are related to one another by some accelerated failure rate, λ, such that,
+
+It can slow down or speed up the moving along the survival function. λ can be modelled as a function of covariates[11]. It describes stretching out or contraction of the survival time as a function of the predictor variables[19].
+
+Where,
+
+Depending on the subjects’ covariates, the model can accelerate or decelerate failure times. An increase in xi means that the average/median survival time changes by a factor of exp(bi)[11]. We then pick a parametric form for the survival function. For this, we’ll select the Weibull form.
+
+Survival Analysis in Python using Lifelines Package
+
+The first step is to install the lifelines package in Python. You can install it using pip.
+
+One thing to point out is that the lifelines package assumes that every subject experienced the event of interest unless we specify it explicitly[8].
+
+The input to the fit method of the survival regression, i.e CoxPHFitter, WeibullAFTFitter, and AalenAdditiveFitter must include durations, censored indicators, and covariates in the form of a Pandas DataFrame. The duration and censored indicator must be specified in the call to the fit method[8].
+
+The lifelines package contains functions in lifelines.statistics to compare two survival curves[9]. The Log-Rank Test compares two event series’ generators. The series have different generators if the value returned from the test exceeds some pre-defined value.
+
+Log Rank Test
+
+It is a non-parametric statistical test which is used to compare the survival curves of two groups.
+
+Concordance Index
+
+It is a commonly used most commonly for performance evaluation for survival models. It is used for the validation of the predictive ability of a survival model[18]. It is the probability of concordance between the predicted and the observed survival. It is the “fraction of all pairs of subjects whose predicted survival times are correctly ordered among all subjects that can actually be ordered”[16].
+
+Model Selection
+
+If censoring is present then we shouldn’t use the mean-squared-error or the mean-absolute-error losses. We should opt for the concordance-index (or the c-index for short). The Concordance Index evaluates the accuracy of the ordering of predicted time. It is interpreted as follows[11]:
+
+Random Predictions: 0.5
+
+Perfect Concordance: 1.0
+
+Perfect Anti-Concordance: 0.0 (in this case we should multiply the predictions by -1 to get a perfect 1.0)
+
+Usually, the fitted models have a concordance index between 0.55 and 0.7 which is due to the noise present in the data.
+
+We can also use K-Fold Cross-Validation with the Cox Model and the Aalen Additive Model. The function splits the data into a training set and a testing set and fits itself on the training set and evaluates itself on the testing set. The function repeats this for each fold.
+
+In the second part, we’ll implement Survival (Regression) Analysis in Python to Predict Customer Churn.
+
+References
+
+[1] Lifelines: Survival Analysis in Python: https://www.youtube.com/watch?v=XQfxndJH4UA
+
+[2] What is a Cox model?, Stephen J Walters. www.whatisseries.co.uk
+
+[3] Applied Survival Analysis: Regression Modeling of Time-to-Event Data By David W. Hosmer, Jr., Stanley Lemeshow, Susanne May
+
+[4] Understanding survival analysis: Kaplan-Meier estimate: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3059453/
+
+[5] Statistics review 12: survival analysis. Bewick V, Cheek L, Ball J. Crit Care. 2004 Oct; 8(5):389–94.
+
+[6] Altman DG. London (UK): Chapman and Hall; 1992. Analysis of Survival times.In:Practical statistics for Medical research; pp. 365–93.
+
+[7] lifelines — Survival Analysis Intro
+
+[8] lifelines — Quick Start
+
+[9] lifelines — Survival Analysis with lifelines
+
+[10] The Greenwood and Exponential Greenwood. Confidence Intervals in Survival Analysis — S. Sawyer — September 4, 2003
+
+[11] lifelines — Survival Regression
+
+[12] Stratified Sampling, https://www.youtube.com/watch?v=sYRUYJYOpG0
+
+[13] Survival analysis, part 3: Cox regression Article in American Journal of Orthodontics and Dentofacial Orthopedics · November 2017
+
+[14] The Definition of the Hazard Function in Survival Analysis: https://www.youtube.com/watch?v=KM23TDz75Fs
+
+[15] Cox Proportional-Hazards Model — STHDA
+
+[16] On Ranking in Survival Analysis: Bounds on the Concordance Index — Vikas C. Raykar, Harald Steck, Balaji Krishnapuram CAD and Knowledge Solutions (IKM CKS), Siemens Medical Solutions Inc., Malvern, USA & Cary Dehing-Oberije, Philippe Lambin Maastro Clinic, University Hospital Maastricht, University Maastricht, GROW, The Netherlands
+
+[17] lifelines — Time Varying Survival Regression
+
+[18] Concordance Index
+
+[19] Parametric Survival Models — Christoph Dätwyler and Timon Stucki. 9. May 2011
+
+[20] StatQuest: Maximum Likelihood, clearly explained! https://www.youtube.com/watch?v=XepXtl9YKwc
+
+[21] Cox (1972)
+
+[22] Partial likelihood by D. R. Cox (1975)
+
+[23] Cox Regression Model
+
+[24] Cox Proportional-Hazards Regression for Survival Data in R An Appendix to An R Companion to Applied Regression, third edition John Fox & Sanford Weisberg
+
+Further Reading

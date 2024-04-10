@@ -1,0 +1,19 @@
+Another common example of analogies is the derivation of capitals. Let’s see what are the candidates for the capital of Austria:
+
+Candidates for Austria-Germany+Berlin from German Wikipedia corpus
+
+This time we have a hit, indeed Vienna is to Austria as Berlin is to Germany. The list of other candidates also makes sense, we find five capitals of Austrian federal states (Graz, Klagenfurt, Linz, Innsbruck, Salzburg) a capital of a Polish province (Wrocław) … and two cities from the German federal state of Saxony that are in competition over who is the true capital (Dresden, Leipzig).
+
+Hooray? Does this result extend? Let’s write a few lines of Python to test and visualize the analogy exercise for all European countries — minus the city states and Kazakhstan, where the corpus doesn’t contain enough data for its captial to show up in the model:
+
+Test all pairs of countries and capitals for correctly guessed analogy and visualize the result
+
+After some calculations we get 57.25% hits and 42.25% misses, quite worse than actually hoped for:
+
+Result matrix of the country-capital guessing exercise
+
+There seems no pattern behind a country having a good or bad to guess capital. So let’s see the raw frequencies, a complete list is linked below.
+
+Selected countries that have many failed guesses: UK (2,482), Czech Republic (679), Italy (91,024) , Iceland (37,591), Moldova (2,585). In comparison some countries with many correct guesses: Albany (7,067), Denmark (34,079), Ireland (23,024), Portugal (29,124), Romania (22,700). UK and Czech Republic could be somehow explained by the fact that their official names are used rather infrequently and that this maybe doesn’t happen in the same contexts as mentions of their capitals. Also Moldova could suffer from an ambiguity between the name of the country and a river. But this doesn’t explain Italy or Iceland.
+
+Also let’s do the same for cities with many failed guesses: London (114,921), Prague (34,565), Rome (70,952), Rejkyavik (2,890), Chișinău (851) comparted to the cities with a many correct guesses: Tirana (2,240), Copenhaven (18,092), Dublin (9630), Lisboa (11,196), Bucarest (8,350). Again we have no clear case and this time there is also no backing from additional knowledge. Can anyone explain this?

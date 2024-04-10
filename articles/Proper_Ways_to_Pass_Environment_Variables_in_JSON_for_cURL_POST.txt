@@ -1,0 +1,37 @@
+TL;DR
+
+The best practice is using a data generation function. Scrolling to the bottom for the detail.
+
+Setup a mock API server for request test
+
+When we build an API-based web (front-end and back-end separated), we usually want to see what the HTTP client is sending or to inspect and debug webhook requests. There are two approaches:
+
+Build an API server by ourselves
+
+Use a fake mock API server
+
+In this post, we choose the second approach and use RequestBin.
+
+The usage is super simple. The mock API server will be ready after clicking the button.
+
+Run the below command to make a POST request:
+
+$ curl -X POST https://requestbin.io/1bk0un41 -H "Content-Type: application/json" -d '{ "property1":"value1", "property2":"value2" }'
+
+Refresh the web and confirm the status:
+
+The double quotation problem when passing variable to curl
+
+Run printenv will show the environment variable:
+
+$ printenv LC_TERMINAL=iTerm2
+
+COLORTERM=truecolor
+
+TERM=xterm-256color
+
+HOME=/Users/smap10
+
+...
+
+We want to replace the value of property1 with TERM variable:

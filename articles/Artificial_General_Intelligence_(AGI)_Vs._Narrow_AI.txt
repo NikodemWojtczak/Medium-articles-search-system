@@ -1,0 +1,43 @@
+Vendors and theorists can promise the world, but it’s essential to differentiate between Artificial General Intelligence (AGI) and narrow AI in order to make informed decisions.
+
+In simplest terms, all of the contemporary AI is narrow or weak AI. Even the smartest systems are not able to execute common sense comparable to human intelligence. While computers can outperform humans at specific tasks such as chess, Jeopardy, or predicting the weather, they are still not able to think abstractly, interpret recollections, or solve creative problems with complex solutions.
+
+Far-Reaching, but Still Narrow
+
+To develop narrow AI, data scientists define which data to incorporate, determine the appropriate algorithm(s), and specify the best models to apply. Although the term “weak” carries negative connotations, narrow AI is by no means disappointing; enterprises continuously capitalize on the bounty of tasks currently performed by narrow AI.
+
+Between developments in self-driving cars and facial recognition, the current models of artificial intelligence are revolutionizing industries around the globe. Businesses of all sizes find ways to infuse best practices with artificial intelligence to automate decision-making throughout the organization. These automations-both large and small-create space for employees to function at higher levels and focus on solving more complex problems. One by one industry leaders are using AI to break away from the pack to gain an edge on competitors.
+
+Narrow AI is largely generating value for companies indirectly, whether it’s through increasing efficiency or functioning as an internal enhancement such as Amazon’s product recommendations. Customers aren’t flocking to companies for the AI, but narrow AI is rapidly transforming the customer (and employee) experience.
+
+The use of cognitive technology by businesses is increasing at a tremendous rate according to reports by Deloitte, and early adopters are doubling down on their investments. The technology is more tested and accessible than ever before, making it an ideal time for the next wave of companies to follow suit.
+
+Historically, advancements in AI arrive in bursts and create a timeline of peaks and troughs; developers refer to the troughs as “AI winters,” which denote eras of minimal technological expansion caused by lack of funding and poor public perception brought on by broken promises and false hopes in the capabilities of the technology.
+
+The current atmosphere of excitement arrived with the boom of data collected by the IoT, the birth of graphics processing unit (GPU), and the rapid evolution of computers’ speed, memory, and storage. In the past 10 years, AI not only emerged from the final trickling of winter but is now receiving funding at an unprecedented rate.
+
+As AI evolves, executives and business leaders chart new territory. Investments are skyrocketing as internet and industry titans fight to protect the future of the technology. With tech giants like Google and Microsoft declaring their own “AI-first” strategies, many are asking: Is AI finally coming into full bloom, or is the world on the precipice of another AI winter?
+
+While theorists race for the horizons and compare endgame scenarios (“Who will win, the humans or the robots?”), it’s critical to comprehend the current limitations of the technology, set reasonable expectations, and develop a strategy taking these things into consideration.
+
+On the Road to Artificial General Intelligence (AGI)
+
+As mentioned before, there’s a risk in over-promising the current capabilities of AI. In the past, when the public came to expect an onslaught of AI advancement and was met with underwhelming results, public opinion fell dramatically and abandoned hope in the possibilities.
+
+Businesses and the general public are asking: When will humans achieve AGI? Is technology on the cusp, or is it a reality for a far-future generation?
+
+The recent revolution in deep learning and neural networks credited its inspiration as the human brain. One of the leaders of the deep learning revolution, Terry Sejnowski, stated, “The only progress that’s been made in AI over the past 50 years, that is really having impact on the economy and on science, is really inspired by nature, by the brain, that’s where we are.”
+
+The natural evolution of this allusion is that advancements in deep learning and machine learning are paving the way for computers soon to function similarly to a human brain; however, this is not necessarily true. In actuality, even if deep learning matured to a point where the neural networks were equivalent to the human brain, AI experts are still unclear how to develop actual intelligence.
+
+Facebook’s Chief AI Scientist Yann LeCun stated that “while deep learning gets an inspiration from biology, it’s very, very far from what the brain actually does. And describing it like the brain gives a bit of the aura of magic to it, which is dangerous. It leads to hype; people claim things that are not true. AI has gone through a number of AI winters because people claimed things they couldn’t deliver.”
+
+When posed the question about how long it will take to achieve AGI, experts gave a wide variety of answers ranging from 10 years to never. The overall consensus is clear: if there is a way to do it, nobody actually knows how yet.
+
+Achieving Business Goals with Technology at Hand
+
+Outside of the winters, AI technology advances incrementally, with each discovery taking scientists closer to creating AGI. As things stand, while AI cannot compare to the human brain in generalized operation, the capabilities of AI are expanding daily. Eric Horvitz, director of Microsoft Research Labs, explained that the capabilities of current technology allow for a sort of “symphony of intelligence” comprised of differing narrow AI.
+
+When Jeff Bezos stated that this is the “golden age” of artificial intelligence, perhaps he was correct. While the technology is still nascent in its full scale of imagined capabilities, for businesses, things couldn’t be better. Narrow AI makes lives easier, and while it impacts nearly every industry in a multitude of ways, human intelligence is still irreplaceable.
+
+When humans do finally arrive at AGI, the number of ethical dilemmas could very well begin a post-golden-age quandary. For more information on how enterprises are using AI, read our blog here.

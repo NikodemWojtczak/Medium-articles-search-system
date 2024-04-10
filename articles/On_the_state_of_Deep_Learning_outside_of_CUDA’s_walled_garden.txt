@@ -1,0 +1,65 @@
+Photo by Omar Flores on Unsplash
+
+If you are a Deep Learning researcher or afficionando and you happen to love using Macs privately or professionally, every year you get the latest and greatest disappointing AMD upgrade for your GPU. Why is it disappointing? Because you get the latest and greatest Vega GPU that of course does not use CUDA.
+
+What is CUDA and why is this a big deal?
+
+CUDA® is a parallel computing platform and programming model developed by NVIDIA for general computing on graphical processing units (GPUs). With CUDA, developers are able to dramatically speed up computing applications by harnessing the power of GPUs.
+
+Ok. Nice. What you need to know is that this is the underlying core technology that is being used — amongst other things — to accelerate the training of artificial neural networks (ANNs). The idea is to run these computationally expensive tasks on the GPU, which has thousands of optimized GPU cores that are just infinitely better for such tasks compared to CPUs (sorry Intel). But why can’t I run this on my fancy $ 7k Mid-2019 Macbook with 8 cores and HBMI2-based Vega 20 GPU. Reasons. Namely that popular libraries for training ANNs like TensorFlow and PyTorch do not officially support OpenCL. And what is OpenCL?
+
+OpenCL™ (Open Computing Language) is the open, royalty-free standard for cross-platform, parallel programming of diverse processors found in personal computers, servers, mobile devices and embedded platforms.
+
+It is basically what AMD uses in their GPUs for GPU acceleration (CUDA is a proprietary technology from Nvidia!). Ironically, Nvidia CUDA-based GPUs can run OpenCL but apparently not as efficiently as AMD cards according to this article. And to drop-in some knowledge here: all of this kind of runs under the banner of “General Purpose Computing on Graphics Processing Units” (GPGPU) i.e. running stuff on GPUs as a primary computational unit instead of the CPU, in case your friends ask. Now back to CUDA and TensorFlow and all other buzzwords.
+
+Here is the state of the OpenCL implementation of the 2 most popular deep learning libraries:
+
+TensorFlow
+
+GitHub Ticket: https://github.com/tensorflow/tensorflow/issues/22
+
+Open since: 09.11.2015. (It’s issue #22; we are currently at #28961)
+
+Tensorflow locked the issue as “too heated” and limited conversation to collaborators on 26.02.2019. There are 541 comments and no assignee.
+
+This screenshot of the first 2 entries in the GH ticket describes the status quo.
+
+PyTorch
+
+GitHub ticket: https://github.com/pytorch/pytorch/issues/488
+
+Open since: 18.11.2017 (actually it’s closed now with a “needs discussion” label)
+
+This ticket is way more sane than the other one. Here is a statement from a contributor from the Facebook AI Research team:
+
+We officially are not planning any OpenCL work because: AMD itself seems to be moving towards HIP / GPUOpen which has a CUDA transpiler (and they’ve done some work on transpiling Torch’s backend). Intel is moving it’s speed and optimization value into MKLDNN. Generic OpenCL support has strictly worse performance than using CUDA/HIP/MKLDNN where appropriate.
+
+Digging further, I found this issue from 22.08.2018:
+
+“Disclaimer: PyTorch AMD is still in development, so full test coverage isn’t provided just yet. PyTorch AMD runs on top of the Radeon Open Compute Stack (ROCm)…”
+
+Enter ROCm (RadeonOpenCompute) — an open source platform for HPC and “UltraScale” Computing. Looking into this I found the following infos:
+
+ROCm includes the HCC C/C++ compiler based on LLVM. HCC supports the direct generation of the native Radeon GPU instruction set
+
+ROCm created a CUDA porting tool called HIP, which can scan CUDA source code and convert it to HIP source code.
+
+HIP source code looks similar to CUDA but compiled HIP code can run on both CUDA and AMD based GPUs through the HCC compiler.
+
+This seems like a monster effort. At this point I have to congratulate Nvidia for creating not only a great technology but an amazing (in a bad way) technical lock-in to its GPU platform. Kudos. What I don’t get is why Google decided to not support OpenCL officially from the start. No budget? This leads us back to the wonderful comment and meme from above in the Tensorflow GH issue.
+
+So, basically at some point stuff will work out. Maybe. Today you should buy an Nvidia GPU and keep your sanity.
+
+And before you say who cares about your Macbook issues — it’s not about that. No sane AI researcher is using a Mac for any serious DL work. This is about the fact that Facebook Inc. and Google Inc. that are pushing a large chunk of the DL development efforts (in terms of tool chaining), have decided to only support a proprietary GPU acceleration standard and thus a single GPU card manufacturer. I am a big fan of Nvidia. I am also fully aware of the “CUDA performs better than OpenCL” argument from the Facebook AI Research team from the GitHub issue from above. Nonetheless, I can see no reason not to invest some time and effort (and Facebook and Google have both) into having multiple GPU acceleration frameworks supported. And how about having a more abstract and open interface, so that new GPU or more niche DL-acceleration frameworks can be developed in the future?
+
+I am also aware of the fact that both frameworks are open-source and anyone can contribute to those but let’s face it — both frameworks exist in their currrent state because of the official support (monetary or otherwise) of the two companies behind them. Open source code that targets only a proprietary target is not exactly open open source. We can do better!
+
+P.S. If I have missed some big news around PT/TF and AMD support, please write in the comments below and I will update my article. I would love some good news!
+
+Sources:
+
+https://developer.nvidia.com/cuda-zone, 23.05.2019
+
+https://www.khronos.org/opencl/, 23.05.2019
+
+https://community.amd.com/community/radeon-instinct-accelerators/blog/2018/11/13/exploring-amd-vega-for-deep-learning, 23.05.2019

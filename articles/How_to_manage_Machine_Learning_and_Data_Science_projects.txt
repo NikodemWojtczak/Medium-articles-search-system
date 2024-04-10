@@ -1,0 +1,51 @@
+Machine learning projects have well-defined phases
+
+Whether you’re building a complex computer vision algorithm using deep learning, a learning-to-rank model with LightGBM, or even a simple linear regression, the process of building an ML model has well-defined phases. Below is how we break the model-building process into sequential phases, from the initial research all the way to the analysis of the A/B testing results. Notice that each phase has a deliverable (or milestone) which also works as a touch point to sync up with the team or the stakeholders.
+
+1) Research
+
+This is the initial phase of a project. It comprises talking to stakeholders to understand the project goals and expectations, talking to business analysts to find out what data is available and where to get it, creating some initial queries and investigating the data in order to develop a better intuitive understanding of the problem.
+
+It is also in this phase that the scientist will read the literature and decide on a methodology to address the problem. This includes reading scientific papers and brainstorming ideas with their peers. Sometimes deciding on the methodology will also require learning about existing packages and building some simple prototypes using a Jupyter notebook.
+
+Deliverable: The output of this phase is a detailed plan for the execution of the project with a breakdown of the subsequent phases (i.e, data exploration, modeling, productization, and result analysis) and an associated estimated level of effort (in number of weeks). The methodology and the data to be used must also be specified.
+
+This plan will be shared with the stakeholders for feedback.
+
+2) Data Exploration
+
+This is the traditional phase of exploring the data using Pandas and a Jupiter notebook (or sometimes Tableau) in order to gain insights into the data. Typical analyses include counting the number of rows in the data, creating histograms for different feature aggregations, graphs for trends over time, and multiple distribution plots. Scientists will also build queries that will be the core of their model ETL.
+
+Deliverable: A detailed data exploration report as a Jupiter notebook with graphs and comments providing insights into the data. This report will be shared with rest of the group and the project stakeholders.
+
+3) Modeling
+
+This is the meat of the project. Here scientists will start building their models using our internal framework. This includes building an ETL, performing feature engineering, and training models. It also includes building baseline models and providing an extensive evaluation of the final solution.
+
+Deliverables: The outputs of this phase are:
+
+A model prototype A report in Jupyter notebook with an extensive evaluation of the model
+
+The final report will be shared with the group and the project stakeholders.
+
+4) Productization
+
+This phase is about implementing the final version code. Some common tasks include adding comments to all functions and making sure the code is formatted properly according to Python standards and the standards of the group. The code is instrumented with reporting metrics such as the number of rows pulled, the number of rows in the output, the prediction error according to several metrics, and the feature importances when applicable. Finally the code is reviewed by one data scientist and one engineer.
+
+Sometimes the productization process will lead to a back and forth interaction with the platform engineers. This is particularly expected for real time models where runtime performance is critical. It’s also possible that the memory requirements for the code are too aggressive, leading to problems down the production pipeline. The engineers might push back and require a reduction in the memory footprint for training the model.
+
+Deliverable: The output of this phase is a committed code to the master branch that is ready for deployment by the platform engineering team.
+
+5) A/B Testing
+
+Most models will undergo an A/B testing phase. Here, scientists and stakeholders decide on the details of the test: how long it will run for, with what percentage of traffic, what is the control, how to interpret the results, etc. While the test is running, team members will mostly focus on other projects but they will need to monitor the test.
+
+6) Results Analysis
+
+Every scientist is responsible for a detailed analysis of their own model results. Here they’ll analyze the results metrics in many different ways to understand what’s really going on. In particular, when the test is unsuccessful we’ll need to do a deep dive into the results to figure out what went wrong.
+
+Deliverables:
+
+A detailed report of the results in a Jupyter notebook. A hypothesis as to why things didn’t go as expected (when applicable)
+
+The final report will be shared with the group and the stakeholders of the project.

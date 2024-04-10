@@ -1,0 +1,61 @@
+Thanks to predictive analytics, companies can dig into current and historical data and predict future events with more certainty than with experience and educated guesses alone. But, a predictive analytics tool is not a magic solution for enterprises.
+
+Applying predictive analytics to business needs is crucial for optimal results. Here are five things you can do to maximize the return on investment (ROI) when using predictive analytics.
+
+1. Use Predictive Analytics to Reduce Manufacturing Downtime
+
+Downtime is a major issue for manufacturing plants, mostly because of how costly it can be depending on the length of the outage and the type of product produced.
+
+For example, statistics show that an outage at an automotive plant could cost $22,000 per minute. Predictive analytics can be instrumental in making unplanned downtime occur less often, thereby boosting a company’s ROI.
+
+In one case study, a biotechnology company that develops and manufactures nutritional ingredients found that pipeline blockages on the equipment slowed down the production line and resulted in the need for more frequent delays to clean the equipment. But, the enterprise could not identify a root cause of the problem
+
+After the company looked at its quarterly review and found a 3.6% decrease in downtime, it used predictive analytics that gave insights about future downtime and allowed the business to be proactive. This solution led to an 83% reduction in downtime occurrences and caused a 5.1% increase in production capacity.
+
+2. Apply Predictive Analytics to Cut Down on Employee Turnover
+
+A 2018 study from Work Institute found that employee turnover costs typically represent 33% of the person’s base salary. That means figuring out why employees leave their jobs and trying to address the problem could save companies thousands of dollars for every one employee that decides to stay with the organization.
+
+It’s increasingly common for companies to invest in predictive analytics tools to assess how workers really feel about their jobs and whether warning signs exist that suggest they may be upset enough to quit.
+
+Some of those tools can also help human resources representatives connect the dots between events.
+
+For example, if a person’s average productivity went down, and they started showing up to the office late over the past three months, those things could both indicate job dissatisfaction. But, if a company invests in predictive analytics software for human resources, it could increase ROI by upping the likelihood that employees remain and work hard.
+
+3. Use Telemarketing to Engage With the Lead Suggestions Made By Analytics Software
+
+Many predictive analytics software options can help sales professionals narrow down their leads lists and find the most-qualified leads rather than spending too much time on the people who are less likely to engage in positive actions.
+
+That said, even though predictive analytics depend on impressive computing power, the human element still needs to be part of the sales mix.
+
+So, an excellent way to increase the return on investment is for a company to use predictive analytics to find the best leads, and then let telemarketing professionals nurture leads to help drive sales. Internal or external telemarketing teams are good for business because they can show a personalized understanding of a customer’s needs and wants, then discuss a product or service in ways that appeal to those characteristics.
+
+This example shows that although predictive analytics solutions are getting more advanced, they don’t — and shouldn’t — replace people who are good at their jobs and understand customers.
+
+4. Identify Cross-Selling and Upselling Opportunities With Predictive Analytics
+
+Cross-selling happens when a customer receives a recommendation related to a product they bought or will buy. Many companies do this by displaying an assortment of “you may also like…” products on their websites once a person adds one item to a virtual shopping basket.
+
+Then, upselling occurs when people get persuaded to spend more for a similar but more expensive product, such as agreeing to a better internet package or a larger drink size with a fast food combo meal.
+
+Predictive analytics allows brands to increase their ROI by using better targeting and ensuring that the highest-value customers receive the most appealing offers. First Tennessee Bank tried this strategy and achieved an overall 600% increase in ROI since predictive analytics allowed the brand to more effectively allocate its marketing resources.
+
+Also, there was a 3.1% increase in the marketing response rate due to sending the most relevant offers to certain audience segments. This method helped the bank cut down on printing and mailing costs, too.
+
+Neither cross-selling or upselling is effective if people get bombarded with offers that don’t interest them. Predictive analytics helps brands exercise more precision when they aim to engage customers.
+
+5. Rely on Predictive Analytics for Better Content Marketing
+
+Just as there is no universal approach to marketing, companies have to get sufficiently specific when choosing what kind of content to publish and when. The right content can position a brand as a thought leader and make customers eager to hear what they have to say.
+
+Predictive analytics can help companies discover the content that performs best with different segments of the audience. Then, those businesses can make more informed decisions about how to spend their content budgets for the best ROI payoffs.
+
+Predictive analytics also give guidance about content timing. For example, historical statistics show a brand’s social media page is most active during the mid-afternoon, making that time ideal for content publication. Or, the data may indicate that people usually visit a website at least three times before downloading one of its e-books.
+
+These specifics help content creation drive ROI and limit the possibility that brands might waste money on unwanted or unnecessary material.
+
+Predictive Analytics Can Help Solve Business Issues
+
+You should not view predictive analytics software as something that will instantly fix all the problems companies face.
+
+But, as this list shows, strategically applying the power of predictive analytics can improve ROI and help businesses overcome challenges.

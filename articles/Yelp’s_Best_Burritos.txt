@@ -1,0 +1,51 @@
+Yelp’s Best Burritos
+
+This is a three part project working with Yelp’s Open Dataset, an “all purpose dataset for learning.” In this, part 1, we will load in some massive JSON files, filter them to reduce their size, explore our subset of reviews data and talk about tokenization! Part 2 here. Part 3 here. If you’re interested in the code, you can find it here.
+
+The Data
+
+Yelp maintains and distributes a massive open dataset for learning, specifically for NLP problems. This dataset contains all sorts of information, including check-in data, photos and business attributes. However, what we’re most interested in here is the collection of reviews. This dataset comes in several JSON files with different information and contains 7 million reviews for close to 300,000 businesses. Wow!
+
+This is an awkwardly large amount of data so we’ll be working with a smaller subset of reviews to minimize computing time. This subset is going to be all the reviews for Mexican and Tex-Mex restaurants because I love burritos. Fairly arbitrary but this will reduce computing time significantly and ensure a a more standardized corpus than if we were to work with different businesses like yoga studios or movie theatres.
+
+To get to this subset of reviews requires a little bit of work in pre-processing. The JSON file that contains all 7 million reviews doesn’t have any information on business name or category, just a unique business ID. In order to get a list of business IDs associated with Mexican and Tex-Mex restaurants we’ll have to consult the JSON file that contains all the information on business attributes. Loading this JSON file straight into a pandas dataframe will allow us to filter by business category. Here, unsurprisingly, ‘Mexican’ and ‘Tex-Mex’. Doing this will give us a list of just over 4,000 businesses, now all restaurants. Simple enough and well reduced from the 300,000 businesses we started with. Onto to the JSON file that contains those 7 million reviews.
+
+The sheer size of this file necessitates a different strategy than working with the business attributes. Attempting to load all 7 million files directly into a dataframe or even a list of dictionaries will result in a memory error (at least with my 8gb of ram). The alternative strategy is to open the file, read object by object and check to see if the current object in memory matches a specific criteria. In this case the criteria is matching business IDs with the list created above. If there’s a match we’ll append the JSON object (a dictionary) to a list. This list of dictionaries can then be pushed to a dataframe. This a slow process, but I’m not sure there’s a better solution when working with large files (let me know in the comments if you think differently)! Regardless, at the end of processing we’re left with a dataframe containing all the reviews for all the Mexican and Tex-Mex restaurants in Yelp’s open dataset.
+
+The last step in the process is separating a set of reviews to run sentiment analysis on in the part 3 of this project. Because we’re interested in using sentiment analysis to identify undervalued burritos (more on this later) we’ll pull out all the reviews that specifically mention some form of the word ‘burrito’. This is trivial using pandas’ vectorized string functions. The final result of all these manipulations are two dataframes containing unique sets of reviews. There are 51,764 reviews that mention burritos and another 328,932 reviews for Mexican and Tex-Mex restaurants. Still a large set of reviews, but much more manageable than the original 7 million.
+
+Visual Explorations
+
+The goal in this part of the project is to build a classifier than correctly predicts a given Yelp star rating based on the text of that review. To get a better sense of what we’re working with, let’s look at some figures that help describe the data. First we’ll check out the number of reviews by star rating to see if we have an equal distribution (Fig. 1). As we can see below, the number of 5 star reviews dwarfs the rest of the star ratings. This may mean this dataset would benefit from under-sampling the majority class. For now we’ll just keep this information in mind.
+
+Figure 1: Number of reviews binned by stars
+
+Another relationship we may be interested in is the relation between text length and star rating. As suggested by Austin McCartney and co., performance of classifiers decreases with decreasing text length. Looking at the same 5 bins as above we can see that text length varies by star rating, but not by an excessive amount(Fig. 2). Regardless, this would be a difficult to attempt to alter. Moving on.
+
+Figure 2: Mean length of reviews binned by stars
+
+Now that we have some intuition for how review length and count of star ratings are distributed, let’s next look at the restaurants that make up these nearly 330,000 reviews. Below is a list of the top 15 restaurants garnering reviews. For our purposes here, individual chain’s reviews are all added together(Fig. 3). As suspected, chain restaurants make up the majority of the top 15, but not nearly to the extent that it might become problematic. Of all reviews in the set, only about 2% are for a Chipotle.
+
+Figure 3: Top 15 restaurants garnering reviews (here, all Chipotles and all Taco Bells)
+
+The list above is also interesting because it seems to be biased towards restaurants in the American West. Specifically, I know ‘Barrio Queen’ is a well respected traditional Mexican restaurant in Arizona, ‘Tacos el Gordo’ a highly regarded California mainstay, and ‘Nacho Daddy’ a Nevada nacho champion. We might have previously presumed this dataset from Yelp included a large swath of the nation but we’d better take a closer look at the distribution of cities and states to see what we’re working with (Fig. 4, Fig 5). As we can see, Las Vegas and a smattering of cities in Arizona are very well represented and the number of reviews for restaurants in Arizona dwarfs every other state. It might be interesting to bin our reviews by these locations in an extension to this project but it is not necessary to worry about this strange sampling of restaurants right now.
+
+Figure 4: Top 15 cities represented
+
+Figure 5: Reviews binned by state
+
+Given the data we have, and the simple end goal of this first part of the project, let’s bin the 5 star rating system into 2 categories. This will be good reviews (5 and 4 star) and bad/neutral (1, 2 or 3 star) reviews. This will make classification simpler. Performing this manipulation is straightforward and afterwards we end up with 115,787 bad/neutral reviews and 213,145 good reviews. This imbalance likely means our classifier will perform better when classifying good reviews but it is not necessary to correct.
+
+Cleaning Up Some Text
+
+The first step in analyzing text is cleaning text. This can involve all sorts of different steps but here will be pretty simple. We’ll utilize the Natural Language Tool Kit (NLTK) built in functions. With all the reviews contained in a dataframe this process is simple to carry out with pandas apply method. To get a sense for the input and output of this process we can look at figure 6 below. We start with the original review, switch all the uppercase letters to lowercase, convert the text into a list of strings then finally remove the stopwords (commonly occurring words) and punctuation (note the exclamation marks and smiley face at the end of the review are gone).
+
+Figure 6: Steps in the cleaning and tokenizing process.
+
+N-grams
+
+This list of words generated above could be used in a machine learning model for classification once vectorized. However, simply using words as features necessarily eliminates all the information that comes with word ordering. This is where n-grams come into play. An N-gram is a contiguous sequence of n items constructed from a given sequence of text. These can be bigrams (2 words), trigrams (3 words), etc. Given the final list of word tokens above in Figure 6, a bigram representation would be the list of tuples reproduced in Figure 7 below.
+
+Figure 7: Bigram representation of the sentence constructed in figure 6
+
+The biggest disadvantage to using an n-gram representation is that the size of the training vocabulary becomes massive. We’ll get to it in a little bit, but the vocabulary of bigrams constructed by vectorizing the training corpus was over 3 million unique terms. As we might expect, using trigrams or quadgrams only compounds this problem. Of course, the ultimate ending point would be every unique sentence represented in the training corpus and a perfectly overfit model. That won’t happen with bigrams, and we’ll achieve better classification performance result than working with individual words (trust me I checked). It will also allow us to perform a feature selection step. All great stuff so let’s dive in! Follow me to part 2 here.

@@ -1,0 +1,25 @@
+Member-only story The Challenges of Hiring Artificial Intelligence Professionals
+
+I was speaking to my manager the other day over coffee and the conversation steered towards the topic of Artificial Intelligence (AI). While on that topic, he commented that, “In the field of AI, many people talk but don’t deliver”. While what he said was true in general, I feel that success or failure of AI projects are predetermined at the point of hiring.
+
+The rich get richer, the poor get poorer
+
+Over the past few months, I have been interviewing with various firms across different industries for data analyst, junior data scientist or AI engineer positions. While interviewing, I noticed many differences between these companies I interviewed for. They can be classified into two categories: AI Leaders and the AI Laggards.
+
+Source from Accenture: The Momentum Mindset [1]
+
+There also exists a ‘rich get richer, poor get poorer’ phenomenon, and the rationale for this is simple.
+
+Before I jump into that, we need to segregate two groups of individuals:
+
+The Amateurs
+
+This group of people are individuals who have an avid interest in data science who are either 1) in the midst of making a career switch or 2) have just made the career switch or 3) have up to two years of working experience.
+
+This group of people wants to get their hands dirty. The dirtier the better. Their focus is on driving up their technical skills as quickly as possible. This involves 1) being able to work with like-minded individuals, 2) having the opportunity to learn every day on the job and 3) being exposed to production grade code and end-to-end ML pipelines.
+
+The Professionals
+
+This group of people has years of experience working in AI. They know how to build and deploy ML models, plan and execute a ML project with a given timeline, and know the ins and outs of building a successful data science team.
+
+At this stage in their career, these people are earning big bucks. They are well sought after and they are…

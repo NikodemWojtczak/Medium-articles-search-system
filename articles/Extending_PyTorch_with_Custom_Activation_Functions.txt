@@ -1,0 +1,105 @@
+Extending PyTorch with Custom Activation Functions
+
+Introduction
+
+Today deep learning is going viral and is applied to a variety of machine learning problems such as image recognition, speech recognition, machine translation, and others. There is a wide range of highly customizable neural network architectures, which can suit almost any problem when given enough data. Each neural network should be elaborated to suit the given problem well enough. You have to fine tune the hyperparameters of the network (the learning rate, dropout coefficients, weight decay, and many others) as well as the number of hidden layers, and the number of units in each layer. Choosing the right activation function for each layer is also crucial and may have a significant impact on metric scores and the training speed of the model.
+
+Activation Functions
+
+The activation function is an essential building block for every neural network. We can choose from a huge list of popular activation functions from popular Deep Learning frameworks, like ReLU, Sigmoid, Tanh, and many others.
+
+However, to create a state of the art model, customized particularly for your task, you may need to use a custom activation function, which is absent in Deep Learning framework you are using. Activation functions can be roughly classified into the following groups by complexity:
+
+In this tutorial, I cover the implementation and demo examples for all of these types of functions with PyTorch framework. You can find all the code for this article on GitHub.
+
+Setting Up
+
+To go through the examples of the implementation of activation functions, you would require:
+
+To install PyTorch,
+
+To add the necessary imports to your script,
+
+The necessary imports
+
+To prepare a dataset for the demonstration. We will use the well known Fashion MNIST dataset.
+
+Prepare the dataset
+
+The last thing is to set up a sample function, which runs the model training process and prints out the training loss for each epoch:
+
+A sample model training function
+
+Now everything is ready for the creation of models with custom activation functions.
+
+Implementing Simple Activation Functions
+
+The most simple common activation functions
+
+are differentiable and don’t need the manual implementation of the backward step,
+
+and don’t need the manual implementation of the backward step, don’t have any trainable parameters. All their parameters should be set in advance.
+
+One of the examples of such simple functions is Sigmoid Linear Unit or just SiLU, also known as Swish-1:
+
+SiLU
+
+Such a simple activation function can be implemented just as easy as a Python function:
+
+So now SiLU can be used in models created with nn.Sequential:
+
+Or in a simple model, which extends nn.Module class:
+
+Implementing Activation Function with Trainable Parameters
+
+There are lots of activation functions with parameters, which can be trained with gradient descent while training the model. A great example for one of these is Soft Exponential function:
+
+Soft Exponential
+
+To implement an activation function with trainable parameters we have to:
+
+derive a class from nn.Module and make the parameter one of its members,
+
+wrap the parameter as a PyTorch Parameter and set requiresGrad attribute to True.
+
+Here is an example for Soft Exponential:
+
+And now we can use Soft Exponential in our models as follows:
+
+Implementing Activation Function with Custom Backward Step
+
+The perfect example of an activation function, which needs implementation of a custom backward step is BReLU (Bipolar Rectified Linear Unit):
+
+BReLU
+
+This function is not differentiable at 0, so automatic gradient computation might fail. That’s why we should provide a custom backward step to ensure stable computation.
+
+To impement custom activation function with backward step we should:
+
+create a class which, inherits Function from torch.autograd,
+
+override static forward and backward methods. Forward method just applies the function to the input. Backward method computes the gradient of the loss function with respect to the input given the gradient of the loss function with respect to the output.
+
+Let’s see an example for BReLU:
+
+We can now use BReLU in our models as follows:
+
+Conclusion
+
+In this tutorial I covered:
+
+How to create a simple custom activation function with PyTorch,
+
+with PyTorch, How to create an activation function with trainable parameters , which can be trained using gradient descent,
+
+, which can be trained using gradient descent, How to create an activation function with a custom backward step.
+
+All code from this tutorial is available on GitHub. Other examples of implemented custom activation functions for PyTorch and Keras you can find in this GitHub repository.
+
+Improvement
+
+While building many custom activation functions, I noticed that they often consume much more GPU memory. Creation of in place implementations of custom activations using PyTorch in place methods improves this situation.
+
+Additional References
+
+Here are some links to the additional resources and further reading:

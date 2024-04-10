@@ -1,0 +1,63 @@
+Achieving a top 5% position in an ML competition with AutoML
+
+AutoML pipelines are a hot topic. The general goal is simple: enable everyone to train high-quality models specific to their business needs by relying on state-of-the-art machine learning models, hyper-tuning techniques and large volumes of compute.
+
+In this blog post I will be applying Microsoft’s AutoML pipeline to a public ML competition, and by dissecting the results I hope to learn where AutoML pipelines add significant value and areas where they can still improve. With minor coding efforts and the AutoML pipeline, I was able to get to the 5th position with only 0.004 points from the top F1 score! You can find the notebook that I used on GitHub.
+
+Richter’s Predictor: Modelling Earthquake Damage
+
+The competition I picked is hosted at DrivenData.org. It is an intermediate-level practice competition, where the goal is to predict the level of damage to buildings caused by the 2015 Gorkha earthquake in Nepal.
+
+Image from the DrivenData competition.
+
+The data is clean, without any missing values and mainly consists of information on the buildings’ structure and their legal ownership (both categorical and numerical features). In this competition, we are trying to predict the ordinal variable damage_grade , which represents a level of damage to the building that was hit by the earthquake. There are 3 grades of the damage.
+
+The training and test dataset consists of respectively 260602 and 86869 buildings.
+
+AutoML
+
+AutoML is integrated into Microsoft’s Azure Machine Learning Service. This means it is relatively simple to execute and monitor AutoML pipelines using storage and compute in Azure.
+
+The general workflow of an AutoML pipeline is fairly straightforward. You define the training dataset (the Richter dataset), a cross-validation scheme (5-fold cross validation), primary metric (weighted AUC), the experiment type (classification) and you are good to go. Depending on where you want to execute the experiment (on your local pc, a VM in the cloud or a large cluster) and where the data resides (local or in cloud), you also have to specify a data and compute configuration.
+
+An AutoML pipeline consists of the following steps:
+
+1. Given the experiment type, generate a set of initial pipeline parameters.
+
+2. Execute the experiments with the different parameters and measure the primary metric using cross-validation.
+
+3. Pick a new set of (optimal) pipeline parameters and continue until a threshold is reached. This can be a number of experiments, the time spent on the experiments or a different metric.
+
+4. At the end, build an ensemble of the different models to obtain optimal performance on the test set.
+
+Note that the general problem of selecting a good set of algorithms and hyperparameters is a complex problem. The search space (i.e. the model space) is very large and evaluating different experiments often takes a lot of compute and time. For quite a long time, hyper-tuning was done by performing either a random or full search of the model space. As compute is limited, this meant that these model spaces had to be heuristically constrained.
+
+Nowadays, Bayesian methods are often seen as a superior approaches to hyperparameter optimization, although RL-based methods have also become quite popular in e.g. Neural Architecture Search. The general idea behind these methods is that they will ‘intelligently’ and ‘efficiently’ search the model space, trading off exploration (new model types) vs. exploitation (improving previously optimal model types).
+
+Results
+
+Directly applying the AutoML pipeline to the dataset results in a model that performs worse (F1 of 0.5441) than the competition baseline (a Random Forest model with F1 of 0.5815). Analysing the model results quickly illustrates why such a low F1 is achieved. The dataset is unbalanced (class 1: 7.5%, class 2: 52.5%, class 3: 40%). As the AutoML pipeline does not perform undersampling or oversampling, this means the different models in the AutoML pipeline are trained on unbalanced datasets.
+
+The confusion matrix of the AutoML pipeline also confirms the bias towards the two majority classes that is present in the model. As the competition is evaluation on F1 micro score, this model doesn’t perform very well.
+
+Although the AutoML does incorporate some feature engineering, preprocessing, missing value imputation, it is still important to provide a clean and balanced dataset to the AutoML pipeline.
+
+To improve the results, I took the following steps:
+
+Verify that the different features are converted to the correct format (numerical or categorical). Perform synthetic data generation by leveraging SMOTE. This ensures that the data is balanced, without having to undersample or throw any of the data away.
+
+The experiment was deployed on AzureML compute (managed VM’s) and 100 experiments were run with the AutoML pipeline.
+
+As you can see in the plot below, running the pipeline for even more experiments wouldn’t have lead to a significant improvement in terms of performance, although this is most likely necessary to get to the 1st place in the competition.
+
+Zooming in on the confusion matrix, it is clear that the model performs better, although there is still significant confusion between the second and the third class. Additional data augmentation techniques (e.g. undersampling or oversampling) or manual feature engineering might help in this scenario.
+
+The following graph also showcases the importance of some of the features. Clearly, there are a lot of (sparse) features that have limited impact on final performance. As such, it is worthwhile to experiment with leaving out these features. Primarily the location features have the biggest impact, which is as expe
+
+The final ‘best performing’ model achieves an F1 score of 0.7419. This is slightly lower than the best score in the competition, but considering the amount of work that was involved to get these results, I’d say this is a quite promising result for AutoML.
+
+Conclusion
+
+AutoML is a great addition to any data scientist’s toolbox. Hyperparameter tuning frameworks are not new (e.g. hyperopt), but a framework that easily allows data scientists to combine compute, data and experimentation in a single Python package is a great improvement. That said, in order to get the most out of these tools, it is necessary to perform the proper data preprocessing, to select the right optimization metric, etc. In addition, in order to avoid spending large amounts of compute and time on these workloads, it is possible to narrow down the search space based on data exploration and experience.
+
+If you have any questions on AutoML, I’ll be happy to read them in the comments. Follow me on Medium or Twitter if you want to receive updates on my blog posts!

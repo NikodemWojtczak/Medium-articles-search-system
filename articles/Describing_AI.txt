@@ -1,0 +1,35 @@
+Companies are investing millions of pounds to develop Artificial Intelligence (AI) technology. Many people use that AI technology daily to make their lives easier. But search Google for images of “Artificial Intelligence”, and you’ll be faced with a sea of glowing, bright blue, connected brains. The imagery used to illustrate AI is a far cry from the more mundane reality of how AI looks to its users, where it powers services like navigation, voice assistants and face recognition. The disconnect makes it hard to grasp the reality of AI.
+
+The language used to describe AI can be as problematic as the images used. With AI increasingly impacting so many people’s daily lives, it’s important to represent it accurately and not to obscure the responsibility of those designing the system to get to right.
+
+“The AI taught itself”
+
+Most articles about AI are talking about machine learning (ML). That’s a set of algorithms that train models from data. After training, the models encode patterns that exist in the training data. Machine learning is the best way we know for computers to carry out complex tasks, like understanding speech, which we can’t explicitly program them to do.
+
+We talk about ML models learning, so it’s tempting to write that “the AI taught itself to…” do something. For example, AI has taught itself to prefer male candidates, to play games, to solve Rubik’s cube, and much more. The phrasing “ taught itself “ is problematic as it suggests the computer and the machine learning model has agency. It hides the reality of machine learning, where a scientist or engineer carefully constructs both the dataset and model, then spends significant time building and tuning models until they perform well. The model only learns from the training data, which is usually constrained in some way. Perhaps there’s only a limited amount of data available, or limited time and computing power in which to run the training. Whatever the constraints, what the model ultimately learns is strongly influenced by the design choices of its creators.
+
+“The AI cheated”
+
+Bots also teach themselves to cheat, perhaps by hiding data or exploiting bugs in computer games. Yet, ‘ cheat ‘ is an emotive word which also suggests there’s intent behind the cheating.
+
+Cheat (verb): “act dishonestly or unfairly in order to gain an advantage”
+
+The task that an ML model is trained to do is well defined by its creator. Often, imperfect simulations or video games are used to mimic the real-world, because it’s too expensive or dangerous to be outside. In these simulations, computers can repeat the same action many more times than people, and act a lot faster, so they can discover and exploit bugs that people can’t. They’re not slowed down by the physical act of clicking the mouse or pressing a button. Uncovering and exploiting bugs in the task is a perfectly reasonable outcome to expect of a machine learning model. We have a tacit understanding that exploiting bugs in a simulation or computer game is cheating. Computers, however, don’t know that this isn’t within the spirit of the game. They are blind to the difference between a rule of the game and a bug in its implementation.
+
+“The bot defied the laws of Physics!”
+
+In the real world, nothing can defy the laws of Physics. When a simulation defies the laws of Physics, something is wrong. Machine learning models can exploit bugs in the simulation to invent behaviour which we intuitively know is wrong but which satisfies the constraints of the task. Still, the results can be entertaining and tell us something about how machine learning works:
+
+“When they gave the algorithm no constraints and asked it to cross an obstacle-laden course, the AI built an extremely tall bipedal creature that simply fell down to reach the exit.” New Scientist
+
+“AI can tell if you’re a criminal”
+
+Published research has suggested that AI can tell if you’re a criminal or your sexual orientation from a picture of your face, tell if you’re lying from your voice, or identify your emotions from your gait. But, even the best performing AI cannot do the impossible.
+
+The datasets used for training machine learning models have to be accurately labeled. If people cannot accurately label a dataset, then it’s very unlikely a machine can learn the task. Sometimes it takes an expert to label a dataset — almost anyone can transcribe audio but very few have the expertise to label MRI scans — yet accurate data labels are essential to a machine learning task. Correctly labelling sexual orientation, whether you’re lying, whether you’re a criminal, or what emotional state you’re in is an impossible job for anyone.
+
+There are some scenarios where machine learning can uncover patterns which people cannot see. For example, MRI scans can be labelled using additional information from biopsies. Perhaps the doctor doing the labelling isn’t sure from the image whether a mass is cancerous, but additional information from a biopsy can help with labelling the image. In this scenario, however, you have to take extra care with the setup and evaluation to make sure the model is indeed learning something new and novel.
+
+Another point to note about the datasets used for training ML models is that they are constructed by people working within constraints. Those constraints can be related to time, money, labelling effort or something else entirely. For example, in the study of sexual orientation, the researchers scraped profile photos from dating websites. Dating profile pictures are chosen by the users from amongst many pictures of themselves to convey a particular image to the world. Predicting sexual orientation from these photos tells us more about cultural norms of gender presentation than about whether you can predict someone’s sexual orientation from their face*. Sometimes, an impressive result on a task in a lab environment does not transfer to the real world.
+
+Machine learning and AI have shown some impressive results recently — including translating between languages, filtering your spam email away, answering questions, detecting fraud, driving cars and more. Taking away the hyperbole doesn’t detract from its successes, and ultimately will make it easier for everyone to understand.

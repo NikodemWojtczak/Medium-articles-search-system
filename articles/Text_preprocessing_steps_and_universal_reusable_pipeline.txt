@@ -1,0 +1,527 @@
+Text preprocessing steps and universal reusable pipeline
+
+The description of all text preprocessing steps and creation of a reusable text preprocessing pipeline Maksym Balatsko · Follow Published in Towards Data Science · 9 min read · May 20, 2019 -- 1 Listen Share
+
+Before feeding any ML model some kind data, it has to be properly preprocessed. You must have heard the byword: Garbage in, garbage out (GIGO). Text is a specific kind of data and can't be directly fed to most ML models, so before feeding it to a model you have to somehow extract numerical features from it, in another word vectorize . Vectorization is not the topic of this tutorial, but the main thing you have to understand is that GIGO is also applicable on vectorization too, you can extract qualitative features only from the qualitatively preprocessed text.
+
+Things we are going to discuss:
+
+Tokenization Cleaning Normalization Lemmatization Steaming
+
+Finally, we’ll create a reusable pipeline, which you’ll be able to use in your applications.
+
+Kaggle kernel: https://www.kaggle.com/balatmak/text-preprocessing-steps-and-universal-pipeline
+
+Let’s assume this example text:
+
+An explosion targeting a tourist bus has injured at least 16 people near the Grand Egyptian Museum,
+
+next to the pyramids in Giza, security sources say E.U.
+
+
+
+South African tourists are among the injured. Most of those hurt suffered minor injuries,
+
+while three were treated in hospital, N.A.T.O. say.
+
+
+
+http://localhost:8888/notebooks/Text%20preprocessing.ipynb
+
+
+
+@nickname of twitter user and his email is email@gmail.com .
+
+
+
+A device went off close to the museum fence as the bus was passing on 16/02/2012.
+
+Tokenization
+
+Tokenization - text preprocessing step, which assumes splitting text into tokens (words, sentences, etc.)
+
+Seems like you can use somkeind of simple seperator to achieve it, but you don’t have to forget that there are a lot of different situations, where separators just don’t work. For example, . separator for tokenization into sentences will fail if you have abbreviations with dots. So you have to have a more complex model to achieve good enough result. Commonly this problem is solved using nltk or spacy nlp libraries.
+
+NLTK:
+
+from nltk.tokenize import sent_tokenize, word_tokenize
+
+
+
+nltk_words = word_tokenize(example_text)
+
+display(f"Tokenized words: {nltk_words}")
+
+Output:
+
+Tokenized words: ['An', 'explosion', 'targeting', 'a', 'tourist', 'bus', 'has', 'injured', 'at', 'least', '16', 'people', 'near', 'the', 'Grand', 'Egyptian', 'Museum', ',', 'next', 'to', 'the', 'pyramids', 'in', 'Giza', ',', 'security', 'sources', 'say', 'E.U', '.', 'South', 'African', 'tourists', 'are', 'among', 'the', 'injured', '.', 'Most', 'of', 'those', 'hurt', 'suffered', 'minor', 'injuries', ',', 'while', 'three', 'were', 'treated', 'in', 'hospital', ',', 'N.A.T.O', '.', 'say', '.', 'http', ':', '//localhost:8888/notebooks/Text', '%', '20preprocessing.ipynb', '@', 'nickname', 'of', 'twitter', 'user', 'and', 'his', 'email', 'is', 'email', '@', 'gmail.com', '.', 'A', 'device', 'went', 'off', 'close', 'to', 'the', 'museum', 'fence', 'as', 'the', 'bus', 'was', 'passing', 'on', '16/02/2012', '.']
+
+Spacy:
+
+import spacy
+
+import en_core_web_sm
+
+
+
+nlp = en_core_web_sm.load()
+
+
+
+doc = nlp(example_text)
+
+spacy_words = [token.text for token in doc]
+
+display(f"Tokenized words: {spacy_words}")
+
+Output:
+
+Tokenized words: ['\
+
+', 'An', 'explosion', 'targeting', 'a', 'tourist', 'bus', 'has', 'injured', 'at', 'least', '16', 'people', 'near', 'the', 'Grand', 'Egyptian', 'Museum', ',', '\
+
+', 'next', 'to', 'the', 'pyramids', 'in', 'Giza', ',', 'security', 'sources', 'say', 'E.U.', '\
+
+\
+
+', 'South', 'African', 'tourists', 'are', 'among', 'the', 'injured', '.', 'Most', 'of', 'those', 'hurt', 'suffered', 'minor', 'injuries', ',', '\
+
+', 'while', 'three', 'were', 'treated', 'in', 'hospital', ',', 'N.A.T.O.', 'say', '.', '\
+
+\
+
+', 'http://localhost:8888/notebooks', '/', 'Text%20preprocessing.ipynb', '\
+
+\
+
+', '@nickname', 'of', 'twitter', 'user', 'and', 'his', 'email', 'is', 'email@gmail.com', '.', '\
+
+\
+
+', 'A', 'device', 'went', 'off', 'close', 'to', 'the', 'museum', 'fence', 'as', 'the', 'bus', 'was', 'passing', 'on', '16/02/2012', '.', '\
+
+']
+
+In spacy output tokenization, but not in nltk:
+
+{'E.U.', '\
+
+', 'Text%20preprocessing.ipynb', 'email@gmail.com', '\
+
+\
+
+', 'N.A.T.O.', 'http://localhost:8888/notebooks', '@nickname', '/'}
+
+In nltk but not in spacy:
+
+{'nickname', '//localhost:8888/notebooks/Text', 'N.A.T.O', ':', '@', 'gmail.com', 'E.U', 'http', '20preprocessing.ipynb', '%'}
+
+We see that spacy tokenized some weird stuff like
+
+,
+
+
+
+, but was able to handle URLs, emails and Twitter-like mentions. Also, we see that nltk tokenized abbreviations without the last .
+
+Cleaning
+
+Cleaning is step assumes removing all undesirable content.
+
+Punctuation removal
+
+Punctuation removal might be a good step, when punctuation does not brings additional value for text vectorization. Punctuation removal is better to be done after the tokenization step, doing it before might cause undesirable effects. Good choice for TF-IDF , Count , Binary vectorization.
+
+Let’s assume this text for this step:
+
+@nickname of twitter user, and his email is email@gmail.com .
+
+Before tokenization:
+
+text_without_punct = text_with_punct.translate(str.maketrans('', '', string.punctuation))
+
+display(f"Text without punctuation: {text_without_punct}")
+
+Output:
+
+Text without punctuation: nickname of twitter user and his email is emailgmailcom
+
+Here you can see that important symbols for correct tokenizations were removed. Now email can’t be properly detected. As you could mention from the Tokenization step, punctuation symbols were parsed as single tokens, so better way would be to tokenize first and then remove punctuation symbols.
+
+import spacy
+
+import en_core_web_sm
+
+
+
+nlp = en_core_web_sm.load() doc = nlp(text_with_punct)
+
+tokens = [t.text for t in doc] # python based removal
+
+tokens_without_punct_python = [t for t in tokens if t not in string.punctuation]
+
+display(f"Python based removal: {tokens_without_punct_python}") # spacy based removal
+
+tokens_without_punct_spacy = [t.text for t in doc if t.pos_ != 'PUNCT']
+
+display(f"Spacy based removal: {tokens_without_punct_spacy}")
+
+Python based removal result:
+
+['@nickname', 'of', 'twitter', 'user', 'and', 'his', 'email', 'is', 'email@gmail.com']
+
+Spacy based removal:
+
+['of', 'twitter', 'user', 'and', 'his', 'email', 'is', 'email@gmail.com']
+
+Here you see that python-based removal worked even better than spacy because spacy tagged @nicname as PUNCT part-of-speech.
+
+Stop words removal
+
+Stop words usually refers to the most common words in a language, which usually does not bring additional meaning. There is no single universal list of stop words used by all nlp tools because this term has a very fuzzy definition. Although the practice has shown, that this step is must have when preparing a text for indexing, but might be tricky for text classification purposes.
+
+Spacy stop words count: 312
+
+NLTK stop words count: 179
+
+Let’s assume this text for this step:
+
+This movie is just not good enough
+
+Spacy:
+
+import spacy
+
+import en_core_web_sm
+
+
+
+nlp = en_core_web_sm.load() text_without_stop_words = [t.text for t in nlp(text) if not t.is_stop]
+
+display(f"Spacy text without stop words: {text_without_stop_words}")
+
+Spacy text without stop words:
+
+['movie', 'good']
+
+NLTK:
+
+import nltk
+
+
+
+nltk_stop_words = nltk.corpus.stopwords.words('english')
+
+text_without_stop_words = [t for t in word_tokenize(text) if t not in nltk_stop_words]
+
+display(f"nltk text without stop words: {text_without_stop_words}")
+
+NLTK text without stop words:
+
+['This', 'movie', 'good', 'enough']
+
+Here you see that nltk and spacy have different vocabulary size, so the results of filtering are different. But the main thing I want to underline is that the word not was filtered, which in most cases will be alright, but in the case when you want to determine the polarity of this sentence not will bring additional meaning.
+
+For such cases, you are able to set stop words you can ignore in spacy library. In the case of nltk you cat just remove or add custom words to nltk_stop_words , it is just a list.
+
+import en_core_web_sm
+
+
+
+nlp = en_core_web_sm.load()
+
+
+
+customize_stop_words = [
+
+'not'
+
+]
+
+
+
+for w in customize_stop_words:
+
+nlp.vocab[w].is_stop = False
+
+
+
+text_without_stop_words = [t.text for t in nlp(text) if not t.is_stop]
+
+display(f"Spacy text without updated stop words: {text_without_stop_words}")
+
+Spacy text without updated stop words:
+
+['movie', 'not', 'good']
+
+Normalization
+
+Like any data text requires normalization. In case of text it is:
+
+Converting dates to text Numbers to text Currency/Percent signs to text Expanding of abbreviations (content dependent) NLP — Natural Language Processing, Neuro-linguistic programming, Non-Linear programming Spelling mistakes correction
+
+To summarize, normalization is a conversion of any non-text information into textual equivalent.
+
+For this purposes exists a great library — normalize. I’ll show you the usage of this library from its README. This library is based on nltk package, so it expects nltk word tokens.
+
+Let’s assume this text for this step:
+
+On the 13 Feb. 2007, Theresa May announced on MTV news that the rate of childhod obesity had risen from 7.3-9.6% in just 3 years , costing the N.A.T.O £20m
+
+Code:
+
+from normalise import normalise
+
+
+
+user_abbr = {
+
+"N.A.T.O": "North Atlantic Treaty Organization"
+
+}
+
+
+
+normalized_tokens = normalise(word_tokenize(text), user_abbrevs=user_abbr, verbose=False)
+
+display(f"Normalized text: {' '.join(normalized_tokens)}")
+
+Output:
+
+On the thirteenth of February two thousand and seven , Theresa May announced on M T V news that the rate of childhood obesity had risen from seven point three to nine point six % in just three years , costing the North Atlantic Treaty Organization twenty million pounds
+
+The worst thing in this library is that for now you can’t disable some modules like abbreviation expanding, and it causes things like MTV -> M T V . But I have already added an appropriate issue on this repository, maybe it would be fixed in a while.
+
+Lemmatization and Steaming
+
+Stemming is the process of reducing inflection in words to their root forms such as mapping a group of words to the same stem even if the stem itself is not a valid word in the Language.
+
+Lemmatization , unlike Stemming, reduces the inflected words properly ensuring that the root word belongs to the language. In Lemmatization root word is called Lemma. A lemma (plural lemmas or lemmata) is the canonical form, dictionary form, or citation form of a set of words.
+
+Let’s assume this text for this step:
+
+On the thirteenth of February two thousand and seven , Theresa May announced on M T V news that the rate of childhood obesity had risen from seven point three to nine point six % in just three years , costing the North Atlantic Treaty Organization twenty million pounds
+
+NLTK stemmer:
+
+import numpy as np
+
+from nltk.stem import PorterStemmer
+
+from nltk.tokenize import word_tokenize tokens = word_tokenize(text)
+
+porter=PorterStemmer() # vectorizing function to able to call on list of tokens
+
+stem_words = np.vectorize(porter.stem) stemed_text = ' '.join(stem_words(tokens))
+
+display(f"Stemed text: {stemed_text}")
+
+Stemmed text:
+
+On the thirteenth of februari two thousand and seven , theresa may announc on M T V news that the rate of childhood obes had risen from seven point three to nine point six % in just three year , cost the north atlant treati organ twenti million pound
+
+NLTK lemmatization:
+
+import numpy as np
+
+from nltk.stem import WordNetLemmatizer
+
+from nltk.tokenize import word_tokenize tokens = word_tokenize(text) wordnet_lemmatizer = WordNetLemmatizer() # vectorizing function to able to call on list of tokens
+
+lemmatize_words = np.vectorize(wordnet_lemmatizer.lemmatize) lemmatized_text = ' '.join(lemmatize_words(tokens))
+
+display(f"nltk lemmatized text: {lemmatized_text}")
+
+NLTK lemmatized text:
+
+On the thirteenth of February two thousand and seven , Theresa May announced on M T V news that the rate of childhood obesity had risen from seven point three to nine point six % in just three year , costing the North Atlantic Treaty Organization twenty million pound
+
+Spacy lemmatization:
+
+import en_core_web_sm
+
+
+
+nlp = en_core_web_sm.load() lemmas = [t.lemma_ for t in nlp(text)]
+
+display(f"Spacy lemmatized text: {' '.join(lemmas)}")
+
+Spacy lemmatized text:
+
+On the thirteenth of February two thousand and seven , Theresa May announce on M T v news that the rate of childhood obesity have rise from seven point three to nine point six % in just three year , cost the North Atlantic Treaty Organization twenty million pound
+
+We see that spacy lemmatized much better than nltk, one of the examples risen -> rise , only spacy handled that.
+
+Reusable pipeline
+
+And now my favorite part! We are going to create a reusable pipeline, which you could use on any of your projects.
+
+import numpy as np
+
+import multiprocessing as mp
+
+
+
+import string
+
+import spacy
+
+import en_core_web_sm
+
+from nltk.tokenize import word_tokenize
+
+from sklearn.base import TransformerMixin, BaseEstimator
+
+from normalise import normalise
+
+
+
+nlp = en_core_web_sm.load()
+
+
+
+
+
+class TextPreprocessor(BaseEstimator, TransformerMixin):
+
+def __init__(self,
+
+variety="BrE",
+
+user_abbrevs={},
+
+n_jobs=1):
+
+"""
+
+Text preprocessing transformer includes steps:
+
+1. Text normalization
+
+2. Punctuation removal
+
+3. Stop words removal
+
+4. Lemmatization
+
+
+
+variety - format of date (AmE - american type, BrE - british format)
+
+user_abbrevs - dict of user abbreviations mappings (from normalise package)
+
+n_jobs - parallel jobs to run
+
+"""
+
+self.variety = variety
+
+self.user_abbrevs = user_abbrevs
+
+self.n_jobs = n_jobs
+
+
+
+def fit(self, X, y=None):
+
+return self
+
+
+
+def transform(self, X, *_):
+
+X_copy = X.copy()
+
+
+
+partitions = 1
+
+cores = mp.cpu_count()
+
+if self.n_jobs <= -1:
+
+partitions = cores
+
+elif self.n_jobs <= 0:
+
+return X_copy.apply(self._preprocess_text)
+
+else:
+
+partitions = min(self.n_jobs, cores)
+
+
+
+data_split = np.array_split(X_copy, partitions)
+
+pool = mp.Pool(cores)
+
+data = pd.concat(pool.map(self._preprocess_part, data_split))
+
+pool.close()
+
+pool.join()
+
+
+
+return data
+
+
+
+def _preprocess_part(self, part):
+
+return part.apply(self._preprocess_text)
+
+
+
+def _preprocess_text(self, text):
+
+normalized_text = self._normalize(text)
+
+doc = nlp(normalized_text)
+
+removed_punct = self._remove_punct(doc)
+
+removed_stop_words = self._remove_stop_words(removed_punct)
+
+return self._lemmatize(removed_stop_words)
+
+
+
+def _normalize(self, text):
+
+# some issues in normalise package
+
+try:
+
+return ' '.join(normalise(text, variety=self.variety, user_abbrevs=self.user_abbrevs, verbose=False))
+
+except:
+
+return text
+
+
+
+def _remove_punct(self, doc):
+
+return [t for t in doc if t.text not in string.punctuation]
+
+
+
+def _remove_stop_words(self, doc):
+
+return [t for t in doc if not t.is_stop]
+
+
+
+def _lemmatize(self, doc):
+
+return ' '.join([t.lemma_ for t in doc])
+
+This code could be used in sklearn pipeline.
+
+Measured performance: 2225 texts were processed on 4 processes for 22 minutes. Not even close to being fast! This causes the normalization part, the library is not sufficiently optimized, but produces rather interesting results and can bring additional value for further vectorization, so it is up to you, whether to use it or not.
+
+I hope you liked this post and I’m looking forward to your feedback!
+
+Kaggle kernel: https://www.kaggle.com/balatmak/text-preprocessing-steps-and-universal-pipeline

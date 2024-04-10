@@ -1,0 +1,19 @@
+REGRESSION MODELING
+
+The Tokyo 2020 Olympic Champions
+
+The Asahi Flame in Tokyo, Japan. Photo: Author
+
+Next year on July 24th, 2020, an expected 11,091 athletes from 206 nations will gather in Tokyo, Japan to celebrate at the opening ceremony of the Games of the XXXII Olympiad.¹ They will compete for gold, silver and bronze medals in 339 events across 33 sports, honoring the long-standing tradition of the modern Olympic Games, which began in Athens, Greece in 1896.
+
+As with many international sporting mega-events, professional forecasters and enthusiastic fans enjoy predicting the outcome of the Olympic Games. The national medal table is a common metric for quantifying the overall performance of each country, aggregating the number of gold, silver, bronze and total medals collected by the individual athletes of each national team.
+
+Daniel Johnson, an economics professor from Colorado College, used socio-economic data to predict national Olympic performance from 2000 to 2008.² His model predicted the total medal count of each country at the Beijing 2008 Olympics with 94% accuracy, relying on per-capita income, population, political structure, climate, home-field advantage and geographic proximity.
+
+A model of the Sochi 2014 Olympics employed economic trade information, namely the total value of national exports, as well as geographic data, such as land area and latitude.³ Subsequently, the Rio 2016 Olympics was modeled with similar national information, including comparative levels of national wealth along with historic performance in previous Olympic Games.⁴
+
+Randi Griffin posted a complete Kaggle dataset containing the records of each athlete and event from the Athens 1896 Olympic Games through the Rio 2016 Olympic Games.⁵ With 271,116 records and 15 columns, let’s build our own machine learning regression model to predict the medal table of the Tokyo 2020 Olympic Games, which we can train using the historic Olympic record!
+
+The Olympic Games
+
+Our dataset features details about each Olympic Games (year, season, host city), the physical traits of each athlete (gender, age, weight, height), team identification (National Olympic Committee) and the outcome for each…

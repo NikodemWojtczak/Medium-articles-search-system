@@ -1,0 +1,187 @@
+How does Facebook define Terrorism in Relation to Artificial Intelligence?
+
+How useful is the terminology terrorism? I would argue it is not useful because it obscures the specific debates into a reactionary pattern of violence against violence. However in a political science perspective this would to some degree be a social constructivist approach. Artificial intelligence being increasingly securitised will inevitably be mixed up in the policy process of these large social media companies. So let me explore how Facebook is addressing this issue.
+
+In this article I will look at:
+
+(1) Facebook and its definition of terrorism;
+
+(2) into the stated approach to artificial intelligence;
+
+(3) Facebook’s growing security team;
+
+(4) the practical side and possible trauma of human moderation;
+
+(5) the question of a US-centric focus on terror on social media;
+
+(6) government requests for user data;
+
+(7) the coming creation of the global oversight board that may set a precedence for the use of AI for both organisations and governments;
+
+(8) vague Snapchat terrorism, a comparative outlook – an outro.
+
+1. Facebook and its Definition of Terrorism
+
+In 2018 one of the largest social platforms on the planet decided to attempt defining terrorism, and it reads as the following:
+
+“Any nongovernmental organization that engages in premeditated acts of violence against persons or property to intimidate a civilian population, government or international organization in order to achieve a political, religious or ideological aim.”
+
+In the blog post made the 23rd of April 2018 called Hard Questions: How Effective Is Technology in Keeping Terrorists off Facebook? A central paragraph by my own approximation reads:
+
+The democratizing power of the internet has been a tremendous boon for individuals, activists, and small businesses all over the world. But bad actors have long tried to use it for their own ends. White supremacists used electronic bulletin boards in the 1980s, and the first pro-al-Qaeda website was established in the mid-1990s. While the challenge of terrorism online isn’t new, it has grown increasingly urgent as digital platforms become central to our lives. At Facebook, we recognize the importance of keeping people safe, and we use technology and our counterterrorism team to do it. [bold added]
+
+The claims Facebook makes through this blog post:
+
+Our definition is agnostic to the ideology or political goals of a group. Our counterterrorism policy does not apply to governments. Facebook policy prohibits terrorists from using our service, but it isn’t enough to just have a policy. We need to enforce it.
+
+Despite making this claim they simultaneously say their focus lies on ISIS, al-Qaeda, and their affiliates — the groups that currently pose the broadest global threat. However these are additionally of most interest and priority to the United States.
+
+2. How does Facebook use Artificial Intelligence to Counter Terrorism?
+
+This blog post additionally refers to a post written by Facebook called Hard Questions: How We Counter Terrorism. It is written by Monika Bickert, Director of Global Policy Management, and Brian Fishman, Counterterrorism Policy Manager. This post was made already on the 15th of June 2017.
+
+The top point of this post is Artificial Intelligence. We want to find terrorist content immediately, before people in our community have seen it. Facebook has clearly been using AI since at least 2017 to remove posts associated with terrorism (they claim it was recent at the time). At the time they seemed to focus their efforts on ISIS and Al-Qaeda.
+
+Image matching: When someone tries to upload a terrorist photo or video, their systems look for whether the image matches a known terrorism photo or video. This way they can avoid people uploading the same video.
+
+Language understanding: Facebook had started to experiment with using AI to understand text that might be advocating for terrorism. They were at the time experimenting with removing text relating to what they had already seen as previously removed (historic data)
+
+Removing terrorist clusters: Facebook claims to know from studies of terrorists that they tend to radicalize and operate in clusters. This offline trend is reflected online as well. They use signals like whether an account is friends with a high number of accounts that have been disabled for terrorism, or whether an account shares the same attributes as a disabled account.
+
+Recidivism: Facebook said they had gotten much faster at detecting new fake accounts created by repeat offenders. Through this work, they have been able to dramatically reduce the time period that terrorist recidivist accounts are on Facebook. They argue this process is ‘adversarial’ that the other party keeps developing new methods.
+
+Cross-platform collaboration: Because they didn’t want terrorists to have a place anywhere in the family of Facebook apps, they have began work on systems to enable us to take action against terrorist accounts across all our platforms, including WhatsApp and Instagram.
+
+In the first quarter of 2018 they reported to have taken down 837 million pieces of spam and 2.5 million pieces of hate speech and disabled 583 million fake accounts globally. This was in relation to the statement saying it was assisted by using technology like: “…machine learning, artificial intelligence and computer vision..” to detect ‘bad actors’ and move more quickly. They mentioned this particularly in relation to the election.
+
+In 2019 They removed what they call ‘inauthentic behaviour from Iran, Israel and Russia (focused on Ukraine) in particular.
+
+Live-streamed attacks like Christchurch shooting require human moderation. LeCun said at a recent event that Facebook was years away from using AI to moderate live video at scale. LeCun the problem with the lack of training data. “Thankfully, we don’t have a lot of examples of real people shooting other people,” you could train for recognition of violence using footage from movies, but then content containing simulated violence would be inadvertently removed along with the real thing.
+
+Automated systems are claimed to be used mainly as assistants to human moderators.
+
+AI is not a silver bullet to moderation. Understanding artificial intelligence in this context is of course not enough. Facebook has a community operations team that has to distinguish from a personal profile or a news story. This ‘more nuanced approach’ requires human expertise. Understanding how Facebook uses artificial intelligence is of course not enough without understanding how their actual safety and security team manages these tools as well as frameworks.
+
+3. Facebook’s Growing Safety and Security Team
+
+Facebook feed, since the company’s 200-person counterterrorism team removed them. (In the wake of the Cambridge Analytica privacy scandal, Facebook is under pressure to show that it can police itself.) Reported in 2018.
+
+Facebook was scheduled to be growing by 3,000 people over 2017— that work 24 hours a day and in dozens of languages to review these reports and determine the context. The link refers to a post made by Mark Zuckerberg stating that they already have 4,500 people hired in addition to those they had scheduled to hire.
+
+In July the 6th 2018 (updated the 4th of December) Ellen Silver from Facebook as VP of operations claimed to be scaling globally, covering every time zone and over 50 languages. They had also rapidly grown their staff in safety and security:
+
+“The teams working on safety and security at Facebook are now over 30,000. About half of this team are content reviewers — a mix of full-time employees, contractors and companies we partner with.”
+
+4. Insecurity Causing Trauma for Facebook Workers
+
+In February 2019 The Verge published an article called The Trauma Floor: The secret lives of Facebook moderators in America. This article does of course describe the challenging conditions in which these moderators work, however it also mentions a stat of 15,000 moderators working around the world. It did seem rather a few of these were subcontracted through companies such as Cognizant having to sign NDAs, with secrecy supposedly protecting employees.
+
+“Collectively, the employees described a workplace that is perpetually teetering on the brink of chaos. It is an environment where workers cope by telling dark jokes about committing suicide, then smoke weed during breaks to numb their emotions. It’s a place where employees can be fired for making just a few errors a week — and where those who remain live in fear of the former colleagues who return seeking vengeance.”
+
+It is perhaps ironic that in attempting to handling terror there is a degree of trauma caused to the handlers. Certain of they key findings by the report by The Verge seems interesting to stress or at least consider:
+
+Moderators in Phoenix will make just $28,800 per year — while the average Facebook employee has a total compensation of $240,000.
+
+Employees are micromanaged down to bathroom breaks. Two Muslim employees were ordered to stop praying during their nine minutes per day of allotted “wellness time.”
+
+Moderators cope with seeing traumatic images and videos by telling dark jokes about committing suicide, then smoking weed during breaks to numb their emotions. Moderators are routinely high at work.
+
+Employees are developing PTSD-like symptoms after they leave the company, but are no longer eligible for any support from Facebook or Cognizant.
+
+Employees have begun to embrace the fringe viewpoints of the videos and memes that they are supposed to moderate. The Phoenix site is home to a flat Earther and a Holocaust denier. A former employee tells us he no longer believes 9/11 was a terrorist attack.
+
+According to the article these centres operate through accuracy standards which means posts reviewed are being reviewed. Facebook has set a goal of 95% accuracy, but Cognizant is usually never that high (closer to 80–92%). A moderator must suggest the correct community standard violation or risk loosing accuracy. The Verge article mentions a few different set of truths that a moderator has to consider.
+
+Community Guidelines, publicly posted ones and internal documents. Known Questions. A 15,000-word second document with commentary. Discussions amongst moderators attempting to reach a consensus. Facebook’s own internal tools for distributing information.
+
+Further it is said that the challenge of keeping a job may be rather difficult: “The job resembles a high-stakes video game in which you start out with 100 points — a perfect accuracy score — and then scratch and claw to keep as many of those points as you can. Because once you fall below 95, your job is at risk.”
+
+Fired employees regularly threatened to return to work and harm their old colleagues. An NDA usually seem to stop you from talking about the work you were doing or even state that you ever worked for Facebook, according to The Verge: “They do the work as long as they can — and when they leave, an NDA ensures that they retreat even further into the shadows. To Facebook, it will seem as if they never worked there at all. Technically, they never did.”
+
+Facebook has a clear idea of how their policies should be managed:
+
+“We want to keep personal perspectives and biases out of the equation entirely — so, in theory, two people reviewing the same posts would always make the same decision.”
+
+In a statement that contradicts the article by The Verge they state: “A common misconception about content reviewers is that they’re driven by quotas and pressured to make hasty decisions.” They is stated to have four clinical psychologists across three regions who are tasked with designing, delivering and evaluating resiliency programs. Yet it is questionable whether this decentralised mental care without professionals on-the-ground is advisable given the work these employees have to go through.
+
+5. US-Centric Global Moderation of Terror
+
+We can ask a simple question: when policy and guidelines are designed in US for the world what perspectives are prevalent in the given framework? As you may have guessed for the section title I am sceptical whether a universal framework based on one location can work well across the planet.
+
+Their enforcement have focused heavily on Islamic Terrorist groups rather than right-wing extremism or other forms of ‘terror’. They have had a partnership with Microsoft, Twitter and YouTube on hashes relating to terrorist content. These are all companies based in the United States.
+
+Counterspeech programs. Facebook support several major counterspeech programs. For example, last year we worked with the Institute for Strategic Dialogue to launch the Online Civil Courage Initiative. The project challenge was to design, pilot, implement and measure the success of a social or digital initiative, product or tool designed to push back on hate and violent extremism. Reportedly it engaged with more than 100 anti-hate and anti-extremism organizations across Europe.
+
+They’ve also worked with Affinis Labs to host hackathons in places like Manila, Dhaka and Jakarta, where community leaders joined forces with tech entrepreneurs to develop innovative solutions to push back against extremism and hate online.
+
+We want Facebook to be a hostile place for terrorists.
+
+Saying this they quoted the 1984, the Irish Republican Army (IRA) statement after a failed assassination: “Today we were unlucky, but remember that we only have to be lucky once — you will have to be lucky always.” In one way the statement resounds, yet you cannot avoid everything forever. If there is no room for failure, then any smudge on the perfect surface can stain the image — of course this is important for Facebook. We can ask whether this decision of decentralised moderation makes it easier to blame external actors for any ‘externalities’ relating to safety and security.
+
+6. Government Requests for User Data
+
+It is of course possible to access Facebook’s data if there is a security event that requires access. Government requests for user data increased globally by 7% from 103,815 to 110,634 in the second half of 2018. With the United States continues to submit the highest number of requests, followed by India, the United Kingdom, Germany and France. This reflected a normal growth according to Facebook.
+
+As part of the requests 58% included a non-disclosure order prohibiting Facebook from notifying the user. In an internal review of their US national security reporting metrics Facebook found that it had undercounted requests from the Foreign Intelligence Surveillance Act (FISA). Facebook divides these requests into emergency requests and legal processes.
+
+Facebook may voluntarily disclose information to law enforcement where we have a good faith reason to believe that the matter involves imminent risk of serious physical injury or death.
+
+It may be useful to understand these two different data requests:
+
+Legal Process Requests: Requests we receive from governments that are accompanied by legal process, like a search warrant. We disclose account records solely in accordance with our terms of service and applicable law.
+
+Emergency Disclosure Requests: In emergencies, law enforcement may submit requests without legal process. Based on the circumstances, we may voluntarily disclose information to law enforcement where we have a good faith reason to believe that the matter involves imminent risk of serious physical injury or death.
+
+“Government officials sometimes make requests for data about people who use Facebook as part of official investigations. The vast majority of these requests relate to criminal cases, such as robberies or kidnappings”
+
+During this period Facebook and Instagram took down 2,595,410 pieces of content based on 511,706 copyright reports; 215,877 pieces of content based on 81,243 trademark reports; and 781,875 pieces of content based on 62,829 counterfeit reports.
+
+Facebook recently started partnering with ethics institutions focused on artificial intelligence. The focus of this partnership seem to be in the direction of safety, at least in Munich the Institute they have partnered with will address issues that affect the use and impact of artificial intelligence, such as safety, privacy, fairness and transparency. I have previously described that this can be problematic: an issue of self-policing ethical conduct.
+
+7. The Global Oversight Board Ensuring a Global Perspective
+
+Facebook is creating a global oversight board. In a post by Nick Clegg, the new VP of Global Affairs and Communications in January 2019 a draft charter was released. The draft lists 11 questions alongside considerations and suggested approaches. More recently in late June 2019 another post was made by Facebook on this topic.
+
+It was stated they (Facebook) had traveled around the world hosting six in-depth workshops and 22 roundtables attended by more than 650 people from 88 different countries. They had personal discussions with more than 250 people and received over 1,200 public consultation submissions.
+
+Subsequently a 44-page report was released by Facebook called Global Feedback & Input on the Facebook Oversight Board for Content Decisions. This talks of a global constitution, board membership, content decisions and governance. Nick Clegg states in the introduction:
+
+“Our task is to build systems that protect free expression, that help people connect with those they care about, while still staying safe online. We recognize the tremendous responsibility we have not only to fairly exercise our discretion but also to establish structures that will evolve with the times. Our challenge now, in creating this Oversight Board, is to shore up, balance, and safeguard free expression and safety for everyone on our platforms and those yet to come onto them, across the world.”
+
+The report argues that there needs to be more democracy in Facebook. There needs to be a system to appeal decisions. The report gives different examples of moderation. It also states that Facebook undertook research to study the range of oversight models that exist globally which identified six ”families“ of oversight design. The grid they presented looks like this.
+
+According to the report public reason giving will be a crucial feature of the Oversight Board, one which drives at the heart of the legitimacy of its decisions.
+
+The Draft Charter suggests that Facebook will select the first cohort of members, with future selection to be taken over by the Board itself. The report stated that questioned were raised to this proposal of leaving future selection up to the Board itself, as this could result in both a “recursion problem” and possibly the “perpetuation of bias.” A few approaches were suggested for membership in the board:
+
+Membership be left to a fully democratic vote by Facebook users. A hybrid approach, combining selection procedures so that Facebook, outside groups, and users could all participate. Soliciting public comment on a slate of applicants. Inviting civil society groups to select some of the Board members. Asking governments to weigh in on names and candidates. Opening a public nomination process. A randomised lottery system to select members from Facebook users.
+
+There was an agreed importance of diversity, though it was mentioned that perfect representation is not possible. It was mostly agreed that Facebook employees (current and former) should be excluded from the Board. It was suggested a fixed term of three years, renewable once.
+
+In the report it is suggested two ways to submit both for Facebook to send important or disputed content and for the users. Facebook has proposed that smaller panels, not the Board as a whole, will hear and deliberate on cases. It was clear that: “A strong consensus emerged that the Board’s decisions should influence Facebook’s policy development.”
+
+It was noted that Facebook was to establish an independent trust to remunerate (pay) board members. It was argued this board needed its own staff and that these be wholly independent of Facebook. The scope for the board will be content governance. However it was indicated that the board could hear other policy issues, such as: “…algorithmic ranking, privacy, local law, AI, monetization, political ads, and bias.”
+
+Thus it can be said that Facebook and the field of artificial intelligence may be rather influenced by decisions made by this board in the future should it possibly be established. Indeed considering the scale of Facebook this can both influence private companies to adopt certain practices or nations to make legislation based on the decisions made by this semi-independent council. In the conclusion of the internal report it is stated:
+
+“Facebook finds itself in a historically unique position. It cannot deprive or grant anyone the freedom of expression, and yet it is a conduit through which global freedom of expression is realized.”
+
+Vague Snapchat Terrorism? A comparative look — an outro
+
+In their Community Guidelines Snapchat does not define terrorism, yet they write: “Terrorist organizations are prohibited from using our platform and we have no tolerance for content that advocates or advances terrorism.” Yet we may ask ourselves two questions: what is a terrorist organisation and what does advocating terrorism mean in practice if it remains undefined? You could take the: “I know terrorism when I see it”-approach yet that leaves a lot up to ambiguous choices without transparency of decisions involved. This seems part of the wicked problem of terrorism: definitions.
+
+Terrorism in international politics is hard to define, and how you define it may also says a lot about how you think about politics more broadly. Although it is notoriously difficult to define it may be one of the future discussions to be undertaken should an oversight board from Facebook appear. The focus that Facebook has had on Islamic terror as opposed to right-wing extremism or gun violence in the United States is a worrying example. Yet their move to establish a board may be an appropriate response.
+
+The policing or ways that different governments request user data should continue to be under strong scrutiny with transparency. The state is an actor that can inflict violence; state-inflicted violence can be ambiguous, particularly when there are claims to state-sponsoring of terrorism. Most certainly the state can act using terror, and it is occurring, so does terrorist have to be in a minority group; is it genocide or terror; and does this distinction matter?
+
+Terror in some cases is about scaring people — violence is used in a restrictive case. Is it illegitimate use of violence by non-state actors aiming for the spread of ideology? If so whose ideology in a board run by Facebook, and the concerns of diversity is real. When to justify intervention and not alongside how it is justified may be important as pragmatic definitions arise as products of the prevailing interests.
+
+When is an act of violence a weapons of the weak in asymmetrical power distributions? What is the difference between narco traffickers and large resource interests that funds political power? The goals aspect is worth considering: knowing someone’s intention, yet the environment that shapes this intention is equally as important. Moderating terror in terrible working conditions is just one example of many.
+
+If we take seriously that we are individuals with ideas, there are some patterns, but a lot of it is quite hard to predict. If it is hard to predict human behaviour then it is hard to know people’s aims and quite difficult to see the people’s intention.
+
+Where is the money coming from? We have data brokers and there is not currently enough regulation to ensure that the flow of data is responsible or is sold of unintentionally to groups intending to use the data for such purposes. Terrorism obscures — it is not a value-neutral term. Technology is not value-neutral at all. It ties into ideas of securitization and state powers alongside its ethical discourse of technological for good.
+
+Slapping the terrorist label puts it into a different category. Understanding can be an important tool in how to prevent it. Putting the T-word on it is tempting in a rapid pace of content moderation, yet we need to engage with it.
+
+As much as there is a need to be respectful of the way large companies are trying to moderate and cooperate with state institutions we need to be critical. Robert Cox said it well: “Theory is always for someone or for something.” In this respect perhaps technology is always for someone or something too. I will end with a video that was shared in my class today that proposes a critical view on the labelling of terrorism:

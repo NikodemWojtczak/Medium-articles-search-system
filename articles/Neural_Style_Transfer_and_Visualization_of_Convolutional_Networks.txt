@@ -1,0 +1,81 @@
+Neural Style Transfer
+
+NST was first published in the paper “A Neural Algorithm of Artistic Style” by Gatys et al, originally released to ArXiv 2015 [7].
+
+Several mobile apps use NST techniques, including DeepArt and Prisma.
+
+Here are some more examples of stylizations being used to transform the same image of the riverbank town that we used earlier.
+
+Neural style transfer combines content and style reconstruction. We need to do several things to get NST to work:
+
+choose a layer (or set of layers) to represent content — the middle layers are recommended (not too shall, not too deep) for best results.
+
+Minimize the total cost by using backpropagation.
+
+Initialize the input with random noise (necessary for generating gradients).
+
+Replacing max-pooling layers with average pooling to improve the gradient flow and to produce more appealing pictures.
+
+Code Implementation
+
+Now for the moment you’ve all been waiting for, the code to be able to make these images yourself. For clearer relationship between the code and the mathematical notation, please see the Jupyter notebook located in the GitHub repository.
+
+Part 1: Import Necessary Functions
+
+Part 2: Content Loss
+
+We can generate an image that combines the content and style of a pair with a loss function that incorporates this information. This is achieved with two terms, one that mimics the specific activations of a certain layer for the content image, and a second term that mimics the style. The variable to optimize in the loss function will be a generated image that aims to minimize the proposed cost. Note that to optimize this function, we will perform gradient descent on the pixel values, rather than on the neural network weights.
+
+We will load a trained neural network called VGG-16 proposed in 1, who secured the first and second place in the localization and classification tracks of ImageNet Challenge in 2014, respectively. This network has been trained to discriminate over 1000 classes over more than a million images. We will use the activation values obtained for an image of interest to represent the content and styles. In order to do so, we will feed-forward the image of interest and observe it’s activation values at the indicated layer.
+
+The content loss function measures how much the feature map of the generated image differs from the feature map of the source image. We will only consider a single layer to represent the contents of an image.
+
+Part 3: Style Loss
+
+The style measures the similarity among filters in a set of layers. In order to compute that similarity, we will compute the Gram matrix of the activation values for the style layers. The Gram matrix is related to the empirical covariance matrix, and therefore, reflects the statistics of the activation values.
+
+The output is a 2-D matrix which approximately measures the cross-correlation among different filters for a given layer. This, in essence, constitutes the style of a layer.
+
+Part 4: Style Loss — Layer’s Loss
+
+In practice we compute the style loss at a set of layers rather than just a single layer; then the total style loss is the sum of style losses at each layer:
+
+Part 5: Total-Variation Regularizer
+
+We will also encourage smoothness in the image using a total-variation regularizer. This penalty term will reduce variation among the neighboring pixel values.
+
+Part 6: Style Transfer
+
+We now put it all together and generate some images! The style_transfer function below combines all the losses you coded up above and optimizes for an image that minimizes the total loss. Read the code and comments to understand the procedure.
+
+Part 6: Generate Pictures
+
+Now we are ready to make some images, run your own compositions and test out variations of hyperparameters and see what you can come up with, I will give you an example below. The list of hyperparameters to vary is as follows:
+
+The base_img_path is the filename of content image.
+
+is the filename of content image. The style_img_path is the filename of style image.
+
+is the filename of style image. The output_img_path is the filename of the generated image.
+
+is the filename of the generated image. The convnet is for the neural network weights, VGG-16 or VGG-19.
+
+is for the neural network weights, VGG-16 or VGG-19. The content_layer specifies which layer to use for content loss.
+
+specifies which layer to use for content loss. The content_weight weights the content loss in the overall composite loss function. Increasing the value of this parameter will make the final image look more realistic (closer to the original content).
+
+weights the content loss in the overall composite loss function. Increasing the value of this parameter will make the final image look more realistic (closer to the original content). style_layers specifies a list of which layers to use for the style loss.
+
+specifies a list of which layers to use for the style loss. style_weights specifies a list of weights to use for each layer in style_layers (each of which will contribute a term to the overall style loss). We generally use higher weights for the earlier style layers because they describe more local/smaller-scale features, which are more important to texture than features over larger receptive fields. In general, increasing these weights will make the resulting image look less like the original content and more distorted towards the appearance of the style image.
+
+specifies a list of weights to use for each layer in style_layers (each of which will contribute a term to the overall style loss). We generally use higher weights for the earlier style layers because they describe more local/smaller-scale features, which are more important to texture than features over larger receptive fields. In general, increasing these weights will make the resulting image look less like the original content and more distorted towards the appearance of the style image. tv_weight specifies the weighting of total variation regularization in the overall loss function. Increasing this value makes the resulting image look smoother and less jagged, at the cost of lower fidelity to style and content.
+
+The following code will generate the front image of this article if run for 50 iterations.
+
+Here are a couple of rough examples from my own implementation after 50 iterations:
+
+Style of ‘Escher Sphere’ used to transform an image of the Goldengate Bridge.
+
+Style of ‘Seated Nude’ used to transform an image of the riverbank town image.
+
+I recommend taking some of the images in the GitHub repository (or your own) and playing around with the hyperparameters and seeing what images you can make. However, to warn you, the training times are quite high unless you have access to a GPU, possibly taking several hours for one image.

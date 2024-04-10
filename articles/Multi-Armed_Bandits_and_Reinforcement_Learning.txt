@@ -1,0 +1,17 @@
+Multi-Armed Bandits and Reinforcement Learning
+
+Photo by Carl Raw on Unsplash
+
+Multi-armed bandit problems are some of the simplest reinforcement learning (RL) problems to solve. We have an agent which we allow to choose actions, and each action has a reward that is returned according to a given, underlying probability distribution. The game is played over many episodes (single actions in this case) and the goal is to maximize your reward.
+
+An easy picture is to think of choosing between k-many one-armed bandits (i.e. slot machines) or one big slot machine with k arms. Each arm you pull has a different reward associated with it. You’re given 1,000 quarters, so you need to develop some kind of strategy to get the most bang for your buck.
+
+One way to approach this is to select each one in turn and keep track of how much you received, then keep going back to the one that paid out the most. This is possible, but, as stated before, each bandit has an underlying probability distribution associated with it, meaning that you may need more samples before finding the right one. But, each pull you spend trying to figure out the best bandit to play takes you away from maximizing your reward. This basic balancing act is known as the explore-exploit dilemma. Forms of this basic problem come up in areas outside of AI and RL, such as in choosing a career, finance, human psychology, and even medical ethics (although, I think my favorite proposed use case relates to the suggestion that, due to its richness, it be given to Nazi Germany during WWII, “as the ultimate form of intellectual sabotage.”).
+
+TL;DR
+
+We introduce multi-armed bandit problems following the framework of Sutton and Barto’s book (affiliate link) and develop a framework for solving these problems as well as examples. In this post, we’ll focus on ϵ−greedy, ϵ−decay, and optimistic strategies. As always, you can find the original post here (which properly supports LaTeX).
+
+Problem Setup
+
+To get started, let’s describe the problem in a bit more technical detail. What we wish to do, is develop an estimate Qt​(a):

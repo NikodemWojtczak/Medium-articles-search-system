@@ -1,0 +1,29 @@
+Typical Exploring Image for RL - Credit @mike.shots
+
+Introduction
+
+One of my favorite algorithms that I learned while taking a reinforcement learning course was q-learning. Probably because it was the easiest for me to understand and code, but also because it seemed to make sense. In this quick post I’ll discuss q-learning and provide the basic background to understanding the algorithm.
+
+What is q-learning?
+
+Q-learning is an off policy reinforcement learning algorithm that seeks to find the best action to take given the current state. It’s considered off-policy because the q-learning function learns from actions that are outside the current policy, like taking random actions, and therefore a policy isn’t needed. More specifically, q-learning seeks to learn a policy that maximizes the total reward.
+
+What’s ‘Q’?
+
+The ‘q’ in q-learning stands for quality. Quality in this case represents how useful a given action is in gaining some future reward.
+
+Create a q-table
+
+When q-learning is performed we create what’s called a q-table or matrix that follows the shape of [state, action] and we initialize our values to zero. We then update and store our q-values after an episode. This q-table becomes a reference table for our agent to select the best action based on the q-value.
+
+import numpy as np # Initialize q-table values to 0 Q = np.zeros((state_size, action_size))
+
+Q-learning and making updates
+
+The next step is simply for the agent to interact with the environment and make updates to the state action pairs in our q-table Q[state, action] .
+
+Taking Action: Explore or Exploit
+
+An agent interacts with the environment in 1 of 2 ways. The first is to use the q-table as a reference and view all possible actions for a given state. The agent then selects the action based on the max value of those actions. This is known as exploiting since we use the information we have available to us to make a decision.
+
+The second way to take action is to act randomly. This is called exploring. Instead of selecting actions based on the…

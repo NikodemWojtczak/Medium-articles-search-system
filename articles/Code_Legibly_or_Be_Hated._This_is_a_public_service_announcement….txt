@@ -1,0 +1,21 @@
+Code is read more often than it is written
+
+Source: Imgur
+
+T his is a public service announcement for all data scientists. Please code legibly. If not for the sanity of your collaborators then for your own sanity x months/years from now.
+
+A Personal Anecdote
+
+A s a Masters student at the best Bayesian statistics program in the country, I was surrounded by hard-working, well-honed minds and challenging problems. But arguably the most grueling part of my program involved grading the R code of over a thousand undergraduate students during my two years there.
+
+I spent many long Friday nights in cold, dark rooms, trying to compile and execute their code. When they inevitably failed and yet another novel error message appeared, I would console myself with whispered chants:
+
+“we can do this, we can do this, we can do this.”
+
+It was a traumatizing experience and one that frequently drove my fellow TAs to the brink of sanity…and arguably beyond.
+
+Of course, the upper-level PhDs who graded our code had it much worse. Our cohort of 12–15 Masters students had coding homework that sometimes produced 50+ pages of output each...on a weekly basis. I still remember our TA and his tears. I heard he still haunts the halls looking for someone to help him grade our work.
+
+The Main Point
+
+T here is nothing worse than seeing nesting of double-digit HiveQL/SQL subqueries and no respect for line character maximums¹. I’ve nearly drowned in the ruby rivers of blood flowing from my bloodshot eyes while reading such code.

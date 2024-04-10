@@ -1,0 +1,23 @@
+Street Lanes Finder - Detecting Street Lanes for Self-Driving Cars 🚗
+
+Lanes Detection with Computer Vision Greg Surma · Follow 5 min read · Jul 25, 2019 -- 1 Share
+
+In today’s article, we are going to use basic Computer Vision techniques to approach the street lanes detection problem which is crucial for self-driving cars. By the end of this article, you will be able to perform real-time lane detection with Python and OpenCV.
+
+Real-Time Lane Detection
+
+Implementation
+
+You can find the full codebase for this project on GitHub and I encourage you to check it and follow along.
+
+Let’s start with defining our problem.
+
+Given an image of the road, we would like to detect street lanes on it.
+
+In order to do it, let’s provide an image path and load it with OpenCV, then let’s invoke find_street_lanes pipeline with it.
+
+test_image = cv2.imread(INPUT_FOLDER + TEST_IMAGE)
+
+street_lanes = find_street_lanes(test_image)
+
+And this is how our find_street_lanes pipeline looks like

@@ -1,0 +1,207 @@
+One feature I particularly liked about DeepStream is that it optimally takes care of the entire I/O processing in a pipelined fashion. We can also stack multiple deep learning algorithms to process information asynchronously. This allows you to increase throughput without the hassle of manually creating and managing a multiprocessing system design.
+
+The best part is, for some supported applications such as object detection, tracking, classification or semantic segmentation, DeepStream is easy to use! For such an application, as long you have a deep learning model in a compatible format, you can easily launch DeepStream by just setting a few parameters in some text files.
+
+In this blog, we will design and run an experiment on DeepStream to test out its features and to see if it is easy to use on the Jetson Nano.
+
+The Experiment
+
+To test the features of DeepStream, let's deploy a pre-trained object detection algorithm on the Jetson Nano. This is an ideal experiment for a couple of reasons:
+
+DeepStream is optimized for inference on NVIDIA T4 and Jetson platforms.
+
+DeepStream has a plugin for inference using TensorRT that supports object detection. Moreover, it automatically converts models in the ONNX format to an optimized TensorRT engine.
+
+It has plugins that support multiple streaming inputs. It also has plugins to save the output in multiple formats.
+
+The ONNX model zoo has a bunch of pre-trained object detection models. I chose the Tiny YOLO v2 model from the zoo as it was readily compatible with DeepStream and was also light enough to run fast on the Jetson Nano.
+
+Note: I did try using the SSD and YOLO v3 models from the zoo. But there were some compatibility issues. These issues are discussed in my GitHub repository, along with tips to verify and handle such cases. I ended up using Tiny YOLO v2 as it was readily compatible without any additional effort.
+
+Now, the features we want to investigate are as follows:
+
+Multiple input streams: Run DeepStream to perform inference on multiple video streams simultaneously. Specifically, we will try using up-to 4 video streams. Multiple output sinks: Display the result on screen and stream it using RTSP. The stream will be accessed by another device connected to the network.
+
+The performance (Frames per Second, FPS) and ease-of-use will be evaluated for the experiment. The next few sections will guide you through how to set up DeepStream on Jetson Nano to run this experiment. All code used for this experiment is available on my GitHub repository. If you are just curious about how it turned out, feel free to skip to the results section.
+
+Getting Started
+
+In this section, we will walk through some instructions to set things up for our experiment.
+
+Part 1: Setting up your Jetson Nano
+
+Follow the instructions on the Getting Started With Jetson Nano Developer Kit to set up and boot your Jetson Nano. In case you face some issues with the setup, I would highly recommend following these resources.
+
+I would like to highlight some pointers that might save you some trouble:
+
+It is recommended to use at least a 32GB MicroSD card (I used 64GB).
+
+You need a wired ethernet connection. If you need to connect your Jetson Nano to WiFi, you need to use a dongle such as the Edimax EW-7811Un.
+
+You need a monitor that directly accepts HDMI input. I could not use my VGA monitor using a VGA-HDMI adapter.
+
+Part 2: Installing the DeepStream SDK
+
+Now that you have your Jetson Nano up and running, we can install DeepStream. Nvidia has put together the DeepStream quick start guide where you can follow the instructions under the section Jetson Setup.
+
+Before you go ahead and install DeepStream using the above link, I would like to highlight a few points from my setup experience:
+
+The setup would suggest you install Jetpack using the Nvidia SDK Manager. I skipped that step as I realized using the OS image in Part-1 (above) had most of the required dependencies by default.
+
+In the sub-section “To install the DeepStream SDK” of the quick start guide, I used Method-2.
+
+After installing DeepStream and boosting the clocks (as mentioned in the guide), we can run one of their samples to verify that the installation is properly done. Move ( cd ) into your DeepStream installation folder and run the following command:
+
+deepstream-app -c ./samples/configs/deepstream-app/source8_1080p_dec_infer-resnet_tracker_tiled_display_fp16_nano.txt
+
+On execution, you should see something like this:
+
+Output on executing DeepStream using the sample configuration file.
+
+If you see something similar, congrats! You can play around with more samples if you would like. The guide has a section named “Reference Application Source Details” which provides a description of the samples.
+
+Part 3: Setting up the Experiment
+
+Now that you have installed and tested DeepSteam, we can go ahead with our experiment. I have bundled up all the files required for the experiment in my GitHub repository. You can follow the step by step instruction in the repository’s readme file about the setup instructions.
+
+Before moving on with the experiment, if you have not used GStreamer before, it would be worth your time to go through their foundations page. This helps with better understanding of some of the jargons used in DeepStream’s documentation.
+
+Interfacing your custom ONNX model with DeepStream
+
+In this section, we will explore how to interface the output of our ONNX model with DeepStream. More specifically, we will walk-through the process of creating a custom processing function in C++ to extract bounding box information from the output of the ONNX model and provide it to DeepStream.
+
+Part 1: Understanding the Output of Tiny YOLOv2
+
+The ONNX model outputs a tensor of shape (125, 13, 13) in the channels-first format. However, when used with DeepStream, we obtain the flattened version of the tensor which has shape (21125) . Our goal is to manually extract the bounding box information from this flattened tensor.
+
+Let us first try to visually understand the output tensor output by the ONNX model. Consider the output tensor to be a cuboid of dimensions (B, H, W) , which in our case B=125,H=13,W=13 . We can consider the axes X, Y and B along the width (W), height (H) and depth (B) respectively. Now, each location in the XY plane represents a single grid cell.
+
+Let us visualize a single grid cell (X=0, Y=0) . There 125 values along the depth axis (B) for this given (X,Y) location. Let us rearrange the 125 values in groups of 25 as shown below:
+
+Figure A: Interpreting the meaning of the 125 b-values along the B-axis for the grid cell (X = 0, Y = 0).
+
+As we see here, each of the contiguous 25 values belong to a separate bounding box. Among each set of 25 values, the first 5 values are of the bounding box parameters and the last 20 values are class probabilities. Using this, we can extract the coordinates and confidence score for each of the 5 bounding boxes as shown here:
+
+Formulae for extracting the bounding box parameters. (Source)
+
+Note that we have only performed this operation at one grid cell (X=0, Y=0). We must iterate over all combinations of X and Y to find the 5 bounding box predictions at each grid cell.
+
+Now that we have a visual idea of how the information is stored, let us try to extract it using indexing. After flattening the output tensor, we get a single array in which information is stored as shown in the image below:
+
+Figure B: Flattened representation of the output tensor.
+
+The flattened array has 125 * 13 * 13 = 21125 elements. As shown above, each location in the array corresponds to the indices (b, y, x) . We can observe that for a given (y,x) value, the corresponding b values are separated by 13 * 13 = 169 .
+
+The following code snippet in Python shows how we can obtain the locations of b values corresponding to each of the 5 bounding boxes in a given (y, x) location. Do note that, as shown in Figure A, there are 25 b values for each bounding box for a given (y, x) location.
+
+## Let arr be the flattened array.
+
+## The array values contains the value of arr at the 25 b_values per ## bbox,x,y combination.
+
+num_anchors = 5
+
+num_classes = 20
+
+xy_offset = y * 13 + x
+
+b_offset = 13 * 13
+
+bbox_offset = 5 + num_classes
+
+for bbox in range(num_anchors):
+
+values = []
+
+for b in range(bbox_offset):
+
+value = arr[xy_offset + b_offset * (b + bbox * bbox_offset)]
+
+values.append(value)
+
+All that is left to do is to write the C++ equivalent of the same.
+
+Part 2: Writing the Bounding Box Parsing Function
+
+Now that we understand how the output is stored and can be extracted, we need to write a function in C++ to do the same. DeepStream expects a function with arguments as shown below:
+
+extern "C" bool NvDsInferParseCustomYoloV2Tiny(
+
+std::vector<NvDsInferLayerInfo> const& outputLayersInfo,
+
+NvDsInferNetworkInfo const& networkInfo,
+
+NvDsInferParseDetectionParams const& detectionParams,
+
+std::vector<NvDsInferParseObjectInfo>& objectList
+
+);
+
+In the above function prototype, outputLayersInfo is a std::vector containing information and data about each output layer of our ONNX model. In our case, since we have just one output layer, we can access the data using outputLayersInfo[0].buffer . The variable networkInfo has information about the height and width expected by the model and detectionParams has information about some configurations such as numClassesConfigured .
+
+The variable objectList should be updated with a std::vector of bounding box information stored as objects of type NvDsInferParseObjectInfo at every call of the function. Since the variable was passed by reference, we don’t need to return it as the changes will be reflected at the source. However, the function must return true at the end of its execution.
+
+For our use case, we create NvDsInferParseCustomYoloV2Tiny such that it will first decode the output of the ONNX model as described in Part-1 of this section. For each bounding box, we create an object of type NvDsInferParseObjectInfo to store its information. We then apply non-maximum suppression to remove duplicate bounding box detections of the same object. We then add the resulting bounding boxes to the objectList vector.
+
+My GitHub repository has nvdsparsebbox_tiny_yolo.cpp inside the directory custom_bbox_parser with the function already written for you. The below flowchart explains the flow of logic within the file. The code may seem large but that is only because it is heavily documented and commented for your understanding!
+
+Flowchart approximately describing the flow of logic in the code file.
+
+Part 3: Compiling the Function
+
+All that’s left now is to compile the function into a .so file so that DeepStream can load and use it. Before you compile it, you may need to set some variables inside the Makefile. You can refer to step 4 of the ReadMe in my GitHub repository for instructions. Once that is done, cd into the GitHub repository and run the following command:
+
+make -C custom_bbox_parser
+
+Setting the Configuration Files
+
+The good news is that most of the heavy lifting work is done. All that is left is to set up some configuration files which will tell DeepStream how to run the experiments. A configurations file has a set of “groups”, each of which has a set of “properties” that are written in the key-file format.
+
+For our experiment, we need to set up two configuration files. In this section we will explore some important properties within these configuration files.
+
+Part 1: Configuration file for Tiny YOLOv2
+
+Our ONNX model is used by the Gst-Nvinfer plugin of DeepStream. We need to set-up some properties to tell the plugin information such as the location of our ONNX model, location of our compiled bounding box parser and so on.
+
+In the GitHub repository, the configuration file named config_infer_custom_yolo.txt is already setup for our experiment. Comments are given in the file with reasoning for each property setting. For a detailed list of all the supported properties, check out this link.
+
+Some interesting properties that we have not used are the “net-scale-factor” and the “offset” properties. They essentially scale the input (x) using the formula: net_scale_factor * (x — mean) . We did not use those properties as our network directly takes the unscaled image as the input.
+
+Part 2: Configuration file for DeepStream
+
+We also need to set a configuration file for DeepStream to enable and configure the various plugins that will be used by it. As mentioned before, the GitHub repository contains the configuration file deepstream_app_custom_yolo.txt which is already setup for our experiment.
+
+Unlike the previous part, this configuration has a lot of groups such as “osd” (On Screen Display), “primary-gie” (Primary GPU Inference Engine) and so on. This link has information about all possible groups that can be configured and the properties supported for each group.
+
+For our experiment, we define a single source group ( source0 ) and three sink groups ( sink0 , sink1 and sink2 ). The single source group is responsible for reading four input video streams parallely. The three sink groups are used for displaying output on screen, streaming output using RTSP and for saving output to disk respectively. We provide the path of the configuration file of Tiny YOLOv2 in the primary-gie group. Moreover, we also set the titled-display and osd groups to control how the output appears on screen.
+
+Running DeepStream
+
+This is the easiest part. All you have to do is to run the following command:
+
+deepstream-app -c ./config/ deepstream_app_custom_yolo.txt
+
+Launching DeepStream for the first time would take a while as the ONNX model would need to be converted to a TensorRT Engine. It is recommended to close memory hungry apps such as Chromium during this process. Once the engine file is created, subsequent launches will be fast provided the path of the engine file is defined in the Tiny YOLOv2 configuration file.
+
+Results
+
+On running DeepStream, once the engine file is created we are presented with a 2x2 tiled display as shown in the video below. Each unit in the tiled display corresponds to a different streaming input. As expected, all four different inputs are processed simultaneously.
+
+Output displayed by DeepStream.
+
+Since we also enabled RTSP, we can access the stream at rtsp://localhost:8554/ds-test . I used VLC and the RTSP address (after replacing localhost with the IP address of my Jetson Nano) to access the stream on my laptop which was connected to the same network. Note that, another sink is also used to save the output stream to disk. It is impressive to note that the console periodically logs an FPS of nearly 6.7 per video stream!
+
+FPS per video stream while simultaneously using four video streams.
+
+If we had a single input stream, then our FPS should ideally be four times greater than this four video case. I test this out by changing the values in the configuration files and launching DeepStream once again. As expected, we get a whopping near 27 FPS for the single video stream! The performance is impressive considering it still is sending output to three different sinks.
+
+FPS while using a single video stream.
+
+We do however note that the detection accuracy of Tiny YOLOv2 is not as phenomenal as the FPS. This is particularly because the model was optimized for speed at the cost of some accuracy. Moreover, the people in the video had blurred faces and the model might not have encountered this blurriness while training. Hence, the model might have faced additional difficulty for that class.
+
+Verdict and Thoughts
+
+DeepStream is blazingly fast. Even though Tiny YOLOv2 is optimized for speed rather than accuracy, a stable high FPS performance while providing amazing features such as seamless multi-stream processing and an RTSP stream is something to be appreciated.
+
+However, using DeepStream may not be straightforward, especially if your model is not completely compatible with TensorRT. In such cases, manually writing your own TensorRT layers might be a more viable (albeit tedious) option. Moreover, it may so happen that the readily available ONNX models may have an opset version greater than what is currently accepted by DeepStream.
+
+Nevertheless, I do feel that the functionality offered by DeepStream is worth the effort. I would recommend you to give it a shot by replicating my experiment!

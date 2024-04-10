@@ -1,0 +1,11 @@
+When I first saw Nvidia’s StyleGAN’s results I felt like it looked like a bunch of black magic. I am not as experienced in the area of GANs as other parts of deep learning, this lack of experience and the thought that I really lacked the GPU firepower to train up my own StyleGAN stopped me from jumping in sooner. For scale, on the StyleGAN github Nvidia lists the GPU specifications, basically saying it takes around 1 week to train from scratch on 8 GPUs and if you only have a single GPU the training type is around 40 days. So running one of my GPU rigs for 40 days sounds terrifying in terms of time and also my electric bill. With those constraints I set aside my ambitions of training up a StyleGAN for awhile.
+
+FGO StyleGAN outputs
+
+Leap of Faith: Custom FGO StyleGAN
+
+While I enjoy black magic as much as the next person, I also enjoy understanding what is happening, demystifying things where I can, and building my own versions of things.
+
+A few weeks ago a teammate of mine sent me some videos on LinkedIn of fashion models morphing into one another in a video style I recognized as an application of StyleGAN. Digging into it more I saw that a lot of work had been going on in the community around StyleGAN since the last time I had looked. Personally I do a lot of work in Pytorch these days, but I think when you are trying to adapt research to your own projects it is often easiest to use whatever tools the research was done with. In this case while there is a Pytorch port that seems fairly functional the best course of action was to use the Tensorflow based code that the research was done with that has been opensourced by Nvidia.
+
+What caused me to take the leap of faith to customize my own StyleGan though was the work by an individual named Gwern Branwen for their work on making a website “This Waifu does not exist”. Frankly I would not have really bothered to devote time and resources to train up a StyleGAN if I had not seen Gwern’s post on how they walked through their StyleGAN and were kind enough to provided pretrained weights for an anime based StyleGAN trained at 512x512 resolution.

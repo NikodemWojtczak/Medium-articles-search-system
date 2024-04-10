@@ -1,0 +1,135 @@
+Hands-on experience tips on team structure, skills, cross functionality, product backlog items, sprint lengths, difficulties and benefits when using scrum framework on a data project.
+
+Follow-up — don’t miss my coming article with product backlog items of a case study which shows how to break PBIs into smaller pieces and create vertical slices.
+
+I am working in an agile tribe composed of 7 teams and 58 people established to deliver AI functionality to existing products of the bank. One of the teams is architectural team and the others are delivery teams.
+
+Business Case Examples
+
+It can be any data science case like customer churn prediction, customer risk calculation, credit scoring, face recognition, mood detection, fraud detection, preventive maintenance, etc…
+
+Team Structure
+
+Scrum teams are required to include between 3 to 9 members. I suggest the optimum number of people in the team, product owner included is 5.
+
+There are 4 important questions to be considered:
+
+Question-1: Which skills should team have?
+
+The list could be longer, I’ve pointed out the most critical skills:
+
+Analysis to understand the domain and requirements
+
+Data transfer to collect necessary data from different sources
+
+Data preprocessing to create features necessary for the model
+
+Visualization to get insights from the data and to talk with the business
+
+Modelling to create predictive models
+
+Establishing data pipeline to have a fully automated live experience
+
+API or web service development to open a service for predictions
+
+Testing to have a “peaceful life” after going live.
+
+Dashboard development to monitor production life in both technical and business manners.
+
+Question-2: Is it possible to have all these skills for a team composed of 5 people?
+
+Not easy but possible. Team members are to be cross functional (except for product owner). It doesn’t mean that all team members must be experts in all of these areas but they are expected to be qualified in one or two areas. This is the exact definition of T-shape people.
+
+My observations tell me that best candidates for this cross functionality are people with software development background.
+
+Question-3: Are there roles for these skills?
+
+Ideally, there shouldn’t be. In reality being a new born tribe with a massive amount of data, we decided to start with roles. Thus, we have shared 4 different roles:
+
+Data Translator: Aligning the team and the business side, analyzing the domain
+
+Data Scientist: Modelling
+
+Data Engineer: Data processing
+
+Data Architecture: Serving to other teams for their infrastructural needs
+
+Question-4: Why 5 is the optimum team size?
+
+Not a rule, but a best-practice based theory:
+
+Team can fit into one car and go to events together :)
+
+When team size gets bigger, scrum ceremonies become less effective and more time consuming which affects overall team efficiency in a negative way.
+
+Team may show tendency to create smaller groups to work together and it results in knowledge transfer and synchronization problems.
+
+Product Backlog Items & What to Present in Sprint Reviews?
+
+Answer is very easy for a typical software development team: product backlog items are generally user stories and team always presents a working software (even if PBI is an error, not a user story).
+
+However, the answer for a data science team is more complicated. The followings are product backlog items categories and what to present for each of them:
+
+Data Insights: The primary focus of this category product backlog items is to understand the existing data and structure. The output is generally charts or tables. There are more insight type outputs in first sprints. “Churn Rates vs Time” line plot or “Churn Rates According to Customer Age Groups” bar chart serve as good examples if customer churn is the project.
+
+Model Results: This is the most attractive category both for the team and the stakeholders. You work on predictive models and present their results on sprint reviews, discussing them all together. Generally, we groupthink how accurate and robust the model is, in which areas model works best and where it is weak. Naturally, the possible outcomes of the work after a 3 to 6 months period of time are included into agenda as well. Extra sessions with business unit can be necessary for this type of PBI because discussions can take more time than expected.
+
+Dashboards: It is the product backlog category which is the closest to working software principle. Team creates a dashboard and shows it as a working dashboard on the review. Team can take this type of backlog items after the models’ maturity reach to a certain level.
+
+API Development: If the model will be opened as a service, there is a need for service development. When team completes this PBI, they present couple of slides which include integration architecture with the existing software, response fields of API, how existing software would use these responses it gets, non-functional impacts of the API on the existing structure (e.g. response time).
+
+ETL Development: If model results will be used as batch, there is a need for ETL development. When team completes this PBI, they present couple of slides which include integration architecture with the existing software, transferred fields in the file, how existing software would use the fields it gets, how to schedule this file transfer.
+
+Regulatory Items: Teams dealing with data should be aware of GDPR (General Data Protection Regulation) and these regulations may vary from country to country. Data science team that specifically deals with customer data might need to prepare some documents and get some approvals. This PBI is for the efforts of all these works.
+
+Monitoring & Roll-Out: How AI model performs on production should be monitored. A/B testing is one of the best methods for it. Results can be worse than expected and some modifications may be needed. Rolling out strategy should be created and followed.
+
+What must product backlog items be like? How to create thin vertical slices and break them down? — don’t miss my next article where I will provide you with more details and examples on these topics.
+
+Sprint Length
+
+Sprint length can be between 1 week and 4 weeks. I believe that 1 week is perfect for a software development team, however it is way too short for a data science team. Since data transfer and preprocessing tasks may need couple of days , and a prepared data alone is not an output to present,the team has to work on it more to produce some outputs.
+
+We have started with 1 week sprints but team had to make overtime in each sprint without exception and burn-out signals appeared. Then the team made a decision to switch the sprint length to 2 weeks.
+
+Here are results observed after a couple of 2-week sprints.
+
+Happier team
+
+Quality of outputs increased
+
+Stakeholders were more satisfied with the outputs
+
+Team velocity increased !!! Average velocity for 1 week sprints was around 35 and it became 85 for 2 weeks sprints (Average velocities are calculated after minimum 5 sprints).
+
+Difficulties
+
+Let’s accept it — scrum is a great way of working. Nevertheless, until all team members get used to its methodology, get ready for some challenges, like :
+
+Those, who are used to working with detailed project plans start criticizing scrum for the lack of foresight. It takes time before they get hold of scrum “roadmap” philosophy.
+
+People who prefer working alone start complaining about the time spent for rituals and communications. They believe if not disturbed their productivity would increase.
+
+It takes time to learn the art of creating thin vertical product backlog items for a data science project.
+
+It is easy to write and declare definition of done for software development. Setting minimum test coverage rate or taking completion of user acceptance test as a must are some examples. In addition, you can apply it to all your PBIs. On the other hand, for a data science agile team these tasks are more challenging. Since there is a variety in PBIs, it is almost impossible to find a common definition of done for all items. Besides, finding definition of done even for some PBI types, like iterative trial & error modelling ones is painful.
+
+Writing acceptance criteria is also more complicated than software development cases. What can be the acceptance criteria for a PBI data insights type ? Team just explores the data and the domain, then brings visualizations to review meetings to discuss them. “Visualizations about the data should be made” is not a good example of an acceptance criteria, is it?
+
+Benefits
+
+Despite all difficulties above, there are lots of benefits:
+
+Team spirit is established and working turns into a fun activity.
+
+Self organisational skills increase. The team solves most of the problems in retrospective meetings.
+
+Applying scrum keeps the team aligned. Each team member is aware of the vision and the roadmap of the product.
+
+After a couple of sprints, team velocity becomes certain and predictability appears.
+
+In Conclusion
+
+I tried to share my own ideas about using scrum framework for a data project in this article. Please note, that conditions and rules may vary from team to team, case to case. That makes scrum exciting, doesn’t it?
+
+If you have any further questions, please don’t hesitate to write: haydarozler@gmail.com.

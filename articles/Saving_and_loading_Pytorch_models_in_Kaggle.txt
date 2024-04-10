@@ -1,0 +1,21 @@
+Saving and loading Pytorch models in Kaggle
+
+You have heard about Kaggle being awesome. You also are striving to improve your data science skills and are getting started with deep learning or just getting started on Kaggle.
+
+Just as you think you are getting the grasp of training your deep neural network on Kaggle, you get stuck.
+
+So what’s the problem?
+
+So you’ve learnt you can save Pytorch models (strictly speaking, the state dictionary) and load them later at your convenience. You’ve trained your model on Kaggle and saved it. When you need to access the saved model, you just can’t find it and this might force you to start all over again. 😓😓😓
+
+We all know that training a model can be quite a painful process so having to do that all over again is not an option. Worry not, I(and Kaggle) got you!
+
+In this article, I will show you how to load your trained Pytorch model in 5 simple steps.
+
+Assumptions
+
+I will assume that:
+
+You already know how to train a model. You understand the concept of a Pytorch’s model state dictionary. Look at this resource for more information. You have at least a basic understanding of how to save Pytorch models and load them . If not, this post is a good place to start from.
+
+The project I was working on and the subsequent need to author this article was born out of my participation in the Udacity Pytorch Challenge.

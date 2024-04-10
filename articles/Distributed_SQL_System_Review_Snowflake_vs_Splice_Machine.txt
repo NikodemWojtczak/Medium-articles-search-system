@@ -1,0 +1,85 @@
+SQL is back
+
+After many years of Big Data, NoSQL, and Schema-on-Read detours, there is a clear return to SQL as the lingua franca for data operations. Developers need the comprehensive expressiveness that SQL provides. A world without SQL ignores more than 40 years of database research and results in hard-coded spaghetti code in applications to handle functionality that SQL handles extremely efficiently such as joins, groupings, aggregations, and (most importantly) rollback when updates go wrong.
+
+SQL is a powerful language enabling developers to state what they need without coding how to compute it
+
+Luckily, there is a modern architecture for SQL called Distributed SQL that no longer suffers from the challenges of traditional SQL systems (cost, scalability, performance, elasticity, and schema flexibility). The key attribute of Distributed SQL is that data is stored across many distributed storage locations and computation takes place across a cluster of networked servers. This yields unprecedented performance and scalability because it distributes work on each worker node in the cluster in parallel.
+
+While Distributed SQL systems share many characteristics, they also have profound differences and some are better suited to certain workloads. Here, we try to compare Snowflake and Splice Machine as two examples of Distributed SQL systems that differ in significant ways.
+
+Unfortunately, the comparative lines between data systems have blurred. For example, the mere fact that a system claims the ACID properties of a database (i.e., atomicity, consistency, isolation, and durability), does not necessarily mean it is truly a transactional OLTP system capable of powering applications (See this Medium article for more details on this topic). Another example is elasticity — as workloads scale, you can add more workers to gain more parallelism, or take away workers and reduce costs as workloads contract. Many systems are elastic but only some can automatically extend clusters to gain more (or less) concurrency or throughput. These are two example features of where Splice Machine and Snowflake differ from each other.
+
+Here we will try to provide a balanced view of these systems, even though we represent one of them. Instead of a feature by feature view of how these systems differ, we will present a use-case perspective.
+
+Below we will present two radically different use cases. One will be a clear fit for Splice Machine and one will be a clear fit for Snowflake.
+
+Use Cases
+
+Application versus Analytics
+
+Let’s consider two use cases, both in the insurance industry. Use case one is an operational legacy application that manages clients, policies, claims, and payments. It is a SQL application written in Java with a Javascript front-end developed in React/Node.js and has the following characteristics:
+
+Every entity of the insurance company has its own localized instance of this application running with specific in-territory statutes, rates, and policies
+
+The application must be available 24/7 and has peak concurrency loads during business hours
+
+The application also runs a set of operational reports that managers use to derive daily insights about the business
+
+Managers also use it as an ad-hoc business intelligence query tool to interrogate the business for “one-off” questions
+
+The users of this system include many constituencies including agents, managers, and consumers via self-service portals
+
+Use case two is a reconciliation process that converts financial business information from millions of individual transactions (in several business systems) into ledger updates for a financial system like SAP. This application has the following attributes:
+
+A complex set of batch transformations designed in an ETL tool (like Informatica or Talend) produces aggregated data
+
+Runs daily to create running aggregations, as well as monthly for closing of the books.
+
+The aggregated data is output as files that are ingested by the financial reconciliation system
+
+Financial analysts review batch reports and dashboards constructed by reporting tool (like Tableau or MicroStrategy)
+
+Analysts perform ad-hoc queries to verify results
+
+Choosing a Solution
+
+Use Snowflake or Splice Machine?
+
+For anyone familiar with Splice Machine and Snowflake you can see that these use cases have been chosen to point out the strengths of each individual engine. Splice Machine’s sweet spot leans towards operational workloads, while Snowflake’s sweet spot is big batch data warehouse workloads. If your problem is use case #1, Splice Machine is the best choice for the reasons we will present below. If your problem resembles use case #2 then Snowflake is a better choice. Here’s a breakdown for each use case:
+
+Legacy Application Workload
+
+The legacy application has the following requirements which call for the associated system features.
+
+Legacy Application Requirements
+
+So how do the systems stack up?
+
+Feature Comparison
+
+Net-Net: To run a legacy application that has concurrent users and is always-on, a system that leans towards operational workloads but has analytical strengths as well is going to be a stronger performer.
+
+Now let’s take a look where Snowflake shines.
+
+Financial Reconciliation Workload
+
+This use case has fundamentally different requirements and therefore requires different features.
+
+Financial Reconciliation Workload Requirements
+
+So how do the systems stack up?
+
+Feature Comparison
+
+In this use case, Snowflake was designed to optimize big batch analytical queries. Storage is optimized for this as well as compute. By separating the compute from storage, the Snowflake system can completely shut down all computation nodes when not in use, creating a cost-effective data warehouse. [Update 2/27/20: Splice Machine now can be paused and restarted as well]. It also supports optimization with meta-data stats to drive the most out of each worker.
+
+Summary
+
+Hybrid Transactional and Analytical versus Data Warehouse
+
+Both Snowflake and Splice Machine Distributed SQL engines are powerful and they most certainly overlap in their ability to service workloads. Your selection criteria will therefore depend on your specific use case. If your use case requires a decision support system that supports pre-computed values, can be shut down, and scales elastically, then Snowflake is your choice. On the other hand, most Distributed SQL systems are unable to power applications. If you are looking to power a mission-critical application that has a large number of simultaneous users, which must run 24/7, then Splice Machine is your clear choice.
+
+In practice, these systems are deployed on a variety of different workloads. For example, in addition to operational applications, Splice also addresses many data warehousing, analytical, and machine learning workloads with its underlying Apache Spark-based architecture. And in addition to data warehouses, Snowflake sometimes powers applications. But what we have done here is try to depict a couple of extreme examples on the use case continuum to help you choose the best Distributed SQL engine for your workload.
+
+For more information on how to modernize applications with Splice Machine see this whitepaper.

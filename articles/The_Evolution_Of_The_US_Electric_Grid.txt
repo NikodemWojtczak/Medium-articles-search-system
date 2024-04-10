@@ -1,0 +1,29 @@
+Image by Random_fotos on flickr
+
+Over the past 15 years, the US electric grid has undergone some massive shifts (mostly for the better). Renewable energy and natural gas are up, while coal and GHG emissions are down.
+
+Here we can see how the US grid has evolved in recent years:
+
+Source: Energy Information Administration. 2018 figures are YTD to October.
+
+Let’s also put it in table form for ease of access:
+
+So during this time-span, every energy source declined except for natural gas and non-hydro renewable energy. This is good news for the environment, as emissions intensity in our electric sector has dropped to new lows:
+
+Source: Scott Institute for Energy Innovation, Carnegie Mellon University
+
+This chart shows the emissions intensity of the US power sector. That means that 1 MWh of electricity results in over 35% less emissions in Q2 2018 (the most recent data point available) than it did in 2003.
+
+Some of these gains have been offset from increased electricity production, but total US power sector emissions are still substantially lower than in 2003:
+
+Source: Scott Institute for Energy Innovation, Carnegie Mellon University
+
+Total electric-sector emissions still saw a 26% reduction during that time-frame. Due to this, the electricity sector may finally lose its mantle as the largest emitting sector in the US to the transportation sector.
+
+Natural Gas And Coal
+
+Since 2003, the most profound shift occurred between coal and natural gas. While natural gas has been on a steady rise, coal has seen a continual decline that isn’t likely to stop soon:
+
+Source: Energy Information Administration
+
+With both renewable energy and natural gas still expanding at rapid pace, the future looks increasingly grim for coal. By taking a look at coal capacity changes, we can peak into the future of coal…

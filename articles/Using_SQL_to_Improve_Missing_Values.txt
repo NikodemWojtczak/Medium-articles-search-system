@@ -1,0 +1,15 @@
+Missing data points can sometimes feel like missing jigsaw pieces (photo: author)
+
+For a few months now, we’ve been looking at different ways to use SQL in data science — most recently on using SQL to detect outliers (not the same as detecting anomalies, although that’s in the future).
+
+In the first post in this sporadic series of posts, we looked at how to assess missing data by counting the proportion of nulls in a column. However, simply finding and counting missing data points is of limited use — you need to have tools to use if you find these missing data points.
+
+The core ways to handle missing values should be familiar to all data scientists, a phrase which here means ‘if you aren’t familiar, you should memorise the following list’:
+
+Listwise deletion: if a variable has so many missing cases that it appears useless, delete it. Casewise deletion: if there are too many factors missing for a particular observation, delete it. Dummy Variable Adjustment: if the variable is missing for a particular case, use an assumed value in its stead. Depending on the problem the median may appear the intuitive choice or a value that represents a ‘neutral’ setting. Imputation: use an algorithm to fill in the value, from a simple random number at the most basic end of the spectrum, to a value imputed by its own model at the more complex end.
+
+SQL is clearly better at some of these than others. Listwise deletion is as simple as leaving the column name out of the SELECT statement; casewise deletion may be as simple as a WHERE clause testing for nulls.
+
+Using these two methods comes with risks — you can easily introduce bias if the data are not Missing Completely at Random. It’s not hard to think of situations where measurements aren’t collected due to specific circumstances reflected in the data. An example given by Frank Harrell in his book ‘Regression Modeling Strategies’ is blood pressure measurements which are not taken on patients expected to die shortly — hence excluding patient observations missing blood pressure measurements in a model of patient outcomes could selectively exclude patients who died, creating an obvious skew.
+
+While the above example illustrates the risk of casewise deletion, the disadvantage of listwise deletion can also be seen from the…

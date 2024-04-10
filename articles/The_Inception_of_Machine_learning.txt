@@ -1,0 +1,37 @@
+In the match of buzzwords, the term “Machine Learning” has become a great contender. But have you ever wondered how this term came about?
+
+Let’s dive deeper into its history and learn how it evolved to what it is today.
+
+The term was coined in 1959 by Arthur Samuel, who defined it as —
+
+“The field of study that gives computers the ability to learn without being explicitly programmed.”
+
+While working at IBM, Arthur Samuel wrote a Checker’s playing program on IBM’s first commercial computer 701.
+
+Have you heard of Checkers? It’s a simple yet strategic board game, also called Draughts.
+
+Arthur, himself was not a very good Checkers’ player but making the program play thousands of games with itself, it became decent enough to challenge an amateur. This was one of the world’s first successful self-learning programs.
+
+The main task of this program was to find a favourable board position reachable from the current state which would lead to a win. Due to the limited storage capacity of the machine, it was not feasible to search each path until the game’s conclusion, so Arthur devised a scoring function which measured the chance of winning for each side at the given position. The program decided its next move using Minimax Strategy. This process was later known as alpha-beta pruning.
+
+Who would have thought that teaching computers to play games would lead to such a revolutionary field of study?
+
+Yes, you guessed it right! Arthur thought so. He believed that tactics to solve general problems can be developed by teaching computers to play games.
+
+But was this the beginning?
+
+No!
+
+Almost a decade before the coining of the term “Machine Learning”, Alan Turing, in his paper Computing Machinery and Intelligence proposed — ‘learning machine’ that could learn and become artificially intelligent. It’s the same paper in which he introduced the famous Imitation game, which aims to answer the question — “Can machines think?”
+
+He believed that technological advancement by the end of the century would make it possible to build a machine by programming which could play the Imitation Game. According to him, to imitate an adult mind, it is important to consider the factors that led to its current stage, namely —
+
+The initial state of the mind — childhood. Education, it is provided with. The life experiences, it is subjected to.
+
+A method of reward and punishment results in patterns in the mind. This whole process, Turing mentions, to a large extent is similar to that of evolution by natural selection.
+
+Though the explanation given by him can be considered abstract, the current state of “Machine learning”, with its approach like supervised, unsupervised and reinforcement learning, is what he anticipated.
+
+Machine Learning has its inception in ambitious speculations and works of pioneers ahead of their time.
+
+For most learners and enthusiasts, Machine learning seems to be a relatively new domain, but it has a history of discoveries and criticisms. With advancements in hardware and computing, it has now grown to be one of the greatest technology of our generation; which has the potential to revolutionise innumerable aspects of our civilization.

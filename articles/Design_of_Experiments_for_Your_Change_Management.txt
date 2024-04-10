@@ -1,0 +1,25 @@
+Design of Experiments for Your Change Management
+
+Data science professionals, have you ever faced any of the following challenges?
+
+Story 1: Machine learning does not mean experimental design
+
+You are asked to design an experiment due to your statistical expertise but realized your machine learning tools do not help you design an experiment.
+
+Story 2: Observational data cannot be repeated
+
+Your team observed the sales trend relating to a few factors. Your team wanted to propose new business strategies. But the team cannot decide on the right factors to replicate the process.
+
+Story 3: Correlation is not causation
+
+Your team identified a strong correlation between two factors and proposed a business change plan. Your team got the buy-in of the clients to implement the business proposal in a promising pilot test. After the testing period, you got no claimed outcome.
+
+If so, you may have committed the fallacy of using correlation to prove causation. In my post “Machine Learning or Econometrics?” I shared that many analytic questions are about causality. These causal questions require the designs of data generation and cannot be derived from big data. Today the divergence of machine learning and statistical experiments seems converging into the big data science umbrella. However, the two distinct disciplines can and should cross-pollinate to solve numerous business initiatives.
+
+The use of Design of Experiments (DoE) is the right way to do it. The design of experiments has been practiced in manufacturing, clinical trials, and hospital services for decades. In this post, I will walk you through the steps to set up a successful DoE that leads to your change management. I will use a service operation in banking to present the DoE thinking.
+
+What is Design of Experiments (DoE)?
+
+Design of experiments is the appropriate planning, conducting, analyzing, and interpreting controlled tests to evaluate the factors that influence the outcome.
+
+What Are the Benefits of DoE?

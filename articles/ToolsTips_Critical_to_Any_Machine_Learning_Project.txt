@@ -1,0 +1,41 @@
+from pixabay here
+
+This is the final post of the series “How to predict stock price using LSTM”. We have seen how to fine tune hyperparameters for a Neural Net in the last article. In this article I will mention some components that are common and integral to any ML project but are often overlooked (even I did the same initially).
+
+Logging
+
+It may seem like an overhead at early stage but we cannot exaggerate the role of logging in debugging any application. Logging in python is simple but we have to do some initialization to make if more effective. Here is what I did.
+
+The code is pretty much self explanatory with comments. You can add other handlers too. Once you have set up your logger, actual logging is simple:
+
+logging.debug("Train--Test size {} {}".format(len(df_train), len(df_test)))
+
+When you have a bug and not idea where it originated, logging can prove to be a BlackBox to analyze wreckage.
+
+Visualization
+
+Visualization is another area that’s some times neglected. Plotting the training error vs validation error and the prediction vs real data are absolutely necessary to understand what’s happening, especially with neural networks where so many parameters are involved. To plot errors graph we need to store all the errors for all epochs. It really helps in identifying overfitting/under-fitting. It’s quite easy with Keras :
+
+Same way you can plot prediction vs real values to look for any anomalies. I will give you an example. For this project, during initial trials I was only looking at initial prediction values and they were always not so good. But when I started plotting the whole prediction I realized for some reason the model was not doing too good on initial portion of test data only. But rest of the timeline was fine. See below.
+
+To realise that model performance over the complete test set is not so bad, we need bigger picture
+
+Although I am pretty sure this can be further improved with more tuning.
+
+Unleash Keras
+
+Although I am using Keras as an example here, similar facilities should be available in any other tools you are comfortable with.
+
+CSVLogger: As the name suggested it can used to log various variables at the end of each epoch. By default it stores epoch number, train loss and validation loss. But there is facility to store your own variables too. Sample code with all the points at the end of this section. EarlyStopping: Used to stop training if Keras detects that there has been no improvements over a long time. There are various attributes to define when should system stop like ‘patience’ which says how epochs should Keras allow to run before declaring that model is not improving. Similarly ‘min_delta’ is another useful parameter to use. As you can imagine these parameters would vary for different problem. For instance you have to monitor how much is your validation loss varying with epochs (which again depends on your learning rate). That’s where logging comes handy. You may think well my training takes 10 seconds per epoch and if I my training runs for another 30 epochs extra without early stopping it’s fine by me; I can spare 5 mins or I will just stop manually. But recall from previous article where we used various automated hyperparameter tuning tools and grid search. You don’t have control over each iteration there. If you 50 combinations to check and you save 5 mins over each (this is actually quite more than that, since there would be may combinations that are just bad) then you save 250 mins! But don’t use too small value for ‘patience’ or system would stop early even if it could have improved after some more epochs. ModelCheckpoint: This callback saves the trained model after each epoch or just the best one over all the epochs if ‘save_best_only’ is true. Again this comes in really handy when automating a large number of parameter combination searches.
+
+Saving all the data in a structured way for analyzing later
+
+As with life in general, in Machine Learning we can learn a lot from retrospection. The trainings (with some hyper-param combinations) that didn’t do too well can also give some valuable insights. For example let’s assume you are tuning dropout or learning rate. If you have saved all your data from previous training, you can compare the training loss at, say epoch number 150, and thus decide if the model is learning faster. Or you may even find something interesting that can be applied to your next project.
+
+For this project I stored result of each change/attempt in a folder structure like this:
+
+With this I would like to conclude this article and the blog series. I hope I was of some help to all the ML fans out there.
+
+Since I started this series with predicting stock price for a company with ML, I would like say a few words about it before wrapping it up. Although we found that we can predict the future prices with some accuracy, it’s still not fit to capture the special cases (sudden price change based on other market factors). The purpose here was not to solve the problem completely (although we can if we figure a way to integrate other factors to our problem statement), but to realise, what we can do with Machine Learning, seating at our homes, with our mediocre laptops. That’s the power of Machine Learning.
+
+Keep coding.

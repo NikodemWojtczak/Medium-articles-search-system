@@ -1,0 +1,19 @@
+Blame the game, not the player
+
+A tennis player decides to dope before his next game in order to gain an edge over his opponent. A retailer decides to keep their store open on Sundays because his competitor started doing so, too. Coca-cola drops their beverage prices in order to gain an edge in market share, pressuring Pepsi to do the same.
+
+What do all of these hypothetical scenarios in common? They are all examples of what Game Theorists call Prisoner’s Dilemmas.
+
+In Germany, retailers are by law required to close on Sundays. (Photo credit: Unsplash)
+
+The Prisoner’s Dilemma: when everyone loses
+
+In its original form, the Prisoner’s Dilemma can be stated as follows. Two criminals (let’s say they robbed a bank) are arrested and sent to prison, without means of talking to each other. The prosecutor, lacking evidence, makes each of them a deal: they each have the choice of either blaming the other suspect (“defecting”), or remaining silent (“cooperating” with each other). If both remain silent, both of them will serve only 1 year in prison. If one blames the other and the other remains silent, the one talking will walk out, while the other will serve 5 years. If both blame each other, they will both serve 3 years.
+
+Outcomes of the Prisoner’s Dilemma (source)
+
+What would the prisoners do if they act in their own best interests? The first prisoner thinks: “No matter what the other person does, it is always better for me to defect. If he remains silent, I will be free. If he defects, I will only serve 3 years (instead of 5 years that I would serve if I cooperated).” The second prisoner thinks the same, and so, if both act in their own best interests individually, both defect, and both serve 3 years.
+
+However, here is the dilemma: if both were to cooperate, both would be better off (by only serving 1 year).
+
+More generally, we face a Prisoner’s Dilemma anytime when either party gains an edge by not cooperating, but both would be better of if both cooperated. Going back to the examples above: both tennis players would be better off if none dopes, but each individually can gain an edge by…

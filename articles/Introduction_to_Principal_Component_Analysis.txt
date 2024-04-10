@@ -1,0 +1,153 @@
+By In Visal, Yin Seng, Choung Chamnab & Buoy Rina — this article was presented to ‘Facebook Developer Circle: Phnom Penh’ group on 20th July 2019. Here is the original slide pack — https://bit.ly/2Z1pyAb
+
+Why PCA?
+
+According to DataCamp, PCA can be viewed in the following ways:
+
+One of the more-useful methods from applied linear algebra
+
+Non-parametric way of extracting meaningful information from confusing data sets
+
+Uncovers hidden, low-dimensional structures that underlie your data
+
+These structures are more-easily visualized and are often interpretable to content experts
+
+Formal Definition
+
+Accordingly to Wikipedia:
+
+“Principal component analysis (PCA) is a statistical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated variables (entities each of which takes on various numerical values) into a set of values of linearly uncorrelated variables called principal components.”
+
+The initial reaction to the above definition would be “what the heck?”.
+
+From my experience, any formal definition of mathematical or statistical theorems is hard to comprehend and intimidating at first. It is not due to that those definitions are vague or ambiguous but it is mostly due to our initial lack of understanding of the subject matter. Having mastered and understood the subject, we will appreciate the succinctness of formal definition.
+
+Orthogonal Projection
+
+Before diving into the computation of PCA, let’s review the orthogonal projection concept which is the backbone of PCA.
+
+Illustration of orthogonal projection
+
+The projection of Ai vector onto the principal components relates the remaining variance to the squared residual by the Pythagorean theorem.
+
+Choosing the components to maximize variance is the same as choosing them to minimize the squared residuals.
+
+Maximising variance = minimizing the residuals
+
+Projection on component x has smaller lost variance than component and component y.
+
+has smaller lost variance than and Projection on component y has higher lost variance than component and component x.
+
+Computing Principal Components
+
+Given the below scatter plot, X1 & X2 are features of the dataset. Which are the directions of the principal components for this dataset?
+
+Raw dataset
+
+PCA can be computed by the following steps:
+
+Start with the centroid (Xavg, Yavg) Determine the direction along which the sum of projection error /residual is minimised. We call this ‘first’ principal component. The ‘second’ principal component is the direction which is orthogonal to the first one.
+
+This is a sequential algorithm.
+
+Step-1 & Step-2
+
+Step-3
+
+There are two other more elegant algorithms to compute PCA:
+
+Eigen Decomposition of Sample Covariance Matrix Singular Value Decomposition of Data Matrix (below section)
+
+Computing PCA in Scikit Learn
+
+PCA can be easily computed using the PCA function in sklearn.decomposition package.
+
+We first import PCA from sklearn.decomposition and initialize data 2D numpy array.
+
+Import PCA function and initialize data array
+
+Next, we create a PCA object called ‘pca’ by setting n_components = 2. Fit() method which requires data as an input argument, performs PCA computations.
+
+Once ‘pca’ object is fitted with the input data, it can now be used to transform data into principal components via ‘transform’ function.
+
+The principal components of the data
+
+We can rank the component significance by extracting the explained variance.
+
+The higher the explained variance, the more important the component.
+
+Component with smaller explained variance can be dropped without losing significant information.
+
+Extracting the components ‘ explained variance
+
+Histogram of the components’ explained variance
+
+Computing PCA from Numpy SVD
+
+Another way to compute the PCA is to perform Singular Value Decomposition (SVD) on the raw data using Numpy.
+
+SVD
+
+We first import the whole Numpy library and apply ‘svd’ function from the linear algebra module. The ‘svd’ function returns three matrices U, S and Vt.
+
+The principal components are obtained by taking the dot production of U and S.
+
+The principal components = dot product of U and S
+
+Applications
+
+2D Visualization of MNIST Dataset
+
+The data set contains images of hand-written digits: 10 classes where each class refers to a digit.
+
+1797 samples and 64 features representing 8x8 image of a digit
+
+MNIST images
+
+Since there are 64 features, it is not possible to visualize the feature relations. PCA comes to our rescue by reducing 64 dim feature space into 2D space (2 principal components).
+
+To do that, we import load_digits from sklearn.datasets and create an PCA object called ‘pca’. n_components is set to 2. The principal components are obtained by calling ‘fit_transform’ function which performs the calculations and returns the principal components. Then, the resulting principal components are cross-plot.
+
+Performing PCA on MNIST dataset
+
+Cross-plot of principal component 1 and 2
+
+Dimension Reduction of MNIST Dataset
+
+To demonstrate the robustness of PCA in reducing the dimension of feature space, we perform two cases of SVM classification on MNIST dataset and compare the resulting accuracies.
+
+Case-1: using original 64 features to classify MNIST digits.
+
+Case-2: using 10 principal components to classify MNIST digits.
+
+As shown below, the accuracy difference is only ~1%.
+
+SVM classification — Case 1
+
+SVM classification — Case 2
+
+Image Compression
+
+Another interesting application of PCA is image compression (lossy!). As shown below, an image of 400*600 pixels requires 240,000 bytes to store.
+
+240,000 bytes required to store an image of 400*600 pixels
+
+We can apply SVD on the original image and truncates less significant components. In this case, only 50 of the 400 principal components are retained and the rest is truncated out.
+
+Applying SVD on the original image and keeping only the top 50 components
+
+By using only the top 50 components, the required memory to store the compressed image is only 50,050 bytes.
+
+Only 50,050 bytes required to store
+
+Python codes to perform image compression with SVD is given below:
+
+Image compression with SVD
+
+The below figure shows varying image quality as the number of retained components (k) increase. As expected, the higher k, the better the image quality and the higher the required memory. The optimal number of retained components (k) is a subjective matter and application-specific.
+
+Wrap-up
+
+PCA is one of the fascinating cases of applied linear algebra and it has many more applications in data science beyond the scope of this article. It is very unlikely that we will need to code PCA from scratch; however, having a solid understanding of how PCA works would be useful when we need to work with PCA using machine learning libraries.
+
+Special thanks to the major contributors — In Visal, Yin Seng, Choung Chamnab who make this work possible.

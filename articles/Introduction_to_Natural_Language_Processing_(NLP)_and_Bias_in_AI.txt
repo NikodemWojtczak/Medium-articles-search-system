@@ -1,0 +1,11 @@
+Introduction to Natural Language Processing (NLP) and Bias in AI
+
+Photo by Bewakoof.com Official on Unsplash
+
+Natural language processing (NLP) is a field that is being revolutionized by deep learning. From voice assistants to Gmail’s Smart Compose, deep learning has made it possible for machines to understand us in a more intuitive way.
+
+Of course, working with natural data is very different than working with tabular data, because we now need to represent words and sentences in a way that machines can understand.
+
+In this post, I will introduce key concepts of NLP such as word embeddings, and we will see how an algorithm can become biased, and how we can remove that bias.
+
+Let’s get started!

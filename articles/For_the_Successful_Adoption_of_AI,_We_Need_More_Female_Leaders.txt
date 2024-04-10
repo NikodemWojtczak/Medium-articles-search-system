@@ -1,0 +1,27 @@
+Member-only story For the Successful Adoption of AI, We Need More Female Leaders
+
+Why women possess the right qualities to lead AI projects more successfully and enable an environment for collaboration and inclusion to build real-world AI products. Rudradeb Mitra · Follow Published in Towards Data Science · 8 min read · Apr 1, 2019 -- Share
+
+“The most exciting breakthroughs of the twenty-first century will not occur because of technology, but because of an expanding concept of what it means to be human” — John Naisbitt
+
+Part I: Differences between Men and Women
+
+A story of how women and men can work differently
+
+Before we dive into why more women should lead AI teams, I want to share a fascinating story I heard from Tania Biland, a 3rd-year student of Lucerne University of Applied Sciences and Arts.
+
+The story as narrated by Tania:
+
+Last semester, our class got split into three different groups in order to develop a safety technology solution for Swiss or German brands:
+
+Group 1: Only women (my group)
+
+Group 2: Only men
+
+Group 3: Four women and one man
+
+After 4 weeks of work, each team had to present their work.
+
+Group 1, composed of only women, developed a safety solution for women in the dark. As the jury was only male we decided to tell a story using a persona, music, and videos in order to make them feel what women are experiencing on a daily basis. We also put emphasis on the fact that everyone has a mother, sister or wife in their life and that they probably don’t want her/them to suffer. In the end, our solution was rather simple, technologically: using light to provide safety but connected to the audience emotionally.
+
+Group 2, mostly composed of men, presented a more high-tech solution using AI, GPS and video conferences. They based their arguments on facts and numbers and pointed out their competitive advantages.

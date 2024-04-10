@@ -1,0 +1,197 @@
+What is an Edge Device and why do we need it?
+
+Technology is getting ubiquitous day by day. Now people or users want to experience technology in a low-cost device. 2 years ago, this kind of technology required a huge amount of computation like a huge GPU Memory, RAM as well as the high-resolution camera. Even most of the deep learning models couldn’t run on a low computational device. So instead of buying a huge computation system, people or users get an instance on cloud platforms like AWS, GCP, Microsoft Azure, etc. where it would cost around $150 per month approximately. But using the cloud, data breaching problem has occurred where the security of data has been compromised. Unfortunately, most of the people couldn’t afford to buy a huge computation system as well as buying a cloud instance. These problems degrade the use of A.I tools as security in normal stores, public places, schools, etc. So to enhance the use of A.I tools, there has been launched various devices such as Nvidia Jetson TX1, Nano, TX2, Xavier, Raspberry pi, etc with having a programming language binding support like python, c++, etc. by which we can deploy the deep learning model on this devices.
+
+These devices have a decent CPU memory, GPU memory with a good resolution camera at an affordable price. These devices can be used in public places(railway stations, malls), roads, cars, stores and it doesn’t require a huge system. It is nothing but a small device or says a small CPU. The user just has to connect it with Keyboard, Mouse and an HDMI monitor.
+
+Applications that can be performed on Edge Devices
+
+There are certain types of applications that can be performed on edge devices, such as:
+
+Crowd Detection:-
+
+An edge device can be placed on shopping malls, schools, traffic signals, streets, etc. By using that device we can detect the length of the crowd in a particular area, some malicious activities performed on streets, etc.
+
+2. Retails Analysis:-
+
+This is one of the finest application which can be build using edge devices, Retail Analysis. We can justify a person’s behavior characteristics using various methods and check whether the product has been picked up or not. It can be used in grocery stores.
+
+3. Fitness Freaks:-How? Is it possible?
+
+In this busy world, we mostly forget to work on our health and fitness. So we join a gym and we also need good trainers who can guide us about exercises and diets. They set our proper schedule. But unfortunately, some people could afford a mobile device but not a professional personal trainer. Here Artificial Intelligence can make things easy for us. We can perform pose estimation on edge device and a basic algorithm would tell us whether we are doing it right or not. See How A.I make things easier for us!.
+
+There are many more applications that can be performed using edge devices at a low cost.
+
+Computer vision on edge device! Is it possible?
+
+Okay, now everyone got to know that certain type of applications that can be performed using an Edge Device.
+
+Now we must be thinking about how can a deep learning computer vision model can be implemented on an edge device. To succeed that, there’s a method called Model Optimization.
+
+Model optimization is the finest technique to make a deep learning model work on a low computation device. With the help of optimization techniques, one can run a deep learning model on small devices. These techniques include optimizing hyperparameters such as input size, Batch Normalization, Gradient descent, Momentum, etc. There are various optimization techniques we can apply like Adam Optimization.
+
+Adam Optimization is a method helps to optimize model performance and loss value during training the model. It computes one’s learning rate with different parameters. The Adam optimization algorithm is a combination of gradient descent with momentum and RMSprop algorithms.
+
+some research related to Adam Optimization https://towardsdatascience.com/adam-latest-trends-in-deep-learning-optimization-6be9a291375c
+
+But okay!, We all know there are several optimization techniques available, but only model optimization will help?. Do we need to apply some more techniques to run a deep learning model on edge devices?. For instance, can we run the YOLO model on edge device, if yes then which version of YOLO?.
+
+Well, it purely depends upon which edge device we are using or on which edge device we want to deploy the model.
+
+Which device to be selected and how’s the model perform on them?
+
+There are various edge devices available in the market, such as:
+
+Raspberry pi 4
+
+When it comes to talking about the edge device, the first thing comes in mind is raspberry pi. The Raspberry Pi is a low cost, credit-card sized computer that plugs into a computer monitor or TV, and uses a standard keyboard and mouse. Configuration of this device contains Ram of 4GB, 2 × USB 3.0 ports, 2 x USB 2.0 Ports, 2 × micro HDMI ports supporting up to 4Kp60 video resolution, Micro SD card slot for loading the operating system and data storage.
+
+Pricing: $61.99 on amazon
+
+Models that can be run on Raspberry pi 4
+
+For object Detection
+
+— SSD MOBILE NET- 40 FPS
+
+— TinyYOLOV2 -3 FPS
+
+— OpencvDNN- 5 FPS
+
+For Pose estimation
+
+— SSD MOBILE NET with Open Pose- 7 FPS
+
+Face Detection and Recognition
+
+— OpencvDNN — 3 FPS
+
+— Python Face Recognition Library- 2.5 FPS
+
+2. Nvidia Jetson Nano
+
+NVIDIA Jetson Nano enables the development of millions of new small, low-power AI systems. It opens new worlds of embedded IoT applications, including entry-level Network Video Recorders (NVRs), home robots, and intelligent gateways with full analytics capabilities. Nano is a device that is slightly better than raspberry pi 4. The difference is it also provides GPU memory partition which enhances the speed of the model.
+
+Pricing:$99.00 Amazon
+
+Models that can be run on Nvidia Jetson Nano
+
+For object Detection
+
+— SSD MOBILE NET- 60 FPS
+
+— TinyYOLOV2 -3.5 FPS
+
+— OpencvDNN- 5 FPS
+
+For Pose estimation
+
+— SSD MOBILE NET with Open Pose- 7 FPS
+
+Face Detection and Recognition
+
+— OpencvDNN — 3 FPS
+
+— Python Face Recognition Library- 4.5 FPS
+
+3. Nvidia Jetson TX2
+
+Jetson TX2 is the fastest, most power-efficient embedded AI computing device. This 7.5-watt supercomputer on a module brings true AI computing at the edge. It’s built around an NVIDIA Pascal™-family GPU and loaded with 8GB of memory and 59.7GB/s of memory bandwidth. It features a variety of standard hardware interfaces that make it easy to integrate it into a wide range of products and form factors. It is an advanced version of Jetson Nano. It provides an efficient memory with high speed.
+
+Pricing:$399.00 Amazon
+
+Models that can be run on Nvidia Jetson TX2
+
+For object Detection
+
+— SSD MOBILE NET- 60 FPS
+
+— TinyYOLOV2- 8.5 FPS
+
+— OpencvDNN- 5 FPS
+
+For Pose estimation
+
+— SSD MOBILE NET with Open Pose- 10 FPS
+
+Face Detection and Recognition
+
+— OpencvDNN — 3 FPS
+
+— Python Face Recognition Library- 6.5 FPS
+
+4. Nvidia Jetson TX1
+
+The world’s first supercomputer on a module, Jetson TX1 is capable of delivering the performance and power efficiency needed for the latest visual computing applications. It’s built around the revolutionary NVIDIA Maxwell™ architecture with 256 CUDA cores delivering over 1 teraflop of performance. 64-bit CPUs, 4K video encode and decode capabilities, and a camera interface capable of 1400 MPix/s make this the best system for embedded deep learning, computer vision, graphics, and GPU computing.
+
+Pricing:Unavailable
+
+Performance is comparatively the same as Jetson TX2.
+
+That’s it? Only a Few models.
+
+Okay, we got some model’s performances on these devices. But is there any possibility to enhance the detection or recognition speed on this device or we just have to accept the fact that only a few deep learning models can perform decently on these devices but not much.
+
+The answer is NO
+
+There are several devices help accelerate neural networks such as Intel Movidius Neural Compute Stick, Google coral USB accelerator.
+
+Intel Movidius Neural Compute Stick
+
+This device helps to run a deep learning model at the edge. This has some tremendous features, such as:
+
+Support for heterogeneous execution across computer vision accelerators — CPU, GPU, VPU, and FPGA — using a common API
+
+Pretrained models on Open Model Zoo
+
+Raspberry Pi hardware support
+
+Support for heterogeneous execution across computer vision accelerators — CPU, GPU, VPU, and FPGA — using a common API
+
+A library of functions and preoptimized kernels for faster delivery to market
+
+Supported operating systems:
+
+Ubuntu 16.04.3 LTS (64 bit)
+
+CentOS* 7.4 (64 bit)
+
+Windows 10 (64 bit)
+
+macOS 10.14.4 (or later)
+
+Raspbian (target only)
+
+Other (via the open-source distribution of OpenVINO™ toolkit)
+
+Hardware
+
+Processor: Intel Movidius Myriad X Vision Processing Unit (VPU)
+
+Supported frameworks: TensorFlow, Caffe, Apache MXNet, Open Neural Network Exchange (ONNX), PyTorch, and PaddlePaddle via an ONNX conversion
+
+Connectivity: USB 3.0 Type-A
+
+Dimensions: 2.85 in. x 1.06 in. x 0.55 in. (72.5 mm x 27 mm x 14 mm)
+
+Operating temperature: 0° C to 40° C
+
+Google Coral USB accelerator
+
+The on-board Edge TPU coprocessor is capable of performing 4 trillion operations (tera-operations) per second (TOPS), using 0.5 watts for each TOPS (2 TOPS per watt). For example, it can execute state-of-the-art mobile vision models such as MobileNet v2 at 400 FPS, in a power-efficient manner.
+
+It can be worked with Debian, Linux, etc.
+
+Supports Tensorflow lite models.
+
+Let’s jump to real-time scenarios
+
+We have developed several models or products on edge devices such as Driver Drowsiness Detection System, Facial Recognition, Face Detection, Emotion Recognition, etc.
+
+Driver Drowsiness Detection System and Fatigue Recognition
+
+We have developed a custom architecture model by modifying the layers of the SSD MOBILE NET to detect face and facial landmarks in realtime for Nvidia-Jetson TX2. Along with sleep detection, we have to detect whether a person is using a mobile phone or not. We got around 25 FPS on Nvidia Jetson TX2.
+
+Emotion-Recognition
+
+Based on the different person emotion data with variants of tons of images, we have trained a model to detect the emotion of a person to deploy it in various conferences with a speed of 7 FPS on raspberry pi 4.

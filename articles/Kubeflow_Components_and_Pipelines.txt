@@ -1,0 +1,49 @@
+Kubeflow Components and Pipelines
+
+I want to keep things simple therefore we cover components, pipelines, and experiments. With pipelines and components, you get the basics that are required to build ML workflows.
+
+There are many more tools integrated into Kubeflow and I will cover them in the upcoming posts.
+
+Kubeflow is originated at Google.
+
+Making deployments of machine learning (ML) workflows on Kubernetes simple, portable and scalable.
+
+source: Kubeflow website
+
+Photo by Ryan Quintal on Unsplash
+
+Goals
+
+Demonstrate how to build pipelines.
+
+pipelines. Demonstrate how to create components.
+
+components. Demonstrate how to use components.
+
+components. Demonstrate how to run pipelines and experiments inside of a Notebook.
+
+pipelines and experiments inside of a Notebook. Easy to understand and ready to use examples.
+
+Pipelines
+
+Component
+
+Code that performs one step in the Pipeline. In other words a containerized implementation of an ML task.
+
+A component is analog to a function, it has a name, parameter, return values, and a body. Each component in a pipeline executes independently and has to be packed as a docker image.
+
+The components.
+
+Graph
+
+The representation between the components. It shows the steps your pipeline is executing.
+
+The graph.
+
+Pipeline
+
+A pipeline describes the machine learning workflow, it includes the components and the graph.
+
+The pipeline.
+
+Run

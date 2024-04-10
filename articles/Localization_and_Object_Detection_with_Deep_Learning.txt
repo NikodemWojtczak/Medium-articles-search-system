@@ -1,0 +1,19 @@
+Localization and Object detection are two of the core tasks in Computer Vision, as they are applied in many real-world applications such as Autonomous vehicles and Robotics. So, if you want to work in these industries as a Computer vision specialist or you want to build a relative product, you better have a good grasp of them. But what are they? What Object detection and localization means? And why we group them as they are one thing?
+
+First things first. Let’s do a quick recap of the most used terms and their meaning to avoid misconceptions:
+
+Classification/Recognition : Given an image with an object, find out what that object is. In other words, classify it in a class from a set of predefined categories.
+
+: Given an image with an object, find out what that object is. In other words, classify it in a class from a set of predefined categories. Localization: Find where the object is and draw a bounding box around it
+
+Find where the object is and draw a bounding box around it Object detection : Classify and detect all objects in the image. Assign a class to each object and draw a bounding box around it.
+
+: Classify and detect all objects in the image. Assign a class to each object and draw a bounding box around it. Semantic Segmentation : Classify every pixel in the image to a class according to its context, so that each pixel is assigned to an object
+
+: Classify every pixel in the image to a class according to its context, so that each pixel is assigned to an object Instance Segmentation: Classify every pixel in the image to a class so that each pixel is assigned to a different instance of an object
+
+Remember, though, that these terms are not clearly defined in the scientific community, so you may encounter one of them in a different meaning. In my understanding, these are the correct interpretations.
+
+As we get the basic terms straight, it is time to do some localization and object detection. How do we do it? Well, there have been many approaches over the years, but since the arriving of Deep Learning, Convolutional Neural Networks became the industry standard. Remember our goal is to classify the object and localize it. But are we sure that there is only one object? Is it possible that there are two or three or fifteen objects? In fact, most of the time it is.
+
+That’s why we can split our problem into two different problems. In the first case, we know the number of objects (we will refer to the problem as classification + localization) and in the second we don’t (object detection). I will start with the first one as it is the most straightforward.

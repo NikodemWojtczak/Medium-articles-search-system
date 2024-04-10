@@ -1,0 +1,27 @@
+I am currently building a Flask app for teachers. Since Google Drive has been adopted by teachers, Google sheets are used by them also. One of my app’s features is to easily allow teachers to copy and paste the sheet link into the app and submit it through a form. It will then convert it into a pandas data frame and drop the null rows and columns.
+
+Google Sheets Icon
+
+It is a work in progress but I wanted to share the class made so far since I don’t find many Python class examples for data collection or preprocessing. Many of the examples I have seen are useful for teaching the concept of classes. But most of the time they are not practical enough or specific to data science or ML. After all, we could always use more practical examples of Python classes.
+
+See, Yoda knows. (Self-made on imgflip.com)
+
+But why would you need a class? Can’t you just write the code and be ok?
+
+If this were for analysis purposes, then…yes. But production code, as far as I know, follows an object-oriented programming approach. This means that your code is split between scripts. These scripts are primarily composed of classes and functions. Code written in this manner is also easier to reuse for additional purposes. Take the ecdf function I used in this post as an example.
+
+With this function, you can quickly reproduce this plot immediately as opposed to retyping the same matplotlib templating code over and over again.
+
+Great! Show me your example!
+
+Of course! I will share this example in pieces and explain each part as we go.
+
+# Import necessary libraries
+
+import gspread
+
+import pandas as pd
+
+from gspread_dataframe import get_as_dataframe
+
+from oauth2client.service_account import ServiceAccountCredentials

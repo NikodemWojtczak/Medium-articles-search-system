@@ -1,0 +1,43 @@
+Five behaviors of great R coders
+
+With so many people jumping on the data science bandwagon, how can you tell a great R coder from the rest? Keith McNulty · Follow Published in Towards Data Science · 4 min read · Mar 14, 2019 -- 6 Share
+
+In the new data science era, everyone is jumping onto the bandwagon. Recruiters are receiving resumes and CVs with all the lingo in them: R, Python, Javascript, whatever. In many cases, people are putting a skill on their resume on the basis of a one week session at college or a couple of Datacamp courses.
+
+The best way to determine someone’s skills in a particular programming language is to set them a task and see how they do. You can’t just trust word of mouth on these things, and you really don’t want to have someone in your team or organization who is not up to scratch on the critical skills you need.
+
+Setting practical coding exercises offers two advantages. First, you can test whether the individual knows how to approach and solve the problem at hand and can act somewhat independently in their work. Second, you can identify coding behaviors which are indicative of highly skilled coders.
+
+Here are five such behaviors for R coders in particular, many of which I believe apply across the various other programming languages:
+
+Commenting
+
+No matter what the language, great coders comment well and frequently. It shows a concern for reproducibility, and it likely indicates that they know from experience how important it is to comment.
+
+Where and how often to comment is a matter of judgment, and depends on the complexity of the task, but great coders comment at a reasonably detailed level. For example:
+
+# load libraries
+
+library(dplyr)
+
+#'
+
+#'
+
+#'
+
+#' #' Function to search starwars names by first letter of name#'#' @param x Character value to search as first letter#'#' @return a vector of names first_letter_char_search <- function(x) {
+
+starwars %>%
+
+dplyr::mutate(first_letter = substr(name, 1, 1)) %>%
+
+dplyr::filter(first_letter == x) %>%
+
+dplyr::select(name)
+
+}
+
+Formatting
+
+Code formatting is so critical to easily reading and understanding work. Properly formatted code shows that the coder has taken the time and effort to ensure that his or her code is as readable as possible, which again affects reproducibility and future collaboration.

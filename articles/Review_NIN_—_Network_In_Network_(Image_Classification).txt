@@ -1,0 +1,5 @@
+Review: NIN — Network In Network (Image Classification)
+
+A few example images from the CIFAR10 dataset.
+
+In this story, Network In Network (NIN), by Graduate School for Integrative Sciences and Engineering and National University of Singapore, is briefly reviewed. Micro neural networks with more than complex structures to abstract the data within the receptive field. This is a 2014 ICLR paper with more than 2300 citations. (Sik-Ho Tsang @ Medium)

@@ -1,0 +1,21 @@
+Turning your Mobile Phone Camera into an Object Detector (on your own!)
+
+What if more people can turn their mobile phone cameras into object detectors with just some lines of codes? This story is written to inject fun into everyone’s lives! It’s probably a great way to start learning JavaScript and React too!
+
+This story assumes simple, basic knowledge of JavaScript, npm and React. Well, it may be really easy to implement just by following the steps! Drop me a comment below if you need any assistance in setting this up.
+
+Installation and Initial Preparation
+
+In order to install npm, install Node.js and npm will come with it. Then, start ‘Command Prompt (cmd)’, point to the directory where you want to install the React app and enter this command:
+
+npx create-react-app obj-detector
+
+cd obj-detector
+
+npm install @tensorflow/tfjs @tensorflow-models/coco-ssd
+
+The command will create a new React app and a new directory named ‘obj-detector’. Then it will install both tensorflow.js and COCO-SSD (a.k.a. Common Objects in COntext and Single Shot MultiBox Detection respectively).
+
+The Code
+
+Go to the directory obj-detector/src/ and open this file App.js. Replace everything with the following code:

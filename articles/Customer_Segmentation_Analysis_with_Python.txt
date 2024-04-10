@@ -1,0 +1,83 @@
+In this article I’ll explore a data set on mall customers to try to see if there are any discernible segments and patterns. Customer segmentation is useful in understanding what demographic and psychographic sub-populations there are within your customers in a business case.
+
+By understanding this, you can better understand how to market and serve them. This is similar and related but slightly different from the UX methodology of creating user personas: creating your ideal customers, their pain points, a defining quote, and so on, to understand their perspective.
+
+Setup
+
+Getting started, you can write out your import statements and load the data set, calling head() to see a preview of the data.
+
+As always, feel free to code along by cloning the repo here.
+
+Import statements
+
+Head call
+
+Next you can call describe() on the data to see the descriptive statistics for each variable. It’s important to really take your time here and understand what these numbers are saying. For example, you would know there’s a problem if the Spending Score (1–100) column, which is clearly a range of values between 1 and 100, had a negative min or a max that went beyond 100.
+
+Describe call
+
+From calling describe, you can see that there are no values to clean. Age looks pretty normally distributed, annual income doesn’t have outliers that are too excessive. Spending score is in fact between 1 and 100. Everything looks good.
+
+Exploring the Data
+
+It’s always informative to see how categorical variables are split up throughout the data set. This can be done with a simple count plot like so:
+
+There are slightly more women than men in this data set. They will perhaps be a significant element in your customer segmentation efforts later.
+
+What about age?
+
+Distribution of ages
+
+The ages are mostly between 30 and 40. Recalling the describe() call results this makes sense. The average age was 38. There are less older customers, so this distribution is right-skewed because of its longer right tail. This could be because of the appeal of malls and the type of demographic that tends to shop there.
+
+You can add detail to this by overlaying two histograms, creating one age histogram for each gender.
+
+Distribution of age by gender
+
+The men in this data set tended to be younger than the women. You can see the spike around the age of 30–35 for the women is where the majority of them fall. There are also more middle-aged women in this data set than men. There is a significant amount of senior men in the 65–70 year old bucket.
+
+How about income? You can take a look at this distribution with the following code:
+
+Distribution of income
+
+Much of the incomes lie between the 60 and 85,000 dollar buckets. Does gender impact this?
+
+Distribution of income by gender
+
+The women in this data set make less money than the men. What does their spending score look like and how does it compare though?
+
+Men had an average spending score of 48.5 and women had an average score of 51.5. Women earned less but spent more at this mall and in this data set.
+
+You can add further complexity to understand the data even further. Because there are mostly quantitative variables and one clean, binary categorical variable, it’s helpful to make some scatter plots.
+
+Age and income, colored by gender
+
+There is no clear correlation. In fact, you can quantify this and make sure and do it on all variables very easily. Just call sns.heatmap(customers.corr(), annot=True) .
+
+Correlation heat map of each variable
+
+You can see from the above plot that the only variables that are even somewhat correlated is spending score and age. It’s a negative correlation so the older a customer is in this data set, the lower their spending score. But because it’s 0.33, it’s not a strong correlation at all. It’s still ever so slightly informative and follows basic logic.
+
+Coding the following plot shows that trend.
+
+Age to spending score by gender
+
+You can now see that slight negative correlation. Don’t you wonder if there is a stronger correlation for men or women though? You can check that out with two heat maps on the gender-specific data frames created earlier.
+
+Correlation heat map of female customers
+
+Substituting the female_customers data frame for the men’s reveals the following plot for them:
+
+Correlation heat map of male customers
+
+Age more strongly affects spending score for women in this case. Nothing else is really strongly correlated enough to say much of anything.
+
+Now you can zoom in on the women’s spending score to age relationship with a nice lmplot .
+
+Scatter of age to spending score for women, with a regression line and bootstrap interval about the line
+
+Lastly, you can look at income to spending score colored by gender with this code:
+
+Spending score and income by gender
+
+There is some patterning here. Zero correlation though. But you can think of these as customer segments:

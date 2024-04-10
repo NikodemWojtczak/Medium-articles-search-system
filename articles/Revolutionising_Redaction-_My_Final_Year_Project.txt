@@ -1,0 +1,23 @@
+Now with major changes in regulations, it has become even more important that personal data is secured and only seen by the right people. With this being such a hot topic right now, I was extremely keen to work on a final year project that could tap into this every increasing issue.
+
+I am currently finishing my final year of studying software engineering at Queens University, Belfast and have been sponsored by Kainos to complete this project. In this blog I plan on taking you on a journey through my project, including the need for it and a high-level overview of the technologies used.
+
+So, what is the problem?
+
+Redaction is the actual process of removing sensitive information from documents and it needs to be completed across many different industries. It typically involves someone manually going through a document word by word looking for sensitive information to remove — which of course is a very time consuming and tedious task that is prone to human error
+
+I’m sure we have all seen a few documents, that have ended up looking like this:
+
+One of the major problems with redaction, is that when a lot of words have been removed, the whole context of the document can be lost.
+
+My Solution
+
+The overall aim of this project is to identify and remove sensitive information within a document, whilst still retaining its overall context. The project is divided into 3 main features:
+
+1. Auto-Redactor — Aims to take a user’s document, automatically identify and replace the sensitive words and present them with a redacted copy of their document
+
+2. User Selection redaction — Aims to take the user’s document, automatically identify the sensitive words, and send these words back to the user for them to select which ones they want removed.
+
+3. Labeller — Aims at making the process of retraining the model to recognize more words easier and quicker.
+
+How can I identify sensitive words?

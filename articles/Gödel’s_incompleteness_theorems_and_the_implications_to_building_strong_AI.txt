@@ -1,0 +1,29 @@
+The Tao of Data Science
+
+Gödel’s incompleteness theorems and the implications to building strong AI
+
+The Tao of Data Science column explores how centuries of philosophers have been tackling the key problems of machine learning and data science.
+
+Gödel’s proofs suggest strong AI may not be possible with modern computing.
+
+The gist of the theorem
+
+In modern logic, it is possible to express arithmetical statements, for example, “Given any numbers x and y, x + y = y + x”.
+
+An axiom is a statement that is taken as true. For example, one of the axioms of probability theory states that this thing called a “probability” is a real number between 0 and 1 inclusive. Axioms serve as premises for further reasoning, for example “if 0 ≤ p ≤ 1, then …”.
+
+Several axioms taken together form an axiomatic system (e.g., the axioms of probability), from which one can prove many arithmetical truths (e.g., Bayes rule).
+
+The question Gödel addresses is whether one can use an axiomatic system to prove all arithmetic truths without being inconsistent — where inconsistent means the system produces contradictions.
+
+Gödel proved that for any consistent axiomatic system, there are truths that cannot be proven by that system.
+
+This suggests that there is a boundary on what mathematicians can know.
+
+Implications to AI
+
+One of the goals of AI research is to achieve “strong artificial intelligence”, meaning human-level general AI. Currently, we build AI as algorithms in Turing machines, which are consistent axiomatic systems and therefore subject to the theorem.
+
+Roger Penrose and J.R. Lucas argue that human consciousness transcends Turing machines because human minds, through introspection, can recognize their own inconsistencies, which under Gödel’s theorem is impossible for Turing machines. They argue that this makes it impossible for Turing machines to reproduce traits of human minds, such as mathematical insight.
+
+Learn more

@@ -1,0 +1,27 @@
+Attention in Deep Networks with Keras
+
+Courtesy of Pixabay
+
+This story introduces you to a Github repository which contains an atomic up-to-date Attention layer implemented using Keras backend operations. Available at attention_keras .
+
+To visit my previous articles in this series use the following letters.
+
+A B C D* E F G H I J K L* M N O P Q R S T U V W X Y Z
+
+[🔈🔥 Latest article 🔥🔈]: M — Matrix factorization
+
+Why Keras?
+
+With the unveiling of TensorFlow 2.0 it is hard to ignore the conspicuous attention (no pun intended!) given to Keras. There was greater focus on advocating Keras for implementing deep networks. Keras in TensorFlow 2.0 will come with three powerful APIs for implementing deep networks.
+
+Sequential API — This is the simplest API where you first call model = Sequential() and keep adding layers, e.g. model.add(Dense(...)) .
+
+and keep adding layers, e.g. . Functional API — Advance API where you can create custom models with arbitrary input/outputs. Defining a model needs to be done bit carefully as there’s lot to be done on user’s end. Model can be defined using model = Model(inputs=[...], outputs=[...]) .
+
+. Subclassing API — Another advance API where you define a Model as a Python class. Here you define the forward pass of the model in the class and Keras automatically compute the backward pass. Then this model can be used normally as you would use any Keras model.
+
+For more information, get first hand information from TensorFlow team. However remember that while choosing advance APIs give more “wiggle room” for implementing complex models, they also increase the chances of blunders and various rabbit holes.
+
+Why this post?
+
+Recently I was looking for a Keras based attention layer implementation or library for a project I was doing. I grappled with several repos out there that already has implemented attention. However my efforts were in vain, trying to get them to work with later TF versions. Due to several reasons:

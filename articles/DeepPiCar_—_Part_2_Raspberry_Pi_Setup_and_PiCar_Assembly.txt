@@ -1,0 +1,381 @@
+1 x Set of Miniature Traffic Signs ($15) and a few Lego figurines. You may not need to buy them if your younger ones have some of these toy signs and Lego figurines in the playroom. You can use whatever signs you find to train the model, just make sure they are not TOO BIG!
+
+(Optional) 1 x 170 degree Wide Angle USB Camera ($40). This is an optional accessory. I bought it to replace the stock camera that came with the SunFounder PiCar so that the car can have a wide field of vision. The stock camera is great, but not as wide angle as I like and it can’t see lane lines that are 3–4 inches in front of the front wheels. I wrote the lane following code in Part 4 with the stock camera initially. After trying a few lens, I found that the lane following accuracy and stability greatly increased with this wide angle camera. It is nice to have control of both your hardware and software (vs running a car in car simulator), because you may resort to a hardware fix if a problem can’t be easily solved via software alone.
+
+USB Keyboard/Mouse and Monitor that takes HDMI input. You only need these during the initial setup stage of the Pi. Afterward, we can remote control the Pi via VNC or Putty.
+
+A desktop or laptop computer running Windows/Mac or Linux, which I will refer to as “PC” here onwards. We will use this PC to remote access and deploy code to the Pi computer.
+
+Sometimes, it surprises me that Raspberry Pi, the brain of our car is only about $30 and cheaper than many of our other accessories. Indeed, the hardware is getting cheaper and more powerful over time, and software is completely free and abundant. Don’t we live in a GREAT era?!
+
+This is the end product when the assembly is done. I am using a wide-angle camera here.
+
+Raspberry Pi Set up
+
+Raspberry Pi Operating System Set up (1 Hour)
+
+Follow this excellent step-by-step guide to install the NOOBS Raspbian Operating System (a variate of Linux) onto a micro SD card. It would take about 20 min and about 4GB of disk space. After installation and reboot, you should see a full GUI desktop like below. This feels like you are in a Windows or Mac GUI environment, doesn’t it?
+
+During installation, Pi will ask you to change the password for the default user pi . Let’s set the password to rasp , for example.
+
+. Let’s set the password to , for example. After the initial installation, Pi may need to upgrade to the latest software. This may take another 10–15 minutes.
+
+Setup Remote Access
+
+Setting up remote access allows Pi computer to run headless (i.e. without a monitor/keyboard/mouse) which saves us from having to connect a monitor and keyboard/mouse to it all the time. This video gives a very good tutorial on how to set up SSH and VNC Remote Access. Here are the steps, anyways.
+
+Open the Terminal application, as shown below. The Terminal app is a very important program, as most of our command in later articles will be entered from Terminal.
+
+Find the IP address of the Pi by running ifconfig . In this case, my Pi’s IP address is 192.168.1.120 .
+
+pi@raspberrypi:~ $ ifconfig | grep wlan0 -A1
+
+wlan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500
+
+inet 192.168.1.120 netmask 255.255.255.0 broadcast 192.168.1.255
+
+Run sudo raspi-config in Terminal to start the “Raspberry Pi Software Configuration Tool”. You may be prompted to type in the password for user pi
+
+Enable SSH Server: Choose 5. Interface Options -> SSH -> Enable
+
+-> -> Enable VNC Server: Choose 5. Interface Options -> VNC -> Enable
+
+-> -> Download and install RealVNC Viewer onto your PC.
+
+Connect to Pi’s IP address using Real VNC Viewer. You will see the same desktop as the one Pi is running.
+
+At this point, you can safely disconnect the monitor/keyboard/mouse from the Pi computer, leaving just the power adapter plugged in.
+
+Setup Remote File Access
+
+Since our Pi will be running headless, we want to be able to access Pi’s file system from a remote computer so that we can transfer files to/from Pi computer easily. We will install Samba File Server on Pi.
+
+sudo apt-get update && sudo apt-get upgrade -y
+
+Get:1
+
+Packages [45.0 kB]
+
+[omitted...]
+
+Unpacking lxplug-ptbatt (0.5) over (0.4) ...
+
+Setting up lxplug-ptbatt (0.5) ... pi@raspberrypi:~ $Get:1 http://archive.raspberrypi.org/debian stretch InRelease [25.4 kB]Packages [45.0 kB][omitted...]Unpacking lxplug-ptbatt (0.5) over (0.4) ...Setting up lxplug-ptbatt (0.5) ... pi@raspberrypi:~ $ sudo apt-get install samba samba-common-bin -y
+
+Reading package lists... Done
+
+Building dependency tree
+
+[omitted...]
+
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+
+Processing triggers for systemd (232-25+deb9u11) ... pi@raspberrypi:~ $ sudo rm /etc/samba/smb.conf pi@raspberrypi:~ $ sudo nano /etc/samba/smb.conf
+
+Then paste in the following lines into the nano editor
+
+[global]
+
+netbios name = Pi
+
+server string = The PiCar File System
+
+workgroup = WORKGROUP
+
+
+
+[HOMEPI]
+
+path = /home/pi
+
+comment = No comment
+
+browsable = yes
+
+writable = Yes
+
+create mask = 0777
+
+directory mask = 0777
+
+public = no
+
+Save and exit nano by Ctrl-X, and Yes to save changes.
+
+Then set up a Samba Server password. For simplicity, we will use the same rasp as the Samba server password. After the password is set, restart the Samba server.
+
+# create samba password
+
+pi@raspberrypi:~ $ sudo smbpasswd -a pi
+
+New SMB password:
+
+Retype new SMB password:
+
+Added user pi. # restart samba server
+
+pi@raspberrypi:~ $ sudo service smbd restart
+
+At this point, you should be able to connect to the Pi computer from your PC via Pi’s IP address (My Pi’s IP is 192.168.1.120). Go to your PC (Windows), open a Command Prompt (cmd.exe) and type:
+
+# mount the Pi home directory to R: drive on PC
+
+C:\>net use r: \\192.168.1.120\homepi
+
+The command completed successfully.
+
+C:\Users\dctia>r: C:\>dir r:
+
+Volume in drive R is HOMEPI
+
+Volume Serial Number is 61E3-70FF Directory of R:\ 05/02/2019 03:57 PM <DIR> .
+
+04/08/2019 04:48 AM <DIR> ..
+
+04/08/2019 05:43 AM <DIR> Desktop
+
+04/08/2019 05:43 AM <DIR> Documents
+
+04/08/2019 05:43 AM <DIR> Downloads
+
+04/08/2019 05:15 AM <DIR> MagPi
+
+04/08/2019 05:43 AM <DIR> Music
+
+05/02/2019 03:43 PM <DIR> Pictures
+
+04/08/2019 05:43 AM <DIR> Public
+
+04/08/2019 05:43 AM <DIR> Templates
+
+04/08/2019 05:43 AM <DIR> Videos
+
+0 File(s) 0 bytes
+
+11 Dir(s) 22,864,379,904 bytes free
+
+Indeed this is our Pi Computer’s file system that we can see from its file manager. This will be very useful since we can edit files that reside on Pi directly from our PC. For example, we can use PyCharm IDE to edit Python programs on Pi first, and then just use Pi’s terminal (via VNC) to run these programs.
+
+If you have a Mac, here is how to connect to the Pi’s file server. Hit Command-K to bring up the “Connect to Server” window. Enter the network drive path (replace with your Pi’s IP address), i.e. smb://192.168.1.120/homepi, and click Connect. Enter the login/password, i.e. pi/rasp and click OK to mount the network drive. Then the drive will now appear on your desktop and in the Finder Window sidebar. For more in-depth network connectivity instructions on Mac, check out this excellent article.
+
+Install USB Camera
+
+The device driver for the USB camera should already come with Raspian OS. We will install a Video Camera Viewer so we can see live videos.
+
+Take the USB Camera out of PiCar kit and plug into Pi computer’s USB port
+
+Run sudo apt-get install cheese from the terminal to install “Cheese”, the camera viewer.
+
+pi@raspberrypi:~ $ sudo apt-get install cheese -y
+
+Reading package lists... Done
+
+Building dependency tree
+
+Reading state information... Done
+
+....
+
+cheese is the newest version (3.22.1-1).
+
+Launch Cheese app by Raspberry Pi button(Top Left Corner) -> Sound & Video -> Cheese You should see a live video feed displayed like the picture above.
+
+SunFounder PiCar-V Software Configuration (Deviations from the manual)
+
+Before assembling PiCar, we need to install PiCar’s python API. SunFounder release a server version and client version of its Python API. The Client API code, which is intended to remote control your PiCar, runs on your PC, and it uses Python version 3. The Server API code runs on PiCar, unfortunately, it uses Python version 2, which is an outdated version. Since the self-driving programs that we write will exclusively run on PiCar, the PiCar Server API must run in Python 3 also. Fortunately, all of SunFounder’s API code are open source on Github, I made a fork and updated the entire repo (both server and client) to Python 3. (I will submit my changes to SunFounder soon, so it can be merged back to the main repo, once approved by SunFounder.)
+
+For the time being, run the following commands (in bold) instead of the software commands in the SunFounder manual. You shouldn’t have to run commands on Pages 20–26 of the manual.
+
+# route all calls to python (version 2) to python3,
+
+# pip (version 2) to pip3, even in sudo mode
+
+# note: `sudo abcd` runs `abcd` command in administrator mode
+
+alias python=python3
+
+alias pip=pip3
+
+alias sudo='sudo ' # Download patched PiCar-V driver API, and run its set up
+
+pi@raspberrypi:~ $ cd git clone https://github.com/dctian/SunFounder_PiCar.git
+
+Cloning into 'SunFounder_PiCar'...
+
+remote: Enumerating objects: 9, done.
+
+remote: Counting objects: 100% (9/9), done.
+
+remote: Compressing objects: 100% (9/9), done.
+
+remote: Total 276 (delta 0), reused 2 (delta 0), pack-reused 267
+
+Receiving objects: 100% (276/276), 53.33 KiB | 0 bytes/s, done.
+
+Resolving deltas: 100% (171/171), done.
+
+pi@raspberrypi:~ $ cd ~/SunFounder_PiCar/picar/
+
+
+
+pi@raspberrypi:~/SunFounder_PiCar/picar $ git clone https://github.com/dctian/SunFounder_PCA9685.git
+
+Cloning into 'SunFounder_PCA9685'...
+
+remote: Enumerating objects: 7, done.
+
+remote: Counting objects: 100% (7/7), done.
+
+remote: Compressing objects: 100% (5/5), done.
+
+remote: Total 87 (delta 2), reused 6 (delta 2), pack-reused 80
+
+Unpacking objects: 100% (87/87), done. pi@raspberrypi:~ $Cloning into 'SunFounder_PiCar'...remote: Enumerating objects: 9, done.remote: Counting objects: 100% (9/9), done.remote: Compressing objects: 100% (9/9), done.remote: Total 276 (delta 0), reused 2 (delta 0), pack-reused 267Receiving objects: 100% (276/276), 53.33 KiB | 0 bytes/s, done.Resolving deltas: 100% (171/171), done.pi@raspberrypi:~ $pi@raspberrypi:~/SunFounder_PiCar/picar $Cloning into 'SunFounder_PCA9685'...remote: Enumerating objects: 7, done.remote: Counting objects: 100% (7/7), done.remote: Compressing objects: 100% (5/5), done.remote: Total 87 (delta 2), reused 6 (delta 2), pack-reused 80Unpacking objects: 100% (87/87), done. pi@raspberrypi:~/SunFounder_PiCar/picar $ cd ~/SunFounder_PiCar/
+
+pi@raspberrypi:~/SunFounder_PiCar $ sudo python setup.py install
+
+Adding SunFounder-PiCar 1.0.1 to easy-install.pth file
+
+Installing picar script to /usr/local/bin
+
+[omitted....]
+
+# and install depedent software
+
+pi@raspberrypi:~/SunFounder_PiCar/picar $ cd
+
+pi@raspberrypi:~ $ git clone https://github.com/dctian/SunFounder_PiCar-V.git
+
+Cloning into 'SunFounder_PiCar-V'...
+
+remote: Enumerating objects: 969, done.
+
+remote: Total 969 (delta 0), reused 0 (delta 0), pack-reused 969
+
+Receiving objects: 100% (969/969), 9.46 MiB | 849.00 KiB/s, done.
+
+Resolving deltas: 100% (432/432), done. # Download patched PiCar-V applications# and install depedent softwarepi@raspberrypi:~/SunFounder_PiCar/picar $pi@raspberrypi:~ $Cloning into 'SunFounder_PiCar-V'...remote: Enumerating objects: 969, done.remote: Total 969 (delta 0), reused 0 (delta 0), pack-reused 969Receiving objects: 100% (969/969), 9.46 MiB | 849.00 KiB/s, done.Resolving deltas: 100% (432/432), done. pi@raspberrypi:~ $ cd SunFounder_PiCar-V pi@raspberrypi:~/SunFounder_PiCar-V $ sudo ./install_dependencies
+
+Adding SunFounder-PiCar 1.0.1 to easy-install.pth file
+
+Installing picar script to /usr/local/bin Installed /usr/local/lib/python2.7/dist-packages/SunFounder_PiCar-1.0.1-py2.7.egg
+
+Processing dependencies for SunFounder-PiCar==1.0.1
+
+Finished processing dependencies for SunFounder-PiCar==1.0.1
+
+complete
+
+Copy MJPG-Streamer to an Alternate Location. complete
+
+Enalbe I2C. complete Installation result:
+
+django Success
+
+python-smbus Success
+
+python-opencv Success
+
+libjpeg8-dev Success
+
+The stuff you have change may need reboot to take effect.
+
+Do you want to reboot immediately? (yes/no)yes
+
+Answer Yes, when prompted to reboot. After reboot, all required hardware drivers should be installed. We will test them after the car assembly.
+
+PiCar Assembly
+
+The assembly process closely reassembles building a complex Lego set, and the whole process takes about 2 hours, a lot of hand-eye coordination and is loads of fun. (You may even involve your younger ones during the construction phase.) PiCar Kit comes with a printed step-by-step instructional manual. But I recommend these two additional resources.
+
+PDF version of the instructional manual. The print manual is small, and diagrams may not be printed very clearly, whereas the PDF version is crystal clear, can be searched and zoomed in for more details. I found it very helpful with the PDF on my laptop during the assembly phase.
+
+YouTube 4-part instructional videos published by SunFounder. Unfortunately, these videos are for an older version of PiCar, so some parts (like the servo motor assembly) are different. But most parts and assembling techniques are the same. So if you are scratching your head at a particular diagram in the assembly manual, you may want to take a look at the relevant parts of the videos. I wish SunFounder would publish a new set of videos for the new PiCar-V kit.
+
+Assembly Videos (4 Parts) for an Older Version of PiCar, a Useful reference
+
+When Rubber Meets the Road!
+
+Now that all the basic hardware and software for the PiCar is in place, let’s try to run it!
+
+Connect to PiCar via VNC from PC
+
+Make sure fresh batteries are in, toggle the switch to ON position and unplug the micro USB charging cable. Note that your VNC remote session should still be alive.
+
+In a Pi Terminal, run the following commands (in bold). You should:
+
+see the car going faster, and then slow down when you issue picar.back_wheel.test() see the front wheels steer left, center and right when you issue picar.front_wheel.test() . To stop these tests, press Ctrl-C. To exit the python program, press Ctrl-D.
+
+pi@raspberrypi:~/SunFounder_PiCar/picar $ python3
+
+Python 3.5.3 (default, Sep 27 2018, 17:25:39)
+
+[GCC 6.3.0 20170516] on linux
+
+Type "help", "copyright", "credits" or "license" for more information. >>> import picar
+
+>>> picar.setup() >>> picar.front_wheels.test()
+
+DEBUG "front_wheels.py": Set debug off
+
+DEBUG "front_wheels.py": Set wheel debug off
+
+DEBUG "Servo.py": Set debug off
+
+turn_left
+
+turn_straight
+
+turn_right >>> picar.back_wheels.test()
+
+DEBUG "back_wheels.py": Set debug off
+
+DEBUG "TB6612.py": Set debug off
+
+DEBUG "TB6612.py": Set debug off
+
+DEBUG "PCA9685.py": Set debug off
+
+Forward, speed = 0
+
+Forward, speed = 1
+
+Forward, speed = 2
+
+Forward, speed = 3
+
+Forward, speed = 4
+
+Forward, speed = 5
+
+Forward, speed = 6
+
+Forward, speed = 7
+
+Forward, speed = 8
+
+Forward, speed = 9
+
+Forward, speed = 10
+
+Forward, speed = 11
+
+If you run into errors or don’t see the wheels moving, then either something is wrong with your hardware connection or software set up. For the former, please double check your wires connections, make sure the batteries are fully charged. For the latter, please post a message in the comment section with detailed steps you followed and the error messages, and I will try to help.
+
+What’s Next
+
+Congratulations, you should now have a PiCar that can see (via Cheese), and run (via python 3 code)! It is not quite a Deep Learning car yet, but we are well on our way to that. Whenever you are ready, head on over to Part 3, where we will give PiCar the superpower of computer vision and deep learning.
+
+Here are the links to the whole guide:
+
+Part 1: Overview
+
+Part 2: Raspberry Pi Setup and PiCar Assembly (This article)
+
+Part 3: Make PiCar See and Think
+
+Part 4: Autonomous Lane Navigation via OpenCV
+
+Part 5: Autonomous Lane Navigation via Deep Learning
+
+Part 6: Traffic Sign and Pedestrian Detection and Handling

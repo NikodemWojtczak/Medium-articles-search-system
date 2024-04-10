@@ -1,0 +1,9 @@
+Although this looks very surprising at the beginning, let’s examine it closely. First, let’s look at fooling samples.
+
+The task of deep neural network based image classifiers is to learn to classify each input into 1 of K allowed classes. However, there’s a problem. What should the model do when we provide an input image that does not belong to any of the allowed classes? In the typical machine learning setting, the underlying assumption is that the training and test samples are drawn from the original data distribution P(x,y). However, this assumption is broken in the current scenario.
+
+Ideally, we would like the network to predict a uniform distribution over classes (when the output layer is a softmax layer), and a probability score close to 0 for each class (when the output layer consists of sigmoid activations). However, we need to stop here and ask ourselves - should I expect the network to behave this way, given my training objective?
+
+During the training phase, the only objective that the model is supposed to optimize is a empirical risk function determined by the prediction error for the training samples - which implies that there is no term in the objective function which forces the network to learn the desired behavior for out-of-distribution samples. Hence, it should not come as a surprise that it is easy to find samples in the input space of the model that lead to high confidence predictions for certain class labels, despite the fact that they do not actually belong to any of the classes - we simply did not train the model for such a task! The solution to the problem seems to be to introduce the notion of a “reject class”.
+
+Next, we will try to analyze the reason behind the existence of both fooling and adversarial samples through a few images.

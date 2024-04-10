@@ -1,0 +1,13 @@
+Visualizing Beta Distribution and Bayesian Updating
+
+Beta distribution is one of the more esoteric distributions compared to Bernoulli, Binomial and Geometric distributions. It is also rare in practice because it does not have a readily available real-world analogy that helps intuition. To make matters worse, online tutorials tend to intimidate readers with complex formula (beta & gamma functions) and weird sounding names (conjugate prior). So in this post, I’ll waive those technical details and supplement some badly needed intuition through visual animations and simulated experiments.
+
+Introduction
+
+Beta distribution is a probability distribution of probabilities. What does it mean? Everyone started learning probability by flipping a coin. So let’s start with a coin. First, define p as the probability of landing a head. If the coin is fair, then it is most likely that the coin will land head half of the time. In this case, p = 50% is the most likely value for p. But wait, it is also possible to have an unfair coin that behaves accidentally like a fair coin. So we cannot rule out the possibility that the coin is unfair, even if we observe heads half of the time.
+
+Notice how I am using probability to describe probability p. This is the essence of Beta distribution: it describes how likely p can take on each value between 0 and 1. Beta distribution is parametrized by Beta(𝛼, 𝛽). Together 𝛼 and 𝛽 describe the probability that p takes on a certain value. Here is the only formula you’ll need to get through this post.
+
+Prior
+
+Prior is what we believe before conducting an experiment. If you look at both sides of a coin and see that one side is head and the other side is tail, you may believe that the coin is a fair one. A fair coin has 𝛼 = 𝛽, and the magnitude describes how…

@@ -1,0 +1,19 @@
+Note: This was originally posted at martinheinz.dev
+
+In the previous post — Building RESTful APIs in Golang — we created RESTful API in Golang. Now, that we have our project ready to be used, we should show our users how to do so, otherwise — if they can’t test it and view its features — they won’t even touch it.
+
+Without meaningful documentation of our APIs as well as an ability to test its endpoints, users won’t even bother trying to use it. Solution to that is writing documentation. However, writing it may take lots of time, which could otherwise used to develop more cool features for our applications… So, what do we do? — we generate Swagger docs!
+
+Libraries
+
+Let’s start with libraries needed to create the Swagger docs. I said libraries, but really just need one — swag — which is Golang library that converts code annotations (comments) to Swagger Documentation 2.0. Aside from swag you will need a middleware/wrapper library for your web framework. In swag docs there are links to libraries for supported frameworks, which include both the simplest option of net/http which a lot of people like to use as well as GIN, which I use and which I will show here. Even though you might be using different web framework, the annotations are gonna be the same, so you can learn something here anyway.
+
+It’s also worth to mention, that there is alternative Golang Swagger library — go-swagger which seems to be more popular and also quite a bit more powerful. I, personally, however prefer to swaggo/swag because of its simplicity. If you need more control over what gets generated you might want switch to go-swagger .
+
+Docstrings
+
+Now, for the annotations/comments/docstring or whatever you want to call it. It’s really just bunch of comments before specific API function, which is used to generate the Swagger docs.
+
+Before we get to describing individual API endpoints, we need to first write general description for our whole project. This part of annotations lives in your main package, right before the main function:
+
+Note: All the examples below come from my repository here, where you can find runnable application with the Swagger UI/Docs included.

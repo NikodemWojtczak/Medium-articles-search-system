@@ -1,0 +1,25 @@
+Who Do I Think I Am
+
+My name’s Darrin, and I’ve been a Data Scientist at Outcome Health for close to 2 years now. We’re a health tech company focused on patient education at the point of care. In English, that means we put devices in doctor’s offices with content for patients. We have over 100,000 devices in the field — which means lots of data.
+
+Who This Article is For
+
+This article is for the many Junior/Associate Data Scientists out there. If you’re just beginning your journey, if you’re a bit confused and lost, if you’re not always certain what you’re supposed to be doing or how to best contribute to your new company, you’ve come to the right place.
+
+You. Me. Your C-suite, probably.
+
+Why I Wrote This Article
+
+I’ve seen many data science articles explaining the ins-and-outs of what doing more advanced data science work is like, the skills great data scientists need, the types of projects such masters tackle. But as I went through my Associate Data Scientist journey, I had a hell of a time navigating what to do to actually be useful as a more junior team member.
+
+This article is an attempt to alleviate that issue for other budding Associate Data Scientists.
+
+My main goal is to provide a basic blueprint, with examples, of how an Associate Data Scientist can quickly add significant value to an organization.
+
+I was lucky enough to figure things out along the way to the degree that I am now a Data Scientist — I’m hoping this will help some of you along the same path!
+
+Step 1: Finding Low-Risk, High-Reward Projects
+
+The Main Issue
+
+The first problem every Associate Data Scientist encounters is probably the same: How do you…

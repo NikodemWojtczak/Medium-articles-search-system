@@ -1,0 +1,9 @@
+Introduction
+
+What if we used machine learning to give an estimate for when the book was written?
+
+Picture yourself in your grandparents’ old attic, perusing the old, dusty bookshelf when an unfamiliar tome grabs your eye. It appears to be a novel. You don’t know when it was written, an answer that even seems to elude Google itself. You snap a picture of one of the pages and, using a text extractor, you obtain a digital representation of the text. What if we used machine learning to give an estimate for when the book was written?
+
+In this post, we’re going to discuss and implement some methods to try to date texts. Beyond the stated example, this type of model has applications in a range of fields, from detecting fake news, to fighting historical revisionism, to improving historically accurate fiction, to determining the authenticity of posthumous literary works.
+
+One of the most interpretable models for this task are decision trees, which can offer fascinating inferences about which types of words can be used to differentiate text dates.

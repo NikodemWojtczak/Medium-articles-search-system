@@ -1,0 +1,9 @@
+Photo by Ozgu Ozden on Unsplash
+
+For those who are familiar with pandas DataFrames, switching to PySpark can be quite confusing. The API is not the same, and when switching to a distributed nature, some things are being done quite differently because of the restrictions imposed by that nature.
+
+I recently stumbled upon Koalas from a very interesting Databricks presentation about Apache Spark 3.0, Delta Lake and Koalas, and thought that it would be nice to explore it.
+
+The Koalas project makes data scientists more productive when interacting with big data, by implementing the pandas DataFrame API on top of Apache Spark. pandas is the de facto standard (single-node) DataFrame implementation in Python, while Spark is the de facto standard for big data processing. With this package, you can: - Be immediately productive with Spark, with no learning curve, if you are already familiar with pandas. - Have a single codebase that works both with pandas (tests, smaller datasets) and with Spark (distributed datasets).
+
+source: https://koalas.readthedocs.io/en/latest/index.html

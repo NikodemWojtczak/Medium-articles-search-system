@@ -1,0 +1,25 @@
+Cryptography Crash Course for the Intimidated
+
+Rotor Cipher Machine via Pixabay
+
+In my last post, I talked about the importance of being mindful when you handle data. Who has access? How can you protect the information? How are some laws changing? What is and isn’t covered in academia vs. industry.
+
+For this post, I decided to give myself a quick crash course in cryptography. The concept of cryptography can sound really intimidating, and the security of data and the secure transfer of data is certainly something to take seriously. But we create data every day. I think it’s important for anyone these days to have a basic grasp on what cryptography is.
+
+Objectives
+
+Try to demystify cryptography to a certain extent.
+
+Explain some of the basic concepts that underlie cryptography.
+
+Explain a couple of examples in which cryptography is used in our everyday lives.
+
+Share resources!
+
+Basic Concepts
+
+To start understanding cryptography, I went for the basics. Here are some basic concepts that come up over and over again when you look up cryptography online. I have linked a YouTube video below, if you are more of a visual person.
+
+First, what is cryptography? Crytography is a field of study focused on communication and data storage that is protected from an unwanted third-party. For example, before cellphones, two kids might try to pass a physical note to each other in the middle of class. They don’t want anyone else (a third-party), such as a teacher to read the note. So they might want to figure out a way to write in a made up language or to scramble the message (encrypt the message) so that even if the teacher can “read” the message, they can’t understand it.
+
+There are different ways to encrypt (scramble) and decrypt (unscramble) information. They generally fall into two buckets:

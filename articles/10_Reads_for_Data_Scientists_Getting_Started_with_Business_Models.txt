@@ -1,0 +1,41 @@
+10 Reads for Data Scientists Getting Started with Business Models
+
+If you’re getting started with data science, you’re probably focusing your attention on mostly stats and coding. There’s nothing wrong with this, in fact, this is the right move — these are essential skills that you need to develop early on in your journey.
+
+With this being said, the biggest knowledge gap that I’ve encountered during my data science journey doesn’t deal with either of these areas. Instead, upon starting my first full-time role as a data scientist, I realized, to my surprise, that I didn’t really understand business.
+
+I suspect that this is a common theme. If you studied a technical field in college or picked things up using online courses, it’s unlikely that you ever had any reason to deep dive into business concepts like models, strategy, or important metrics. Adding on to this, I didn’t really come across data science interviews that stress-tested this type of understanding. Plenty of them tried to get a sense of product intuition, but I found that it rarely went beyond that.
+
+The fact is that business understanding isn’t taught or evangelized in the data science community to the extent that it’s used in practice. The goal of this post is to help bridge this gap by sharing some of the resources that I found most helpful as I got up to speed on how businesses work from the inside-out.
+
+This article from Andreessen Horowitz is a great place to start if you’re trying to get familiar with the slew of metrics and acronyms that get thrown around in a business, whether it’s a startup or not. On a more general note, their posts are consistently high-quality and are almost always worth your time. If you have a larger appetite, check out their follow-up post on 16 more metrics and the thread below for some additional tips on metrics.
+
+Some helpful tips on misleading metrics
+
+An overall solid resource, the articles at FourWeekMBA are worth exploring at some point. I particularly recommend this for an overview of all the different business models out there. It’s hard to come away from this without learning something new. For a more practical dive into business models, I also found this post going over how Slack makes money interesting.
+
+This one is a bit denser than the previous two, but it’s really excellent. The unmissable Ben Thompson from Stratechery goes over how markets work and why certain companies are dominating their industry. The takeaway from this post is that markets have three components, and the companies that can monopolize two of the three typically win out in a big way. Think Netflix.
+
+A lot of what we’ve seen so far has been conceptual, so let’s look at a specific model and analyze why it does and doesn’t work. Another one of my favorite business writers out there, Andrew Chen looks at the dating industry and why most investors don’t find it attractive. Other great essays from the venture capitalist commonly cover things like growth and metrics.
+
+More from Ben Thompson, here’s another great essay from him. This time on how large companies, particularly Facebook and Google, process data from its raw form to something uniquely valuable. Published in Fall 2018, this provides a good early look into the business side of all of the data privacy and regulation concerns we’re seeing now.
+
+If you’re not familiar with LTV (lifetime value), then you’ll probably have to get familiar with it at some point. There’s plenty of resources out there regarding the metric, but this is probably my favorite go-to on the subject. It clearly explains how to calculate LTV, and why you should think twice before you blindly buy into it without context.
+
+This short post focuses on the SaaS (software as a service) business model. The basic idea is outlined quite simply in the picture below, but I’d still recommend you take the time to read the full write-up. Christoph Janz really does an excellent job of taking a complex question and breaking it down. He also recently updated the chart in a new post.
+
+Co-founder and former CEO of StackOverflow, Joel Spolsky hammers home a crucial part-business, part-economics lesson here: Smart companies try to commoditize their products’ complements. Whether they succeed or not is a very different story, shown here with plenty of examples.
+
+We covered a few ways that companies can make money, but this resource takes the most simplistic (and still accurate) approach. It all started with Jim Barksdale at a trade show. As he was heading out the door to catch a flight, he left the audience with one last pearl of wisdom before departing, one that sums up the post quite nicely.
+
+“Gentlemen, there’s only two ways I know of to make money: bundling and unbundling.”
+
+Last but not least, if you want to take things a step further, I recommend case studies. You can find a ton of them out there from top universities like Stanford and Harvard for cheap or often no cost at all. Once you have a grasp on the fundamentals, this an excellent way to continue to supplement your learning. This is where I’m currently at — I’ve challenged myself to take on one case study every two weeks over the summer. Join me on the ride!
+
+Wrapping Up
+
+That does it for the list. I know all of the above links really helped me out and I hope you take the time to explore them. As you might have noticed, not all of them tie into the day-to-day life of a data scientist — that’s intentional.
+
+I said this in my last post, I’ll say it again — data scientists are thinkers. We do our best work when we understand the systems that surround us. This understanding is what sets us up for the cool stuff: exploratory analysis, machine learning, and data visualization. Lay the foundation first and reap the benefits later. That’s what it’s all about.
+
+The resources selected above were heavily influenced by SVP of Strategy at Squarespace, Andrew Bartholomew’s reading list.

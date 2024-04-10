@@ -1,0 +1,29 @@
+The area under the receiver operating characteristic (AUROC) is a performance metric that you can use to evaluate classification models. AUROC tells you whether your model is able to correctly rank examples:
+
+For a clinical risk prediction model, the AUROC tells you the probability that a randomly selected patient who experienced an event will have a higher predicted risk score than a randomly selected patient who did not experience an event (ref).
+
+For a binary handwritten digit classification model (“1” vs. “0”), the AUROC tells you the probability that a randomly selected “1” image will have a higher predicted probability of being a “1” than a randomly selected “0” image
+
+AUROC is thus a performance metric for “discrimination”: it tells you about the model’s ability to discriminate between cases (positive examples) and non-cases (negative examples.) An AUROC of 0.8 means that the model has good discriminatory ability: 80% of the time, the model will correctly assign a higher absolute risk to a randomly selected patient with an event than to a randomly selected patient without an event.
+
+How to interpret AUROC ( ref)
+
+Figure: ROC Curves (modified from this cartoon)
+
+The figure above shows some example ROC curves. The AUROC for a given curve is simply the area beneath it.
+
+The worst AUROC is 0.5, and the best AUROC is 1.0.
+
+An AUROC of 0.5 (area under the red dashed line in the figure above) corresponds to a coin flip, i.e. a useless model.
+
+An AUROC less than 0.7 is sub-optimal performance
+
+An AUROC of 0.70–0.80 is good performance
+
+An AUROC greater than 0.8 is excellent performance
+
+An AUROC of 1.0 (area under the purple line in the figure above) corresponds to a perfect classifier
+
+How to calculate AUROC
+
+The AUROC is calculated as the area under the ROC curve. A ROC curve shows the trade-off between true positive rate (TPR) and false positive rate (FPR) across different decision thresholds. For a review of TPRs, FPRs, and decision thresholds, see Measuring Performance: The Confusion Matrix.

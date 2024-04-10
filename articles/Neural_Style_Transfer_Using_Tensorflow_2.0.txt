@@ -1,0 +1,103 @@
+As a transition from stringing together premade Tensorflow code and algorithms, I began my journey to becoming a proficient Tensorflow coder by attempting my first implementation of an algorithm described in a paper.
+
+This project was my way of incorporating some deep learning into my school work. The original project was an image manipulation project in my computer science elective class. The constraints for the project involved creating a feature for an image manipulation application that would add value to the app and increase functionality.
+
+After learning about these requirements, neural style transfer came to mind, having had it introduced for me in the Deeplearning.ai DL specialization on coursera. Idea decided, I began researching on the mathematics of Neural Style Transfer(nst). Knowing that Tensorflow 2.0 would be in Eager Execution, I decided to program the algorithm in that to make it easy to scale the project up.
+
+My first step was to read the paper that introduced NST to the research community.
+
+Paper Summary
+
+The authors of the paper present an algorithm to create artwork through neural networks by transferring the style from one image onto the content of another.
+
+Humans in general are very good at recognizing the overall style of an image, and those skilled at art can even reproduce art pieces in the style of other, more famous works of art. The algorithm presented in the paper attempts to model this capability of humans to produce new pieces of art.
+
+Using the activations of intermediate layers in VGG19 pretrained weights to extract the information from the content and style images, the output image was optimized to minimize 3 types of loss:
+
+Content Loss
+
+This part of the loss function is responsible for controlling the amount of content image that ends up in the optimized output image. The main challenge in the content loss is figuring out a way to extract only the content features of an image, and not the style image. If the content loss simply checked the distance between the output and content images, both the content and style features would be translated onto the output image. This is a problem because we do not want the content image’s style but want the style of the style image.
+
+The solution to this is to use the feature maps of convolutional neural networks. Trained ConvNets learn to represent different parts of an image. The authors found that the initial layers of a ConvNet represent the rough, underlying pattern of the image, while the later layers represent more distinct features. As seen below, the intermediate layers of a ConvNet can capture the spatial information about an image without the style information, exactly what is needed here.
+
+This, a principal finding of the paper, means that ConvNets are able to separate the style and content features of an image, and that these features can be used to create complex combinations of images.
+
+L. Gatys et Al
+
+Defined as a simple L2 distance between the output and content feature maps, it forces the optimizer to incorporate the basic content of the content image.
+
+Style Loss
+
+The style loss is responsible for the incorporation of the style image in the final output. Although the human interpretation of style is often based on empirical and ambiguous features of an image, the paper proposes using a gram matrix to represent the style of an image.
+
+The gram matrix is made by computing the dot product of the flattened style features and themselves.
+
+The gram matrix is used because the style of an image is not dependant on the pixel values but the relationship between the pixel values; the gram matrix de-localizes all of the information about the style image, such as texture, shapes, and weights: exactly what style is.
+
+To simplify and understand what the gram matrix represents, let's take a simple case of the dot product of 2 vectors.
+
+The dot product can be also defined as the length of a on b’s axis times b’s length. This means that the smaller the angle between vectors a and b, the larger the dot product between them. Therefore, the dot product of 2 vectors captures how similar they are to each other.
+
+Now, let’s take 2 features in the flattened style features. The larger the dot product between them, the more correlated the features are with each other, and the smaller the dot product, the more different the features are. i.e, the lesser the product, the lesser the two features co-occur, and the greater the product, the more they occur together. Intuitively, this gives information about the image’s texture and style and discards all spatial information about the image.
+
+Once the gram matrix is computed, the same L2 distance is used to calculate the difference between the gram matrix of the output image and the gram matrix of the style image.
+
+Optimization
+
+These losses were optimized on a random noise image that was changed based on the gradients of the total loss.
+
+My Implementation
+
+I used the above details from the paper to implement my own algorithm of NST. I made some changes to the base algorithm for easier implementation in Tensorflow and to improve the output image quality.
+
+Total Variation Loss
+
+My first change I made when evaluating the algorithm I implemented was to decrease the “graininess” of the image. This was due to a decent amount of noise was present in the image, and there was often abrupt changes in color and hue along corners.
+
+While considering solutions to this problem, it came to my mind that the total variation be a good measure of the noise in the image, and that it could be implemented in tensorflow easily.
+
+As it turned out, total variation is a built in function in Tensorflow. The function totals the sum of the absolute differences for neighboring pixel values.
+
+Adam Optimizer
+
+Another change I made when implementing the algorithm was to use Adam Optimizer instead of L-BFGS. Lets first get into the differences between them.
+
+The L-BFGS algorithm is a true quasi-Newton method that estimates the curvature of the parameter space. This makes it superior over Adam if the parameter space has plenty of saddle points. The Adam optimizer is a first order method that attempts to compensate for the fact that it doesn’t estimate curvature. The downside of the L-BFGS algorithm is that it is computationally expensive, while Adam runs quickly.
+
+The principle reason on why I chose to use Adam was because of this computational difference. Another, nearly as prominent reason is that Tensorflow does not have a L-BFGS implementation, and only has a way to incorporate scipy’s optimizer. Unfortunately, I found scipy’s optimizer to be very slow, so decided to use Adam instead.
+
+Code
+
+I used Tensorflow 2.0 which has eager execution built in…
+
+Individual Losses
+
+<script src=”https://gist.github.com/tekotan/50f7786d4b52b107c1ad78ddd90ebcde.js"></script>
+
+Combining Losses
+
+I averaged the losses for each set of feature maps per image. This allowed me to change the number of conv layers used to get feature maps without changing the weights of the losses.
+
+<script src=”https://gist.github.com/tekotan/8ceafdaacd0998a5d5ca55ca21bcf1e8.js"></script>
+
+Computing the Gradient
+
+With the addition of Eager Execution, tensorflow has added a method to create the computational graph from which to compute the gradients from. To do this, you wrap all computations you want to do in a with tf.GradientTape() as tape structure, and then once outside the “with”, you compute the gradients.
+
+<script src=”https://gist.github.com/tekotan/e2b9f82093186dff6dfd058408a0256e.js"></script>
+
+Overall Optimization Function
+
+The entire optimization process starts by initializing the output image as the content image. This is the third and final change made from the original paper. I found that the model would converge much faster when the output image started as the content image. This is because the model doesn’t have to start from scratch from a randomly initialized image and only has to change the style of the content image.
+
+<script src=”https://gist.github.com/tekotan/790548c0282bc47989377924804de508.js"></script>
+
+Results
+
+After running the NST on many different images and styles, I found that style images with a uniform and clear style were easily transferred onto the content image, and content images with clear and defined edges and lines were easily transformed.
+
+As you can see, most of the styles were transferred cleanly and accurately. The recurring pattern for the less appealing images were that the style of the style image was not very defined.
+
+Additionally, for time purposes, all of the images were resized to 512x512 pixels. This is also why some of the styles were not translated perfectly due to the interpolation artifacts on the image.
+
+The best image that was produced was created without any resizing and any changes to the original images.

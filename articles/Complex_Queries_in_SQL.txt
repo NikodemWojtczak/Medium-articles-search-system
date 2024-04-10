@@ -1,0 +1,11 @@
+Hopefully your SQL queries aren’t tangled like this. (Photo:Author)
+
+Texts on SQL are good at providing the basic templates of SQL syntax, but sometimes the queries in those books are a little idealised compared to real life, with no more than two or three tables to join and a small number of fields to deal with. As a result, the queries themselves are usually no more than a dozen lines long.
+
+It often happens in the wild that you end up joining across many tables with long winded ‘WHERE’ clauses that are easy to lose track of. These are hard enough to use the first time you employ them, but can be impossible to debug and understand if you need to re-use them. What can be done to make long and complicated queries easier to write and easier to read?
+
+Firstly, though, ask yourself whether you need a long, complex query at all. Is it vital that your single query does all the work? If you still think it is, ask yourself at least two more times. In the excellent SQL Antipatterns, using a single query to solve a complex task or multiple tasks is identified as a key anti-pattern of queries, underlining its status as something to be wary of. One particular danger that this book identifies is that as the query becomes more difficult to follow, the risk of accidentally making a Cartesian join ( a join where the number of rows returned is the product of the number of rows in the tables involved in the join. By contrast, the maximum rows in an inner or outer join will be the number of rows in the largest table), taking a protracted period of time to return many unwanted rows grows enormously.
+
+Hence the crucial piece of advice is to check whether or not the large query could be performed with more than one smaller easier to understand queries.
+
+If you think that the complex query you are writing is completely unavoidable, there are a few ways to make it a less painful process.

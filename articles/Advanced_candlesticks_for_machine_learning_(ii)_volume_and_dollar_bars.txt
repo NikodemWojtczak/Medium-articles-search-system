@@ -1,0 +1,51 @@
+Advanced candlesticks for machine learning (ii): volume and dollar bars
+
+In this article we will learn how to build volume and dollar bars and we will explore what advantages they offer in respect to traditional time-based candlesticks and tick-bars. Finally, we will analyze two of their statistical properties — autocorrelation and normality of returns — in a large dataset of 16 cryptocurrency trading pairs Gerard Martínez · Follow Published in Towards Data Science · 9 min read · May 2, 2019 -- 4 Listen Share
+
+Introduction
+
+In a previous post we learned how to build tick bars and assessed their particular ability to self-regulate the sampling rate based on a higher or lower activity in the market. Similar to tick bars, volume and dollar bars also allow the synchronization of the sampling rate with the activity of the market, but each of them understands the concept of activity in a different way. In the case of tick bars, market activity is defined as number of trades taken place in the exchanged. Volume bars define activity as the number of assets traded in the exchange — for instance, number of Bitcoins exchanged. For dollar bars, activity is defined as fiat value exchanged — for instance, sample a bar every time 1000$ in assets are exchanged — which can be measured in dollars but also in Euro, Yens, etc.
+
+Therefore, each bar type understands and synchronizes to market activity in a different way and this differential understanding brings its advantages and disadvantages. Let’s dig into them.
+
+Advantages and disadvantages of tick, volume and dollar bars
+
+With the tick bars we found a way to scan the trade history of an exchange and sample more bars simply when more trades where executed in the exchange. While a strong correlation between number of trades placed and information arrival may exist, the correlation is not guaranteed. For instance, a well acquainted algorithm or trader may automatically place very small, repetitive orders to influence the sentiment of the market (by turning the trade history “green”), to hide the total amount of volume (also known as iceberg orders) or simply to disorient other trading bots by falsifying information arrival.
+
+A potential solution to this scenario is to use volume bars instead. Volume bars do not care about the sequence or number of trades, they just care about the total volume of these trades. For them, information arrival is increased volume traded between the exchange users. This way, volume bars are able to bypass misleading interpretations of the number of trades being executed at the cost of loosing any information that could lie hidden in the actual sequence of trades.
+
+Another interesting feature about volume bars, which may sound obvious but is important to notice, is that market volume information is intrinsically coded on the bar themselves: each volume bar is a bucket of a predefined volume. Again, this may sound obvious, but for long time, and still today, lots of researchers in the financial space are clue-less about how to include volume information in their predictive models. Volume bars yield volume information out-of-the-box.
+
+Now, the problem with the volume bars is that volume exchanged may be very correlated with the actual value of the asset being exchanged. For instance, with 10,000 dollars you could buy around 10 bitcoins in early 2017, but by the end of the 2017 you could only buy half a bitcoin with it. That massive fluctuation of the underlying value greatly undermines the power of volume bars because a volume size that is relevant at some point in time may not be relevant in a near future due to the revaluation of the asset. A way to correct for this fluctuation is by, instead of counting the number of assets exchanged (volume bars), counting the quantity of fiat value exchanged (dollar bars), which happens to be in dollars for the BTC-USD pair, but could also be in Euros for the ETH-EUR pair, etc.
+
+Building volume and dollar bars
+
+Now that we have seen the strengths and weaknesses of each bar type, let’s look at how can we actually build them.
+
+Here’s a fast Python implementation to build volume bars:
+
+Snippet 1. Volume bar implementation
+
+And here an implementation for dollar bars, which only includes few small modifications to the previous function — let’s see if you can spot them:
+
+Snippet 2. Dollar bar implementation
+
+Finally, here’s how they look compared to traditional time-based candlesticks:
+
+Figure 1. Trade, time-based, volume and dollar bars depiction. Asterisks are plotted every time a candle is sampled
+
+Volume and dollar-based candles are similar to the tick bars in the sense that, while is true that they look chaotic and overlapped when compared to the harmonic time-based ones, they do their job well at sampling whenever there is a change in market activity.
+
+Statistical analysis of volume bars
+
+Let’s now look at their statistical properties. We’ll be looking at serial correlation of returns by performing the Pearson auto-correlation test and the Durbin-Watson test. Finally, we will also look at the normality of results by performing the Jarque-Bera and the Shapiro-Wilk tests. Refer to the old article about tick bars to learn more about these statistical tests.
+
+In the case of volume bars, we will be showing results on 16 trading pairs and for 7 volume sizes each (labeled as tier1 to tier7). Unlike tick bars, the volumes sizes are cryptocurrency-specific since they depend on multiple factors such as total amount of coins in circulation, underlying asset value, etc. The way we selected the volume sizes for each cryptocurrency was by calculating the mean volume exchanged per day and then by dividing the daily mean volume by the same ratios as 5min, 15min, 30min, 1h, 4h, 12h correspond to 1d, and rounded to the nearest 10. Here are the automatically chosen volumes per cryptocurrency pair:
+
+Table 1. CryptoDatum.io volume bar sizes
+
+Figure 2. Pearson auto-correlation for volume bars
+
+Figure 3. Durban-Watson statistic for volume bars
+
+Results are in line with what we saw with tick bars. Volume bars show slightly less auto-correlation in comparison to time-based candlesticks (Figure 2 and 3) and the null hypothesis of normality is rejected in most cases in both normality tests (Figure 4) so we have certainty that returns do not follow a Gaussian distribution.

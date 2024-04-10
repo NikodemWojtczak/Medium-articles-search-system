@@ -1,0 +1,11 @@
+Working with Audio/Speech features
+
+Ludwig 0.2 makes it incredibly easy to work with audio data. Whilst with other libraries you need to have extensive knowledge about audio preprocessings and what models are best for working with audio data Ludwig allows you to work with audio data by only specifying the audio tag.
+
+Using this feature we can easily build an audio classification model. I used the Audio Cats and Dogs data-set which is freely available on Kaggle.
+
+For this data-set we first on need to create a csv file containing a column with the file paths and another column with the class of the audio file. This can be done using a simple Python script.
+
+After executing this script we are ready to create our model_definition.yaml file. As an input, we will have the audio feature which can be specified as shown above. As an output, we will either have a cat or dog so we can use a binary or category type.
+
+This can now be trained using Ludwig’s train command.

@@ -1,0 +1,67 @@
+As machine learning (ML) becomes more effective and widespread it is becoming more prevalent in systems with real-life impact, from loan recommendations to job application decisions. With the growing usage comes the risk of bias — biased training data could lead to biased ML algorithms, which in turn could perpetuate discrimination and bias in society.
+
+In a new paper from Google, researchers propose a novel technique to train machine learning algorithms fairly even with a biased dataset. At the heart of the technique is the idea that a biased dataset can be perceived as an unbiased dataset which has gone through manipulation by a biased agent. Using this framework, the biased dataset is re-weighted to fit the (theoretical) unbiased dataset, and only then fed into a machine learning algorithm as training data. The technique achieves state-of-the-art results in several common fairness tests, while presenting relatively low error rates.
+
+Background
+
+When attempting to assess bias in algorithms, researchers commonly look at four key metrics:
+
+Demographic parity — Classifier should make positive predictions on a protected population group at the same rate as the entire population. Disparate impact — Similar to demographic parity but without the classifier knowing which protected population groups exist and which data points relate to such protected groups. Equal opportunity - Classifier should have equal true positive rates on a protected population group as those of the entire population. Equalized odds - Classifier should have both equal true positive and false positive rates on a protected population group as those of the entire population.
+
+Each high-level metric is expressed as a non-negative number which describes how close the classifier is to full fairness, with a score of 0 representing no bias.
+
+In recent years researchers have proposed several approaches to reduce bias in algorithms. These can be divided into three key categories: Data pre-processing, data post-processing, and algorithm augmentation (Lagrangian Approach).
+
+Data Pre-processing
+
+In pre-processing, researchers attempt to reduce bias by manipulating the training data prior to training the algorithm. Pre-processing is conceptually simple and therefore potentially appealing but suffers from two key problems:
+
+Technical - Data can be biased in complex ways, making it difficult for an algorithm to translate it to a new dataset which is both accurate and unbiased.
+
+Legal - In some cases it’s not allowed to train the decision algorithm on non-raw data.
+
+Data Post-processing
+
+In post-processing, researchers attempt to reduce bias by manipulating the training data after training the algorithm. Like in pre-processing, a key challenge in post-processing is finding techniques that recognize the bias accurately, allowing them to reduce bias and maintain algorithm accuracy.
+
+Algorithm Augmentation (Lagrangian Approach)
+
+A recent approach is to incorporate fairness into the training algorithm itself, by penalizing the impact of biased samples. This is done through a mathematical technique called Lagrange multipliers, which receives fairness constraints (e.g. old people should be accepted at the same rate as young people) as input and uses them to influence the loss in the training algorithm. The Lagrangian approach is currently the most popular but is often challenging to implement and adds considerable complexity to the training process.
+
+The Bias Correction Framework
+
+As previously described, in the proposed framework we assume that the biased dataset (y_bias) is the result of a manipulation of a (theoretical) unbiased dataset y_true. This can be presented as:
+
+The first stage in the technique is to learn the values of λk, which represent the connection between the unbiased dataset y_true and the biased dataset y_bias. The learned λk values are used to calculate the weight wk of each training sample, with biased samples getting low weights and unbiased samples getting high weights. The ML algorithm then receives as input both the data points and the weights, and uses them both to train an unbiased classifier.
+
+On the left is y_true, the middle is y_bias, and the right (“Our loss”) represents the result of the unbiased classifier. The different hues of red represent the different label values, which change due to the biasing process. The model learns the weights in order to undo the work of the theoretical “biased labeler” (Image: Jiang & Nachum)
+
+As described in the paper, learning λk works as follows: “the idea is that if the positive prediction rate for a protected class G is lower than the overall positive prediction rate, then the corresponding coefficient should be increased; i.e., if we increase the weights of the positively labeled examples of G and decrease the weights of the negatively labeled examples of G, then this will encourage the classifier to increase its accuracy on the positively labeled examples in G, while the accuracy on the negatively labeled examples of G may fall.”
+
+In practice, our process contains two parts — a coefficient learning process, and the eventual training of a ML model based on the unbiased data. It’s important to note that while the constraint learning process uses a classifier to discover the λk bias coefficients, there is no requirement to use the same classifier when building the ML model.
+
+In practice, our process contains two parts — a coefficient learning process, and the eventual training of a ML model based on the unbiased data. It’s important to note that while the constraint learning process uses a classifier to discover the λk bias coefficients, there is no requirement to use the same classifier when building the ML model.
+
+The coefficient learning process consists of four distinct stages:
+
+Evaluate the demographic constraints, providing a constraint violation loss function. Update the λk coefficients according to the constraint violations, meaning attempt to minimize the loss function. Compute the weights wk for each training sample. Retrain the classifier with the updated weights.
+
+These stages are repeated until the constraints are no longer violated, meaning that the dataset no longer presents bias. At this point, the computed weights can be used for the model building phase, with each training sample receiving a different weight based on its expected bias.
+
+Results
+
+The proposed technique was tested using logistic regression in five common ML bias frameworks — Bank Marketing (response to a direct marketing campaign), Communities and Crime (crime rates in various communities), COMPAS (recidivism), German Statlog Credit Data (credit risk of individuals) and Adult (income prediction). The results were compared to leading pre-processing (“Unc.”), post-processing (“Cal.”) and Lagrange (“Lagr.”) approaches on the four common bias metrics — demographic parity (“Dem. Par.”), Disparate Impact (“Disp. Imp.”), Equal opportunity (“Eq. Opp.”) and Equalized Odds (“Eq. Odds”). In most cases the proposed technique (“Our …”) achieved top results while sacrificing little accuracy. No other technique was similarly accurate and unbiased.
+
+In each column, the “Err.” (left) represents the error of the unbiased classifier and the “Vio.” (right) is the numerical bias value. (Image: Jiang & Nachum)
+
+The researchers also tested the technique on MNIST by creating a label bias, randomly selecting 20% of the training data points and changing their label to 2. They then fed the data to the algorithm with a constraint of “each number should appear 10% of the time”, and compared the results to the pre-processing, post-processing, and Lagrangian methods. The result was again top scores for the proposed unbiasing technique (“Our Method”):
+
+Unconstrained = pre-processing method, Calibration = post-processing method (Image: Jiang & Nachum)
+
+Implementation Details
+
+The technique is a general framework for bias correction and is therefore independent of any software platform or implementation. Naturally, the addition of a weight discovery phase will lengthen any training process which uses it.
+
+Conclusion
+
+In their bias correction framework, Jiang and Nachum propose that behind a biased dataset you can assume a hidden unbiased dataset, and show that re-weighting the biased dataset accordingly can achieve top results among several bias reduction techniques. Bias reduction techniques are expected to become increasingly important as more ML algorithms touch our daily lives, and it appears that the Jiang and Nachum technique is now the new benchmark for such techniques.
