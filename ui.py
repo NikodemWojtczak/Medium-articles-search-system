@@ -14,7 +14,6 @@ Requirements:
   the creation of the FAISS vector database to ensure compatibility and accuracy in the search results.
 """
 
-
 import streamlit as st
 from tools.articles_indexer import ArticlesIndexer
 
