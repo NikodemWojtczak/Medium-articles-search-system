@@ -1,7 +1,0 @@
-How This Bootcamp in the US Could Reduce Their Quiz to ~5 mins
-
-Photo by NESA by Makers on Unsplash
-
-Recently I worked on a project for a US bootcamp from Denver that has been teaching people how to code for the past 5 years. As a part of the admission process, candidates are asked 8 questions out of a bank of 12 questions to test their logical thinking. The school wanted to know if and how, using some data science analysis, this quiz could be reduced in time.
-
-Now, it takes about 1 hour to complete, and ~50% of the people that sign up never start the quiz. Ideally, the school would be able to ask fewer questions, while keeping the ones that give good information on whether a candidate is good or not. Potentially, a shorter quiz could get more people to take it and eventually join the school if they pass, which would also make the company’s revenue to go up.

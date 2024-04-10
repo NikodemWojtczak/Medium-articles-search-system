@@ -1,7 +1,0 @@
-Review: SqueezeNet (Image Classification)
-
-In this story, SqueezeNet, by DeepScale, UC Berkeley and Stanford University, is reviewed. With equivalent accuracy, smaller CNN architectures offer at least three advantages
-
-Smaller Convolutional Neural Networks (CNNs) require less communication across servers during distributed training. Smaller CNNs require less bandwidth to export a new model from the cloud to an autonomous car. Smaller CNNs are more feasible to deploy on FPGAs and other hardware with limited memory.
-
-This is a technical report on arXiv in 2016 with over 1100 citations. (Sik-Ho Tsang @ Medium)

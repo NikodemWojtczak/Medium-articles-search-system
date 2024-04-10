@@ -1,9 +1,0 @@
-This article uses knowledge in the central limit theorem, and also the concept of the weak law of large numbers and Chebyshev’s inequality, you can review these topics by visiting the links. If you would like to follow along, you can get the code from this link: Jupyter Notebook.
-
-In my opinion, this topic is the most confusing theorem compare with others, even the article in Wikipedia mentions the misunderstanding about it, so I will try my best to explain it.
-
-Before diving in, keep in mind that the mean of the population (the thing we what to estimate) is a constant, there is no randomness about the number.
-
-The confidence interval is an estimator we use to estimate the value of population parameters. The interval will create a range that might contain the values. When we create the interval, we use a sample mean. Recall the central limit theorem, if we sample many times, the sample mean will be normally distributed.
-
-I create the sample mean distribution to demonstrate this estimator.

@@ -1,9 +1,0 @@
-How to Send Email with Attachments by using Python
-
-Photo by Web Hosting on Unsplash
-
-As a Data Analyst, most often than not I receive requests like “Can you send this report to me on a weekly basis?” or “Can you send this data to me through email every month?”. Sending report is easy but it will be irritating if you have to do the same thing every week. That’s why you should learn how to use python to send email/report and schedule the script on your server.
-
-In this article, I will show you how to extract data from Google BigQuery and send it as a report. You can jump to the Email part if you only want to know how to send the email using Python.
-
-Import Libraries

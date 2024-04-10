@@ -1,9 +1,0 @@
-A few things you should know before going into Tech
-
-Median Salary in Tech in the US (2018), based on Operating System used
-
-There are few industries out there which are as dynamic and booming with new trends like tech. Every year there are new frameworks, programming languages and technologies disrupting the industry in its very core. Tech is surely one of the most interesting and lucrative job scenes to work nowadays.
-
-While looking for a job in this field, a newcomer should definitely do some research on the actual trends and skills needed in the industry. Whether one is interested in the newest technologies or simply wants a well-paid job in tech, it is important to know what’s hot and what’s not.
-
-This article offers some interesting insights based on questionnaires conducted by Stackoverflow. Questionnaires date from 2013 and 2018 and contain around 20.000 (clean) observations. To ensure that results are comparable, the data sets focus on the US Market and on full-time job positions only. The questionnaire structure between the years has changed significantly, but after extensive data cleaning, interesting conclusions could still be made. We will go through them in the following passages.

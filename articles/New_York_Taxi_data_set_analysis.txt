@@ -1,9 +1,0 @@
-New York Taxi data set analysis
-
-Photo by Anders Jildén on Unsplash
-
-Recently I had the opportunity to play with the New York taxi public data set hosted by Google cloud’s Big Query platform. I decided to apply machine learning techniques on the data set to try and build some predictive models using Python. For this post, I’ll attempt to predict the taxi fare amount. Let’s jump right into it! All the code for this article can be found on Github at Link
-
-First, on inspecting the Google Big Query tables, we notice that there is one table per year. This gives me an idea. I could use the data from 2015 to train my machine learning models and then use the data from 2016 to test the model’s predictive power.
-
-Next, let’s query random 100K rows from 2015 and a random 100K rows from 2016 data using Google’s data lab platform.

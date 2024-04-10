@@ -1,5 +1,0 @@
-Why Should You Move to Plano, Texas?
-
-In a previous blog post I discussed the potential benefits of being able to predict the value of a house (the primary such benefit being the ability to amass considerable personal wealth).
-
-As someone who’s spent much of their adult life at the mercy of the London rental market, I’m not wont to give an endorsement to the business of property speculation. However, forecasting house prices is an interesting application for the data scientist, and it gives us a chance to explore forecasting techniques, their strengths, and their limitations.

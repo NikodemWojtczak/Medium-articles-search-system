@@ -1,99 +1,45 @@
-# import pandas as pd
-# from sentence_transformers import SentenceTransformer
-# import faiss
-# import numpy as np
-#
-# medium = pd.read_csv("medium.csv")
-#
-# # Assuming you have a list of articles where each article is a dict with 'title' and 'content'
-#
-# model = SentenceTransformer('all-MiniLM-L6-v2')
-#
-# def encode_text(text):
-#     return model.encode(text)
-#
-# # Generate embeddings for titles and contents
-# title_embeddings = np.array(medium['Title'].apply(encode_text).tolist())
-# content_embeddings = np.array(medium['Text'].apply(encode_text).tolist())
-#
-# # Augment title and content embeddings by averaging
-# augmented_embeddings = (title_embeddings + content_embeddings) / 2
-#
-# augmented_embeddings = content_embeddings
-#
-# # Indexing with FAISS
-# dimension = augmented_embeddings.shape[1]
-# index = faiss.IndexFlatL2(dimension)
-# index.add(augmented_embeddings)
-#
-# def search(query, k=5):
-#     query_embedding = model.encode(query)
-#     _, indices = index.search(np.array([query_embedding]), k)
-#     # Use .iloc to access rows by position
-#     return medium.iloc[indices[0]]
-#
-#
-# # Example search
-# query = "AI in healthcare"
-# results = search(query)
-# print(results)
-#
+"""
+This program looks for best fitted articles based on user provided query.
+Ir returns a specific numer of best matching results.
 
 
-# CSV
-#
-# from langchain_community.document_loaders import DirectoryLoader
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain_community.embeddings import OpenAIEmbeddings
-# from langchain_community.vectorstores import FAISS
-# from langchain_community.document_loaders import CSVLoader
-#
-# loader = CSVLoader(file_path='medium.csv', encoding='utf-8')
-# documents = loader.load()
-#
-# text_splitter = RecursiveCharacterTextSplitter(
-#     chunk_size=500, chunk_overlap=50, separators=["\n\n", "\n", " ", ""]
-# )
-#
-# split_documents = text_splitter.split_documents(documents=documents)
-# print(f"Split into {len(split_documents)} Documents...")
-#
-#
-#
-# from langchain_community.embeddings import HuggingFaceEmbeddings
-#
-# embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-#
-# db = FAISS.from_documents(split_documents, embeddings)
-# # Save the FAISS DB locally
-# db.save_local("faiss_index")
-#
-#
-#
+Requirements:
+- A pre-built FAISS vector database: This database should contain the embeddings of articles previously indexed using
+  the same embedding model specified in this script. The location of this database is defined by the VECTOR_DB_PATH constant.
+- The embedding model: The name of the embedding model used for generating article embeddings
+  is specified by the EMBEDDING_MODEL_NAME constant.It is crucial that this model matches the one used during
+  the creation of the FAISS vector database to ensure compatibility and accuracy in the search results.
+"""
 
+from tools.articles_indexer import ArticlesIndexer
 
-from langchain_community.document_loaders import DirectoryLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
+# Constants
+EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"  # Name of the model from Hugging face used for generating embeddings.
+VECTOR_DB_PATH = "faiss_index"  # Path to save the FAISS vector database.
 
-loader = DirectoryLoader('articles')
+# Load the vector database
+articles_indexer = ArticlesIndexer(EMBEDDING_MODEL_NAME)
+db = articles_indexer.load_vector_db(VECTOR_DB_PATH)
 
-documents = loader.load()
+# User input for query and number of responses
+query = input("Write here a query that you want to use to find articles: ")
+number = input("How many responses do you want to get? ")
+try:
+    num_responses = int(number)
+    if num_responses <= 0:
+        print("Please enter a positive integer.")
+        exit()
+except ValueError:
+    print("Please enter a valid integer.")
+    exit()
 
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500, chunk_overlap=50, separators=["\n\n", "\n", " ", ""]
-)
+# Search for best fitted articles
+docs = db.similarity_search(query, k=num_responses)
 
-split_documents = text_splitter.split_documents(documents=documents)
-print(f"Split into {len(split_documents)} Documents...")
-
-# Initialize embeddings model
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-# Create FAISS index from the split documents
-db = FAISS.from_documents(split_documents, embeddings)
-
-# Save the FAISS DB locally
-db.save_local("faiss_index_from_txt")
-
+# Display the results
+for doc in docs:
+    print("\n##---- Article path ---##\n")
+    print(doc.metadata['source'])  # Path to the article
+    print("\n##----   Content    ---##\n")
+    print(doc.page_content)  # Article content
+    print("\n-------------------------------------------------------------------------------------------------------\n")

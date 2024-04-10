@@ -1,7 +1,0 @@
-Photo by Anete Lūsiņa on Unsplash
-
-I want to share with you top tricks I use in R and RStudio to boost my productivity. They are a combination of public resources, such as StackOverflow, and my personal best practices. Life is short, stop wasting time by using these tricks. I hope you can benefit from it and share me with your tricks as well. I will continue to append new tricks in the post as I get more!
-
-1. Calculating vector weights
-
-In many cases, we need to distribute a number to a vector according to the weights of a reference vector, where the weight of each entry is calculated as its proportion to the sum of all entries. For example, you have a total sales forecast of 1,000 and the historical sales distribution across 3 channels, say, A, B, C, is (300, 100, 100). Then, the channel level sales forecast can be calculated as (3/5 * 1000, 1/5 * 1000, 1/5 * 1000) for A, B, C, respectively. One edge case is that there might not be any historical channel sales observations. In such a case, even distribution across all channels could be a common choice. If the sum is equal to 0, then all weights should be equal across all entries because they should be all equal to 0. If you constantly need to call such function, you can create a helper function to achieve this as below

@@ -1,9 +1,0 @@
-Kalman Filter(2) — Grid World Localisation
-
-In last post, we have applied basic Bayes rules and total probability to localise a moving car in a 1-dimension world. Let’s reinforce our understanding and apply them to a 2-dimension world.
-
-Problem Setting
-
-Consider a 2 dimensional world, the robot can move only left, right, up, or down. It cannot move diagonally. Also, for this assignment, the robot will never overshoot its destination square; it will either make the movement or it will remain stationary.
-
-And for each movement, it follows:
