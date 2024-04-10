@@ -1,9 +1,0 @@
-Sentiment Analysis: a practical benchmark
-
-With hands-on practical Python code, we demonstrate limitations of simple recurrent neural networks and show how embeddings improve fully connected neural networks and convolutional neural networks for the classification of sentiment.
-
-We show how to work with sequence data, by doing sentiment classification on a movie review dataset. Sentiments are basically feelings which include emotions, attitude and opinions written in natural language.
-
-IMDB movie reviews dataset
-
-We start by loading the IMDB dataset using Keras API. The reviews are already tokenized. We want to have a finite vocabulary to make sure that our word matrices are not arbitrarily small. We also want to have a finite length of reviews and not have to process really long sentences. Our training dataset has 25,000 customer reviews, together with their correct labels (either positive or negative).

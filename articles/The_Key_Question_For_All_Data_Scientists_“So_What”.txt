@@ -1,9 +1,0 @@
-Data scientists can be precious of their work. This isn’t a criticism — the characteristic is normally born of healthy passion. And good data scientists are an intellectually curious bunch (I’ve done plenty of analysis for its own sake in my time!)
-
-However, in a professional context analysis is rarely an end goal in and of itself. Even the world’s great analytical powerhouses — your Facebooks, Googles, and Amazons — crunch numbers to somehow improve an aspect of their business.
-
-In my previous life as a Consultant, my analysis was supposed to inform a business decision, or help form the basis of a client recommendation. Hence the catchphrase, “So What?” I soon learned to self-assess my work. The difference between two customer cohorts is statistically significant. So what? Can my client do anything useful with this information?
-
-Having spent five years in Management Consultancy, conflating things that are ‘interesting’ with things that are ‘important’ is a mistake that I’ve seen all too often. I’d gently suggest that less than half of all McKinsey consultants who’ve used the phrases ‘Advanced Analytics’ or ‘Machine Learning’ in front of their clients properly know what these things are, and fewer still would know how they’d actually help to solve the business problem at hand.
-
-Seeing The Wood For The Trees

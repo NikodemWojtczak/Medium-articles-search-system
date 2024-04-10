@@ -1,7 +1,0 @@
-Venn Diagrams and Word Clouds in Python
-
-Photo by Jakob Owens on Unsplash
-
-In my investigations of Seattle pets, I found myself wondering about pet names — What are the most popular pet names? Are cat names and dog names different, in the same way that cats and dogs are different (on average… we all have that friend with the cat that runs up to greet you when you come to the door, comes when called, and plays fetch. Or that dog that hides in the rafters when it’s family has a party…)? And pet breeds — Is every dog in Seattle a poodle mix? How common are these fancy cats that frequent my backyard (yet to be noticed by my pup, Beckham, who has never lived in a ground-floor place before)?
-
-And are there other disgruntled New York Giants’ fans who named their dog after Odell Beckham Jr. only to be seriously disappointed when he moved to the Cleveland Browns, one of the statistically worst teams in NFL history, where he promptly embarked on his worst year yet? I myself am a proud Seattleite and Seahawks fan, but I married a New Jerseyan Giants fan (who is generously editing this article and using his editorial control to express his disappointment in the Giants’ organization — a lackluster 3–11 so far — and Odell Beckham Jr.).

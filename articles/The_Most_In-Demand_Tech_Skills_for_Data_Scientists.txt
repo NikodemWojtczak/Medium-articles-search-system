@@ -1,9 +1,0 @@
-In my original 2018 article I looked at demand for general skills such as statistics and communication. I also looked at demand for technologies such as Python and R. Software technologies change much faster than demand for general skills, so I include only technologies in this updated analysis.
-
-I searched SimplyHired, Indeed, Monster, and LinkedIn to see which keywords appeared with “Data Scientist” in job listings in the United States. This time I decided to write the code to scrape the job listings instead of searching by hand. This endeavor proved fruitful for SimplyHired, Indeed, and Monster. I was able to use the Requests and Beautiful Soup Python libraries. You can see the Jupyter notebook with the code for the scraping and analysis at my GitHub repo.
-
-Scraping LinkedIn proved far more arduous. Authentication is required to see an exact count of job listings. I decided to use Selenium for headless browsing. In September 2019, a United States Supreme Court case was decided against LinkedIn, allowing LinkedIn’s data to be scraped. Nonetheless, I was unable to access my account after several scraping attempts. This issue might have stemmed from rate limiting. 😟 Update: I’m back in now, but concerned I’ll get locked out if I try to scrape it again.
-
-For what it’s worth, Microsoft owns LinkedIn, Randstad Holding owns Monster, and Recruit Holdings owns Indeed and SimplyHired.
-
-LinkedIn’s data might not have provided an apples-to-apples comparison from last year to this year, anyway. This summer I noticed that LinkedIn started having huge fluctuations from week to week for some tech job search terms. I hypothesize that they might have been experimenting with their search results algorithm by using natural language processing to gauge…

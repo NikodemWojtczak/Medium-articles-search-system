@@ -1,7 +1,0 @@
-Believe it or not, but a lack of coding skills is one of the most common self-excuses for not starting to work on data science and machine learning. This is why in the last few months and years a lot of companies created and open-sourced libraries and tools that allow no-coders to create their own machine learning projects.
-
-These tools include Microsoft Azure ML Studio, Weka, Uber’s Ludwig and many others.
-
-This article is a follow-up on my post “Introduction to Uber’s Ludwig”, where I explained what Uber’s Ludwig is and what it can be used for. In this article, I will try to explain how to use Uber’s Ludwig for different data including tabular data, image data, and text data.
-
-The main focus of the article will be to help you get a good understanding of how to approach different problems so that after this article you will be able to solve your problems using Uber’s Ludwig.

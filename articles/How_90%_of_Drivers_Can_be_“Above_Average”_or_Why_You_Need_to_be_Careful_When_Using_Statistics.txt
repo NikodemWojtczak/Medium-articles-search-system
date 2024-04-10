@@ -1,5 +1,0 @@
-How 90% of Drivers Can be “Above Average” or Why You Need to be Careful When Using Statistics
-
-Most people see the headline “90% of Drivers Consider Themselves Above Average” and think “wow, other people are terrible at evaluating themselves objectively.” What you should think is “that doesn’t sound so implausible if we’re using the mean for average in a heavily negative-skewed distribution.”
-
-Although a headline like this is often used to illustrate the illusion of superiority, (where people overestimate their competence) it also provides a useful lesson in clarifying your assertions when you talk statistics about data. In this particular case, we need to differentiate between the mean and median of a set of values. Depending on the question we ask, it is possible for 9/10 drivers to be above average. Here’s the data to prove it:

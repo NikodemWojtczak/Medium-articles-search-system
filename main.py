@@ -21,25 +21,29 @@ VECTOR_DB_PATH = "faiss_index"  # Path to save the FAISS vector database.
 articles_indexer = ArticlesIndexer(EMBEDDING_MODEL_NAME)
 db = articles_indexer.load_vector_db(VECTOR_DB_PATH)
 
-# User input for query and number of responses
-query = input("Write here a query that you want to use to find articles: ")
-number = input("How many responses do you want to get? ")
-try:
-    num_responses = int(number)
-    if num_responses <= 0:
-        print("Please enter a positive integer.")
+while(True):
+    # User input for query and number of responses
+    print("Type q to exit")
+    query = input("Write here a query that you want to use to find articles: ")
+    if query == "q":
+        break
+    number = input("How many responses do you want to get? ")
+    try:
+        num_responses = int(number)
+        if num_responses <= 0:
+            print("Please enter a positive integer.")
+            exit()
+    except ValueError:
+        print("Please enter a valid integer.")
         exit()
-except ValueError:
-    print("Please enter a valid integer.")
-    exit()
 
-# Search for best fitted articles
-docs = db.similarity_search(query, k=num_responses)
+    # Search for best fitted articles
+    docs = db.similarity_search(query, k=num_responses)
 
-# Display the results
-for doc in docs:
-    print("\n##---- Article path ---##\n")
-    print(doc.metadata['source'])  # Path to the article
-    print("\n##----   Content    ---##\n")
-    print(doc.page_content)  # Article content
-    print("\n-------------------------------------------------------------------------------------------------------\n")
+    # Display the results
+    for doc in docs:
+        print("\n##---- Article path ---##\n")
+        print(doc.metadata['source'])  # Path to the article
+        print("\n##----   Content    ---##\n")
+        print(doc.page_content)  # Article content
+        print("\n-------------------------------------------------------------------------------------------------------\n")

@@ -1,9 +1,0 @@
-In the world of Machine Learning, unsupervised learning is the process of drawing inference without labeled outcomes. Principal Component Analysis (PCA) and Clustering are two common unsupervised learning techniques.
-
-PCA is the process of reducing high dimensions into a few layers of key features. After dimension reduction, we only have to deal with a small number of features and leave others out.
-
-Clustering is the task of assigning data inputs with similar features to a specific group. After clustering, data points within the same group should be similar but dramatically different from the one in other groups.
-
-In this post, I’ll apply PCA and Hierarchical Clustering to a life science dataset to analyze how specific genes affect the leukemia type.
-
-The dataset was originally collected by Yeoh et al. (2002) with 3141 genes, a class of 7 leukemia subtypes from 327 patients (here).

@@ -1,9 +1,0 @@
-Introduction to Matrix Profiles
-
-In time series analysis, one is typically interested in two things; anomalies and trends. For example, a physician examines an EKG (electrocardiogram — heartbeat reading) for anomalous events that indicate at-risk patients. An individual working within retail needs to understand what items sell and when they sell (seasonality) to increase profits. One method to find anomalies and trends within a time series is to perform a similarity join. Essentially, you compare snippets of the time series against itself by computing the distance between each pair of snippets. While it takes minimal effort to implement a naive algorithm using nested loops, it may take months or years to receive an answer for a moderately sized time series using this approach. Taking advantage of the Matrix Profile algorithms drastically reduces the computation time.
-
-The Matrix Profile is a relatively new, introduced in 2016, data structure for time series analysis developed by Eamonn Keogh at the University of California Riverside and Abdullah Mueen at the University of New Mexico. Some of the advantages of using the Matrix Profile is that it is domain agnostic, fast, provides an exact solution (approximate when desired) and only requires a single parameter.
-
-The primary goal of this article is to familiarize you with some of these benefits so you can take advantage of them. Since the Matrix Profile is primarily visual, we exploit this in the article by steering away from math notation when possible and focus on visualization. If you would like an academic description, please read the research publications found on Dr. Keogh’s web page.
-
-This introductory article will cover the following:

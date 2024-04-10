@@ -1,9 +1,0 @@
-The lack of seasonal variations lull many into thinking that Singapore’s weather is predictable and unchanging. Nothing is further from the truth, with climate change making the city state’s weather even more unpredictable.
-
-We are beginning to feel the impact of warmer days and more intense storms. At the ground-level, it feels as if Singapore is getting much warmer at an earlier hour.
-
-On many days, the 8am sun that greets me upon stepping out feels more like something I would expect in the late morning. The mid-afternoon blaze has never felt more intense.
-
-In this project, I’ll attempt to illustrate Singapore’s changing weather patterns using classic as well as new visualisation libraries like Plotly Express.
-
-The repo for the project is here. The charts in this Medium post can be found in this notebook, while the data can be found here and here (raw version).
