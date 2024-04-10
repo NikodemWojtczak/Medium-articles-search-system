@@ -1,4 +1,4 @@
-# Medium Articles Search System
+# Medium articles search system
 
 ## Modules
 To run this program, the following packages need to be installed:
