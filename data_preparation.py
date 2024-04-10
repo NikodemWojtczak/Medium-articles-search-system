@@ -1,10 +1,10 @@
 """
-This program preprocess data to be used in articles search system.
+This program preprocesses data to be used in articles search system.
 It extracts articles from medium.csv file then chunks articles and creates FAISS vector database of embedded chunks.
 
 Note:
-    If you want to change any constants please do it in ui.py and main.py file to make system work properly
-    This script is takes about 20-30 minutes to run.
+    If you want to change any constants please do it in ui.py and main.py file to make the system work properly
+    This script takes about 20-25 minutes to run.
 """
 
 from tools.articles_indexer import ArticlesIndexer

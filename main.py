@@ -1,13 +1,13 @@
 """
-This program looks for best fitted articles based on user provided query.
-Ir returns a specific numer of best matching results.
+This program looks for the best fitted articles based on user provided query.
+Ir returns a specific number of the best matching results.
 
 
 Requirements:
 - A pre-built FAISS vector database: This database should contain the embeddings of articles previously indexed using
   the same embedding model specified in this script. The location of this database is defined by the VECTOR_DB_PATH constant.
 - The embedding model: The name of the embedding model used for generating article embeddings
-  is specified by the EMBEDDING_MODEL_NAME constant.It is crucial that this model matches the one used during
+  is specified by the EMBEDDING_MODEL_NAME constant. It is crucial that this model matches the one used during
   the creation of the FAISS vector database to ensure compatibility and accuracy in the search results.
 """
 

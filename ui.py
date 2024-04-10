@@ -1,6 +1,6 @@
 """
-This program is a UI implementation of article search system
-To run this program make sure you have installed "streamlit" package and type in the terminal with the project folder:
+This program is a UI implementation of an article search system
+To run this program make sure you have installed the "streamlit" package and type in the terminal with the project folder:
 
 python3 -m streamlit run ui.py
 or just
