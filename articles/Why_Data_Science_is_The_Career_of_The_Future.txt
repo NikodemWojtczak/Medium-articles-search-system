@@ -1,0 +1,53 @@
+The role of data scientist is now a buzzworthy career. It has staying power in the marketplace and provides opportunities for people who study data science to make valuable contributions to their companies and societies at large.
+
+Here are six things that should make you realize data science is the career of the future.
+
+1. Companies Struggle to Manage Their Data
+
+Businesses have opportunities to collect data from customers regarding transactions, website interactions and more. But, according to the 2018 Data Security Confidence Index from Gemalto, 65 percent of the businesses polled said they couldn’t analyze or categorize all the data they had stored. Plus, 89 percent knew that if they could analyze information properly, they’d have a competitive edge.
+
+As a data scientist, you can help companies make progress with the data they gather, making it pay off for them both quickly and over time.
+
+2. New Data Privacy Regulations Increase the Need for Data Scientists
+
+In May 2018, the General Data Protection Regulation (GDPR) took effect for countries in the European Union. In 2020, California will enact a similar regulation for data privacy. The GDPR increased the reliance companies have on data scientists due to the need for real-time analytics and storing data responsibly.
+
+One aspect of the GDPR allows customers to request that companies delete some kinds of data, necessitating that companies understand where and how they store such information.
+
+In today’s society, people are understandably more wary about giving up data to businesses than people from past generations. People know data breaches happen, and that they have severe consequences.
+
+Companies can no longer afford to treat their data irresponsibly. And, the GDPR and California’s data privacy rules are likely only the beginning. Data scientists can help businesses use data in a beneficial way that aligns with those privacy stipulations.
+
+3. Data Science Is Still Evolving
+
+Careers without growth potential stay stagnant, usually indicating that jobs within those respective fields must drastically change to remain relevant. Data science appears to have abundant opportunities to evolve over the next decade or so. Since it shows no signs of slowing down, that’s good news for people wanting to enter the field.
+
+One minor change likely to emerge soon is that data science job titles will get more specific. A person working as a data scientist at one company is not necessarily doing the same thing as an individual in that same role at another enterprise.
+
+As job titles — and data science careers — get more specific, people studying for data science careers can start to specialize and do the work that’s most meaningful to them.
+
+A 2017 reader poll by KDnuggets found most respondents believed the demand for data science is several years away from reaching a peak, and the average timeframe for that event was eight to nine years.
+
+4. Data Scientists Have In-Demand Skills
+
+Research shows 94 percent of data science graduates have gotten jobs in the field since 2011. One of the indicators that data science careers are well-suited for the future is the dramatic increase in data science job posts. Statistics from Indeed.com show a steady increase in the number of data science jobs listed over the years.
+
+More specifically, there has been a 256 percent increase in them since 2013, which suggests companies recognize the worth of data scientists and want to add them to their teams.
+
+5. A Staggering Amount of Data Growth
+
+People generate data daily, but most probably don’t even think about it. According to a study about current and future data growth, 5 billion consumers interact with data daily, and that number will increase to 6 billion by 2025, representing three-quarters of the world’s population.
+
+Additionally, the amount of data in the world in 2018 totaled 33 zettabytes, but projections show a rise to 133 zettabytes by 2025. Data production is on the rise, and data scientists will be at the forefront of helping enterprises use it effectively.
+
+6. High Likelihood of Career Advancement Opportunities
+
+LinkedIn recently picked data scientist as its most promising career of 2019. One of the reasons it got the top spot was that the average salary for people in the role is $130,000. LinkedIn’s study also looked at the likelihood that people could get promotions as data scientists and gave a career advancement score of nine out of 10.
+
+Employees must show initiative to seize the chances to excel in data science roles, of course, but LinkedIn’s conclusions suggest companies intend to keep data scientists on their teams for the long run. If businesses didn’t view data scientists as applicable to their future competitiveness and prosperity, they likely wouldn’t offer promotions.
+
+Not a Fad Job
+
+This list demonstrates the compelling reasons why the data scientist role relates to today’s business needs and those of the future.
+
+If you’re getting ready to work in the field or currently in the workforce, evidence indicates you should feel confident in what the future holds.

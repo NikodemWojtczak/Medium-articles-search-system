@@ -1,0 +1,29 @@
+Member-only story Data Visualization — Which graphs should I use? (Seaborn Examples)
+
+Working with datasets on a daily basis has made it easier for me to read and understand table statistics. However, while numeric statistics might give you the essence of your data, a graph or visualization can uncover a whole new dimension of underlying information within your dataset.
+
+When it comes to presenting your data, especially to clients, it’s always good to use visualization tools that can help bring out the scope and purpose of your work. You wouldn’t want just to show data files or code, rather a neat set of graphs to make your story seem more plausible and lucid.
+
+However, creating a scatter plot for any set of data doesn’t mean you’re good to go. When visualizing data, it is important to understand 3 things.
+
+What are the different types of plots you can use?
+
+How many should you use and how would you explain them?
+
+Can you tell a story using just these plots? What do they tell you?
+
+Below, you will find the visualization types, different kinds of plots, when to use them and when not to. I tried to include examples wherever I could, but if you have any questions unanswered here, feel free to post in the comments.
+
+Additionally, if you want to perfect the art of Data Visualization, you need to have a deep understanding of the different visualization types and plots. I’ll add some resources at the end of this read for those interested.
+
+Visualization Types
+
+Temporal Visualization
+
+Typically done for one-dimensional data, showing some sort of linear relationship between data points. Such datasets usually involve time as an independent variable and thus, time-series data is visualized in this way.
+
+Plot-types: Scatter-plots, Gantt charts, Timelines, Time-Series Line plots.
+
+Network Visualization
+
+As the name suggests, Network Visualization is about connecting multiple datasets with each other and showing how they relate with one another in a network where each variable is…

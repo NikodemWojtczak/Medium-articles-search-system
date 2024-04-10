@@ -1,0 +1,259 @@
+Belief Propagation in Bayesian Networks
+
+In this article, I’ll be using Belief Propagation (BP) with some example data. I presume that you already know about Bayesian Networks (BN). This post explains how to calculate beliefs of different variables in a BN which help reason.
+
+Photo by Clint Adair on Unsplash
+
+Belief Propagation
+
+I created a repository with the code for BP on GitHub which I’ll be using to explain the algorithm.
+
+To start right off, imagine we have a poly-tree which is a graph without loops. For instance, a graph depicted in the following illustration. We have 4 variables “Rain”, “Sprinkler”, “Holmes” and “Watson” with directed edges “Rain” to “Holmes”, “Rain” to “Watson” and “Sprinkler” to “Holmes”. The Bayesian Network models the story of Holmes and Watson being neighbors. One morning Holmes goes outside his house and recognizes that the grass is wet. Either it rained or he forgot to turn off the sprinkler. So he goes to his neighbor Watson to see whether his grass is wet, too. As he sees that it is indeed wet he is quite sure that he didn’t forget the sprinkler but that it rained. So the information flowed from Watson to the sprinkler. This flow of information is modeled with BP in BNs.
+
+In BP, we let the variables talk with each other to exchange their beliefs about each other. There are 2 kinds of messages: message from parents to children and messages from children to parents. In total, we only have to use 5 formulas to do BP. In my explanations, I will use different names for certain formulas and variables as I found some sources quite misleading.
+
+1. Likelihood
+
+Likelihood holds information about observations of children, e.g. the likelihood for Holmes’ grass without observing is 1 for wet and 1 for not wet. If wet grass is observed, the likelihood changes to 1 for wet and 0 for not wet. These unit vectors are not normalized.
+
+Likelihood function is a product of all incoming messages from a variables children
+
+The likelihood function is basically a product of all the incoming messages sent by a variable’s children. It returns a likelihood vector containing the likelihood values for each possible value of a variable. In case of “rain” it has a cardinality of two, for the two states “yes” and “no”.
+
+If a variable does not have children as it is a leaf node in a graph and is not observed, its likelihood vector will be a unit vector, all ones for all its possible values, e.g. as we haven’t observed Holmes’ grass in the beginning we set its likelihood vector to [1, 1] for “not wet” and “wet”, respectively.
+
+In Python (numpy) code it looks like that.
+
+def likelihood(self):
+
+incoming_children_messages = np.array([
+
+c.message_to_parent(self) for c in self.children
+
+])
+
+return incoming_children_messages.prod(axis=0)
+
+2. Priors
+
+Priors are the probabilities of certain events which are already known in the beginning, e.g. it rains with a probability of 20%. If the priors are unknown, the following formula is calculating it. It’s a bit more complicated but I’ll try. The prior is giving you the unconditional probability of the respective variable. Hence, we need to include the conditional one as well.
+
+Prior probability function is the sum of all possible combinations of parent values times the product of the respective incoming messages
+
+The conditional probabilities are also given in our example. In the formula, “P(X|W)” corresponds to that. Moreover, we need to use the incoming messages from all parents, which is the “ϕ” in the formula. The index is showing the message direction — from parent “K” to current variable “X”. These two parts (conditional probability and message from parents) are used as they both give information about the variables probability. On the one hand, we see the probability given some parents’ values, on the other hand we see the messages of those parents. Without observation, those messages correspond to the parents priors. Hence, here, are calculating the marginals of “X” and get rid of the conditional variables.
+
+For each parent’s message there exists a corresponding part in the conditional probability. Hence, we can perform the dot product for each message with the conditional probabilities table, which is self.m in this snippet.
+
+def priors(self):
+
+parents_messages = [
+
+p.message_to_child(self) for p in self.parents
+
+]
+
+return reduce(np.dot, [self.m.transpose()]+parents_messages)
+
+3. Belief
+
+The belief is the posterior probability after we observed certain events. It is basically the normalized product of likelihood and priors.
+
+Belief is the normalized product of the likelihood and prior
+
+We take the probabilities we knew beforehand and introduce new knowledge received from the children. This way, we generate a new belief about our variable. If a variable has both, parents and children, the belief is the updated probability (posterior) incorporating information from below and above. So each incoming message is taken into account. The “α” is a normalizing constant, as the product of likelihood and prior can be in sum greater than 1. This is a shorthand form for a division with the sum of all possible states of the variables.
+
+In this Python snippet the normalizing part gets clearer.
+
+def belief(self):
+
+unnormalized = self.likelihood() * self.priors()
+
+normalized = unnormalized/unnormalized.sum()
+
+return normalized
+
+4. Message to parents
+
+In order to calculate the likelihood of a variable, we need to consider all incoming messages from a variable’s children, which are represented by the lambda in the likelihood function.
+
+This formula is pretty messed up, but better to understand when looking at some Python code. In general we are marginalizing out K from P(X|U) whereas X is the sender (children), K is the receiver (parent) and U is all parents of X including K. If we imagine a conditional probability table for X, for each entry we take the corresponding activations of the parents and multiply the respective incoming messages ϕ without K itself. Then, we multiply that value with X’s likelihood. In the end we sum over all values with the same value for K and are left with a vector being the message from X to K.
+
+So a message to a parent takes into account all incoming messages, no matter if they were sent by children or parents (except for the parent receiving the message), and considers the probabilities given certain parents’ values. Hence, a variable setting with high probability forwards incoming messages easier than low probabilities. An incoming message is rated by the conditional probability of that message’s setting.
+
+I hope that the Python code clarifies it a bit further.
+
+def message_to_parent(self, parent):
+
+likelihood = self.likelihood()
+
+parents_priors = np.array([
+
+p.message_to_child(self)
+
+for p in self.parents if p != parent
+
+])
+
+parent_i = self.parents.index(parent)
+
+
+
+stack = np.vstack([
+
+np.dot(
+
+self.m.take(r, axis=parent_i).transpose(),
+
+parents_priors.prod(axis=0)
+
+)
+
+for r in range(parent.cardinality)
+
+])
+
+return np.dot(stack, likelihood)
+
+or given the Holmes example:
+
+message = np.zeros(rain.cardinality)
+
+for r in rain:
+
+for s in sprinkler:
+
+for h in holmes:
+
+message[r] = probas[r, s, h] \
+
+* sprinkler_message[s] \
+
+* likelihood[h]
+
+5. Message to children
+
+To calculate the message by parents sent to their children two ways exist. Either all messages received from the other children multiplied with the current node’s prior are multiplied together or the current node’s belief is getting divided by the corresponding child’s message to the parent.
+
+We consider this formula to be called Kappa with the index telling us the direction of the message (from X to K).
+
+If we look at the formula for the belief, we see that this formula is the product of the likelihood and the prior. The likelihood, however, is the product of all incoming messages. Hence, the belief divided by the incoming message from K results in the product of all incoming messages — except for the one we divided by — and the prior. That way, we can explain the equality between the two ways calculating Kappa. The intuition behind the message to the children is similar to the message to a parent. You take into account all incoming messages (so consider all information you can get) and send the aggregation to the next node.
+
+The alpha is again a normalizing constant. If a parent node has only one child, it cannot gather messages from other children as there are none. Hence, it will only return its prior.
+
+def message_to_child(self, child):
+
+children_messages = []
+
+for c in self.children:
+
+if c != child:
+
+children_messages.append(c.message_to_parent(self))
+
+if len(children_messages) > 0:
+
+unnormalized = (children_messages * self.get_priors())
+
+unnormalized = unnormalized.prod(axis=0)
+
+message = unnormalized/unnormalized.sum()
+
+return message
+
+return self.get_priors()
+
+Example
+
+Using my repository which I mentioned in the beginning, we can now use the Holmes example and calculate the beliefs of different situations.
+
+In order to use the library, we need to import it together with the NumPy library.
+
+import numpy as np
+
+from node import Node
+
+We imported the Node class of the repository which represents a single node in a BN. In the next step, we actually create nodes which represent the single probability variables: “Holmes’ grass is wet”, “Rained”, “Forgot sprinkler” and “Watson’s grass is wet”. When creating a node, you have to provide a name. Afterwards you need to set some properties like the cardinality and priors or likelihood if exists.
+
+rain = Node("rain")
+
+rain.cardinality = 2
+
+rain.priors = np.array([0.8, 0.2]) # no=0 yes=1
+
+
+
+sprinkler = Node("sprinkler")
+
+sprinkler.cardinality = 2
+
+sprinkler.priors = np.array([0.9, 0.1]) # no=0 yes=1
+
+For nodes without children, this is straight forward. For other nodes, which do have parents and no priors already available, we need to define a conditional probability table (CPT) which defines the probability of the variable given all possible inputs from the parents. This CPT is called “m” in the code.
+
+m = np.zeros((2, 2, 2)) # rain, sprinkler, holmes' grass
+
+m[1, 1, 1] = 1
+
+m[0, 1, 1] = 0.9 # <-- here
+
+m[0, 1, 0] = 0.1
+
+m[1, 0, 1] = 1
+
+m[0, 0, 0] = 1
+
+holmes = Node("holmes")
+
+holmes.cardinality = 2
+
+holmes.m = m
+
+holmes.likelihood = np.array([1, 1])
+
+
+
+m = np.zeros((2, 2)) # rain, watson's grass
+
+m[1, 1] = 1
+
+m[0, 1] = 0.2
+
+m[0, 0] = 0.8
+
+watson = Node("watson")
+
+watson.cardinality = 2
+
+watson.m = m
+
+watson.likelihood = np.array([1, 1])
+
+As you can see, “m” takes the values of the parents in the first dimensions of the matrix and the value of the actual variable in the last, e.g. (“here” in code comment) the probability of the grass being wet (1) if it didn’t rain (0) and the sprinkler was forgotten (1) is 0.9. The likelihood of the grass being wet is 1, 1 which means that both states have the same likelihood.
+
+Next, we have to connect the nodes to define the causalities. The Node class has a method called “add_parent” which can connect a variable to a parent variable.
+
+holmes.add_parent(rain)
+
+holmes.add_parent(sprinkler)
+
+watson.add_parent(rain)
+
+In the next steps, we are pretending Holmes’ grass is wet (hence, likelihood [0,1]). Then, we want to know whether Watson’s grass is also wet (or how likely it is to be wet).
+
+holmes.likelihood = np.array([0, 1])
+
+holmes.message_to_parent(rain)
+
+holmes.message_to_parent(sprinkler)
+
+watson.get_belief() # array([0.21176471, 0.78823529])
+
+We see that the belief of Watson’s grass being wet is indeed tending towards being wet (0.21 vs 0.79). Hence, the BN expects Watson’s grass to be wet as there is the connection over the rain node through which the belief was propagated.
+
+Conclusion
+
+The toolset of BNs can be really helpful in reasoning cases as the following. I am really excited about the whole research field of causal inference and think that a lot of progress will be made also regarding deep learning and general artificial intelligence.
+
+References
+
+Example taken from here.

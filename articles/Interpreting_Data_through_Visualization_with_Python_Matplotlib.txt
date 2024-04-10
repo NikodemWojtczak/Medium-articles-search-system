@@ -1,0 +1,5 @@
+Interpreting Data through Visualization with Python Matplotlib
+
+Matplotlib even though is aging, still remains as one of the most vital tools for data visualization, and this post is about using matplotlib effectively, to gain knowledge from a data-set. The IBM data science professional certificate program, which I have started taking around a month back, I found the data-visualization course as a part of 9 courses and this post is a run-through of some powerful techniques that I learnt in the course to elucidate data better. Some useful plotting techniques and new inferences from data are shown here that are not used in the course itself. You will find the codes in detail on my GitHub, where I have shared Jupyter notebook. Rather than the codes, I will focus more on the plots and at times share snippets of code.
+
+The data-set deals with immigration to Canada from various countries over the years 1980 to 2013.

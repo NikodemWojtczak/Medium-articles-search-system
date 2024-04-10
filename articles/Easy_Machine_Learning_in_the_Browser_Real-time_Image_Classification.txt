@@ -1,0 +1,27 @@
+Photo by Kasya Shahovskaya on Unsplash
+
+Training a Realtime Image Recognition Model in the Browser with Tensorflow.js KNN module and Angular
+
+Deploying a machine learning application into a production environment used to be a daunting process as it required handling complex operations in many different environments. With the introduction of Tensorflow.js, it is super easy to develop, train and deploy machine learning applications in the web browser using javascript.
+
+To demonstrate this, I will create a simplified version of Teachable Machine demo application using Angular. This demo app teaches your computer to recognize images using your webcam, real-time in the web browser.
+
+To achieve this, I will use the KNN module provided by Tensorflow.js. This module creates a classifier using the K-Nearest Neighbors algorithm. Instead of providing a model with weights, it creates a KNN model using activations from another model.
+
+For this, the mobilenet image classification model is a very good choice as it is lightweight and ready to use in Tensorflow. This process in machine learning is called transfer learning as we are using representations of another machine learning model.
+
+Photo by Andrii Podilnyk on Unsplash
+
+Before diving into the details, let’s first better understand what will be the steps followed in the app;
+
+Step1:
+
+The user should provide and label the 3 sets of input images for the training. The webcam and the buttons which are available on the browser are to be used for this purpose.
+
+Step2:
+
+Once all input images are provided with the labels, the activation tensors will be predicted by dumping the input images into the mobilenet model. Those activation tensors will be then used as input to the KNN classifier to create a data-set with labels assigned to each activation tensor provided. The training process will be completed with this step.
+
+Step3:
+
+For the prediction, images captured from the webcam are to be fed real-time into the mobilenet model to get the activation…

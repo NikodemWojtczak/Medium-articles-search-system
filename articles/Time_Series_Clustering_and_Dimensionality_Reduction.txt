@@ -1,0 +1,17 @@
+Time Series must be handled with care by data scientists. This kind of data contains intrinsic information about temporal dependency. it’s our work to extract these golden resources, where it is possible and useful, in order to help our model to perform the best.
+
+With Time Series I see confusion when we face a problem of dimensionality reduction or clustering. We are used to think about these tasks in more classical domains, while they remain a tabù when we deal with Time Series.
+
+In this post, I try to clarify these topics developing an interesting solution where I work with multidimensional Series coming from different individuals. Our purpose is to cluster them in an unsupervised way making use of deep learning, being wary of correlations, and pointing a useful technique that every data scientist must know!
+
+THE DATASET
+
+I got the data from UCI Machine Learning repository; I selected the Public Dataset of Accelerometer Data for Human Motion Primitives Detection. These data are a public collection of labeled accelerometer data recordings to be used for the creation and validation of acceleration models of human motion primitives.
+
+Different types of activities are tracked, i.e. drinking, eating, climbing and so on. For a particular activity of a specific individual measured, we have 3 different sensor series at disposal: X-axis (pointing toward the hand), Y-axis (pointing toward the left), Z-axis (perpendicular to the plane of the hand).
+
+I figure myself in this situation because it allows to carry out our initial problems of clustering (multiple individuals) and dimensionality reduction (multiple series for every individual) all in one single case.
+
+Below I plot 2 examples of data at our disposal coming from a male and female individuals. In total, we have 20 individuals with the same measurement length.
+
+DIMENSIONALITY REDUCTION

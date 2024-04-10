@@ -1,0 +1,13 @@
+I won’t say that backpropagation is a very simple algorithm. If you don’t know calculus, linear algebra, matrix multiplication, it could be very daunting. Even if you know some or all of it, it really needs a bit of mental exercise to get ahold of it.
+
+By saying that, I don't mean to discourage you and have you avoid learning it (yes, you can avoid it and still continue your deep learning journey). It is a bit complex, but I won’t say it is super tough, rather it is very intuitive and easy to get hold of. You will be amazed to know, how easy it is as compared to the kind of problem it solves. It is literally the backbone of the deep neural networks. The concepts required are super easy to learn and Khan Academy is a great source for the purpose. I have listed the URLs for the required mathematical concepts, which you can review before reading the post.
+
+1. Chain Rule
+
+2.Gradient Descent
+
+3.Matrices
+
+Enough of backdrop on backpropagation algorithm, let’s get going now. When I first started learning the backpropagation algorithm, I found the representation of nodes and the weights very confusing rather than the algorithm itself. So, I would try to make it as simple as possible. Let’s start with a very simple neural network.
+
+Simple Neural Network

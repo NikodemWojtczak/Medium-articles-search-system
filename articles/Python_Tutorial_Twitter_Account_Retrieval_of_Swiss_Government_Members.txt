@@ -1,0 +1,23 @@
+Python Tutorial: Twitter Account Retrieval of Swiss Government Members
+
+Click on the link above the Title for a list of all tutorial articles. This is the first article.
+
+The tutorial will show you how to extract a list of tweeting Swiss Government Members via the Twitter API. The extracted data will be put into a Panda Dataframe and then visualized via the powerful Plotly package.
+
+The result will look as follows:
+
+Where to get the data from?
+
+The twitter account SoMePolis maintains a list of Swiss government members, who have a Twitter account.
+
+The goal of the program is to fetch all list members (government members who are tweeting) and extract some key figures (followers and friends)
+
+Create a Twitter Developer Account and App
+
+After the confirmation, you then create your first App in your developer account.
+
+Having done that, Twitter will generate API keys and tokens which you will use in your program to communicate with the Twitter API.
+
+It’s time to write the program.
+
+We will create a class TwitterClient which offers two methods…

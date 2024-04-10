@@ -1,0 +1,11 @@
+The 3 Best Optimization Methods in Neural Networks
+
+Photo by rawpixel on Unsplash
+
+Deep learning is an iterative process. With so many parameters to tune or methods to try, it is important to be able to train models fast, in order to quickly complete the iterative cycle. This is key to increasing the speed and efficiency of a machine learning team.
+
+Hence the importance of optimization algorithms such as stochastic gradient descent, min-batch gradient descent, gradient descent with momentum and the Adam optimizer.
+
+These methods make it possible for our neural network to learn. However, some methods perform better than others in terms of speed.
+
+Here, you will learn about the best alternatives to stochastic gradient descent and we will implement each method to see how fast a neural network can learn using each method.

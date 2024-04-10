@@ -1,0 +1,23 @@
+NLP is short for Natural Language Processing. As you probably know, computers are not as great at understanding words as they are numbers. This is all changing though as advances in NLP are happening everyday. The fact that devices like Apple’s Siri and Amazon’s Alexa can (usually) comprehend when we ask the weather, for directions, or to play a certain genre of music are all examples of NLP. The spam filter in your email and the spellcheck you’ve used since you learned to type in elementary school are some other basic examples of when your computer is understanding language.
+
+As a data scientist, we may use NLP for sentiment analysis (classifying words to have positive or negative connotation) or to make predictions in classification models, among other things. Typically, whether we’re given the data or have to scrape it, the text will be in its natural human format of sentences, paragraphs, tweets, etc. From there, before we can dig into analyzing, we will have to do some cleaning to break the text down into a format the computer can easily understand.
+
+For this example, we’re examining a dataset of Amazon products/reviews which can be found and downloaded for free on data.world. I’ll be using Python in Jupyter notebook.
+
+Here are the imports used:
+
+(You may need to run nltk.download() in a cell if you’ve never previously used it.)
+
+Read in csv file, create DataFrame & check shape. We are starting out with 10,000 rows and 17 columns. Each row is a different product on Amazon.
+
+I conducted some basic data cleaning that I won’t go into detail about now, but you can read my post about EDA here if you want some tips.
+
+In order to make the dataset more manageable for this example, I first dropped columns with too many nulls and then dropped any remaining rows with null values. I changed the number_of_reviews column type from object to integer and then created a new DataFrame using only the rows with no more than 1 review. My new shape is 3,705 rows and 10 columns and I renamed it reviews_df .
+
+NOTE: If we were actually going to use this dataset for analysis or modeling or anything besides a text preprocessing demo, I would not recommend eliminating such a large percent of the rows.
+
+The following workflow is what I was taught to use and like using, but the steps are just general suggestions to get you started. Usually I have to modify and/or expand depending on the text format.
+
+Remove HTML Tokenization + Remove punctuation Remove stop words Lemmatization or Stemming
+
+While cleaning this data I ran into a problem I had not encountered before, and learned a cool new trick from geeksforgeeks.org to split a string from one column into multiple columns either on spaces or specified characters.

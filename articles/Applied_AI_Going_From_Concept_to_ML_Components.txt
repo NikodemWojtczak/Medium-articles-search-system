@@ -1,0 +1,53 @@
+Opening your mind to different ways of applying machine learning to the real world. By Abraham Kang with special thanks to Kunal Patel and Jae Duk Seo for being a sounding board and providing input for this article.
+
+Photo by Franck V. on Unsplash
+
+Executive Summary
+
+Candidate Problem
+
+Many people are interested in automating redundant processes within the organization using AI. Let’s start with a concrete problem, what I noticed is that lawyers typically gather facts from clients when something bad happens. These facts form the basis of causes of action (negligence, battery, assault, intentional infliction of emotional distress) that an individual can sue on. Once the causes of action have been determined based on legal justification and the facts, a complaint is written up and submitted to the court for commencement of the legal action. The complaint is a legal document which sets out the facts giving rise to a legal basis for taking action against another party. Manually creating this document can be time consuming and similar facts result in similar causes of action. For example, if someone hits another person there is usually a “battery”. If someone accidentally hurts someone else or someone slips and falls within a store there could be an action for negligence. Based in this problem we have a customer who would like to use AI to learn how to write a complaint from a fact paragraph describing what happened.
+
+Understanding the Problem
+
+Trying to get AI/ML to read facts and figure out a way for AI/ML to write a whole complaint might be biting off more than the model can chew and may be an effort that would take years to solve. However, if you take the time to understand and think about the underlying problem, you can find existing techniques (with some slight modifications) that could be used to solve different pieces of the puzzle. For example, when you look at a complaint it starts with a description of the parties and their positions (plaintiff vs defendant) as well as counsel representing them. There may be a class action section, a justification of jurisdiction (does court have power over parties), description of the parties, a justification of venue (are we in the proper court location), a listing of the causes of action, and description of the facts. When you look at the sections you have to think about where the data that is going to build the individual sections is going to come from. In certain cases you will not have an answer but if you look carefully you will see patterns and correlations between different sections of the complaint. This will allow you to think about what your inputs to the neural network will be and the candidate outputs.
+
+Getting Inputs for the Neural Network
+
+We don’t have any data per se but there may be a way to parse the facts out of all existing complaints and use them as the input for our neural network. Every complaint that is submitted to the court becomes public information so there will be plenty of data. This solution will require attorneys to write their facts as if they were inserting them directly into the complaint, but this is a minor inconvenience to be able to have machine learning provide generated complaints. Generating a complete complaint may be difficult. So let’s break the problem down.
+
+Breaking the Problem Down
+
+Logically how would you break the generation of a document down into smaller pieces? Well you need to look at one so here is an example: https://www.heise.de/downloads/18/1/8/9/1/3/4/6/NP-v-Standard-Innovation-Complaint.pdf. To make it interesting I picked a maker of adult toys so it might peak your curiosity. Basically, we want to eventually generate a complaint (above pdf) from the facts provided by a lawyer. So if you look at the document and at other complaints you will find similar patterns as to structure.
+
+So what do you think would be the best way to break things down… don’t scroll down until you have had time to think about it.
+
+….Really think about it…..
+
+Well if you said to break things down by section using templating, then this would be the route that would probably be best.
+
+When you break down a complaint there are causes of action listed in the complaint. Each cause of action (violation of Federal Wiretap Act, Illinois Eavesdropping Statute, Intrusion upon Seclusion, Unjust Enrichment, Fraud and Deceptive Business Practice Act, etc.) has supporting rules and justification based on the facts. So now there are two problems. How do you come up with the causes of action from the facts text and how do you generate the supporting text under each cause of action?
+
+Finding the Causes of Action
+
+When we look at the facts of the case we need to find all of the causes of action (laws that were broken) that we could sue on. There are no direct solutions for finding causes of action from text so we will have to think more fundamentally.
+
+What existing techniques do you think we can use to look at text and infer meaning or a description of the text. If you said multi-label text classification or multi-label sentiment analysis, then you are ahead of the game (https://paperswithcode.com/task/text-classification, https://paperswithcode.com/task/sentiment-analysis). Analyzing text to determine its associated causes of action is a similar process to classifying text or finding the sentiment of related text. There are associated problems like the fact that causes of action will need to be updated as laws are introduced. There may be an alternate way to create an embedding for the facts and then tie the causes of action to the facts based on triplet (https://arxiv.org/pdf/1503.03832.pdf) or quadruplet loss (https://arxiv.org/pdf/1704.01719.pdf) to push causes of action sharing similar words together in the embedding space and unrelated causes of action further apart. Then use a clustering technique to find causes of action close to determinative word embeddings used in the supporting argument associated with the words in the individual cause of action sections of the complaint.
+
+Generating the Text in the Supporting Arguments Section of Individual Causes of Action
+
+Now that you have figured out how to get the high level causes of action from the text, how can you generate the supporting argument text for each of the individual cause of action sections (violation of Federal Wiretap Act, Illinois Eavesdropping Statute, Intrusion upon Seclusion, Unjust Enrichment, Fraud and Deceptive Business Practice Act, etc.)?
+
+This one is not so straight forward. Think about a what neural network architectures which generate text (Don’t scroll down until you have some ideas)….
+
+….Open your mind….Use the Force….
+
+Text generation algorithms (https://paperswithcode.com/task/data-to-text-generation, https://paperswithcode.com/area/nlp/text-generation) might be an option but even the best ones create gibberish often. The better alternative might be to use an architecture like neural networks involved in translation (https://paperswithcode.com/task/machine-translation, https://paperswithcode.com/task/unsupervised-machine-translation, https://paperswithcode.com/paper/unsupervised-clinical-language-translation). In addition, it might be a good idea to have a separate “translation” neural network for each cause of action to help each neural network focus on identifying the key facts used in generating a supporting argument for each cause of action.
+
+Clean Up
+
+It is probably going to be a good idea to run the candidate text for the supporting argument text for each cause of action through a grammar checker/fixer (https://paperswithcode.com/task/grammatical-error-correction). This way any blatant mess ups are fixed.
+
+Conclusion
+
+I hope you learned how to apply the machine learning solutions more broadly. Let me know if you get stuck as I would definitely be interested in hearing about problems that people are trying to solve with machine learning.

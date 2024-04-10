@@ -1,0 +1,51 @@
+Data science can be a messy endeavor, with the constant influx of raw data from countless sources pumping through ever-evolving pipelines attempting to satisfy shifting expectations. To harness all of this chaotic potential, businesses strive to create data science factories that streamline the process while reducing inefficiencies; however, data isn’t going to wait for companies to catch up. Producing a highly-functional data science factory while processing torrents of data is like trying to build an airplane while trying to fly it.
+
+The key to building an effective data science factory is implementing intelligent automation and scoring pipelines into each step of the process to produce analytic products like APIs, scored files, and data enrichment for business partners and customers. Each component must produce sound results for the operation to be scalable and to generate reliable insights. Let’s take a look at the contributing components and how to maximize each one.
+
+The three types of pipelines
+
+Data pipelines: Data has a long and harrowing journey from the point of origin to its final resting place in a beautiful graphic, or eventually a data warehouse. Data pipeline software moves data from one point to another and often involves a transformation in the process. An efficient data pipeline reduces manual steps and relies on automation for each step: extraction, cleaning, transformation, combinations, validation, and loading for further analysis. Transporting data increases the risk of corruption and potential latency, and the more effort applied to mitigate risks on a small scale, the higher the quality of the output when the process expands.
+
+Machine learning scoring pipelines: Clean, prepared data is ready to be fed into machine learning scoring algorithms, where scores are generated that inform business decisions. Effective ML scoring pipelines rely heavily on the quality of their models.
+
+Feedback and response pipelines: The prescribed decisions produced by the ML pipelines must be logged and returned for further learning via feedback and response pipelines. This process can either take place in real-time — such as website product recommendations — or could require latent responses for products with longer acquisition life cycles such as mortgage applications or life insurance quotes.
+
+Three speeds of data pipelines
+
+Data pipelines can process at three unique speeds, with each option offering distinct advantages and limitations.
+
+Batch: Batch processing is an effective way of handling high volumes of data. Transactions collected over a period of time are processed as a batch. This method is commonly used for modeling predictive analytics, as the large volume of data ensures more accurate results and stronger insights.
+
+Real-time: Many digital operations require immediate action, so contemporary data scientists often rely on real-time data processing. This method requires constant input, processing, and output. Streaming created the phenomenon of fast data, and many businesses provide critical real-time services such as fraud detection, speech recognition, and recommendations.
+
+Event-driven: In an effort to conserve resources and limit redundancy, some pipelines apply event-driven processing. An event could be a smart machine indicating a specific temperature, a period of time, or a point-of-sale notification related to inventory. Event-driven pipelines are optimized to produce real-time results, but only under specific, predetermined circumstances.
+
+Critical elements of highly scalable pipelines
+
+1. Underlying infrastructure
+
+Infrastructure refers to the technology stack required to produce machine learning algorithms. Successful operations require air-tight solutions and solid infrastructure. Unruly pipeline-systems can lead to unrecoverable technical debt, which is consistently an issue in ML development or entangled “pipeline jungles” that make it impossible to reproduce results and workflows.
+
+2. Automated quality control
+
+AI is revolutionizing quality control across industries, but it is equally crucial that the technology can monitor the quality of its own output. Implementing both in-line and over-time automated quality control solutions ensures more reliable outcomes and reduces the amount of time spent manually reviewing damaged data.
+
+3. Automate drift and anomaly detection
+
+Concept drift is a common phenomenon in machine learning and can lead to inaccurate outcomes; however, changes in the target variable can be automatically flagged, triggering a retraining to protect the integrity of the model. Additionally, when data points fall outside of predicted patterns, automated anomaly detection can trigger appropriate action or further investigation.
+
+4. Integrate modern data catalogs for data governance and self-documenting pipelines
+
+Data is increasingly recognized as invaluable to companies, causing the management, storage, and governance of that data to become a top priority. Pipelines capable of self-documenting increase the functionality and value for future projects, and integrating modern data catalogs improves the relevance of any algorithm’s predictions.
+
+5. Implement robust logging and diagnostic capabilities
+
+As the old English proverb states: A stitch in time saves nine. Once data is in motion, it becomes challenging to debug. It is essential to build logging and diagnostic capabilities during the development and deployment stages to avoid surgical data-repair later in the process.
+
+Establishing expectations
+
+In 1790 Samuel Slater built America’s first factory to produce processed cotton. Freshly-picked cotton went in; processed cotton came out. Nearly 230 years later, with data being the world’s most valuable resource, the concept of “factory” has evolved. The days of a single, static input are history, and the new normal is figuring out how to transform the 2.5 quintillion bytes of data produced each day into actionable insights. Building an efficient data science factory requires a constant work-in-progress, even at the highest levels of the enterprise. While it’s impossible to communicate the countless dynamic variables involved, integrating these basic components is a step in the right direction.
+
+For more components of a highly-functioning data science factory, read about feature stores.
+
+This post was originally published on Quickpath’s blog.

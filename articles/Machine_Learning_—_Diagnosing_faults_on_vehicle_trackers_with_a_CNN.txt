@@ -1,0 +1,119 @@
+Problem description
+
+First of all, to perform any machine learning solution, data is needed. For this case study, a Brazilian logistics company provided some data sent by many trackers, so all the data used is real.
+
+The modules installed in the vehicles send data during their entire period of operation. The company provided 12586 registries. The company provided 12586 registries. A registry is composed of all the data transmitted by one module in one day period. On average, each module sends 1116.67 points per day. Each point has eight attributes:
+
+Battery Voltage : Float value for voltage of the vehicle battery;
+
+: Float value for voltage of the vehicle battery; Longitude : Float value for the vehicle longitude;
+
+: Float value for the vehicle longitude; Latitude : Float value for the vehicle latitude;
+
+: Float value for the vehicle latitude; Ignition : Boolean value indicating whether the ignition is
+
+switched on;
+
+: Boolean value indicating whether the ignition is switched on; Odometer : Float value for the vehicle odometer;
+
+: Float value for the vehicle odometer; GPS Signal : Boolean value indicating whether the GPS signal
+
+is valid;
+
+: Boolean value indicating whether the GPS signal is valid; Velocity : Float value for the vehicle speed;
+
+: Float value for the vehicle speed; Memory index: Integer value for the memory position that the
+
+point is saved in the module.
+
+Since the modules send data regularly and on different frequencies according to each module, each registry has a different size. This way, the size of each registry is the number of points sent multiplied by 8 (quantity of attributes).
+
+The aim is identifying the faults that a registry can have or if it is working correctly. This way, this is a multi-class classification problem, where there are eight classes; one class for the registries without faults, and seven possible faults, listed below:
+
+Fault 1 : Wrong pulse set up;
+
+: Wrong pulse set up; Fault 2 : Odometer locked;
+
+: Odometer locked; Fault 3 : GPS locked;
+
+: GPS locked; Fault 4 : Ignition wire released;
+
+: Ignition wire released; Fault 5 : Accelerometer defective;
+
+: Accelerometer defective; Fault 6 : Module buffer with a problem;
+
+: Module buffer with a problem; Fault 7: GPS with jumps in location;
+
+Some of these faults have several occurrences too low. The flaws that had less than 3% were all labeled as “Others”. The quantity of data of each failure can be seen on the table below.
+
+Development
+
+I aim to detect and isolate the faults; however, while just detecting faults is a binary problem, detection and isolation is a multi-class problem. It might be much easier to detect the faults. Look by the company side, almost always, when a module present faults, they need to replace it. So it does not matter much what is the fault, anyway we need to replace the module.
+
+We propose to models here, one to detect faults and another to detect and isolate the faults.
+
+Data pre-processing
+
+As we aim to make minor changes in the dataset, without using any specific knowledge about the system operation, the data pre-processing is reasonably straightforward.
+
+We choose to keep all the data, not performing any outlier analysis. Mostly outlier is a strong indication that there is a fault, if we throw all the outliers away, a lot of faulty registries would be gone. This way, the only thing we do is a normalization, using the RobustScaler. A traditional normalization can cause the data to be suppressed by some high value, so RobustScaler is used. This scaler uses the first and third quartiles as constraints and not the maximum and minimum values, so this normalization is more robust and maintains the outliers.
+
+Considering the registries have variable length, it was not possible to directly construct the ML models with this data set. In this way, it was necessary to set a default size for all retries. Knowing that the highest number of points present in a registry is 6410, the mean of the number of points is 1116.67, and the standard deviation is 1155.75, the registries with a smaller amount of data were completed with “0'’ until they have the same amount of data as the largest registry.
+
+Different approaches to set the default size of a registry could be performed, such as truncating the amount of data from above-average registries, and completing with “0'’ those that are below average, or truncating the amount of data from all registries with more data than the smaller registry. However, these approaches were tested and considered unfeasible due to the divergence of the CNN’s.
+
+CNN architecture
+
+I made a model based on VGG-16.
+
+Using 4 convolutional blocks. Each like Conv->Conv->Pooling. Then two fully connected layers.
+
+The idea on the convolutions is to make the filters choose and modify the attributes. To do that, we disposed of each registry with (8, 6410, 1) shape. This way, the CNN threats the data like an image. To check more deeply the architecture, check my GitHub (the link is on the introduction and at the conclusion).
+
+The used batch size was 1, learning rate 0.0001 and he_uniform initializer. The batch_size can be higher. However, due to hardware restrainments, three was higher for me.
+
+Model Training
+
+Two models were trained, one for fault detection and another to fault detection and isolation. Thus, two structures of the same dataset were defined. These structures are described as follows:
+
+Structure 1 : was used in the experiments to detect if the system had faults or not. It contains 12586 records, of which 7480 are flawed, and 5106 are flawless;
+
+: was used in the experiments to detect if the system had faults or not. It contains 12586 records, of which 7480 are flawed, and 5106 are flawless; Structure 2: was used in the experiments to detect and isolate faults. It contains 5106 records flawless, 2170 with failure 2, 1573 with failure 3, 1702 with failure 4, and 2035 with “Others” failure, totaling 12586 records.
+
+All the models were written in Python 3.6 with Sk-learn 0.20.2 and ran on Ubuntu 18.04 with an Intel i7–7700HQ, 16Gb RAM, GTX 1050Ti.
+
+To run the algorithms, the datasets were separated into a training and a test set. For every experiment, 20% of the registries were for testing and 80% for training.
+
+Model Evaluation
+
+The metrics need adequate interpretation. In the case study in question, it is crucial to minimize the number of false positives, as this would involve sending a technician to perform unnecessary maintenance. While a false positive implies receiving a complaint of some malfunctioning module. Then, from a financial point of view, the recall has greater relevance than precision.
+
+With 88.42 Precision and 87.96 Recall, the confusion matrix for the fault detection can be seen below:
+
+With 54.98 Precision and 52.57 Recall, the confusion matrix for the fault detection and isolation can be seen below:
+
+For both models, there is high variance and high bias. The models could have better results if the architecture was deeper or changing some hyperparameters. Alternatively, even performing more extensive data pre-processing.
+
+Conclusions
+
+As proposed, these models can detect and isolate faults on vehicle fleet tracking modules. However, the evaluative metrics are not suitable to use the models. On my other article, using knowledge from the systems, the metrics were higher can be me implemented at the company to diagnose faults on their modules remotely.
+
+The limitations of the employed methods include the inability of the models to discover faults that are not mapped, so any faults which have not been learned would be misclassified to be one of the known ones.
+
+As in the article, there was not any code, feel free to check it out on my GitHub repository.
+
+References
+
+[1] D. van Schrick, “Remarks on terminology in the field of
+
+supervision, fault detection and diagnosis,” IFAC Proceedings
+
+Volumes, vol. 30, no. 18, pp. 959–964, 1997.
+
+[2] D. Wang and W. T. Peter, “Prognostics of slurry pumps based
+
+on a moving-average wear degradation index and a general
+
+sequential monte carlo method,” Mechanical Systems and
+
+Signal Processing, vol. 56, pp. 213–229, 2015.

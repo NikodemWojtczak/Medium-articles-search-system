@@ -1,0 +1,23 @@
+Introduction
+
+Choosing the right metric is crucial while evaluating machine learning (ML) models. Various metrics are proposed to evaluate ML models in different applications, and I thought it may be helpful to provide a summary of popular metrics in a here, for better understanding of each metric and the applications they can be used for. In some applications looking at a single metric may not give you the whole picture of the problem you are solving, and you may want to use a subset of the metrics discussed in this post to have a concrete evaluation of your models.
+
+Here, I provide a summary of 20 metrics used for evaluating machine learning models. I group these metrics into different categories based on the ML model/application they are mostly used for, and cover the popular metrics used in the following problems:
+
+Classification Metrics (accuracy, precision, recall, F1-score, ROC, AUC, …)
+
+Regression Metrics (MSE, MAE)
+
+Ranking Metrics (MRR, DCG, NDCG)
+
+Statistical Metrics (Correlation)
+
+Computer Vision Metrics (PSNR, SSIM, IoU)
+
+NLP Metrics (Perplexity, BLEU score)
+
+Deep Learning Related Metrics (Inception score, Frechet Inception distance)
+
+There is no need to mention that there are various other metrics used in some applications (FDR, FOR, hit@k, etc.), which I am skipping here.
+
+As a side note, it is also worth mentioning that metric is different from loss function. Loss functions are functions that show a measure of the model performance…

@@ -1,0 +1,41 @@
+How to Visualize Data on top of a Map in Python using the Geoviews library Christos Zeglis · Follow Published in Towards Data Science · 5 min read · Nov 9, 2019 -- 5 Share
+
+So let’s start with the problem we are about to tackle. Say you have some data that represent a specific figure (e.g. population) which differs from place to place (e.g. different cities) and you want to make a plot to visualize that data. How do you proceed with that?
+
+One way to do that (and the most common one) is to create a bar plot. The y-axis represents the figure(e.g. population) and the x-axis represents the place (e.g. cities). I bet the vast majority of plots on that kind of data is of that type. As a result, there is a countless number of such examples on the web and therefore there is no need for me to add another one on the stack.
+
+Fortunately, there is a better way to visualize that kind of data. Remember, plots have to be intuitive for the viewers to get a better grasp of what’s in front of them. So, in this case, a more intuitive way to visualize that data would be to plot them on a map. What’s more intuitive than an interactive map where you can zoom in, out, and over the place or figure you look for?
+
+For the purposes of this tutorial, we are going to make a plot to visualize the passengers volume for the busiest airports in my country, Greece, and the neighbor country, Turkey, for comparison reasons.
+
+First, we need to import the libraries and the methods we are about to use.
+
+import pandas as pd
+
+import numpy as np
+
+import geoviews as gv
+
+import geoviews.tile_sources as gvts
+
+from geoviews import dim, opts
+
+gv.extension('bokeh')
+
+Our two dataframes, greek_aiports and turkish_airports , consist of the top 10 greek airports and the top 5 turkish airports in passengers volume respectively.
+
+Stats for 2018
+
+To these dataframes we will add an extra column country .
+
+greek_airports['country']= 'GR'
+
+turkish_airports['country']= 'TR'
+
+We will also add the column color . You will see later on why we did that.
+
+greek_airports['color']= '#30a2da'
+
+turkish_airports['color']= '#fc4f30'
+
+Now if we merge these two dataframes into airports

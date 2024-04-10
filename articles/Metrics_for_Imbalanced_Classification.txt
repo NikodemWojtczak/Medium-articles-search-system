@@ -1,0 +1,69 @@
+The notion of metrics in Data Science is extremely important. If you don’t know how to estimate current results properly, you are unable to improve them either. The wrong understanding of metrics also leads to the wrong estimate of the model capacity and an insight to the state of the problem. The current story will reveal the nature of popular metrics for classification problem. All discussed metrics will be implemented in NumPy to fill them in-hand. The list of discussed metrics are: precision, recall, F1, MCC and ROC-AUC
+
+Problem formulation
+
+The classification problem would be a binary classification between two MNIST digits 0 and 6, as they are quite similar and it is harder distinguish between themselves. On account of metrics’s purpose to get an insight into imbalanced classification problem, let the positive class (6 digits) be in the minority, more concretely, total number of positive samples would be around 30% from negatives. The model we are working with is basic logistic regression. Complete source for the following code snippets can be found at github.
+
+Popular metrics
+
+The very simple metric to measure classification is basic accuracy i.e. ratio of correct predictions to the total number of samples in dataset. However, in the case of imbalanced classes this metric can be misguiding, as high metrics doesn’t show prediction capacity for the minority class. You may have 99% accuracy but still lousy prediction capacity on the class you are truly interested in (i.e. anomaly detection where anomalies are rare classes in a dataset). To gain more understanding for the current model predictive ability let’s start from the four possible cases of sample to be classified
+
+true positive (TP)— sample’s label is positive and it is classified as one
+
+true negative (TN) — sample’s label is negative and it is classified as one
+
+false positive (FP)— sample’s label is neg., but it is classified as positive
+
+false negative (FN)— sample’s label is pos., but it classified as negative
+
+Based on these four quantities we can derive following metrics for imbalanced classes
+
+True Positive Rate (also sensitivity or recall)
+
+Recall metric shows how many relevant samples are selected, which means how well our model can predict all the interested samples in our dataset.
+
+False Positive Rate (also fall-out)
+
+Precision
+
+Precision metric tells us how many predicted samples are relevant i.e. our mistakes into classifying sample as a correct one if it’s not true.
+
+True Negative Rate (also specificity)
+
+F1-score
+
+F1 metric is the harmonic average of the precision and recall and calculated as
+
+this metric is a good choice for the imbalanced classification scenario. The range of F1 is in [0, 1], where 1 is perfect classification and 0 is total failure.
+
+MCC (Matthews Correlation Coefficient)
+
+mcc is extremely good metric for the imbalanced classification and can be safely used even classes are very different in sizes
+
+it ranges between −1 and 1, where 1 score shows a perfect prediction, 0 equals to the random prediction and −1 indicates total disagreement between predicted scores and true labels’ values.
+
+ROC-AUC for binary classification
+
+The nature of ROC metric and the simplified form listed above will be revealed in detail in the following section.
+
+It is hard though to get quick understanding of aforementioned formulas all at once. Let’s implement them first in NumPy. y_true will be a numpy array with binary true labels, and y_score is also numpy array with binary labels, but predicted ones.
+
+Now let’s implement some basic model, for example logistic regression (I’ll use one implemented in PyTorch) and train it on imbalanced dataset (positive class is in minority). The training will be performed on 0 and 6 digits from MNIST dataset (0 is negative class, and 6 is positive i.e. “1” and consists of only 30% of positive number of samples in comparison to negative ones).
+
+I chose the parameters that results in not-perfect training result on purpose, and got an accuracy of 77%
+
+The single value of 77% is quite an obscure result, so let’s run show_metrics function on calculated scores
+
+Now we have more information about obtained performance. The number of true positive examples is quite small, because they are in the minority and it is hard for the model to identify them. Number of false positives is equal to 0 which means that the model did not classify the single negative class as a positive if it is not the one, so we can say that if the model make prediction about belonging to the positive class it is completely sure about it. The number of true negatives is large, so as the number of false negatives, which means that the majority of seen samples are predicted as negative samples. The reason is that our dataset mostly consists of negative samples, so does the corresponding ratio of pos/neg labels in evaluation phase. Recall of our predictions is 0.02 which means that model selects positive class very badly (majority of real positive classes are not predicted correctly). On the other hand precision is equal to 1.0 which means that all samples that classified as positive is indeed positive. F1 metrics is quite low which means the model distinguish between positive and negative samples quite badly, so as mcc.
+
+ROC-AUC
+
+ROC stands for Receiver Operating Characteristic and initially was designed as metric for distinguishing noise from not noise. ROC is created by plotting the fraction of True Positive Rate (on the y axis) vs the False Positive Rate (on the x axis). The ROC-AUC metric is showed an area under the curve obtained by ROC curve. How exactly can we obtain the ROC curve? Let’s assume that binary classification model outputs real values in range of [0, 1] that can be interpreted as a probability of sample to be positive. We can say that if the model’s output is greater than 0.5, then the sample is positive, but 0.5 is not the only choice for the class threshold. For example, if the majority of samples are negative, then the model will incline to predicting more negative samples than the positive ones and output will biased to the left. Therefore we can shift our threshold to the left and get corrected estimation for prediction of minority classes (let’s say that if the model outputs score ≥ 0.4 it is already impressive, and sample can be treated as positive). ROC curve is obtained by shifting the threshold from 0 to 1 and for acquiring TPR and FPR in account that all prediction ≥ threshold is treated as positive samples. The threshold values usually equal to the unique values in the prediction. Let’s implement this naive algorithm by hand in numpy
+
+Resulting curve is
+
+and ROC-AUC metric from above example is 0.979. The ROC-AUC metrics can vary in range of [0, 1], where 1 score tells that the classifier has perfect prediction ability and never mistakes, 0.5 score is totally random guessing and score below 0.5 means that if we invert result (turns prediction of 0 into 1 and vise versa) we actually get the better model than we have now. In the case of binary classifier that outputs 0 and 1 labels instead of continuous scores, we are unable to move our threshold and therefore have only one point on the plot (single pair of obtained values TFR and FPR). In this case ROC-AUC can be calculated directly as the area of the two triangles, such a formula we have already seen in the previous section.
+
+Conclusion
+
+As a conclusion I would recommend to use accuracy only if the classes are perfectly balanced, and otherwise use F1 and MCC. It is also useful to see ratio of positives and negative estimation via precision and recall.

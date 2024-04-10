@@ -1,0 +1,95 @@
+Architecture details
+
+The architecture of the U-Net based learner and the feature loss function is quite complex, as it the reasoning behind it. As these are architectures and loss functions I’ve used in different experiments, I’ve separated them out into two articles:
+
+U-Net based model architecture:
+
+https://towardsdatascience.com/u-nets-with-resnet-encoders-and-cross-connections-d8ba94125a2c
+
+Feature loss function used to train the network: https://towardsdatascience.com/loss-functions-based-on-feature-activation-and-style-loss-2f0b72fd32a9
+
+ResNet-34 encoder
+
+ResNet-34 is a 34 layer ResNet architecture, this is used as the encoder in the downsampling section of the U-Net (the left half of the U).
+
+Decoder
+
+The Fastai dynamic U-Net learner when provided with an encoder architecture will automatically construct the decoder side of the U-Net architecture, in the case transforming the ResNet-34 encoder into a U-Net with cross connections.
+
+Pretrained encoder
+
+For the model to know how to do perform image improvement it vastly speeds up training time to use a pretrained model so that model has a starting knowledge of the kind of features that need to be detected and improved. Using a model and weights that have been pre-trained on ImageNet is almost ideal. The pretrained ResNet-34 for pyTorch is available from Kaggle: https://www.kaggle.com/pytorch/resnet34
+
+Training details
+
+Dataset
+
+The Div2k dataset provides 800 training images and 100 validation images. I used a percentage of the training images separated for validation during the training process, keeping the Div2K validation set completely isolated from the training process to avoid any mistake with the model having observed these during training.
+
+Each image was reduced down to one channel to use as a greyscale input and the original RGB image was used as the target/ground truth.
+
+The training data was further augmented by:
+
+Taking random crops
+
+Flipping the image horizontally
+
+Adjusting the lighting of the image
+
+Adding perspective warping
+
+The training process begins with a model as described above: a U-Net based on the ResNet-34 architecture pretrained on ImageNet using a loss function based on the VGG-16 architecture pretrained on ImageNet combined with pixel loss and a gram matrix.
+
+Feature loss function
+
+The loss function uses activations from a VGG-16 model, pixel loss and gram matrix loss.
+
+The pixel loss is a simple pixel comparison of how close each pixels colours in the prediction are to those in the target/ground truth.
+
+The activations from a VGG-16 model allow the loss function to determine if features look correct, in this case do they look the correct colour.
+
+The gram loss looks at the artistic style of the generated image, its features and in terms of colour how close is the prediction to the original.
+
+The combination of these allows the loss function to check for fine detail and style of features in context to improve the model’s prediction.
+
+This allows the model to learn convincing colours to apply to the features making up the generated predicted image.
+
+More detail of this loss function are described in my article about feature and style loss functions: https://towardsdatascience.com/loss-functions-based-on-feature-activation-and-style-loss-2f0b72fd32a9
+
+Training the head and the backbone of the model
+
+Three methods used here in particular help the training process. These are progressive resizing, freezing then unfreezing the gradient descent update of the weights in the the backbone and discriminative learning rates.
+
+The model’s architecture is split into two parts, the backbone and the head.
+
+The backbone is the left hand section of the U-Net, the encoder/down-sampling part of the network based on ResNet-34. The head is the right hand section of the U-Net, the decoder/up-sampling part of the network.
+
+The backbone has pretrained weights based on ResNet34 trained on ImageNet, this is the transfer learning.
+
+The head needs its weights training as these layers’ weights are randomly initialised to produce the desired end output. At the very start the output from the network is essentially random changes of pixels other than the Pixel Shuffle sub-convolutions with ICNR initialisation used as the first step in each upscale in the decoder/upsampling path of the network.
+
+The weights in the backbone of the network are frozen so that only the weights in the head are initially being trained.
+
+Progressive resizing
+
+It’s faster to train on larger numbers of smaller images initially and then scale up the network and training images. Colourising a 64px by 64px image is a much easier task to learnthan performing that operation on a 512 px x 512px image and much quicker on a larger dataset. This is called progressive resizing, it also helps the model to generalise better as is sees many more different images and less likely to be overfitting.
+
+With each image training size, the model was trained until the training loss and validation loss improvements levelled off, then the image data dimensions were doubled. The dynamic U-Net learner handles the larger input and output images.
+
+Training colourising 64 x 64 pixel images
+
+A larger batch size sped up training with the small images.
+
+It took 50 epochs of training for the loss to stop improving significantly. The loss stopped improving significantly as the model needed more pixels/data to make predictions on the colours and colourised style of the features.
+
+Training colourising 64 x 64 pixel images
+
+Training colourising 128 x 128 pixel images
+
+After 25 epochs of training the loss stopped improving significantly. Again, the loss stopped improving significantly as the model needed more pixels/data. The training image dimensions were doubled.
+
+Training colourising 128 x 128 pixel images
+
+Training colourising 256 x 256 pixel images
+
+After 10 epochs of training the loss stopped improving significantly, the training size was increased to 512 x 512 pixels. Again, the loss stopped improving significantly as the model needed more pixels/data.

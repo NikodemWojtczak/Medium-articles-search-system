@@ -1,0 +1,47 @@
+Sigmoid Function
+
+Imagine that most problems in nature are not linear and combinations of sigmoid function are not linear. Bingo!
+
+Sigmoid Function and Derivative
+
+Then we can sort the layers 😃 So let’s think of non-binary functions. It is also derivated because it is different from the step function. This means that learning can happen. If we examine the graph x is between -2 and +2, y values change quickly. Small changes in x will be large in y. This means that it can be used as a good classifier. Another advantage of this function is that it produces a value in the range of (0,1) when encountered with (- infinite, + infinite) as in the linear function. So the activation value does not vanish, this is good news!🎈
+
+The sigmoid function is the most frequently used activation function, but there are many other and more efficient alternatives. So what’s the problem with sigmoid function?
+
+If we look carefully at the graph towards the ends of the function, y values react very little to the changes in x. Let’s think about what kind of problem it is! 🤔 The derivative values in these regions are very small and converge to 0. This is called the vanishing gradient and the learning is minimal. if 0, not any learning! When slow learning occurs, the optimization algorithm that minimizes error can be attached to local minimum values and cannot get maximum performance from the artificial neural network model. So let’s continue our search for an alternative activation function!🔎
+
+Hyperbolic Tangent Function
+
+Hyperbolic Tangent and Derivative
+
+It has a structure very similar to Sigmoid function. However, this time the function is defined as (-1, + 1). The advantage over the sigmoid function is that its derivative is more steep, which means it can get more value. This means that it will be more efficient because it has a wider range for faster learning and grading. But again, the problem of gradients at the ends of the function continues. Although we have a very common activation function, we will continue our search to find the best one!
+
+ReLU (Rectified Linear Unit) Function
+
+ReLU Function and Derivative
+
+At first glance, it will appear to have the same characteristics as the linear function on the positive axis. But above all, ReLU is not linear in nature. In fact, a good estimator. It is also possible to converge with any other function by combinations of ReLU. Great! That means we can still sort the layers in our artificial neural network (again) 😄
+
+ReLU is valued at [0, + gö], but what are the returns and their benefits? Let’s imagine a large neural network with too many neurons. Sigmoid and hyperbolic tangent caused almost all neurons to be activated in the same way. This means that the activation is very intensive. Some of the neurons in the network are active, and activation is infrequent, so we want an efficient computational load. We get it with ReLU. Having a value of 0 on the negative axis means that the network will run faster. The fact that the calculation load is less than the sigmoid and hyperbolic tangent functions has led to a higher preference for multi-layer networks. Super! 😎 But even ReLU isn’t exactly great, why? Because of this zero value region that gives us the speed of the process! So the learning is not happening in that area. 😕 Then you need to find a new activation function with a trick.
+
+Leaky-ReLU Function
+
+💧Can you see the leak on the negative plane?😲
+
+Leaky ReLU Function and Derivative
+
+This leaky value is given as a value of 0.01 if given a different value near zero, the name of the function changes randomly as Leaky ReLU. (No, no new functions ?!😱) The definition range of the leaky-ReLU continues to be minus infinity. This is close to 0, but 0 with the value of the non-living gradients in the RELU lived in the negative region of learning to provide the values. How smart is that? 🤓
+
+Softmax Function
+
+It has a structure very similar to Sigmoid function. As with the same Sigmoid, it performs fairly well when used as a classifier. The most important difference is that it is preferred in the output layer of deep learning models, especially when it is necessary to classify more than two. It allows determining the probability that the input belongs to a particular class by producing values in the range 0-1. So it performs a probabilistic interpretation.
+
+Swish (A Self-Gated) Function
+
+Swish Function and Derivative
+
+The most important difference from ReLU is in the negative region. Leaky had the same value in ReLU, what was the difference in it? All other activation functions are monotonous. Note that the output of the swish function may fall even when the input increases. This is an interesting and swish-specific feature.
+
+f(x)=2x*sigmoid(beta*x)
+
+If we think that beta=0 is a simple version of Swish, which is a learnable parameter, then the sigmoid part is always 1/2 and f (x) is linear. On the other hand, if the beta is a very large value, the sigmoid becomes a nearly double-digit function (0 for x<0,1 for x>0). Thus f (x) converges to the ReLU function. Therefore, the standard Swish function is selected as beta = 1. In this way, a soft interpolation (associating the variable value sets with a function in the given range and the desired precision) is provided. Excellent! A solution to the problem of the vanish of the gradients has been found.

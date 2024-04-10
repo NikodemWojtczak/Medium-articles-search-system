@@ -1,0 +1,25 @@
+TL;DR: You can use this package to browse Reddit in Command Prompt and pretend you are working in the office.
+
+What you can see in your command prompt when you browse subreddit ‘learnpython’ using braw
+
+People always say learning in an interesting way is more effective than in a boring way. And I believe this is also true in programming. That’s why when I am now learning how to build a project on Python, I always look for some funny and interesting projects to give me a passion to work on. After a few days my first, small project is done and I call it braw (Browse Reddit At Work). At this moment, the package is only allowed for reading posts but not creating a new post or giving comments. This will be my second part of this small project.
+
+The full code is here: https://github.com/wyfok/braw
+
+Preparation
+
+The Python Reddit API Wrapper (praw) is a Python package for wrapping Reddit. In my package, I will use it to gain access to Reddit and wrap content. For further information about praw, you can visit https://praw.readthedocs.io/en/latest/index.html
+
+In order to use this braw package, first you need to have a Reddit account. And you also need to get your personal client ID and client secret from Reddit Preference ->App ( https://www.reddit.com/prefs/apps/)
+
+name: Give a name
+
+select script
+
+description: blank
+
+about url: blank
+
+redirect url: http://www.example.com/unused/redirect/uri (it won’t use in the script, just for filling in)
+
+Then in the next page, you will obtain your client Id and client secret

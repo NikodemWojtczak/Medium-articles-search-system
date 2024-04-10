@@ -1,0 +1,53 @@
+In addition to a range of built-in algorithms, AWS SageMaker also offers the ability to train and host Scikit-Learn models. In this post, we will show how to train and host a Scikit-Learn Nearest Neighbors model in SageMaker.
+
+Our use case will be the wine recommender model described in this article. For this exercise, we will assume that the input data for the wine recommender is fully prepared and ready to go: a set of 180,000 300-dimensional vectors, each describing the flavor profile of a specific wine. As per the aforementioned article, we will call these vectors wine embeddings. Our goal is to have a model that can return the wine embeddings that are most similar to a given input vector.
+
+There are two main steps we will address throughout this process, as laid out in the official documentation:
+
+Prepare a Scikit-Learn script to run on SageMaker Run this script on SageMaker via a Scikit-Learn Estimator
+
+Preparing a Scikit-Learn script to run on SageMaker
+
+In our Scikit-Learn script, we will load the data from our input channel (S3 bucket with our fully-prepared set of wine embeddings) and configure how we will train our model. The output location of the model is also specified here. This functionality has been put under the main guard.
+
+We will also install s3fs, a package that allows us to interact with S3. This package enables us to identify specific S3 directories (input data, output data, model) for the script to interact with. The alternative to this is using SageMaker-specific environment variables, which specify standard S3 directories to interact with. To illustrate both options here, we will use the environmental variable SM_MODEL_DIR to store the model, and specific directory addresses for the input & output data.
+
+So far so good! Normally, we would be able to run this script on SageMaker, first to train the model and then to return predictions by calling the ‘predict’ method. However, our Scikit-Learn Nearest Neighbors model does not have a ‘predict’ method. In effect, our model is computing cosine distances between the various wine embeddings. For any given input vector, it will return the wine embeddings that are closest to that point. This is less of a prediction than it is a way of calculating which points lie closest to one another.
+
+Thankfully, the ‘model serving’ capability allows us to configure the Scikit-Learn script to allow for this type of customization. Model serving consists of three functions:
+
+i) input_fn: this function deserializes the input data into an object that is passed into the prediction_fn function
+
+ii) predict_fn: this function takes the output of the input_fn function and passes it into the loaded model
+
+iii) output_fn: this function takes the result of predict_fn and serializes it
+
+Each of these functions has a default implementation that is run, unless otherwise specified in the Scikit-Learn script. In our case, we can rely on the default implementation of input_fn. The wine embedding we are passing into the Nearest Neighbors model for prediction is a Numpy array, which is one of the accepted content types for the default input_fn.
+
+For predict_fn, we will do some customization. Instead of running a ‘predict’ method on the model object, we will instead return a list of indices for the top 10 nearest neighbors, along with the cosine distances between the input data and each respective recommendation. We will have the function return a Numpy array consisting of a list with this information.
+
+The function output_fn requires some minor customization also. We want this function to return a serialized Numpy array.
+
+There is one more component to the Scikit-Learn script: a function to load the model. The function model_fn must be specified, as there is no default provided here. This function loads the model from the directory in which it is saved so that it can be accessed by predict_fn.
+
+The script with all the functions outlined above should be saved in a source file that is separate from the notebook you are using to submit the script to SageMaker. In our case, we have saved this script as sklearn_nearest_neighbors.py.
+
+Run this script on SageMaker via a Scikit-Learn Estimator
+
+It’s smooth sailing from here: all we need to do is to run the Scikit-Learn script to fit our model, deploy it to an endpoint and we can start using it to return nearest neighbor wine embeddings.
+
+From within a SageMaker Notebook, we run the following code:
+
+Now, our Nearest Neighbors model is ready for action! Now, we can use the .predict method on the predictor specified above to return a list of wine recommendations for a sample input vector. As expected, this returns a nested Numpy array consisting of the cosine distances between the input vector and its Nearest Neighbors, and the indexes of these Nearest Neighbors.
+
+[[1.37459606e-01 1.42040288e-01 1.46988100e-01 1.54312524e-01
+
+1.56549391e-01 1.62581288e-01 1.62581288e-01 1.62931791e-01
+
+1.63314825e-01 1.65550581e-01]
+
+[91913 24923 74096 26492 77196 96871 113695 874654
+
+100823 14478]]
+
+And there we go! We have trained and hosted a Scikit-Learn Nearest Neighbors model in AWS SageMaker.

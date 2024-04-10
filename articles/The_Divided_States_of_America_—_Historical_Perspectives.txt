@@ -1,0 +1,9 @@
+Voting share margin between Republican and Democratic candidates
+
+The margins of voting shares of candidates of the Republican and Democratic parties have widened in many counties. The standard deviation of margins has been constantly increasing over past years: 0.26 in 2000, 0.29 in 2008, and 0.35 in 2016. During this time, distribution tails, i.e. non-competitive counties, have substantially increased.
+
+In my previous article, I found that population and social profile data had a strong power to tell the 2016 presidential election results at county level. The question posited in this article is whether or not changes in population have contributed to the polarization in US politics. For instance, if cities had inflows of people whose values are aligned with the Democratic Party, they might become bluer. At the same time, if people with affinity for the Republican Party remain in the countryside, those counties would turn redder.
+
+I found, however, that shifts in population have not driven the polarization of the nation at least in 2010–2017 period, while characteristics of elections (e.g. candidates, issues) were more accountable for the polarization trend.
+
+In this analysis, I used the Data Profiles tables of the US Census American Community Survey (Five-year data) from 2010 to 2017, selecting 292 variables which are consistently available at county level. Missing values were imputed by XGBoost Regressor. During that period of time, there were two presidential elections. I constructed regression models with independent variables from US Census ACS and a dependent variable of vote share margin between Republican and Democratic candidates in the…

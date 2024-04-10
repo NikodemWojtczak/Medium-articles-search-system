@@ -1,0 +1,43 @@
+I think for folks from an economics background, probably the Shirley Almon distributed lag model is common-place, but I must admit that I came across this model (that dates back to the 1960s) pretty recently and was quite impressed by the ingenuity and learnt something which I think could be applied in context of other problems too.
+
+Before we get to the model, Shirley Almon was a researcher in economics with just two publications to her credit, with one of them being the distributed lag model that she put forth. So the fact that she is considered among the most distinguished economists of her time, should tell the tale of the brilliance of these works. The sad part of the story though is that she got diagnosed with brain tumor in her early thirties, curtailing what would have otherwise been a long illustrious career in this field, culminating in her premature demise at the age of 40.
+
+Shirley Almon of the now famous “Almon Lag model’
+
+Let’s get to the lag model.
+
+Equation 1
+
+Essentially y is a linear function of the values x takes in the past n epochs (x1, x2 … xT). So the regression problem is one of estimating the weights (coefficients) of the values x took in the past {β₀, β₁, β₂ …, βn}
+
+There are two issues with this model.
+
+When n is large, estimating n parameters is time consuming. For linear regression, the assumption that the various values of x in the last ’n’ epochs are independent — i.e. uncorrelated may not hold true in a lot of the cases. Note that for a robust regression model, this would be a requirement.
+
+Shirley Almon proposed a fantastic solution to the problem by applying the Weierstrass’s Approximation Theorem dating back to 1885.
+
+Weierstrass’s Approximation Theorem states that in a closed interval [a,b] any continuous function f(x) can be approximated by a polynomial p(x) of some degree P.
+
+Let’s take an example — Suppose below is the scatter plot of the βs to be estimated through regression. Each βi is represented as a point (i, β). You may wonder why this representation — you will see the significance in a moment. As one can imagine, the βi values seem scattered with no real visible connection between them.
+
+However Shirley Almon, instead of looking at these coefficients as unconnected random values scattered across, she thought of an imaginary curve passing through these different βi in order.
+
+Applying the Weierstrass’s Approximation Theorem, she figured that the curve could be approximated by a polynomial function of degree P.
+
+Equation 2
+
+In other words, she came up with a polynomial function from which the values of different βi can be found by substituting the right i.
+
+Substituting Equation 2 in Equation 1 and simplifying it gives us something like this:
+
+Rearranging terms and simplifying yields the following:
+
+The reformulated task now is to estimate P regression coefficients {a₀, a1, a2 .. aP} instead of n coefficients and P is much less than n (P << n). And there is lesser chance of collinearity or correlation between the z parameters paving way for a more robust model.
+
+However, the catch is to come up with the right value of P though.
+
+That said, this is an easily usable model and has extensive applications. But I have to admit that I cannot stop being amazed at Shirley Almon’s display of enterprise back then to use Weierstrass’s Approximation Theorem to achieve this model simplification and robustness!
+
+References
+
+https://davegiles.blogspot.com/2017/01/explaining-almon-distributed-lag-model.html

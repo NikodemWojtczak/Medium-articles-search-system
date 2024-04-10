@@ -1,0 +1,107 @@
+Neural Network Algorithms — Learn How To Train ANN
+
+Top Neural Network Algorithms
+
+Learning of the neural network takes place on the basis of a sample of the population under study. During the course of learning, compare the value delivered by the output unit with actual value. After that adjust the weights of all units so to improve the prediction.
+
+There are many Neural Network Algorithms are available for training Artificial Neural Network. Let us now see some important Algorithms for training Neural Networks:
+
+Gradient Descent — Used to find the local minimum of a function.
+
+Evolutionary Algorithms — Based on the concept of natural selection or survival of the fittest in Biology.
+
+Genetic Algorithm — Enable the most appropriate rules for the solution of a problem and select it. So, they send their ‘genetic material’ to ‘child’ rules. We will learn about them in details below.
+
+Get the introduction of learning rules in Neural Network for more understanding of Neural Network Algorithms.
+
+Gradient Descent
+
+We use the gradient descent algorithm to find the local smallest of a function. The Neural Network Algorithm converges to the local smallest. By approaching proportional to the negative of the gradient of the function. To find local maxima, take the steps proportional to the positive gradient of the function. This is a gradient ascendant process.
+
+In linear models, the error surface is well defined and well known mathematical object in the shape of a parabola. Then find the least point by calculation. Unlike linear models, neural networks are complex nonlinear models. Here, the error surface has an irregular layout, crisscrossed with hills, valleys, plateau, and deep ravines. To find the last point on this surface, for which no maps are available, the user must explore it.
+
+In this Neural Network Algorithm, you move over the error surface by following the line with the greatest slope. It also offers the possibility of reaching the lowest possible point. You then have to work out at the optimal rate at which you should travel down the slope.
+
+The correct speed is proportional to the slope of the surface and the learning rate. Learning rate controls the extent of modification of the weights during the learning process.
+
+Hence, the moment of a neural network can affect the performance of multilayer perceptron.
+
+Evolutionary Algorithms
+
+This algorithm based on the concept of natural selection or survival of the fittest in Biology. The concept of natural selection states that — for a given population, environment conditions use a pressure that results in the rise of the fittest in that population.
+
+To measure fittest in a given population, you can apply a function as an abstract measure.
+
+In the context of evolutionary algorithms, refer recombination to as an operator. Then apply it to two or more candidates known as parents, and result in one or more new candidates known as children. Apply the mutation on a single candidate and results in a new candidate. By applying recombination and mutation, we can get a set of new candidates to place in the next generation based on their fittest measure.
+
+The two basic elements of evolutionary algorithms in Neural Network are:
+
+Variation operators (recombination and mutation)
+
+Selection process (selection of the fittest)
+
+The common features of evolutionary algorithms are:
+
+Evolutionary algorithms are population-based.
+
+Evolutionary algorithms use recombination mix candidates of a population and create new candidates.
+
+On random selection evolutionary algorithm based.
+
+Hence, on the basis of details and applied problems, we use various formats of evolutionary algorithms.
+
+Some common evolutionary algorithms are:
+
+Genetic Algorithm Genetic Algorithm — It provides the solution for optimization problems. It provides the solution with the help of natural evolutionary processes. Like mutation, recombination, crossover, and inheritance.
+
+Genetic Programming — genetic programming provides a solution in the form of computer programs. By the ability to solve computational problems accuracy of a program measures.
+
+Evolutionary Programming — In a simulated environment to develop the AI we use it.
+
+Evolution Strategy It is an optimization algorithm. Grounded on the concepts of the adaptation and the evolution in biological science.
+
+Neuroevolution — To train neural networks we use Neuroevolution. By specifying structure and connection weights genomes uses to develop neural networks.
+
+In all these Neural Network Algorithms, a genetic algorithm is the most common evolutionary algorithm.
+
+Genetic Algorithm
+
+Genetic algorithms, developed by John Holland’s group from the early 1970s. It enables the most appropriate rules for the solution of a problem to be selected. So that they send their ‘genetic material’ (their variables and categories) to ‘child’ rules.
+
+Here refer a like a set of categories of variables. For example, customers aged between 36 and 50, having financial assets of less than $20,000 and a monthly income of more than $2000.
+
+A rule is the equal of a branch of a decision tree; it is also analogous to a gene. You can understand genes as units inside cells that control how living organisms inherit features of their parents. Thus, Genetic algorithms aim to reproduce the mechanisms of natural selection. By selecting the rules best adapted to prediction and by crossing and mutating them until getting a predictive model.
+
+Together with neural networks, they form the second type of algorithm. Which mimics natural mechanisms to explain phenomena that are not necessarily natural.
+
+The steps for executing genetic algorithms are:
+
+Step 1: Random generation of initial rules — Generate the rules first with the constraint being that they must be all distinct. Each rule contains a random number of variables chosen by a user.
+
+Step 2: Selection of the best rules — Check the Rules in view of the aim by the fitness function to guide the evolution toward the best rules. Best rules maximize the fitness function and retain with the probability that increases as the rule improves. Some rules will disappear while others select several times.
+
+Step 3: Generation of new rules by mutation or crossing — First, go to step 2 until the execution of the algorithm stops. Chosen rules are randomly mutated or crossed. The mutation is the replacement of a variable or a category of an original rule with another.
+
+A crossing of 2 rules is the exchange of some of their variables or categories to produce 2 new rules. A crossing is more common than mutation.
+
+Neural Network Algorithms ends when 1 of the following 2 conditions meets:
+
+A specified number of iterations that reached.
+
+Starting from the generation of rank n, rules of generations n, n-1, and n-2 are (almost) identical.
+
+So, this was all about Neural Network Algorithms. Hope you like our explanation.
+
+Conclusion
+
+Hence, Artificial Neural Network is typically difficult to configure and slow to train, but once prepared are very fast in the application. They are generally designed as models to overcome the mathematical, computational, and engineering problems. Since, there is a lot of research in mathematics, neurobiology and computer science.
+
+If you’d like to share your opinion and have any query about Artificial Neural Network Algorithms, please do so in the comment section.
+
+I also recommend you to read my previous articles-
+
+Top Machine Learning Algorithms You Should Know to Become a Data Scientist
+
+Dimensionality Reduction in Machine Learning
+
+Artificial Neural Network for Machine Learning — Structure & Layers

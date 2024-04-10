@@ -1,0 +1,123 @@
+Text Summarization is an increasingly popular topic within NLP and, with the recent advancements in modern deep learning, we are consistently seeing newer, more novel approaches. The goal of this article is to compare the results of a few approaches that I experimented with:
+
+Sentence Scoring based on Word Frequency TextRank using Universal Sentence Encoder Unsupervised Learning using Skip-Thought Vectors
+
+Before moving forward, I wanted to give credit to the outstanding Medium authors/articles who are the foundation for this post and helped me learn/implement the Text Summarization techniques above:
+
+Some of the code snippets they’ve provided will be shown here as well but I encourage you to read through their posts too!
+
+What is Text Summarization?
+
+I’ll keep this brief as the links above have already done a great job of explaining this. Text Summarization looks to covert a large body of text (i.e. news article) to a few sentences without losing the key themes of the text.
+
+Text Summarization visualization
+
+There are two main forms of Text Summarization, extractive and abstractive:
+
+Extractive: A method to algorithmically find the most informative sentences within a large body of text which are used to form a summary. Abstractive: A method to algorithmically generate concise phrases that are semantically consistent with the large body of text. This is far more inline with how humans summarize text but is also far more difficult to implement.
+
+This article will focus on comparing extractive approaches.
+
+What are we going to summarize?
+
+This exercise focuses on a soccer (or football) article on Messi/Ronaldo that was published last week.
+
+If Cristiano Ronaldo didn’t exist, would Lionel Messi have to invent him? The question of how much these two other-worldly players inspire each other is an interesting one, and it’s tempting to imagine Messi sitting at home on Tuesday night, watching Ronaldo destroying Atletico, angrily glaring at the TV screen and growling: “Right, I’ll show him!” As appealing as that picture might be, however, it is probably a false one — from Messi’s perspective, at least. He might show it in a different way, but Messi is just as competitive as Ronaldo. Rather than goals and personal glory, however, the Argentine’s personal drug is trophies. Ronaldo, it can be said, never looks happy on the field of play unless he’s just scored a goal — and even then he’s not happy for long, because he just wants to score another one. And that relentless obsession with finding the back of the net has undoubtedly played a major role in his stunning career achievements. Messi, though, is a different animal, shown by the generosity with which he sets up team-mates even if he has a chance to shoot, regularly hands over penalty-taking duties to others and invariably celebrates a goal by turning straight to the player who passed him the ball with an appreciative smile. Rather than being a better player than Ronaldo, Messi’s main motivations — according to the people who are close to him — are being the best possible version of Lionel Messi, and winning as many trophies as possible. That theory was supported by Leicester boss Brendan Rodgers when I interviewed him for a book I recently wrote about Messi. Do Messi and Ronaldo inspire each other? “Maybe subconsciously in some way they’ve driven each other on,” said Rodgers. “But I think both those players inherently have that hunger to be the best players they can be. With the very elite performers, that drive comes from within.” Messi and Ronaldo ferociously competing with each other for everyone else’s acclaim is a nice story for fans to debate and the media to spread, but it’s probably not particularly true.
+
+Approach Overview
+
+Sentence Scoring based on Word Frequency (Python 3.7)
+
+The first approach will explore the simplest of the three. Here we assign weights to each word based on the frequency of the word in the passage. For example, if “Soccer” occurs 4 times within the passage, it will have a weight of 4.
+
+Using the weights assigned to each word, we will create a score for each sentence. In the end, we will be taking the score of the top `N` sentences for the summary. As you’d imagine, just by leveraging the raw score of each sentence, the length of certain sentences will skew the results. This is why we will normalize the scores by dividing by the length of each sentence.
+
+Now, to create the summary, we will take any sentence that has a score that exceeds a threshold. In this case, the threshold will be the average score of all of the sentences.
+
+Summary:
+
+If Cristiano Ronaldo didn't exist, would Lionel Messi have to invent him? As appealing as that picture might be, however, it is probably a false one - from Messi's perspective, at least. He might show it in a different way, but Messi is just as competitive as Ronaldo. Rather than goals and personal glory, however, the Argentine's personal drug is trophies. Do Messi and Ronaldo inspire each other? "Maybe subconsciously in some way they've driven each other on," said Rodgers. With the very elite performers, that drive comes from within."
+
+TextRank using Universal Sentence Embeddings (Python 3.7)
+
+Next we evaluate the results generated when using universal sentence embeddings and TextRank to generate summaries. Before we jump into the code, let’s discuss a few concepts that are critical.
+
+TextRank
+
+This may sound familiar. This is essentially a derivative of the famous PageRank created by the Google Cofounders. In PageRank, they generated a matrix that calculates the probability that a user will move from one page to another. In the case of TextRank, we generate a cosine similarity matrix where we have the similarity of each sentence to each other.
+
+The above table represents the cosine similarity matrix that is used to generate a graph for the PageRank ranking algorithm
+
+A graph is then generated from this cosine similarity matrix. We will then apply the PageRank ranking algorithm to the graph to calculate scores for each sentence. For more information on the Page Rank algorithm, please use the following resource.
+
+Universal Sentence Embeddings
+
+Without going into too much detail, universal sentence embeddings encode word, sentence and paragraph into semantic vectors. They are trained on Deep Averaging Networks. More details can be found here.
+
+First we will generate our sentence embeddings:
+
+Using these sentence embeddings, we create a cosine similarity matrix that is used to build our graph. The PageRank algorithm is then applied to this graph to evaluate the importance of each sentence. The top N sentences will then be used to generate the summary
+
+Summary:
+
+"He might show it in a different way, but Messi is just as competitive as Ronaldo. Ronaldo, it can be said, never looks happy on the field of play unless he has / he is just scored a goal - and even then he has / he is not happy for long, because he just wants to score another one. Rather than being a better player than Ronaldo, Messi's main motivations - according to the people who are close tohim - are being the best possible version of Lionel Messi, and winning as many trophies as possible. Do Messi and Ronaldo inspire each other? Messi and Ronaldo ferociously competing with each other for everyone else's acclaim is a nice story for fans to debate and the media to spread, but it has / it is probably not particularly true."
+
+Unsupervised Learning using Skip Thought Vectors (Python 2.7)
+
+Here is the overall pipeline that we will use:
+
+*Details provided in the K-Means Clustering overview
+
+Again, there are two main concepts I want to discuss before jumping into the solution:
+
+Skip Thought Vectors
+
+We will use an encoder/decoder framework to generate feature vectors. Taking it from Kushal Chauhan’s post, here is how the encoder and decoder layers are defined:
+
+Encoder Network: The encoder is typically a GRU-RNN which generates a fixed length vector representation h(i) for each sentence S(i) in the input. The encoded representation h(i) is obtained by passing final hidden state of the GRU cell (i.e. after it has seen the entire sentence) to multiple dense layers. Decoder Network: The decoder network takes this vector representation h(i) as input and tries to generate two sentences — S(i-1) and S(i+1), which could occur before and after the input sentence respectively. Separate decoders are implemented for generation of previous and next sentences, both being GRU-RNNs. The vector representation h(i) acts as the initial hidden state for the GRUs of the decoder networks.
+
+Similar to how Word2Vec embeddings are trained by predicting the surrounding words, the Skip Thought Vectors are trained by predicting surrounding sentences. As this model is trained, the learned representation (hidden layer) will now place similar sentences closer together which enables more semantically cohesive clustering.
+
+I encourage you to review the paper on the same subject for more clarity.
+
+K-Means Clustering
+
+Most of you will be familiar with this form of unsupervised learning but I want to elaborate on how it is used and why it is interesting.
+
+As we are aware, each cluster will have some center point which, in the vector space, would indicate the point which closely represents the theme of that cluster. With this in mind, when trying to create a summary, we should only need the sentence which is the closest to the center of that cluster. The key here is choosing the correct number of clusters to do a good job of summarizing the content. Kushal’s post recommends that we calculate the cluster size by taking 30% of the number of sentences. In our example, we used a slightly higher percentage of 40%.
+
+Each point represents a sentence in the vector space. The sentences circled in yellow represent the sentences that are closest to the cluster center and would be used in the summary.
+
+Using the sentences above for the universal sentence encoder, we can use the following code:
+
+All of the skipthoughts dependencies can be found here.
+
+As mentioned above, the number of clusters will be the number of sentences that will be included in the summary. For this example, we used a cluster size of 7.
+
+Summary
+
+Do Messi and Ronaldo inspire each other? Ronaldo, it can be said, never looks happy on the field of play unless he has / he is just scored a goal - and even then he has / he is not happy for long, because he just wants to score another one. Rather than being a better player than Ronaldo, Messi\'s main motivations - according to the people who are close to him - are being the best possible version of Lionel Messi, and winning as many trophies as possible. That theory was supported by Leicester boss Brendan Rodgers when I interviewed him for a book I recently wrote about Messi. With the very elite performers, that drive comes from within." "But I think both those players inherently have that hunger to be the best players they can be.
+
+Summary Comparison
+
+Sentence Scoring based on Word Frequency
+
+If Cristiano Ronaldo didn't exist, would Lionel Messi have to invent him? As appealing as that picture might be, however, it is probably a false one - from Messi's perspective, at least. He might show it in a different way, but Messi is just as competitive as Ronaldo. Rather than goals and personal glory, however, the Argentine's personal drug is trophies. Do Messi and Ronaldo inspire each other? "Maybe subconsciously in some way they've driven each other on," said Rodgers. With the very elite performers, that drive comes from within."
+
+Now, although the sentence scoring method performs quite well, there are inherent issues that come with a method that is heavily reliant on the vocabulary in the article. A common issue here is that words that are semantically identical, are not being leveraged separately in our “word_freq” dictionary. For example, in the current approach, the terms person and people would be counted separately when they should considered the same term. This is why we shift to semantic embeddings to overcome this fact.
+
+TextRank using Universal Sentence Encoder
+
+"He might show it in a different way, but Messi is just as competitive as Ronaldo. Ronaldo, it can be said, never looks happy on the field of play unless he has / he is just scored a goal - and even then he has / he is not happy for long, because he just wants to score another one. Rather than being a better player than Ronaldo, Messi's main motivations - according to the people who are close tohim - are being the best possible version of Lionel Messi, and winning as many trophies as possible. Do Messi and Ronaldo inspire each other? Messi and Ronaldo ferociously competing with each other for everyone else's acclaim is a nice story for fans to debate and the media to spread, but it has / it is probably not particularly true."
+
+The TextRank approach also performs well but doesn’t highlight both Messi and Ronaldo’s personality. As for why, I have a couple thoughts. Perhaps the Universal Sentence Embeddings aren’t properly capturing sentence level feature which in turn would impact the cosine similarities and the graphs generated. This still needs to be explored further.
+
+Unsupervised Learning using Skip-Thought Vectors
+
+'Do Messi and Ronaldo inspire each other? Ronaldo, it can be said, never looks happy on the field of play unless he has / he is just scored a goal - and even then he has / he is not happy for long, because he just wants to score another one. Rather than being a better player than Ronaldo, Messi's main motivations - according to the people who are close to him - are being the best possible version of Lionel Messi, and winning as many trophies as possible. That theory was supported by Leicester boss Brendan Rodgers when I interviewed him for a book I recently wrote about Messi. With the very elite performers, that drive comes from within. But I think both those players inherently have that hunger to be the best players they can be.'
+
+In my opinion, the unsupervised learning approach using skipthought vectors provides the best summary as it closely resembles a human summary. In particular, it provides content regarding both Messi and Ronaldo’s personalities where the other approaches focus on Messi’s perspective. My hypothesis for why this is the case is that we’ve extracted a sentence for each of the seven most predominant semantic themes within this article. It is no surprise that we see coverage across all important themes within the article.
+
+Next Steps
+
+The above approaches highlight the advancements that have been made in the text summarization space. The results are good but improvements can be made:

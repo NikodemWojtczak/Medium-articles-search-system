@@ -1,0 +1,29 @@
+Member-only story How to Teach Code
+
+Learning to code is really hard and teaching code is even harder. There is no bootcamp in ‘How to Teach Code’. Most teachers do not have any formal training in education and come from a software background.
+
+I’ve had the pleasure of working with several bootcamps in different ways (as a student, teacher or experience partner). I’ve also:
+
+Ran a code Meetup club teaching code
+
+Delivered a Hackathon series
+
+Helped out with various learning code events.
+
+The Problems
+
+It’s amazing how little regulation there is in teaching code. The result is students can receive wildly different experiences. I’ve seen some of the best education on the planet being given away for free. Yet I’ve also seen other bootcamps delivering their students 3 months of confusion and charged £9,000 for the pleasure.
+
+I’ve seen bootcamps struggle along until they inevitably fail whilst others just continue to grow and grow. Taking students money to deliver them a poor education is wrong but I also don’t think it was anyone’s intention to just steal from people.
+
+With potential huge swathes of current jobs being taken over by software, there are more students than ever looking to transfer into a technical role.
+
+Stories like the Mined Minds fiasco are just the surface of a very big problem. Rather than just talking about how big the problem is it makes sense to do something to fix it.
+
+Solutions
+
+Below is what I’ve learnt myself about the difficulties in teaching code. How to teach code it in a way that gives the best experience for students. And how to grow a sustainable business by delivering a great experience.
+
+(Note — as a student on a bootcamp it is worth reading this. If your course if making some of these mistakes you might be able to help save your education by encouraging some better practices.)
+
+Part 1 — Why Learning…

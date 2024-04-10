@@ -1,0 +1,45 @@
+Boosting Explained
+
+Boosting or Forward Stagewise Additive Modeling is an ensemble learning method that combines many weak learners to form a collection that acts like a strong learner. It can generically described as follow.
+
+Boosting algorithm (Source: ESLII)
+
+Before explain every steps in detail, let’s clarify the symbols.
+
+x, y: training data and actual value
+
+fᵢ(x): collection of weak learners at i iteration
+
+M: number of trees to add
+
+N: number of training data points
+
+β: expansion coefficient or the ‘weight’ of subsequent weak learner in the collection
+
+b(x; γ): weak learner function characterized by a set of parameters γ
+
+L(y, ŷ): loss function
+
+Now let’s take a look at each step.
+
+Initialize the base collection to predict for 0 for all the training data For every subsequent weak learners adding into the collection:
+
+a) Find the optimal expansion coefficient [β] and set of parameters [γ] that minimize the loss function over the training data. Note that the loss function takes in the actual value and the sum of outputs from both previous collection [fₘ₋₁(x)] and current weak learner function [b(x; γ)]
+
+b) After finding the optimal β and γ, add the coefficient with the weak learner to the collection
+
+The most important step is 2a, which searches for the optimal weak learner function to add to the collection. When squared error is chosen as loss function, formula in 2a can be rewritten as:
+
+Square Error Loss Function (Source: ESLII)
+
+In this expression, fₘ₋₁ represents predicted value from the previous trees. yᵢ represents actual value. yᵢ - fₘ₋₁ will output residual from the previous learners, rᵢₘ. Thus, to minimize the square losses, every new weak learner will fit the residual.
+
+For other common loss functions for regression problems, for example, absolute error and Huber loss, this statement still holds as residual is always computed.
+
+So, what about classification problems?
+
+For a 2-class classification problem, AdaBoost, a famous boosting algorithm introduced by Freund and Schapire in 1997, uses exponential loss. At every iteration, training samples will be re-weighted based on prediction errors made by previous trees. Incorrectly classified samples will be given higher weight. Subsequent tree will fit the re-weighted training sample. Although new tree does not fit on the prediction error or the deviation directly, prediction error plays an important part in fitting new trees.
+
+Exponential Loss (Source: ESLII)
+
+Thanks for reading!

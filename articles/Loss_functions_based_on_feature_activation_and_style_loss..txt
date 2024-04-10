@@ -1,0 +1,23 @@
+Feature activations in Convolutional Neural Networks. Source: https://arxiv.org/pdf/1311.2901.pdf
+
+Loss functions using these techniques can be used during the training of U-Net based model architectures and could be applied to the training of other Convolutional Neural Networks that are generating an image as their predication/output.
+
+I’ve separated this out from my article on Super Resolution (https://towardsdatascience.com/deep-learning-based-super-resolution-without-using-a-gan-11c9bb5b6cd5), to be more generic as I am using similar loss functions on other U-Net based models making predictions on image data. Having this separated makes it easier to reference and keeps my other articles easier to understand.
+
+This is based on the techniques demonstrated and taught in the Fastai deep learning course.
+
+This loss function is partly based upon the research in the paper Losses for Real-Time Style Transfer and Super-Resolution and the improvements shown in the Fastai course (v3).
+
+This paper focuses on feature losses (called perceptual loss in the paper). The research did not use a U-Net architecture as the machine learning community were not aware of them at that time.
+
+Source: Convolutional Neural Network (CNN) Perceptual Losses for Real-Time Style Transfer and Super-Resolution: https://arxiv.org/abs/1603.08155
+
+This loss function used is similar to the loss function in the the paper, using VGG-16 but also combined with pixel mean squared error loss loss and gram matrix style loss. This has been found to be very effective by the Fastai team.
+
+VGG-16
+
+VGG is another Convolutional Neural Network (CNN) architecture devised in 2014, the 16 layer version is utilised in the loss function for training this model.
+
+The VGG model. a network pretrained on ImageNet, is used to evaluate the generator model’s loss. Normally this would be used as a classifier to tell you what the image is, for example is this a person, a dog or cat.
+
+The head of the VGG model is the final layers shown as fully connected and softmax in the above diagram. This head is ignored and the loss function uses the intermediate activations in the backbone of the network, which represent the feature detections.

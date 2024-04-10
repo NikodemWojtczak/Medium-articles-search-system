@@ -1,0 +1,37 @@
+The complete list of books for Quantitative / Algorithmic / Machine Learning trading
+
+The only thing between you and your financial freedom is 108 books, so what’re you waiting for? Just begin reading! Peter Nistrup · Follow Published in Towards Data Science · 8 min read · May 2, 2019 -- 4 Share
+
+To those who seek wisdom ahead:
+
+Beware, for this is a long list.. (100+ books)
+
+“You wont become an algorithmic genius savant extraordinaire philanthropist billionaire overnight.”
+
+You wont be one in 3 months. You wont be one in a year either. You might not ever become one. But as with mostly everything in life if you apply yourself you might get closer and closer to achieving that dream of financial freedom.
+
+Now obviously some of these have overlapping contents so you should do your own research about which books are more suited for your mindset and current skill set.
+
+This list is comprised from multiple sources online and filtered to the best of my abilities into the following categories:
+
+General Reading
+
+Light Reading
+
+Programming
+
+Mathematics
+
+Economics & Finance
+
+Technical & Time-Series Analysis
+
+Other
+
+Derivatives
+
+Make sure to follow my profile if you enjoy this article and want to see more!
+
+GENERAL READING — The fundamentals
+
+This is probably a good place to start, together these books cover a wide variety of subjects and might be a decent introduction to the various elements of quantitative trading.

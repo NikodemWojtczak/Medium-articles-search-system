@@ -1,0 +1,11 @@
+It’s not enough to know if a model works, we need to know how it works: Sundar Pichai
+
+The emphasis today is slowly moving towards model interpretability rather than model predictions alone. However, the real essence of Interpretability should be to make Machine learning models more understandable for humans and especially for those who don’t know much about machine learning. Machine Learning is a potent tool, and with such power comes a responsibility to ensure that values like fairness are well reflected within the models. It is also essential to ensure that the AI models do not reinforce the bias that exists in the real world. To tackle such issues, Google AI Researchers are working on a solution called TCAV (Testing with Concept Activation Vectors) to understand what signals the neural network models use for their prediction.
+
+Objective
+
+In his keynote address at Google I/O 2019, Sundar Pichai talked about how they are trying to build a more helpful Google for everyone, including building AI for everyone. He reiterated that Bias in Machine Learning is a matter of concern, and the stakes are even high when it comes to AI. To make AI more responsible and transparent, he discussed the TCAV methodology, and through this article, I’ll like to give an overview of the same and how it intends to address the issue of Bias and Fairness. The article will be light on math, so if you want a deeper look, you can read the original research paper or visit TCAV’s Github Repository.
+
+Need for Another Interpretability Technique
+
+In the ML realm, there are mainly three kinds of Interpretability techniques:

@@ -1,0 +1,13 @@
+When it comes to data analytics there are my reasons to move from your local computer to the cloud. Most prominently, you can run an indefinite number of machines without needing to own or maintain them. Furthermore, you can scale up and down as you wish in a matter of minutes. And if you choose to run t2.micro servers you can run for 750 hours a month for free within the first 12 months! After that it’s a couple of bucks per month and server.
+
+Alright, let’s get to it then! Understandably you won’t have time to read a ten minute article about RStudio Sever and Amazon Web Services after clicking a title that promised you a solution in 3 minutes. So I skip the formal introduction and cut to the chase.
+
+Step 1: Log in to your AWS account (or create one if you’re new to AWS)
+
+Step 2: Go to Louis Aslett’s website, choose the region you want your virtual machines to stay, and click on the link next to it (e.g., ami-02bf650155c44b475 for US West, N. California). The link will directly lead you to the EC2 Management Console.
+
+Step 3: Click through the Launch instance wizard. Almost everything is already pre-filled out and your screen should look like the screenshots below. Don’t press “Review and Launch” yet. We need to go through the whole process once just to be sure, so press “Next: …”.
+
+Nothing to change here. Press Next: Configure Instance Details.
+
+Nothing to change here. Press Next: Add Storage.

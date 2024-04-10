@@ -1,0 +1,35 @@
+Why do Data Visualizations Fail?
+
+Photo by Braydon Anderson on Unsplash
+
+When data visualizations fail, there can be multiple reasons. The most common reason is that the author didn’t understand the message. Thus the meaning in the data is unclear or even hidden. The author didn’t consider what question the audience was asking.
+
+Consider the following example from the US Bureau of Transportation. This pie chart really annoys me. The title indicates the author wants to talk about flight delays for the Boston airport. The biggest slice is On Time at near 80%. Huh?
+
+So odd that the question this visualization should answer actually contains the positive topic part of the answer as a category. Obviously being on-time is not a reason for flight delay — it makes no sense to include it. In fact, it only overshadows the other data and makes the message unclear.
+
+Remake 1: Focus on Main Message
+
+If the message is that the flights are generally on time — that could be expressed with a single number. Then use the remaining data to explain the cause of the delay. In this example, I changed the title and emphasized the positive number.
+
+The pie chart doesn’t have all the categories in the first example. Any reason less than 1% was put in the “All Other” category to keep the focus on the main message.
+
+A pie chart can be appropriate since this is a part-to-the-whole discussion. When there are too many categories, it doesn’t allow the true reasons to shine through. Notice the slices are similar in size and a pie chart works best when one category dominates.
+
+Since the pie slices are similar in size, this chart requires more work from the viewer. I suspect the viewer will reading the numbers instead of letting the dataviz do its work. This leads to there being no reason to have a pie chart.
+
+Remake 2: Answer the Audience’s Real Question
+
+If we think about the audience instead of just the data. The audience cares not only about “how often is the flight on time” but really “why is it late?”
+
+A ranked bar chart shows this information better. In this example, I changed out the pie chart for a horizontal bar chart. Then sorted the categories to show the top 4 reasons by value. The visualization makes the answers effortless. It’s easy to see both messages.
+
+The number 2 reason for the “Aircraft Arriving Late” is more apparent. I hope that is just a poor data categorization. Otherwise, it just seems like a smart alack answer. “It’s late because the airplane arrived late” Well, duh.
+
+Tip: Adding the specific percentage of “.1” doesn’t really clarify. Many times authors add it because they think it makes the value appear more accurate or seem more convincing.
+
+Don’t Blindly Build Charts
+
+The original data had all of the reasons in one category and it doesn’t appear the author gave much thought to determine if the data was formatted correctly. The author also failed to consider what the audience wanted to know from the data.
+
+Your Takeaways

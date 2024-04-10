@@ -1,0 +1,385 @@
+I recently read an article suggesting that crime rates increase on full moons. Curious about the effect, I did a little research and it seems that the question of whether lunar cycles affect human behavior has been hotly debated in academic circles for decades (see Thakur and Sharma, 1984 and Rotton and Kelly, 1985 for examples of opposing views; there are many scholars on both sides of this debate). Unsatisfied, I decided to investigate for my own by examining a year’s worth of Tweets and financial data.
+
+Overview
+
+The full Python code for this project can be found in this GitHub repository. I also built an interactive dashboard if you want to play around with my findings.
+
+For this project, I scraped approximately 1,000 tweets per day for every day of 2018 using a variety of keyword search phrases. This process resulted in a dataset of over 365,000 tweets per search phrase. The resulting datasets were then processed for sentiment and aggregated by date to examine sentiment trends over time. Additionally, daily financial data for 2018 for a variety of stocks, currencies, and market indices were scraped from the internet.
+
+Both Twitter and financial data were then modeled using Facebook Prophet to determine the degree (or absence) of any seasonality correlated to the visible phases of the moon. It turns out that there is indeed a correlation between lunar cycles and human behavior, though the size of the effect is not dramatic.
+
+Obtaining the Data & Exploring it
+
+Scraping Tweets is a fairly simple process when using the twitterscraper library (warning, this can take hours to execute fully):
+
+import pandas as pd
+
+import json
+
+from twitterscraper import query_tweets
+
+import twitterscraper
+
+def scrape_tweets(query, year=2018, num_tweets=1000):
+
+"""scrapes X Tweets per day for a year.
+
+Scraping works backwards from midnight.
+
+'query' must be a string.
+
+------------------------------------
+
+Generates a JSON file for each day scraped.
+
+"""
+
+dates_year = [str(date)[:10] for date in pd.date_range(start=f'1/1/{year}', end=f'12/31/{year}')]
+
+for i in range(len(dates_year)):
+
+begin_date = dates_year[i]
+
+if i == len(dates_year)-1:
+
+end_date = f'{year+1}-01-01'
+
+else:
+
+end_date = dates_year[i+1]
+
+day = dates_year[i]
+
+cmd = 'twitterscraper "{}" -l {} -o t{}.json -bd {} -ed {} --lang en'.format(query, num_tweets, day, begin_date, end_date)
+
+subprocess.run(cmd)
+
+if (i+1)%5 == 0:
+
+print(f"finished scraping {i+1} days of {year}")
+
+print("SCRAPING PROCESS COMPLETE!")
+
+pass
+
+Scraping financial data was also fairly easy using the API for alphavantage.co, though the data requires some additional conditioning to make it more useful.
+
+import requests
+
+import matplotlib.pyplot as plt
+
+plt.style.use('ggplot')
+
+%matplotlib inline def get_financial_data(symbol, stocks_apikey, column="close_24", year=2018, verbose=True):
+
+"""Inputs:
+
+symbol (string) Stock or Currency symbol
+
+stocks_apikey (string) your API key for
+
+https://www.alphavantage.co
+
+column (string) column of output to use for plotting
+
+year (int) the year you wish to examine
+
+=========================================
+
+Returns a DataFrame of daily financial information containing
+
+at least opening, closing, high, and low values.
+
+"""
+
+valid_types = ['stock','index','currency','cryptocurrency']
+
+credentials = {'function':'TIME_SERIES_DAILY',
+
+'symbol':symbol,
+
+'outputsize':'full',
+
+'apikey':stocks_apikey}
+
+r = requests.get('https://www.alphavantage.co/query', params=credentials)
+
+df = pd.DataFrame(r.json()["Time Series (Daily)"])
+
+df = df.T.reset_index()
+
+df.columns = ['date','open','high','low','close','volume']
+
+df.date = pd.to_datetime(df.date)
+
+df[['open','high','low','close','volume']] = df[['open',
+
+'high','low','close','volume']].astype(float) # create a new column to account for after-hours trading
+
+# uses the next day's open value as the prior day's close value
+
+cl24 = [df.loc[0].close]
+
+for val in df.open.values:
+
+cl24.append(val)
+
+cl24 = pd.DataFrame(cl24[:-1], columns=['close_24'])
+
+df = df.join(cl24)
+
+# now account for after-hours trading exceeding high/low values
+
+df['high_24'] = df[['high', 'close_24']].values.max(1)
+
+df['low_24'] = df[['low', 'close_24']].values.min(1)
+
+df['range'] = df['high'] - df['low']
+
+df['range_24'] = df['high_24'] - df['low_24']
+
+df['change_24'] = df['close_24'] - df['open']
+
+df.set_index('date', inplace=True)
+
+year_df = df[f'{year}':f'{year}'] # getting 1 year's data # plotting the results
+
+plt.figure(figsize=(15,5))
+
+plt.plot(df[column], label=column)
+
+plt.title(f"{symbol} Daily Performance for {year}", fontsize=16)
+
+plt.ylabel("Price (in USD)", fontsize=14)
+
+plt.legend(loc='best', borderpad=1, fontsize=14);
+
+return df
+
+With datasets in hand, the next step is to determine the general sentiment of all of the tweets we have gathered. To do this, the TextBlob library is exceedingly useful. TextBlob can swiftly parse text to determine whether the text is generally positive or negative in nature. I opted to expand the “neutral” polarity value to include all polarity scores from -0.1 to 0.1 to remove some of the noise from the +/- categories.
+
+from textblob import TextBlob def get_tweet_sentiment(tweet):
+
+analysis = TextBlob(tweet)
+
+polarity = analysis.sentiment.polarity
+
+subjectivity = analysis.sentiment.subjectivity
+
+if analysis.sentiment.polarity > 0.1:
+
+sentiment = 'positive'
+
+elif analysis.sentiment.polarity < -0.1:
+
+sentiment = 'negative'
+
+else:
+
+sentiment = 'neutral'
+
+return sentiment, polarity, subjectivity
+
+After all this processing I could finally use statmodels’ seasonal_decompose method to determine the existence/absence of any seasonality within the scraped Twitter data. Lo and behold, it turns out that there is some seasonality on the scale of 7.4 and 29.5 days, which lines up perfectly with the lunar cycle.
+
+Seasonal Decomposition of scraped tweets
+
+Modeling with Facebook Prophet
+
+Facebook Prophet, as new as it is, is a very powerful and adaptive modeling tool. Fortuitously, Prophet() includes a parameter called holidays= which allows a user to input a properly formatted DataFrame of dates which FBProphet will treat with special attention. Among other things, this functionality models what seasonality effect the holidays have upon the time series under investigation. In the graph of tweets below, the full moons occur on January 2-3, February 1, March 1-2, etc.
+
+# `phases` was a pre-generated DataFrame of lunar phase dates from fbprophet import Prophet
+
+from fbprophet.plot import plot_plotly, plot_cross_validation_metric
+
+from fbprophet.diagnostics import cross_validation, performance_metrics #to maintain pd.plotting functionality
+
+pd.plotting.register_matplotlib_converters() def tweet_fbprophet(filename=''):
+
+tweets_df = pd.read_csv(filename)
+
+tweets_df.timestamp = pd.to_datetime(tw_df.timestamp, format='%Y%m%d')
+
+grouped = pd.DataFrame(tweets_df.groupby(['timestamp', 'sentiment'])['tally'].sum()).reset_index()
+
+
+
+#prepare grouped sentiment data for FBProphet processing
+
+#here, positive sentiment only
+
+grp_pos = grouped[grouped.sentiment == 'positive'].drop('sentiment', axis=1).reset_index(drop=True)
+
+grp_pos.columns = ['ds','y']
+
+
+
+m = Prophet(holidays=phases)
+
+m.fit(grp_pos)
+
+future = m.make_future_dataframe(periods=60, freq='D')
+
+forecast = m.predict(future)
+
+forecast[(forecast['fullmoon'] + forecast['lastquarter'] +
+
+forecast['newmoon'] + forecast['firstquarter']).abs() >
+
+0][['ds', 'fullmoon', 'lastquarter', 'newmoon', 'firstquarter']][:10]
+
+fig1 = m.plot(forecast);
+
+fig1.set_size_inches(15, 5)
+
+plt.show();
+
+fig2 = m.plot_components(forecast)
+
+fig2.set_size_inches(15, 10)
+
+plt.show();
+
+return m
+
+Example of seasonality effect of lunar cycles found in tweets using FBProphet
+
+Another benefit of FBProphet is the wide variety of performance_metrics that are easily accessible. I chose to look at RMSE (root mean squared error) as it is fairly easy to interpret in the units of the original dataset. In virtually all cases, (for both tweets and financial data) the RMSE averaged 50% greater than the modeled seasonality impact of lunar cycles. While not great from a pure predictive standpoint, it is important to note that the goal of the project was to determine if a correlation existed, not to create a model that could accurately predict twitter sentiment or stock prices...there are far too many additional variables that would be required for that. Below is an example table of performance metrics and a plot of the RMSE over various time horizons.
+
+RMSE plot from FBProphet cross-validation method
+
+With Twitter lunar seasonality well established, I then ran the same FBProphet procedures on the financial data. This data also showed distinct seasonality correlated to lunar cycles. However, the correlation was not the same for every financial object. Some stocks/currencies spike positively on full moons while others spike negatively on full moons. Additionally, it seems that for many lunar phases there is an initial spike and then corresponding correction (or even over-correction) on the following day. For example, compare the lunar seasonality graphs generated for Bitcoin and Microsoft below.
+
+Lunar seasonality comparison of BTC and MSFT (Microsoft does not trade on weekends, hence the gaps)
+
+Visualizing in search of Information
+
+Initially, I thought that generating word clouds might be a great way to extract more information from my data. Word clouds, after all, can be highly informative visually in a way that other graphs are not (because they lack the moxie of word clouds). Unfortunately, due to the size of the corpus I was working with (approximately 5–6,000,000 words per keyword search), using the wonderfully simple wordcloud library turned out to be impractical due to execution times stretching to 10+ hours. Nevertheless, here’s the code and graph of the one time I ran this procedure.
+
+from wordcloud import WordCloud
+
+from sklearn.feature_extraction.stop_words import ENGLISH_STOP_WORDS df = pd.read_csv('tweets.csv')
+
+df.timestamp = pd.to_datetime(df.timestamp, format='%Y%m%d')
+
+comment_words = ' '
+
+stopwords = set(ENGLISH_STOP_WORDS)
+
+stopwords.update(['com','ve','ll','just','don','really','00']) # this for loop took hours to run
+
+it = 0
+
+for val in df.text:
+
+val = str(val) # typecaste each val to string
+
+tokens = val.split() # split the value
+
+for i in range(len(tokens)):
+
+tokens[i] = tokens[i].lower() # Convert tokens to lowercase
+
+for words in tokens:
+
+comment_words = comment_words + words + ' '
+
+it += 1
+
+if (it)%10 == 0:
+
+print(f"Completed {i} of {len(df.text)} loops")
+
+
+
+# generate the word cloud
+
+wordcloud = WordCloud(width = 1200, height = 1200,
+
+background_color ='white',
+
+stopwords = stopwords,
+
+min_font_size = 10).generate(comment_words) # plot & save the WordCloud image
+
+plt.figure(figsize = (20, 20), facecolor = None)
+
+plt.imshow(wordcloud)
+
+plt.axis("off")
+
+plt.tight_layout(pad = 0)
+
+plt.savefig('images/tweets_wordcloud.png')
+
+Word cloud for the search “love OR hate OR peace OR war”
+
+A quick and easy visualization can be made to plot the daily changes in sentiment for each search phrase, comparing either positive/negative/neutral within one query corpus or comparing one corpus to another.
+
+Unsurprisingly, tweeters had the least positive things to say regarding politics.
+
+Daily sentiment of Tweets with no search phrase given
+
+A simpler approach was to create a bag of words, filter for only the top n-occurrences, and plot a histogram. This simple approach, when combined with date filters to separate lunar phase dates from non-phase dates, produced some interesting results for each of the search phrases (see the example below). Though nothing overly alarming turned up, it was interesting to see how the order of word frequencies shifted around a bit depending on the lunar phase.
+
+Comparison of most common words when no search phrase was entered
+
+Lastly, and probably my favorite, is utilizing the Scattertext library to make a beautiful, interactive, and searchable graph of the Twitter data. This library actually generates an HTML file to display the graphs, and with a corpus as large as mine the HTML files average 30MB apiece which results in load times of around 5–10 minutes in a web browser. The library was designed for small to medium size datasets, not my monstrosities, but the results are nevertheless worth the wait. The visualization is interactive (mouse-over each data point and an informative tooltip appears) and is keyword-searchable. On top of that, selecting a keyword also displays numerous categorical (positive/negative) occurrences of the word below the graph to contextualize how it is commonly used in each scenario. I can immediately see that this library has great potential to be advantageous to academic researchers, particularly in the fields of literature, history, political science, and much more. Here’s a slimmed down example that should load quickly, as well as a .gif of the functionality below.
+
+Here’s the code I used for scattertext.
+
+!pip install scattertext
+
+!pip install spacy
+
+!python -m spacy download en_core_web_sm
+
+import scattertext as st
+
+import pandas as pd
+
+import numpy as np
+
+import spacy
+
+import en_core_web_sm df = pd.read_csv('tweets.csv')
+
+df.timestamp = pd.to_datetime(df.timestamp, format='%Y%m%d')
+
+df = df[df['sentiment'].isin(['positive','negative'])] # Turn DataFrame into a Scattertext Corpus
+
+nlp = en_core_web_sm.load()
+
+corpus = st.CorpusFromPandas(data_frame=df,
+
+category_col='sentiment',
+
+text_col='text',
+
+nlp=nlp).build() # Create an HTML page for the interactive visualization
+
+html = st.produce_scattertext_explorer(corpus,
+
+category='positive',
+
+category_name='Positive',
+
+not_category_name='Negative',
+
+minimum_term_frequency=25, ### high values reduce load time
+
+minimum_not_category_term_frequency=25, ### high values reduce load time
+
+max_terms=5000, ### aim for at least 1000 for a pretty graph
+
+max_snippets=50,
+
+show_characteristic=True,
+
+width_in_pixels=1000) open("tweet_scattertext".html", 'wb').write(html.encode('utf-8'))
+
+Final Thoughts & Recommendations
+
+Based on my analyses, it seems fairly clear that there is in fact a correlation between human behavior and lunar phases. However, it must be left to future researchers to determine what the nature and causes of that correlation are. The effect is relatively small, but present nonetheless. In terms of overall mood in tweets, it seems that full moons and last quarter moons correlate to increased positive sentiment while new moons and first quarter moons correlate to increased negative sentiment.
+
+Financial markets also exhibit lunar seasonality, including stocks, market indices, currencies, and cryptocurrencies. However, the correlation is not uniform across the board; some stocks are positively correlated to full moons, others negatively. Furthermore, most stocks/currencies examined exhibit a strong tendency to spike in one direction on a lunar phase data and then immediately correct (or over-correct) in the opposite direction on the following day. Anyone attempting to use this information must examine seasonality on a case-by-case basis. Despite the small size of the correlation (seasonality accounts for approximately 1% of price changes), I suspect that investors engaged in the burgeoning practice of algorithmic trading will be able to profit from incorporating lunar seasonality into their investment algorithms.

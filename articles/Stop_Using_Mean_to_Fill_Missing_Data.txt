@@ -1,0 +1,9 @@
+Mean imputation was the first ‘advanced’ (sighs) method of dealing with missing data I’ve used. In a way, it is a huge step from filling missing values with 0 or a constant, -999 for example (please don’t do that).
+
+However, it still isn’t an optimal method, and today's post will show you why.
+
+Photo by Pietro Jeng on Unsplash
+
+The Dataset
+
+For this article, I’ve chosen to use Titanic Dataset, mainly because it’s well known, and the Age column contains some missing values. To start out, let’s import everything needed and do some basic data cleaning. Here are the imports:

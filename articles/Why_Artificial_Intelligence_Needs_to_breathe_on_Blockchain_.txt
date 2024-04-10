@@ -1,0 +1,21 @@
+Why Artificial Intelligence Needs to breathe on Blockchain ? Salman Saleem · Follow 12 min read · Mar 14, 2019 -- 1 Share
+
+AI Connection With BlockChain
+
+How Artificial Intelligence (AI) Started
+
+Like most innovations and technological breakthroughs, we need to first define the parameters of Artificial Intelligence (AI) before we reach its point of inception. A broad definition that encompasses the multiple spectrums of AI is a human intelligence simulation via the processing of computer systems. These systems acquire the rules of the information, the information itself and its logic.
+
+Mr John McCarthy was the first man to research about Artificial Intelligence at a summer conference at Dartmouth College in 1956. Thoughts regarding the progress of AI had become more convincing as oppose to two decade ago. The seeds of this AI progression were first planted within the work of programmable digital computer where groundworks of a machine was being made on the abstract ethos of arithmetic reasoning.
+
+Projects in the realm on AI gained criticism by 1973, as the devoted researchers realized their shortcomings in estimating the challenges. British and US governments put more pressure on research in the same subject ultimately posing to cut their losses and make these funding sluggish.
+
+Eventually, interest in AI regained popularity during the millenium due to technological advancements and access to more sophisticated systems that helped integrate these studies in academia.
+
+AI Power
+
+Where AI Can Help Us?
+
+AI has found applications in multiple areas of the web and on-ground. The industry has had breakthroughs with the help of funding from defense, research firms, data collecting agencies and web-based business models and application management systems. It is however noteworthy that these applications of AI will only grow proportionally with technological innovations and their passage of time.
+
+If there’s any area where AI can make an impact it’s that point where technology interacts with users. Let’s take prosthetic legs for example. The research required in getting this technology to work while also constantly adjusting to the user’s…

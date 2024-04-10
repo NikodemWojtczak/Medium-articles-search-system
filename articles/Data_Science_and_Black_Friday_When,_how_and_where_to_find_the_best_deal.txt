@@ -1,0 +1,67 @@
+Data Science and Black Friday: When, how and where to find the best deal?
+
+What I learned from analyzing 300K German online deals Felix Vemmer · Follow 6 min read · Dec 5, 2019 -- Listen Share
+
+E very year on Black Friday, people try to find the best deals hoping to save a ton of money. In the U.S. the Black Friday craziness has even lead to 12 deaths and 117 injuries thus far. If you are like me and prefer to do safer and easier online shopping, you probably wonder if Black Friday is, in fact, the best time to score the best deals. I was wondering too and analysed 321,739 deals from the famous German online platform mydealz. Get ready for an analytics journey filled with surprises and entertainment!
+
+MyDealz the #1 Social Shopping Community in Germany
+
+In a nutshell MyDealz is an online platform where every user can register and post a deal that others might find valuable. A deal most often includes the following information:
+
+Title, description and picture
+
+Old price, new price and sometimes a voucher code
+
+Seller information and a link to the deal
+
+Once published other users can then up or down vote a deal which results in an increase or decrease of the temperature. Hence, the best deals have the highest/hottest temperature. Furthermore, users can also comment on deals to ask clarifying questions or discuss the overall deal, which can then be liked again to help people find the best comments.
+
+An overview of mydealz descriptions
+
+To give you a nice and visually stimulating overview of what types of deals you can find on mydealz, I created a word-cloud based on the titles of all the deals.
+
+Wordcloud of mydealz titles
+
+While some words are in German, I believe this already gives us an interesting start point of some common deals and potential trends. As you can see in the next paragraph it is no coincidence that Amazon takes such a prominent spot.
+
+The Top 10 Merchants
+
+The top 10 merchants make up more than 1/3 of the overall deals. With 52.421 deals Amazon takes the top spot in terms of number of deals. Gearbest however has with an average of 61.05 comments the most discussed deals, while Mediamarkt publishes on average the hottest deals and also had the hottest deal overall. Interested in the hottest deals? Read on!
+
+The Top 10 Hottest Deals
+
+As a passionate user of this platform, I always wondered what the hottest deal on the platform is. While the average deal temperature is 470.62 degrees, the first and second best deal are over 20.000 degrees. According to the deal description two German big chain electronics stores (Mediamarkt and Saturn) offer users a discount equal to the price without the 19% German VAT tax on all products. Below you can find a table of the top 10 deals with the corresponding link.
+
+Top 10 hottest deals on https://www.mydealz.de
+
+The Top Local Deal: A Big Mac with 5 Meat Patties
+
+While most deals are typically for online shops, users can also share “local deals” which are limited to a certain city or region. In my sample, the hottest local deal from AdmiralPPR was celebrating the Big Mac Anniversary, where fast food lovers could order a Big Mac with 5 patties for 3.99€. With 613 comments one might think that this local deal was highly discussed. Definitely, not the case.
+
+The Most Discussed Deal with 12,803 Comments
+
+As mentioned before top comments for each deal are also a great source of information and entertainment (see the next paragraph). I found out that a deal has on average 28.69 comments. The most discussed deal is published by philippmb and has 12,803 user comments. An error with computer games voucher allows shoppers on Amazon.de to apply a 10€ discount without a minimum order value. Some users even mentioned that the after removing the computer game from the shopping cart the voucher was still applied. Many users were able to order items for free as one user shared his “freebies” in the comment section.
+
+The most expensive deal
+
+While everyone is mostly looking for a cheap bargain, I could not resist checking for the most expensive deal from MistressCOL. Turns out you can buy a rollercoaster for your garden, consisting of 2.14 million pieces for 999,876.00€.
+
+Especially the two top-rated comments are quite entertaining:
+
+Is Paypal also refunding costs for the return shipment? —
+
+axoliz Tip from the ratings: If you order the rollercoaster you can get it wrapped in wrapping paper for 3.90€. For this low price you really cannot do it yourself. — kreuzweise
+
+A closer look at the Heros of MyDealz
+
+The MyDealz community would not be the same without the many dedicated users, who post deals without any profit incentive. What is special about the platform is that the deals are not advertised or posted by companies, but users who choose freely to share what they think provides great value for other community members. As an inspiring user, I had a closer look at some of “the power users”.
+
+Who are the Top 10 Power Users?
+
+While the average mydealz user posts 5.78 deals, Funmilka posted with a total of 12,600 deals, 2,190 times more deals than the average user.
+
+In the following table, I counted all posted deals of each user and sorted them in descending order. For the top 10 users, I then calculated their highest deal temperature and the average temperature of all their deals.
+
+When do we find the most deals?
+
+First, let’s see when most of the deals are posted. From this graph, we can see that many deals are posted in November during Black Friday, Cyber Monday or the now-called Cyber Week. Unfortunately, I came up with the idea right before Black Friday, which shows the missing values for this November, but I guess the trend is clear.

@@ -1,0 +1,49 @@
+Made this in Microsoft Paint
+
+So, for my first write-up, I am tackling a problem I encountered whilst working on my first data science project at my company. I work as a machine learning researcher at ALC- Innovative Transportation Solutions and my problem arose during a predictive modeling project. Multi-class imbalance. I had encountered class imbalance before in classroom projects and had employed the use of the ROSE package but never had I been exposed to a multi-class imbalance issue.
+
+Google Images: Binary class imbalance. I’ve dealt with binary class imbalance before and there are plenty of tools and articles about tackling this common data issue.
+
+Binary class-imbalance is a common headache in data science but can be easily solved(great article about it: https://machinelearningmastery.com/tactics-to-combat-imbalanced-classes-in-your-machine-learning-dataset/). Unfortunately for this project I had on my hands, there weren’t as many resources. I wanted to share my thought process for overcoming multi-class imbalance so someone else might find it useful in mediating their own distribution conflicts.
+
+The Distribution
+
+My company’s data is not open for sharing but here is a simulated version of the issue I was facing:
+
+This data distribution across classes is completely imbalanced. This is bad because the goal of my project is to build a multi-class classifier that can correctly assign what ‘Class’ a data point belongs to. Specifically, this imbalance is an issue because the predictive model, whichever I end up pursuing, would be biased towards Class1 and, to less of a degree but still, Class2. It would achieve decent accuracy by classifying the majority of the train and test set as Class1 or Class2 because of the imbalance; this is the ‘Accuracy Paradox.’ My model might achieve good accuracy on classification but that’s because the model would only be modelling the imbalanced distribution.
+
+Google Images: Confusion Matrix. If a ML model trains on an imbalanced data set it will over-classify towards the majority class. In the image, for reference, the model would predict all classes to be ‘P’ while some of those should have been ‘N.’ In the case of multi-class imbalance the effects would be even more drastic where the model would predict ‘P’ (because it’s the majority class in this example) when the actual class was ’N’ or ‘O’ or ‘M’ etc.
+
+This issue is compounded by the fact that the distinguishing characteristics between the classes is quite thin, in the case of my actual work project. Their longitude/latitude features are only different by a minuscule amount. Sure, there are other predictive features but Geo-spatial data makes up the bulk of the predictive and interpret-ability aspects of the model. Yet, this difference in classes is important to the company and the decision making of the model and therefore this issue must be tackled.
+
+Google Images: Imbalanced Classifier. This image is an example of how an imbalanced data set would create an ‘accurate’ classifier that, in production, would really be a weak classification model hiding behind the guise of ‘High Accuracy.’
+
+ROSE
+
+ROSE, or the Random Over Sampling Experiment, is a fantastic R package that deals with class imbalance quite well, but only binary class imbalance (two classes). How could I use this package to fix the multi-class data I was looking at?
+
+After trial-and-error, researching of options, and dropping a quick email to one of my great professors I determined the best course of action: writing a function that takes the whole data set, divides it up into 6 subsets using ‘Class’ as the dividing feature, and then use ROSE to balance those subsets out to my desired distribution. Then they would be compiled back into one, reasonably balanced data set. Each subset contains Class1 and then one of the minority classes. Class2 was left out because it’s not under-represented.
+
+The subset is then given to a ROSE argument to over-sample the minority class. The ROSE code for doing so can be seen below. The identity of the minority class is used as the formula and the ‘p’ argument is the probability of sampling the rare class, an alternative is setting N to the desired size of the data set. Below, with p=0.5, these arguments return a data set where the minority class is now represented in 50% of the data.
+
+library(ROSE) BalancedData <- ovun.sample(MinorityClassi~, ImbalancedData, method="over", p=0.5, subset=options("subset")$subset, na.action=options("na.action")$na.action, seed) index = createDataPartition(y=BalancedData$Class, p=0.7, list=FALSE)
+
+train = BalancedData[index,]
+
+test = BalancedData[-index,] BalTrain <- droplevels.data.frame(train)
+
+BalTest <- droplevels.data.frame(test)
+
+After over-sampling the minority class and bringing the distribution out of imbalanced hell I ran this balanced data set through my classifier. The best model was a Random Forest (compared against a logistic regression model as the baseline, a gini-criteria decision tree, an information-gain decision tree, and a neural network). The results were great, but not so great on the test set. Why? Because the over-sampled minority class data weren’t new data points. So the model couldn’t conceive that new points could fit into that class.
+
+I considered using SMOTE, synthetic-minority over-sampling technique but it’s results were negligible at best. I settled on using the ROSE formula in the ROSE package which: “creates a sample of synthetic data by enlarging the features space of minority and majority class examples” (cran.r-project.org/web/packages/ROSE/ROSE.pdf).
+
+SynthBalData <- ROSE(MinorityClassi~, ImbalancedData, p=0.5, hmult.majo=1, hmult.mino=1, subset=options("subset")$subset, na.action=options("na.action")$na.action, seed) index = createDataPartition(y=SynthBalData$Class, p=0.7, list=FALSE)
+
+SynthBalTrain = SynthBalData[index,]
+
+SynthBalTest = SynthBalData[-index,] SynthBalTrain <- droplevels.data.frame(SynthBalTrain)
+
+SynthBalTest <- droplevels.data.frame(SynthBalTest)
+
+By sticking to my original method of subset creation and applying ROSE I got back synthetic yet balanced data samples and compiled a new data set. I trained all the models on a simple random sample 70:30 train/test split of the data. The accuracy was high, and the models responded very well to new data points as they come in from my company’s server.

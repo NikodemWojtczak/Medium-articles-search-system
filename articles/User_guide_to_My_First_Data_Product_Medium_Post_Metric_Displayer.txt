@@ -1,0 +1,603 @@
+User guide to My First Data Product: Medium Post Metric Displayer
+
+Origin
+
+As a regular writer on Medium as well as a data geek, after the busy year of 2018, I’d like to reflect what I have achieved on my Medium blog. Furthermore, based on the performance in 2018, I plan to make more aggressive writing plan in the year 2019.
+
+I think most Medium writers know the anti-data-centered interface design of analytics platform of Medium. It is too simple for me. And the design quite discouraged me from really looking into data and make the decision.
+
+That’s the main reason I decided to develop my very first data product. In the following article, I will show the product and the codes I use for creating the product to readers. I will use my own data at Medium analytics platform as well to showcase how my product run.
+
+The whole thinking and execution process will also be detailed documented. Anyone who is keen about knowing more about his or her own Medium post’s performance, feel free to use my code to give some sense of data.
+
+Problem Statement and Pain Point
+
+Problem statement: It is annoying to know which article performs well in a more robust and visualized manner. Also, the articles can’t be probably grouped or classified. Among all the metrics, which metrics may be the most distinguishable ones for different groups of articles?
+
+Pain point: Medium users might find it difficult to make the most of the analytics platform (Stat Tab) provided by Medium. The data can’t be downloaded and it hardly tells much information about what to do next.
+
+Constraint
+
+The constraint of this product is very obvious. For me, I am still not capable of scraping or output the performance data of every article from Medium in a more automated way. Therefore, users need to document those data manually just as I did in this excel. The column name should be the same as mine. Users just need to regularly put down those metrics on a seasonal basis (quarterly or semi-annually)
+
+I will put this file in my GitHub as well, feel free to download it
+
+My product can deals with those excel file thoroughly. Once you have that specific data file. We are ready to go.
+
+Skills and Tools
+
+Tool: Python Jupyter Notebook
+
+Skills: Data processing and munging with Pandas, visualization with Matplotlib, clustering plus PCA with Sklearn, numerous function creation for repetitive operation
+
+Product Outlook
+
+This product is very simple. I’ve not created the layout or interface of it, but instead, I will introduce the operational logic behind this product. Medium Post Metric Displayer consists of numerous small and handy functions. Once the user passes the excel file (we use for documenting data) to those functions, the result will automatically be generated.
+
+It contains two features for this product. The first one is the Dashboard & Visualization Product. The second one is Clustering Product.
+
+It is the first phase of my product roadmap. (I am not sure if I will keep expanding its features). However, I think this beta version of Displayer is well-rounded enough to provide some insights to the writers to make decisions. That’s the reason I decided to soft release my product at this point.
+
+Feel free to fetch my Github code and use this product with lots of fun!
+
+Part 0: Data import for pre-check
+
+Before introducing the product itself, let’s take a look at our data set first.
+
+It is for sure that the needed package in python is imported. Pandas, Numpy, and Matplotlib is my familiar friend. I used Translator from Goolgetrans this time. The reason behind is that I sometimes write articles in Chinese and most of my readers are from Taiwan. They might also write posts in Chinese. Translating the Chinese title into English will be more fit into Matplotlib constraint, where Matplotlib can’t show Chinese.
+
+import pandas as pd
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+from googletrans import Translator
+
+I later read into the excel file and display the first few rows of it, further checking the column type as well as the shape. From the data extracted and documented from Medium, there are basic seven features. And from my Medium website, I wrote 45 articles so far.
+
+df = pd.read_excel('medium_performance_data.xlsx')
+
+df.head()
+
+df.dtypes dates datetime64[ns]
+
+title object
+
+view int64
+
+additional_view int64
+
+read int64
+
+read_ratio float64
+
+fans int64
+
+dtype: object df.shape
+
+(45, 7)
+
+Part 1: Dashboard and Visualization Product
+
+Within this product, I designed eight plus one features functions which enable users to return similar charts and graphs on different metrics with a simple excel file input. Based on those charts and graphs, writers are able to get some sense of how good or bad their articles perform and further make the next-step strategy.
+
+Below is the user engagement funnel on Medium post. And basically, I just follow the funnel to design my product.
+
+Function 0
+
+This function mainly deals with the translated issue of Chinese title. It helps translated those titles into English, thanks to powerful Google Translate.
+
+def translate(df):
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+from googletrans import Translator
+
+
+
+translator = Translator()
+
+df['title'] = df["title"].map(lambda x: translator.translate(x, src="zh-TW", dest="en").text)
+
+return df
+
+Function 1
+
+This function returns the static value of total views. It is the basic number of all Medium posts, showing the generic description of your performance.
+
+def total_view(file):
+
+import pandas as pd
+
+
+
+df = pd.read_excel(file)
+
+df = translate(df)
+
+total_view = df['view'].sum() + df['additional_view'].sum()
+
+return 'The total view of your medium post is {}'.format(total_view)
+
+I passed my file into this function, and it returns my total views is around 15K.
+
+total_view('medium_performance_data.xlsx') >> 'The total view of your medium post is 15086'
+
+Function 2
+
+Function 2 returns the top 5 articles with the most views. The result will be displayed in both table format as well as bar chart format. You may also get a glimpse of how these top 5 contributes to your total views.
+
+def top_view(file):
+
+import pandas as pd df = pd.read_excel(file)
+
+df = translate(df)
+
+top_view = df.nlargest(5, 'view')[['title','view']]
+
+ax = top_view.plot.barh(x='title', y='view')
+
+return display(top_view) , ax
+
+Operate the function
+
+top_view('medium_performance_data.xlsx')
+
+The result of my top 5 articles with most views is shown below. It seems my articles related to MSBA application draw most of views.
+
+Function 3
+
+Similar to function 2, this function returns the table and bar chart of the top 5 articles with additional view. Additional view, for me, is quite a strange metrics. The definition from Medium is “the views from RSS readers, FB instant articles and AMP, and they don’t factor into read ratio.” Not every article a writer posted will have an additional view. In my experience, only when your article is curated by other publication websites on Medium may the additional views increase. It gives some insights that how good those outbound articles perform.
+
+def top_additional_view(file):
+
+import pandas as pd df = pd.read_excel(file)
+
+df = translate(df)
+
+top_view = df.nlargest(5, 'additional_view' [['title','additional_view']]
+
+top_view = top_view[top_view['additional_view']>0]
+
+ax = top_view.plot.barh(x='title', y='additional_view')
+
+return display(top_view) , ax
+
+Operate the function.
+
+top_additional_view('medium_performance_data.xlsx')
+
+Function 4
+
+Read is an even deeper metrics regarding engagement. Read is the metric if the user scrolls all the way to bottom, which indicates a user reads through the posts. The function takes the argument of the file name and returns table and bar graph.
+
+def top_read(file):
+
+import pandas as pd
+
+
+
+df = pd.read_excel(file)
+
+df = translate(df)
+
+top_read = df.nlargest(5, 'read')[['title','read']]
+
+top_read = top_read[top_read['read']>0]
+
+ax = top_read.plot.barh(x='title', y='read')
+
+return display(top_read) , ax
+
+Operate the function.
+
+top_read('medium_performance_data.xlsx')
+
+The result is slightly different from the top 5 articles with most views. The top 5 with most reads are all Chinese posts. There are multiple possible reasons behind.
+
+One, most of my readers are from Taiwan, Chinese is a relatively familiar language to the majority of my users. They tend to finish reading the articles more.
+
+Second, it might indicate that my English writing is too long or convoluted for users to read through. I may need to polish my post to be more concise.
+
+Three, apart from language issue, the top 5 posts with most reads are related to information-related topics, such as how to prepare for application, how to ask questions and the review of MSBA course. Maybe this kind of topics can trigger more interests in reading all through the posts.
+
+Function 5
+
+Read ratio is another tricky metric for Medium writer. Read ratio = reads / views (clicks). It is said that Medium algorism will reward articles of higher read ratio with higher rank and priority to show in front of users.
+
+The function works the same as those above, returning top 5 articles with the highest read ratio, in the form of displayed table and bar graph.
+
+def top_readratio(file):
+
+import pandas as pd
+
+
+
+df = pd.read_excel(file)
+
+df = translate(df)
+
+top_read = df.nlargest(5, 'read_ratio')[['title','read_ratio']]
+
+top_read = top_read[top_read['read_ratio']>0]
+
+ax = top_read.plot.barh(x='title', y='read_ratio')
+
+return display(top_read) , ax
+
+Operate the function.
+
+top_readratio('medium_performance_data.xlsx')
+
+The interpretation of results is tricky in certain ways.
+
+One, the shorter the article, the more possible it achieve higher read ratio. The top one article among all my post is just a link. Of course, it will get the highest read ratio.
+
+Second, the article which gets fewer views may also lead to higher read ratio, just like my article named ‘[Creation].’
+
+The conclusion is that there is some endogeneity affecting this metric. I suggest users cross-validating this metric with functions above.
+
+Function 6
+
+The function returns the average read ratio of all the articles. Since read ratio is a key metrics toward Medium algorism. I suggested writers use this function to track the progress of article performance occasionally.
+
+def avg_readratio(file):
+
+import pandas as pd
+
+
+
+df = pd.read_excel(file)
+
+avg_rr = round(df.read_ratio.mean(),3)
+
+return 'The avg. read ratio of your medium post is {}'.format(avg_rr)
+
+Operate the function.
+
+avg_readratio('medium_performance_data.xlsx') >> 'The avg. read ratio of your medium post is 0.528'
+
+It should also be set based on the characteristics as well as the categories of your content. Some light and easy-to-digest articles might have a higher average read ratio, vice versa. For my article, the average read ratio is 0.528, which for me, is not bad.
+
+I will try to set this as my goal of increasing read ratio for my Medium website. Writing structured, readable and laconic post is a good approach to that.
+
+Function 7
+
+The next function is about showing the top 5 articles with top fans. Fans metric is the metric presenting deeper engagement toward articles. Readers clapped the post and showed their “likes.” It is the last step of metric funnel, which can be achieved harder.
+
+def top_fans(file):
+
+import pandas as pd
+
+
+
+df = pd.read_excel(file)
+
+df = translate(df)
+
+top_read = df.nlargest(5, 'fans')[['title','fans']]
+
+top_read = top_read[top_read['fans']>0]
+
+ax = top_read.plot.barh(x='title', y='fans')
+
+return display(top_read) , ax
+
+Operate the function.
+
+top_fans('medium_performance_data.xlsx')
+
+Function 8
+
+The last function in the first part of the product is to show “average view through the days elapsed.” I create this new metric to capture the daily additional views for posts. The formula is: Total views / Days between today and the day that article published. For me, it calculated the daily flow-in of view toward that specific article.
+
+def top_view_per_day(file):
+
+import pandas as pd
+
+
+
+df = pd.read_excel(file)
+
+df = translate(df)
+
+df['time_elapse'] =pd.datetime.now().date() - df['dates']
+
+df['time_elapse'] = df['time_elapse'].dt.days
+
+df['total_view'] = df['view'] + df['additional_view']
+
+df['view_per_day'] = round(df['total_view'] / df['time_elapse'], 2)
+
+
+
+top_read = df.nlargest(5, 'view_per_day')[['title','view_per_day']]
+
+top_read = top_read[top_read['view_per_day']>0]
+
+ax = top_read.plot.barh(x='title', y='view_per_day')
+
+return display(top_read) , ax
+
+Operate the function
+
+top_view_per_day('medium_performance_data.xlsx')
+
+I think this metric is very important. It shows that the articles still bring in traffic on an everyday basis. Those articles drive the user to the writer’s Medium website. It helps users to identify the “cash cow” of your Medium blog. After knowing these articles, regularly promoting them on social media or making them referred by affliates is a good strategy to keep fresh traffic streaming into your Medium.
+
+Part 2: Clustering Product
+
+Just like what I mentioned in function 8, identifying which articles are cash cows is important. That’s the very intention I proposed and created this clustering product. With unsupervised learning on provided features, the articles can be segmented into different groups. Each group has different traits. They can play different roles regarding user acquisition, retention, and engagement. By using this clustering product, users just need to pass the excel file and further put in number of clusters he wants to create, and the result is automatically generated. And there are several functions is related to visualizing the cluster too.
+
+I will introduce four plus one functions in the following article.
+
+Function 9
+
+This is function is just a helper function for munging the data. I create “total_veiw” and “view_per_day” out of the orginal data frame.
+
+def medium_data_munge(file):
+
+import pandas as pd
+
+
+
+df = pd.read_excel(file)
+
+df = translate(df)
+
+df['time_elapse'] =pd.datetime.now().date() - df['dates']
+
+df['time_elapse'] = df['time_elapse'].dt.days
+
+df['total_view'] = df['view'] + df['additional_view']
+
+df['view_per_day'] = round(df['total_view'] / df['time_elapse'], 2)
+
+return df medium_data_munge("medium_performance_data.xlsx").head()
+
+Function 10 & 11
+
+These two functions are used for clustering. I used K-means for clustering articles. I took in reads, read ratio, fans, total views, view_per_day. And the segmentation is based on these five features.
+
+From the functions started here, users need to pass both excel file and cluster number to the function.
+
+Function 10 returns the data frame with cluster label. Users may see it as a helper function or a product function. The data frame it returns can be easily seen and played around.
+
+Function 11 returns the summary of each cluster. It grants users a clear overview of each cluster performance and quality. I think it is super helpful, for users can finally design suitable promotion strategy towards different cluster. Whenever you want to re-share or revitalize the traffic, using this product function can really justify your choice. And I also suggest not using too many clusters in the argument, you can just enter different numbers and see which number grant the most interpretable result.
+
+### Function 10
+
+def create_cluster_df(file, n):
+
+
+
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.cluster import KMeans
+
+
+
+df = medium_data_munge(file)
+
+
+
+# Select proper feature
+
+features = ['read','read_ratio','fans','total_view','view_per_day']
+
+x = df.loc[:, features].values
+
+
+
+# Normalized data
+
+x = StandardScaler().fit_transform(x)
+
+
+
+# Conduct K-mean
+
+km = KMeans(n_clusters = n, random_state=0)
+
+km.fit(x)
+
+labels = km.labels_
+
+cluster = labels.tolist()
+
+
+
+final_cluster = pd.DataFrame(dict(cluster_label = cluster, title = df['title']))
+
+df_new = pd.merge(df, final_cluster, how = 'left', on = ['title'])
+
+
+
+return df_new ### Function 11
+
+def cluster_df_desc(file, n):
+
+# create dataframe with cluster label
+
+df_new = create_cluster_df(file, n)
+
+
+
+# summarize the clustered dataframe
+
+col = ['cluster_label', 'total_view' , 'read', 'read_ratio', 'fans','view_per_day']
+
+final_df = df_new[col].groupby(['cluster_label']).agg({'cluster_label' : 'size', \
+
+'total_view': lambda x:x.mean(), \
+
+'read': lambda x: x.mean(), \
+
+'read_ratio': lambda x: x.mean(), \
+
+'fans': lambda x:x.mean(), \
+
+'view_per_day': lambda x:x.mean()})
+
+return display(final_df)
+
+Operate the function 10
+
+create_cluster_df("medium_performance_data.xlsx", 3).head()
+
+Operate function 11
+
+cluster_df_desc("medium_performance_data.xlsx",3)
+
+cluster_df_desc("medium_performance_data.xlsx",5)
+
+I demo n = 3 and n = 5 and show the result here
+
+Function 12
+
+This function is following the previous function. Once you return the ideal cluster overview. You may want to visualize it. Therefore, I utilize principal component analysis (PCA) to turn five-feature dimension into two dimensions. And all the articles in different groups can be labeled on this 2D plane.
+
+Just pass the file and cluster number, you will get the result. It will also return the explained ratio of principal component 1 and 2. I will try n = 3 and n = 5 here.
+
+def pca_vis(file, n):
+
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.decomposition import PCA
+
+
+
+df_new = create_cluster_df(file, n)
+
+
+
+# Select proper feature
+
+features = ['read','read_ratio','fans','total_view','view_per_day']
+
+x = df_new.loc[:, features].values
+
+
+
+# Normalized data
+
+x = StandardScaler().fit_transform(x)
+
+
+
+pca = PCA(n_components=2)
+
+principalComponents = pca.fit_transform(x)
+
+
+
+principalDf = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2'])
+
+
+
+finalDf = pd.concat([principalDf, df_new[['cluster_label']]], axis = 1)
+
+
+
+# plot the PCA two-dimensional graph
+
+fig = plt.figure(figsize = (6,6))
+
+ax = fig.add_subplot(1,1,1)
+
+ax.set_xlabel('Principal Component 1', fontsize = 13)
+
+ax.set_ylabel('Principal Component 2', fontsize = 13)
+
+ax.set_title('2 component PCA', fontsize = 15)
+
+targets = list(range(0,n))
+
+colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+
+colors = colors[:n] for target, color in zip(targets,colors):
+
+indicesToKeep = finalDf['cluster_label'] == target
+
+ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1']
+
+, finalDf.loc[indicesToKeep, 'principal component 2']
+
+, c = color
+
+, s = 50)
+
+ax.legend(targets)
+
+ax.grid()
+
+
+
+return 'The explained ratio for component 1 is {0:.2f} and for component 2 is {1:.2f}'. \
+
+format(pca.explained_variance_ratio_[0], pca.explained_variance_ratio_[1] )
+
+Operate the code
+
+pca_vis("medium_performance_data.xlsx",3)
+
+pca_vis("medium_performance_data.xlsx",5)
+
+Function 13
+
+The last function is also related to clustering. This function creates the so-called Parallel Coordinates Graph. It showcases for different clusters, the extent each feature contributes. Simply put, it reveals the logic behind clustering. And writers are able to make the further decision based on the result.
+
+I will try cluster = 3 and 5 for example.
+
+def parallel_coordinates(file, n):
+
+df_new = create_cluster_df(file, n)
+
+
+
+cols = ['total_view', 'read', 'read_ratio', 'fans', 'view_per_day' ]
+
+df_new_sub = df_new[cols]
+
+
+
+from sklearn.preprocessing import StandardScaler
+
+from pandas.plotting import parallel_coordinates
+
+
+
+ss = StandardScaler() scaled_df = ss.fit_transform(df_new_sub)
+
+scaled_df = pd.DataFrame(scaled_df, columns=cols)
+
+final_df = pd.concat([scaled_df, df_new['cluster_label']], axis=1)
+
+
+
+parallel_coordinates(final_df, "cluster_label")
+
+plt.title("Parallel Coordinates Graph on Each Metric")
+
+plt.show()
+
+Operate the function
+
+parallel_coordinates("medium_performance_data.xlsx", 3)
+
+parallel_coordinates("medium_performance_data.xlsx", 5)
+
+If n = 3, I may conclude that cluster 1, the top two performing articles excel at total views, reads, fans and view per day, but they have relatively poor read ratio. And the distinction between cluster 0 and 2 is mainly based on read ratio, which means this metric play a great portion of influence in most of my article. I may focus my writing strategy on boosting read ratio this year.
+
+Some strategies made by using my data product
+
+Chinese article on my platform may reach higher read ratio. I should still spend time writing some Chinese articles to make my Medium more visible based on platform algorism. Using articles with higher view per day to drive in more fresh and one-time user into my Medium, and urge them to follow to expand my follower base. Some articles with higher view per day belong to cluster one. It matches clustering result and is definitely my cash cow of traffic. Focusing on increasing the read ratio on articles in cluster 2 or prevent articles from falling into cluster 2 is the key goal in the year 2019.
+
+Conclusion
+
+There are many constrain in Medium analytics platform (Stat tab). However, by creating this data product, I hope I can benefit the Medium community to equip writers with some data-driven mindset and better the writing strategy based on the result generated from this product.
+
+Happy analyzing!!!

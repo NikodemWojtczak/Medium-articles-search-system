@@ -1,0 +1,33 @@
+Looking at some of the shortcomings of the BERT language model
+
+If you are interested in NLP, I have no doubt you have read extensively about BERT. First introduced late last year by a group of researchers from Google, it has been remarkable seeing the performance of this new language model and thinking about its potential. It has set new standards for several language tasks and there is no shortage of tutorials here on Medium that offer insights into many language modeling projects that can be accomplished with BERT. It has been a fascinating year for the field, to say the least with developments like this.
+
+In the midst of all its praises though, I have been interested in where BERT may not hit the mark. There is a fascinating paper by Allyson Ettinger called “What BERT is not: Lessons from a new suite of psycholinguistic diagnostics for language models” that tests some of those linguistic misses. I highly recommend reading the whole paper as she has some really great explanation of her process and results, but here are just a couple of the insights mentioned on where BERT falls short:
+
+Commonsense & pragmatic inference
+
+He complained that after she kissed him, he couldn’t get the red color off his face. He finally just asked her to stop wearing that ____ .
+
+Reading the sentence above, you may easily infer that the missing word would be “lipstick”. What you may not realize you are doing is that the word “lipstick” isn’t mentioned previously, you are merely inferring it from the sentence before and how it is used without direct mention. There is a certain pragmatic inference that readers can pick up on.
+
+In her research, Ettinger found that BERT was able to do okay in tests like this, but with fairly shallow success. BERT was able to prefer good completions (“lipstick”) over bad completions (“mascara”), but not with overwhelming confidence. What she found is that the results suggest it does not have the same sensitivity to what would be the answer in a commonsense scenario as a person. It failed at grasping the context provided in the sentence previous to a high degree.
+
+Negation
+
+A corgi is not _____.
+
+So if you asked “a corgi is ____”, you may come up with a million options, like “a dog” or “a pet”, but what is it not? You could definitely come up with an answer (“a cat”, “a chair”), but as you are doing that, you can see how these take a bit of unique creativity and what would be most appropriate depends on the larger context of what you are talking about.
+
+Ettinger found that though BERT was very good at the positive (“is”), it definitely struggled with the negative (“is not”). It was able to associate nouns with close immediate descriptors, but not handling the positive or negative phrasing. Here is an example from the paper:
+
+A robin is a ____
+
+BERT Large predictions: bird, robin, person, hunter, pigeon
+
+A robin is not a ____
+
+BERT Large predictions: bird, robin, person, hunter, pigeon
+
+You’re not seeing double, it did predict the same nouns for both! Though showing a very strong ability to show associations, it obviously isn’t handling the negation. This is one area where a concept that may seem quite simple is not as straightforward for BERT.
+
+There is another issue not elaborated here that I won’t spoil about BERT’s struggle with role reversals in a sentence, so definitely dig into the paper if you found these insights interesting.

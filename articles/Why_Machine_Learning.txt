@@ -1,0 +1,17 @@
+Image by the author
+
+In my previous post I talked about the myriad terms used to describe various statistical/data science fields. I also mentioned that among those machine learning was one of the most powerful and popular subfields.
+
+In the next series of posts I’m going to go deeper into machine learning. Rather than defining and explaining the various subfields of machine learning I think it’s worth exploring briefly why machine learning exists in the first place. What does machine learning accomplish that regular programming does not, and how do we know when to use one over the other?
+
+Decisions, Decisions
+
+Much of human life, more than we even realize, is defined by decisions. On the most fundamental level the second-to-second existence of a human is an ongoing decision loop about how to spend the next second. Sometimes this decision is subconscious and other times it is not. Our decisions can be simple ones with few consequences, or complex ones with far-reaching consequences. Decisions compose our entire waking life, choices upon choices layered on top of and nested within each other.
+
+For computers it is much the same. In fact, the one feature that truly distinguishes a computer from other mechanical machines is the innate ability to make decisions. To read inputs and change its behavior based on those inputs. Prior to that mechanical contraptions were relegated to performing the exact same sequence of actions endlessly, regardless of inputs or environment.
+
+The primary difference between humans and computers is that computers have no ability to improvise new decisions. They can’t “think” in the way humans can. Computers can only make decisions when the “right” answer for that decision has been programmed into them in the first place.
+
+Thus, all computer decisions are really translations of a decision made elsewhere into a format that can be understood and executed by a computer. This is a critically important point to understand when it comes to why we use machine learning. When we think about how “powerful” computers have become what we’re really marveling at is how more memory and processing power has increased the complexity of decisions that have been translated into a computer format.
+
+Getting More Technical

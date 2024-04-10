@@ -1,0 +1,395 @@
+This tutorial builds artificial neural network in Python using NumPy from scratch in order to do an image classification application for the Fruits360 dataset. Everything (i.e. images and source codes) used in this tutorial, rather than the color Fruits360 images, are exclusive rights for my book cited as “Ahmed Fawzy Gad ‘Practical Computer Vision Applications Using Deep Learning with CNNs’. Dec. 2018, Apress, 978–1–4842–4167–7 “. The book is available at Springer at this link: https://springer.com/us/book/9781484241660.
+
+The source code used in this tutorial is available in my GitHub page here: https://github.com/ahmedfgad/NumPyANN
+
+The example being used in the book is about classification of the Fruits360 image dataset using artificial neural network (ANN). The example does not assume that the reader neither extracted the features nor implemented the ANN as it discusses what the suitable set of features for use are and also how to implement the ANN in NumPy from scratch. The Fruits360 dataset has 60 classes of fruits such as apple, guava, avocado, banana, cherry, dates, kiwi, peach, and more. For making things simpler, it just works on 4 selected classes which are apple Braeburn, lemon Meyer, mango, and raspberry. Each class has around 491 images for training and another 162 for testing. The image size is 100x100 pixels.
+
+Feature Extraction
+
+The book starts by selecting the suitable set of features in order to achieve the highest classification accuracy. Based on the sample images from the 4 selected classes shown below, it seems that their color is different. This is why the color features are suitable ones for use in this task.
+
+The RGB color space does not isolates color information from other types of information such as illumination. Thus, if the RGB is used for representing the images, the 3 channels will be involved in the calculations. For such a reason, it is better to use a color space that isolates the color information into a single channel such as HSV. The color channel in this case is the hue channel (H). The next figure shows the hue channel of the 4 samples presented previously. We can notice how the hue value for each image is different from the other images.
+
+The hue channel size is still 100x100. If the entire channel is applied to the ANN, then the input layer will have 10,000 neurons. The network is still huge. In order to reduce the amounts of data being used, we can use the histogram for representing the hue channel. The histogram will have 360 bins reflecting the number of possible values for the hue value. Here are the histograms for the 4 sample images. Using a 360 bins histogram for the hue channel, it seems that every fruit votes to some specific bins of the histogram. There is less overlap among the different classes compared to using any channel from the RGB color space. For example, the bins in the apple histogram range from 0 to 10 compared to mango with its bins range from 90 to 110. The margin between each of the classes makes it easier to reduce the ambiguity in classification and thus increasing the prediction accuracy.
+
+Here is the code that calculates the hue channel histogram from the 4 images.
+
+import numpy
+
+import skimage.io, skimage.color
+
+import matplotlib.pyplot
+
+
+
+raspberry = skimage.io.imread(fname="raspberry.jpg", as_grey=False)
+
+apple = skimage.io.imread(fname="apple.jpg", as_grey=False)
+
+mango = skimage.io.imread(fname="mango.jpg", as_grey=False)
+
+lemon = skimage.io.imread(fname="lemon.jpg", as_grey=False)
+
+
+
+apple_hsv = skimage.color.rgb2hsv(rgb=apple)
+
+mango_hsv = skimage.color.rgb2hsv(rgb=mango)
+
+raspberry_hsv = skimage.color.rgb2hsv(rgb=raspberry)
+
+lemon_hsv = skimage.color.rgb2hsv(rgb=lemon)
+
+
+
+fruits = ["apple", "raspberry", "mango", "lemon"]
+
+hsv_fruits_data = [apple_hsv, raspberry_hsv, mango_hsv, lemon_hsv]
+
+idx = 0
+
+for hsv_fruit_data in hsv_fruits_data:
+
+fruit = fruits[idx]
+
+hist = numpy.histogram(a=hsv_fruit_data[:, :, 0], bins=360)
+
+matplotlib.pyplot.bar(left=numpy.arange(360), height=hist[0])
+
+matplotlib.pyplot.savefig(fruit+"-hue-histogram.jpg", bbox_inches="tight")
+
+matplotlib.pyplot.close("all")
+
+idx = idx + 1
+
+By looping through all images in the 4 image classes used, we can extract the features from all images. The next code does this. According to the number of images in the 4 classes (1,962) and the feature vector length extracted from each image (360), a NumPy array of zeros is created and saved in the dataset_features variable. In order to store the class label for each image, another NumPy array named outputs is created. The class label for apple is 0, lemon is 1, mango is 2, and raspberry is 3. The code expects that it runs in a root directory in which there are 4 folders named according to the fruits names listed in the list named fruits. It loops through all images in all folders, extract the hue histogram from each of them, assign each image a class label, and finally saves the extracted features and the class labels using the pickle library. You can also use NumPy for saving the resultant NumPy arrays rather than pickle.
+
+import numpy
+
+import skimage.io, skimage.color, skimage.feature
+
+import os
+
+import pickle
+
+
+
+fruits = ["apple", "raspberry", "mango", "lemon"] #492+490+490+490=1,962
+
+dataset_features = numpy.zeros(shape=(1962, 360))
+
+outputs = numpy.zeros(shape=(1962))
+
+idx = 0
+
+class_label = 0
+
+
+
+for fruit_dir in fruits:
+
+curr_dir = os.path.join(os.path.sep, fruit_dir)
+
+all_imgs = os.listdir(os.getcwd()+curr_dir)
+
+for img_file in all_imgs:
+
+fruit_data = skimage.io.imread(fname=os.getcwd()+curr_dir+img_file, as_grey=False)
+
+fruit_data_hsv = skimage.color.rgb2hsv(rgb=fruit_data)
+
+hist = numpy.histogram(a=fruit_data_hsv[:, :, 0], bins=360)
+
+dataset_features[idx, :] = hist[0]
+
+outputs[idx] = class_label
+
+idx = idx + 1
+
+class_label = class_label + 1
+
+
+
+with open("dataset_features.pkl", "wb") as f:
+
+pickle.dump("dataset_features.pkl", f)
+
+
+
+with open("outputs.pkl", "wb") as f:
+
+pickle.dump(outputs, f)
+
+Currently, each image is represented using a feature vector of 360 elements. Such elements are filtered in order to just keep the most relevant elements for differentiating the 4 classes. The reduced feature vector length is 102 rather than 360. Using less elements helps to do faster training than before. The dataset_features variable shape will be 1962x102. You can read more in the book for reducing the feature vector length.
+
+Up to this point, the training data (features and class labels) are ready. Next is implement the ANN using NumPy.
+
+ANN Implementation
+
+The next figure visualizes the target ANN structure. There is an input layer with 102 inputs, 2 hidden layers with 150 and 60 neurons, and an output layer with 4 outputs (one for each fruit class).
+
+The input vector at any layer is multiplied (matrix multiplication) by the weights matrix connecting it to the next layer to produce an output vector. Such an output vector is again multiplied by the weights matrix connecting its layer to the next layer. The process continues until reaching the output layer. Summary of the matrix multiplications is in the next figure.
+
+The input vector of size 1x102 is to be multiplied by the weights matrix of the first hidden layer of size 102x150. Remember it is matrix multiplication. Thus, the output array shape is 1x150. Such output is then used as the input to the second hidden layer, where it is multiplied by a weights matrix of size 150x60. The result size is 1x60. Finally, such output is multiplied by the weights between the second hidden layer and the output layer of size 60x4. The result finally has a size of 1x4. Every element in such resulted vector refers to an output class. The input sample is labeled according to the class with the highest score.
+
+The Python code for implementing such multiplications is in listed below.
+
+import numpy
+
+import pickle
+
+
+
+def sigmoid(inpt):
+
+return 1.0 / (1 + numpy.exp(-1 * inpt))
+
+
+
+f = open("dataset_features.pkl", "rb")
+
+data_inputs2 = pickle.load(f)
+
+f.close()
+
+
+
+features_STDs = numpy.std(a=data_inputs2, axis=0)
+
+data_inputs = data_inputs2[:, features_STDs > 50]
+
+
+
+f = open("outputs.pkl", "rb")
+
+data_outputs = pickle.load(f)
+
+f.close()
+
+
+
+HL1_neurons = 150
+
+input_HL1_weights = numpy.random.uniform(low=-0.1, high=0.1, size=(data_inputs.shape[1], HL1_neurons)) HL2_neurons = 60
+
+HL1_HL2_weights = numpy.random.uniform(low=-0.1, high=0.1, size=(HL1_neurons, HL2_neurons)) output_neurons = 4
+
+HL2_output_weights = numpy.random.uniform(low=-0.1, high=0.1, size=(HL2_neurons, output_neurons)) H1_outputs = numpy.matmul(a=data_inputs[0, :], b=input_HL1_weights)
+
+H1_outputs = sigmoid(H1_outputs)
+
+H2_outputs = numpy.matmul(a=H1_outputs, b=HL1_HL2_weights)
+
+H2_outputs = sigmoid(H2_outputs)
+
+out_otuputs = numpy.matmul(a=H2_outputs, b=HL2_output_weights)
+
+
+
+predicted_label = numpy.where(out_otuputs == numpy.max(out_otuputs))[0][0]
+
+print("Predicted class : ", predicted_label)
+
+After reading the previously saved features and their output labels and filtering the features, the weights matrices of the layers are defined. They are randomly given values from -0.1 to 0.1. For example, the variable “input_HL1_weights” holds the weights matrix between the input layer and the first hidden layer. Size of such matrix is defined according to the number of feature elements and the number of neurons in the hidden layer.
+
+After creating the weights matrices, next is to apply matrix multiplications. For example, the variable “H1_outputs” holds the output of multiplying the feature vector of a given sample to the weights matrix between the input layer and the first hidden layer.
+
+Usually, an activation function is applied to the outputs of each hidden layer to create a non-linear relationship between the inputs and the outputs. For example, outputs of the matrix multiplications are applied to the sigmoid activation function.
+
+After generating the output layer outputs, prediction takes place. The predicted class label is saved into the “predicted_label” variable. Such steps are repeated for each input sample. The complete code that works across all samples is given below.
+
+import numpy
+
+import pickle
+
+
+
+def sigmoid(inpt):
+
+return 1.0 / (1 + numpy.exp(-1 * inpt))
+
+
+
+def relu(inpt):
+
+result = inpt
+
+result[inpt < 0] = 0
+
+return result
+
+
+
+def update_weights(weights, learning_rate):
+
+new_weights = weights - learning_rate * weights
+
+return new_weights
+
+
+
+def train_network(num_iterations, weights, data_inputs, data_outputs, learning_rate, activation="relu"):
+
+
+
+for iteration in range(num_iterations):
+
+print("Itreation ", iteration)
+
+for sample_idx in range(data_inputs.shape[0]):
+
+r1 = data_inputs[sample_idx, :]
+
+for idx in range(len(weights) - 1):
+
+curr_weights = weights[idx]
+
+r1 = numpy.matmul(a=r1, b=curr_weights)
+
+if activation == "relu":
+
+r1 = relu(r1)
+
+elif activation == "sigmoid":
+
+r1 = sigmoid(r1) curr_weights = weights[-1]
+
+r1 = numpy.matmul(a=r1, b=curr_weights)
+
+predicted_label = numpy.where(r1 == numpy.max(r1))[0][0]
+
+desired_label = data_outputs[sample_idx]
+
+if predicted_label != desired_label:
+
+weights = update_weights(weights, learning_rate=0.001)
+
+return weights
+
+
+
+def predict_outputs(weights, data_inputs, activation="relu"):
+
+predictions = numpy.zeros(shape=(data_inputs.shape[0]))
+
+for sample_idx in range(data_inputs.shape[0]):
+
+r1 = data_inputs[sample_idx, :]
+
+for curr_weights in weights:
+
+r1 = numpy.matmul(a=r1, b=curr_weights)
+
+if activation == "relu":
+
+r1 = relu(r1)
+
+elif activation == "sigmoid":
+
+r1 = sigmoid(r1)
+
+predicted_label = numpy.where(r1 == numpy.max(r1))[0][0]
+
+predictions[sample_idx] = predicted_label
+
+return predictions
+
+
+
+f = open("dataset_features.pkl", "rb")
+
+data_inputs2 = pickle.load(f)
+
+f.close() features_STDs = numpy.std(a=data_inputs2, axis=0)
+
+data_inputs = data_inputs2[:, features_STDs > 50]
+
+
+
+f = open("outputs.pkl", "rb")
+
+data_outputs = pickle.load(f)
+
+f.close() HL1_neurons = 150
+
+input_HL1_weights = numpy.random.uniform(low=-0.1, high=0.1,size=(data_inputs.shape[1], HL1_neurons))
+
+HL2_neurons = 60
+
+HL1_HL2_weights = numpy.random.uniform(low=-0.1, high=0.1,size=(HL1_neurons,HL2_neurons))
+
+output_neurons = 4
+
+HL2_output_weights = numpy.random.uniform(low=-0.1, high=0.1,size=(HL2_neurons,output_neurons))
+
+
+
+weights = numpy.array([input_HL1_weights,
+
+HL1_HL2_weights,
+
+HL2_output_weights])
+
+
+
+weights = train_network(num_iterations=10,
+
+weights=weights,
+
+data_inputs=data_inputs,
+
+data_outputs=data_outputs,
+
+learning_rate=0.01,
+
+activation="relu")
+
+
+
+predictions = predict_outputs(weights, data_inputs)
+
+num_flase = numpy.where(predictions != data_outputs)[0]
+
+print("num_flase ", num_flase.size)
+
+The “weights” variables hold all weights across the entire network. Based on the size of each weight matrix, the network structure is dynamically specified. For example, if the size of the “input_HL1_weights” variable is 102x80, then we can deduce that the first hidden layer has 80 neurons.
+
+The “train_network” is the core function as it trains the network by looping through all samples. For each sample, the steps discussed in listing 3–6 are applied. It accepts the number of training iterations, feature, output labels, weights, learning rate, and the activation function. There are two options for the activation functions which are either ReLU or sigmoid. ReLU is a thresholding function that returns the same input as long as it is greater than zero. Otherwise, it returns zero.
+
+If the network made a false prediction for a given sample, then weights are updated using the “update_weights” function. No optimization algorithm is used to update the weights. Weights are simply updated according to the learning rate. The accuracy does not exceed 45%. For achieving better accuracy, an optimization algorithm is used for updating the weights. For example, you can find the gradient descent technique in the ANN implementation of the scikit-learn library.
+
+In my book, you can find a guide for optimizing the ANN weights using the genetic algorithm (GA) optimization technique which increases the classification accuracy. You can read more about GA from the following resources I prepared:
+
+Introduction to Optimization with Genetic Algorithm
+
+https://www.linkedin.com/pulse/introduction-optimization-genetic-algorithm-ahmed-gad/
+
+https://www.kdnuggets.com/2018/03/introduction-optimization-with-genetic-algorithm.html
+
+https://towardsdatascience.com/introduction-to-optimization-with-genetic-algorithm-2f5001d9964b
+
+https://www.springer.com/us/book/9781484241660
+
+Genetic Algorithm (GA) Optimization — Step-by-Step Example
+
+https://www.slideshare.net/AhmedGadFCIT/genetic-algorithm-ga-optimization-stepbystep-example
+
+Genetic Algorithm Implementation in Python
+
+https://www.linkedin.com/pulse/genetic-algorithm-implementation-python-ahmed-gad/
+
+https://www.kdnuggets.com/2018/07/genetic-algorithm-implementation-python.html
+
+https://towardsdatascience.com/genetic-algorithm-implementation-in-python-5ab67bb124a6
+
+For Contacting the Author
+
+E-mail: ahmed.f.gad@gmail.com
+
+LinkedIn: https://linkedin.com/in/ahmedfgad/
+
+KDnuggets: https://kdnuggets.com/author/ahmed-gad
+
+YouTube: https://youtube.com/AhmedGadFCIT
+
+TowardsDataScience: https://towardsdatascience.com/@ahmedfgad

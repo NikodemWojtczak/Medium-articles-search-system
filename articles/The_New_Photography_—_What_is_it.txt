@@ -1,0 +1,41 @@
+This three-part series about photography and imaging examines many of the recent technical and social developments. In part 1, we look at the 190-year history since photography’s invention, noting the rapid pace of change in the medium and sudden transition from film to digital and rise of The Smartphone.
+
+In this installment, part 2, we’ll survey a number of recent technical developments in an effort to build a larger context for understanding new capabilities and consider what’s next.
+
+The terms Computer Vision and Computational Photography are often used interchangeably. Computer vision, however, is a broader discipline covering a range of digital capture and processing techniques. It refers to the ability of computers to understand imagery, often in a similar way as people. Commonly this is achieved by characterizing the content, color, tonal values, shape or edge data. But it can also apply to other metadata such as embedded location or time data. When very large sets of images are analyzed, patterns and insights are gained and subsequently applied to organizing, verifying or even modifying imagery.
+
+Computational photography is more specifically a discipline involving calculations, analysis, manipulation of imagery using algorithms rather than optical methods. We won’t fret over the distinction between the two disciplines here but rather consider the larger genre of computer vision.
+
+Eyes Robot
+
+This isn’t necessarily a new area. Initial examples of computer vision have been with us for awhile in the likes of:
+
+Optical Character Recognition (OCR) enabling bar- and QR-code scanning and conversion of text-based printouts to machine-readable documents.
+
+High-Dynamic-Range (HDR) imaging where multiple images are combined to depict a high-contrast setting, normally one that exceeds the range of a camera sensor or even the human eye. Recent updates have dramatically improved the quality, helping HDR shed the moody and surreal “Harry Potter” look of its early days.
+
+Panoramic imagery where multiple images are aligned and stitched together with the seams between images automatically blended.
+
+Contextual image replacement, coined Content-Aware Fill in Adobe’s software, where portions of an image are replaced using surrounding data. A common usage would be to remove power lines from a photo. Adobe released this in 2010 but more recently, the feature has seen dramatic improvements in quality and capability with the application of more sophisticated algorithms based on their AI platform.
+
+We’ve seen a raft of new developments in computer vision covering a range of use in photography and video. Recent examples include:
+
+Mechanical Brains
+
+The news has been rife with stories of fake imagery and videos, often involving some of the techniques mentioned above — and it’s only beginning to mature. A basic understanding of the methodology is helpful to understand its capabilities and where it may lead. While it can be used to generate new, synthesized or fake imagery, it can also be used to recognize, categorize, track or creatively modify imagery as in the case of the popular Prisma app which uses a technique known as style transfer achieved through use of a Convolutional Neural Network (CNN). Additionally, these approaches, which are highly adaptive, are a big focus in the effort to create self-driving vehicles.
+
+Generally, achieving good results makes use of neural networks patterned after biological systems where stimuli roll up to higher levels creating more meaningful impulses. At a very elemental level neural networks are optimization methods that train a computer model by finding associations between data. Strong associations are given more importance, weak associations have less value. It’s a bit of a brute force method but computers being fast and tireless can crunch enormous amounts of data to reach surprisingly good results.
+
+One approach pits two neural networks against each other in an optimization scheme known as a Generative Adversarial Network (GAN). One network generates an image based on learnings from a dataset, the other assesses the image to determine if it’s realistic. Rejected images are refined until the discriminator can no longer determine if the image is fake.
+
+Convolutional Neural Networks (CNNs) are commonly used to categorize images or otherwise find patterns. As data is analyzed, convolutional layers transform the data and pass the info to the next layer for further analysis. A number of filters are specified for each layer such as edges, shapes and corners, representing more complex information or objects with each layer. As the data moves further into the network, the more sophisticated layers are able to identify more complex objects like eyes, faces, or cars as data from prior layers is combined.
+
+Perceptual Loss Functions are also used for their speed in training a CNN. This method recognizes that 2 images can look the same to humans but be mathematically different to a computer — such as shifting the same image by a pixel or more. The more data analyzed, the better the results.
+
+These explanations represent the very tip of the iceberg with these technologies. Implementations are still rough around the edges but they are improving rapidly. Yet even with this limited understanding, it’s not hard to see how neural networks can be used to generate impressive, animated models of real people, especially celebrities as we’ve heard many times in the news. For example, high definition video with 24 frames per second can be pulled from YouTube to train a network on how a specific person speaks and moves. These learnings can then be used to generate new or altered imagery such as this example where Jon Snow apologizes for GoT season 8.
+
+These methods are computationally very intensive. Faster processors and the availability of huge amounts of digital imagery that can be used for patterning have allowed the more sophisticated and open-sourced algorithms to proliferate at this time. Interestingly, despite the complexity of image data, ML/AI methodologies have progressed much further than they have with text, due largely to the objective nature of imagery. Words and text, on the other hand, can have varying interpretations based on context, personality, culture and other factors like irony which pose bigger challenges for machines to understand.
+
+The examples we covered above are far from comprehensive. Software and hardware companies continue their aggressive progress while many universities have added the subject to their curriculum and formed computer vision departments. It’s clear we’ll continue to see an increase in the volume and quality of manipulated imagery. Further characterization of large image datasets will naturally bring insights and learnings along with some abuses.
+
+In the final installment of this series, we’ll consider some of the social and ethical challenges with these technologies along with some thoughts on mitigation. We’ll also look at what’s on the horizon.

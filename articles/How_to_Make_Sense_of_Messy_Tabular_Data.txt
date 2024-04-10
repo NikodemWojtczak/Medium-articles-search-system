@@ -1,0 +1,21 @@
+How to Make Sense of Messy Tabular Data
+
+Have you ever had to open a data set that was poorly formatted? The kind of data set that somebody slapped together and printed without thinking that maybe, maybe, somebody might want to later open that data and process it themselves?
+
+It’s a fantastic way to waste time and sprout a few more grey hairs, isn’t it?
+
+Fortunately, Python provides a vast array of tools that you can use to make your life easier. You can use these available tools to reformat the data sets in a manner that’s easy for you to use whether it was formatted well to begin with.
+
+What’s an example of this problem?
+
+In this example, let’s talk about data that was saved in .txt format. Not in .csv, or some other format that makes sense for saving data sets. As a text file, with enough spaces in between to make the values line up and appear to be tabulated.
+
+Take, for instance, the data presented in Figure 1. This is sample data that I made up specifically to demonstrate the concept. If physical context matters to you, pretend that it’s data showing the performance of a water-water heat exchanger. There’s flow across both the hot side and cold side of the device, and inlet and outlet temperature measurements on both sides of the device.
+
+Figure 1: Scientific Data Presented as a Text File
+
+Do you see what makes this data set annoying to work with? It’s a text file. There are no commas separating the data set, so you can’t treat it as a CSV. Nope, it’s not tab-separated either (Though that isn’t obvious from the figure). Values are entered into the table, then enough spaces are added to make sure everything lines up.
+
+As data scientists we want to load this data and get to processing it as quickly as possible, but the format of this data set presents a delay. How do we quickly and easily get this into a usable format? With the power of Python’s filter and .split functions!
+
+How can I use filter and .split to…

@@ -1,0 +1,23 @@
+I am working on moderately large financial price data sets. By moderately large I mean less than 4 million rows per asset.
+
+4 million rows can cover the last 20 years of minute price bars done by a regular asset without extended trading hours — such as index futures contracts or regular cash stocks — .
+
+When dealing with price bars, minute and 5-minute bars generate large datasets. If you would happen to deal with tick analysis then it would be huge instead of large, but tick data is really expensive to obtain, manage and monetize; and unless you are backtesting scalping strategies or working in the HFT industry their advantage would be dubious.
+
+Although 4 million rows do not sound impressive, we need to understand that it is 4 million rows per asset. So to analyze all assets from Russell 2000 would mean 8 billion rows (now we are getting large). Add some European stock markets, your local country small and mid caps, commodities and forex and there you go: you just landed on the big data arena.
+
+There are more than 1700 regulated markets in the world, as soon as you start stockpiling intraday data the numbers become impressive — very fast — .
+
+Bear in mind also that current trend is to extend all future contracts trading hours — Eurex began extended trading hours for FDAX futures since last January — , so the situation is not getting better in terms of the amount of data that needs to be analyzed.
+
+Now the question that every “financial data scientist” makes to himself: where and how do I put my data.
+
+A relational database is the first answer, probably not the most efficient, but the easiest one for sure.
+
+I can enumerate four options as main repository strategy:
+
+SQL relational databases. Serialized storage of large arrays. Key/Value databases (such as Oracle Berkeley DB). CSV files.
+
+For obvious reasons I have discarded the last one, and for the other three I have evaluated just the first two ones.
+
+I have planned to explore the third one: a key/value database. Those databases are not truly mainstream but they can…

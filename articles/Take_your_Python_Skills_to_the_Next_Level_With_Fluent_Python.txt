@@ -1,0 +1,11 @@
+Photo by Bonnie Kittle on Unsplash
+
+Member-only story Take your Python Skills to the Next Level With Fluent Python
+
+You’ve been programming in Python for a while, and although you know your way around dicts, lists, tuples, sets, functions, and classes, you have a feeling your Python knowledge is not where it should be. You have heard about “pythonic” code and yours falls short. You’re an intermediate Python programmer. You want to move to advanced.
+
+This intermediate zone is a common place for data scientists to sit. So many of us are self-taught programmers using our programming languages as a means to a data analysis end. As a result, we are less likely to take a deep dive into our programming language and we’re less exposed to the best practices of software engineering.
+
+If this is where you are in your Python journey, then I highly recommend you take a look at the book “Fluent Python” by Luciano Ramalho. As an intermediate Python programmer, I’m the target audience for this book and it exceeded my expectations.
+
+The book consists of 21 chapters divided into five broad sections:

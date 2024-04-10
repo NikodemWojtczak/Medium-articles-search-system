@@ -1,0 +1,39 @@
+Making ecommerce Data Science concepts simple one topic at a time.
+
+Ecom Data Series: What is data science for ecommerce?
+
+Ecom Data Talk Episode 1: What is Data Science?
+
+Photo by Mein Deal on Unsplash
+
+Data Science is not accessible to most.
+
+In this past year working as an entrepreneur, I’ve had the chance to work with many ecommerce stores large and small, as well as clients from the entertainment/finance industries. What I’ve found to be true is that the things I take for granted as a data science veteran (such as data-driven decisions for business growth) are still rare to find or non-existent outside of tech companies. The fact that this gap exists has me feeling more passionate about our mission to make data science accessible, now more than ever. What is accessible? To me, having access means the availability of information(awareness), availability of means(solution), while being understandable and affordable. Since awareness (about what’s possible) is still such an issue, let’s talk about it in our new series — Ecom Data Cooler Talk. [You can also watch the video here]
+
+What is Data Science?
+
+Data science is a practice of utilizing information from different data elements to support business growth. Its primary purpose is to help businesses serve their customers better, by automating and optimizing different operational areas, as well as assisting stakeholders in making better decisions with data.
+
+This practice in itself is nothing new; in fact, it has existed for decades in the forms of business analysts and financial analysts for example. What’s unique about Data Science, is that in the age of the internet and big data, technological advancements produced new challenges that made previous data analysis methods inefficient and obsolete. Therefore, a new wave of pioneers came up with new ways of collecting and summarizing data that are more suitable for the challenge.
+
+These new methods usually require specialized training and experience, across multiple fields such as computer programming and statistics, and require other skills such as business acumen, communication skills, which is why it’s difficult to become good at all areas, and even more difficult for institutions to produce them.
+
+Why does Data Science matter? Why should I care?
+
+Data is everywhere, and it is increasing exponentially. If the internet is the great equalizer, then data is the great differentiator. When you look at Amazon with books and Netflix with DVDs, both companies started in a relatively small niche that had giant incumbents in the space. The way they were able to displace competition and grow to be worth hundreds of billions in market cap was in large part due to their deep understanding of their customers with data. They know what you read, what you watch, what you like, where you live, combining this information is very powerful, and they were able to serve their customers better by providing better value, and ultimately the consumers made their choice and voted with their dollars.
+
+What should you care? You’re probably saying John we don’t have the time and the money to be dealing with data. It is true that up till just a few years ago, it is mostly deep pocket corporations that are racing to transform their business for the digital age. However, with the emergence of cloud infrastructure, open-source tools, and ecommerce platforms, the cost of data has dropped significantly. Now the problem is most ecommerce stores are vastly under-utilizing their data, which is a massive opportunity for growth.
+
+Why can data science do for me?
+
+In one sentence, it’s to bring clarity to business metrics, surface insights on areas to improve and help you understand your customers better. On top of this, there are automations and tools to help make things easier. For example, are you measuring your margins correctly? If you are still using total revenue, which includes shipping costs and taxes, then you are doing it wrong. You might also want to know who your best customers are and how much they will spend with you in their lifetime. In other words, you want to know the customer lifetime value for a customer, an elusive metric to most. Or maybe you want to analyze customer’s shopping behavior to build different segments and personalize your marketing efforts, which we all know is effective but sometimes not simple to do.
+
+There are many more applications, but it all comes down to these three things: extract insights from data, summarize them intuitively, and infer future outcomes to make better decisions today.
+
+In the digital age, economies of scale have created monopolies that corner the market on data, talent, and resources. By paying pro-athlete level salaries, tech giants have effectively made data science inaccessible to most. That doesn’t have to be the case. Data is power, and we want to give ecommerce data powers back to the people and even the score. Join us and start growing with your data today.
+
+Made by Segments
+
+Find us on LinkedIn or Facebook.
+
+Originally published at tresl.co

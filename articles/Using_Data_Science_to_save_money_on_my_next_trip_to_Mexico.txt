@@ -1,0 +1,79 @@
+Using Data Science to save money on my next trip to Mexico
+
+How am I using basic data work to ensure I am getting a good price on my trip. Marc-Olivier Arsenault · Follow Published in Towards Data Science · 6 min read · Oct 28, 2019 -- 1 Listen Share
+
+It has been 4 years since my wife and I took some vacation in a sunny place. Last time, for our honeymoon, we spent some quality time in Mexico. We enjoyed 10 days in a very nice all-inclusive resort in Riviera Maya. Since then, a house, two kids, a new job and many other things. After some reflexion we decided that it was time to go back on the beach. So, next December (2019) we (my wife, our 3 years old, our 4 months old and I) will be heading to Riviera Maya once again.
+
+Don’t worry, I am not turning my Data blog into a travel and lifestyle blog. I want to share with you how I am making sure I am getting the right price for the trip.
+
+So here is where it is interesting, when we signed the contract this summer (in June) the contract said, if the price go down, I could, once, ask for a price match. Since the trip was +-6 months away, that looked like a very interesting feature. BTW, this is one of the factors that made us pick that travel company. To be upfront with the numbers, we paid 4317 CAD$ for the full family.
+
+The no so easy part
+
+After a couple of weeks, I went back to check the price. It was still the same. Then I realize, how can I track the price. There is no way I can take the time to go, click through a series of web interfaces to query the price. That would represent an annoying 2–3 minutes a day and I just don’t have that time.
+
+Here is what it looks like to get the price update:
+
+The full process of getting the price update.
+
+Obviously, the travel company does not feel like it would be a great feature to track the price. After a couple of time searching for it, there is just no way to do this. At least with a tool on the website.
+
+Then what if it is below my original price, do I take this price or I wait a bit more. Because remember, I can only do a price match once. It would be really useful to have all the historic prices, then if/when it gets below original price, I could look at the trend and take a more informed decision.
+
+So now I would need to spend couple of minutes daily to fetch the price, and then couple of more to copy the value into some sort of spreadsheet. Anyone that did something like this knows that it works kinda of OK for the first few days, maybe weeks. But at some point you start missing days, do copy paste error, etc.
+
+Manual process in data is more or less the equivalent of no process.
+
+Just script it.
+
+My idea was, I can just get the URL, download the HTML from python or something and do some regex magic to extract the price.
+
+Of course, it could not be that easy. First thing, the URL does not really change. All of the price things are some sort of modal on top of the other page. So copying the URL basically brings you back to the home page.
+
+Now when I started to look at Chrome Developer tools, I assumed I could see somewhere the data coming in. Data has to come in right… right…
+
+After a couple of times digging in each of these files, I found the golden nugget.
+
+Seems like we are on the right track. We have what seems to be a JSON file and the custom URL to get it. OBVIOUSLY, when I use this URL directly in a new page it is not working. I receive the equivalent of a page unavailable. Really it seems like they don’t want us to do this. They have set many roadblocks to prevent us from doing it. Thanks Obama.
+
+Then, I found a very neat option in chrome Dev tools.
+
+Copy as cURL. You end up with a very long command you can paste in your terminal and get the JSON.
+
+Finally, something is working. I now have a way to extract the price.
+
+As you can see the query is pretty nasty. Really, it is like if they do not want us to extract the prices automatically. At least, now, we have a pretty nice dictionary to work with.
+
+What to do with this value now
+
+Now that we can access the value, how do we extract it. I have decided to create a AWS Lambda function that run every 6 hours to extract the price. With this price, 4 times a day, we do 3 things:
+
+We check if price is good. Since I paid a bit more than 4300, if price would go below 4k$, I send myself an email. To make sure I can act quickly if needed. I store the value (with the timestamp) in a database. (DynamoDB) I store the value (with the timestamp) in AWS S3
+
+Why 2 and 3, I was not sure how I would use it, since AWS have some rules about what can access what and because storage is shockingly cheap, I stored it twice.
+
+The price
+
+So sadly, the price did not go below 4300$ yet, and to be fair I doubt it will. The trip is now priced at 4700/5000 depending on the days.
+
+To build this view, I have used the fantastic tool call Dash which allows you with fewer than 100 lines of code build this visual. If you are interested, you can go see the app here: https://voyage.coffeeanddata.ca.
+
+Discoveries
+
+For a couple of days I did not collect any new data points. In fact the cURL command was getting back a 404 from the server. Took me a while to realize that I had no new data.
+
+Because I did not implement any validations in my code. The Lambda script would simply silently fail and I would not collect new data points.
+
+So I added a validation in my code that sends me an email when the cookie needed to be updated. I assume the cookie has some expiration encrypted in it. So simply getting a new token seems enough.
+
+Pick wisely
+
+The other interesting points I got from the data up to now is this part of the curve:
+
+For a couple of days in a row, the price surged by 200$ at around 7am in the morning. This is something I will be careful with, next time I look to book a trip.
+
+Conclusion
+
+Sadly, I did not save any money…yet. I am flying for Mexico in more than 2 months so I will keep tracking the price on my website. Travel companies seems to be making some effort to prevent us to automatically extracting the price.
+
+The price looks to be very volatile, I would be curious to understand what influence the price on an hourly basis.

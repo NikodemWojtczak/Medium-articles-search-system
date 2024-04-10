@@ -1,0 +1,21 @@
+The Little Known OGrid Function in Numpy
+
+Photo by Zara Walker on Unsplash
+
+This past quarter, I was helping my students learn the powerful numerical processing library in Python known as Numpy. For a good chunk of the course, we were using Numpy to perform transformations on images, because images are, after all, just big arrays of numbers.
+
+Soon enough, we started talking about how to transform an image, from basic transformations like making an image black & white to more complex edits like adding a halo around an image. It was during this discussion that I learned about the little known ogrid function in Numpy and how we can leverage it to more easily transform images.
+
+What is ogrid?
+
+Ogrid stands for “open grid” and basically provides a way to act on specific pixels of an image based on their row and column index. To start from basics, here is how to call the ogrid function in Numpy assuming you’ve imported Numpy as np.
+
+We see here that ogrid takes in a range of the x-coordinate (0 through 10, not including 10) and a range of the y-coordinate (0 through 5, not including 5). We store the results of ogrid in two variables, x and y.
+
+Showing the contents of x reveals that it is a list of size-one lists, each of which is a number between 0 and 9. Showing the contents of y reveals that it is a list of a single list, which is just the numbers between 0 and 4.
+
+How does ogrid help us?
+
+Well, suppose you have a matrix that is 10 by 5, just like the dimensions of the ogrid. We see below that indexing the matrix using the ogrid gives back exactly the matrix itself.
+
+More importantly, we can use the x and y returned by the ogrid to create something called a “mask”, isolating only the matrix elements we care about, based on their row and column index.

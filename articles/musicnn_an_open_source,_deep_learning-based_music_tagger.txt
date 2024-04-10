@@ -1,0 +1,27 @@
+The musicnn library (pronounced as “musician”) employs deep convolutional neural networks to automatically tag songs, and the models that are included achieve the best scores in public evaluation benchmarks. These state-of-the-art models have been released as an open-source library that can be easily installed and used. For example, you can use musicnn to tag this emblematic song from Muddy Waters — and it will predominantly tag it as blues!
+
+Interestingly, although musicnn is quite confident about its blues prediction, it also considers (with less determination!) that some parts of the song can be tagged as jazz, soul, rock or even country — that are music genres that are closely related. See the taggram (which is the evolution of the tags probabilities across time) of the song above:
+
+Taggram representation: Muddy Waters — see the evolution of the tags across time.
+
+Vertical axis: tags. Horizontal axis: time. Model employed: MTT_musicnn
+
+This project has been developed by a music and audio research laboratory in Barcelona, and is the result of several years of research. This research institution, the Music Technology Group of the Universitat Pompeu Fabra, is well known for its research on music and audio technologies. For example: they contributed to pioneering singing voice synthesis engines like Vocaloid, or they maintain open-source projects like Freesound.
+
+These researchers have open-sourced musicnn, and you can use it by simply installing it:
+
+pip install musicnn
+
+After installing, you just need to run this one-liner in a terminal to tag your song with musicnn — but in their documentation you will find more options, like how to use it from a jupyter notebook:
+
+python -m musicnn.tagger your_song.mp3 –print
+
+Now that you know how to use it, you can try to automatically tag the Bohemian Rhapsody hit from Queen — and see if you agree with musicnn‘s predictions (attached below):
+
+Taggram representation: Queen (Bohemian Rhapsody)— see the evolution of the tags across time.
+
+Vertical axis: tags. Horizontal axis: time. Model employed: MTT_musicnn
+
+Note that the choral prelude is well detected, as well as the piano and rock sections. A particularly interesting confusion is that Freddie Mercury‘s voice was tagged as female voice! In addition, the model is very consistent with its predictions (being “reasonable” confusions or not). Up to the point where one can clearly identify the different sections of the song in the taggram. For example, “repeated patterns” can be found for sections that have the same structure, or the model is quite successful at detecting when a singing voice is present or not.
+
+To know more about musicnn, you can consult the Late Breaking / Demo article the authors will be presenting at ISMIR 2019 or their ISMIR 2018 article (that won the best student paper award of this international scientific venue).

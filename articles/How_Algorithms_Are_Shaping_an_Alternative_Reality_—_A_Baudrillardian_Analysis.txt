@@ -1,0 +1,93 @@
+Biased. Prejudiced. Racist.
+
+Often, when we speak about algorithms, we adopt language that is anthropomorphic. Attributing human traits to what is essentially inanimate bits of code is our way of understanding the nature of algorithms.
+
+Whilst this equips us with a means of articulation, it doesn’t quite capture the nuances of the debate. Labelling an algorithm as biased purports a view of it as an autonomous entity. It implies it’s the code which is inherently biased, not the developer who wrote it or the organisation which sanctioned it.
+
+Moving away from an ontological approach (focusing on what algorithms are) to a teleological one (focusing on what algorithms do) allows the subtleties of the issue to come to the fore.
+
+What Algorithms Do
+
+Algorithms produce models or representations of reality which are then used to infer a multitude of decisions.
+
+These range from product recommendations for online shopping to performance evaluations of high-school teachers; loan application approvals to hospital discharges; risk assessments for insurance premiums to ranking news items on social media feeds.
+
+We can think of these models as types of simulations.
+
+These simulations not only structure our virtual lives but also our physical lives, influencing the social, economic and political spheres we navigate daily.
+
+Algorithms don’t simply reflect reality but actively create it.
+
+A Baudrillardian Analysis
+
+To fully understand the deep-seated impact of these simulations, we can turn to Jean Baudrillard, the French philosopher, sociologist and cultural theorist.
+
+Baudrillard wrote extensively about how simulations (copies of the real) can gradually morph into simulacrum (real in their own right), bearing little or no resemblance to the original.
+
+One of the examples he uses to elucidate his concept is that of a map, an artificially produced abstraction, replacing the actual geographical terrain.
+
+Today, this has echoes of our interaction with digital maps. We perceive reality not as what is visible to us but as that depicted by a navigation app such as Google Maps.
+
+Another more contemporary example is Instagram where hordes of heavily filtered images and carefully curated feeds coalesce into a fabricated reality. A person’s online identity displaces their real-life identity.
+
+Linking this concept to algorithms, let’s explore how models created by algorithms eventually supplant reality.
+
+As an example, I will use recidivism models which are widely used in the United States to determine prison sentences, as detailed in Cathy O’Neil’s Weapons of Math Destruction: How Big Data Increases Inequality and Threatens Democracy.
+
+According to Baudrillard, there are four stages of how a simulation (what Baudrillard calls an image) transforms into a simulacrum.
+
+“Such would be the successive phases of the image: it is the reflection of a profound reality; it masks and denatures a profound reality; it masks the absence of a profound reality; it has no relation to any reality whatsoever; it is its own pure simulacrum.”
+
+(Source: Simulacra and Simulation, p6)
+
+Let’s unpack these further.
+
+1. The simulation reflects reality
+
+The purpose of the algorithm is to build up an accurate picture of the offending person, which can then be used to infer the corresponding recidivism risk — how likely are they to relapse into crime.
+
+The intent here is completely non-malicious — it aims to create a true reflection of reality.
+
+2. The simulation perverts reality
+
+As the algorithm is developed, it needs access to data points to run the risk assessment. When specific data isn’t readily available, which it isn’t in the majority of cases, the developer resorts to relying on proxies.
+
+This could mean using circumstantial data points such as a person’s hometown and corresponding crime rate as an indicator of their risk of re-offending. So, a person who happens to be born in a high-crime area is automatically deemed high-risk.
+
+Other ‘stand-ins’ include drawing correlations from the number of times a person has been stopped and searched by the police. This blatantly ignores the fact that Black men are disproportionately subject to sus laws in both the UK and the US.
+
+By conflating correlation with causation, the algorithmic model outputs a distorted version of reality.
+
+3. The simulation masks the absence of a reality
+
+Thanks to self-perpetuating feedback loops, it becomes near impossible to detect that the algorithms are working based on a false reality.
+
+By deeming a criminal as highly likely to re-offend, the algorithm isn’t simply making a prediction but actively creating the material conditions which will fulfil the prediction.
+
+Consider a person awaiting sentencing, who is based in a high-crime neighbourhood. It is highly likely that originating from such an area, he has friends or family members with prior convictions. Using this criterion, the algorithm assigns a high-risk score to said person, resulting in maximum jail time.
+
+The longer this person spends in prison, the meagre their job prospects once released, especially if released into the same high-crime neighbourhood. In a desperate attempt, if this person does commit another crime, this translates into an ostensible win for the algorithm.
+
+4. The simulation becomes its reality
+
+To an observer, the true conditions of the situation are completely obscured.
+
+Whether a person is likely to re-offend or not, thanks to the simulated model produced by the algorithm, he is treated as high-risk either way.
+
+As Baudrillard puts it,
+
+‘all transgressions, simulated or real, share the same consequences.’
+
+We are now treading the land of the hyperreal where the distinction between real and imaginary is meaningless. This may sound abstract but as we have noted above, it has grave, real-world consequences. Mathematical models, data structures and statistical systems now call the shots.
+
+“Reality itself has begun merely to imitate the model, which now precedes and determines the real world.”
+
+(Source)
+
+So What Can We Do
+
+To effectively eradicate algorithm bias, we need to audit algorithms.
+
+By closely scrutinising the inputs and outputs of an algorithm at scale, we can discern the underlying assumptions, presuppositions and correlations it relies on. Rectifying these can serve as a starting point for ameliorating the injustice caused by automated systems.
+
+The prospect of an alternative reality characterised by alternative facts is rapidly materialising. Unless we embrace algorithmic transparency, accountability and scrutiny, we have little chance of defending ourselves from this imminent threat.

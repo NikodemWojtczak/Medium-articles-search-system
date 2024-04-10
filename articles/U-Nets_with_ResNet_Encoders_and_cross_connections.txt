@@ -1,0 +1,31 @@
+I’ve separated this out from my article on Super Resolution (https://towardsdatascience.com/deep-learning-based-super-resolution-without-using-a-gan-11c9bb5b6cd5), to be more generic as I’m using this same architecture on other U-Net based models predicting on auto-collaborated data.
+
+This is based on the techniques demonstrated and taught in the Fastai deep learning course.
+
+The Fastai software library breaks down a lot of barriers to getting started with complex deep learning. As it is open source it’s easy to customise and replace elements of your architecture to suit your prediction tasks.
+
+The Fastai U-Net learner provides a basis to implement these techniques: https://docs.fast.ai/vision.models.unet.html
+
+This architecture uses the following, each of which is explained further below:
+
+A U-Net architecture with cross connections similar to a DenseNet
+
+A ResNet based encoder and a decoder based on ResNet
+
+Pixel Shuffle upscaling with ICNR initialisation
+
+Residual Networks (ResNet)
+
+ResNet is a Convolutional Neural Network (CNN) architecture, made up of series of residual blocks (ResBlocks) described below with skip connections differentiating ResNets from other CNNs.
+
+When first devised ResNet won that year’s ImageNet competition by a significant margin as it addressed the vanishing gradient problem, where as more layers are added training slows and accuracy doesn’t improve or even gets worse. It is the networks skip connections that accomplish this feat.
+
+These are shown in the diagram below and explained in more detail as each ResBlock within the ResNet is described.
+
+Left 34 Layer CNN, right 34 Layer ResNet CNN. Source Deep Residual Learning for Image Recognition: https://arxiv.org/abs/1512.03385
+
+Residual blocks ( ResBlocks) and dense blocks
+
+Convolutional networks can be substantially deeper, more accurate, and more efficient to train if they contain shorter connections between layers close to the input and those close to the output.
+
+If you visualise the loss surface (the search space for the varying loss of the model’s prediction), this looks like a series of hills and valleys as the left hand image in the diagram below shows. The lowest loss is the lowest point. Research has shown that a smaller optimal network can be ignored even if it’s an exact part of a bigger network. This is because the loss surface is too hard to navigate. This means that by adding many deep layers to a model it can make the prediction become worse.

@@ -1,0 +1,53 @@
+The Little Robot that Lived at the Library
+
+How we built an emotive social robot to guide library customers to books Minja Axelsson · Follow Published in Towards Data Science · 9 min read · Jul 25, 2019 -- 1 Listen Share
+
+The Oodi library
+
+Our team at Futurice designed and built a social robot to guide people to books at Helsinki’s new central library, Oodi. Opened in 2018, Oodi is the biggest of Helsinki’s 37 public libraries. It has 10,000 visitors a day, and an estimated 2 million visitors a year (compared to Finland’s 5.5 million population, that is a significant portion).
+
+Automatic returns system
+
+The MiR200 wagon moving books and their boxes
+
+Oodi is big on automation and robotics. It has an automatic returns system: customers set their books on a conveyor belt, which brings the books to the basement, where they get sorted into boxes, which are picked up by a mobile MiR200 robot, which brings the books to the 3rd floor. At the 3rd floor, librarians place the books back on the shelves.
+
+At the start of our project, we brainstormed how Oodi could use social robots: helping kids learn to read, instructing people on using equipment such as 3D printers, giving information about the library in several languages, and helping people find their way at the library.
+
+We eventually settled on a robot that would help customers find the books and book categories they want. Since Oodi is so big, customers have a hard time getting around, and library employees spend a significant amount of time advising people how to find things. But this is not the work librarians are meant to be doing, or want to be doing. Librarians are very knowledgeable about literature. Their expertise is better used in in-depth service, helping visitors find specific books that fit their needs best. This type of work can take 30–40 minutes. In comparison, “Where is the psychology section?” takes 1–3 minutes to answer. Stacked together, a whole day of 1–3 minute tasks becomes tedious, and a waste of skills.
+
+This is where the robot steps (or rather, rolls) in. A whole day of menial tasks would not bother a robot. We realized we could re-purpose the MiR200 mobile robots that the library already had, and was using to move books between the basement and the 3rd floor.
+
+The robot design team: Oodi librarians, Oodi’s customers, and Futurice’s roboticists
+
+The robot would have the advantage of being able to access Oodi’s database directly, and provide real-time information on which books are currently on the shelf. The robot could be more approachable to people who have social anxiety, and are afraid to approach library employees. Additionally, it could save both the customers’ time (no need to queue for a librarian), and the librarians’ time (who can help customers with more meaningful tasks).
+
+First draft
+
+A Mobile Robot with (the Illusion of) a Personality
+
+The design team, consisting of Oodi’s librarians, Oodi’s customers, and Futurice’s roboticists, defined design guidelines for the robot that would be built on top of the MiR200 robot, using these social robot co-design canvases (available as open source):
+
+The robot is sincerely a machine — it beeps expressively, and doesn’t talk
+
+The robot has a touch-screen UI, and users don’t talk to the robot
+
+The robot uses lights, sounds, and movement to communicate
+
+The use of the robot should not depend on how familiar the user is with technology
+
+The design needs to account for accessibility, the level of background noise, the library’s changing layout and furniture, and dodging customers
+
+The design team decided that the robot should not be too humanoid. We wanted a more abstract form for the robot, with expressive, non-speaking forms of communication. We wanted a design with a bit of imagination and whimsy.
+
+The team also wanted to make sure that the robot aligned with Oodi’s strategy and policies. The following ethical considerations were underlined:
+
+GDPR (the EU’s data regulation) needs to be followed. Data about the person who looks for the book should not be combined with data about which book they were looking for.
+
+Accessibility is important. The library’s principle is that everyone is served equally. Physical limitations, different languages, and impaired vision need to be taken into account.
+
+The customer should be able to choose to be served by a human librarian.
+
+If the robot is not working, it may cause frustration and rude behaviour by customers. This should be prepared for, so that librarians are not negatively affected.
+
+We started testing the robot at the library, mapping out appropriate routes, and building the user journey. Luckily, we had some very excited testers.

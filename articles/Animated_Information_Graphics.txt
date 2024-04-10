@@ -1,0 +1,15 @@
+Animated Information Graphics
+
+Image www.pexels.com
+
+Animated information graphics of various datasets are a popular topic on youtube, for example, the channel
+
+has almost a million subscribers. I will show in this article some examples of such infographics on my dataset of news articles from Austrian newspapers on politics, and how to create the animations with Python and Plotly (https://plot.ly/).
+
+In the article https://medium.com/datadriveninvestor/topics-in-online-news-before-the-austrian-elections-2019-d981facbd0dd, I analyzed the topics before the elections. In this post, I want to look back at the news from the second half of the year 2019, and use animated graphics to analyze the news over time. I collected and analyzed more than 22,000 news articles from 12 Austrian online daily newspapers.
+
+The first video shows day by day how often each party has been named up to that day. It is counted from July until the end of the year. In the end, the ÖVP is just ahead of the FPÖ and “NEOS” is clearly at the end.
+
+In the second video, the number of times each party was mentioned per newspaper per week is shown. This is also shown animated for the entire second half of the year. It is noticeable that individual media have a clear preference for some parties, and for example, NEOS was mentioned very little outside of ORF. The week of the election of the National Council is clearly visible in the increased number of reports and mentions. The period of coalition negotiations after the election can be seen in the increased naming of the “Greens”. Many other aspects can often only be seen after watching the video several times.
+
+In order not only to review the quantity of reporting I have also tried to show the dominant contents in further visualization. The most common words are shown in a “Wordcloud” day by day. The dominating personalities stand out clearly, but also the election period is clearly recognizable by the changing choice of words. Here, words such as “percent” or “election results” dominate.

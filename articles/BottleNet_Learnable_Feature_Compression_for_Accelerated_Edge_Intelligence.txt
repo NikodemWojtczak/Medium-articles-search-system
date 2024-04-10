@@ -1,0 +1,25 @@
+BottleNet: Learnable Feature Compression for Accelerated Edge Intelligence
+
+Neural networks are either deployed on the local devices or the cloud servers. If it is very large then the only option will be the cloud server. The downside of using cloud services is the communication cost that you need to upload a relatively large input. The privacy is also compromised by giving the raw valuable data to the cloud owners. So the question is why not offloading the features instead of the raw input? Features are often sparse, and we may achieve higher compression ratios in the feature space. BottleNet is a paper presenting a method for feature compression which only requires to offload 316 bytes of data to the cloud servers for inference on ImageNet dataset.
+
+BottleNet adds two extra units into an existing neural network. 1. A convolutional layer for reducing the channel/spatial dimensions 2. A lossy compressor (e.g. JPEG). Photo by author.
+
+Given a deep neural network (DNN), we insert a convolutional layer which reduces the spatial and channel dimensions. Then we pass the reduced features of the convolution to JPEG compression. This leads to an average size of 316 bytes needs to be uploaded to the cloud for the rest of inference! Much less than a JPEG compressed 224x224 image (26667 bytes on average)! A convolutional layer for restoring the original feature dimensions followed by a JPEG decompression is used on the cloud.
+
+Learnable dimension reduction and restoration units along the (a) channel and (b) spatial dimension of features. Photo by author.
+
+But how to train a neural network with a non-differentiable layer (JPEG) in the middle? Approximation! Because A pair of compressor and decompressor can be approximated by an identity function, we set its derivative simply to one.
+
+Embedding non-differentiable compression (e.g., JPEG) in DNN architecture. We approximate the pair of JPEG compressor and decompressor units by identity function to make the model differentiable in backpropagation. Photo by author.
+
+So, in summary, we add a set of layers (Bottleneck Unit) in a neural network to reduce the communication costs of transferring the raw input image to the cloud servers. If we have an edge device, it would be preferable to insert the bottleneck unit in the initial layers to avoid the high computation costs of edge devices:
+
+Bottleneck Unit — all the reduction, compression, decompression, restorations units altogether. Photo by author.
+
+What happens if we simply apply a JPEG compression on the intermediate features and offload it the cloud for the rest of the computations of downstream layers? Huge accuracy loss! But if the neural network is trained while being aware of the presence of a JPEG compression unit in the middle, then the accuracy loss will become smaller. The following figure shows the accuracy gap between these two approaches:
+
+Accuracy loss will be much lower if the network is aware of the presence of JPEG compression on its features. RB1 in this figure refers to the first residual block of the ResNet-50 model. Photo by author.
+
+Find more about BottleNet on https://arxiv.org/abs/1902.01000.
+
+This work has been published in the International Symposium on Low Power Electronics and Design (ISLPED), 2019. https://ieeexplore.ieee.org/document/8824955/

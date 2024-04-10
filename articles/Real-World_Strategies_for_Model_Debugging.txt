@@ -1,0 +1,151 @@
+Real-World Strategies for Model Debugging
+
+Contents:
+
+Introduction
+
+1.1 A Quick Note on Trust and Understanding
+
+1.2 Example Problem and Dataset Detection Strategies
+
+2.1 Sensitivity Analysis
+
+2.2 Residual Analysis
+
+2.3 Benchmark Models
+
+2.4 Security Audits for ML Attacks Remediation Strategies
+
+3.1 Data Augmentation
+
+3.2 Noise Injection and Strong Regularization
+
+3.3 Model Editing
+
+3.4 Model Assertions
+
+3.5 Unwanted Sociological Bias Remediation
+
+3.6 Model Management and Monitoring
+
+3.7 Anomaly Detection Further Reading and Conclusion References
+
+—
+
+1. Introduction
+
+So, you’ve trained a machine learning (ML) model. You did everything right: cross-validation, early stopping, grid search, monotonicity constraints, and regularization. It’s accurate and stable in out-of-time test data, and better than the linear model it’s replacing. You even wrapped your model in a Docker container with all its dependencies for your data engineering and information technology (IT) pals. Time to deploy? Not so fast. Current best practices for ML model training and assessment just don’t tell us how to find and fix all the nasty things that can blow up in a real-world ML system. If only these systems could be tested and debugged like regular applications … enter: model debugging. Model debugging is an emergent discipline focused on finding and fixing problems in ML systems. Model debugging attempts to test ML models like code (because they are usually code) and to probe complex ML response functions and decision boundaries to systematically detect and correct accuracy, fairness, and security problems in ML systems.
+
+1.1 A Quick Note on Trust and Understanding
+
+In ML, trust and understanding are similar but not the same. Unpacking that difference helps me think through model debugging and how it relates to other parts of a ML workflow. As shown in Figure 1, there are lots of tools available today to promote human trust and understanding of ML. Some techniques, such as model debugging and social bias testing and remediation, help us make ML more accurate, fair, and secure without telling us very much about how the model works. These help us trust a model, more than they help us understand it. Other techniques, like interpretable ML models and post-hoc explanations, increase our understanding directly by revealing model mechanisms or by summarizing model decisions. These techniques only increase trust as a side-effect, when we like the model or explanations.
+
+Figure 1: Many tools exist today to increase trust and understanding of ML systems. Some promote trust directly, while others promote understanding directly. Figure courtesy of Patrick Hall and H2O.ai.
+
+This post will focus on mathy aspects of debugging ML and promoting trust in ML. However, it’s crucial to consider these two additional aspects of a responsible ML workflow:
+
+Enabling understanding of ML
+
+Testing and hardening of IT systems that surface ML models
+
+Even if you value trust, and in particular accuracy, more than fairness, interpretability, or security, making ML systems understandable is needed to enable logical appeal or operator override of wrong ML decisions. It’s very hard to argue against a black-box.[1] You won’t like it when your children are kept out of their preferred college by an accurate, but inscrutable, ML system. Nor would you enjoy being denied healthcare by the same kind of black-box system. You’d like the opportunity to appeal wrong ML decisions that affect your life, and that’s why business- or life-critical ML systems should always be understandable. Figure 2 proposes a workflow that includes steps for increasing both trust and understanding in ML systems. Model debugging likely works best when used along with the other techniques proposed in Figure 2.
+
+Many of you likely know more than me about testing and hardening systems that surface ML models to consumers. I won’t say much more than that kind of work is still necessary. Just because a system houses a ML model doesn’t exempt it from testing. Moreover, Google (and probably others) have already put forward some workable thoughts and frameworks on the subject.[2]
+
+Figure 2: A ML workflow that can enhance trust and understanding. Figure courtesy of Patrick Hall and H2O.ai.
+
+Now, let’s get into how to debug the guts of ML models. First we’ll discuss the example problem and dataset used in this post, then how to detect bugs, and finally, how to squash them.
+
+1. 2 Example Problem and Dataset
+
+Some examples below are based on the well-known Taiwanese credit card dataset from the University of California Irvine (UCI) ML repository.[3] In this dataset, we try to predict if someone will pay, DEFAULT_NEXT_MONTH = 0, or default, DEFAULT_NEXT_MONTH = 1, on their next credit card payment. Variables about payments are used to generate probabilities of default, or p_DEFAULT_NEXT_MONTH. I’ll use one of my favorite types of models, an interpretable monotonically constrained gradient boosting machine (M-GBM), to make these predictions. In the M-GBM, p_DEFAULT_NEXT_MONTH must only increase, or only decrease, as a certain input variable increases. This makes explaining and debugging the model much, much easier and does not really affect the overall accuracy of the model for this dataset. The M-GBM is trained on payment variables including PAY_0 — PAY_6, or a customer’s most recent through six months prior repayment statuses (higher values are late payments), PAY_AMT1 — PAY_AMT6, or a customer’s most recent through six months prior payment amounts, and BILL_AMT1 — BILL_AMT6, or a customer’s most recent through six months prior bill amounts. All monetary values are reported in Taiwanese Dollars (NT$).
+
+Some of the example results also contain the variables LIMIT_BAL and r_DEFAULT_NEXT_MONTH. LIMIT_BAL is a customer’s credit limit. r_DEFAULT_NEXT_MONTH is a logloss residual value, or a numeric measure of how far off the M-GBM prediction, p_DEFAULT_NEXT_MONTH, is from the known correct answer, DEFAULT_NEXT_MONTH. I’ll also use demographic variables in the dataset, like SEX, to test for unwanted sociological bias. For the most part, this post treats the example credit lending problem as a general predictive modeling exercise, and does not consider applicable regulations. (Of course, noncompliance penalties probably make model debugging more commercially appealing.)
+
+2. Detection Strategies
+
+How do we find math bugs in ML models? I can think of at least four major ways: sensitivity analysis, residual analysis, benchmark models, and ML security audits. You can probably think of others too.
+
+2.1 Sensitivity (“What-if”) Analysis
+
+Sensitivity analysis, sometimes called “What-if” analysis, is a simple and powerful idea. Just simulate data that represents interesting scenarios, then see what kind of predictions your model makes in those scenarios. Because it’s almost impossible to know how a nonlinear ML model will react to data it did not see during training, it’s really important to conduct sensitivity analysis on all of our important ML models.[4] You might have some ideas about what kinds of scenarios to test. If so, that’s great and just do it. Maybe you just want to play with your model too? Also great. For those cases, definitely checkout the What-If Tool, which provides an interactive sandbox experience for certain types of ML models.
+
+It can also help to have a more structured approach to sensitivity analysis. This subsection will present three strategies for structured sensitivity analysis:
+
+Partial dependence, individual conditional expectation (ICE), and accumulated local effect plots (ALE)
+
+Adversarial example searches
+
+Random attacks
+
+Before we jump into those, it’s good to know which variables are most important to your model. I always focus my testing efforts on those variables first. Figure 3 is an accurate and consistent variable importance plot calculated with Shapley values using XGBoost.[5] (Shapley variable importance measurements are also available natively in H2O and LightGBM.) Figure 3 shows us that PAY_0 is very important, and probably too important as we will see later.
+
+Figure 3: An accurate and consistent variable importance chart for the M-GBM model and the credit card dataset. Figure courtesy of Patrick Hall and H2O.ai.
+
+2.1.1 Partial dependence, ICE, and ALE
+
+Partial dependence sets all the values of a column of interest, say PAY_0, in a dataset of interest, say the example validation dataset, to a value of interest, say missing or NaN, or any other reasonable value. This new dataset is run back through the trained model, creating a prediction for every row. Taking the average of all those predictions is the estimated partial dependence for that variable, for that dataset, for that value, and for that model. Now, we repeat that process over several different values that we’re interested in to create a partial dependence curve to plot. In Figure 4, that plot shows us the rough average behavior of PAY_0 in the M-GBM model.
+
+Though it’s pretty easy to understand, partial dependence is far from perfect. It’s known to show untrustworthy results when there are strong interactions or correlations in a dataset. We have at least two options to improve partial dependence, ALE and ICE. Sounds fun right? ALE is almost a direct replacement for partial dependence. It’s more efficient to calculate and typically more accurate. ALE is available in R packages like: ALEPlot, DALEX, and iml.
+
+ICE is often used along with partial dependence. ICE is a very similar calculation to partial dependence. Follow the same steps as described above, except the dataset of interest is just one row. That, and we usually calculate ICE curves for many different rows in a dataset. When the ICE curves, representing many different real or simulated individuals, follow along with the overall average behavior represented by partial dependence, this is a good sign that partial dependence is accurate enough. When ICE curves diverge from partial dependence, this potentially indicates the presence of interactions in the model (that are likely averaged-out of the partial dependence). In short, ICE can tell us about the behavior of interesting real or simulated individuals under our model, if partial dependence is trustworthy, and if we should be on the lookout for any strong interactions in our model. Combinations and variants of partial dependence and ICE are available in several of open source packages like PDPbox, PyCEbox, ICEbox, and pdp.
+
+Figure 4 combines partial dependence, ICE, and a histogram to provide a lot of insight about the most important variable, PAY_0, in the M-GBM model. First we can see the training data is really sparse for PAY_0 > 1. This is usually a bad sign. ML models need lots of data to learn. This model has almost no data to learn about people who are more than 1 month late on their most recent repayment. Looking at partial dependence we can see a few other potential problems. The model gives the lowest average probability of default for missing, i.e. NaN, data. Does this make business sense? I don’t see how. Also, it’s kind of scary from a security perspective. If I want a good score from this model, I might only need to hack an adversarial example with a missing value for PAY_0 into the M-GBM’s production scoring queue. Also, we can see a huge swing in predictions from PAY_0 = 1 to PAY_0 = 2. Does this make sense from a business perspective? Maybe so and that’s fine, but it’s another thing to be aware of from a security and data drift perspective. If I want to conduct a denial of service attack for a customer of this model, I just need to change their PAY_0 value to larger than 1. For this model, we might want to let our IT pals know to monitor for adversarial example attacks involving PAY_0 = NaN and PAY_0 > 1. Also, if our market changes toward recession conditions, and customers have more late bills, it’s important to remember how sensitive this M-GBM is to values of PAY_0 > 1.
+
+Figure 4: Histogram, partial dependence, and ICE for PAY_0. Figure courtesy of Patrick Hall and H2O.ai.
+
+On the more reassuring side, the partial dependence and ICE curves show the monotonicity constraint for PAY_0 held on average and for many individuals. The monotonicity constraints luckily helped us deal with the data sparsity issue too. Due to the monotonicity constraints, the model held the probability of default from PAY_0 = 2, where there is some training data, all the way out to PAY_0 > 8, where there is no training data. Without the constraint, model predictions in this domain of PAY_0 would probably just be random noise. Finally, because ICE and partial dependence are mostly aligned, we can see that the partial dependence curve for PAY_0, this dataset, and the M-GBM model is probably pretty trustworthy. Now, you just need to perform this analysis for the rest of your most important variables. For brevity’s sake, I’ll move onto the next sensitivity analysis debugging strategy, adversarial example searches.
+
+2.1.2 Adversarial example searches
+
+Adversarial examples are rows of data that make a model produce unexpected results. Looking for adversarial examples is a great debugging technique. The search process allows us to see how our model performs in many different scenarios. Finding and understanding actual adversarial examples can direct us toward ways to make our models more robust and tell us about anomalies to look for when the model moves into a production setting. If you’re working in the Python deep learning space, look into cleverhans and foolbox for finding adversarial examples. For structured data, there’s less freely available software to help us out, but I have a little heuristic search method you can try or modify. Figure 5 shows the results of that heuristic search.
+
+Figure 5: Maximum predicted probability of default for adversarial example search across several important variables. Figure courtesy of Patrick Hall and H2O.ai.
+
+For the M-GBM model and data, the heuristic search starts with PAY_0, calculating ICE like I did in Figure 4, and finding the ICE curve with the largest swing in predictions. For this dataset and model, that is the ICE curve at the 90th percentile of p_DEFAULT_NEXT_MONTH. Then the row of data at the 90th percentile of p_DEFAULT_NEXT_MONTH is perturbed 10,000 times, through ten different values for four important variables: PAY_0, PAY_3, PAY_AMT1, and PAY_AMT2. (These variables were selected due to their wide range of Shapley values, not directly from the variable importance plot in Figure 3.) This dataset of 10,000 perturbed instances of the row at the 90th percentile of p_DEFAULT_NEXT_MONTH was then rescored by the M-GBM model, and the results are plotted in Figure 5.
+
+Figure 5 shows us several interesting things about the M-GBM model. First, we can see the monotonicity constraints held even for combinations of several variables. Second, we may have discovered a logical flaw in the M-GBM model. It appears that no matter how large someone’s most recent or second most recent payments are, the model will generate high probabilities of default if their most recent payment is more than one month late. This means the M-GBM model may not be able to account for prepayment, or for someone making large payments to make up for late payments, without issuing default predictions. If I did want to account for these conditions in my M-GBM model or in a ML-based credit lending system based on the M-GBM model, I could consider editing the M-GBM model or using model assertions to enable the credit lending system to handle these more complex scenarios. (See Subsections 3.3 and 3.4.) Third, this search did turn up at least one adversarial example. Extremely low values of PAY_AMT1 and PAY_AMT2, when combined with other values in the row used to initialize the search, will cause the M-GBM model to generate surprisingly high probabilities of default. These values are something for which to monitor when the M-GBM model is moved into production. They could indicate the model is under adversarial attack.
+
+If you think the proposed adversarial search method seems useful, give it a try. The heuristic search process can be summarized as follows.
+
+For each important variable:
+
+Calculate ICE curves at each decile of model predictions. Find the ICE curve with the largest swing in predictions. Isolate the row of data associated with this ICE curve. For this row of data:
+
+Perturb 1–3 additional important variables in the row. (It’s hard to plot results for more than 1–3 variables.)
+
+Rescore the perturbed row.
+
+Continue until each additional important variable has cycled through its domain in the training data, and through missing or other interesting out-of-range values.
+
+5. Plot and analyze the results.
+
+2.1.3 Random attacks
+
+Random attacks are conducted by exposing a model to all kinds of random data. Think: double-byte character sets, datasets with one row and one column, datasets with 10 million columns and one row, etc. etc. etc. Random attacks can find both conventional IT bugs and math bugs. Consider that upon being exposed to a dataset with 10 million columns and 1 row, your API misbehaves by coughing up a stacktrace with too much private or internal information. Or maybe it just fails in a really ugly, service-crashing way? Maybe your API and model treat double-byte characters like missing values, and always assign records containing them a low probability of default? Who knows? Not you … if you don’t test for this kind of stuff. Also, if you’re totally clueless about where to start with your model debugging efforts, start with a random attack. I bet you will find some very interesting things.
+
+2.2 Residual Analysis
+
+Residual analysis has long been a cornerstone of linear model diagnostics, and that should remain true in an age of ML. Residuals refer to the difference between the known true outcome and what a model predicted that outcome to be. There are lots of ways to calculate residuals, but usually a large residual value means a model was wrong, and small residual value means a model was right. Residual plots put all your input data and predictions into a two-dimensional visualization where influential outliers and other types of math bugs can become plainly visible. The only draw-back of residual analysis is that to calculate residuals, we need true outcomes. So sometimes we can’t work with residuals in real-time if we’re making predictions where the true outcome won’t be available for a period of time. (Say in mortgage lending.)
+
+Figure 6 displays the logloss residuals of the M-GBM model plotted by the levels of the important variable, PAY_0. Magenta residuals are from customers who actually defaulted. Blue residuals are from customers who did not default. Sadly, Figure 6 paints a damning portrait of my M-GBM model.
+
+Figure 6: Logloss residuals plotted by PAY_0. Figure courtesy of Patrick Hall and H2O.ai.
+
+In Figure 6, we can see that for desirable values of PAY_0 < 1, i.e. NO CONSUMPTION (-2), PAID DULY (-1), or USE OF REVOLVING CREDIT (0), there are a lot of large magenta residuals. This means that the model basically fails to predict default when someone made their most recent payment. For PAY_0 > 1, model errors are driven by the large blue residuals, meaning that when a customer has an undesirable value for PAY_0, i.e. several months late, the M-GBM model cannot predict on-time payment. Combining this information with the variable importance plot in Figure 3 shows that the M-GBM is pathologically over-dependent on PAY_0. I could likely deploy a single business rule: IF PAY_0 > 1 THEN DEFAULT_NEXT_MONTH = 1, and have the same accuracy as the M-GBM, or almost any GBM. That way I would only be unleashing one brittle rule into the wild, instead of thousands or millions of broken, potentially biased and hackable rules.
+
+We can try to fix this dangerous bug with data augmentation, strong regularization, model editing, or model assertions, all of which are discussed in the remediation section of this post. But one thing is clear, this model is broken, untrustworthy, and unfit for use in the real-world. This problem does not show up in fit statistics, lift, or AUC plots, and I never would have seen it so clearly it without looking at the residuals. In fact, it can be shocking what residual plots show us about seemingly healthy models.[6] Hopefully I’ve convinced you plotting residuals is a high-impact debugging technique. It’s usually easy to do yourself with any language you like and a decent plotting library, but packages like DALEX, themis-ml, and auditor provide this functionality right out-of-the-box.
+
+2.2.1 Disparate impact, accuracy, and error analysis
+
+Disparate impact (DI) roughly refers to unintentional discrimination in decision-making systems. DI testing methods are a well-known way to find some types of unwanted sociological bias in training data and predictive modelling results. Are they perfect? No. Are they the least you can do to stop your ML model from perpetuating or exacerbating unwanted sociological bias? Probably. There are also several open source packages that can help you do your DI testing, including aequitas, AIF360, and Themis. Basic DI testing methods look at accuracy and error rates across demographic variables. Ideally we want these accuracy and error rates to be roughly equal across different demographic groups. If they’re not, this a strong indication your model is perpetuating or exacerbating unwanted sociological bias. In Figure 7, we can see with respect to the variable SEX, accuracy and error rates look fairly similar for men and women. This is a good sign, but it does not mean our model is free of unwanted sociological bias, even with respect to SEX.
+
+All models have the ability to treat similar people differently based small changes in their input data, potentially resulting in instances of local bias, or a lack of individual fairness. An example of local bias could be granting a credit extension to a young woman with a good payment history and an income of NT$100,000, but denying credit to a very similar young woman with an income NT$99,999. We know that the NT$1 difference in income makes no real difference, but a ML model can arbitrarily place these two similar individuals on different sides of a nonlinear decision boundary. Worse still, standard DI testing usually can’t catch local bias problems. How do we ensure fairness on an individual level? That’s still a somewhat open question as of today, that many stellar researchers are trying to answer.[7] One practical suggestion I can give is to take a hard look at individuals closest to your model’s decision boundary or probability cutoff. In most cases, very similar individuals should not be on different sides of that boundary. Now, before moving onto discuss disparate accuracy and error rates as a general bug detection tool, it’s important to say fairness in ML goes far beyond the small discussion here. If you want to learn more about it, checkout the Fairness, Accountability, and Transparency in ML (FATML) conference and associated resources and try out some of those packages linked above. [8]
+
+Figure 7: Accuracy and different types of error for PAY_0 and SEX across levels of these categorical variables. Figure courtesy of Patrick Hall and H2O.ai.
+
+Traditional DI testing methods can also be applied to categorical variables in general, and I find this to be an excellent bug detection method. Figure 7 displays numerous accuracy and error metrics across the different categorical levels of the important variable, PAY_0. Here we can see the dramatic difference between the M-GBM’s performance for PAY > 1, likely driven by sparsity of training data in that domain. This table does a good job of presenting just how brittle the model performance is in this domain, and how different the model performance is for PAY > 1. This bug detection technique can also be applied to numeric variables, simply by binning them.
+
+2.2.2 Explanation of residuals
+
+The last few years have brought us numerous techniques to explain ML model predictions. These techniques can also be used to improve our residual analysis. It’s possible to create local interpretable model-agnostic explanations (LIMEs), partial dependence, or individual conditional expectation plots of residuals. Recent additions to the shap package, make it possible to calculate Shapley contributions to residuals, meaning you can get an accurate picture of which variables are driving errors, both locally, i.e. for single rows, and globally, i.e. over an entire dataset. Another good option for explaining residuals is to fit a model to them. Figure 8 is a decision tree fit to the M-GBM residuals when DEFAULT_NEXT_MONTH = 1. Figure 8 shows a model of why the M-GBM model missed future defaults, that would likely cause write-offs in the real-world.

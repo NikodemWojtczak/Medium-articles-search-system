@@ -1,0 +1,65 @@
+Many times we find that our business data seems good, but the final conversion volume is very low, which indicates that the business conversion rate is problematic. In data analysis, there is a crucial modeling tool that can solve this problem well. It is the funnel analysis model. You probably already know this from my last article Top 5 Methods of Thinking in Data Analysis. Today I will introduce this funnel model in detail.
+
+1. What Is a Funnel Analysis?
+
+The funnel analysis model, in simple terms, is a process in marketing products. And we need to observe the conversion and loss of each step in this process.
+
+Regarding the funnel model in actual application scenarios, people expect nothing more than two points:
+
+a large number of conversions
+
+a high final conversion rate
+
+For these two goals, the feasible measures are:
+
+increase the initial flow
+
+increase the retention rate of each key point
+
+2. What Is the Key to Funnel Analysis?
+
+Generally speaking, funnel analysis is ordered, and this order is reflected in the path of the key nodes. In an ordered funnel, the path is narrower and narrower. In other words, the amount of data left in each step cannot be greater than the amount of data left in the previous step. If this condition is not met, it indicates that the process sequence of critical paths may be problematic and we should adjust the path order.
+
+3. How to Perform Funnel Analysis
+
+3.1 Goals
+
+Like any data analysis, the first step in funnel analysis is also to set goals, that is, to understand what you really want to do and what results you want to get. For example, in the funnel model of commercial marketing activities, the goal is to realize the business and make profits. And the following five steps are determined for this purpose.
+
+Step 1 : Place an ad. Improve users’ awareness of the brand.
+
+: Place an ad. Improve users’ awareness of the brand. Step 2 : Watch the ad. Increase users’ interest in the product.
+
+: Watch the ad. Increase users’ interest in the product. Step 3 : Evaluate the product. Users will decide whether to purchase based on their perception of the brand and their interest in the product.
+
+: Evaluate the product. Users will decide whether to purchase based on their perception of the brand and their interest in the product. Step 4 : Pay for the product. Users will purchase the product they are interested in after the evaluation and conclude a deal.
+
+: Pay for the product. Users will purchase the product they are interested in after the evaluation and conclude a deal. Step 5: Repeat the purchase. Some users will continue to purchase. They may also recommend the product to relatives and friends.
+
+3.2 Variables
+
+Variables are factors that can influence the results of funnel analysis. They are divided into independent variables, dependent variables, and mediator variables.
+
+In organizational behavior, the dependent variable is the behavioral response to be measured, while the independent variable is the variable that affects the dependent variable.
+
+As in the model above, dependent variables are the advertisement viewing rate, the product payment rate, the repurchase rate, etc. And the advertising channels (such as television, newspapers, magazines, subways, websites, etc.), the age of the users who watch the ad, the users’ location, their hobbies and their economic conditions are the independent variables that affect the dependent variables.
+
+Mediator variables cause mediation in the dependent and independent variables. They reduce the effect of independent variables on dependent variables. The existence of a mediator variable makes the relationship between the independent variable and the dependent variable more complicated.
+
+The mediator variable is the variable we need to intervene in. We should deconstruct it infinitely to affect the independent variable.
+
+From Neil Patel
+
+In the traditional funnel model above, assuming that our brand is a high-end luxury, we need to analyze independent variables like advertising channels, the users’ ages, and the ad serving area. We finally find that our advertising area is too wide and the cost is too high.
+
+Then we keep eyes on the advertising area. We see that the proportion of advertising in remote areas is relatively high. At this time, have we found the problem? We can narrow the ad serving area. Will it be better to focus on advertising in big cities?
+
+The ideal situation is that we can deconstruct the problem step by step and find the only variable. And then we can accurately locate the problem and solve it, which leads to user growth.
+
+3.3 Relationship
+
+Once we have identified the goals and the various variables that affect our goals, we need to study the relationships between variables.
+
+When determining the relationship between variables, you should be cautious about the judgment of which is the cause and which is the result. We can’t say that there is a causal relationship between two variables because of the statistical relationship between them.
+
+For example, when we talk about user growth, we talk more about acquiring customers. We are not considering how to improve the conversion rate and activation rate of existing users. We really need to think about how to make users become loyal users. Only loyal users will not be lost and bring more benefits.

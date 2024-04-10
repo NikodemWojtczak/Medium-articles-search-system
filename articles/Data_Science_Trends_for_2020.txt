@@ -1,0 +1,85 @@
+Data Science Trends for 2020
+
+Right now, people are already celebrating the end of the decade (fun fact: the 2020s decade actually begins on Jan. 1, 2021). As last year, I decided to thinking over what has happened and what can we expect, in my opinion, regarding Data Science for 2020.
+
+I’ve never expected my last year’s reflection post to have so many reads. From the feedback, people found it interesting and without further due, let’s dive into this year’s thoughts and keep the forum open!
+
+Data Science arrive to conservative areas
+
+In 2019, we began to see machine learning solutions being applied to conservative (and much more regulated) fields, like healthcare — and, now, taken seriously!
+
+One of the most interesting Kaggle challenges I’ve noticed this year was the identification of Pneumothorax disease in chest x-rays. In essence, a collapsed lung leading to severe breathing difficulties. It can be a very difficult and subtle condition to identify. This would be just another Kaggle challenge like any other, but now it included the participation of the actual institutions that study this condition. I’m sure these machine learning algorithms could have been handy for me four years ago… A system like this was already approved by FDA.
+
+Pneumothorax impacts nearly 74,000 Americans every year [source: Venture Beat, GE Healthcare]
+
+The main outcome of this step is not just to help affected individuals, but also, the remarkable participation of the higher hierarchy entities — the decision makers —to enable the use of these kind of technologies in areas that were before very wary on embracing these technologies. As many data scientists know, this is usually one of the most difficult bottlenecks to overcome in new projects.
+
+Another example, not just from 2019, is the use of data science to identify drug-supplemental interactions (supp.ai). If you know combination, you can have an idea of the magnitude of what we’re talking about.
+
+Data privacy by design
+
+As users become more concerned about the handling and the ownership of their data, engineers and data scientists have to find ways to satisfy these new user requirements. Countless data breaches (you can take a look at this impressive 2019’s summary) can be mitigated if companies do not actually own the user data for their business needs.
+
+Already introduced a couple of years ago, Federated Learning has become a hot topic regarding data privacy. In essence,
+
+Federated Learning is a machine learning setting where the goal is to train a high-quality centralized model with training data distributed over a large number of clients each with unreliable and relatively slow network connections. [Google AI]
+
+It might not be the silver bullet, but it may help software engineers and data scientists to architect systems following privacy by design. We can see this as an opportunity to use less data, while still being able to create products that are useful.
+
+Federated Learning is a new a machine learning technique that trains an algorithm across multiple decentralized edge devices or servers holding local data samples, without exchanging their data samples [source: Google AI, Wikipedia]
+
+Doing more with less (data). Kind of counter intuitive for DATA Science, right? Yes, it may be. But trust will be a key topic in 2020. How do you make sure users trust software companies with their data? For example, using Federated Learning to train prediction models for mobile keyboards without uploading sensitive typing data to servers (Hard, et al., 2018).
+
+Servers (companies) do not need to know about every piece of data you generate. [Hard, et al., 2018]
+
+If Federated Learning is a new concept for you, or you wish to understand it a little bit better, I totally recommend starting with this fantastic comic. You can even start creating your own first system with the open source framework Tensorflow Federated!
+
+Mitigate model biases and discrimination
+
+One of the biggest headlines in November 2019 was related with Apple / Goldman Sachs credit card (most likely) gender discrimination. Users noticed that it seemed to offer smaller lines of credit to women than to men. Even if it all started with a viral tweet from David Heinemeier Hansson, it reminded us the same old problem of fully automated machine decisions: what were the main drivers that leaded to the final decision? Nobody explained so far, and it is difficult to get help from a human nowadays.
+
+As soon as a model is put into production it is up for scrutiny of users, specially if the decisions directly affect high stakes personal issues.
+
+As scary as it may seem, data scientists know that not including gender as an input of the model does not mean you cannot be accused of gender discrimination. Now read the official tweet from Goldman Sachs... With these kind of responses, you can see the current ingenuity persisting in some companies when using new pieces of technology. It is important to remember that,
+
+[This is the risk that] modern algorithms will result in “proxy discrimination.” Proxy discrimination is a particularly pernicious subset of disparate impact. Like all forms of disparate impact, it involves a facially-neutral practice that disproportionately harms members of a protected class. [Proxy Discrimination in the Age of Artificial Intelligence and Big Data]
+
+We should always keep in mind that sophisticated models trained on biased data can learn discriminatory patterns, which leads to skewed decisions. And these models can find proxies that lead to discrimination, even if you don’t actually include the actual features you think may have historical biases.
+
+It’s up to the data scientists (including machine learning engineers) to come up with new bias identification and mitigation algorithms to help mitigate harm on users [image source: Adeli, et al., 2019]
+
+As a path forward, bias discrimination will continue to be one of the main topics, and unfortunately we’ll see many more headlines like this, before companies take this issue seriously. Data scientists can help by performing exemplary exploratory data analysis, making sure the data is representative of the whole population, and exploring new architectures that can identify and mitigate these biases.
+
+Python as the de facto language for Data Science
+
+When I switched to the data science field five years ago, the question — What programming language should I focus on [for data science]? — was a really difficult one to answer. As the years go by, with the massive growth of Python, it has become easier to answer. As stated in Stack Overflow’s annual developer survey, released in April 2019:
+
+Python, the fastest-growing major programming language, has risen in the ranks of programming languages in our survey yet again, edging out Java this year and standing as the second most loved language (behind Rust).
+
+It is not just Stack Overflow, other websites also mention Python as one of the best bets you can do if you’re planning to start programming, having a huge supporting community on your side, or making a quick prototype. And the last aspect is usually the most relevant for data scientists nowadays. It is difficult to have any other programming language helping data scientists more.
+
+Recall that Data Science is a concept to unify statistics, data analysis, machine learning and their related methods (this gets back to 1996 with Hayashi!). I like to add to it “as fast as possible”. That’s where Python fits in.
+
+Python can safely be confirmed as the “de facto” data science programming language
+
+I believe Python enabled the huge growth of Data Science (or is it the other way around?). If this is still a dubious decision for you, just go make some research to find out.
+
+Focus as “leave me alone, I just want to get things done”
+
+Focus in 2020! As so many new articles get published everyday — by the end of 2018 it was already around ~100 ML papers per day were published on arXiv.org (yes, they are not peer reviewed, but even though…) — focus must be something you add to your goals.
+
+As the idea of data scientist unicorn (fortunately) vanishes, the concept of specialization in data science has matured. Like the first split in a Decision Tree (sorry about that…), you can go two ways:
+
+Heavy engineer path, with focus on data pipelines, productionization, software engineering. If you come from computer science, this may be easier for you. Heavy analytical path, with focus on statistics, data analysis, business knowledge. If you come from applied math, physics, or even a social field, this may be an easier start for you.
+
+It does not mean the two paths never cross, but you should pursue one of them. If you want to enter into more detail, you can even find more specific job names as I mentioned last year.
+
+At the end of the day, what will be more important is to get things done! Remember you don’t have to create things from scratch to make great things. Build on top of other great open source tools such as Tensorflow Extended or PyTorch. Both tools enable you to overcome many initial banging head on the wall moments.
+
+Keep your boat well steered as you enter 2020. Focus on what you really want to do. [source: Evelyn Paris]
+
+Have a great 2020!
+
+2019 was a crazy rollercoaster ride… Having joined Google NYC was one of the loops for me. Have a great 2020!
+
+Hugo Lopes

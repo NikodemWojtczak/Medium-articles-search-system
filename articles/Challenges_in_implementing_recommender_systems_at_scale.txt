@@ -1,0 +1,75 @@
+Challenges in implementing recommender systems at scale
+
+A summarized view of the challenges in implementing recommender systems from an industry point of view Akhilesh Narapareddy · Follow Published in Towards Data Science · 6 min read · Jan 26, 2019 -- Listen Share
+
+Most of the times data science projects stop at achieving some satisfactory accuracy based on a subset of data. This is the case with recommender systems also. In a controlled environment and with a limited dataset, it might be possible to get very impressive results but deploying an algorithm into real life takes far more than that.
+
+In this post, I will summarize my interesting learnings about the challenges that Twitter face while working with its recommender systems. Understanding the challenges that Twitter is facing might give some of us a fresh perspective about the scope of a recommendation problem and will help us make design decisions appropriately. This might also help in drawing parallels between recommender systems in different industries. Also, I will give a brief about the recommender system approaches that Twitter uses for its platform.
+
+The challenges and approaches were shared by Ashish Bansal from Twitter during the Deep Learning summit 2019 in San Francisco.
+
+Let’s get started.
+
+Introduction:
+
+Twitter as we all know is a micro blogging site with hundreds of millions of tweets being posted every single day across the globe. If you are already a member of twitter, you would have seen aspects like “ Who to follow” and “Trends for you”. The core engine running behind these features is a recommendation engine.
+
+Comparison of Twitter recommendations with non-Twitter recommendations:
+
+Twitter recommendation products:
+
+There are 3 main recommendation products that Twitter recommends to its customers
+
+Users to follow : The total recommendations that could be generated for this product could be as high as 1 Billion and the recommendations can be valid for months to years. In other words, the recommendations have a higher shelf life Tweets: Tweets that are recommended to users on their feed can be in the order of hundreds of millions with a shelf life of a few hours. As we all know, shelf life for information is very less now a days as news changes so rapidly even with in a single day Trends/Events: Trends have the smallest number of recommendations that have to be made because most of the users might be part of similar trends and their shelf life is also short as they don’t last long
+
+Non-Twitter recommendation products:
+
+Movies and E-commerce are 2 good examples in this category. Movies are just in the order of a few thousands that get created every year and have higher shelf life. Although e-commerce has an order of recommendations of a few hundred million, it has a higher shelf life.
+
+How does it benefit to have higher shelf life?
+
+For movie and e-commerce, recommendation systems can learn at a slower pace and learn slowly as there is ample time for any recommendation to become completely irrelevant. But in case of Twitter, they are completely dependent on the trends and what people want and are bound to change every single day . As both velocity and volume of the data is high in Twitter’s case, the recommendation systems should be more robust to give recommendations.
+
+It is also important to generate real-time features to be fed into the recommendation systems in order to cope up with this speed.
+
+Challenges with User — User and User — item recommendations:
+
+User-User:
+
+Finding similarities based on user follows and recommending all the tweets made by a particular person to the user who has followed him/her might not be a robust approach. For example, you might follow a particular person on Twitter for his views on machine learning. His/her tweets on politics might not be of interest to you and should be avoided from your feed.
+
+User-interests:
+
+User-interests vary all the time: Users will have long term interests like health preferences and short term interests like trends/events and interests change all the time. For example, during November millions of users were interested in mid term elections in US and would have liked to watch politics related content. But the same will not be true for a different time period for the same person.
+
+Geo — dependent interests: Geo-dependent interests always change for users based on the happenings at a particular point of time. “Trends for you” should always keep up with this change in geo-dependent interests of the user.
+
+Approaches:
+
+Twitter employs both collaborative and content recommendation systems or sometimes a hybrid of both the models based on the type of recommendation that they are making. I would not be discussing these algorithms in this post as they are clearly explained in a lot of other posts and will focus on their applications.
+
+Collaborative filtering:
+
+When it comes to using collaborative filtering approach, there is a unique advantage to Twitter due to its user follows concept. It makes it easier for Twitter to calculate user similarity as the information is directly. This also increases the feasibility of creating graph based models and use community detection techniques on top of them to find similarities among users.
+
+Content based approach:
+
+When it comes to content based filtering, it becomes a bit more complicated at Twitter scale.
+
+At 280 character limit, we can have 46 words max per tweet considering an average of 5 characters in an English word. This leads to a lot of content that has to be processed Twitter post might have multi lingual text and it is difficult words from different languages into context
+
+Mapping content to entities:
+
+One of the ways to recommend content to a user is to use entities in a tweet and recommend content that is more relevant to entities in the tweets that the user likes. But the main challenge is identifying and dealing with those entities.
+
+Named entity recognition can be used to identify those entities but the challenge lies in identifying multiple entities / duplicate entities with in the same tweet. For example , a particular person can call refer to Football world cup in multiple ways such as Football worldcup, FIFA world cup and FIFA 2018. All these entities should be identified and the common sentiment behind these tweets has to be extracted to recommend content to this user. Otherwise, there will be conflicting recommendations due to multiple entities in a tweet.
+
+Considering topics instead of entities is a novel approach that is being researched by Twitter to deal with the issue of multiple entities in a tweet. By considering topics, we can remove the point of duplicate entities and identify the topic that the user is interested in and recommend content based on that.
+
+Methods like text tokenization , cooccurence of NER , embeddings of NER followed by clusterings of embeddings are some of the techniques that are in active research at Twitter. Unfortunately, the approaches were not discussed in detail due to the time constraint in the conference.
+
+Some of the key aspects while deploying a recommender system:
+
+Coverage: With the increasing catalog of items, it is always important to get high coverage while maintaining low latency Diversity: It is important to give diverse recommendations to the users. Adaptability: The recommender system should adapt quickly to the fast changing world of content Scalability: It should be scalable to billions of users with different habits and preferences User preferences: The framework should be able to handle varied user interests in one ranking framework
+
+That’s all folks. Hope you enjoyed reading the article and got a fresh perspective on designing your recommender systems. Stay tuned for more on recommender systems, statistics in data science and data visualization.

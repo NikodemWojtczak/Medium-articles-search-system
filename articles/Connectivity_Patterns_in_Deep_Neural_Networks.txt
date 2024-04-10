@@ -1,0 +1,27 @@
+This article will discuss a central component that is driving progress in Neural Network design, namely in Convolutional Networks for Computer Vision tasks. Classical CNNs such as LeNet-5, AlexNet, and VGG all have a connectivity pattern in which the output from the previous layer serves as the input to the next layer. This sequential processing pattern is easy to comprehend and it is a great way to begin learning about Neural Networks.
+
+Following came architectures such as ResNet, Inception, and DenseNet which dramatically alter this connectivity pattern. In all these networks, computation still follows a sequential pattern where a layer only computes an output once in a forward pass, however, the output from this layer is connected differently from classical models.
+
+The ResNet presents the skip connections, the most intuitive alteration to CNN connectivity. This skip connection, also known as an identity mapping, takes the input from a previous layer and propagates it ahead one layer than it usually would. For example, take layers l1, l2, and l3. Classically, the l1 output would only go from l1 to l2, but with a skip connection, the l1 output is cloned up to the input to l3.
+
+The authors of ResNet continue to take apart their skip connection and test the impact of adding additional complexity to the identity mapping in their paper, ‘Identity Mappings in Deep Residual Networks’, frequently referred to as ResNet-v2:
+
+Empirical evaluations of different possible constructions of the ResNet identity mapping / skip-connection
+
+Following ResNet, the DenseNet presents a very similar connectivity pattern. In DenseNet, rather than have a skip connection propagate one layer ahead, all of the previous layers are skipped ahead as input to future layers. For example, the input to layer l4 is the original input l0 + the output of l1, l2, and l3. Eg. the previous feature maps are all concatenated as input to the later layer.
+
+Illustration of the DenseNet connectivity pattern
+
+Both ResNet and DenseNet intuitively provide a solution to feature redundancy. A consequence of having to preserve state through sequential processing in a Neural Network. Rather than having to learn parameters that preserve information, this information is explicitly copied into higher-level representations.
+
+Tangentially, the Inception model has a fundamentally different model of connectivity to ResNet and DenseNet. Rather than focusing on pushing the outputs of early layers into later layers, the Inception block feeds the same input into multiple layers and combines these outputs. Intuitively, this is done to try and preserve some of the sparsity naturally evident in visual information.
+
+Illustration of an Inception block
+
+The Inception block isn’t necessarily disjoint from ResNet or DenseNet either. The Inception block is encapsulated in this structure such that the internal complexity can be disregarded, and it can be viewed as a standard layer with an input and output. This output can be skipped ahead in a similar manner to as any other Neural Network layer.
+
+There are many avenues of thought as to what will lead to breakthroughs in Neural Network design such as normalization, multi-task learning, and data augmentation. Connectivity patterns are interesting because they fit nicely within the modular framework evident in original CNNs such as AlexNet, in addition to addressing problems such as vanishing gradient and feature redundancy.
+
+It is interesting to think of how connectivity patterns fits in the frame of Meta-learning neural network architectures. It would be difficult enough to design a discrete search space of standard neural network layers with all the miscellaneous hyper-parameters contained in each layer such as filter size and number of feature maps. Adding flexibility for Inception modules and non-fixed skip connections can result in an exponentially large search space for Meta-Learning models.
+
+Thanks for reading this article! Following are links to the papers discussed, ResNet, DenseNet, and the Inception network (GoogLeNet):

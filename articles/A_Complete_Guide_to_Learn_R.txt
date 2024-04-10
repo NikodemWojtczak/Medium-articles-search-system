@@ -1,0 +1,215 @@
+R Programming Technology is an open source programming language. Also, the R programming language is the latest cutting-edge tool. R Basics is the hottest trend. Moreover, the R command line interface (C.L.I) consists of a prompt, usually the > character.
+
+History of R
+
+John Chambers and colleagues developed R at Bell Laboratories. Basically, R programing language is an implementation of the S programming Language. Also combines with lexical scoping semantics inspired by Scheme. Although, R was named partly after the first names of two R programming language authors. Moreover, the project conceives in 1992, with an initial version released in 1995 and a stable beta version in 2000.
+
+Install R Programming Language & R Studio
+
+In this R tutorial, we are moving towards installations of R Programming and R Studio:
+
+We have to follow three basic steps in the same order to run R programming language and R Studio on your system.
+
+R Installation
+
+Installation of R Studio
+
+Install R Packages.
+
+a. How to Install the R Programming Language?
+
+In respect to the operating system we are using we have to follow the below-mentioned steps:
+
+For Mac
+
+First, we have to download the appropriate version of the .pkg file form the following link.
+
+Further, open the downloaded .pkg file and Install R.
+
+For Linux
+
+For Ubuntu with Apt-get installed, execute sudo apt-get install r-base in terminal.
+
+For Windows
+
+Download the binary setup file for R from the following link.
+
+Open the downloaded .exe file and Install R.
+
+b. How to Install R Studio?
+
+Choose the appropriate installer file for your operating system. Afterward, download it and then run it to install R-studio.
+
+c. How to Install R Packages?
+
+We require a particular package to be installed if we need to use R studio. Further, follow the instructions below:
+
+Run R studio
+
+Afterward, we need to click on the packages tab in the bottom-right section. Once, you complete this then click install. Thus, the dialog box will appear.
+
+In the install packages dialog, write the package name you want to install the Packages field. And then click install. This will install the package you searched for. Either give you a list of matching package based on your package text.
+
+Thus, the installation procedure for R Studio.
+
+Why R Programming Language?
+
+In this R Tutorial, following points describe reasons to learn R Programming.
+
+We use R programming as a leading tool for machine learning, statistics, and data analysis. Objects, functions, and packages are easily created by R. As it is used anywhere. Also, it’s platform- independent and free. Thus, anyone can install it in any organization without purchasing a license. Moreover, it can be applied to all operating system.
+
+R programming language is not only a statistic package. Also, R allows us to integrate with other languages (C, C++). Thus, you can easily interact with many data sources and statistical packages. As a result, the R programming language has a large growing community of users.
+
+R For Business
+
+R is best for business because it’s an open source. Also, it's great for visualization. Moreover, the R programming language has far more capabilities as compared to earlier tools. Also, companies are using R programming as their platform and recruit trained users of R.
+
+Features of R Programming Language
+
+These are some R features:
+
+a. Statistics Features of R Programming Language
+
+Basic Statistics: Mean, variance, median.
+
+Static graphics: Basic plots, graphic maps.
+
+Probability distributions: Beta, Binomial.
+
+b. Programming Features of R
+
+Distributed Programming
+
+R Packages
+
+Why is R Popular?
+
+Nowadays, the R programming language is considered as a popular analytic tool in the world. Also, estimates of some users range from 250000 to over 2 million.
+
+Basically, R programming language was again the top choice in most of the surveys. As R has more blogs, discussion groups, and email lists than any other tool including SAS Programming.
+
+Job Roles in R Programming Language
+
+Basically, R jobs are not only being offered by IT companies. Although, all types of companies are hiring high paid R candidates including-
+
+Financial firms
+
+Retail organizations
+
+Banks
+
+Healthcare organizations etc.
+
+Basically, as we know that there is a huge demand for R jobs among start-ups. Also, companies have several R job openings with various positions like:
+
+R data scientist
+
+Data scientist(IT)
+
+Analyst manager
+
+Senior data analyst
+
+Business analyst
+
+Analyst consultant
+
+Companies Using the R Programming language
+
+R has become the tool of choice for data scientists and statisticians across the world. Also, to predict things like the pricing of their products, etc, companies are using analytics. Below is a list of few companies using R:
+
+TechCrunch Google Facebook Genpact Bing Orbitz ANZ The New York Times Thomas Cook Accenture Wipro Mozilla Novartis Merck
+
+“R has slowly won over the hearts of many large corporates”. Why Top Companies using R
+
+Job Opportunities for R Statistics Language
+
+Basically, skills that are being valued by the industry shows a lack of understanding. R programming language is a tool, and people can be trained in tools. It is, yet, difficult to train people in Statistics, Data Mining, and Data Analytics, and so on. So there are very good job opportunities for R experts in India.
+
+R Careers
+
+Obviously! R is the best option as it’s trending so much. Also, the R programming language is being used in Big M.N.C’s to Small-scale companies everywhere. It is also used in NON-IT fields, Government, and Non-government companies.
+
+Future Scope of R Programming
+
+The future scope is very bright. As R programming Language is trending these days. Also, it’s simple to learn for those who are new to the R programming language.
+
+Moreover, the recent average salary of R programming is best so you can think how high it will reach in the future.
+
+Sources of R Jobs
+
+You can check various jobs for R technology at below job portals:
+
+naukri.com indeed.com LinkedIn
+
+R Applications
+
+Basically, R is the most prevalent language. Thus, many data analysts and research programmers use it. Hence, R is used as a fundamental tool for finance.
+
+Basically, R is used by many quantitative analysts as its programming tool. Hence, R helps in data importing and cleaning.
+
+We use R for Data Science. it gives us a broad variety of statistics. In addition, R provides the environment for statistical computing and design. Rather R considers as an alternate execution of S.
+
+Advantages and Disadvantages of R
+
+a. Advantages of R Programming language
+
+Basically, R is the most comprehensive statistical analysis package. As new technology and ideas often appear first in R.
+
+Basically, the R programming language is open-source software. Hence anyone can use and change it.
+
+As R programming language is an open source. Thus, we can run R anywhere and at any time, and even sell it under conditions of the license.
+
+Basically, the R programming language is good for GNU/Linux and Microsoft Windows. Also, R programming is cross-platform which runs on many operating systems.
+
+In R, anyone is welcome to provide bug fixes, code enhancements, and new packages.
+
+b. Disadvantages of R programming language
+
+In the R programming language, the quality of some packages is less than perfect.
+
+In R basically, no one to complain if something doesn’t work.
+
+Basically, R is a software application that many people devote their own time to developing.
+
+Although, R commands give little thought to memory management. So R programming language can consume all available memory.
+
+Best R Books
+
+Following are the best Books to learn R Programming Language.
+
+a. A Handbook of programming with R by Garrett Grolemund
+
+Generally, if you are new to R then this is the best book for you. As the language of the book is quite simple to understand and examples can be reproduced easily.
+
+b. The Art of R Programming by Norman Matloff
+
+Basically, this book tells how to do software development. As from basic types and data structures to advanced topics. Also, no statistical knowledge is required. Moreover, your programming skills can range from hobbyist to pro.
+
+c. An Introduction To Statistical Learning With Applications in R by Trevor Hastie and Rob Tibshirani
+
+Even if you don’t have knowledge of R then this book is best. As its good for the theoretical and practical understanding of many important topics.
+
+For Example- machine learning and statistical techniques.
+
+d. Learning RStudio For R Statistical Computing by Mark P.J.van der Loo
+
+Basically, this book was designed for R developers and analysts. Also, only for those people who want to do R statistical development using RStudio functionality. Thus, one can create and manage statistical analysis projects, generate reports and graphics.
+
+e. Practical Data Science with R by Nina Zumel & John Mount
+
+Basically, in this book, an author has focused only on data science methods and their applications in the real world.
+
+f. Advanced R by Hadley Wickham
+
+Basically, this book is about how R language works that creates a difference between the top 3 analytical tool — R vs SAS vs SPSS.
+
+g. R Packages by Hadley Wickham
+
+Basically, this book is made for advanced R programmers who are looking to write their own R Packages. As the author has written documentation on R packages. Also, explains the components of the R package, including unit tests and vignettes.
+
+Hope you like our explanation.
+
+Conclusion
+
+I hope this blog will help you to learn in a very advanced manner. Furthermore, if you have any query in this R Tutorial, feel free to ask in the comment section.

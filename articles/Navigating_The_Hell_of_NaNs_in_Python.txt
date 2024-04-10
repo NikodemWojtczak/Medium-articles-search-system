@@ -1,0 +1,23 @@
+I recently had a lot of headaches caused by NaNs. Every programmer knows what they are, and why they happen, but in my case, I did not know all of their characteristics or not well enough to prevent my struggle. In the hope of finding solutions and avoiding a bad headache, I looked further into the behaviour of NaNs values in Python. After playing with a few statements in Jupyter Notebook, my results were quite surprising and extremely confusing. Here is what I had using np.nan from Numpy.
+
+np.nan in [np.nan] is True
+
+So far so good, okay but …
+
+np.nan == np.nan is False
+
+Huh? And …
+
+np.nan is np.nan is True
+
+So what the hell is going on with NaNs in Python?
+
+Short Intro
+
+NaN stands for Not A Number and is a common missing data representation. It is a special floating-point value and cannot be converted to any other type than float. It was introduced by the IEEE Standard for Binary Floating-Point for Arithmetic (IEEE 754) before Python even existed and is used in all systems following this standard. NaN can be seen like some sort of data virus that infects all operations it touches.
+
+None vs NaN
+
+None and NaN sound similar, look similar but are actually quite different. None is a Python internal type which can be considered as the equivalent of NULL. The None keyword is used to define a null value, or no value at all. None is not the same as 0, False, or an empty string. It is a datatype of its own (NoneType) and only None can be … None. While missing values are NaN in numerical arrays, they are None in object arrays. It is best to check for None by using foo is None instead of foo == None which brings us back to our previous issue with the peculiar results I found in my NaN operations.
+
+nan is NOT equal to nan

@@ -1,0 +1,17 @@
+Technical Dilemma
+
+In other posts, I’ve explained what causation is and how to do causal inference using quasi-experimental designs (DID, ITS, RDD). Almost for all research methods, they have to meet two preconditions in order to generate meaningful insights:
+
+1. the treated group looks like the control group (similarity for comparability); 2. a sufficiently large number of observations within each group (a large n).
+
+These two preconditions lay the foundation for causal inference. However, is it possible to do causal inference if we only have one treated case and a few control cases? Even worse, what shall we do if there are no control cases with similar covariates as the treated case?
+
+Under these situations, regression-based solutions (e.g., matching on key variables, or propensity score matching) perform poorly. Besides, other quasi-experimental designs such as the DID method require similar covariates between the treated and control groups and would generate a huge bias under these two scenarios.
+
+In this post, I proudly present a statistical solution, the Synthetic Control Method (SCM), that is proposed by a group of political scientists like me. Honestly, the SCM has tremendous amount of causal potential but remains under-appreciated for now. It begins to capture some tractions in the industry as consumer-facing companies want to understand simulated consumer behaviors.
+
+Basics
+
+The SCM uses a weighted average of multiple cases from the “donor” pool to create an artificial control case.
+
+Here is a simplified process:

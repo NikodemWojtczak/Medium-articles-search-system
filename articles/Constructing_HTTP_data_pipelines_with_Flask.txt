@@ -1,0 +1,15 @@
+A lot of Data-Science work tends to focus on the attributes that are quite obvious, training models, validation, statistics… However, without obtaining data to work with, all of these skills can end up feeling like a sprint in the mud. One of the biggest tools used today to transfer data over the web is Flask. Flask is a fantastic tool that is commonly used to create data-driven web-applications and pipelines in Python. Flask has a ton of built in functionality for use with SQL, Json, and HTML that make it extremely viable for back-end use on the web.
+
+Request and Return
+
+In order to have a completely cloud-based pipeline, with its respective returns, we need to understand Flask’s request and return system. For a calculative or informative returning pipeline, typically the route is left to the default, or:
+
+This implies that the Flask-app’s directory has not been altered, and allows us to execute a function when the route is accessed. This can be compared to “ Index.html.”
+
+So sure, we know where we’re at, but how can we apply hyper-text transfer protocol to Flask in order to receive data, and transfer results? In order to do this, we need to add requests to our project:
+
+from flask import Flask, render_template, request
+
+For this particular example, I was working on a project with some of my peers; full-stack developers, UI/UX developers, and front-end developers. As always, I have a source link to the Github repo. I was tasked with creating an algorithm that would take certain properties of housing, and return a prediction that the user could then save to their account. The greatest challenge was getting things setup in a particular way so that their requests, and my returns could line up properly. If you would like to see the entire project’s Github, it’s here.
+
+With that out of the way, I constructed my Sklearn pipeline, and Joblibbed it out. What made this difficult was the sheer number of observations that the data contained… It was hard to work with, and especially hard to read in the first place. If you’re uncertain how something like that is done, you can checkout the notebook here.

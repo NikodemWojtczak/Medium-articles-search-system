@@ -1,0 +1,21 @@
+Member-only story
+
+Deep Learning Explainability: Hints from Physics
+
+Nowadays, artificial intelligence is present in almost every part of our lives. Smartphones, social media feeds, recommendation engines, online ad networks, and navigation tools are some examples of AI-based applications that already affect us every day. Deep learning in areas such as speech recognition, autonomous driving, machine translation, and visual object recognition has been systematically improving the state of the art for a while now.
+
+However, the reasons that make deep neural networks (DNN) so powerful are only heuristically understood, i.e. we know only from experience that we can achieve excellent results by using large datasets and following specific training protocols. Recently, one possible explanation was proposed, based on a remarkable analogy between a physics-based conceptual framework called renormalization group (RG) and a type of neural network known as a restricted Boltzmann machine (RBM).
+
+RG and RBMs as Coarse-Graining Processes
+
+Renormalization is a technique used to investigate the behavior of physical systems when information about its microscopic parts is unavailable. It is a “coarse-graining” method which shows how physical laws change as we zoom out and examine objects at different length scales, “putting on blurry glasses”.
+
+When we change the length scale with which we observe a physical system (when we “zoom in”), our theories “navigate the space” of all possible theories (source).
+
+The great importance of the RG theory comes from the fact that it provides a robust framework that essentially explains why physics itself is possible.
+
+To describe the motion of complex structures such as satellites, one does not need to take into account the motions of all its constituents. Picture by 3Dsculptor/Shutterstock.com.
+
+RG theory provides a robust framework that explains why physics itself is possible.
+
+For example, to compute the trajectory of a satellite orbiting the Earth we merely need to apply Newton’s laws of motion. We don’t need to take into account the overwhelmingly…

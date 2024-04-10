@@ -1,0 +1,29 @@
+Ego Network Analysis for the Detection of Fake News
+
+Using a combination of network analysis and natural language processing to determine the sources of “fake news” on Twitter Brian Srebrenik · Follow Published in Towards Data Science · 8 min read · Feb 18, 2019 -- 1 Listen Share
+
+Twitter network of verified users with over 1 million followers. Circles (nodes) represent users and the lines connecting the circles represent one user “following” another. Colors represent classes determined through modularity clustering.
+
+While “Fake News” has existed long before the age of the internet, it seems like today it is harder than ever to determine the reliability of news sources. After doing some research on the topic, I found that there was some work being done with graph theory to see if we could use machine learning to assist in the detection of sources of fake news. I am very interested in the power of networks and the information we can gain from them, so I decided to see if I could build a classification model that would find patterns in ego networks to detect fake news.
+
+What is an Ego Network?
+
+Ego Networks (also known as Personal Networks in a human social network analysis) consist of a focal node known as the Ego, and the nodes to whom ego is directly connected to, called Alters, with edges showing links between ego to altars or between altars. Each alter in an ego network can have its own ego network, and all ego networks combine to form the social network. In such a network, egos could be human beings or objects like products or services in a business context. In the image below, I have visualized the ego networks of all Twitter Verified Users with over 1,000,000 followers. Each circle represents a verified twitter user node (size of the circle related to total follower count) and the lines, or edges, linking them represent nodes “following” one another (credit to Luca Hammer who provided me with the Twitter edge list. Be sure to check out his Medium for excellent posts on exploring and visualizing network data). This graph visualization, as well as all others you’ll see in this article, were created using Gephi.
+
+For the purposes of this project I decided to analyze strictly verified Twitter networks as I felt there was a natural tendency for users to have more trust in sources that have officially been verified by Twitter.
+
+Training Data Problem: How do I decide which nodes represent fake news sources?
+
+Probably the biggest problem I faced at the outset of this project was how to determine which Twitter accounts to classify as sources of fake news for my training data. There is no universally agreed upon way of determining whether or not news is fake news or not, and if there was, it would not be a problem in the first place. But I had to start somewhere. Luckily, I was able to find a fantastic dataset in the CREDBANK data that accompanied the ICWSM 2015 paper “CREDBANK: A Large-scale Social Media Corpus With Associated Credibility Annotations”. If you’ve got the time, I highly suggest checking out the paper but here is the TLDR:
+
+In total, CREDBANK comprises more than 60M tweets grouped into 1049 real-world events, each annotated by 30 Amazon Mechanical Turk workers for credibility (along with their rationales for choosing their annotations). The primary contribution of CREDBANK is a unique dataset compiled to link social media event streams with human credibility judgements in a systematic and comprehensive way
+
+By combining this dataset with the Twitter network data, I was able to create my own dataset for training a classification model. The data consisted of 69,025 verified users, and all the connections between them. Of those users, 66,621 were determined to be sources of real news and 2,404 were determined to be sources of fake news. The sources I determined to be fake were those who had more than 5% of their tweets ranked as below partially accurate by the Amazon Mechanical Turk credibility raters.
+
+Network EDA
+
+This is the network graph of all sources in my dataset. Blue dots and lines represent NOT fake sources and red dots and lines represent fake sources.
+
+Same graph as above, but with fake sources only
+
+After collecting and organizing the data (I used graph database Neo4j to store network data), the first step was to do an initial exploratory analysis of the network data. I used two network algorithms, Eigenvector Centrality and PageRank, in my initial analysis. The Eigenvector Centrality algorithm was only run on a sample of the data as centrality measures take quite a long time to compute on large networks.

@@ -1,0 +1,237 @@
+Convolutional Neural Network: A Step By Step Guide Shashikant · Follow Published in Towards Data Science · 9 min read · Mar 17, 2019 -- 1 Listen Share
+
+“Artificial Intelligence, deep learning, machine learning — whatever you’re doing if you don’t understand it — learn it. Because otherwise, you’re going to be a dinosaur within three years” — Mark Cuban, a Serial Entrepreneur
+
+Hello and welcome, aspirant!
+
+If you are reading this and interested in the topic, I’m assuming that you are familiar with the basic concepts of deep learning and machine learning.
+
+If not, don’t worry! The tutorial is designed in a way that gets you started with deep learning skills from the beginning to the end―from perceptron to deep learning.
+
+In this tutorial, we’ll touch base on the aspects of neural networks, models, and algorithms, some use cases, libraries to be used, and of course, the scope of deep learning. In addition to it, other important concepts for deep learning will also be discussed.
+
+Step 1: Pre-requisites
+
+Any Tom, Dick, and Harry cannot just hear about deep learning wonders, develop interest and start a tutorial. There has to be a fine way of learning, and that’s why we have laid the foundation work for you. Following are the points that highlight what all you need to do before you fire up your learning process:
+
+Knowledge of R/Python: These are the two most commonly used and preferred languages for deep learning. One of the main reasons is that there is enough support/ community available for both. Before you jump into the world of machine learning, select one of these at your convenience. Undoubtedly, Python is leading the field; however, you can see the comparison here.
+
+These are the two most commonly used and preferred languages for deep learning. One of the main reasons is that there is enough support/ community available for both. Before you jump into the world of machine learning, select one of these at your convenience. Undoubtedly, Python is leading the field; however, you can see the comparison here. Basic understanding of linear algebra, calculus, and probability: There are an incredible amount of online videos and courses are available for each lesson of which, many of which are free. We are not suggesting you hone the skill but just brush it up for a bright understanding of the tutorial. You may try starting with Stanford’s CS231n.
+
+There are an incredible amount of online videos and courses are available for each lesson of which, many of which are free. We are not suggesting you hone the skill but just brush it up for a bright understanding of the tutorial. You may try starting with Stanford’s CS231n. Primary know-how of neural networks and deep learning: As I said earlier, plenty of sources are available online for free as well as paid. Online videos are always helpful anyway. If you want to read through the concept, we suggest you follow Neural Networks and Deep Learning, which is absolutely free. (Also, pay attention to 25 Must-Know Terms & concepts for Beginners in Deep Learning)
+
+As I said earlier, plenty of sources are available online for free as well as paid. Online videos are always helpful anyway. If you want to read through the concept, we suggest you follow Neural Networks and Deep Learning, which is absolutely free. (Also, pay attention to 25 Must-Know Terms & concepts for Beginners in Deep Learning) Set-up requirements: Since deep learning relies heavily on computational concepts, we need faster machines to operate at that level. So, all that you need for now is:
+
+GPU (4+ GB, preferably Nvidia) — It is the heart of deep learning applications today CPU (e.g. Intel Core i3 or above will do) 4 GB RAM or depending on the dataset
+
+Note: (If you want to learn more about hardware requirements, go through this hardware guide, and most importantly, do not install deep learning libraries at this step. You’ll be told further in this tutorial.)
+
+Step 2: Introduction to Concepts and Technical Aspects
+
+How Can You Dive Into Deep Learning? Essentially, it all starts with neural networks, and deep learning is nothing but the logical implementation of those networks to abstract useful information from data. In technical terms, it is a discreet method of classification of unstructured input data such as media which includes images, sound, video, and text.
+
+Firstly, you need to decide which learning medium suits you the best for your research and study deep learning. It could be blogs, books, videos, or online courses approach. We are listing the sources for you to start with the simplest concept that will help you to get a grip on the subject gradually.
+
+Blog Approach
+
+- Fundamentals of Deep Learning — Starting with Artificial Neural Network
+
+- A Deep Learning Tutorial: From Perceptron to Deep Networks
+
+Book Approach
+
+- Neural networks and Deep Learning (A free book by Michael Neilson)
+
+- Deep Learning (An MIT Press book)
+
+Video Approach
+
+- Deep Learning SIMPLIFIED
+
+- Neural networks class — Université de Sherbrooke
+
+Online Course Approach
+
+- Neural Network by (Enroll starts 27 Nov)
+
+- Machine Learning by Andrew Ng (Enroll Starts 27 Nov)
+
+- Machine Learning By Nando de Freitas (contains videos, slides, and a list of assignments)
+
+Dear learners, accept the fact that transformation to becoming a deep learning expert would require plentiful time, many additional resources, and dedicated practice in building and testing models. We, however, do believe that utilizing the resources listed above could set you in motion with deep learning.
+
+Step 3: Select Your Adventure
+
+After you have got the basics, here comes the interesting part―hands-on experience in deep learning state-of-the-art technology. There are numerous exciting applications and opportunities that the field has to offer. Techniques in deep learning will vary based on your interest and purpose, see below:
+
+Computer vision/ pattern recognition: Both are not much different since pattern recognition is also a part of computer vision, many times. However, in broader terms, computer vision includes analyzing only images and is used for object detection, segmentation, vision-based learning, etc. whereas pattern recognition is not restricted to images. It is about the classification of anything which can possess a pattern.
+
+To learn, go here:
+
+Deep Learning for Computer Vision
+
+CS231n: Convolutional Neural Networks for Visual Recognition
+
+For Video and use cases:
+
+Detailed lectures on computer vision
+
+Speech and audio recognition: Ever said “Ok Google”? I’m sure, you did. It comprises a speech recognition system that helps you find what you’re looking for on Google.
+
+Technically, it consists of a type of neural network that involves sequences of inputs to create cycles in the network graph called recurrent neural networks (RNNs). They are called ‘Recurrent’ because they perform the same task for every element of the sequence and perform tasks such as machine translation or speech recognition.
+
+To learn, go here:
+
+The Unreasonable Effectiveness of Recurrent Neural Networks
+
+Recurrent Neural Networks Tutorial
+
+Understanding LSTM Networks (a wildly used RNN variant)
+
+For Videos:
+
+A friendly introduction to Recurrent Neural Networks
+
+Recurrent Neural Networks (RNN)
+
+Natural Language Processing OR NLP: NPL is a way for computers to read, analyze and respond by simulating the human language in a smart and useful manner. Today, technology is widely applied to multiple industry segments such as advertising, customer care, insurance, etc. to automate the process of human-computer interaction.
+
+The NPL layer translates user requests or queries into information and searches for a proper response from its database. An advanced example of NLP would be a language translation―from one human language to another. For instance, English to German.
+
+To learn, go here:
+
+Ultimate Guide to Understand & Implement Natural Language Processing
+
+NLPFORHACKERS.IO
+
+How to Get Started with Deep Learning for Natural Language Processing
+
+For videos:
+
+Introduction to Natural Language Processing
+
+Natural Language Processing with Deep Learning
+
+Reinforcement Learning OR RL: Imagine a robot trained to learn from its previous actions and perform a new task, whenever required, wouldn’t that be great, and automatic! In fact, it is for real.
+
+Reinforce learning introduces a similar concept for a computer agent; whether it fails or succeeds in a particular task, the agent receives rewards and punishments for the action on an object. It gains knowledge on it as part of the deep learning model controlling its actions.
+
+To learn, go here:
+
+A Beginner’s Guide to Reinforcement Learning (for Java)
+
+Simple Beginner’s guide to Reinforcement Learning & its implementation
+
+For Videos:
+
+Deep Reinforcement Learning
+
+Reinforcement Learning
+
+Step 4: Choosing the Right Framework
+
+We discussed many applications and usage of deep learning technologies in step 3. Chances are, for some tasks, traditional machine learning algorithms would be enough. But, if you’re dealing with a large collection of images, videos, text or speech, deep learning is bliss and everything for you. However, in deep learning, which framework will be the right choice for you is a question for many.
+
+Remember, there’s no right framework, there is only a suitable framework. Here’s what your selection criteria should primarily depend on:
+
+Availability of pre-trained models
+
+Open-source
+
+Supported operating systems and platforms
+
+Licensing model
+
+Ease of model definition and tuning
+
+Availability of debugging tools
+
+Ease of extensibility (for example, able to code new algorithms)
+
+Connected to a research university or academia
+
+Supported deep learning algorithmic families and models
+
+To assist you in selecting one, let me take you on a brief tour of Deep Learning frameworks:
+
+(a) TensorFlow: Backed by Google, TensorFlow is an all-purpose deep learning library for numerical computation based on data flow graph representation.
+
+- Try out its introductory tutorial
+
+- To install TensorFlow, visit here
+
+- Refer to its documentation
+
+- Have a look at its whitepaper
+
+(b) Theano: Theano, a math expression compiler, is an actively developed architecture that efficiently defines, optimizes, and evaluates mathematical expressions having multi-dimensional arrays.
+
+- Try out an introductory tutorial
+
+- To install Theano, visit here
+
+- Keep the documentation handy
+
+(c) Caffe: While Theano and TensorFlow can be your “general-purpose” deep learning libraries, Caffe is made by keeping expression, speed, and modularity in mind. The framework, developed by a computer vision group, enables simple and flexible deep learning to organize computation. To its update, Caffe2 is also available.
+
+- To install Caffe, visit here for Caffe and Caffe2
+
+- Familiarize yourself with an introductory tutorial presentation
+
+- Here you’ll find its documentation
+
+(d) Microsoft Cognitive Toolkit: Microsoft Cognitive Toolkit — previously known as CNTK — is a unified deep-learning toolkit that easily realizes and combines popular model types such as CNN, RNN, LTSM and more, across multiple GPUs and servers.
+
+- To install Microsoft Cognitive Toolkit, visit here
+
+- For tutorials, reach here
+
+- Model Gallery collection of code samples, recipes, and tutorials for various use cases.
+
+Please note that the above-listed architectures are not the only popular libraries in use today. We have listed some more with their key features:
+
+- Written in Python; a minimalist and highly modular neural networks library
+
+- Capable of running on top of either Theano or TensorFlow
+
+- Enables fast experimentation.
+
+- A scientific computing framework
+
+- Offers wide support for machine learning algorithms
+
+- Based on the Lua programming language
+
+- Python supported, a flexible and intuitive neural networks library
+
+- designed on the principle of define-by-run
+
+- let you modify networks during runtime
+
+To learn more on criteria-based selection and a detailed review on other frameworks, visit the page- How to Select a Deep Learning Framework (we suggest you bookmark the link as it is updated very often).
+
+Step 5: Exploring Deep Learning
+
+Deep learning is a complex, yet prominent field of artificial intelligence where the real magic is happening right now. The three key points which steer the field of deep learning are:
+
+The availability of huge amounts of training data Powerful computational infrastructure Advances in academia
+
+However, what you need to do to pioneer deep learning is simple:
+
+Repeat from step 2 — step 4 with a different adventure every time
+
+Keep testing your deep learning skills (e.g. Kaggle)
+
+Join Deep Learning communities and ask questions (e.g. Google Group, DL Subreddit)
+
+Follow recent researches/ researchers (e.g. Most Cited Deep Learning Papers)
+
+EndNote
+
+Today, researchers, who were also learners just like us a few years back, are working hard to defy impossibility in the field of technology. In the beginning, you might find difficulty in learning concepts but, tenacity is the key.
+
+You may find yourself baffling with deep learning algorithms and think why it didn’t work as you expected or why am I getting this error ABC?…believe me, that’s normal. If required, try out a sample algorithm you trust would work on a small set of data first.
+
+In this field of learning, give everything a try that makes sense to you. While you gain new skills, try to build something different using your mind. Remember the dialogue from the movie Spiderman — “With great power, comes great responsibility.” The trend for deep learning is rising non-stop. To make a dent in the Deep Learning hall of fame, the universe is open to you. Come out and showcase your talent as many things are still unexplored.
+
+At last, I request you to support (by Clapping) this piece and SHARE it so that we do not leave any aspiring talent behind and miss any opportunity on inventions to come!! Love you all…

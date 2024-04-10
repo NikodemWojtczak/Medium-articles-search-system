@@ -1,0 +1,27 @@
+TL;DR: In this article you’ll learn the basics steps to performing time-series analysis and concepts like trend, stationarity, moving averages, etc. You’ll also explore exponential smoothing methods, and learn how to fit an ARIMA model on non-stationary data.
+
+Time series are everywhere
+
+Situation 1: You are responsible for a pizza delivery center and you want to know if your sales follow a particular pattern because you feel that every Saturday evening there is a increase in the number of your orders…
+
+Situation 2: Your company is selling a product and you are in charge of predicting, or forecasting, the supplies needed for this product at a particular moment in the future…
+
+Situation 3: You are monitoring a datacenter and you want to detect any anomaly such as an abnormal CPU usage which might cause a downtime on your servers. You follow the curve of the CPU usage and want to know when an anomaly occurs…
+
+In each of these situations, you are dealing with time series. Analyzing series is a fascinating job because despite all mathematical models (including neural networks), we humans still fail to predict the future and have to deal with uncertainty. Let’s have a closer look at what time series are and which methods can be used to analyze them. In this article, we will extensively rely on the statsmodels library written in Python.
+
+A time series is a data sequence ordered (or indexed) by time. It is discrete, and the the interval between each point is constant.
+
+Properties and types of series
+
+Trend : A long-term increase or decrease in the data. This can be seen as a slope (is doesn’t have to be linear) roughly going through the data.
+
+Seasonality : A time series is said to be seasonal when it is affected by seasonal factors (hour of day, week, month, year, etc.). Seasonality can be observed with nice cyclical patterns of fixed frequency.
+
+Cyclicity : A cycle occurs when the data exhibits rises and falls that are not of a fixed frequency. These fluctuations are usually due to economic conditions, and are often related to the “business cycle”. The duration of these fluctuations is usually at least 2 years.
+
+Residuals : Each time series can be decomposed in two parts:
+
+- A forecast, made up of one or several forecasted values
+
+- Residuals. They are the difference between an observation and its predicted value at each time step. Remember that

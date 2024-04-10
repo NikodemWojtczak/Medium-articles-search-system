@@ -1,0 +1,83 @@
+Best Practices for NLP Classification in TensorFlow 2.0
+
+Photo by Jirsak, courtesy of Shutterstock
+
+When I first started working with Deep Learning, I went through Coursera and fast.ai courses, but afterwards I wondered where to go from here. I started asking questions like “How do I develop a data pipeline for a model?” and “How do I implement state-of-the-art research?”.
+
+This blog post answers these questions. The post covers the development a deep learning model in TensorFlow 2.0 from the ingestion of data all the way to the point where deep learning determines the emotion of a Yelp review (positive or negative). After reading this post, you will also be able to use Huggingface’s Transformers library [1] in order to create state of the art models using a new technique called transfer learning and using a “model backbone” from Google (BERT [2]) that was pre-trained on Wikipedia.
+
+Complete code for this example
+
+The full code is located on my GitHub at https://github.com/ralphbrooks/tensorflow-tutorials
+
+Best Practices for Model Construction
+
+One of the keys to success in Deep Learning is to iterate quickly. If we are going to build a predictive model, it makes sense to store data once and write multiple experimental models based on that data. If we are going to build a predictive model, we want to put together a data pipeline where we can look at rows of information but where we don’t have to process all of the information before we train our model.
+
+To illustrate these best practices, I am going to walk through the steps of creating a model that predicts sentiment (‘Negative’ or ‘Positive’ sentiment) based on a Yelp reviews of cell phone stores. I will use the Yelp API to extract random reviews for stores associated with the keyword “AT&T”. and the associated rating (the “sentiment”). Our goal is to see if we can create a deep learning model that can determine sentiment based ONLY on the text.
+
+STEP 1: Store raw, clean data efficiently
+
+Our goal is to predict sentiment. The TensorFlow abstraction of understanding the relationships between labels (the Yelp ratings) and features (the reviews) is commonly referred to as a model.
+
+The first step in this process is to think about the necessary inputs that will feed into this model. At this stage, it is helpful to think about the reviews and the sentiment score as a logical grouping. TensorFlow refers to this logical grouping as a tf.train.Example.
+
+For our use case, we should start by defining the example. That definition is as follows:
+
+Next, we are going to store these examples in an efficient manner in files called TFRecords.
+
+Example code that writes out this information looks like the following:
+
+In summary, using TFRecords for storage allows you to do to a preliminary cleanup of data, and to store this data efficiently for use by multiple models.
+
+STEP 2: Build a pipeline for model specific transformations of data
+
+We create pipelines to transform our raw, clean data into something that is gradually ingested by a model. Photo by Neale Cousland- — Courtesy of Shutterstock
+
+The second step is to create a data pipeline that will feed your features (the reviews) and the labels (the sentiment score) from the saved file (the TFRecord) into some type of neural network. In TensorFlow, data pipelines can be implemented using tf.data.Dataset .
+
+tf.data.Dataset sets up your transformations without actually processing them until your model starts to train. This is critical if you are testing out your pipeline. Said differently, the last thing in the world that you want to do is to wait 3–4 minutes during different steps of data transformation because the previous transformation step is still running on all available data. It is better to have each step of the transformation pipeline operate on a small amount of data (a single batch of data) so that you can debug your pipeline faster.
+
+The following code will help to make this concept more concrete:
+
+As seen below, a pipeline can also be used to clean up data.
+
+STEP 3: Use Transfer Learning Approach to Build model
+
+In our example, we are attempting to get an understanding of human language and what emotion is contained in sentences. The first challenge that we have limited data; our model will only examine 738 reviews in order to determine sentiment.
+
+If we predicted missing words from all pages in Wikipedia, the deep learning model would have enough data to detect basic language patterns, but I do not have enough computing power to process this information.
+
+Because of these constraints, we are going to look at a model that has been pre-trained by another company and fine-tune this model with our limited training data (a concept typically called transfer learning). Specifically, we will use the BERT model from Google which has already been trained on Wikipedia information.
+
+Another best practice is to use proven frameworks when available. A startup company called Hugging Face has a framework called Transformers that makes it easier to use pre-trained models, and the following code shows how to convert words into numbers (tokenization) and to use the BERT model ( TFBertForSequenceClassification )
+
+The Hugging Face Transformers framework also makes it easy to convert our data pipelines into something that can be understood by the BERT model.
+
+STEP 4: Train and Evaluate the NLP model
+
+Now, we are ready to train the model. If we run the model for 3 iterations (epochs), we see accuracy of 85 %.
+
+This is still good considering that the Yelp rating captures the full sentiment of the user, but that in many cases, the Yelp API is only giving you part of the actual text review.
+
+The visualization of the 85% accuracy looks like the following:
+
+The matrix above shows the following:
+
+· If the person is expressing negative sentiment, the classifier gets it right 91% of the time.
+
+· If the customer expresses positive sentiment, our model gets this right roughly 66% of the time.
+
+Congratulations! You made it to the end of the blog post, and you now have a process that takes you from building a data pipeline to having an accurate model.
+
+References:
+
+1) T. Wolf, L. Debut, V. Sanh, J. Chaumond, C. Delangue, and A. Moi. Huggingface’s Transformers: State-of-the-art Natural Language Processing. arXiv e-prints, October 2019.
+
+2) J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. arXiv e-prints, October 2018.
+
+About White Owl Education
+
+Do you want to keep up with the current trends in artificial intelligence? Are you looking to process streaming data in real time or are you looking to deploy models into production?
+
+If so, my company can help — Check us at out https://www.whiteowleducation.com

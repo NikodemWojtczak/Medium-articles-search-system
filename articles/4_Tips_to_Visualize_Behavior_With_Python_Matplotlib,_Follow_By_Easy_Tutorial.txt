@@ -1,0 +1,25 @@
+4 Tips to Visualize Behavior With Python Matplotlib, Follow By Easy Tutorial
+
+Why Visualizing Customer Behavior?
+
+I’m currently working for Unbounce as a data analyst. Unbounce is a subscription-based tool that helps marketers build and optimize landing pages for a high conversion rate. Like any other subscription-based companies, we want to reduce churn and attract customers to stay longer. A big part of it is to understand which behaviors correlate to longer customer retention, why so, and how we can nurture those behaviors.
+
+Although there are many statistical methods we can use to check customer behavior trends, I find it helpful to visualize the behavior of some customers (and discuss with customer-facing teams) to form hypotheses that can be validated later on.
+
+The Data
+
+For this tutorial, we will use sample data that includes events and subscription information for 4 accounts. No personal information is included, and account unique identifications have been changed to ensure security.
+
+Customer behavior data usually includes date and time events, the moments when customers do a particular action. In this tutorial, we will look into events for account republish ( republished_df ) and login ( login_df ).
+
+We also have subscription information for each customer ( subscription_info_df ). A customer can have multiple subscriptions, but each subscription is mutually exclusive. A new subscription for a customer only starts when he/she churns (meaning stop paying) then re-subscribe. We call this person a flapper.
+
+Load and Transform
+
+republished_df = pd.read_csv(filepath)
+
+login_df = pd.read_csv(filepath)
+
+subscription_info_df = pd.read_csv(filepath)
+
+Before going into the visualization, we need to transform date columns to date-time format. Right now, Python thinks that they are a bunch of strings. Hence, the dates will not be arranged in a timely order.

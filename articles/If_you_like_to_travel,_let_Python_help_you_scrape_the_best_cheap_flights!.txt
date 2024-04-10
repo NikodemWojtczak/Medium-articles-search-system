@@ -1,0 +1,9 @@
+Simply put
+
+The goal of this project is to build a web scraper that will run and perform searches on flight prices with flexible dates (up to 3 days before and after the dates you select first), for a particular destination. It saves an excel with the results and sends an email with the quick stats. Obviously, the objective is to help us find the best deals!
+
+If you get lost in some part, try to have a look at my article about the Instagram bot, as it uses Selenium too.
+
+The real life application for this is up to you. I’ve used it to search both holidays and recently also some short trips to my hometown!
+
+If you’re serious about it, you can run the script on a server (a simple Raspberry Pi will do), and make it start once or twice each day. The results will be mailed to you, and I suggest saving the excel file to a Dropbox folder, so you can access it from anywhere, anytime.

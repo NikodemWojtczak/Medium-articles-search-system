@@ -1,0 +1,131 @@
+Urban transportation is going through a rapid and significant evolution. Since the birth of the Internet and smartphones, we have become increasingly connected and are able to plan and optimize our daily commute. Along with that, large amounts of data are gathered and used to improve the efficiency of existing transportation systems. Real-time ride-sharing companies such as Uber and Lyft are using this data to revolutionize the taxi industry, laying the ground for a more connected and centrally controlled transportation structure, and building innovative systems like car-pooling.
+
+In this project, I tackled the travel time optimization problem for taxi vehicles. This can be framed as the Traveling Salesman Problem, a well-known computer science problem. The objective is to find the shortest route that visits a set of locations. For this problem, optimization techniques are required to intelligently search the solution space and find near-optimal solutions. More specifically, I first used machine learning to forecast travel times between every pair of pickup and dropoff locations. Then I used evolutionary algorithms, namely ant colony and genetic, to find the best travel itinerary for the vehicles in the dataset.
+
+Problem Description
+
+Dataset
+
+The data that I worked with is the NYC Taxi and Limousine Commission Trip Record data, which can be accessed at this URL: https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page. I have the monthly data in the year 2016 for Yellow Taxi, Green Taxi, and For-Hire Vehicle. The dataset has close to 1.5 million trip records with the following 11 attributes:
+
+id — a unique identifier for each trip
+
+— a unique identifier for each trip vendor_id — a code indicating the provider associated with the trip record
+
+— a code indicating the provider associated with the trip record pickup_datetime — date and time when the meter was engaged
+
+— date and time when the meter was engaged dropoff_datetime — date and time when the meter was disengaged
+
+— date and time when the meter was disengaged passenger_count — the number of passengers in the vehicle (driver entered value)
+
+— the number of passengers in the vehicle (driver entered value) pickup_longitude — the longitude where the meter was engaged
+
+— the longitude where the meter was engaged pickup_latitude — the latitude where the meter was engaged
+
+— the latitude where the meter was engaged dropoff_longitude — the longitude where the meter was disengaged
+
+— the longitude where the meter was disengaged dropoff_latitude — the latitude where the meter was disengaged
+
+— the latitude where the meter was disengaged store_and_fwd_flag — This flag indicates whether the trip record was held in the vehicle memory before sending to the vendor because the vehicle did not have a connection to the server: Y = store and forward and N = not a store and forward trip
+
+— This flag indicates whether the trip record was held in the vehicle memory before sending to the vendor because the vehicle did not have a connection to the server: Y = store and forward and N = not a store and forward trip trip_duration — duration of the trip in seconds (also the target variable)
+
+I conducted simple data pre-processing techniques such as eliminating duplicates, checking latitude and longitude bounds, removing obvious outliers, converting data fields to sensible units, etc. to get a clean dataset for my experiments.
+
+Data Visualization
+
+A big component of this project is to visualize the data and figure out the best features to be used for the machine learning model at the next step. Pickup Time is a feature that I first looked at.
+
+Figure 1 is the pickup time distribution by hours of the day. As can be seen, the most popular pickup hours are between 6 and 10 PM with more than 70,000 trips made. On the other hand, the least active pickup hours are from 2 to 6 AM with less than 35, 000 trips.
+
+Figure 2 is the pickup time distribution by weekdays in a week. It seems like Friday is the most popular day to hail a taxi with close to 220,000 trips made, while Sunday is on the other end of the spectrum with approximately 165,000 trips.
+
+Figure 3 is the pickup time heatmap for the results from Figure 1 and Figure 2. The most active pickup times are between 6 to 9 PM from Thursday to Sunday. The least active pickup times are between 2 to 5 PM from Wednesday to Sunday.
+
+The next feature that I examined is Trip Duration.
+
+Figure 4 is the trip duration distribution by minutes. I observed that the distribution is heavily left-skewed, with more than 75% of trips between 3 and 12 minutes. More than 10,000 trips last between 5 to 7 minutes.
+
+Figure 5 displays the comparisons of trip duration distribution by minutes versus by latitudes and longitudes. The distribution by longitude is also quite left-skewed, with a peak roughly at 1 kilometer. The distribution by latitude is more normally distributed, with a peak at 0 kilometers.
+
+Figure 6 is the trip duration heatmap by minutes on hours in a day versus weekdays in a week. The longest trips occur frequently between 2 to 4 PM from Wednesday to Friday. The shortest trips happen between 8 to 9 AM on Monday and Tuesday.
+
+I am also interested in Pickup and Dropoff Locations.
+
+I plotted the spatial density of pickup and dropoff locations, as shown in Figure 7. It looks a bit like an image you can see from space, with Manhattan and the two airports (LGA and JFK) “lighting up” clearly.
+
+I went even further to show typical trips on a map in Figure 8. The magenta circles are pickup locations, the green circles are dropoff locations, and the cyan arrow lines are the length of the trip. I can see an uneven distribution of pickup and dropoff locations, as there are many more dropoff locations outside of Manhattan (Queens and Brooklyn).
+
+Machine Learning
+
+The next step of my pipeline is to build a machine learning model to predict travel times between pickup and dropoff locations. With the data and objective, a simple linear regression won’t be powerful enough. With a few random outliers in a huge dataset and possibly a number of categorical features, I decided to go with gradient boosted trees, which can easily capture nonlinear relationships, accommodate for complexity, and handle categorical features. The input features that were used are: passenger_count, pickup_longitude, pickup_latitude, dropoff_longitude, dropoff_latitude, and store_and_fwd_flag. The output target is trip_duration.
+
+I implemented this model via XGBoost — an optimized distributed gradient boosting library designed to be highly efficient, flexible, and portable. This model is easy to set up but is difficult to fine-tune and interpret. I used the root mean squared logarithmic error as the evaluation metric, as it reduces error magnitude. With this metric, I ran different hyper-parameters choice and compare the results. The final parameters I used for my XGBoost model are: {fbooster = gbtree; objective = linear; learning _rate = 0.05; max _depth = 14; subsample = 0.9; colsample _bytree = 0.7; colsample _bylevel = 0.7; silent = 1; feval = rmsleg}.
+
+The mean absolute error we achieved is 4.83. The XGBoost model is saved as a pickle file and would then be used as input for the next step: optimization.
+
+Proposed Solutions
+
+Because this problem involves minimizing travel time while also visiting every location, it is analogous to the Traveling Salesman Problem (TSP). The Traveling Salesman Problem is a combinatorial NP-hard optimization problem. This means the problem does not have a polynomial time solution for it. The possible solutions grow at a factorial rate the more locations are added. A brute force approach to solving this problem would involve checking every possible combination of locations. If I was to evaluate every possible path, where n represents the number of locations, it would have the following running time: O(n) = [(1/2) (n — 1)!]
+
+Given this running time, the solution space quickly becomes intractable once I start adding more locations to the problem definition. Therefore, I employed the use of meta-heuristics to search the solution space directly. Rather than going through each possible path, I would generate possible paths and search them in a guided stochastic manner.
+
+Ant Colony Optimization
+
+The Ant Colony Optimization (ACO) algorithm is a biologically inspired meta-heuristic that searches the solution space in a way that emulates the way ants search for possible paths. Ants leave pheromones on their travel path, depending on the path quality. Since I am trying to minimize the travel cost, I will have my pheromone quality tau equivalent to lower travel times. Each edge in the complete graph will have a corresponding inverse travel time cost eta and pheromone tau.
+
+With each generation, a set number of ants are randomly placed at starting points in the graph. Each ant then builds a solution by traversing the graph. It does so by choosing the next location with a weighted probability. The equation to calculate the probability of going from location i to location j is:
+
+Where tau represents an n by n pheromone matrix and eta represents an n by n inverse travel time cost matrix. All values in the pheromone matrix are first initialized to 1/n². I found that initializing the pheromone matrix with 1’s had little to no impact on my results. The corresponding exponents alpha and beta are used to control the influence of the pheromones and travel time cost in the probability calculation between two nodes. In the denominator, I have a summation of these values where h represents all possible locations that are available for the ant to visit. These are the nodes that particular ant has not visited yet. These terms are all added together to calculate the weighted probability of traveling from node i to node j.
+
+After each ant generates their corresponding solution, the pheromone matrix is updated. How this is done depends on the strategy employed. In this solution, I update each pheromone edge by first multiplying it by p (the residual coefficient). This represents the rate at which the pheromones “evaporate” or decrease their influence. We then add to the pheromone edge q/c where q represents the pheromone intensity and C represents the total cost of the generated path. Because the travel time cost is in the denominator, paths with greater travel times will have a lower probability of being picked. This process is repeated for g number of times, where g represents the number of generations.
+
+Genetic Evolution
+
+Genetic Evolution (GE) is another biologically inspired meta-heuristic that takes its steps from the process of evolution. It makes use of mutation, crossover, and selection functions over successive generations. These generations make up a population of solutions. This optimization algorithm follows the following steps:
+
+Create a population of routes. Mutate Crossover Determine the fitness (travel time) Select the parent for the next generation Repeat step 2
+
+An initial population is created by randomly generating n number of paths. The mutation and crossover operations are based on mutation rate m and crossover rate c. Both of these values are between 0 and 1 inclusively. When iterating over each path in the current population, I randomly pick a different path and mutate it. The mutation is done by iterating over every location in the path and randomly swapping it with the previous index’s location. This random swap is weighted by the mutation factor m.
+
+After I have created the mutant, I then begin crossover. I iterate over each index in both my current and mutant path and select a location based on the crossover rate c:
+
+Order matters in travel paths. It is not enough for me to end my crossover operation here. As shown in the figure above, the locations 1 and 12 appears more than once. Because of this, I need to remove duplicates. I then find the missing locations, shuffle them, and append them to the path:
+
+Once I have the final offspring path, I can evaluate its fitness compared to the current path’s. If it has a lower travel time, it is then chosen as the parent for the next generation, replacing the current route. This process is repeated for g number of times, where g represents the number of generations.
+
+Experimental Results
+
+In my trial runs of each optimization algorithm, I found that Ant Colony Optimization performed better than Genetic Evolution. This is to be expected, as the Ant Colony Optimization algorithm was specifically designed to solve the Traveling Salesman problem. I used n = 15 or fifteen different locations for each trial with both algorithms.
+
+ACO Results
+
+For the trials of Ant Colony Optimization, I used the following values: alpha = 1.0, beta = 10.0, p = 0.5, and q = 10.0 while I varied the number of ants and generations g.
+
+The graphs below were produced with 10 ants and g = 100. As you can see from the average cost per generation graph, ACO was not stuck at a local minimum. It continued to explore other possible solutions. This is evident by its wide variation in mean cost.
+
+GE Results
+
+For the trials of Genetic Evolution Optimization, I used the following values: mutation rate m= 0.5, crossover rate c = 0.7 while I varied the size of population p and the number of generations g. From the results, I can see the more generations and the larger the population, the better the solution the algorithm finds. However, compared to Ant Colony Optimization, this solution is still inferior.
+
+Discussion
+
+It is clear from the experimental results that Ant Colony Optimization is the better algorithm for optimizing our problem, which is analogous to the Traveling Salesman Problem. Regardless of which parameters I used for population p, mutation rate m, or crossover rate s in my Genetic Evolution program, it was unable to find paths with costs as low as ACO. I believe that multiple factors caused this.
+
+First, consider how the solution paths are generated in both algorithms. In the ant colony, the travel time cost n_ij is factored into each decision an ant makes. This is because the inverse travel time matrix is used in the probability calculation for determining which location an ant should visit next. Genetic evolution only evaluates cost after it has applied its mutation and crossover operation. The travel cost has no impact on this stochastic component of genetic evolution. Mutations and crossovers are done randomly and, although influenced by crossover and mutation rate, does not consider whether these changes give us a lower value. Only at the selection phase do I check whether or not the offspring has a better value.
+
+This would explain why the ant colony not only performs better but also why it does so in such a marked manner, such that its first generation produces a result more than a hundred minutes faster than genetic evolution. Another factor to consider is how I implemented my mutation and crossover operations. There may be better ways to implement them which also takes into account the cost of the path before selection.
+
+It is interesting to see the average cost of each generation for the ant colony. It shows me that the algorithm did not get stuck at a local minimum. Rather, it was still searching for various other paths, none of which were better than what it found. Since the ants’ decisions are based on a weighted probability, this makes sense. Comparing this to genetic evolution’s average cost graph tells us a story about how that algorithm is likely to converge. The trend I see with that curve is a decreasing slope that looks soon to level off.
+
+Conclusion
+
+While the traveling salesman problem itself may be old, its application to modern day services like Uber and Lyft reminds me of its relevance and ugly factorial running time. With the recent advancements of biologically inspired optimization algorithms, I can still find feasible solutions without having a polynomial time solution.
+
+There is future work to be done for genetic evolution optimization in this problem domain. The challenge will be in finding a more effective way to factor in the path cost into the mutation and crossover operations. But as the results of this project indicate, I can surely affirm that ant colony optimization truly was made to solve this kind of problem.
+
+Note: You can view the complete code for this project from this GitHub repo: https://github.com/khanhnamle1994/trip-optimizer
+
+— —
+
+If you enjoyed this piece, you can find my own code on GitHub, and more of my writing and projects at https://jameskle.com/. You can also follow me on Twitter, email me directly or find me on LinkedIn.

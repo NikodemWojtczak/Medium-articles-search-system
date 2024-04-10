@@ -1,0 +1,99 @@
+AI Fairness — Explanation of Disparate Impact Remover
+
+AI Fairness is an important topic for machine learning practitioners. We must be aware that there can be both positive and negative implications for users when they interact with our models. Although our metric of success tends to be a performance metric (e.g. accuracy), those that interact with our models may consider other values as well. Tools using AI are being built to: approve or deny loans; decide if a person should be considered for an interview, and; determine if someone’s a good candidate for treatment. These outcomes all have high impact repercussions for the individual. This is why fairness is such an important value to consider.
+
+In order to ensure fairness, we must analyze and address any bias that may be present in our training data. Machine learning discovers and generalizes patterns in the data and could, therefore, replicate bias. When implementing these models at scale, it can result in a large number of biased decisions, harming a large number of users.
+
+Introducing Bias
+
+Data collection, processing, and labeling are common activities where we introduce bias in our data.
+
+Data Collection
+
+Bias is introduced due to technologies, or humans, used in collecting the data, e.g. the tool is only available in a specific language
+
+It could be a consequence of the sampling strategy, e.g. insufficient representation of a sub-population is collected
+
+Processing and Labeling
+
+Discarding data, e.g. a sub-population could more commonly have missing values and by dropping those examples, result in under-representation
+
+Human labelers, or decision makers, may favor the privileged group or reinforce stereotypes
+
+Disparate Impact
+
+Disparate Impact is a metric to evaluate fairness. It compares the proportion of individuals that receive a positive output for two groups: an unprivileged group and a privileged group.
+
+The calculation is the proportion of the unprivileged group that received the positive outcome divided by the proportion of the privileged group that received the positive outcome.
+
+The industry standard is a four-fifths rule: if the unprivileged group receives a positive outcome less than 80% of their proportion of the privileged group, this is a disparate impact violation. However, you may decide to increase this for your business.
+
+Mitigation with Pre-Processing
+
+One approach for mitigating bias that some people often suggest is simply to remove the feature that should be protected. For example, if you are concerned of a model being sexist and you have gender available in your data set, remove it from the features passed to the machine learning algorithm. Unfortunately, this rarely fixes the problem.
+
+Opportunities experienced by the privileged group may not have been presented to the unprivileged group; members of each group may not have access to the same resources, whether financial or otherwise. This means their circumstances, and consequently, their features for a machine learning model, are different and not necessarily comparable. This is a consequence of systematic bias.
+
+Let’s take a toy example with an unprivileged group, Blue, and a privileged group, Orange. Due to circumstances out of their control, Blue tend to have lower values for our feature of interest, Feature.
+
+We can plot the distribution of Feature for each of the two groups and visually see this disparity.
+
+If you were to randomly pick a data point, you could use its value of Feature to predict which group you selected from.
+
+For example, if you select a data point with Feature value 6 you would most likely assume the corresponding individual belonged in the Orange group. Conversely, for 5, you’d assume they belonged in Blue.
+
+Feature may not necessarily be a useful attribute to predict the expected outcome. However, if the labels for your training data favor group Orange, Feature will be weighted more highly as it can be used to infer grouping.
+
+As an example, a person’s name doesn’t necessarily impact their ability to do a job and, therefore, shouldn’t impact whether or not they are hired. However, if the recruiter is unconsciously biased, they may infer the candidate’s gender or race from the name and use this as part of their decision making.
+
+Disparate Impact Remover
+
+Disparate Impact Remover is a pre-processing technique that edits values, which will be used as features, to increase fairness between the groups. As seen in the diagram above, a feature can give a good indication as to which group a data point may belong to. Disparate Impact Remover aims to remove this ability to distinguish between group membership.
+
+The technique was introduced in the paper “Certifying and removing disparate impact” by M. Feldman, S. A. Friedler, J. Moeller, C. Scheidegger, and S. Venkatasubramanian.
+
+The algorithm requires the user to specify a repair_level , this indicates how much you wish for the distributions of the groups to overlap. Let’s explore the impact of two different repair levels, 1.0 and 0.8.
+
+Repair value = 1.0
+
+This diagram shows the repaired values for Feature for the unprivileged group Blue and privileged group Orange after using DisparateImpactRemover with a repair level of 1.0.
+
+You are no longer able to select a point and infer which group it belongs to. This would ensure no group bias is discovered by a machine learning model.
+
+Repair value = 0.8
+
+This diagram shows the repaired values for Feature for the unprivileged group Blue and privileged group Orange after using DisparateImpactRemover with a repair level of 0.8.
+
+The distributions do not entirely overlap but you would still struggle to distinguish between membership, making it more difficult for a model to do so.
+
+In-Group Ranking
+
+When features show a disparity between two groups, we assume that they’ve been presented with different opportunities and experiences. However, within group, we are assuming that their experiences are similar. Consequently, we wish for an individual’s ranking within their group to be preserved after repair. Disparate Impact Remover preserves rank-ordering within groups; if an individual has the highest score for group Blue, it will still have the highest score among Blues after repair.
+
+Building Machine Learning Models
+
+Once Disparate Impact Remover has been implemented, a machine learning model can be built using the repaired data. The Disparate Impact metric will validate if the model is unbiased (or within an acceptable threshold).
+
+Bias mitigation may result in a lower performance metric (e.g. accuracy) but this doesn’t necessarily mean the final model would be inaccurate.
+
+This is a challenge for AI practitioners: when you know you have biased data, you realize that the ground truth you’re building a model with doesn’t necessarily reflect reality nor the values you wish to uphold.
+
+Example Notebook
+
+As part of my investigation into DisparateImpactRemover , I created an example notebook using a toy dataset. It demonstrates the following:
+
+Calculating Disparate Impact (in Python and with AIF360)
+
+Building a simple Logistic Regression model
+
+Creating a BinaryLabelDataset
+
+Implementing DisparateImpactRemover with two different repair levels
+
+with two different repair levels Validating preservation of in-group ranking
+
+This is available on GitHub here. The library we are using to implement this algorithm is AI Fairness 360.
+
+Final Remark
+
+The concept of fairness is incredibly nuanced and no algorithmic approach to bias mitigation is perfect. However, by considering our users’ values, and implementing these techniques, we are stepping in the right direction to a fairer world.

@@ -1,0 +1,63 @@
+Today’s AI
+
+Without any doubt, today’s biggest buzzword is Artificial Intelligence or AI. Most prominent research organizations, including Gartner, McKinsey, and PWC, have glorified the future of AI with mind-blowing statistics and future predictions. Here is the PWC’s report (2018), where it predicts that by 2030, AI will contribute $15.7 trillion to the global economy. The overall productivity & GDP will increase by 55% and 14%, respectively. As signed by the US President Donald J. Trump, the executive order could quickly demonstrate the importance of AI within the united states.
+
+“Together, we can use the world’s most innovative technology to make our government work better for the American people.”
+
+Michael Kratsios
+
+Chief Technology Officer of the United States (source)
+
+We have several examples in our daily lives where we leverage Artificial Intelligence without even noticing. This includes google maps, smart replies in Gmail (2018+), facebook picture tagging (2015 approx), youtube/NetFlix video recommendations (2016+), etc. There are also some astonishing news reports outlining the significance and reach of AI; like this one (2019) where Novak Djokovic used AI in Wimbledon’s final, or look at this website (launched in 2019) with 100% fake pictures of people who look 100% real leveraging deep neural networks (Deep Learning). This list goes on and on.
+
+Traditional AI (1950–2008)
+
+The term “Artificial Intelligence” was coined in 1956, at a historic conference in Dartmouth. At that early stage of AI development, scientists and media hype made utopian claims around the possibilities of AI breakthroughs. Some scientists made it so clear that in the next 20 years, the machine will do everything that humans possibly could do.
+
+“Machines will be capable of doing any work a man can do.”
+
+1965 — Herbert A.Simon
+
+70 years history of AI by Awais Bajwa
+
+There has been many ups and downs for AI evolution since then. In 1973 the British Government published a report named Lighthill report after an investigation and seized the funding for many major AI research universities. Prominent AI approaches back then were Expert Systems and Fuzzy Logic with Prolog and Lisp being the top choice as a programming language among C/C++. The first significant breakthrough in Expert systems happened in the ’80s, and the first prominent expert system SID was introduced. Later, there were some other setbacks in the AI field, followed by another breakthrough by IBM when its supercomputer Deep Blue defeated world champion, Garry Kasparov, in New York City in 1997. Since the concept of AI was seen as a failure in those days, IBM claimed it was not using AI in Deep Blue which accounted for some interesting discussions.
+
+Please note that all the breakthroughs happened in the last 8–10 years. The backpropagation algorithm that is the heart of Deep Learning/Neural Networks was first introduced in 1986. The question is “Why in the last 8–10 years (i.e 2009–2019) when AI has been around for more than 70 years? ”.
+
+To get an answer, let’s jump into the current era of “Modern AI.”
+
+Modern AI (2008+)
+
+The term “Data science” was coined in early 2008 by two data team leads from Linkedin & Facebook. (DJ Patel & Jeff Hammerbacher). This new field in computer science introduced advanced analytics that leveraged Statistics, Probability, Linear Algebra & Multivariant Calculus. Later in late 2012, the real breakthrough happened in Artificial Intelligence when in a historic ImageNet competition, a CNN based submission called AlexNet outclassed all other competitors and received a 10.8 % lower error rate than the runner up. That was the advent of modern AI and is believed to be the trigger for a new boom in the AI world. One primary reason for the win was the utilization of Graphical Processing Unit (GPU) for the training of the neural network architecture. Later in 2015, Facebook’s leader of AI Yann LeCun pushed hard on deep learning and its possibilities along with other “Godfathers of AI.” Today multiple cloud vendors are offering cloud-based GPUs for “Modern AI” whereas their adoption was never an option earlier.
+
+The GPU has literally changed the game with the switch from CPU to GPU. It has revolutionized technology and redefined computing power and parallel processing. AI requires high-speed computing power due to advanced mathematical calculations. Especially because there has been an exponential increase in the volume of data generated in the last ten years (source).
+
+Consequently, the AI research across the world picked up exponentially, the time of this writing, the volume of AI research papers is around 100/day.
+
+Hence we have an answer to our previous question:
+
+“Why in the last 8–10 years (i.e., 2009–2019) when AI has been around for more than 70 years? ”.
+
+Answer: Enormous growth in Data, faster & cheaper processing ‘GPU,’ and fast-paced AI research.
+
+A future wave of AI
+
+Google is kind enough to let employees allocate 20% of the time in their ambitions and fun projects. In 2015, a member of Google’s search filter team, Alexander Mordvintsev, developed a neural network program as a hobby that astounded his colleagues with dream-like hallucinogenic appearances. And this project was named by Google as a Deep Dream. This project was the result of experimentation while training a neural network and playing with the activation functions at a scale. But even today, one of the biggest mystery of AI is that we have no real understanding of how accurately AI makes its decisions internally or how neural networks reason to learn in back-prop. In layman terms, the actual reasoning of AI or bias towards making the decision is a mystery, and it is called a “BlackBox of AI.”
+
+XAI
+
+One of the new waves of Artificial Intelligence efforts is to break that BlackBox and get the logical explanation of the decision making processes. This new concept is now called as “Explainable Artificial Intelligence” or XAI. Once XAI is achieved, the AI community will have access to a new wave of AI. More robust and resilient AI frameworks will be possible, including a predictable understanding of the AI processes and future growth patterns.
+
+Small Data
+
+Major AI breakthroughs are happening in the Deep Learning space, and in Deep Learning, the neural networks are super hungry for an enormous amount of data. For example, to train a model to recognize a cat, it is required to feed approximately 100 thousand cat/non-cat images to get the perfect classification of a cat that is roughly equal to the human eye. The other area of research that is picking up exponentially is to learn fast with fewer data sets and to utilize probabilistic frameworks. This new concept is called “Small Data.” The research area is “How to train your machine learning models with smaller amounts of data and to get accurate predictions.” This is a massive opportunity in the AI space and is expected to explode with future prospects for innovation.
+
+Two other areas of future AI research is to get significant advancements in the field of “unsupervised learning” and “ reinforcement learning.” Where we can leverage available knowledge via transfer learning and generating artificially created sampled data with some reinforcement learning e.g via GAN network models.
+
+Key takeaways
+
+Traditional AI is 70 years old theoretically but has picked up significant momentum in the last 8–10 years (Moden AI). These Modern AI breakthroughs contributed to exponential growth in data, rapid research, and cheap computing power with “pay as you go” models on the cloud.
+
+The future wave of AI is to break the “AI Blackbox” and to understand the reasoning of the decisions and predictions made by the Machine Learning model. The other major area of future AI wave is to learn from limited data sets or “Small Data.”
+
+Thank you for reading this article, and I hope it was helpful. Please feel free to share any feedback and ask any questions you might have. my LinkedIn: Awais Bajwa.

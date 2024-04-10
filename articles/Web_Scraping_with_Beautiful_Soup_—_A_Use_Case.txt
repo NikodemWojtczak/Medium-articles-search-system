@@ -1,0 +1,205 @@
+The Use Case
+
+A not-for-profit organization wants to reach out to the Community Foundations of Canada (CFC) sites across the nation. They asked me to find each contact person and their mailing address, and put all the information in a special format in a spreadsheet.
+
+Doing this task manually, by copy-pasting each required field into the spreadsheet, would mean doing this 195 (foundations) * 11 (fields) = 2145 times! So my next thought was to automate the procedure by scraping the CFC website.
+
+Fortunately, all the CFC information is included in their website in a straightforward schema.
+
+What is Web Scraping?
+
+According to Ryan Mitchell’s book, Web Scraping with Python (O’Reilly), it is the practice of gathering data through any means other than API. One can write a program that queries web servers, requests and retrieves data, parses it to extract information, and stores it to be analyzed later.
+
+Inspect the page!
+
+The first step into web scraping is to take a deep look at the page you are trying to scrape, you will need to open “Show/View Page Source” in the developer menu of the web browser of your choice. As Mitchell says, if you can see it in your browser, you can access it via a Python script. And, if you can access it, you can store it in a database to retrieve and analyze.
+
+While inspecting the CFC webpage, few things become relevant. The CFC site’s provinces are enclosed in <h2> HTML headings, while the links and names of the foundations are in <h3> headings. Also, the links include the text ‘cfc_locations’, which will help distinguish them from any other link.
+
+CFC Website
+
+Source View
+
+How about each of those links? Let’s inspect one:
+
+Neatly packaged, with consistent HTML structure, the information comes in a <div> container. The address is in a paragraph whose CSS class includes the keyword ‘location’ and the contact’s name and title are in the ‘meta-line contact’ class. While the province is not included here, one could obtain it from the previous page.
+
+Query the Server, Request, and Retrieve Data
+
+For these tasks, I chose to use the Requests: HTTP for Humans library:
+
+session = requests.Session()
+
+However, this will send the following header,
+
+>>> session.headers['User-Agent']
+
+'python-requests/2.19.1'
+
+We are basically telling their website that someone is scraping their site using Python. Some websites actually block these types of requests. In general, one wants to make the request to look and behave as humanly as possible. One way to do that is to change the headers sent with the request.
+
+If you are wondering what headers your browser is sending, you may want to take a look at https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending. In my case, I changed the headers to
+
+my_headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS
+
+X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko)
+
+Chrome/71.0.3578.98 Safari/537.36",
+
+"Accept":"text/html,application/xhtml+xml,application/xml;
+
+q=0.9,image/webp,image/apng,*/*;q=0.8"}
+
+Another important thing to do is to check the site’s robots.txt file to make sure you are not violating their policies. The file indicates which areas of the website should not be processed or scanned by all or certain user agents. In our case, robots.txt only disallows scraping /wp-admin/.
+
+The next step is to retrieve the information with the Requests library,
+
+
+
+response = session.get(url, headers=my_headers) url = ' https://communityfoundations.ca/find-a-community-foundation/' response = session.get(url, headers=my_headers)
+
+Everything contained in that webpage is now in the response object.
+
+Beautiful Soup
+
+How about parsing the information we just obtained? This is where the Beautiful Soup (BS4) library comes in. BS4 is a Python library for parsing HTML and XML documents — even for pages with malformed markup or poorly designed. It provides simple methods to navigate, search, and modify parse trees. So let’s create a soup!
+
+html_soup = BeautifulSoup(response.text, 'html.parser')
+
+We can now navigate and search the html_soup. For this, BS4 has some very useful functions, among those, it is the function find_all( ), in which one can make use of regular expressions and lambda functions. One can also refer to attributes to access the search results, such as, .name and .text:
+
+container = html_soup.find_all(["h2", "h3"],
+
+class_=lambda x: x != 'hidden') for lines in container:
+
+if lines.name == 'h2':
+
+province = lines.text
+
+print('In', province, "
+
+")
+
+if lines.name == 'h3':
+
+foundation = lines.text
+
+print('Foundation name:', foundation)
+
+print('Foundation url:', lines.find_all("a",
+
+href=re.compile("cfc_locations"))[0].get('href'), "
+
+")
+
+The next step is query and retrieve the data for each of the foundation’s URLs. We have to keep in mind two things. One, we need to query the server only once, since the data will be then stored locally. And two, we need to be polite, we do not want to overload the server with requests that can break it or that can time out. And this is where the time.sleep( ) function comes up. In this case, I added 10 seconds between requests.
+
+subresponse = [] for lines in container:
+
+if lines.name == 'h3':
+
+url_fou = lines.find_all("a",
+
+href=re.compile("cfc_locations"))[0].get('href')
+
+subresponse.append(session.get(url_fou,
+
+headers=my_headers))
+
+time.sleep(10)
+
+We can now parse the data with BS4 and proceed to extract the rest of the information, such as the address, which in the case of the CFC format, one can use regular expressions to split it by the vertical lines included in the text.
+
+html_subsoup = [] for counter in range(1, len(subresponse)):
+
+html_subsoup.append(BeautifulSoup(subresponse[counter].text,
+
+'html.parser'))
+
+c_location = html_subsoup[counter].find_all('p',
+
+class_='meta-line location')
+
+address_array = re.split(r' \| ', c_location[0].text)
+
+print(address_array)
+
+Similarly, we proceed with the person’s name, title, etc.
+
+Genderize
+
+The other Python library used here is Genderize, as the title prefixing the contact’s name is also required (Mr. or Ms.) This library is a client for the Genderize.io web service, its API is free, but limited at 1000 names/day. So one should not debug the code with it!
+
+Genderize will return “male” or “female” given the name, so I create a dictionary to return the prefix.
+
+>>> genderDict = {"male": 'Mr.',
+
+"female": 'Ms.'}
+
+>>> gen = Genderize().get(['John'])[0]['gender']
+
+>>> print(genderDict.get(gen, "None")) Mr.
+
+Pandas
+
+After working with all the data (the full code can be found here), the last step is to write the information into a pandas dataframe and write it to a CSV file.
+
+df = pd.DataFrame({'Organization': organization,
+
+'Title': gender_title,
+
+'Addressee': person,
+
+'Addressee Job Title': person_title,
+
+'Civic Address 1 (Street Address)': street,
+
+'Civic Address 2 (PO Box)': pobox,
+
+'Municipality': municipality,
+
+'Province or Territory': provinces,
+
+'Postal Code': postalCode,
+
+'Phone': phone,
+
+'Website': org_url
+
+}) cols = ['Organization', 'Title', {add in here the others}] df.to_csv('data/cfcMailingAddresses.csv', encoding='utf-8',
+
+index=False, columns=cols)
+
+Final Product
+
+Here is a snapshot of the CSV file:
+
+While there is room for improvement, such as names that were not found in the genderize database, or addressing Quebecers by M. or Mme, the script served its general purpose. One can further refine the code by adding assertions and throwing exceptions.
+
+NLT
+
+As part of this learning experience, I decided to try two Natural Language Processing (NLP) libraries, NLTK and spaCy, to parse the address. Here are the results.
+
+NLTK did not give the proper tags for an address. Most of the tokens were identified as nouns, including a place such as Banff.
+
+def preprocess_without_stopwords(sent):
+
+sent = nltk.word_tokenize(sent)
+
+sent = [word for word in sent if word not in en_stop]
+
+sent = nltk.pos_tag(sent)
+
+return sent preprocessed_address = preprocess_without_stopwords(address_test)
+
+spaCy did not give the proper tags for an address either. While it did better than NLTK by identifying Banff Avenue as a place, Banff was identified as person.
+
+addr = nlp(address_test)
+
+sentences = [x for x in addr.sents]
+
+displacy.render(nlp(str(sentences[0])), jupyter=True, style='ent')
+
+Training a model on geographical data could be another very interesting project on its own!
+
+Full jupyter notebook on GitHub: https://github.com/brodriguezmilla/WebScrapingCFCBS4

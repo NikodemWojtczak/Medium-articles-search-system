@@ -1,0 +1,111 @@
+Logistic Regression
+
+Contrary to its name logistic regression is a classification algorithm. Given an input example, a logistic regression model assigns the example to a relevant class.
+
+A note on the notation. x_{i} means x subscript i and x_{^th} means x superscript th.
+
+Quick Review of Linear Regression
+
+Linear Regression is used to predict a real-valued output anywhere between +∞ and -∞.
+
+Each example used to train a linear regression model is defined by its properties or features which are collectively called as the feature vector. Your name, age, contact number, gender, et-cetera correspond to a feature vector describing you.
+
+A linear regression model f(x), is a linear combination of the features of the input examples x, and is represented by f(x) = wx+b.
+
+Transforming the original features (consider a 1-dimensional feature vector x) by squaring or cubing them results in polynomial models (such as f(x) = wx²+b or f(x) = wx³+b).
+
+Generally for a data set with R-dimensional feature vector x, and 1-dimensional output y, linear regression models a hyper plane as the decision boundary. Hyper plane is a line in case of a 2D region, a plane in case of a 3D space, a 3 dimensional shape such as a sphere in case of 4D space and so on. Hyper planes have one less dimension than their surrounding space.
+
+The mean squared error cost function is used to find the optimal set of values w* and b* for a linear regression model.
+
+Motivation
+
+For the sake of understanding let’s assume John, has been assigned the job of predicting whether a given email is spam or not spam. He collects a dataset represented in the table below. The data set consists of n examples, where each example x_{i} is represented by a 2-dimensional feature vector, comprising of the number of words and the number of links in that email. The target variable y, is equal to 1 if the corresponding example is a spam and is 0 otherwise.
+
+Y takes value 0 for a negative class which corresponds to absence of something (like not spam) whereas, Y takes value 1 for a positive class which corresponds to presence of something (like spam).
+
+Here each feature vector is 2-dimensional consisting of the number of words, and the number of links in the email. The target variable Y is 1 for a spam email and 0 otherwise. This is an illustrative data set.
+
+John first decides to build a linear regression model to solve this problem. However having built the linear regression model he is quite unhappy with his results.
+
+Remember, that linear regression is used to predict a real-valued output where the output may vary between +∞ to -∞ whereas in this case y, the target variable takes only two discrete values, 0 and 1.
+
+John’s decides to extend the concepts of linear regression to fulfil his requirement. One approach is to take the output of linear regression and map it between 0 and 1, if the resultant output is below a certain threshold, classify the example as a negative class whereas if the resultant output is above a certain threshold, classify the example as a positive class. In fact, this is the logistic regression learning algorithm.
+
+We will crunch the real-valued output obtained from a linear regression model between 0 and 1 and classify a new example based on a threshold value. The function used to perform this mapping is the sigmoid function.
+
+Sigmoid function.
+
+The graph shows that the sigmoid function has successfully mapped values from +∞ to -∞ between 0 and 1.
+
+Note that the value of sigmoid function is 0.5 at x=0. Also, if x>0 then the value of sigmoid function is >0.5, on the other hand if x<0 then the value of sigmoid function is <0.5.
+
+The graph of Sigmoid function.
+
+Model
+
+Following the above discussion, the model of logistic regression is represented as —
+
+The model of Logistic Regression. x is the feature vector whereas w and b correspond to the weight and bias respectively. The goal is to find the optimal set of values for w and b.
+
+In above equation, the output wx+b, from the linear regression model has been passed as an input to the sigmoid function, thereby crunching values ranging from +∞ to -∞ between 0 and 1 and, giving us the model for logistic regression. The output of the model is interpreted as the probability of an example x falling into the positive class. Concretely, if for an unseen x the model outputs 0.8, then it implies that, the probability of x being classified as positive is 0.8.
+
+It is apparent that different values of w and b correspond to different models of logistic regression. But, we want an optimal set of values, w* and b* which will minimize the error between the predictions made by the model f(x) and the actual results y for the training set.
+
+The Best Model
+
+The cost function for a logistic regression model, called the log-likelihood function is given by —
+
+The log-likelihood function. N is the total number of examples. x_{^i} is the i_{^th} feature vector and y_{^i} is it’s corresponding class either 0 or 1.
+
+The goal is to find values of w and b for the model f(x) which will minimise the above cost function. On observing the cost function we notice that there are two terms inside summation where, the first term will be 0 for all the examples where y=0, and the second term will be zero for all the examples where y=1. So, for any given example one of the summation terms is always zero. Also, the range of f(x) is [0,1], which implies that -log(f(x)) ranges from (+∞,0].
+
+Let’s try to understand the cost function better by considering an arbitrary example x_{^i} for which y=1. The second term will evaluate to zero as (1-y_{^i}) becomes zero. As far as the first term is concerned, if our model f(x) predicts 1, then the first term will also become zero because log(1) is equal to 0, therefore both the first and the second term become zero, subsequently the cost also becomes zero, which makes sense as our model has predicted the correct value for the target variable, y. Had our model predicted 0, the value of -log(0) would have approached +∞, signifying the high penalty imposed by the cost function on our model.
+
+Try out an example where the target variable y equals to zero.
+
+The average over summation signifies that we want to the minimise the overall error for all the training examples.
+
+An Example
+
+Having developed this intuition John now decides to build a logistic regression model for the spam classifier problem. He starts by plotting his data set.
+
+An illustrative data set for classifying e-mail as spam or not spam.
+
+It is apparent that a linear decision boundary is unlikely to fit the data set. Just like linear regression we may transform features to higher order comprising of quadratic or cubic terms to fit a non-linear decision boundary to our dataset.
+
+Let’s say, John decides to fit a quadratic decision boundary to his data set, therefore he includes the second degree terms such as (number of links)², (number of words)² and (number of links)*(number of words). He finally ends up with the following decision boundary.
+
+A non-linear decision boundary. For illustrative reasons a perfect circular decision boundary has been considered. However, in real world scenario decision boundary need not be this perfect a circle.
+
+The above decision boundary corresponds to the circle with the centre at (55,5) and a radius of 4 unit —
+
+Equation of the circle representing the above decision boundary.
+
+Which gives John the following logistic regression model —
+
+John’s logistic regression model.
+
+For an unseen example falling inside the circle (decision boundary) the equation of circle returns a negative value therefore the above model returns a value less than 0.5, implying the probability of that example being spam is less than 0.5. If the threshold is also 0.5, the target variable, y takes the value 0, implying the example to be a regular email.
+
+Consider a case where example falls outside the decision boundary.
+
+More on Threshold Value
+
+Choosing a threshold value is in itself a topic for discussion — one interpretation is that, the threshold value signifies how tolerant the model is. Take an example of a model which classifies patients as being affected with a heart disease — in such a scenario it is preferred to have a lower value of threshold which captures the idea that— whenever in doubt, classify the patient as being effected by the disease and have him/her checked just to be sure — it means your are willing to accept more false positives (classifying a healthy patient as unhealthy or classifying a not spam email as a spam email).
+
+Technically, sensitivity is the ability to correctly identify patients with the disease (true positive), whereas specificity is the ability to correctly identify patients without the disease (true negative). Ideally, one would want a threshold value that balances sensitivity and specificity however, the value of threshold is problem specific and depending on how tolerant you want the model to be, the value has to tuned.
+
+Multi-Class Classification
+
+Consider a classification problem with three arbitrary classes represented in the plot below —
+
+An arbitrary plot with data belonging to three different classes represented by circle, cross and diamond shapes.
+
+Now the goal is to extend the ideas of binary classification to multi-class classification. The following plots illustrate how to convert our original problem of multi-class classification to a binary classification problem.
+
+Each plot considers only one class at a time and predicts the probability of an example falling into that class, finally the class with the highest probability is assigned to a new example. This method is called as one versus all classification.
+
+One versus all classification method.
+
+In general, to solve a multi-class classification problem with n classes, n logistic regression models are trained each considering only a single class. Whenever a new example has to be classified, all the n models predict the probability of the example falling into its respective class. Finally, the example is assigned to the class with the highest probability as predicted by one of the n models.

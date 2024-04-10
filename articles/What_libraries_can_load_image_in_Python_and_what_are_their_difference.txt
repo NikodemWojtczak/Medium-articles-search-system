@@ -1,0 +1,33 @@
+When we face computer vision project, first of all we need to load the images before any preprocessing.
+
+There are various libraries out there to perform imread() . Here I want to consolidate the popular libraries for loading image and their difference. This article will go through:
+
+Libraries for loading image Colour channel Efficiency Cheatsheet!
+
+Library for loading image
+
+There are four libraries that are usually used for loading images.
+
+Matplotlib — plt.imread()
+
+OpenCV — cv2.imread()
+
+Pillow — Image.open()
+
+scikit-image — io.imread()
+
+import matplotlib.pyplot as plt img = plt.imread(img_dir) import cv2 img = cv2.imread(img_dir)
+
+from PIL import Image img = Image.open(img_dir)
+
+from skimage import io img = io.imread(img_dir)
+
+
+
+Colour channel
+
+After loading the image, usually plt.imshow(img) will be used to plot the images. Let’s plot some doge!
+
+You may spot that the OpenCV image above looks odd. It is because matplotlib, PIL and skimage represent image in RGB (Red, Green, Blue) order, while OpenCV is in reverse order! (BGR — Blue, Green, Red)
+
+Easy Fix

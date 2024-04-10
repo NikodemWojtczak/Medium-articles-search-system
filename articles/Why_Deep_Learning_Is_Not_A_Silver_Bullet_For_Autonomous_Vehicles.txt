@@ -1,0 +1,49 @@
+If you’re an engineer in the self-driving space, you frequently get asked variations of the same question. “Why is it taking so long?” one might say. “Wasn’t I supposed to be able to take a ride in a robo-taxi by now?
+
+I get it. Last year, Waymo’s vehicles hit ten million autonomously driven miles. Tesla’s Autopilot passed a billion miles of activated travel. So what’s the delay in rolling robo-taxis out to the public, in cities across the country?
+
+I’ll get to what I think is going on in a moment. But first I should clarify something. The big-name autonomous companies are pursuing a high level of autonomous driving. They’re aiming to create vehicles that can pilot themselves anywhere a human can.
+
+At Starsky, we have a different approach.
+
+Starsky Robotics Driverless Truck
+
+We’re tackling something much simpler: We’re building a system that can drive only on certain, pre-selected highways. We rely on human teleoperators to drive the trucks during the first and last miles of their trips. They also make key decisions when something complicated happens along the way. Because our use case is much simpler, we’re able to go to market with our technology comparatively quickly.
+
+In this article, I want to explain why you haven’t ridden in a robo-taxi yet. Then I’ll talk further about Starsky’s approach and explain the key difference.
+
+A great tool that everyone in the industry uses is deep learning, which has been considered integral to solving level-five autonomy ever since Sebastian Thrun and his Stanford team used artificial intelligence to become the first to win a DARPA Grand Challenge back in 2005. Deep learning is a form of AI that was designed to work like the human brain.
+
+Engineers teach it much the same way a human learns. As an example, imagine you’re trying to create a deep-learning algorithm that can detect a cat in an image. The question the algorithm attempts to answer has an objectively correct response. There’s either a cat in the picture, or there isn’t. In mathematical terms, the problem space has a clear global minima. Because the requested output is simple, we have a good understanding of how to program this cat-detecting algorithm. First, you “train” the algorithm with data — tens of thousands of pictures of cats, as well as pictures of not-cats, such as dogs and people and bears. Soon, the algorithm can look at new, never-before-seen photographs, and decide with a high rate of certainty whether the set of pixels features a cat.
+
+Most of the industry is trying to do something much more difficult than teach a computer to recognize a cat: They’re attempting to use deep learning to make appropriate driving decisions. This is much more complicated. The problem space for this is really big. This makes the requirement for the amount of training data exponentially large as well. As a complicating factor, different people are apt to do different things in a similar situation. This means that there isn’t an objectively correct answer. Some driving decisions are objectively bad. But most on-the-road scenarios have many different possible solutions that many people would agree are good.
+
+Mathematically speaking, engineers design deep learning algorithms by training them to minimize a cost function. The algorithms are easy to train when the problem space has a clear global minimum, that is, a single option with a cost lower than any other, such as the presence of a cat in an image, or the location of a lane line. The algorithm becomes much more tricky to train when there are multiple local minima, that is, lots of possible “correct” solutions, as is the case when a vehicle is determining how to merge into a single lane during a traffic jam. (Introducing more variables or increasing the dimensionality of the problem space is also not the right answer here.)
+
+Here’s what makes the task even tougher: Deep-learning algorithms amount to black boxes. Their inner workings are probabilistic in nature and it’s next to impossible to determine why they make the decisions they do. You know the data fed into the algorithm, and you know the decision it spat out, but you don’t know why it spat out what it did.
+
+For example, people in the industry encounter this everyday while designing decision making algorithms for complex scenarios like unprotected left turns. Should the autonomous vehicle slow down, or speed up to veer into the left lane?
+
+Regardless of the action taken, it’s very difficult to say why that algorithm made the decision it did. There’s a concept in engineering: Back-traceability. If you encounter a problem in a back-traceable system, you’re able to go back, to revisit each individual step in what happened, and figure out where things went wrong.
+
+Deep learning algorithms are not back-traceable systems. Testing can reveal what the vehicle would do in that single exact, tested situation. But that doesn’t necessarily tell you what the vehicle would do in a slightly differentsituation. Using our example above, if the car on the left was going just a bit faster, or starting in a slightly different position, the autonomous vehicle might perform a completely different action.
+
+All of which makes testing incredibly complicated. It’s hard to bake this sort of complex deep learning into something that is going to end up as a consumer product. Because consumers want repeatable, reliable results that they can trust. They want a self-driving vehicle turning left on a busy street to react about the same, each time it faces that situation. But a deep-learning algorithm will throw you a curveball every so often. And when that happens you have to go out and collect more data — a remarkable amount of it. To have any kind of statistical significance, we’re talking multiple billions of miles. According to a RAND study a fleet of 100 autonomous vehicles running 24 hours a day, 365 days a year at an average speed of 25mph will take approximately 400 years to get around these numbers.
+
+That’s why it’s taking so long.
+
+I don’t mean to dismiss deep learning. At Starsky, we use it for a lot of different purposes. That said, our use of it is radically limited. We use deep learning for narrow-scope problems with objectively correct answers. Starsky Robotics would never employ the current state of deep-learning algorithms to make driving decisions.
+
+Instead, we solve the driving dilemmas that confront our trucks in one of two ways. The software that regulates our trucks’ decision making on highways relies on a deterministic model. By which I mean, it’s programmed conventionally. We use the same basic framework to write our software that engineers have been using for decades. Similarly, we use proven quality-assurance procedures to produce reliable pieces of software modules.
+
+This approach works because it allows us to know every aspect of how our system operates. Anytime we encounter a problem, we break things down into their component pieces. That allows us to test things by walking through every aspect of the software’s decision-making process — because, unlike when you’re using a deep learning algorithm, every aspect of that decision-making process is knowable.
+
+Let’s say we want to understand a Starsky truck’s actions after another vehicle cut into its lane. The vehicle was travelling much faster than the truck, but the truck braked anyway. That action felt strange. A human driver wouldn’t have done it. Luckily, our deterministic software allows us to scrutinize every decision the truck made. We can delve into the code and examine the algorithm’s reasoning for its decision to brake — and correct things as we wish.
+
+I’m simplifying things here, but the point is, when you’re using a deterministic model, most of these component pieces are pretty straightforward. And by simplifying the process into components, the system becomes exponentially easier to validate, make reliable, and ultimately make safe.
+
+There’s one more way that Starsky Robotics is different from others in the self-driving space. Most other companies are trying to invent autonomous vehicles that work in complex urban environments. Starsky is creating autonomous trucks that drive themselves on highways and hand control over to human teleoperators for the first and last miles. Even when our trucks are on highways, our software keeps humans in the loop for certain decisions, such as when the truck’s autonomous software encounters a problematic “edge case” scenario. Essentially, we use humans to solve problems they are good at solving (complex and unstructured driving environments) and reserve our use of deep learning for where it works well.
+
+Yes, it’s taking a long time to roll out robo-taxis, as the industry perfects the application of deep learning to autonomous vehicles. Meanwhile, we can make a useful and safe product that can work this year, not sometime in the next decade.
+
+Because the problem we’re solving is much different. We are not trying to solve the entire autonomous driving problem. Rather, we’re creating a solution to improve productivity and safety to move goods about the country. And we simply don’t require deep learning to be the silver bullet to solve that problem.

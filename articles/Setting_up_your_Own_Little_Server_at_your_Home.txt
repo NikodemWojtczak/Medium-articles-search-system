@@ -1,0 +1,33 @@
+Member-only story Setting up your Own Little Server at your Home
+
+Just two years back my company gifted us a Raspberry Pi 3.
+
+At that point, I didn’t understand what it was. Felt like a lot of complicated circuits and chips in a small board.
+
+So it lay still in my cupboard for a year.
+
+Then I faced a particular problem. The problem was that I had to run a python script every two hours.
+
+One solution would be to leave my own personal MAC open for 24 hours. Something that didn’t seem the right thing to do.
+
+Another would be to take an AWS server but I am stingy. And this particular project was a home project so I didn’t want anything costly.
+
+And at this moment I remembered the Raspberry PI gathering dust in my cupboard. People had said before that it is a small computer.
+
+And so I thought of trying it out.
+
+This post is about setting up your own little personal server for as little as $50.
+
+What is Raspberry Pi?
+
+I discovered it quite a bit later but my Raspberry Pi 3 is a 1.2GHz Quad-Core Mini Computer with 1GB RAM.
+
+One can think of it as a basic and cheap motherboard of a computer which aims to provide computing power to everyone.
+
+As per the Pi website:
+
+Our mission is to put the power of computing and digital making into the hands of people all over the world. We do this so that more people are able to harness the power of computing and digital technologies for work, to solve problems that matter to them, and to express themselves creatively.
+
+What accessories will you need?
+
+Now before getting started with creating a small server out of a Raspberry Pi, we will need a few things. You can choose to borrow most of them as many of them will be needed just once for the setup.

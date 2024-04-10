@@ -1,0 +1,19 @@
+In this post we will perform simple exploratory data analysis of the FIFA 19 data set. The data set can be found on Kaggle. FIFA is the Fédération Internationale de Football Association and FIFA 19 is part of the FIFA series of association football video games. It is one of the best selling video games of all time selling over 260 million copies to date.
+
+For this analysis we will be using the python pandas library, numpy, seaborn and matplotlib. The dataset contains 89 columns but we will limit our analysis to the following ten columns:
+
+Name — Name of Player Age — Age of Player Nationality — Nationality of Player Value — Current Market Value Wage — Wage of Player Preferred Foot — Preferred foot of player Height — Height of Player Weight — Weight of player Position — Position on the pitch Overall — Player’s Overall Rating
+
+Let’s get started!
+
+First let’s import the pandas library and read the csv file into a pandas dataframe and print the first five rows for the first sixteen columns:
+
+import pandas as pd df = pd.read_csv("data.csv") print(df.head())
+
+We can filter the dataframe so it only includes the ten columns we want:
+
+df = df[['Name', 'Age', 'Nationality', Value', 'Wage', 'Preferred Foot', 'Height', 'Weight', Position', 'Overall']]
+
+print(df.head())
+
+First thing we can do is generate some statistics on the height column. The values are given as strings so we will want to convert them to a number we can use in calculations. Here we convert the height strings into centimeter…

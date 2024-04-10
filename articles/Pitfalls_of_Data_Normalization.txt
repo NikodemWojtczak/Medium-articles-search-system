@@ -1,0 +1,7 @@
+Pitfalls of Data Normalization
+
+This is the fourth article of the column Mathematical Statistics and Machine Learning for Life Sciences. In this column, as well as in Deep Learning for Life Sciences I have been repeatedly emphasizing that the data we work with in Life Sciences are high-dimensional, the fact we do not always realize and properly take into account. Today we are going to talk about another typical pitfall, namely how performing data normalization you might end up in the Simplex Space where Euclidean distance is not valid any more and classical Frequentist statistics breaks.
+
+Why to Normalize Data?
+
+Data normalization is important for analysis of Next Generation Sequencing (NGS) data such as RNA sequencing (RNAseq) and Metagenomics in order to avoid confounding effects due to technical artifacts. Indeed, sometimes a gene might seem to have a higher expression in sick individuals compared to healthy ones simply because total expression of all genes, sequencing depth or library size in bioinformatics terminology, happened to be higher for sick individuals due to technological noise. For instance, if you plot library sizes of all cells for the Cancer Associated Fibroblasts (CAFs) data set which I have been using throughout this series of posts, you will discover a huge variation from cell to cell which might have biological or technical (noise) nature.

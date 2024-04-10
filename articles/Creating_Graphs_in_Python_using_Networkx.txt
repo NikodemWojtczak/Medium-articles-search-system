@@ -1,0 +1,127 @@
+Creating Graphs in Python using Networkx
+
+If you’re interested in doing Graph Theory analysis in Python and wondering where to get started then this is the blog for you. We’ll start by presenting a few key concepts and then implementing them in Python using the handy Networkx Package.
+
+Some Graph Theory Terminology
+
+A Graph G(V, E) is a data structure that is defined by a set of Vertices (V) and and a set of Edges (E).
+
+G(V, E) is a data structure that is defined by a set of Vertices (V) and and a set of Edges (E). Vertex (v) or node is an indivisible point, represented by the lettered components on the example graph below
+
+(v) or node is an indivisible point, represented by the lettered components on the example graph below An Edge (vu) connects vertex v and vertex u together.
+
+(vu) connects vertex v and vertex u together. A Complete Graph of n vertices is a graph in which every vertex shares an edge with every other vertex and therefore contains the maximum number of edges.
+
+of n vertices is a graph in which every vertex shares an edge with every other vertex and therefore contains the maximum number of edges. The size of the Maximum Possible Edge Set of any simple graph of n vertices is equal to (n*(n-1))/2. This is because it is equivalent to the number of vertex pair combinations ie. (n choose 2) = n! /( (n-2)!(2!)).
+
+of any simple graph of n vertices is equal to (n*(n-1))/2. This is because it is equivalent to the number of vertex pair combinations ie. (n choose 2) = n! /( (n-2)!(2!)). An Induced Subgraph G[S] on vertices S of graph G(V, E) is a graph such that S ⊂ V and the edge set of G[S] consists of all of the edges in E that have both endpoints in S.
+
+G[S] on vertices S of graph G(V, E) is a graph such that S ⊂ V and the edge set of G[S] consists of all of the edges in E that have both endpoints in S. A Clique C of graph G is any Induced Subgraph of G that is also a Complete Graph
+
+Installing the package and creating your first graph
+
+The first thing you’ll need to do is install the Networkx package on your machine. Using Pip its as easy as:
+
+pip install networkx
+
+Once installed import the package and Initialize a graph object
+
+import networkx as nx G = nx.Graph()
+
+Add the first two nodes and an edge between them
+
+G.add_node(1)
+
+G.add_node(2)
+
+G.add_edge(1, 2)
+
+At this point our graph is just two connected nodes
+
+Fig. 1 A two vertex Graph
+
+Adding edges one at a time is pretty slow but luckily we can also add lists of nodes and lists of edges where each edge is represented by a node tuple.
+
+G.add_nodes_from([2,3,4,5,6])
+
+G.add_edges_from([(1,2),(4,5),(3,5),(2,3),(5,6)])
+
+Our Graph should now look something like this
+
+Fig 2. Our graph now has seven vertices
+
+Accessing and storing information
+
+We can see a list of nodes or edges by printing these attributes of our graph.
+
+print(G.nodes())
+
+>>>[0, 1, 2, 3, 4, 5, 6]
+
+print(G.edges())
+
+>>>[(0, 1), (1, 2), (2, 3), (3, 4), (3, 5), (5, 6)]
+
+It is also possible to define nodes as strings.
+
+G.add_node('ib')
+
+G.add_edge(3,'ib')
+
+Most importantly each node can be assigned any number of attributes which are then stored in dictionaries.
+
+G.nodes[1]['color'] = 'red'
+
+G.nodes[1]['count'] = 10
+
+print(G.nodes.data())
+
+>>>[(0, {}), (1, {'color': 'red', 'count': 10}), (2, {}), (3, {}), (4, {}), (5, {}), (6, {}), ('ib', {})]
+
+To make this data more manageable feed the output of nodes.data() into a dict() function to get it into a lovely nested dictionary where each node is a key.
+
+print(dict(G.nodes.data()))
+
+{0: {}, 1: {'color': 'red', 'count': 10}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 'ib': {}}
+
+Max Clique estimation
+
+In order to find the max clique we’ll need to import the approximation package from networkx since it is not included in the default import
+
+from networkx.algorithms import approximation as aprx
+
+Now in order to test the max clique we’ll create a clique of size 3 in our current graph by adding edge (4,6)
+
+G.add_edge(4,6)
+
+Fig 3. Now with 8 vertices and a clique of size 3
+
+So the set of vertices {4,5,6} contain our max clique of size 3 and that vertex set is exactly what the max_clique function will return.
+
+print(aprx.max_clique(G))
+
+>>>{4, 5, 6}
+
+print(len(approximation.max_clique(G)))
+
+>>>3
+
+To see the induced subgraph of that vertex set, we need to combine the above with the subgraph method
+
+max_clique = G.subgraph(approximation.max_clique(G))
+
+Which will give us the following complete 3-vertex graph.
+
+The induced subgraph of the maximum clique
+
+Final Thoughts and Questions
+
+There are a number of graph libraries out there for Python but I chose Networkx for its readability, ease of setup and above all for its excellent documentation. If you have any further question or wish to explore the library more please refer to the official documentation.
+
+Sources
+
+https://networkx.github.io/
+
+https://en.wikipedia.org/wiki/Induced_subgraph
+
+https://en.wikipedia.org/wiki/Clique_(graph_theory)

@@ -1,0 +1,17 @@
+Member-only story Data Visualization — Advanced Bokeh Techniques
+
+If you are looking to create powerful data visualizations then you should consider using Bokeh. In an earlier article, “How to Create an Interactive Geographic Map Using Python and Bokeh”, I demonstrated how to create an interactive geographic map using Bokeh. This article will take it a step further and demonstrate how to use an interactive map with a data table and text fields organized using a Bokeh layout to create an interactive dashboard for displaying data.
+
+First, let’s take a look at the finished product which appeared in the article “Look Out Zillow Here Comes Jestimate!”:
+
+Click Here for San Francisco 2018 Jestimates!
+
+A Word About the Code
+
+All the code, data and associated files for the project can be accessed at my GitHub. The project is separated into two Colab notebooks. One runs the linear regression model (creating the data for the visualization) and the other produces the interactive visualization using a Bokeh server on Heroku.
+
+Installs and Imports
+
+Let’s start with the installs and imports you will need for the graphs. Pandas, numpy and math are standard Python libraries used to clean and wrangle the data. The geopandas, json and bokeh imports are libraries needed for the mapping.
+
+I work in Colab and needed to install fiona and geopandas. While you are developing the application in Colab, you will need to keep these installs in the code. However, once you start testing with the Bokeh server you will need to comment out these installs as Bokeh does not work well with the magic commands (!pip install).

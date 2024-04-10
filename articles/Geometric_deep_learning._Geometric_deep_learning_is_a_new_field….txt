@@ -1,0 +1,81 @@
+Geometric deep learning:
+
+Convolutional Neural Networks on Graphs and Manifolds Miguel Taylor · Follow 5 min read · Apr 22, 2019 -- Listen Share
+
+Geometric deep learning is a new field of machine learning that can learn from complex data like graphs and multi-dimensional points. It seeks to apply traditional Convolutional Neural Networks to 3D objects, graphs and manifolds. In this story I will show you some of geometric deep learning applications, such as:
+
+Classify nodes with similar characteristics on graphs
+
+3D object classification using point clouds
+
+3D shape correspondence on 2D images
+
+On recent years deep learning algorithms (CNN, GAN, LSTM, …) helped us achieve remarkable accuracy on a variety of problems, even surpassing human performance on tasks like:
+
+Image classification
+
+Speech recognition
+
+Language translation
+
+Image generation
+
+It’s been incredible to experience first hand the deep learning revolution of this decade. However, a lot of the algorithms used on modern machine learning applications are actually really old. What stimulated this growth in deep learning has been the global availability of different types of datasets and computational power.
+
+This is important to mention because lately we have been seeing more and more of an special type of data set: 3D Objects. On recent years, specialized hardware has been used to capture 3D point clouds instead of 2D images. Thanks to this we now have a wide variety of datasets containing 3D objects.
+
+These datasets can be focused on object classification or shape detection. There is also a great diversity of 3D shape representations, one of which are manifolds. Manifolds can be explained as multi-dimensional spaces where a shape composed by many points, is represented by a single point on this new space, and similar shapes are close to each other.
+
+Graphs are another type of emerging data. Many real world applications can be modeled as graphs, and there is a lot of data over the internet that already works as a graph. For example, we can consider social networks as graphs, where each user is a node and their interactions with other users are edges. Sensor and computer networks can also be modeled as graphs where each signals and communication represent vertices in the graph.
+
+The problem with this type of data is that traditional deep neural network are not able to parse it correctly. The reason is that most of these networks are based on convolutions, and convolution work well on euclidean data. Graphs and 3D objects are considered non-euclidean data sets.
+
+Images are euclidean data because we can consider them as a function on a two dimensional plane, where the intensity of a pixel is a function of its coordinates x and y. This representation is very useful to define a convolution, but graph representation not so much. Different vertices in a graph can contain very different neighbourhoods, that can vary on the number of neighbours or the connectivity. This makes it impossible to apply convolution as we would do on euclidean domains.
+
+In order to apply deep neural networks on this type of data, we need to resort to some kind of abstraction for the convolution. This abstraction has to consider the limits of non-euclidean data:
+
+No common system of coordinates
+
+No vector space structure
+
+No shift invariant
+
+Spectral approaches
+
+The main idea of spectral approaches such as Graph neural networks is to generalize the Fourier transform theorem for graph and manifold data and doing the convolution on the spectral domain. The generalization of the Fourier transform consists on using the already defined eigenfunctions of graph laplacian as bases for the Fourier transform.
+
+The process to apply a convolution using this generalization is as follows.
+
+Transform the graph the the spectral domain using the graph laplacian eigenfunctions
+
+Perform the same transformation on the filter
+
+Multiply on the spectral domain
+
+Return to the original domain
+
+This approach has presented very good results on data presented as a graph, but has an important weakness: Laplacian eigenfunctions are inconsistent across different domains. This means that this approach is especially susceptible to domain changes:
+
+Spatial approaches
+
+The main idea is to apply a template on a neighborhood representation witch is obtained by mapping the neighbors on a fixed structure. This is the same idea of applying a convolution over images, the difference is that on images the neighbour structure is constant for all vertices.
+
+Regular convolution kernels vs spatial approaches
+
+To define this new neighborhood structure the author considers distance and angle from a point on 3D images or the degree of neighboring nodes on graphs.
+
+The position and values of kernels on the neighborhood structure are not fixed, but rather learned from the training process.
+
+Conclusions
+
+Deep learning does well at extracting features from euclidean data
+
+Euclidean data can be represented on an euclidean space and follow the rules of euclidean spaces
+
+Graphs and manifolds are considered non-euclidean data
+
+Geometric deep learning models can learn from non-euclidean data by generalizing on some way the convolution operation.
+
+References
+
+[1] Monti, F., Boscaini, D., Masci, J., Rodola, E., Svoboda, J. and Bronstein, M.M., 2017. Geometric deep learning on graphs and manifolds using mixture model cnns. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (pp. 5115–5124).

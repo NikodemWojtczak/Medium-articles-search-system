@@ -1,0 +1,33 @@
+Member-only story Auto-Encoder: What Is It? And What Is It Used For? (Part 1)
+
+A Gentle Introduction to Auto-Encoder and Some Of Its Common Use Cases With Python Code Will Badr · Follow Published in Towards Data Science · 6 min read · Apr 22, 2019 -- 13 Share
+
+Background:
+
+Autoencoder is an unsupervised artificial neural network that learns how to efficiently compress and encode data then learns how to reconstruct the data back from the reduced encoded representation to a representation that is as close to the original input as possible.
+
+Autoencoder, by design, reduces data dimensions by learning how to ignore the noise in the data.
+
+Here is an example of the input/output image from the MNIST dataset to an autoencoder.
+
+Autoencoder for MNIST
+
+Autoencoder Components:
+
+Autoencoders consists of 4 main parts:
+
+1- Encoder: In which the model learns how to reduce the input dimensions and compress the input data into an encoded representation.
+
+2- Bottleneck: which is the layer that contains the compressed representation of the input data. This is the lowest possible dimensions of the input data.
+
+3- Decoder: In which the model learns how to reconstruct the data from the encoded representation to be as close to the original input as possible.
+
+4- Reconstruction Loss: This is the method that measures measure how well the decoder is performing and how close the output is to the original input.
+
+The training then involves using back propagation in order to minimize the network’s reconstruction loss.
+
+You must be wondering why would I train a neural network just to output an image or data that is exactly the same as the input! This article will cover the most common use cases for Autoencoder. Let’s get started:
+
+Autoencoder Architecture:
+
+The network architecture for autoencoders can vary between a simple FeedForward network, LSTM network or Convolutional Neural Network depending on the use case. We will explore some of those architectures in the…

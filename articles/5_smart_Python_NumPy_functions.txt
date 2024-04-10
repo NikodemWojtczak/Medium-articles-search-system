@@ -1,0 +1,73 @@
+Member-only story 5 smart Python NumPy functions
+
+In everyday data processing for Machine Learning and Data Science projects, we encounter unique situations, those require boilerplate code to solve the problem. Over the period some of those are converted into base features provided by the core language or the package itself as per need and usage from the community. Here I am sharing 5 elegant python Numpy functions, which can be used for efficient and neat data manipulation.
+
+1) Use of -1 in Reshape
+
+Numpy allows us to reshape a matrix provided new shape should be compatible with the original shape. One interesting aspect of this new shape is, we can give one of the shape parameters as -1. It simply means that it is an unknown dimension and we want Numpy to figure it out. Numpy will figure this by looking at the ‘length of the array and remaining dimensions’ and making sure it satisfies the above-mentioned criteria. Let’s see one example now.
+
+Pictorial representation of different reshape with one dimension as -1
+
+a = np.array([[1, 2, 3, 4],
+
+[5, 6, 7, 8]])
+
+a.shape
+
+(2, 4)
+
+Suppose we give row as 1 and -1 as column then Numpy will able to find column as 8.
+
+a.reshape(1,-1)
+
+array([[1, 2, 3, 4, 5, 6, 7, 8]])
+
+Suppose we give row as -1 and 1 as column then Numpy will able to find row as 8.
+
+a.reshape(-1,1)
+
+array([[1],
+
+[2],
+
+[3],
+
+[4],
+
+[5],
+
+[6],
+
+[7],
+
+[8]])
+
+Similarly below are possible.
+
+a.reshape(-1,4)
+
+array([[1, 2, 3, 4],
+
+[5, 6, 7, 8]]) a.reshape(-1,2)
+
+array([[1, 2],
+
+[3, 4],
+
+[5, 6],
+
+[7, 8]]) a.reshape(2,-1)
+
+array([[1, 2, 3, 4],
+
+[5, 6, 7, 8]]) a.reshape(4,-1)
+
+array([[1, 2],
+
+[3, 4],
+
+[5, 6],
+
+[7, 8]])
+
+This is also applicable to any higher level tensor reshape as well but only one dimension can be given -1.

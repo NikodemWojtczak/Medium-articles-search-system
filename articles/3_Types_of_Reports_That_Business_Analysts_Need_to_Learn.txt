@@ -1,0 +1,117 @@
+In daily work, when it comes to making tables or charts or data analysis, you basically will choose Excel. But I also saw a lot of people confused about the difficulty of deep learning of Excel, and its inefficiency in big data processing. In fact, professional business analysts should be proficient in the use of a variety of reporting tools (Excel/QlikView/Tableau/FineReport), as well as the skills of making different reports. Today, I will tll you about the 3 types of reports I use when doing data analysis to help you improve business efficiency.
+
+Since the tool I often use is FineReport, I adopt the classification method of FineReport. For different needs, I divide the reports into the following three types.
+
+General reports : detail report, grouped report, crosstab report, column report, query report, data entry report, etc.
+
+: detail report, grouped report, crosstab report, column report, query report, data entry report, etc. Aggregate reports : various irregular reports, such as complex bills
+
+: various irregular reports, such as complex bills Dashboard reports: visualized report with multi-dimensional analysis based on display of business indicators
+
+These three types of reports basically solve all kinds of business needs. Let’s take a look at them next.
+
+1. General Reports
+
+1.1 Features
+
+General reports are the most commonly used type of reports in FineReport. They use an Excel-like design pattern that supports unlimited expansion of rows and columns, multiple sheets, and cross-sheet calculations and so on. Users can use general reports for parameter query, data entry, chart design, etc. And general reports can be divided into detail report, grouped report, crosstab report, column report, query report, data entry report, etc.
+
+1.2 Business Scenarios
+
+The general reports can replace all kinds of traditional reports made by Excel in the enterprise, greatly reducing production time. And the reports can be viewed on the web thanks to B/S (browser/server) structure.
+
+Through general reports of FineReport, users can fetch data from different types of business databases to make the financial statement, sales report, production report, HR reports and other reports related to business performance. Besides, the users can access reports, query data, and edit the reports on the PC or mobile devices anytime and anywhere.
+
+There are three typical types of reports.
+
+1) Basic Reports
+
+Basic reports are divided into detail reports, grouped reports, crosstab reports, and other basic table samples. They support flexible formula calculation, such as YOY (Year-Over-Year), MOM (Month-Over-Month), ranking, proportion as well as printing and exporting offline files.
+
+Grouped statistics:
+
+YoY, MoM and other financial statistics:
+
+Column cards:
+
+Collapsible tree:
+
+Invoice:
+
+2) Query Reports
+
+In most cases, we do not need a report to present all the data in the database, but to filter the data we want according to some conditions, which is called the parameter query.
+
+FineReport provides a variety of control types that can be used flexibly to implement conditional filtering queries in various scenarios, and the same report can support multiple parameters.
+
+Query report:
+
+3) Data Entry Reports
+
+In the traditional sense, the report is to solve the problem of data presentation, that is, to take the data out of the database and display it in various formats, and to export or print the displayed results.
+
+However, in the actual operation of enterprises, business staff not only need to view the data but also need to carry out some editing operations, such as adding, modifying and deleting some of the data. Such reports are called data entry reports.
+
+Based on the above presentation/query reports, FineReport provides a variety of control styles, supports data entry and online import of Excel data, and can meet the needs of data editing and entry under different scenarios.
+
+Basic fill-in:
+
+Query, add and delete:
+
+Batch deletion:
+
+2. Aggregate Reports
+
+2.1 Features
+
+The aggregate report refers to a report containing multiple modules, each of which is similar to a single report or a chart. And the modules are relatively independent and do not affect each other. So it can solve the problem of making irregular large reports.
+
+2.2 Business Scenarios
+
+A big problem with traditional reports, such as Excel reports, is that if you adjust the row height or column width of a cell, the entire row in which it is located or the other cells in the entire column will be affected. In this case, it is very difficult for us to make complex reports with irregular table style, or inconsistent cell row heights. Although in some scenarios this can be achieved by continually merging or splitting cells, the workload is really too large.
+
+The aggregation report in FineReport is to solve such problems. Different table blocks are combined into a complex large report, and the expansion, row height and column width between blocks do not affect each other, which greatly improves the flexible space for tabulation.
+
+The following report of daily states of Shanghai Rail Transport is a typical example of the aggregation reports.
+
+Especially when we need to make complex bill-type reports, designing with traditional Excel spreadsheets is a real headache. But with the aggregation report, you can easily design such a table.
+
+3. Dashboard Reports
+
+3.1 Features
+
+Dashboard reports are developed to solve business decision-making problems. Different from the tabular interface of the general report, the dashboard report adopts the canvas-like operation interface. By simple drag and drop operation, a powerful and comprehensive “management cockpit” can be constructed. Different data can be integrated on the same page, displaying various business indicators to achieve multi-dimensional analysis of data.
+
+Dashboard reports have many features.
+
+Applicable to all kinds of display screens: PC, Tablet PC, mobile phone, TV, large screen and other types of terminals.
+
+More visual elements: There are many visual components such as tables, graphics, controls, etc., which can be freely matched and made into a variety of reports.
+
+Component linkage analysis: Components can be linked to analyze. As long as you click on a component, the associated component will automatically trigger data loading.
+
+Data monitoring and periodic refreshing: The data in the background can be intelligently detected and compared, and the foreground can update the data in time.
+
+Auto carousel: Dashboard report supports the carousel of different chart styles on the same position and carousel of multiple tab pages.
+
+3.2 Business Scenarios
+
+In the traditional report design interface, it is cumbersome to freely match different forms, graphics, controls, etc. on one page. Dashboard reports provide a simple and efficient way to design and quickly build a business dashboard.
+
+A typical application of dashboard reports is the management dashboard for leadership.
+
+Since dashboard reports can be adapted to multiple terminals, administrators can monitor key metrics data anytime and anywhere on browsers, apps, and more.
+
+Another example, the strategic command center, monitoring center, or conference room of the company often uses large screen to view key performance indicators in real time, or to promote corporate strength and corporate image.
+
+At Last
+
+I just showed some functions of these three types of reports, and there are still many details that are not mentioned. If you make full use of the three report design modes of FineReport, you can meet most simple or complex reporting requirements, to easily implement various business analysis.
+
+You might also be interested in…
+
+9 Data Visualization Tools That You Cannot Miss in 2019
+
+A Step-by-Step Guide to Making Sales Dashboards
+
+Top 10 Map Types in Data Visualization

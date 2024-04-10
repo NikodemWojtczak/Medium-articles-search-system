@@ -1,0 +1,21 @@
+Linear Classifiers: An Overview
+
+This article discusses the mathematical properties and practical Python applications of four popular linear classification methods. Michał Oleszak · Follow Published in Towards Data Science · 7 min read · May 20, 2019 -- Share
+
+This article is based on a chapter from the excellent Hastie, T., Tibshirani, R., & Friedman, J. H. (2009). The elements of statistical learning: data mining, inference, and prediction. 2nd ed. New York: Springer.
+
+A popular class of procedures for solving classification tasks are based on linear models. What this means is that they aim at dividing the feature space into a collection of regions labeled according to the values the target can take, where the decision boundaries between those regions are linear: they are lines in 2D, planes in 3D, and hyperplanes with more features.
+
+This article reviews popular linear models for classification, providing the descriptions of the discussed methods as well as Python implementations. We will cover the following approaches:
+
+Linear Discriminant Analysis,
+
+Quadratic Discriminant Analysis,
+
+Regularized Discriminant Analysis,
+
+Logistic Regression.
+
+For demonstrative purposes, we will apply each discussed method to the spam data set, in which the task is to classify emails as either spam or not spam based on a set of features describing word frequencies used in the emails. The data set, as well as some descriptions of the variables, can be found on the website of Hastie’s et al. “The elements of statistical learning” textbook, in the Data section.
+
+Let’s start by importing all the packages used throughout this tutorial and loading the data.

@@ -1,0 +1,19 @@
+Can an algorithm predict hit songs? Let’s explore how we can successfully build a hit song classifier using only audio features, as described in my publication (Herremans et al., 2014).
+
+During my PhD research I came across a paper by Pachet & Roi (2008) entitled “Hit song science not yet a science”. This was intriguing to me, and caused me to explore if we could in fact predict hit songs. Research on this topic is very limited, for a more complete literature overview, please see Herremans et al. (2014). We decided that the effectiveness of the model could be optimized by focusing on one specific genre: dance music. This makes intuitive sense to me, as different genres of music, would have different characteristics for becoming a hit song.
+
+Dataset
+
+In order to be able to do hit prediction, we first need a dataset of hit / non-hit songs. While there is no shortage of hit-lists, it is quite another thing to find non-hit lists. Therefore, we decided to classify between high and low ranked songs on the hit listings. We experimented a bit to see which split would work best, as shown in Table 1, this resulted in three datasets (D1, D2, and D3):
+
+Table 1 — Hit dataset split from Herremans et al. (2014).
+
+Each with slightly unbalanced class distribution:
+
+Figure 1 — Class distribution from Herremans et al. (2014).
+
+The hit listings were collected from two sources: Billboard (BB) and the Original Charts Company (OCC). The table below shows the amount of hits collected. Note that songs stay in the charts for multiple weeks, so the amount of unique songs is much smaller:
+
+Table 2 — Hit dataset from Herremans et al. (2014).
+
+Now that we have a list of songs, we need the audio features that go along with them. We used The Echo Nest Analyzer (Jehan and DesRoches, 2012), to extract a number of audio features. This nifty API allows us to get a number of audio features, based only on the artist name and song title. The…

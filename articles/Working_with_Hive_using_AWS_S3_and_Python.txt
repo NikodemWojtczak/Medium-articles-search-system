@@ -1,0 +1,307 @@
+The main objective of this article is to provide a guide to connect Hive through python and execute queries. I’m using “Pyhive” library for that. I’m creating my connection class as “HiveConnection” and Hive queries will be passed into the functions. AWS S3 will be used as the file storage for Hive tables.
+
+import pandas as pd
+
+from pyhive import hive class HiveConnection:
+
+@staticmethod
+
+def select_query(query_str: str, database:str =HIVE_SCHEMA) -> pd.DataFrame:
+
+"""
+
+Execute a select query which returns a result set
+
+:param query_str: select query to be executed
+
+:param database: Hive Schema
+
+:return:
+
+"""
+
+conn = hive.Connection(host=HIVE_URL, port=HIVE_PORT, database=database, username=HIVE_USER)
+
+
+
+try:
+
+result = pd.read_sql(query_str, conn)
+
+return result
+
+finally:
+
+conn.close()
+
+
+
+@staticmethod
+
+def execute_query(query_str: str, database: str=HIVE_SCHEMA):
+
+"""
+
+execute an query which does not return a result set.
+
+ex: INSERT, CREATE, DROP, ALTER TABLE
+
+:param query_str: Hive query to be executed
+
+:param database: Hive Schema
+
+:return:
+
+"""
+
+conn = hive.Connection(host=HIVE_URL, port=HIVE_PORT, database=database, username=HIVE_USER)
+
+cur = conn.cursor()
+
+# Make sure to set the staging default to HDFS to avoid some potential S3 related errors
+
+cur.execute("SET hive.exec.stagingdir=/tmp/hive/")
+
+cur.execute("SET hive.exec.scratchdir=/tmp/hive/")
+
+try:
+
+cur.execute(query_str)
+
+return "SUCCESS"
+
+finally:
+
+conn.close()
+
+I’m keeping the queries as separated strings. This way you can format the queries with external parameters when necessary. Hive configurations (HIVE_URL, HIVE_PORT, HIVE_USER, HIVE_SCHEMA) as constants. Function “select_query” will be use to retrieve data and function “execute_query” will be used for other queries.
+
+Hive provides a shell interactive tool to initiate databases, tables and manipulate the data in tables. We can go into the Hive command line by typing command “hive”. You can execute all the queries given in this article in the shell also.
+
+Create a new Schema
+
+Schema is a collection of tables which is similar to a database. Both keywords SCHEMA and DATABASE are allowed in Hive. We can pick either. Here we use SCHEMA instead of DATABASE. Schema can be created with “CREATE SCHEMA”. To go inside the schema, the keyword “USE” is available.
+
+CREATE SCHEMA userdb;
+
+USE userdb;
+
+Create tables
+
+There are three types of Hive tables. They are Internal, External and Temporary. Internal tables store metadata of the table inside the database as well as the table data. But external tables store metadata inside the database while table data is stored in a remote location like AWS S3 and hdfs. When dropping an internal table, all the table data will be erased with the metadata. When dropping an external table, only the metadata will be erased; not the table data. In this way, actual data will be protected. If you point a new table to the same location, data will be visible through the new table.
+
+Hive is a data warehouse and uses MapReduce Framework. So the speed of the data retrieving may not fair enough for small queries. Hive tables can be partitioned in order to increase the performance. Partitioning technique can be applied to both external and internal tables. Concepts like bucketing are also there. You can choose any of these techniques to enhance performance.
+
+Temporary tables are useful when copying data from one place to another. It acts as a temporary location to hold the data within a database session. All the temporary tables are cleared after the session timeout. Creating a temporary table is not useful with “Pyhive” library as multiple queries are not supported in a single session. Even though we created a table, the same session will no longer be available to access the table. But this is possible in the Hive command line. You can create a temporary table and then select data from that table in a single session.
+
+Internal Tables
+
+The following query is to create an internal table with a remote data storage, AWS S3. The file format is CSV and field are terminated by a comma. “s3_location” points to the S3 directory where the data files are. This is a user-defined external parameter for the query string. It should be passed in the time of query formatting.
+
+CREATE TABLE `user_info` (
+
+`business_unit` INT,
+
+`employee_id` INT,
+
+`email` VARCHAR(250),
+
+`first_name` VARCHAR(250),
+
+`last_name` VARCHAR(250),
+
+`gender` VARCHAR(250),
+
+`birthday` DATE,
+
+`created_date` DATE,
+
+`updated_date` DATE
+
+)
+
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' ESCAPED BY '\\'
+
+LOCATION '{s3_location}'
+
+TBLPROPERTIES (
+
+"s3select.format" = "csv",
+
+"skip.header.line.count" = "1"
+
+);
+
+If the data strings contain commas, it will break the table structure. So I have defined an escape character and all the unnecessary commas needed to be preceded by this escape character before creating the table.
+
+Following is an example record. Note that email contains a comma.
+
+1,1,ann,smith@gamil.com,Ann,Smith,female,'1992–07–01','2019–09–01','2019–12–31'
+
+above record need to be formatted like this :
+
+1,1,ann\\,smith@gamil.com,Ann,Smith,female,'1992–07–01','2019–09–01','2019–12–31'
+
+External Tables
+
+Here, I have partitioned “user_info” table with “business_unit” and “created_date”
+
+CREATE EXTERNAL TABLE `user_info` (
+
+`employee_id` INT,
+
+`email` VARCHAR(250),
+
+`first_name` VARCHAR(250),
+
+`last_name` VARCHAR(250),
+
+`gender` VARCHAR(250),
+
+`birthday` DATE,
+
+`updated_date` DATE
+
+) partitioned by(
+
+`business_unit` INT,
+
+`created_date` DATE,
+
+)
+
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' ESCAPED BY '\\'
+
+STORED AS
+
+INPUTFORMAT
+
+'com.amazonaws.emr.s3select.hive.S3SelectableTextInputFormat'
+
+OUTPUTFORMAT
+
+'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+
+LOCATION '{s3_location}'
+
+TBLPROPERTIES (
+
+"s3select.format" = "csv",
+
+"s3select.headerInfo" = "ignore"
+
+);
+
+Temporary table
+
+Query for creating a temporary table.
+
+CREATE TEMPORARY TABLE `user_info` (
+
+`business_unit` INT,
+
+`employee_id` VARCHAR(250),
+
+`email` VARCHAR(250),
+
+`first_name` VARCHAR(250),
+
+`last_name` VARCHAR(250),
+
+`gender` VARCHAR(250),
+
+`birthday` DATE,
+
+`created_date` DATE,
+
+`updated_date` DATE
+
+) ;
+
+Drop Table
+
+Query to drop a table. If you are dropping an external table data in remote file storage will not be erased.
+
+DROP TABLE IF EXISTS `user_info`;
+
+Insert data
+
+Once the table is created with an external file storage, data in the remote location will be visible through a table with no partition. But this is not true when it comes to a table with partitions. Which means data can not be directly copied into a partitioned table. We need to create a temporary table with no partition and insert data into the partitioned table by providing the partition values. The following query describes how to insert records to such a table.
+
+INSERT INTO TABLE user_static_info PARTITION (business_unit={business_unit}, `created_date`='{execution_date}')
+
+SELECT
+
+Employee_id,
+
+email,
+
+secondary_email,
+
+first_name,
+
+last_name,
+
+orig_gender,
+
+gender,
+
+signup_channel ,
+
+signup_from_fb ,
+
+birthday,
+
+signup_date,
+
+updated_date,
+
+last_activity_date,
+
+subscription_status
+
+FROM
+
+tmp_user_static_info
+
+WHERE business_id={business_unit}
+
+Since “Pyhive” is not supported for multiple queries in a single session; I had to create the internal table “tmp_user_static_info” which points to S3 data directory without partitions. Then it was dropped after inserting data to the external, partitioned table.
+
+Retrieve data
+
+SELECT queries are used to retrieve data in Hive. These are much similar to SQL SELECT queries. It has the following form. You can build the query for your requirements.
+
+SELECT [ALL | DISTINCT] select_expr, select_expr, …
+
+FROM table_reference
+
+[WHERE where_condition]
+
+[GROUP BY col_list]
+
+[HAVING having_condition]
+
+[CLUSTER BY col_list | [DISTRIBUTE BY col_list] [SORT BY col_list]]
+
+[LIMIT number];
+
+Update and Delete data
+
+Hive does not support UPDATE and DELETE data directly. If you want to change anything from a table; copy the necessary data to a new table with SELECT queries. Then you can replace the old table with a new table by dropping the old table and renaming the new table.
+
+Alter tables
+
+Table alterations are possible in Hive. But this needs to be done very carefully without affecting the existing data. Because we can’t alter the data. As an example, adding a new field in the middle will not shift data. If we add a new field as the second field, data that belong to the third column will still appear in the second column and fourth field data in the 3rd field and so on. The last field will not contain any data. This is because of the restriction of updating hive table data. If we added a new field as the last field, there will be an empty field and we can insert data into that field.
+
+ALTER TABLE user_static_info ADD COLUMNS (last_sign_in DATE);
+
+If we want to drop external data we can use the following steps.
+
+ALTER TABLE user_static_info SET TBLPROPERTIES('EXTERNAL'='False');
+
+DROP TABLE user_static_info;
+
+Example
+
+Finally, the following code shows how to execute a query using “execute_query” function in “HiveConnection” class.

@@ -1,0 +1,77 @@
+Irreverent Demystifiers
+
+April Fools’ 2019: Perception-driven data visualization
+
+This article was a prank for April Fools’ Day 2019. Now that the festivities are over, scroll to the end of the article for the Real Lessons section for a minute of genuine learning.
+
+Evolution endowed humans with a few extraordinary abilities, from walking upright to operating heavy machinery to hyperefficient online mate selection.
+
+Humans have evolved the ability to process faces quickly, and you can use perception-driven technique to accelerate your analytics.
+
+One of the most impressive is our ability to perceive tiny changes in facial structure and expression, so data scientists have started exploiting our innate superpowers for faster and more powerful data analytics.
+
+Evolution-driven data analysis
+
+Get ready to be blown away by an incredible new analytics technique!
+
+Chernoff Faces are remarkable for the elegance and clarity with which they convey information by taking advantage of what humans are best at: facial recognition.
+
+The core idea behind Chernoff faces is that every facial feature will map to an attribute of the data. Bigger ears will mean something, as will smiling, eye size, nose shape, and the rest. I hope you’re excited to see it in action!
+
+Let’s walk through a real-life mate selection example with OKCupid data.
+
+Data processing
+
+I started by downloading a dataset of nearly 60K leaked OKCupid profiles, available here for you to follow along. Real-world data are usually messy and require quite a lot of preprocessing before they’re useful to your data science objectives, and that’s certainly true of these. For example, they come with reams of earnest and 100% reliable self-intro essays, so I did a bit of quick filtering to boil my dataset down to something relevant to me. I used R and the function I found most useful was grepl().
+
+First, since I live in NYC, I filtered out all but the 17 profiles based near me. Next, I cleaned the data to show me the characteristics I’m most fussy about. For example, I’m an Aquarius and getting along astrologically is obviously important, as is a love of cats and a willingness to have soulful conversations in C++.
+
+After the first preprocessing steps, here’s what my dataset looks like:
+
+The next step is to convert the strings into numbers so that the Chernoff face code will run properly. This is what I’ll be submitting into the faces() function from R’s aplpack package:
+
+Next step, the magic!
+
+Faces revealed
+
+Now that our dataset is ready, let’s run our Chernoff faces visualization! Taa-daa!
+
+Below is a handy guide on how to read it. Isn’t it amazingly elegant and so quick to see exactly what is going on? For example, the largest faces are the tallest and oldest people, while the smilers can sing me sweet C++ sonnets. It’s so easy to see all that in a heartbeat. The human brain is incredible!
+
+Data privacy issues
+
+Unfortunately, by cognitively machine deep learning all these faces, we are violating the privacy of OKCupid users. If you look carefully and remember the visualizations, you might be able to pick them out of a crowd. Watch out for that! Make sure you re-anonymize your results by rerunning the code on an unrelated dataset before presenting these powerful images to your boss.
+
+Dates and dating
+
+Chernoff faces?! You really should check publication dates, especially when they’re at the very beginning of April. I hope you started getting suspicious when this diehard statistician mentioned astrology and were sure by the time I got to the drivel about de-anonymization.
+
+Much love from me and whichever prankster forwarded this to you. ❤
+
+Real lessons
+
+I’ve always been amused by Chernoff faces (and eager for an excuse to share some of my favorite analytics trivia with you), though I’ve never actually seen them making themselves useful in the wild. Even though the article was intended for a laugh, there are a few real lessons to take away:
+
+Expect to spend time cleaning data. While the final visualization took only a couple of keystrokes to achieve, the bulk of my effort was preparing the dataset to use, and you should expect this in your own data science adventures too.
+
+While the final visualization took only a couple of keystrokes to achieve, the bulk of my effort was preparing the dataset to use, and you should expect this in your own data science adventures too. Data visualization is more than just histograms . There’s a lot of room for creativity when it comes to how you can present your data, though not everything will be implemented in a package that’s easy for beginners to use. While you can get Chernoff faces through R with just the single function faces(data), the sky is the limit if you’re feeling creative and willing to put the graphics effort in. You might need something like C++ if you’re after the deepest self-expression.
+
+There’s a lot of room for creativity when it comes to how you can present your data, though not everything will be implemented in a package that’s easy for beginners to use. While you can get Chernoff faces through R with just the single function faces(data), the sky is the limit if you’re feeling creative and willing to put the graphics effort in. You might need something like C++ if you’re after the deepest self-expression. What’s relevant to me might not be relevant to you. I might care about cat-love, you might care about something else. An analysis is only useful for its intended purpose, so be careful if you’re inheriting a dataset or report made by someone else. It might be useless to you, or worse, misleading.
+
+I might care about cat-love, you might care about something else. An analysis is only useful for its intended purpose, so be careful if you’re inheriting a dataset or report made by someone else. It might be useless to you, or worse, misleading. There’s no right way to present data , but one way to think about viz quality is speed-to-understanding. The faces just weren’t efficient at getting the information into your brain — you probably had to go and consult the table to figure out what you’re looking at. That’s something you want to avoid when you’re doing analytics for realsies.
+
+, but one way to think about viz quality is speed-to-understanding. The faces just weren’t efficient at getting the information into your brain — you probably had to go and consult the table to figure out what you’re looking at. That’s something you want to avoid when you’re doing analytics for realsies. Chernoff faces sounded brilliant when they were invented, the same way that “cognitive” this-and-that sounds brilliant today. Not everything that tickles the poet in you is a good idea… and stay extra vigilant for leaps of logic when the argument appeals to evolution and the human brain. Don’t forget to test mathemagical things before you deploy them in your business.
+
+If you want to have a go at creating these faces yourself, here’s a tutorial. If you prefer to read one of my straight-faced articles about data visualization instead, try this one.
+
+Chernoff face visualization explained on Wikipedia.
+
+Thanks for reading! How about an AI course?
+
+If you had fun here and you’re looking for an applied AI course designed to be fun for beginners and experts alike, here’s one I made for your amusement:
+
+Enjoy the entire course playlist here: bit.ly/machinefriend
+
+Liked the author? Connect with Cassie Kozyrkov
+
+Let’s be friends! You can find me on Twitter, YouTube, Substack, and LinkedIn. Interested in having me speak at your event? Use this form to get in touch.

@@ -1,0 +1,53 @@
+Are you thinking to build a machine learning project and stuck between choosing the right programming language for your project? Well, then this article is going to help you clear the doubts related to the characteristics of Python and R. Let’s get started with the basics.
+
+R and Python both share similar features and are the most popular tools used by data scientists. Both are open-source and henceforth free yet Python is structured as a broadly useful programming language while R is created for statistical analysis.
+
+In this article, we will be looking at some pros and cons of both languages so you can decide which option suits you the best.
+
+Python
+
+The Python programming language was developed in the late 80s and plays a crucial role in powering the internal infrastructure of Google. Python comprises of enthusiastic developers and now it’s been used in the widely used applications of YouTube, Instagram, Quora, and Dropbox. Python is broadly utilized over the IT business and permits simple effort of collaboration inside development groups. In this way, in the event that you need an adaptable and multi-reason programming language with a supporting enormous network of engineers alongside the extendable AI bundles then Python is a top pick.
+
+Advantages of Python
+
+● General-purpose language — Python is regarded as a better choice if your project demands more than just statistics. For instance — designing a functional website
+
+● Smooth Learning Curve — Python is easy to learn and easily accessible which enables you to find the skilled developers on a faster basis.
+
+● The bulk of Important libraries — Python basts countless libraries for munging, gathering, and controlling the information. Take an occasion of Scikit-realize which comprises tools for information mining and investigation to support the incredible AI convenience utilizing Python. Another bundle called Pandas gives engineers superior structures and data examination devices that help to diminish the improvement time. If your development team demands one of the major functionalities of R then RPy2 is the one to go for.
+
+● Better Integration — Generally, in any engineering environment, the Python integrates better than R. Thus, regardless of whether the designers attempt to exploit a lower-level language like C, C++ or Java, it generally gives better joining different components with Python wrapper. Additionally, a python-based stack is anything but difficult to incorporate the remaining task at hand of data researchers by bringing it easily into creation.
+
+● Boosts Productivity — The syntax of Python is exceptionally decipherable and like other programming languages, however unique in relation to R. In this way, it guarantees high profitability of the development groups.
+
+Disadvantages of Python
+
+● Includes a very few statistical model packages.
+
+● Due to the presence of the Global Interpreter Lock (GIL), threading in Python becomes tricky and quite problematic. Subsequently, multi-threaded CPU-bound applications act slower than single-thread ones. An AI undertaking is more valuable for executing multiprocessing instead of utilizing multithreaded programming.
+
+R
+
+R was developed by statisticians and basically for the statisticians which any developer can predict the same by looking at its syntax. As the language contains mathematical computations involved in machine learning which is derived from statistics, R becomes the right choice who wants to gain a better understanding of the underlying details and build innovative. If your project is heavily based on statistics then R can be considered as an excellent choice for narrowing down your projects which requires one-time dive into the dataset. For instance — if you like to analyze a corpus of text by deconstructing paragraphs into words or phrases to identify their patterns then R is the best choice.
+
+Advantages of R
+
+● Suitable for Analysis — if the data analysis or visualization is at the core of your project then R can be considered as the best choice as it allows rapid prototyping and works with the datasets to design machine learning models.
+
+● The bulk of useful libraries and tools — Similar to Python, R comprises of multiple packages which help to improve the performance of the machine learning projects. For instance — Caret boosts the machine learning capabilities of the R with its special set of functions which helps to create predictive models efficiently. R developers gain advantage from the advanced data analysis packages which cover the pre- and post-modeling stages which are directed at specific tasks like model validation or data visualization.
+
+● Suitable for exploratory work — If you require any exploratory work in statistical models at the beginning stages of your project then R makes it easier to write them as the developers just need to add a few lines of code.
+
+Disadvantages of R
+
+● Steep learning curve — It is tough to deny that R is a challenging language and therefore you can find very rare experts for building your project team.
+
+● Inconsistent — As the algorithms of R come from third parties, it happens that you might end up with inconsistencies. Every time your development team makes use of a new algorithm, all the connected resources need to learn different ways to model data and make predictions. Similar to this, every new package requires learning and there is no detailed documentation of R as it leads to a negative impact on the development speed.
+
+R vs. Python: Which One to Go for?
+
+When it comes to machine learning projects, both R and Python have their own advantages. Still, Python seems to perform better in data manipulation and repetitive tasks. Hence, it is the right choice if you plan to build a digital product based on machine learning. Moreover, if you need to develop a tool for ad-hoc analysis at an early stage of your project then go for R. The ultimate choice depends on which programming language you want to go. Till then — keep learning!
+
+Author Bio:
+
+Vikash Kumar working in a software development company https://www.tatvasoft.com. He likes to share new ideas on machine learning, AI and many more. Apart from his daily routine of his professional work he also likes to cook and roam around. You can visit here to more about his company and follow him on Twitter and LinkedIN.

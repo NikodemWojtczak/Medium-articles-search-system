@@ -1,0 +1,15 @@
+The best data set that I was able to find contains the top 10,000 books from Goodreads along with ratings by user, the books that a user wants to read, and any tags associated with the book by the reader.
+
+The data has its limitations. We only have access to the 10,000 most popular books and can’t layer in additional information like genre or book description. The data is as of 2017, so we miss out on new published books. That said, there’s certainly enough to build the framework for the algorithm.
+
+I was also able to export my own Goodreads data and while not every book that I read was in the top 10,000, ~60 matched after accounting for only the books that I wanted to be considered in the algorithm.
+
+Approach and Critical Thinking
+
+Based on the information available to us, I felt the best approach was to find the “most similar” users to me, then look for the most popular books (by average rating or number of times read) that they’ve read and I haven’t. This method — looking for patterns among users and applying those patterns to make recommendations — is called collaborative filtering.
+
+It’s essentially a simplified version of what Amazon would use when you see the “Customers who bought this item also bought” set of recommendations under a product.
+
+Example product recommendations when searching for a cold brew pitcher.
+
+I initially framed out the article to focus on the steps of collaborative filtering, but after I finished the first set of code and looked at the results, I realized there was so much beyond the simple filtering and coding to take into consideration. Instead, the below will focus on how to use intuition and critical thinking to improve on initial results.

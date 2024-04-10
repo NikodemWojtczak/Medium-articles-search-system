@@ -1,0 +1,19 @@
+Support Vector Machines
+
+1. The problem
+
+Support vector machines set out to address the problem of “classification”. If we’re given some data, it’s going to be composed of a certain number of entries/ rows/ points. Now, we want to classify each of these points into some classes we have in mind. To keep things simple, we assume we’re only interested in two classes, “positive” and “negative”. Examples of the important questions (some more than others) this might help answer:
+
+Weather or not a photo has a cat in it (has cat meaning positive label) given the pixel data. Weather or not an email is spam given its subject, sender, text, etc. Determining if a patient has a certain disease or not.
+
+The idea is that we come up with some rule for splitting the data into the two classes when we already know the right answers (for SVM’s, that “rule” happens to be drawing a plane and calling all points on one side positive and the other, negative). Then, when we encounter a new data point where we don’t know the answer, we use the same rule we (or our “machine”) “learnt” to classify it. This topic relies heavily on and is a great illustrative example of the theory of constrained optimization about which I wrote a blog a while back. Also, we’ll loosely follow the paper by Andrew Ng.
+
+1.1. In pictures
+
+I feel like I don’t truly understand things until I draw a picture. Also, everyone likes pictures. So let’s look at some.
+
+We have some points in a feature space. For easy visualization, let’s consider a 2-d feature space so we can see it on a screen. We have some points sprinkled across this space, each with a binary label (1/-1). In the figure below, we can consider the green points to have positive labels and the red points to have the negative ones. For the yellow points, we don’t know what their labels are (positive or negative). If you had to guess a label for each of them, what would you pick? You might find that some of the points are not so clear-cut.
+
+Fig 1: 2-D classification problem. Green points are positive and red ones are negative. Can you guess the labels for the yellow points? Created using: https://github.com/ryu577/pyray
+
+Now, if I drew a purple line that separates the two classes, it becomes much clearer which class each of the yellow points…

@@ -1,0 +1,17 @@
+Photo by fabio on Unsplash
+
+I am sure by now you must have heard about this term, and if surprisingly not, just have a look at the presentations by Apple or Google; even McDonald’s is doing something. In fact not only them, if you were to look at the Google Trends page for Machine Learning, you’ll notice the upward trend in popularity and interest over time. So everyone’s talking about it…
+
+You can easily find many popular use-cases of Machine Learning. I am sure you check Amazon for when you need to buy new clothes or shoes. And then you see a list of recommended items for you. This is, in fact, machine learning at play. You might have also heard about autonomous vehicles which are being tested out, or maybe you have interacted with a chatbot. Almost every other brand is rethinking their strategy to involve machine learning and leverage its immense power in some way or the other.
+
+But what is Machine Learning?
+
+I will start with a popular definition given by Tom Mitchell:
+
+A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.
+
+wait, what? | Photo by Emily Morter on Unsplash
+
+Don’t worry if you didn’t get that, even I didn’t completely at first. What it essentially says is that suppose you have lots and lots of data, with machine learning you can find patterns in that data hidden in plain sight which a computer program can learn. This computer program, which is transformed into a machine learning model, when faced with new data can now identify with a certain confidence whether that pattern can be found here or not.
+
+Basically what happens is that when you build a machine learning model, you train the model with huge amounts of historical data which has the same context as the problem you are trying to solve. Certain patterns are learnt by the model which helps in identification, recognition or prediction. For instance, you can build a machine learning model to identify entities in an image…

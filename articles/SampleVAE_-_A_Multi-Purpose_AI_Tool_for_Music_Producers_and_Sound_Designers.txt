@@ -1,0 +1,85 @@
+While there are several existing AI tools for music producers out there, and many of them are really good for specific users and purposes, most of them are either too difficult for the average musician without deep learning background to use, or they are too limited in what they allow the user to do.
+
+I hope that SampleVAE is both highly customizable and able to fit many different use cases, but at the same time easy enough to set up and use with only limited programming experience.
+
+Initialising the tool from a trained model is as simple as running the following code in a python session.
+
+from tool_class import *
+
+tool = SoundSampleTool(model_name, library_directory)
+
+It is also light enough to be trained on reasonably large datasets without a GPU, and fast enough during inference to be potentially integrated into live performances using a standard laptop.
+
+The tool itself is still at an early stage, and I’m excited to see how actual artists, in the MUTEK AI Lab but also elsewhere, are going to use it. It is so flexible that the use-cases are almost endless, and I’m excited to see what ideas people come up with. I hope that I can use these ideas to further develop the tool, or that other people will take the code and adjust it for their very own purposes.
+
+With all that being said, let’s have a brief look at the tool’s current functions.
+
+Generating Sounds
+
+VAEs are generative models. This means that after being trained on real data, they can generate seemingly realistic data by taking points from their latent space, and running them through the decoder.
+
+SampleVAE makes use of this to provide several unique ways to generate audio (or rather spectrograms, which are then converted to audio via the Griffin-Lim algorithm).
+
+Random Sampling
+
+The simplest way to generate a sound (and save it to a file called 'generated.wav' ) is to just pick a random point from latent space and run it through the decoder.
+
+tool.generate(out_file='generated.wav')
+
+The results are literally very random. They tend to fall within the category of sounds the model was trained on, e.g. drum sounds, but often also produce very unique and alien-sounding sounds.
+
+Re-Generating a Sound
+
+Another way is to take an input file, find its embedding, and then decode this again. This can be seen as a kind of distortion of a sound.
+
+tool.generate(out_file='generated.wav', audio_files=[input_file])
+
+This gets even more interesting when using the additional variance parameter to add some noise to the embedding before decoding. This can generate infinite variations on the same input file.
+
+Combining Multiple Sounds
+
+Maybe the most interesting way to generate new sounds is to combine multiple sounds.
+
+tool.generate(out_file='generated.wav', audio_files=[input_file1, input_file2])
+
+This embeds all files passed in, averages their embedding, and decodes the result.
+
+Optionally, one can pass the weights parameter, a list of floats, to combine the vectors in ways that are not simple averages. This allows for example to add more of one sound and less of another (and also to interpolate between sounds).
+
+In addition, it allows for other interesting embedding vector arithmetic, such as subtracting one sound from another. For example subtracting a short sound with high attack from another sound might soften that sound’s attack.
+
+Of course all this can be combined with the variance parameter to add randomness.
+
+Sound Similarity Search
+
+Most producers will know this issue. You have a sample that sort of works, but you’d like to experiment with other similar samples. The problem is if you have a large sample library, it gets extremely hard to find samples. So you often end up using the same ones over and over again, or settle for something that’s not ideal.
+
+The find_similar function of the SampleVAE tool allows you to solve this issue, by looking through your sample library (specified when initialising the tool), comparing embeddings, and returning the most similar samples.
+
+For example, if I want to find the five most similar sounds to a particular snare sample, I can run the following code to get a list of the files, their onset times (more on this in a second), and their Euclidean distance from the target file in embedding space.
+
+Finding similar files to a given snare sound.
+
+The library used in the above example was small, only a few hundred drum sounds. But the tool found several similar snare sounds, as well as some hihat sounds that apparently sound very snare-like. Note that the file it deemed most similar (with distance zero) was actually the input file itself, which also happened to be contained in the library.
+
+The current implementation of SampleVAE treats all samples as exactly two seconds long. Longer files get cropped, shorter ones padded. However, for the sake of the sample library, one can specify library_segmentation=True when initialising the tool to segment larger files into multiple two second slices. The onset (in seconds) then marks where in the long file the similiar sample is.
+
+This could for example be useful if you have long field recordings and would like to find particular sounds within them (as might be applicable in the soundscapes genre of the Lab).
+
+Classification
+
+Finally, the tool can be used to classify samples into several unique classes. Two of the pre-trained models have a classifier associated with them.
+
+The first one, model_drum_classes , was trained on a dataset of roughly 10k drum sounds, with a classifier of nine different drum classes (e.g. kick, snare, etc). The confusion matrix for this model is below.
+
+Confusion matrix for a model trained to predict nine drum types.
+
+We can see that many classes are recognised fairly well, with a fair amount of confusion between the low, mid, and high toms.
+
+To use the prediction function, simply run
+
+probabilities, most_likely_class = tool.predict(input_file)
+
+This return a probability vector over all classes, as well as the name of the class with the highest probability.
+
+The potential applications of this kind of classification are large. For example, our interactive audiovisual installation Neural Beatbox, which was exhibited at the Barbican Centre in London this summer, uses this kind of classification as one of its main AI components.

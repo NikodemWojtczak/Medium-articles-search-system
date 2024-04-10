@@ -1,0 +1,19 @@
+People hear a lot about how fantastic NLP is, but often for many it can be hard to see how it can be applied in a commercial setting. With that aim I thought I would share my first foray into using NLP to solve a business problem.
+
+Photo by Jason Leung on Unsplash
+
+The Business Problem
+
+Releasing a new product can be a worrying time for a business, with the success of the product and the image of the company relying on the product performing as advertised. One of the largest influences of this is that the product is reliable, it needs to work as well as customers expect. To that end monitoring complaints and returns is pretty important. For a car or large installed appliance instead of the product being returned for replacement the more likely case is that an engineer will be sent to repair it.
+
+These engineer reports can then be processed and read by Quality Engineers in order to classify if there is a genuine failure and what type of failure it is. These results can then be compiled in order to produce a Pareto of failures and even start to build a reliability bathtub curve among other reliability statistics that are possible.
+
+It is worth taking a bit of time to explain the pareto and bathtub curve to give you a rough primer on reliability engineering.
+
+Pareto Chart
+
+You are receiving a lot of reports of different types of failures against a product, how do you prioritise which needs addressing first? A useful tool is to make a Pareto chart, which is a graph that shows the number of failures for each failure type and is combined with a combined percentage so you can see how many and what % of the total each failure has. I’ve made an example one below.
+
+Example of a Pareto chart of failures
+
+As you can see the Pareto makes it very clear that “Bearing” is the most common failure type and comprises over 60% of the failures seen. Therefore, this would be a prime candidate for investigating and resolving to bring the overall failure rate, over the observed period used to make the Pareto, down.

@@ -1,0 +1,23 @@
+We have been able to lift the lid on Convolutional Neural Networks (CNN) in computer vision tasks for a number of years now. This has brought with it significant improvements to the field through:
+
+Increased robustness of models;
+
+Visibility of, and reduction of model bias; and
+
+A better understanding of how adversarial images can alter the outputs of deep learning models.
+
+With such clear benefits attributed to better model understanding, why do we not seem to have the same level of focus on model interpretability in the field of Natural Language Processing (NLP)?
+
+Creating a visualisation of where a CNN is looking:
+
+In this post we will see how we can apply the same techniques used to understand where vision-based CNNs are looking and apply this to text. We will then create a heatmap to show where a CNN is ‘focusing-in’ on particular areas of the input text in order to make a classification.
+
+Yes, I know, CNNs are considered a bit ‘old fashioned’ these days in the age of GPT-2, BERT, ELMo etc… however they still offer great real-world performance without the large model sizes, long inference times and large memory usage which come with some of these cutting-edge models.
+
+Predicting Coffee roasts:
+
+In order to walk through an example, we will first set up a simple classifier to predict whether a coffee is a light or dark roast based on its description.
+
+Our dataset is a series of coffee reviews. In this table we will be using blind tasting notes to try to predict whether the roast is light or dark.
+
+The code to build a CNN in Keras and train it on this data is below:

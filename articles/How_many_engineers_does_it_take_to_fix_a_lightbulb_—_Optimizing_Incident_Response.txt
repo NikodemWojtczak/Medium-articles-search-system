@@ -1,0 +1,27 @@
+How many engineers does it take to fix a lightbulb — Optimizing Incident Response
+
+Introduction
+
+How many engineers does it take to replace a lightbulb? This satirical hypothetical will be used to demonstrate how businesses can optimize their incident response for mission critical tasks.
+
+We’re often found workplace situations that require us to work with others to solve time-sensitive, business-critical, and customer facing issues. Whether a software developer trying to resolve a down website for a eCommerce website or first responders responding to a wildfire incident, time is money (and sometimes human life), thus the quicker the issue is resolved, the happier and sometimes safer your customers will be.
+
+To Add or Not to Add?
+
+Imagine being a manager of an engineering team that manages lightbulbs. A particular lightbulb goes out and the engineering team has been notified. Your boss asks you frantically:
+
+How many engineers are needed to replace the lightbulb?
+
+Well, that depends:
+
+Cost of downtime (i.e., for every minute the lightbulb is out, what is the impact to our business?) Cost of engineering resources Tolerance for risk
+
+Risk
+
+Without spending too much time on risk, in this context it refers to a rare chance that something really bad happens. Both rare and really bad are relative/subjective terms. One standard method is to measure the 95th percentile of the distribution of all possible outcomes. The risk value will be defined as a 5% of chance of something worse occurring than the risk value.
+
+95th-percentile of Bad Outcomes. Risk is the location of the red vertical line
+
+The black vertical line represents the average outcome whereas the red vertical line represents the 95th percentile. The fatter the tail, the farther apart the vertical and red line will be, and thus, the higher the risk.
+
+Approach

@@ -1,0 +1,9 @@
+BOOK “DATA ANALYSIS TECHNIQUES TO WIN KAGGLE”
+
+What Is The Best Starter Model In Table Data ML?— Lessons from A High-rank Kagglers’ New Book
+
+Photo by Jon Tyson on Unsplash
+
+This is another post to pick up tips introduced in a new book “Data Analysis Techniques to Win Kaggle”, authored by three high-rank Kagglers (not including myself thus this is not a personal promotion! :) )
+
+For the full table of contents of the book itself, see my other post.

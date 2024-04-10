@@ -1,0 +1,63 @@
+Solving TSP Using Dynamic Programming
+
+While I was conducting research for another post in my transportation series (I, II, stay tuned for III), I was looking for a dynamic programming solution for the Traveling Salesperson Problem (TSP).
+
+I did find many resources, but none were to my liking. Either they were too abstract, too theoretical, presented in a long video I didn’t care to watch, or just, you know, not my style. Like I didn’t “get” the logic.
+
+So to be honest, I didn’t even mean to write this post because I thought it would have been written a thousand times already. But, isn’t life surprising?
+
+For the full code behind this post you can go here.
+
+The Setting
+
+You can read a nicer and more cheerful version of the setting in this post, but the gist is the following. We have n points on a plane, and we wish to find the shortest path which visits each point exactly once.
+
+Yup, this is already a spoiler with the solution! Did I mention I wasn’t planning on writing this post?
+
+DP Crash Course
+
+Actually, what I really want to say, is that this is not a DP crash course 😇
+
+If you are not used to the concepts of Dynamic Programming, I recommend a nicer introduction than mine to this beautiful method. Luckily, a fun and intuitive one already exists! Visit this excellent video by Siraj Raval, and join us as we continue 🤓
+
+Building the DP Tree
+
+In Dynamic Programming (DP) we build the solution as we go along. In our case, this means that our initial state will be any first node to visit, and then we expand each state by adding every possible node to make a path of size 2, and so on. Each time we visit a partial solution that’s been visited before, we only keep the best score yet.
+
+Aha!
+
+But what is “already visited partial solution” you ask?
+
+And you are right to ask!
+
+Figuring out what should be “kept in memory” is one of the key elements of a successful DP solution. After some trial and error, I decided to keep in memory both the last and next-to-last nodes visited for each partial solution.
+
+For the partial solution [1,2,3,4], where 4 in the last node visited, we ask ourselves — what is the best way to get there? We can either come from 3 and have a total cost of 1.8, or come from 2 and have a total cost of 1.5.
+
+Once you’ve figured what you want to keep in memory, the code is pretty straightforward and almost unchanged between DP implementations to different problems:
+
+Retracing Shortest Path
+
+Once we have reached the end of the tree, meaning the paths that we hold in our memo are complete, then “all that is left” is to retrace our steps to find the optimal path.
+
+Luckily we remembered the last and next-to-last nodes in each partial path!
+
+Our optimal path in pink: [4,1,2,3]
+
+So the first step would be to look at the final layer — with all the complete paths, and choose the last-node that has the lowest total cost.
+
+From there we can retrace our steps using our next-to-last nodes.
+
+Comparing With A Heuristic Solution
+
+OK, now that we have the optimal solution to our TSP problem, what can we do with it?
+
+Well, the thing is… that not much…
+
+TSP is an NP-Complete problem, and solving to optimality is highly unscalable. Luckily, in a previous post we solved TSP using a fast heuristic method. Many of you asked me after that post - how does this solution compare with the optimal one? And I can finally answer!
+
+Wow!! That’s what exponential growth looks like!! 😨
+
+Complexity aside, the heuristic solution is always keeping it close to the optimal one 😅
+
+For the largest input in this experiment, even when we look at the final result, it looks pretty similar 🎯

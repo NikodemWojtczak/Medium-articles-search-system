@@ -1,0 +1,9 @@
+We have been discussing some of the possible ways to embed categorical features: Kernel PCA and Spectral Encoding. The goal of such embedding is to map categorical features to vectors in a low dimensional space. The advantage is this mapping dramatically reduce overfitting, compared to 1-hot encoding. However we can lose information and make the learning more difficult if the embedding is chosen incorrectly. In order to increase the quality of embedding, we use the category similarity information (that we can set a priori or by computing the similarity of conditional probability distribution). Kernel PCA method is also using the probability distribution of the categorical variable, whereas the Spectral Encoding does not. For completeness, we will also use t-SNE method and we can discuss its advantages and disadvantages.
+
+t-SNE stands for t-distributed stochastic neighbor embedding, and was originally proposed for visualization of high-dimensional data. As opposed to PCA, it is a non-linear method, and its goal is to preserve similarity between the data points. It introduces a non-linear transformation from the original data x to a low-dimensional vectors y, and it models the similarity between data points using Student t-Distribution:
+
+The set of points y is found by minimizing KL divergence of the distribution Q from the original distribution P:
+
+The minimization can be done using Gradient Descent.
+
+To demonstrate how the method works we will use synthetic data set with only one categorical variable Day of Week, with 0 being Monday and 6 being Sunday:

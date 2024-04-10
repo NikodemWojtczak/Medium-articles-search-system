@@ -1,0 +1,175 @@
+Business Intelligence (BI) — The topic of discussion in the business domain since quite a while now. Nearly all kinds of businesses are convinced about the potential of good BI tools and are using them for the betterment of their business. With the rise of BI phenomenon, advanced BI tools and technologies were introduced in good numbers. This made a lot of potentially efficient BI tools available in the market for customers.
+
+Today I am sharing the details of top players in the domain of Business Intelligence this means top BI tools for data visualization. Let’s start the discussion with the introduction to Data Visualization.
+
+What is data visualization?
+
+The term Business Intelligence refers collectively to the tools and technology used for the collection, integration, visualization and analysis of raw data. In today’s time, with ever increasing amounts of free-flowing data, efficient BI tools are very important to make the most of the knowledge that hides itself in raw and unprocessed data.
+
+Data visualization plays a crucial role in the entire business intelligence dynamic. In simple terms, data visualization is pictorial representation of a given set of data. A text-based data is visualized graphically in the form of charts, graphs, tables, infographics, maps etc. With the help of visualizations, new insights and hidden patterns in data can be detected.
+
+The motive of data visualization is to detect patterns, trends and correlation between different data sets which can’t be studied otherwise from data in simple (non-graphic) form. It helps users gain a better understating of the market’s current situation and evaluate customer’s needs. Also, an enterprise can evolve through new strategies and techniques to enhance and foster their business. And this is precisely why all the data science software companies focus on making their BI tools best in data visualization capabilities as it helps in unveiling the hidden information in the huge reservoirs of raw data.
+
+Top BI tools for Data Visualization
+
+Let’s start with our discussion on the top BI tools for data visualization for 2019. We will discuss about the leading players in the realm of BI such as Microsoft Power BI, Tableau, QlikView and Qlik Sense. These BI tools are listed by Gartner’s Magic Quadrant for Analytics and Business Intelligence platforms 2019 (a survey series published by Gartner) in different category.
+
+Tableau
+
+Tableau is a new age data analytics and business intelligence platform which offers flexibility and ease-of-use to its users. Tableau’s core strengths are considered to be its interactive dashboards, quick responsiveness and real-time data analysis features. It offers eye-catching graphics (visualizations) to represent your data set pictorially. Fundamentally, Tableau provides all the necessary capabilities for data extraction, processing, representing and sharing the final reports/dashboards/worksheets with others.
+
+The primary reason for Tableau’s popularity is its easy drag-and-drop functionality to create visualizations. It is faster than other BI tools and is highly intuitive making it a perfect self-service BI tool. It also offers connectivity to a huge number of data and big data sources such as Oracle, Teradata, SAP HANA, MongoDB, Excel, Text files, JSON, Google Cloud, SQL, Hadoop, Amazon Redshift etc.
+
+It is not needed to buy connector license to connect to these data sources. Also, Tableau is designed for all kinds of users and does not require any specific skillset or knowledge to work on it. All types of users, from all over the enterprise can easily perform all the data analysis and visualization capabilities.
+
+I recommend you to explore this Tableau Tutorials Series to gain expertise in Tableau
+
+Features of Tableau
+
+Ask data
+
+Tableau prep conductor
+
+Tableau mobile for iOS and Android
+
+Connectors and connections
+
+Data sharing
+
+Install and deploy
+
+Design view and visualization
+
+Given below are some data visualization samples of a Tableau dashboard.
+
+2. Microsoft Power BI
+
+Microsoft Power BI is a powerful data visualization tool and a very popular one. It is a cloud-based software which is available in two versions; Power BI Desktop and Power BI Mobile. Microsoft Power BI is well known for its easy-to-use functionality for data preparation and data visualization. Power BI comes with a lot of visualization features such as custom visualizations, creating visualizations using natural languages, having Cortana personal assistant etc.
+
+Microsoft Power BI offers connectivity to a wide range of data sources such as Oracle, IBM, SQL Server, Salesforce, Google analytics, Azure DevOps, Excel, text files, JSON, Zendesk, Mailchimp etc. In addition to this, integration with big data sources is also easy with the help of direct connections using web services.
+
+Learn everything about Power BI in just 4 weeks
+
+Have a look at some sample Microsoft Power BI apps using different kinds of visualizations in them.
+
+Features of Microsoft Power BI
+
+Access to on-premise and cloud-based data sources
+
+Intuitive and graphically rich visualizations
+
+Quick response to complex
+
+Mobile compatibility
+
+Easy insight (dashboards, reports etc.) sharing within the organization
+
+Publish data reports and dashboards to web
+
+Help and Feedback buttons
+
+Pattern indicators
+
+Informative and intuitive reports with Power BI Desktop
+
+You must explore these Power BI features in detail
+
+3. QlikView
+
+QlikView is one of the leading BI tools according to the Gartner Magic Quadrant reports for 2019. QlikView provides in-memory storage feature which makes collecting, integrating and processing of data very fast. The reports are generated using visualization tools and the relationship between data is derived automatically by the QlikView software. In other words, QlikView is a data discovery tool that facilitates the creation of dynamic apps for data analysis.
+
+QlikView is predominantly a data discovery tool and so it has some distinct data visualization features. Data Discovery is a user-driven search for patterns and trends in data sets. It helps users to understand and see these patterns by providing visual aids like graphs, tables, maps etc. QlikView is also unique because of its flexibility, in-memory features and collaborative aids.
+
+Have a look at some sample QlikView apps using different kinds of visualizations in them.
+
+Features of QlikView
+
+Unique data discovery and global search
+
+Interactive visualizations
+
+Collaboration
+
+Absolute control over data
+
+Secure working environment
+
+Flexibility and Integrations
+
+Consistent Reporting
+
+It is the right time to upgrade your skills — Learn QlikView from Experts
+
+4. Qlik Sense
+
+Qlik Sense is also a popular data analysis and visualization software. At its core it operates with an associative QIX engine. This engine enables the user to link and associate data from different sources to carry out analysis. Qlik Sense serves as a data analytics platform for a wide range of users i.e. from non-technical to technical users.
+
+Qlik Sense focuses more on data visualization as it has augmented graphics. However, in QlikView you can manipulate data in a lot of technical ways through scripting. If your motive of using Qlik Sense is visualizing and analysing data in the best possible graphics, then you have made the right choice.
+
+Qlik Sense provides a lot of flexibility to the users as they can carry out completely independent operations with the self-service visualizations and analysis. Also, they can be guided by the automated machine-guided analysis by the cognitive engine of Qlik Sense. Qlik Sense uses an Associative Model in which users are free to explore the vast and complex data and draw intuitive insights from it. Integrating large data files from multiple sources is possible in Qlik Sense. The clients can share data applications and reports on a centralized hub. Along with this, they can share secure data models, export the data stories etc. to enhance their business.
+
+Have a look at some sample Qlik Sense apps using different kinds of visualizations in them.
+
+Learn Qlik Sense to become a master of Business Intelligence
+
+Features of Qlik Sense
+
+Associative model
+
+Smart visualization and analytics
+
+Self-service creation
+
+Centralized sharing and collaboration
+
+Data storytelling and reporting
+
+App Mobility
+
+Data preparation and integration
+
+The QIX engine
+
+Enterprise governance and scalability
+
+5. SAP Lumira
+
+SAP Lumira has also made its place in the list of top 10 BI tools. According to the Gartner’s Magic Quadrant for Analytics and Business Intelligence platforms 2019, SAP Lumira is categorized as a visionary BI tool having great potential. SAP Lumira is a self-service data visualization and analytics tool known for its ease-of-use and intuitive applications. SAP Lumira provides rich and interactive visualizations such as tables, graphs, charts, maps, infographs, etc.
+
+There are two editions of SAP Lumira based on the purpose of use; a Discovery edition and a Designer edition of SAP Lumira. In Discovery edition, you can create self-service data visualizations and publish them directly to the SAP BusinessObjects BI tools. Whereas, in the Designer edition, you can use these self-service visualizations to create detailed analytic applications.
+
+SAP Lumira is a user-friendly tool having a home screen where all the data sources are available. Input controls, so that users can work on the application freely. The application screen provides a single platform to create visualizations and applications using the imported data. Users can access real-time data such as governed data, Universe data, cloud data, metadata, data from big data sources etc.
+
+Have a look at some sample SAP Lumira apps using different kinds of visualizations in them.
+
+Connecting SAP Lumira to SAP HANA
+
+As SAP HANA is an in-memory database technology, data from it is taken into SAP Lumira for data visualization and analysis by users. SAP Lumira connects directly to SAP HANA using a JDBC connection (i.e. an OLAP connection). The language used for communication between SAP HANA and SAP Lumira is SQL.
+
+You can connect SAP Lumira to SAP HANA to use the data stored in HANA database. To connect to SAP HANA database, go to the File menu of SAP Lumira and add a new dataset by establishing a connection. The complete steps for connecting SAP Lumira to SAP HANA are given in a separate tutorial “Connecting SAP Lumira with SAP HANA”. Please refer to that.
+
+Once you establish a connection with SAP HANA and import the data set from it, you can create numerous visualizations in Lumira. You can select from a range of visualizations such as pie-charts, bar charts, tree-map charts, donut charts, heat-map chart etc.
+
+Features of SAP Lumira
+
+Easy application development for data visualization using low-level JavaScript programming.
+
+Template-based guided designing of data visualization dashboards.
+
+Access to Lumira apps through web and mobile platforms.
+
+Embedded visualizations and customizable extensions.
+
+Integrate data from multiple data sources.
+
+Integrate with SAP BusinessObjects BI tools for analysis.
+
+Create ad-hoc reports and dashboards
+
+Storytelling
+
+Although, Power BI, Tableau, Qlik Sense, QlikView are the leading BI tools for data analysis and visualization as of 2019.
+
+There are other tools in the BI space such as ThoughtSpot, Sisense, Salesforce, Looker, Domo, SAP (SAP Lumira) etc. that are proving their potential of being a perfect BI tool for data visualization. It is not too far in future, that there will be dozens of new BI tools available in the market. This will provide a wide range of options having advanced BI capabilities for the customers to select from.
+
+Hope you enjoyed reading this article.

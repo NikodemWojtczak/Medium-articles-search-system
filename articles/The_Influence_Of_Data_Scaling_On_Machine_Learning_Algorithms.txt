@@ -1,0 +1,53 @@
+The Influence Of Data Scaling On Machine Learning Algorithms K.A. · Follow Published in Towards Data Science · 6 min read · Jul 29, 2019 -- 1 Listen Share
+
+Scaling is the act of data preprocessing.
+
+Preprocessing data involves transforming and scaling the data, up or down, before it becomes used for further steps. Every so often attributes are not expressed by the same standards, scales or measures, to such an extent that their statistics yield distorted data modeling results. For instance, K-Means Clustering algorithm is not scale invariant; it computes the space between two points by the Euclidean distance. To refresh one’s memory on the concept of Euclidean distance — is the non-negative value difference between two points in one-dimensional space. So, if one of the attributes has a broad range of values, the computed distance will be skewed by this attribute (i.e. smaller valued attribute will contribute very little). For example, if one of the attributes is measured in centimeters, and one then decided to convert the measure to millimeters (i.e. multiplying the values by 10), the resulting Euclidean distance can be significantly affected. To have the attribute adds approximately proportionately to the final computed distance, the range of that attribute should be normalized.
+
+Normalization has many meanings, in its simplest case, it refers to shifting certain attribute scale to a version that removes the effect of gross statistics influence when compared against another attribute.
+
+Attempting to use analysis technique like the Principal Components Regression (PCR) asks for all the attributes to be on the same scale. The attributes may have high variance which would influence the PCR model. Another reason for scaling attributes is for computational efficiency; in the case of the gradient descent the function converges rather quickly than no normalization at all.
+
+There are several normalization methods among which the common ones are the Z-score and Min-Max.
+
+Some statistical learning techniques (i.e. linear regression) where scaling the attributes has no effect may benefit from another preprocessing technique like codifying nominal-valued attributes to some fixed numerical values. For example, to give arbitrarily a gender attribute a value ‘1’ for female and ‘0’ for male. The motivation for that is to allow the attribute to be incorporated into a regression model. Be sure to document the meaning of the codes somewhere.
+
+Choosing the best preprocessing technique — Z-Score or Min-Max?
+
+The short answer is both and depending on the application. Each method has its practical use. The Z-score of an observation is defined as the number of standard deviations it falls above or below the mean, in other words it computes the variance (i.e. distance). As mentioned earlier, clustering data modeling technique needs normalization, in the sense that it requires to compute the Euclidean distance. The Z-score is suited well and is essential to compare similarities between attributes based on certain distance measure. The same applies to Principal Components Regression (PCR); in it we are interested in the components that maximize the variance. On the other hand, we have the min-max technique transforming the data attributes to a fixed range; typically, between 0 to 1. Min-max method takes the function form of y = (x-min(x))/(max(x)-min(x)), where x is a vector. Example uses are in image processing and neural networking algorithms (NNA), because large integer inputs like [0,255] in NNA can disrupt or slow down the learning process. Min-max normalization changes the range of pixel intensity values of an image [0,255] in an 8-bit RGB color space to the range between 0–1 for easy computation.
+
+Learning Data Preprocessing intuitively
+
+Perhaps applying normalization methods on a dataset may shed light on what happens to it; we could visualize the data points transformation to explain it more intuitively as well. So, let’s begin by loading a dataset from UCI Machine Learning Databases. This is a wine dataset that features three classes of wines identified as (1,2,3) in the first column. The data came from an analysis which determined the quantities of 13 constituents found in each of the three types of wines.
+
+df <- read.csv(“wine.data”, header=F) wine <- df[1:3] colnames(wine) <- c(‘type’,’alcohol’,’malic acid’) wine$type <- as.factor(wine$type)
+
+The wine data was read as a CSV file with no header using read.csv. Appropriate header names were given using the function colnames(). The wine types were also transformed into a factor using as.factor(). These steps are not necessary for normalization but are good general practice.
+
+We selected three attributes including the wine classes, and the two constituents labeled alcohol and malic acid which are measured in different scales. The former constituent is measured by Percent/Volume while the latter is by G/L. If we were to use the two attributes in a clustering algorithm, it would be clear to us that a method of normalization (scaling) is needed. We will first apply the Z-score normalization followed by the min-max method on the wine dataset.
+
+var(wine[,-1])
+
+std.wine <- as.data.frame(scale(wine[,-1])) #normalize using the Z-score method var(std.wine) #display the variance after the Z-score application
+
+mean(std.wine[,1]) #display the mean of the first attribute
+
+mean(std.wine[,2]) #display the mean of the second attribute
+
+We could see that alcohol and malic acid are standardized with variance of 1 and 0 mean.
+
+Note that the mean numbers were raised to the power of -16, -17 (e-16, e-17) respectively denoting a number close to zero.
+
+Next, we create min-max function that transforms the data points to a range of values between 0 and 1.
+
+min_max_wine <- as.data.frame(sapply(wine[,-1], function(x) { return((x- min(x,na.rm = F)) / (max(x,na.rm = F)-min(x,na.rm = F)))}))
+
+Plotting all the three different scales of the wine data points as below:
+
+plot(std.wine$alcohol,std.wine$`malic acid`,col = “dark red”,xlim=c(-5,20), ylim = c(-2,7),xlab=’Alcohol’,ylab=’Malic Acid’, grid(lwd=1, nx=10, ny=10)) par(new=T) plot(min_max_wine$alcohol,min_max_wine$`malic acid`,col=”dark blue”,xlim=c(-5,20),ylim=c(-2,7),xlab=’’, ylab=’’,axes = F) par(new=T) plot(wine$alcohol,wine$`malic acid`,col=”dark green”, xlim=c(-5,20),ylim = c(-2,7),xlab=’’, ylab=’’,axes = F) legend(-6,7.5, c(“std.wine”,”min_max_wine “,”input scale”), cex=0.75, bty=”n”, fill = c(“dark red”,”dark blue”,”dark green”))
+
+Three datasets; std.wine (red), min_max_wine (blue), and the original dataset (green) points
+
+As you could see, there are three data point sets; in the green set the measurement is in the original volume-percent, while the standardized attributes are in red where the data is centered around mean zero and variance of one, and the normalized min-max attributes range between 0–1.
+
+The three sets may seem different in shape, however, if you were to zoom in to each set using their new scale you would notice that, regardless of the overall shape size, the points are still located exactly in the same place relative to each other. These normalization methods have preserved the integrity of the data via scaling.

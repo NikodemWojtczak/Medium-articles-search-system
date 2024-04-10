@@ -1,0 +1,113 @@
+Due to keen interest in learning new topics, I decided to work on a project where a Latent Dirichlet Allocation (LDA) model can recommend Wikipedia articles based on a search phrase.
+
+This article explains my approach towards building the project in Python. Check out the project on GitHub below.
+
+Structure
+
+Photo by Ricardo Cruz on Unsplash
+
+I developed the complete project in Python using classes and did not use Jupyter notebooks like I usually do to understand about classes and how to develop general Python projects. The modules, WikipediaCrawler, Cleaner and Content are defined as classes inside the Modules folder. config file includes the configurations. collectData, generateLDA and evaluator are used to develop and run the model.
+
+Modules
+
+|- __init__.py
+
+|- WikipediaCrawler.py
+
+|- Cleaner.py
+
+|- Content.py config.yml
+
+collectData.py
+
+generateDLA.py
+
+evaluator.py sample_images
+
+|- recommendations.png .gitignore
+
+LICENSE
+
+Pipfile.lock
+
+README.md
+
+requirements.txt
+
+When you try to run the project, you can use either Pipfile.lock or requirements.txt to install all dependencies.
+
+Configuration
+
+Photo by Tim Mossholder on Unsplash
+
+It’s always a good practice to include any configurations for your project in a common file. While there isn’t much information in this project, I did define the paths for storing the database, LDA Model, dictionary and corpus inside config.yml file. I decided to keep all of these inside the data folder.
+
+The configuration file is based on YAML which is a commonly used data serialisation method in the industry to store human readable configurations. The pyyaml package is required to read YAML files in Python.
+
+Modules
+
+Photo by Louis Reed on Unsplash
+
+I developed and designed three modules (as classes) to be used for scraping data from Wikipedia, and working with the data.
+
+Wikipedia Crawler
+
+The class WikipediaCrawler let’s us crawl Wikipedia articles based on a certain category. On initialisation of this class, it creates a sqlite3 connect and then adds a table wikiData that stores the page id , category , url and content . The collect_data method uses the wptools package to extract the pages and store them in the table. wptools is a Python package that allows us to scrape Wikipedia articles based on a given category.
+
+I’ve added two additional methods, get_ids to fetch all page ids and get_urls to fetch all urls, if needed.
+
+Cleaner
+
+This module takes in document text and pre-processes that text. I just need to use the function clean_text as it calls all the other functions on our behalf and returns the final result. It does the following:
+
+Removes unnecessary new line characters
+
+Removes punctuation Removes numbers Removes stopwords (words that are too common and do not qualify for being good keywords for search) Applies lemmatization (converts each word to its lemma word like ran, running are converted to run)
+
+Content
+
+This module connects to sqlite3 database and helps us iterate over the pages and clean their content using Cleaner module. I added other methods to get the page and url by id.
+
+Application
+
+Photo by Jason Leung on Unsplash
+
+Once I had the modules set up, I began scraping for data, training the LDA model and recommending articles.
+
+Collect Data
+
+First, I run the file collectData.py which expects two arguments to begin extracting data from Wikipedia and storing it in the database.
+
+category: The category for which we want to develop the article recommender system depth: To what depth do we want to extract the webpages for a given category. For example, when browsing through an article when beginning with depth 2, it’ll go one step deeper (i.e. its related articles) with depth 1 but will end at the next depth as it will be 0.
+
+It creates the directory data if it does not exist. Using WikipediaCrawler , it extracts the pages and stores them to wikiData.db to be used by other files. On completion, it outputs the message: The database has been generated
+
+Generate LDA
+
+The next step is to use the database we created, build a LDA model from it and store it in the data folder.
+
+First, I read the database and create a dictionary. I remove all words that appear in less than 5 documents and that appear in more than 80% documents. I tried multiple values and concluded on these numbers by hit and trial. Then, using doc2bow , I create the bag of words which act as the list of keywords. Finally, I generated the LDA Model and saved the model, dictionary and corpus.
+
+Evaluator
+
+Finally, everything is ready. We invoke the evaluator.py and pass in a query string based on which we identify the keywords and list the top 10 articles that match the search criteria.
+
+I read the query and identify the keywords from it. Then, by invoking the get_similarity method, I calculated the similarity matrix and sort them in the decreasing order so the maximum similarity documents are at the top.
+
+Next, I iterate over these results and present the top 10 urls which represent the recommended articles.
+
+Real Example
+
+Use Case
+
+I created the database with depth 2 and category Machine Learning. It generated the file, wikiData.db . Next, using the generateLDA.py , I created the LDA model.
+
+Usage
+
+I used the search query as Machine learning applications and was recommended the articles as can be seen in the image below:
+
+Recommended articles for ‘Machine learning applications’
+
+Conclusion
+
+In this article, I went about how I developed a LDA model to recommend articles to users based on a search query. I worked with Python classes and devised a complete application.

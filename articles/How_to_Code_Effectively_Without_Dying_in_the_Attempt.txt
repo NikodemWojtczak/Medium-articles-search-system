@@ -1,0 +1,15 @@
+Programming for non-programmers
+
+How to Code Effectively Without Dying in the Attempt
+
+Image from Émile Perron available at Unsplash
+
+Coding might seem like an easy task. But coding effectively might not. Nowadays many programmers encounter multiple situations that have significant impacts on their work’s productiveness; some help them achieve their objectives in a faster and more efficient way while some others just contribute to stress them and stuck them on their tasks. Everyone has a different strategy to deal with those situations, either because they have been through them or because someone else has told them how to deal with them. Based on my colleagues’ and personal experiences, and looking forward in helping new and experienced programmers on their careers, I would like to share the following 5 advices I have compiled for coding effectively that have worked for me so far in my professional career. Hope you find them useful.
+
+1. Find a comfortable working space
+
+Most programming and coding jobs are flexible enough that allow to work from home, a common space, a library or even a coffee shop, without having to be at an office 8 hours per day 5 days per week. However, the working environment will always have a highly significant impact on your work productiveness. Find a place where you feel comfortable working at, away from distractions, noises and situations that can potentially slow your working pace. Identify the factors that make you more productive (e.g. a cup of coffee or tea, background music, illumination, amenities) and use them in your advantage. Think about it: there is a reason behind why Google and other companies’ working spaces are getting away from the traditional working cubicles. Since they are very aware of how stressful spending 8 hours per day coding in front of a computer can be, they are constantly looking for ways of making their employees feel comfortable at their facilities. There is no surprise on why they are considered as the best companies to work at.
+
+2. Use help resources when in doubt
+
+It is impossible to know the syntax of all the libraries and functions that exist out there. For that reason, there are plenty of documentation and help resources that…

@@ -1,0 +1,9 @@
+Let’s say you’re a professional sports gambler watching two teams playing against each other on a September day, the Sea Monsters vs the Iron Tanks. The Sea Monsters are 87–63 (.580 winning pct), while the Tanks have a 40–90 (.267 winning pct) record. On paper, it seems like you would put your money on the Sea Monsters to run over the Tanks, but there’s a catch. The Iron Tanks are invincible at home with a 37–3 (.940 winning pct) home record, and the Sea Monsters struggle on the road with a 20–40 (.333 winning pct) record. If you put money down on the Sea Monsters since you believe they’re the overall better team, how risky is your bet?
+
+The answer to this problem can be used with Bayes’ Theorem. Bayes’s Theorem is used to calculate conditional probabilities, meaning trying to predict an event given you know some underlying information. For this example, you can make a more informed decision about the outcome of the game due to the facts that you know each team’s likelihood of winning a game overall as well as the location of the game. In this article, I tackle these questions:
+
+Using the last 4 years of MLB data, how accurate of predictions can be made using Bayes’ Theorem When in the season you can safely determine that there is enough information for the predictions to be accurate. Is there a way to hedge what bets should be made and which ones should not? How does it compare to other machine learning algorithms?
+
+As always, you can view my code here: https://github.com/anchorP34/Bayesian-Baseball-Results
+
+You can view my Tableau Public dashboard here: https://public.tableau.com/profile/payton.soicher#!/vizhome/MLBBayesianAnalysis/Story1

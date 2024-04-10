@@ -1,0 +1,81 @@
+Photo by Katie Moum on Unsplash
+
+Credit-lending is more than 200 years old industry and is the banks’ primary responsibility. Throughout the years, it has been experiencing gradual improvements, but, with the rise of machine learning and big data, the whole process of lending money could radically change.
+
+The use of powerful algorithms like gradient boosting and neural networks has shown great potential for improving the efficiency, speed and accuracy of tasks performed by credit analysts. Also, the rise of numerous data generation sources (e.g. social media, mobile and web activity) has opened possibilities for unique ways to underwrite loans.
+
+However, unleashing the full potential of machine learning for credit lending still poses multiple challenges.
+
+I have decided to explore this topic in details by covering more than 50 research papers and ~20 business reports. The source of my research varies from papers published in NIPS and ICML (two of the biggest ML conferences) to McKinsey&Company reports. I have summarised my observations below.
+
+Impact of Machine Learning on Credit Risk Assessment
+
+Machine learning can benefit the credit lending industry in two ways: improve operational efficiency and make use of new data sources for predicting credit score.
+
+Improve Operational Efficiency
+
+In a recent keynote, Andrew Ng has wisely said:
+
+Automate tasks, not jobs.
+
+There exist tens of tasks involved in the process of determining creditworthiness (both corporate and consumer). Some of them can already be fully automated:
+
+Work with spreadsheets;
+
+Documents analysis;
+
+Phone calls;
+
+Gathering data from customers and corporations;
+
+For instance, ICDAR is a conference entirely dedicated to research in the area of document analysis and recognition. The best performing algorithms in 2019 have achieved an accuracy of over 95%, which is very close to a human-like performance.
+
+Make Use of New Data Sources for Predicting Credit Score
+
+The potential of ML algorithms is further unleashed when they are applied to data coming from alternative and unconventional sources. Based on underlying patterns in those thousands of data points, these algorithms can predict one’s credit score.
+
+Two fundamental conditions allow for the above to be practically applied:
+
+In today’s world, humans generate an enormous amount of data, both online and offline (through their various devices). The current ways of determining creditworthiness rely predominantly on the consumer’s credit history. However, many people from developing countries (China, India and Africa) have been underbanked their whole lives. But, most of them generate valuable data every day through their smartphone devices.
+
+The startup Branch has tapped into this opportunity by introducing a loan system for people in developing countries which relies on mobile data like SMS logs, contact lists, GPS etc.
+
+The second application of ML on the credit-lending industry will be the main focus of this article.
+
+The Most Effective ML Algorithms
+
+During my research, I came across a variety of algorithms used in different and unique ways. However, the best-performing ones are not necessarily the latest invented or most complex. Two of the reports I found have managed to compare the best performing models critically.
+
+The first report from 2018 compares six algorithms (3 of which are deep learning-based) to show that the deep learning-based algorithms do not perform any better than the rest. The conclusion is that a gradient boosting algorithm is most suitable for determining creditworthiness.
+
+On the other hand, another report from 2019 states that “advanced methods were found to perform extremely well on credit scoring data sets such as artificial neural networks”. A study was made on over 40 research papers, dated after 2009.
+
+Bottom Line
+
+The best performing classification algorithms on the credit scoring problem vary based on the specific dataset, features selection and more. However, the following tend to be preferred more than anything else:
+
+Support Vector Machines (SVM);
+
+Gradient Boosting;
+
+Tree-based algorithms (e.g. Random Forest);
+
+Deep Neural Networks (DNN);
+
+Interestingly, DNNs do not yield significantly better results which make us doubt their use. Due to regulatory constraints (see the section below), neural networks might turn out more challenging to put into practice compared to other ML algorithms.
+
+Challenges to Industry Adoption
+
+The main limitations of applying an ML algorithm to determine credit score are not related to the algorithm’s poor performance or lack of sophistication. Instead, the most significant hurdles are associated with everything outside of building this algorithm/model.
+
+Biased data — all supervised ML algorithms assume that the future would follow similar patterns as the past. The result in that models can make predictions based on underlying human characteristics unrelated to one’s ability to repay a loan, also called “bias against groups or classes of people”. Banks are looking for ways to battle this challenge through methods like “demographic blindness” (select uncorrelated set of features), “equal odds” (choose an equal number of true-positive and false-positive for each class) and more.
+
+— all supervised ML algorithms assume that the future would follow similar patterns as the past. The result in that models can make predictions based on underlying human characteristics unrelated to one’s ability to repay a loan, also called “bias against groups or classes of people”. Banks are looking for ways to battle this challenge through methods like “demographic blindness” (select uncorrelated set of features), “equal odds” (choose an equal number of true-positive and false-positive for each class) and more. Interpretability — machine learning algorithms are considered “black-box” due to the inability to understand the reasoning behind individual decisions. In 1974 Congress enacted “The Equal Credit Opportunity Act (ECOA)” which prohibits creditors from making decisions based on sensitive characteristics. Treating a model as a “black-box” does not comply with those regulations and may prevent quality and powerful algorithms from ever being used in practice.
+
+— machine learning algorithms are considered “black-box” due to the inability to understand the reasoning behind individual decisions. In 1974 Congress enacted “The Equal Credit Opportunity Act (ECOA)” which prohibits creditors from making decisions based on sensitive characteristics. Treating a model as a “black-box” does not comply with those regulations and may prevent quality and powerful algorithms from ever being used in practice. Regulations — in addition to ECOA, Congress has passed “The Fair Credit Reporting Act (FCRA)” which aims to maintain fairness in credit reporting and ensure consumer’s privacy by protecting or using certain information. However, it is considered very unlikely that deep learning algorithms which require thousands of data points comply with FCRA. Creditors which rely on big data to make decisions often circumvent these regulations by denying to reveal any model’s specifications, stating they are a “trade secret”. This is not a sustainable solution, and both businesses and researchers are exploring alternative options.
+
+— in addition to ECOA, Congress has passed “The Fair Credit Reporting Act (FCRA)” which aims to maintain fairness in credit reporting and ensure consumer’s privacy by protecting or using certain information. However, it is considered very unlikely that deep learning algorithms which require thousands of data points comply with FCRA. Creditors which rely on big data to make decisions often circumvent these regulations by denying to reveal any model’s specifications, stating they are a “trade secret”. This is not a sustainable solution, and both businesses and researchers are exploring alternative options. Scalability — once a model is proven to perform well and does not interfere with any regulatory requirements, the challenge of scaling it up needs to be overcome. Reducing training time, integrating the model into existing products and supplying a constant stream of data are just some of the problems every organisation faces before experiencing the full potential of ML.
+
+Resources
+
+Thank you for reading. Hope you enjoyed this article. ❤️

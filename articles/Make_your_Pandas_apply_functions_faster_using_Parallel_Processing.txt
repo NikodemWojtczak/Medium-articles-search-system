@@ -1,0 +1,33 @@
+Make your Pandas apply functions faster using Parallel Processing
+
+Super Panda
+
+Parallelization is awesome.
+
+We data scientists have got laptops with quad-core, octa-core, turbo-boost. We work with servers with even more cores and computing power.
+
+But do we really utilize the raw power we have at hand?
+
+Instead, we wait for time taking processes to finish. Sometimes for hours, when urgent deliverables are at hand.
+
+Can we do better? Can we get better?
+
+In this series of posts named ‘Python Shorts,’ I will explain some simple constructs provided by Python, some essential tips and some use cases I come up with regularly in my Data Science work.
+
+This post is about using the computing power we have at hand and applying it to the data structure we use most.
+
+Problem Statement
+
+We have got a huge pandas data frame, and we want to apply a complex function to it which takes a lot of time.
+
+For this post, I will use data from the Quora Insincere Question Classification on Kaggle, and we need to create some numerical features like length, the number of punctuations, etc. on it.
+
+The competition was a Kernel-based competition and the code needed to run in 2 hours. So every minute was essential, and there was too much time going in preprocessing.
+
+Can we use parallelization to get extra performance out of our code?
+
+Yes, we can.
+
+Parallelization using just a single function
+
+Can we make all our cores run?

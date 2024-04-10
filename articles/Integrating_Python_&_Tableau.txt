@@ -1,0 +1,25 @@
+Integrating Python & Tableau
+
+When performing in-depth analyses on large and unstructured datasets, the power of Python and relevant machine learning libraries cannot be overstated. Matplotlib serves as a great tool to help us visualize results, but it’s stylization options are not always optimal for use in presentations and dashboards. Sure, you can make it work, but visualization software like Tableau is much more suited to helping you tell your story.
+
+To illustrate this, consider a simple example from the King County Housing Dataset. In your exploratory analysis, you are likely to find that location is a strong predictor of price, but you want to know whether to use zip code or GPS coordinates as a predictor. By creating a scatter plot with latitude and longitude coordinates, creating a color map based on price, we can get a sense of where prices are highest.
+
+ax = housing_data.plot.scatter('long', 'lat',
+
+c = 'log_price',
+
+s = housing_data['log_price'],
+
+colormap = 'magma',
+
+figsize=(15, 10),
+
+title='Location-Price Map')
+
+ax.set(xlabel='Longitude', ylabel='Latitude')
+
+plt.show()
+
+Based on this, we get a sense that the relationship between latitude and longitude with price is somewhat parabolic, and from here, you can decide how you want to move forward with the analysis. However, if you wanted to give senior managers a clearer idea of where prices are highest, this visualization wouldn’t be ideal. Using Tableau, we can create something like this:
+
+Can something like this be created with libraries in Python? I would assume so, but software dedicated to data visualization can help you get those results with much more efficiency. What’s more, this software makes it easier to compare different styles with much greater…

@@ -1,0 +1,15 @@
+Whenever you are manipulating data, the very first thing you should do is investigating relevant statistical properties. In particular, you might be interested in knowing whether your data follow a known distribution.
+
+Why is this important? Think about the goal of your data analysis: once you are provided with a sample of observations, you want to compute some statistics (i.e. mean, standard deviation…) as well as build confidence intervals and conduct hypotheses tests. To do so, you need to assume your data to be following a known distribution, such as Normal, X-square or T-student.
+
+Unfortunately, most of the time your data are presented to you without having a known distribution, hence you don’t know the shape of their density function. Here Bootstrap sampling comes to aid: the aim of this technique is assessing stats and properties of a potential distribution without actually knowing its shape.
+
+How does it work? Imagine you are provided with a set of data (your population) and you get a sample of size n of them.
+
+Now, if you proceed with a re-sampling of your initial sample for B times (you can set B as large as you want. In general, it is set equal to or greater than 10000), you will generate B further samples, each with length n (with the possibility of one or more values to be repeated).
+
+Now, for each sample, you can compute the estimation of the parameter you are interested in. It will be a generic function of each sample T(x^1*) and we will refer to it as θ̂1*.
+
+Now, the idea is that, if we collect all the statistics we computed, we can generate an approximation of the probability function of our initial population. One standard choice for an approximating distribution is the empirical distribution function of the observed data.
+
+In statistics, an empirical distribution function is the distribution function associated with the empirical measure of a sample. It is a cumulative distribution which jumps…

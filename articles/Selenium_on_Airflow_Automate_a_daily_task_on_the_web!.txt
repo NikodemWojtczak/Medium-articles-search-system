@@ -1,0 +1,331 @@
+This post demonstrates how to build an Airflow plugin, which uses the Selenium WebDriver, to automate a daily online task.
+
+Photo by Jehyun Sung on Unsplash
+
+Automation offers a range of benefits
+
+Increased productivity.
+
+Greater quality.
+
+Removing the possibility of human error and reducing manual labour.
+
+Additional frequency and consistency (Working on the weekend!).
+
+If your daily task involves the web, then using Selenium on Airflow could potentially save hundreds of hours per year and improve the quality and consistency of your work.
+
+Introduction
+
+The goal of this post is to develop a plugin which utilises Selenium to automate a daily task on Airflow.
+
+Setting up the Airflow environment. Developing the Selenium plugin. Using the Selenium plugin within an Airflow DAG.
+
+If you’d like to skip ahead, all the code discussed in this post is available on my GitHub here.
+
+Below is a brief overview of topics and softwares covered:
+
+Selenium: In a nutshell, Selenium automates browsers. Primarily it is used to automate web applications for testing purposes, however it isn’t limited to that at all. A key component of selenium is the WebDriver, the WebDriver API sends commands directly to the browser. Example commands could be navigating to a webpage, filling out a form, or even downloading a file. The WebDriver used in this post will be the Selenium/standalone-chrome driver.
+
+Airflow: Airflow is a platform to programmatically author, schedule and monitor workflows. The key components of Airflow are the web server, scheduler, and workers. The web server refers to the Airflow user interface, while the scheduler executes your tasks on an array of workers as per predefined instructions.
+
+Finally, to use Selenium and Airflow together, the containerisation software docker is also required.
+
+Docker: Docker is a software which makes it easier to deploy and develop software via the use of containers. Containers allow a developer to package up an application with all of its requirements and also isolate the software from its environment to ensure it works in different development settings. A great feature of Docker is the compose tool which is used to define and run multi-container Docker applications.
+
+We will use Docker in the first instance to setup our Airflow environment and then to spin up an additional Selenium Container as part of our plugin.
+
+Setting up the Airflow Environment
+
+The base environment:
+
+As mentioned above, Docker will be used to set up the Airflow environment. To do this go to https://github.com/puckel/docker-airflow and download the docker-compose-CeleryExecutor.yml file. This is a docker-compose file created by a Github user named Puckel which allows you to quickly get up and running with Airflow. The compose file opts for the Celery executor which is necessary if you require tasks to run concurrently as it scales out the number of workers.
+
+There are some basic changes to make to the docker-compose file.
+
+Rename the compose file: docker-compose.yml.
+
+Uncomment the custom plugins volumes.
+
+- ./plugins:/usr/local/airflow/plugin
+
+To ensure that the Airflow containers have the correct permissions on the plugins and dags directory ensure that the directories exist on the host prior to running the compose.
+
+Test that the environment runs locally using the docker-compose up command, the UI should be available at http://localhost:8080.
+
+Modifying the environment to cater for the Selenium plugin
+
+Before completing the environment, it is necessary to briefly explain how the Selenium plugin will work as some of its functionality will directly impact setup. The plugin will be covered in greater detail later in the post.
+
+The plugin will execute the following steps:
+
+Start a Selenium docker container Configure the remote Selenium driver Send commands to the driver: This will result in a file downloaded from the internet. Remove the running container
+
+The steps above can be distilled into two categories:
+
+Using Docker from Airflow.
+
+Interacting with the remote container
+
+Using Docker from Airflow
+
+The Airflow worker needs to be able to create the Selenium container and subsequently send commands to execute the task. As explained very well by Jérôme Petazzoni in this post, it is bad practice to spin up a Docker container within another container, and not necessary so long as a container exists and is accessible. The easiest way to allow the worker to create containers is by exposing the host Docker socket to the worker by mounting it as a volume in the docker-compose file.
+
+worker:
+
+volumes:
+
+- /var/run/docker.sock:/var/run/docker.sock
+
+The Airflow worker still cant access the host Docker socket due to not having the correct permissions so these will have to be changed. This can be achieved by creating a new Dockerfile called ‘Dockerfile-airflow’ which extends the puckel/docker-airflow base image as follows:
+
+FROM puckel/docker-airflow:1.10.4 USER root
+
+RUN groupadd --gid 999 docker \
+
+&& usermod -aG docker airflow
+
+USER airflow
+
+The Dockerfile first calls the puckel/docker-airflow base image
+
+As the root user, creates the docker user group with the id 999 and adds the airflow user to the group.
+
+Sets the airflow user.
+
+It is imperative that the docker group id (999) must be the same on both the worker and the host. To find out the host docker group id use the following command:
+
+grep 'docker' /etc/group
+
+Create the new docker image:
+
+docker build -t docker_airflow -f Dockerfile-selenium .
+
+The next thing to do is change the airflow image name in the Docker-compose file, from puckel/docker-airflow:latest to docker_airflow:latest . This means the compose file will use the newly created image.
+
+The Airflow worker can now create Docker containers on the host, however still requires the Docker python package. Additional installations can also be handled in the Dockerfile. The installations below are necessary for the Selenium plugin and DAG.
+
+RUN pip install docker && \
+
+pip install selenium && \
+
+pip install bs4 && \
+
+pip install lxml && \
+
+pip install boto3
+
+To start a Selenium container with the plugin the image must already exist on the host machine:
+
+docker pull selenium/standalone-chrome
+
+Finally, for the worker container to send commands to the new Selenium container, they will both need to be on the same Docker network. Both containers will be on the external network: ‘container_bridge’ which is created with the following command:
+
+docker network create container_bridge
+
+The container bridge network also needs to be added to the compose file.
+
+worker:
+
+networks:
+
+- default
+
+- container_bridge networks:
+
+default:
+
+container_bridge:
+
+NB It is important to note that the above method for exposing the host docker sock to the worker container and setting permissions will only work in a linux environment, to configure a dev environment for MacOS please refer to these two brilliant articles:
+
+Interacting with the remote container
+
+The Selenium plugin sends commands to the docker container via the remote driver, which it connects to over the container_bridge network. The Selenium commands will be added to the environment as a mounted volume in the home directory: {AIRFLOW_USER_HOME}
+
+volumes:
+
+# Selenium scripts
+
+- ./selenium_scripts:/usr/local/airflow/selenium_scripts
+
+The commands will come from a custom Python module (selenium_scripts) which needs to be in the Python Path. This can be done in the Airflow Dockerfile.
+
+ENV PYTHONPATH=$PYTHONPATH:${AIRFLOW_USER_HOME}
+
+The last change to the Airflow environment is to enable the Selenium container and Airflow workers to share files and content. This is required when downloading content from the internet with Selenium and can be achieved with an external named volume.
+
+docker volume create downloads
+
+The ‘downloads’ volume needs to be added to docker-compose file:
+
+worker:
+
+volumes:
+
+- downloads:/usr/local/airflow/downloads volumes:
+
+downloads:
+
+external: true
+
+When Docker volumes are created on containers, without the corresponding directories already pre-existing, they are created by the root user, which means that the container user won’t have write privileges. The simplest way to circumvent this is to create the directories as the container user during the initial build.
+
+For the Airflow Dockerfile add the line:
+
+RUN mkdir downloads
+
+A new Dockerfile will have to be created for the Selenium container, this will be called Dockerfile-selenium.
+
+FROM selenium/standalone-chrome RUN mkdir /home/seluser/downloads
+
+Build both new images:
+
+docker build -t docker_selenium -f Dockerfile-selenium . docker build -t docker_airflow -f Dockerfile-airflow .
+
+The environment is now complete, the complete environments are below:
+
+Airflow Dockerfile:
+
+Selenium Dockerfile:
+
+Docker-compose:
+
+The Selenium Plugin
+
+A great feature of Airflow is the plugins, plugins are an easy way to extend the existing feature set of Airflow. To integrate a new plugin with the existing airflow environment, simply move the plugin files into the plugins folder.
+
+The Selenium plugin will work as follows:
+
+Start the Selenium Docker container in the host environment. Configure the remote Selenium WebDriver on the docker container. Send commands to the WebDriver to fulfil the task. Stop and remove the container.
+
+This method has been used over using the standalone Docker operator as it provides greater control and facilitates easier debugging.
+
+The Selenium plugin will contain a Hook and Operator, Hooks handle external connections and make up the building blocks of an Operator. The operator will execute our task. The plugin folder structure is as follows:
+
+.
+
+├── README.md
+
+├── __init__.py
+
+├── hooks
+
+│ ├── __init__.py
+
+│ └── Selenium_hook.py
+
+└── operators
+
+├── __init__.py
+
+└── Selenium_operator.py
+
+To create a plugin, you need to derive the AirflowPlugin class and reference the objects you want to plug into Airflow, we do this in the __init__.py file:
+
+The Selenium Hook
+
+The Selenium hook inherits from the BaseHook module, which is the base class for all hooks. The hook consists of several methods to start, stop and send commands to a Selenium container.
+
+Creating the Container: The hook makes use of the Python Docker library to send commands to the host Docker socket and creates the Selenium container on the host. The external named volume (Downloads) is mounted on the local downloads directory which will be configured as the browser default downloads location. To enable interaction with the worker, the container_bridge network is also included.
+
+Configuring the driver: Once the create_container method has been executed, the next step is to configure and connect to the driver so it meets the task requirements.
+
+Since the Selenium container is on the container_bridge network, the WebDriver can be found on the network IP at the following location: <network IP>:4444/wd/hub . The driver can be connected to using the WebDriver remote.
+
+The first step in configuring the driver is to use the Options class to enable the driver to run in headless mode and to set the window size to ensure the page content loads correctly. Headless mode essentially means that the driver doesn’t have a user interface.
+
+options = Options()
+
+options.add_argument("--headless")
+
+options.add_argument("--window-size=1920x1080")
+
+The second step is to enable the browser to download in headless mode. This is done by sending a post request to the driver which fixes the download behaviour.
+
+driver.command_executor._commands["send_command"] = (
+
+"POST", '/session/$sessionId/chromium/send_command')
+
+params = {'cmd': 'Page.setDownloadBehaviour',
+
+'params': {'behavior': 'allow',
+
+'downloadPath': <DOWNLOADS>}}
+
+driver.execute("send_command", params)
+
+Executing a task: To keep the plugin as task agnostic as possible the Selenium commands have been abstracted to a separate python module to be imported at run time in the DAG. The one condition on each script is that they are imported as functions and the first argument is the driver. This will be covered in more detail later.
+
+Removing the container: Once the task is complete the container can be removed.
+
+The Selenium Operator
+
+As mentioned above, Airflow hooks are the building blocks for operators. The operator below uses the Selenium hook and Airflow’s execution context to run a Selenium task.
+
+All Airflow operators must inherit the BaseOperator class, this class creates objects that become nodes in the DAG. A great feature of the Airflow operator is the ability to define template fields; these are Jinjafied fields that can accept Airflow macros when executed. The airflow_args variable is a template_field which means they can be set dynamically using macros at runtime.
+
+Using the Selenium Plugin within an Airflow DAG
+
+Since the Airflow environment and Selenium plugin are now complete, the next step is to bring it all together in the form of an Airflow DAG. An Airflow DAG runs a collection of tasks is a predefined way.
+
+The example DAG below is designed to download the daily podcast: Wake up to Money from the BBC and upload the mp3 file to S3 for later consumption. Wake Up to Money is an early morning financial radio programme on BBC Radio 5 Live with new episodes every weekday at 5am.
+
+The Selenium script:
+
+The Wake up to Money script uses the Selenium WebDriver to navigate to the url: https://www.bbc.co.uk/programmes/b0070lr5/episodes/downloads and download the latest episode.
+
+Once the page has been rendered by the browser, Beautiful soup is used to parse the html for the download link. Calling the driver.get method on the download link starts the download, which is polled to completion. Once downloaded, the file is renamed so it is easy to keep track of between tasks.
+
+As mentioned in the plugin section, the Selenium scripts need to be an executable function with the driver set as the first argument.
+
+Once complete, ensure that the Selenium scripts are in the folder which was mounted on the Airflow environment and added to the Python path in the previous steps.
+
+The DAG
+
+As mentioned above a DAG is a collection of tasks, the first step in creating a DAG, is describing how those tasks will run. The arguments used when creating a DAG object do just that.
+
+Since the podcast airs every weekday at 5am, the DAG schedule_interval will be set to pick up each episode at 7am. It’s not that easy to set an Airflow chron expression to run only on weekdays so instead the DAG will run every day and a branch operator will be used to set the task based on the day of the week.
+
+The DAG schedule is now defined, the next step is to add the tasks. The DAG tasks are:
+
+Start: Starts the DAG
+
+Starts the DAG Weekday Branch: Determines which branch of the DAG to follow depending on whether the execution day is a weekday or not.
+
+Determines which branch of the DAG to follow depending on whether the execution day is a weekday or not. Get Podcast: Downloads the podcast.
+
+Downloads the podcast. Upload Podcast to S3: Uploads the podcast to S3.
+
+Uploads the podcast to S3. Remove local Podcast: Removes the local copy of the podcast.
+
+Removes the local copy of the podcast. End: Ends the DAG.
+
+The Start and End tasks make use of the Airflow DummyOperator, they don’t do anything but a useful when grouping tasks.
+
+The Selenium plugin will be used in the download podcast task. The SeleniumOperator will execute the download_podcast function which is imported from at from the Selenium scripts module at runtime. Once the podcast is downloaded it will be saved under the new name: episode_{{ds_nodash}}.mp3 , but since the filename is a templated field, this will be rendered at runtime. e.g. On the 2019–10–13 the file name will be episode_20191013.mp3 .
+
+The Weekday Branch task, splits the DAG into two branches based on whether the execution day is a weekday or weekend. The Branch task uses the Airflow Python Branch Operator to set the next task based on the output of the weekday_branch function.
+
+If the execution day is a weekday, the next task to be run by the DAG is the get_podcast task, if the execution day is a weekend, the next task to run is end.
+
+The last two tasks are: Upload podcast to S3 and Remove local podcast. These both use the PythonOperator which is extended to ‘Jinjafy’ the arguments. This is necessary to keep track of the podcast file name, as per the Selenium operator.
+
+The S3 function will require an S3 connection with the name: S3_conn_id.
+
+Finally the last step is to define the task order, note how the weekday_branch task precedes both the get_podcast and end task.
+
+start >> weekday_branch
+
+weekday_branch >> get_podcast
+
+get_podcast >> upload_podcast_to_s3
+
+upload_podcast_to_s3 >> remove_local_podcast
+
+remove_local_podcast >> end
+
+weekday_branch >> end
+
+I hope you enjoyed this post; if you have any questions or suggestions, or even ideas for future posts, let me know in the comments section and I’ll do my best to get back to you.
+
+Please checkout my other Airflow posts:

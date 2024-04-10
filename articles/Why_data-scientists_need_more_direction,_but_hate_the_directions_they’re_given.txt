@@ -1,0 +1,49 @@
+Photo by Maksym Kaharlytskyi on Unsplash
+
+Everyone knows that beneath the hype, data-scientists struggle in their jobs. Hang around for a few beers after some kind of data-science meetup, and you’ll hear no end to the rants: Data-scientists are frequently hired to be pets and playthings for aspirational executives with little need for their services, or even worse, some kind of ‘sharks-with-lasers’ super-weapon in an internal analytics turf-war.
+
+The results are predictable. Companies spend a lot of money on projects that don’t produce any results, or not the results they wanted, and data-scientists get frustrated in their jobs, and spend hours every week looking for a better one.
+
+Even if there are good intentions, abounding data and potential business opportunities, there are a few powerful side-winds that risk pushing a project off the rails. Perhaps number one is the difficulty of setting the directions for the data-scientist, or data-science team, and how easily this can lock-in failure from the outset. To uncover a bit about how that can go wrong, it’s first worth asking who actually decides what the data-scientists do sprint-to-sprint.
+
+So who should set the direction?
+
+Option 1: The business buffoon
+
+Photo by Rob Schreckhise on Unsplash
+
+This is actually the closest to the correct answer. The person who owns the problem should own the solution. But it rarely feels like it. The gulf in technical understanding and language is sometimes enormous, and treacherous to cross. How do you get adequate direction to run a project from an exec who has a data-vocabulary stops begins and ends with a single word they only vaguely understand (‘correlation’…I’ve come to loathe this word), and who wiggles their fingers in front of you to describe the kind of patterns they expect the ‘algorithm’ to find.
+
+Yes, we know it needs to be ‘cost effective’ and ‘reliable’ and ‘deployable’, and look for ‘increased efficiencies’, and has to be ‘commercially viable’, with ‘maximum accuracy’ and ‘high-confidence’, whilst ‘continually learning and improving itself’. Yeah, thanks, and I’ll have a gluten-free, kosher, double-bacon cheese-burger with half-calories while you’re at it.
+
+Once when seeking more specific direction on a predictive maintenance program where there were no definitive labels in existence for targeted modes of failure, a senior person in the project replied: “We’re looking for frequent low-impact events, and rare high-impact events.” and sat back with a “you’ve got your marching orders, why are you in here bothering me and not following them” kinda look. You have to swallow the obvious reply: “I think what you’d really like are the high-frequency, and high-impact events. You’re just assuming they probably don’t exist, so you’ve just told me to search the entirety of the remaining possibility space. Thanks, if I need nothing, I’ll call you.”
+
+Impasses like this are abounding. The exec gives a direction. The data-scientist gawps, looks at their feet, tries to somehow push back, or ask some other question, or explain why they need some more specifics. The cycle repeats, and soon enough the exec feels like the data-scientist is not listening to them, or is challenging their authority or intelligence. And the data-scientist feels like the exec is a bully, an idiot, or both.
+
+Option 2: The data-geek
+
+Photo by Erik-Jan Leusink on Unsplash
+
+These guys know their trade, we should let them set the directions right? Wrong. Data-scientist will have plenty of ideas about how to find interesting insights in the data. The problem is over-abundance. There’ll be millions of possible insights and promising leads to follow, or new features or data-transformations that would enhance results. On their own, they’ll never find the right ones to help the business.
+
+Give a data-scientist carte-blanche to do what they want with the data for a few weeks, you’ll give them a few weeks of paradise before condemning them to hell. They’ll come back bright-eyed and bushy-tailed with thousands of lines of code, a few promising models, and plenty of plots to present their findings. Only to find that the insight they’ve extracted, with cunning and genius, was completely obvious to someone else in the business.
+
+“Yeah, we already know that happens, it’s because of this mundane thing that’s recorded in some other data-system we didn’t give you access too.”
+
+The number of reasons why something could be incredibly interesting and promising from a data-scientist perspective, but turn out entirely useless in the end from a business perspective is infinite. And they always look obvious in hindsight. Whilst we’d like to give advice and have it heard, ultimately we want someone from the business to own the direction, because we’re all fed up with wearing the blame for the direction we take being wrong.
+
+Option 3: The entire séance-circle of hopeful onlookers
+
+Photo by Judith Prins on Unsplash
+
+This option is the worst by miles, but it seems to winds up being surprisingly common, because of the difficulty of the previous two.
+
+Along with the data-scientists and the business sponsors, there’s generally a bunch of other people in the room. Subject matter experts, end-users, IT people, someone from finance, some kind of project-manager, and often other observers and hangers-on. And somehow, they actually believe that if they all come to a meeting, and are able to voice their little contribution or suggestion, then that little spirit of data-science magic will somehow enter the model (or whatever the data-science team is up to) next sprint, and we’ll all get exactly the outcomes we’d been hoping for.
+
+Of course, there’s nothing wrong with having a big group involved to provide advice and guidance. But that doesn’t lessen the importance of having a single person take responsibility for determining, and owning the final direction.
+
+If you don’t have a single owner, the inevitable result is that everyone tries to agree politely, and sound constructive. Tensions and contradictions are always swept under the carpet. Someone mentions aiming for a ‘quick win’, or ‘failing fast’ and everyone nods and agrees very wisely. ‘No need to spend too much time to cover-off this angle.’ The discussion progresses, and more issues get raised. Missing data. Imputation methods. A possible confounding variable that needs to be controlled for. A time-scale or binning increment which will have to be chosen. Some interpretability requirement for a user. At every turn the most thorough and smart-sounding treatment gets the warmest support. “Oh yes… well of course… we’ll have to do that.” We’re all very wise right?
+
+Then what on earth was all the failing-fast bullshit all about?!!
+
+Generally when the meeting is over nothing has actually been decided, but everyone (except the data-scientists) think that we’re all on the same page, and that should be enough for the data-scientists to continue working with.

@@ -1,0 +1,109 @@
+Heavy content warning: almost everything I talk about is disturbing.
+
+—
+
+George Kendall stood in front of a group of men holding long, German-style handguns pointed at his chest. He probably wore a long white linen shirt tucked into his breeches and embellished his neck with a fine lace cravat. At the signal, his executioners would shove glowing hot wires into their 16-inch iron barrels, thus discharging the gunpowder inside of their heavy weapons. Kendall, a man of wealth and influence in the new colony of Virginia, was guilty of mutiny and spying for the Spanish royalty. He would be the first person to be executed in the area that is now the United States using Western execution methods.
+
+Despite numerous studies across various states that demonstrate how carrying out the death penalty is more expensive than a “life without parole” sentence, Hammurabi-style vengeance still reigns in the North American superpower. I wanted to know how we got to where we are, where we started, and what capital punishment looks like today.
+
+Please note my limitations and blind spots: I am not a capital punishment expert, nor am I at all qualified to write about the racial overtones of this subject in the country I was born in. As a data scientist and masters-level economist by training, I have experience in research. I am qualified to look at data and derive insights. I started my search using publicly-available data sets (see references). After mining these for insights, I sought out other historical and journalistic sources to understand the patterns I saw. I learned a thing or two.
+
+Execution fashions, capital punishment fads
+
+Since the nascent English colonial government of Virginia shot George Kendall with a firing squad in 1608, the methods by which the state “carried out” death sentences has not so much evolved, but been subject to fashion trends that lasted decades or centuries at a time.
+
+Data sources: [1] and [2]
+
+Along with the punishment from England came methods. Some of these methods are actually medieval. One of the earliest colonial execution methods imported from England was “Gibbetting,” or to “hang in chains,” where a person was put into a sort of custom metal suit, sometimes still alive, and then displayed for everyone to see and smell. It was so gruesome, the English posited, that it must deter crime (it didn’t!).
+
+The Gibbet. You get the idea.
+
+The worst sentences were not evenly dealt. Even George Kendall, the first executed Virginian, was spared the noose around his cravat because of his social standing (hanging was for more “lowly” folk). Death by hanging was notoriously gruesome — if it was botched (which it was fairly often), a person could be hanging and dying for tens of minutes. What kind of treatment, then, could diaspora from Africa expect in a land where they were seen as less than human?
+
+The area that is presently the United States had colonial settlements from European nations other than England. France had a settlement on the Mississippi river in present-day Louisiana. The French brought over an execution method called “breaking on the wheel,” and it was an absolutely awful way to die that I won’t even describe (read at your own risk). The French Louisiana government did it 11 times, which is 92% of the share of wheel-breaking death penalties in the present-day US (New York executed a white man on the wheel in 1712).
+
+Source [5]
+
+What’s worse, 100% of the horrible wheel-breaking executions in Louisiana were exacted on enslaved African diaspora from 1730 to 1748 even though the enslaved people were probably only 65% of the population at that time and there were exactly zero white executions during the same period in the same area. It’s clear that execution and, more specifically, the wheel-breaking method, was a special way for a cruel society to “deter” crime regarding its “property.”
+
+The wheel-breaking method had a brief and final resurgence in 1754 at the start of the French and Indian War, when three unnamed three white people were passed the sentence. They must have done something very bad to warrant that method in Louisiana.
+
+Data source [2]
+
+Unfortunately, this wasn’t the only method that seemed made special for African-Americans. Twenty-nine individuals, some unnamed in the records or with one name (like Jack, 1825, executed on a certainly hot August day in 1825 or Monk, who was killed by the state on February 9, 1791) were put to death by “burning,” which needs no further detail because the word speaks for itself. This seems to have set the tone for execution in the now United States.
+
+These methods that seem a little gruesome even by modern standards, and they went mostly out of vogue by the founding of the new United States. Other methods that are more familiar to us today had more staying power. Hanging was consistently the most popular method for hundreds of years until another more seemingly “painless” method came along.
+
+It’s said that Dr. Southwick came up with the idea of execution by electrocution when he saw a person experiencing homelessness touch an electric generator. Southwick watched the man drop to the ground. The doctor deemed it a “painless” death by his superb powers of third party pain observation, and thus the newest form of American execution was born from a strolling dentist in Buffalo, New York (yes, Dr. Southwick was a dentist kind of doctor).
+
+The electric chair was not the humane execution miracle that Thomas Edison touted. He promoted it as he toured the US by shocking stray animals to death in front of crowds that came to see him (yes, he did this). This punishment that sounds like it’s from a bad horror movie in 1975 — criminals unlucky enough to have this sentence were known to catch fire, give off charred flesh smells as they died, and often took more than the “easy two jolts” that were supposed to kill them quickly.
+
+The electric chair that Ted Bundy was executed in in the state of Florida.
+
+The last and most common execution method to come into fashion is the lethal injection, first used in 1977 Oklahoma. A series of chemicals are injected into the condemned until they die, which was, in theory, supposed to kill them painlessly in five minutes. Unfortunately, some botched executions have taken up to two hours, mixing up the drug order has caused some condemned criminals to feel excruciating pain but be paralyzed so they are unable to express that something went wrong (which sounds like a 2018 horror movie). What’s worse, the people administering these injections are not medically trained, thus making them more likely to make such mistakes. Doctors cannot carry out the death sentence — it would go against a doctor’s Hippocratic oath to harm a person in such a way.
+
+The seemingly asinine nature of the lethal injection from the lens of the American spectator juxtaposed with the horrific reality of its pain and cruelty probably gave Sonia Sotomayor existential pause. As she wrote in Arthur v. Dunn, of the lethal injection:
+
+“States have designed lethal-injection protocols with a view toward protecting their own dignity, but they should not be permitted to shield the true horror of executions from official and public view.”
+
+Though the lethal injection seems to feel like the only type of capital punishment that will persist so long as capital punishment continues, the drugs necessary for the sentence can be hard to get. This has led states such as Virginia, Alabama, and Tennessee to pass laws allowing executions by the electric chair due to issues with lethal injection drugs.
+
+Then there was the tried and true firing squad, which was the method of the first execution in the colonial US and remains the only method that is still in use today (Ronnie Lee Gardner is the most recent one, in 2010). The firing squad, being the same method as the first Virginia execution, can have an archaic feel. But as we have learned from horror of botching and general administration of the lethal injection, we must ask ourselves: is it the cruelty of the punishment to the condemned or to the spectator that we care about in the 14th Amendment? As Justice Sonia Sotomayor also argued in Arthur v. Dunn,
+
+“ In addition to being near instant, death by shooting may also be comparatively painless.… And historically, the firing squad has yielded significantly fewer botched executions.”
+
+Five thirty eight seems to agree.
+
+The peaks and troughs of death
+
+The story of the death penalty in the United States is one of ebb, flow, dissolution, and re-institution. Though the death penalty was an import from England, its application and end did not follow suit. England executed 89% fewer people than the United States in the first half of the 20th century (1900–1949) when they both had capital punishment. What’s more, England abolished the death penalty in the 1960s and it stuck. The abolition of the death penalty in the modern United States only lasted ten years.
+
+In the US, executions peaked in 1935 with 197 state-sanctioned deaths. If not for World War II and the horrific discovery of the Holocaust, 1935 might have just been another smaller peak on an ever-increasing trend of state-sanctioned death over a growing population. In 1948, the United Nations came together to forge a new morality — a “right to life.” Though most nations in the world did not fulfill high hope of this decree (eliminating the death penalty worldwide), it did serve as a turning point in the US. Executions sharply fell following WWII, marking a moral shift in the view toward killing individuals as a form of acceptable punishment.
+
+Data: [1] and [2]
+
+This fall in opinion regarding capital punishment aligned with an ideological shift in the 1967 Supreme Court with the 5–4 ruling of Furman v. Georgia. After this ruling, the US no longer passed the death sentence.
+
+In Furman, William Henry Furman, a Black man, shot and killed his victim through a door when attempting to break and enter a home. The justices’ opinions in the case highlight how the execution of racial and economically oppressed individuals violated the Constitution — the 14th Amendment protects citizens from “cruel and unusual punishments.” Justice Douglas explained:
+
+“…we know that the discretion of judges and juries in imposing the death penalty enables the penalty to be selectively applied, feeding prejudices against the accused if he is poor and despised, and lacking political clout, or if he is a member of a suspect or unpopular minority, saving those who by social position may be in a more protected position.”
+
+It is appropriate that Furman and all of the lesser-known men that were included on his suit were Black; it is the awareness of the racially uneven application of the death penalty that has put execution under scrutiny for fairness. In a broad sense, the question of the death penalty in modern times is a question of race. In 1986, a man named McCleskey’s prosecution demonstrated to the Supreme Court how the death penalty was passed disproportionately to African Americans in the state of Georgia in an empirical study called the Baldus Study. After an analysis of over 2,000 homicide cases which controlled for over 200 variables in the state of Georgia, the study reported that 11% of Black people who killed white people were passed the death penalty, whereas only 1% of white people killing Black people were passed the same sentence. The majority opinion of the highest court didn’t exactly disagree with the study, they just found that
+
+“…the Baldus study “fail[ed] to contribute anything of value” to McCleskey’s claim.”
+
+The 5–4 decision was not made among appointed party lines. Two of the three democratically-appointed justices (the white ones) concurred with the majority opinion. Three of the four dissenting opinions were appointed by Republican presidents.
+
+Sources for data: [1] (top) and [4] (bottom)
+
+After the death penalty became active again in 1977, its climb began again in earnest, as did the climb in approval ratings for the death penalty, which hit an all-time high of 80% in 1994. But at the turn of the century, something happened that would send it decreasing yet again. In the late 1980’s and early 1990’s, DNA evidence became a revolutionary tool of objectivity in courts across the country. With the emergence of CODIS (Combined DNA Index System), the country’s first national database with DNA information, convicted felons who were wrongfully convicted had a real chance at release and being absolved of their crimes for the first time. This combined with a changing tide of public opinion and shifting law allowed for innocent people to be freed from death row. Starting in 1973, a slew of exonerations began that would grow to 166 into the modern day, many aided by DNA technology.
+
+Amid growing concern over executing innocent people, the National Conference on Wrongful Convictions was held near Chicago for the first time in 1998. One year later, executions hit a peak for the last time in modern history.
+
+The South is the place for the death penalty and Texas leads the way
+
+Ever since the year 1608, the South has been the home of execution. When English settlers began to occupy and expand into land on what we now call North America, they began by displacing native peoples first in the area that we call Virginia (named aptly for England’s “Virgin Queen,” Elizabeth I). Virginia is a Southern state, so it follows that colonial-era executions took place largely in the South until the 18th century. It also follows that the South would lead what we now call the “West” and the “Midwest,” which were not yet occupied, stolen, colonized, bought, or a mix of all of these until the 19th century.
+
+Data: [2]
+
+This pattern continues into the modern day, however. In the past 20 years, 7 out of the 10 states with the most executions were located in the South. There are likely many reasons for this. From a strictly statistical perspective, it the South remains the most common place to be executed because every single Southern state still has the execution in place as of 2019, whereas many Northern and Western states have either declared it unconstitutional or have a governor-imposed moratorium on the sentence. As for why the South hasn’t outlawed the death penalty, my guess is values and beliefs around capital punishment that are regionally-grounded.
+
+Data: [1]
+
+If we had to isolate one state, Texas is clearly the driver of the entire country’s execution rate since the death penalty was reinstated in 1977 until about 2004. Not only do they execute far more individuals than any other state, they tend to execute their criminals quickly.
+
+There are a few reasons why Texas leads the way in capital punishment. First, They do not have a public defender system. This means that people who cannot afford lawyers are given court-appointed ones which may have no experience in these types of cases. Secondly, Texas has a law passed in 1995 that speeds up the process between conviction and execution. Third, Texas’ appellate judges are elected officials that more closely follow the politics of the region, meaning that they might run “tough on crime” campaigns more often and have to live up to those promises in a way that appointed judges do not.
+
+Data: [1] and [2]
+
+There is also speculation that the Texas capital punishment system is efficient in a way that other states can achieve in the future. It is not, this opinion posits, that Texas passes out more death sentences, it is just that they are better at carrying them out.
+
+In sum
+
+We have come a long way in changing the ways that we execute people with humane methods in theory, but the common method is not the most humane. The actual most “humane” method (if that is possible) currently in practice might just be the very first: the firing squad. I am far from the first person to say this and it has been discussed openly in the Supreme Court.
+
+The number of people executed in the United States has largely declined over the past century, but we still live in a system where capital punishment has been unevenly dealt since colonial times. Capital punishment remains in place despite costing the states at hand more money to kill criminals than to keep them alive, and the number of people executed in a given place (largely the South, even more largely Texas) seems to be culturally driven. The question of the death penalty largely appears to be a question of race.
+
+Given the immense knowledge that we have regarding how painful even modern execution methods can be, the large taxpayer expense of carrying out the death sentence, and the absence of capital punishment in progressive nations, I find it surprising that the United States executes criminals.
+
+References:

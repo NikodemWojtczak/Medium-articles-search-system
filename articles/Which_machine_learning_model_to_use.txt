@@ -1,0 +1,25 @@
+Taking machine learning courses and reading articles about it doesn’t necessarily tell you which machine learning model to use. They just give you an intuition on how these models work which may leave you in the hassle of choosing the suitable model for your problem.
+
+At the beginning of my journey with ML, on solving a problem, I would try many ML models and use what works best, and I still do that now but I follow some best practices — on how to choose a machine learning model — that I learned from experience, intuition and colleagues, these best practices make things easier, here is what I had collected.
+
+I’ll tell you which machine learning model to use according to the nature of your problem, and I’ll try to explain some concepts.
+
+Classification
+
+First, if you have a classification problem “which is predicting the class of a given input”.
+
+Keep in mind how many classes you’ll classify your inputs to, as some of the classifiers don’t support multiclass prediction, they only support 2 class prediction.
+
+- Slow but accurate
+
+Non-linear SVM Look at the NOTE at the end of classification’s section for more information about the use of SVM.
+
+at the end of classification’s section for more information about the use of SVM. Random Forest
+
+Neural Network (needs a lot of data points)
+
+Gradient Boosting Tree (similar to Random Forest, but easier to overfit)
+
+- Fast
+
+NOTE: SVM kernel uses (From Andrew NG’s course)

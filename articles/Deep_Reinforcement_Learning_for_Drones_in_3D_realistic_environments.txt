@@ -1,0 +1,79 @@
+Step 2 — Running DRLwithTL-Sim code:
+
+Once you have the required packages and software downloaded and running, you can take the following steps to run the code
+
+Create/Download a simulated environment
+
+You can either manually create your environment using Unreal Engine or can download one of the sample environments from the link below and run it.
+
+Download Environments
+
+Following environments are available for download at the link above
+
+Indoor Long Environment
+
+Indoor Twist Environment
+
+Indoor VanLeer Environment
+
+Indoor Techno Environment
+
+Indoor Pyramid Environment
+
+Indoor FrogEyes Environment
+
+The link above will help you download the packaged version of the environment for 64-bit windows. Run the executable file (.exe) to start the environment. If you are having trouble with running the environment, make sure your settings.json file in Documents/AirSim has been configured properly. You can try using the keys F, M, and backslash to change the camera view in the environment. Also, keys 1,2,3, and 0 can be used to look at FPV, segmentation map, depth map, and toggle sub-window views.
+
+Edit the configuration file (Optional)
+
+The RL parameters for the DRL simulation can be set using the provided config file and are explained in the last section.
+
+cd DRLwithTL\configs
+
+notepad config.cfg (# for Windows)
+
+Run the Python code
+
+The DRL code can be started using the following command
+
+cd DRLwithTL
+
+python main.py
+
+Running main.py carries out the following steps
+
+Attempt to load the config file Attempt to connect with the Unreal Engine (the indoor_long environment must be running for python to connect with the environment, otherwise connection refused warning will appear — The code won’t proceed unless a connection is established) Attempt to create two instances of the DNN (Double DQN is being used) and initialize them with the selected weights. Attempt to initialize Pygame screen for user interface Start the DRL algorithm
+
+At this point, the drone can be seen moving around in the environment collecting data-points. The block diagram below shows the DRL algorithm used.
+
+Block diagram of DRL Training and associated segments
+
+Viewing learning parameters using tensorboard
+
+During simulation, RL parameters such as epsilon, learning rate, average Q values, loss, and return can be viewed on the tensorboard. The path of the tensorboard log files depends on the env_type, env_name, and train_type set in the config file and is given by
+
+models/trained/<env_type>/<env_name>/Imagenet/ # Generic path
+
+models/trained/Indoor/indoor_long/Imagenet/ # Example path
+
+Once identified where the log files are stored, the following command can be used on the terminal to activate tensorboard.
+
+cd models/trained/Indoor/indoor_long/Imagenet/
+
+tensorboard --logdir <train_type> # Generic
+
+tensorboard --logdir e2e # Example
+
+The terminal will display the local URL that can be opened up on any browser, and the tensorboard display will appear plotting the DRL parameters on run-time.
+
+Run-time controls using PyGame screen
+
+DRL is notorious to be data-hungry. For complex tasks such as drone autonomous navigation in a realistically looking environment using the front camera only, the simulation can take hours of training (typically from 8 to 12 hours on a GTX1080 GPU) before the DRL can converge. In the middle of the simulation, if you feel that you need to change a few DRL parameters, you can do that by using the PyGame screen that appears during your simulation. This can be done using the following steps
+
+Change the config file to reflect the modifications (for example decrease the learning rate) and save it. Select the Pygame screen, and hit ‘backspace’. This will pause the simulation. Hit the ‘L’ key. This will load the updated parameters and will print it on the terminal. Hit the ‘backspace’ key to resume the simulation.
+
+Right now the simulation only updates the learning rate. Other variables can be updated too by editing the aux_function.py file for the module check_user_input at the following lines.
+
+Editing check_user_input module to update other parameters too
+
+cfg variable at line 187 has all the updated parameters, you only need to assign it to the corresponding variable and return the value for it to be activated.

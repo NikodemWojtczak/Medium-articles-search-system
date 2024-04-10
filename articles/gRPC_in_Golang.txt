@@ -1,0 +1,29 @@
+gRPC in Golang
+
+For a long period of time, REST API has dominated the web programming world until gRPC came and disrupted the industry. There are numerous posts online discussing the advantages of gRPC and comparing it with REST, so I am not going to make redundant comments on this point. My understanding is that gRPC inherits the functionality of REST and extended it with faster, lighter and more flexible service. In this post, let’s take a glance of gRPC and implement a simple service using Golang.
+
+Prerequisites
+
+Install Go: https://golang.org/doc/install
+
+Install protoc : gRPC uses protobuf to communicate, in order to generate relevant files, you will need to install protoc :
+
+brew install protobuf // For MacOS
+
+install protoc-gen-go : as we use go in this post, you will need the go-support for protobuf
+
+go get -u github.com/golang/protobuf/protoc-gen-go
+
+install grpc : the grpc package for go
+
+go get -u google.golang.org/grpc
+
+(Note: make sure your GOPATH is correctly set up so that your packages and project will be under GOPATH/src )
+
+gRPC Overview
+
+Comparing to traditional REST API, where the client communicates with the server by specifying a bunch of constraints, like sending to a specific url — localhost/api/v1/hello , localhost/api/v1/doSomething and specifying what kind of operations like PUT, POST, GET, … I think gRPC in a way abstracts the idea and defines the communication by simply calling functions in which messages are defined in protobuf format.
+
+With gRPC, client can directly call a function in the server, as you will see later, they actually share the same protobuf file. And a huge advantage from the image above is that server and client written in different languages can communicate with each other easily all based on that they share one protobuf file.
+
+If you are a bit confused so far about gRPC and protobuf, let’s continue and implement a service and see how protobuf plays the role in the communication. In this post, we are going to implement a simple unary service, that is sending a request and…

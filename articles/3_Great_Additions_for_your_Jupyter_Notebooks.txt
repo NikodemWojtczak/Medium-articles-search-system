@@ -1,0 +1,35 @@
+3 Great Additions for your Jupyter Notebooks
+
+I love Jupyter notebooks and the power they provide.
+
+They can be used to present findings as well as share code in the most effective manner which was not easy with the previous IDEs.
+
+Yet there is something still amiss.
+
+There are a few functionalities I aspire in my text editor which don’t come by default in Jupyter.
+
+But fret not. Just like everything in Python, Jupyter too has third-party extensions.
+
+This post is about some of the most useful extensions I found.
+
+1. Collapsible Headings
+
+The one extension, I like most is collapsible headings.
+
+It makes the flow of the notebook easier to comprehend and also helps in creating presentable notebooks.
+
+To get this one, install the jupyter_contrib_nbextensions package with this command on the terminal window:
+
+conda install -c conda-forge jupyter_contrib_nbextensions
+
+Once the package is installed, we can start jupyter notebook using:
+
+jupyter notebook
+
+Once you go to the home page of your jupyter notebook, you can see that a new tab for NBExtensions is created.
+
+And we can get a lot of extensions using this package.
+
+This is how it looks:
+
+2. Automatic Imports

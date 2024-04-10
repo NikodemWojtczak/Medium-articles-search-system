@@ -1,0 +1,53 @@
+Understanding bias in AI starts with understanding its sources and identifying which of those can be countered with tech, and which cannot. Bias, as in “a model not representing the input data or ground truth accurately enough”, is a machine learning problem. Bias, as in “a model reflecting undue prejudice in its predictions” is not simply a machine learning problem. To quote Kate Crawford,
+
+“Structural bias is a social issue first and a technical issue second.”
+
+It is foolhardy to think we can counter existing prejudices in our social structures through tech alone. In fact we can make it worse, and often we do.
+
+Data is a big source of bias in machine learning and gets significant attention in mass media. We’ve all heard the “Garbage-in Garbage-out” slogan by now. But biased data is only part of the story. Bias can seep into a machine’s intelligence from other sources too; all the way from how AI researchers (read humans) frame the problem to how they train the model to how the system gets deployed. Even with unbiased data, the very process by which some machine learning models achieve accuracy can result in biased outcomes.
+
+Let us draw. (Bear with me for a moment, you’ll see why). Grab a sheet of paper and sprinkle some dots/points on it. Now draw a line through this random distribution of points. More points spread widely apart more squiggly the line. Now add a few more points. Your line no longer fits all points! By now you realise that your line cannot possibly fit all points without loss of generality for future, so you settle for “let me do the best I can”. You draw a line that is as close as possible to as many points as possible. You love math, so you represent your line by an equation (or function), and represent this “as close as possible” calculation by another function. Congratulations, you got yourself a machine learning model! Well, orders of magnitude simpler than real ones, but you get the idea.
+
+Optimal Line vs Squiggly Line (Image: pythonmachinelearning.pro)
+
+Trying to fit a mathematical function to a random distribution of data points by minimising a “loss function” often mimics the proverb “squeaky wheel gets the grease”. A loss function is the “as close as possible” calculation for all points represented by its opposite — how far the line is from a point it was trying to represent. Thus, by minimising it you successfully get as close as possible to as many points as possible. But there is a side effect. Those with the loudest representation get the least loss. Where representation can imply “amount of data for a group” as well as the “features” used by the model to understand that group. Machine learning algorithms understand data through patterns, relying upon “features” identified by the human behind it or by discovering them. In both approaches, the “features” that dominate the data become the algorithm’s north star. The minority, the ones with features too unique to create a strong enough signal to be picked up by the model will get ignored in the decision making process. Using this model to make decisions for all results in unfair outcomes for some.
+
+Consider an example. A Facial Emotion Recognition model trained on faces from across the world. Assume we have sufficient diversity in terms of age, gender, race, ethnicity etc. We all intuitively know that the intensity with which we express emotions is also correlated with other qualitative factors. The size of my smile is correlated with what is culturally appropriate for me, how deeply I relate to the trigger, how I feel about my teeth, how often I was criticised for laughing too loudly, my mental state in that moment and so on. What happens then if we use this model to assess how happy students are in a classroom? (no prize for guessing why someone would want to do that!) Can a mathematical function represent all possible intensities of happiness basis these considerations using visible and measurable are features like size of smile, volume of laughter, how wide the eyes open? AI researchers might say it can. I’m not convinced yet.
+
+So bias has multiple sources and many forms. A simple framework to understand them is presented in Harini Suresh’s blog. I summarise her 5 sources of bias: Historical bias *already* exists in the data while Representation bias and Measurement bias are a result of how the dataset is created. Evaluation and Aggregation biases are a result of the choices made while building the model.
+
+The choice of labels, choice of model, features selected, what gets parameterised or optimised, are some of the choices being made by the developers of AI, ie humans, and therefore at-risk of encapsulating human biases and blind spots.
+
+What is the way out of bias then? Research into de-biasing techniques, adjustments for imbalances in data, etc are already in progress (see this talk for more). But this comes in after Dataset biases have been identified. This requires a rigorous audit, along the lines proposed by Timnit Gebru et al. in their paper “Data-sheets for Datasets”. Data-sheets similar to those found in electronics industry and chemical safety norms can help identify biases early but beyond dataset bias, an interdisciplinary effort is required. Involving a domain expert, building diverse and interdisciplinary teams are key to identifying biases early.
+
+While identifying biases is good and attempting to remove them via technology a noble goal, it does not suffice.
+
+Accountability and Remediability
+
+Algorithms are being deployed in decision making systems across every facet of human life — how we view ourselves, who we interact with; how we get hired, who gets fired; what we buy, what we can buy; where we live, how we commute, what news we read, all the way to who gets policed and who doesn’t. Algorithms can yield unfair and discriminatory outcomes. Put two and two together; the need to hold algorithmic systems accountable cannot be understated.
+
+Accountability promotes trust. It enables a path to justice, to identify and remedy unfair or discriminatory outcomes.
+
+Accountability may be achieved by human audits, impact assessments or via governance through policy or regulation. Tech companies generally prefer self-regulation, but even they now recognise the need for external intervention. Governance through “human-in-the-loop”, where certain decisions identified as high-risk require vetting by a human, have also been proposed as a model for accountability.
+
+But what happens once damage is done? Do affected parties have an opportunity, a path, to rectifying the negative effects? Do they have recourse to due compensation? Can they even identify the harms caused?! So far, I have not seen any in-use algorithmic system define a clear process for remediation though the WEF identifies redressal as a pillar of Responsible AI. But kudos to investigative journalism and research groups like ProPublica, Algorithmic Justice League and AI Now Institute for tirelessly identifying systems that are unfair or discriminatory and pushing for accountability and action. In some cases such unfair systems have been withdrawn or modified. But in many others, technology companies continue to dismiss concerns or believe their responsibility ends with providing usage guidelines”.
+
+Transparency, Interpretability and Explainability
+
+A lot of the ethical concerns around AI stem from its inherent “black box” behavior. This is partly because companies do not want to share the “secret sauce” that makes their model click, and partly because so much of the learning in machine learning is locked in large complex math operations. But when decisions lead to harm, a fair independent investigation requires ascertaining the facts. But who determines what level of facts are sufficient? Is it enough to know that a decision caused a harm? Do we need to understand how that decision was made and by whom? These questions form the various angles of exploration of transparency of machine learning systems.
+
+Algorithms “learn” from input data over multiple “layers” (multiple math operations); progressively adjusting “weights” (the a and b in ax+b) to move closer and closer to the patterns in the data. So far transparency was limited for there was no easy way to *interpret* layer by layer what is being “learnt” or to *explain* how all that learning leads to the final decision. Thankfully this is changing as transparency becomes a research focus.
+
+What is a neural network looking for and how is it attributing what it sees? (Image: Building Blocks of Interpretability by Olah et al — I highly recommend playing with this interactive paper!)
+
+Interpretability research is largely focused on opening up the black box. Explainability research is largely focused on understanding the decision.
+
+Some researchers say only outputs of an algorithm need be defensible while others say this is insufficient or too risky. Some believe algorithms should explain themselves. While few dismiss explainability and its need from a transparency perspective entirely. In my opinion, for all things fair and just, context will matter in determining how interpretable or explainable or transparent an algorithmic system needs to be; and some sort of external regulation or agreed upon standard will have to determine and enforce this.
+
+Transparency of a different kind also needs mention here. Organisational transparency. How open are tech companies to publishing their AI research, their motives and goals with AI, how they use AI in their products, what metrics do they use to track its performance etc; all of these matter.
+
+Zooming out, until the next trip
+
+Building AI is hard. Understanding its interplay with society harder. So many stories, so much research, such nuance. I have barely scratched the surface but I hope it is enough to raise awareness and spark reflection.
+
+References & Additional Reading

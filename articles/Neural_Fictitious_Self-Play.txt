@@ -1,0 +1,23 @@
+Update: The best way of learning and practicing Reinforcement Learning is by going to http://rl-lab.com
+
+Introduction
+
+This article is based on a scientific paper by Heinrich & Silver that introduces the first scalable end-to-end approach to learning approximate Nash equilibria without prior domain knowledge.
+
+Important Reminders
+
+Fictitious Play: is an iterative method that finds Nash Equilibrium in Two Player Zero Sum game. Its problem is that it applies to Normal Form Games which are tabular and do not capture time or sequence. Details can be found in the article “Introduction to Fictitious Play”.
+
+Fictitious Self Play: is a method that fixes the problem of the Fictitious Play by integrating time/sequence by using Extensive Form Game. It also uses Reinforcement Learning to find an approximation of the best response and Supervised Learning to update the average strategy. It is proven that it can converge to a Nash Equilibrium. More details in the article “Fictitious Self Play”
+
+Imperfect Information Games
+
+In imperfect information, players are simply unaware of the actions chosen by other players. However they know who the other players are, what their possible strategies/actions are, and the preferences/payoffs of these other players. Hence, information about the other players in imperfect information is complete.
+
+On the other hand incomplete information games, players may or may not know some information about the other players, e.g. their “type”, their strategies, payoffs and their preferences.
+
+Chess is an example of a game with perfect information as each player can see all the pieces on the board at all times. Other examples of games with perfect information include tic-tac-toe, checkers, infinite chess, and Go.
+
+Card games where each player’s cards are hidden from other players such as poker and bridge are examples of games with imperfect information.
+
+Reservoir Sampling

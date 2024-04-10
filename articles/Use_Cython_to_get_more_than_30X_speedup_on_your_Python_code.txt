@@ -1,0 +1,37 @@
+Cython will give your Python code super-car speed
+
+Want to be inspired? Come join my Super Quotes newsletter. 😎
+
+Python is a community favourite programming language! It’s by far one of the easiest to use as code is written in an intuitive, human-readable way.
+
+Yet you’ll often hear the same complaint about Python over and over again, especially from the C code gurus out there: Python is slow.
+
+And they’re not wrong.
+
+Relative to many other programming languages, Python is slow. Benchmark game has some solid benchmarks for comparing the speed of various programming languages on different tasks.
+
+There’s a couple of different ways to speed things up that I’ve written about before:
+
+(1) Use multi-processing libraries to use all the CPU cores
+
+(2) If you’re using Numpy, Pandas, or Scikit-Learn, use Rapids to accelerate the processing on GPU.
+
+Those are great if what you’re doing can, in fact, be parallelized, such as data pre-processing or matrix operations.
+
+But what if your code is pure Python? What if you have a big for-loop that you just have to use and can’t put into a matrix because the data has to be processed in sequence? Is there a way to speedup Python itself?
+
+That’s where Cython comes in to speed up our raw Python code.
+
+What is Cython?
+
+At its core, Cython is an intermediate step between Python and C/C++. It allows you to write pure Python code with some minor modifications, which is then translated directly into C code.
+
+The only adjustment you make to your Python code is adding type information to every variable. Normally, we might declare a variable in Python like this:
+
+x = 0.5
+
+With Cython, we’re going to add a type to that variable:
+
+cdef float x = 0.5
+
+This tells Cython that our variable is floating point, just like we would do in C. With pure Python, the variable’s type is determined on the fly. The explicit declaration of the type in Cython is what makes the conversion to C possible, since explicit type declarations are required+.

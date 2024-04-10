@@ -1,0 +1,87 @@
+Should we drink MORE to live longer?
+
+Correlation & Causation — How Alcohol Affects Life Expectancy
+
+We hear this sentence over and over again as beginner statisticians and data scientists. But what does that actually mean? This small analysis uncovers this topic with the help of R, and simple regressions, focusing on how alcohol impacts health.
+
+Dionysus’ Dilemma
+
+There are numerous studies done on the health effects of alcohol and how it can change the life span of people. Just by typing “alcohol life expectancy study” into Google, we end up with around 11,000,000 results. Some may claim that moderate drinking can actually be beneficial to our health, while most studies suggest that Even one drink a day linked to lower life expectancy.
+
+This analysis examines the pattern of association between alcohol consumption and the average life expectancy of various countries, explaining the possible correlations and offers insight into why these correlations might be present.
+
+My initial hypothesis is that countries with higher life expectancy also consume more alcohol. This might sound controversial at first, but it is probably due to other factors like higher quality of life, and only the byproduct of it is access to alcoholic beverages.
+
+The Ingredients
+
+3 datasets were used for this task:
+
+Drinks.csv: number of alcohol servings per capita per year for 15 years of age or older (for beer, wine, and spirit) across various countries
+
+LifeExpectancy.csv: life expectancy and other health factors across various countries
+
+CountriesOfTheWorld.xlsx: geographical and socio-economic data across various countries.
+
+Mixing up the Drinks
+
+The drinks data contains servings of beer, wine, and spirit for 193 countries. These figures are stored as characters, so we can convert them into numeric data types.
+
+Missing values appear as question marks within the dataset, symbols which we shall replace with NA values.
+
+We need a way to aggregate the servings in a meaningful way: French people might consume more wine, while Germans might drink more beer, according to well-known stereotypes. Nevertheless, we need a way to compare these countries on a similar scale.
+
+I wrote a function that calculates the total litres of pure alcohol for each country, using the following formula:
+
+total_litres_of_pure_alcohol = beer_servings ∗ (12 ∗ 0.0295 ∗ 0.05) + wine_servings ∗ (5 ∗ 0.0295 ∗ 0.1) + spirit_servings ∗ (1.5 ∗ 0.0295 ∗ 0.4)
+
+We end up with the following table:
+
+Table 1: Drinks dataset
+
+Expectations in Life
+
+The life_exp data has various measures on health (life expectancy at birth, at age 60 and healthy life expectancy), showing data gender-wise and combined, spanning from 1990 to 2013.
+
+I focus on life expectancy at birth for both sexes in 2012 and joined the drinks data by country.
+
+Carrying out a simple correlation test between life expectancy and alcohol consumption, we can see a result of 0.521.
+
+This signals a moderately high correlation, suggesting that countries with higher alcohol consumption also have a higher life expectancy. We will further investigate this phenomenon.
+
+We are the World
+
+The countries data is a bit messier than the other two. It is stored as a .xlsx file. We skipped the first 3 nonimportant lines on sheet 1 during import. The (now) first line contains the headers, and some part of it is left in the second line as well.
+
+Table 2: Countries dataset
+
+I combined the first and second lines into a single header, cleaned column names (from spaces, dots, etc.) and converted the necessary columns to a numeric type. Finally, I merged the geographical and socio-economic data with the previous dataset.
+
+Correlation and Causation
+
+Let’s have a quick look at how different factors are correlated with life expectancy:
+
+Figure 1: Correlations of numeric features
+
+As discussed before, alcohol consumption (combined and serving-separated) has a relatively positive correlation with life expectancy. Infant mortality and death rate are of course negatively correlated (the more/quicker people die, the more it will lower the average).
+
+Figure 2: Highest positive and negative correlations
+
+The number of phones, literacy, and GDP per capita is also very highly correlated with people living longer. This leads to my assumption in the beginning: better educated, richer, technology-equipped countries have a higher life expectancy. These circumstances provide the availability of alcoholic beverages for citizens, and they consume more of them than poorer countries without that level of access.
+
+We can see the correlations by each region to prove that claim:
+
+Figure 3: Alcohol on Life Expectancy
+
+The hypothesis seems to be right indeed. More developed regions such as Europe, the Americas and the Western Pacific (Australia, New Zealand, etc.) seem to have a positive relationship according to the loess regression. On the other hand, less developed regions like Africa and Eastern Mediterranean tend to consume less alcohol due to economic/cultural/religious reasons, and their life expectancy is not affected by the magnitude of drink intake.
+
+If we look at the log GDP per capita regressed on life expectancy, it shows the clearest picture:
+
+Figure 4: GDP on Life Expectancy
+
+Summary
+
+We could see at first how alcohol consumption is correlated with life expectancy, and why it is dangerous to immediately jump to conclusions. After further inspections, we discovered that it is developed countries that have the highest life expectancy and they also tend to consume more alcohol, but one does not necessarily imply the other. This is why it is very dangerous in implying causation from correlation!
+
+Afterword
+
+This project was done as a requirement for the Mastering the Process of Data Science course at Central European University in Hungary. The R code along with the datasets can be found in my ceu_life-expectancy repository on GitHub.

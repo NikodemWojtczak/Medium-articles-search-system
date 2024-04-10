@@ -1,0 +1,137 @@
+Can Congress Help Keep AI Fair for Consumers?
+
+How do firms ensure that AI systems are not having a disparate impact on vulnerable communities, and what safeguards should regulators and Congress put in place to protect consumers? To what extent should companies be required to audit these algorithms so that they don’t unfairly discriminate? Who should determine the standards for that? We need to ensure that AI does not create biases in lending toward discrimination.
+
+Two new House Task Forces to regulate fintech and AI
+
+These aren’t questions from an academic discourse or the editorial pages. These were posed to the witnesses of a June 26 hearing before the US House Committee on Financial Services [1] — by both Democrats and Republicans, representatives of Illinois, North Carolina, and Arkansas.
+
+It is a bipartisan sentiment that, left unchecked, AI can pose a risk to fairness in financial services. While the exact extent of this danger might be debated, governments in the US and abroad acknowledge the necessity and assert the right to regulate financial institutions for this purpose.
+
+The June 26 hearing was the first wake-up call for financial services: they need to be prepared to respond and comply with future legislation requiring transparency and fairness.
+
+In this post, we review the notable events of this hearing, and we explore how the US House is beginning to examine the risks and benefits of AI in financial services.
+
+Two new House Task Forces to regulate fintech and AI
+
+On May 9 of this year, the chairwoman of the US House Committee on Financial Services, Congresswoman Maxine Waters (D-CA), announced the creation of two task forces [2]: one on fintech, and one on AI.
+
+Generally, task forces convene to investigate a specific issue that might require a change in policy. These investigations may involve hearings that call forth experts to inform the task force.
+
+These two task forces overlap in jurisdiction, but the committee’s objectives implied some distinctions:
+
+The fintech task force should have a nearer-term focus on applications (e.g. underwriting, payments, immediate regulation).
+
+The AI task force should have a longer-term focus on risks (e.g. fraud, job automation, digital identification).
+
+And explicitly, Chairwoman Waters explained her overall interest in regulation:
+
+Make sure that responsible innovation is encouraged, and that regulators and the law are adapting to the changing landscape to best protect consumers, investors, and small businesses.
+
+The appointed chairman of the Task Force on AI, Congressman Bill Foster (D-IL), extolled AI’s potential in a similar statement, but also cautioned,
+
+It is crucial that the application of AI to financial services contributes to an economy that is fair for all Americans.
+
+This first hearing did find ample AI applications in financial services. But it also concluded that these worried sentiments are neither misrepresentative of their constituents nor misplaced.
+
+From left to right: Maxine Waters (D-CA), Chairwoman of the US House Committee on Financial Services; Bill Foster (D-IL), Chairman of the Task Force on AI; French Hill (R-AR), Ranking Member on the Task Force on AI
+
+Risks of AI
+
+In a humorous exchange later in the hearing, Congresswoman Sylvia Garcia (D-TX) asks a witness, Dr. Bonnie Buchanan of the University of Surrey, to address the average American and explain AI in 25 words or less. It does not go well.
+
+DR. BUCHANAN
+
+I would say it’s a group of technologies and processes that can look at determining general pattern recognition, universal approximation of relationships, and trying to detect patterns from noisy data or sensory perception. REP. GARCIA
+
+I think that probably confused them more. DR. BUCHANAN
+
+Oh, sorry.
+
+Beyond making jokes, Congresswoman Garcia has a point. AI is extraordinarily complex. Not only that, to many Americans it can be threatening. As Garcia later expresses, “I think there’s an idea that all these robots are going to take over all the jobs, and everybody’s going to get into our information.”
+
+In his opening statement, task force ranking member Congressman French Hill (R-AR) tries to preempt at least the first concern. He cites a World Economic Forum study [3] that the 75 million jobs lost because of AI will be more than offset by 130 million new jobs. But Americans are still anxious about AI development.
+
+In a June 2018 survey of 2,000 Americans [4] conducted by Oxford’s Center for the Governance of AI, researchers observed
+
+overwhelming support for careful management of robots and/or AI (82% support)
+
+more trust in tech companies than in the US government to manage AI in the interest of the public
+
+mixed support for developing high-level machine intelligence (defined as “when machines are able to perform almost all tasks that are economically relevant today better than the median human today”)
+
+This public apprehension about AI development is mirrored by concerns from the task force and experts. Personal privacy is mentioned nine times throughout the hearing, notably in Congressman Anthony Gonzalez’s (R-OH) broad question on “balancing innovation with empowering consumers with their data,” which the panel does not quite adequately address.
+
+But more often, the witnesses discuss fairness and how AI models could discriminate unnoticed. Most notably, Dr. Nicol Turner-Lee, a fellow at the the Brookings Institution, suggests implementing guardrails to prevent biased training data from “replicat[ing] and amplify[ing] stereotypes historically prescribed to people of color and other vulnerable populations.”
+
+And she’s not alone. A separate April 2019 Brookings report [5] seconds this concern of an unfairness “whereby algorithms deny credit or increase interest rates using a host of variables that are fundamentally driven by historical discriminatory factors that remain embedded in society.”
+
+So if we’re so worried, why bother introducing the Pandora’s box of AI to financial services at all?
+
+Benefits of AI
+
+AI’s potential benefits, according to Congressman Hill, are to “gather enormous amounts of data, detect abnormalities, and solve complex problems.” In financial services, this means actually fairer and more accurate models for fraud, insurance, and underwriting. This can simultaneously improve bank profitability and extend services to the previously underbanked.
+
+Both Hill and Foster cite a National Bureau of Economic Research working paper [6] finding where in one case, algorithmic lending models discriminate 40% less than face-to-face lenders. Furthermore, Dr. Douglas Merrill, CEO of ZestFinance and expert witness, claims that customers using his company’s AI tools experience higher approval rates for credit cards, auto loans, and personal loans, each with no increase in defaults.
+
+Moreover, Hill frames his statement with an important point about how AI could reshape the industry: this advancement will work “for both disruptive innovators and for our incumbent financial players.” At first this might seem counterintuitive.
+
+“Disruptive innovators,” more agile and hindered less by legacy processes, can have an advantage in implementing new technology. [7] But without the immense budgets and customer bases of “incumbent financial players,” how can these disruptors succeed? And will incumbents, stuck in old ways, ever adopt AI?
+
+Mr. Jesse McWaters, financial innovation lead at the World Economic Forum and the final expert witness, addresses this apparent paradox, discussing what will “redraw the map of what we consider the financial sector.” Third-party AI service providers — from traditional banks to small fintech companies — can “help smaller community banks remain digitally relevant to their customers” and “enable financial institutions to leapfrog forward.”
+
+Enabling competitive markets, especially in concentrated industries like financial services, is an unadulterated benefit according to free market enthusiasts in Congress. However, “redrawing the map” in this manner makes the financial sector larger and more complex. Congress will have to develop policy responding to not only more complex models, but also a more complex financial system.
+
+This system poses risks both to corporations, acting in the interest of shareholders, and to the government, acting in the interest of consumers.
+
+Business and government look at risks
+
+Businesses are already acting to avert potential losses from AI model failure and system complexity. A June 2019 Gartner report [8] predicts that 75% of large organizations will hire AI behavioral forensic experts to reduce brand and reputation risk by 2023.
+
+However, governments recognize that business-led initiatives, if motivated to protect company brand and profits, may only go so far. For a government to protect consumers, investors, and small businesses (the relevant parties according to Chairwoman Waters), a gap may still remain.
+
+As governments explore how to fill this gap, they are establishing principles that will underpin future guidance and regulation. The themes are consistent across governing bodies:
+
+AI systems need to be trustworthy.
+
+They therefore require some government guidance or regulation from government representing the people.
+
+This guidance should encourage fairness, privacy, and transparency.
+
+In the US, President Donald Trump signed an executive order [9] in February 2019 “to Maintain American Leadership in Artificial Intelligence,” directing federal agencies to, among other goals, “ foster public trust in AI systems by establishing guidance for AI development and use. “ The Republican White House and Democratic House of Representatives seem to clash at every turn, but they align here.
+
+The EU is also establishing a regulatory framework for ensuring trustworthy AI. Likewise included among the seven requirements in their latest communication from April 2019 [10]: privacy, transparency, and fairness.
+
+And June’s G20 summit [11] drew upon similar ideas to create their own set of principles, including fairness and transparency, but also adding explainability.
+
+These governing bodies are in a fact-finding stage, establishing principles and learning what they are up against before guiding policy. In the words of Chairman Foster, the task force must understand “how this technology will shape the questions that policymakers will have to grapple with in the coming years.”
+
+An hour before Congresswoman Garcia’s amusing challenge, Dr. Buchanan reflected upon a couple common themes of concern.
+
+Policymakers need to be concerned about the explainability of artificial intelligence models. And we should avoid black-box modeling where humans cannot determine the underlying process or outcomes of the machine learning or deep learning algorithms.
+
+But through this statement, she suggests a solution: make these AI models explainable. If humans can indeed understand the inputs, process, and outputs of a model, we can trust our AI. Then throughout AI applications in financial services, we can promote fairness for all Americans.
+
+Sources
+
+[1] United States House Committee of Financial Services. “Perspectives on Artificial Intelligence: Where We Are and the Next Frontier in Financial Services.” https://financialservices.house.gov/calendar/eventsingle.aspx?EventID=403824. Accessed July 18, 2019.
+
+[2] United States House Committee of Financial Services. “Waters Announces Committee Task Forces on Financial Technology and Artificial Intelligence.” https://financialservices.house.gov/news/documentsingle.aspx?DocumentID=403738. Accessed July 18, 2019.
+
+[3] Leopold, Till Alexander, Vesselina Ratcheva, and Saadia Zahidi. “The Future of Jobs Report 2018.” World Economic Forum. http://www3.weforum.org/docs/WEF_Future_of_Jobs_2018.pdf
+
+[4] Zhang, Baobao and Allan Dafoe. “Artificial Intelligence: American Attitudes and Trends.” Oxford, UK: Center for the Governance of AI, Future of Humanity Institute, University of Oxford, 2019. https://ssrn.com/abstract=3312874
+
+[5] Klein, Aaron. “Credit Denial in the Age of AI.” Brookings Institution. April 11, 2019. https://www.brookings.edu/research/credit-denial-in-the-age-of-ai/
+
+[6] Bartlett, Robert, Adair Morse, Richard Stanton, Nancy Wallace, “Consumer-Lending Discrimination in the FinTech Era.” National Bureau of Economic Research, June 2019. https://www.nber.org/papers/w25943
+
+[7] Snyder, Scott. “How Banks Can Keep Up with Digital Disruptors.” Philadelphia, PA: The Wharton School of the University of Pennsylvania, 2017. https://knowledge.wharton.upenn.edu/article/banking-and-fintech/
+
+[8] “Gartner Predicts 75% of Large Organizations Will Hire AI Behavior Forensic Experts to Reduce Brand and Reputation Risk by 2023.” Gartner. June 6, 2019. https://www.gartner.com/en/newsroom/press-releases/2019-06-06-gartner-predicts-75-of-large-organizations-will-hire
+
+[9] United States, Executive Office of the President [Donald Trump]. Executive order 13859: Executive Order on Maintaining American Leadership in Artificial Intelligence. February 11, 2019. https://www.whitehouse.gov/presidential-actions/executive-order-maintaining-american-leadership-artificial-intelligence/
+
+[10] “Building Trust in Human-Centric Artificial Intelligence.” European Commission. April 8, 2019. https://ec.europa.eu/futurium/en/ai-alliance-consultation/guidelines#Top
+
+[11] “G20 Ministerial Statement on Trade and Digital Economy.” June 9, 2019. http://trade.ec.europa.eu/doclib/press/index.cfm?id=2027

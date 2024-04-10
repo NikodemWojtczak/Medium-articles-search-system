@@ -1,0 +1,17 @@
+The Complete Reinforcement Learning Dictionary
+
+Read this on Medium without being a Medium member using this Friends Link!
+
+Whenever I begin learning a subject which is new to me, I find the hardest thing to cope with is its new terminology. Every field have many terms and definitions which are completely obscure to an outsider, and can make a newcomer’s first step quite difficult.
+
+When I made my first step into the world or Reinforcement Learning, I was quite overwhelmed by the new terms which popped-up every other line, and it always surprised me how behind those complex words stood quite simple and logical ideas. I therefore decided to write them all down in my own words, so I’ll always be able to look them up in case I forget. This is how this dictionary came to be.
+
+This is not an introduction post to Reinforcement Learning, rather it’s a supplementary tool to assist while studying. If you do look to start your path in this field too, I can recommend the following:
+
+I will do my best to try and keep on updating this dictionary. Feel free to let me know if I’ve missed anything important or got something wrong.
+
+The Dictionary
+
+Action-Value Function: See Q-Value.
+
+Actions: Actions are the Agent’s methods which allow it to interact and change its environment, and thus transfer between states. Every action performed by the Agent yields a reward from the environment. The decision of which action to choose is made by the policy.

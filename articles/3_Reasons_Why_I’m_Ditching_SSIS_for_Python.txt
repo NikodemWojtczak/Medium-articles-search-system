@@ -1,0 +1,11 @@
+Photo by Chris Ried on Unsplash
+
+I’ve been using the Microsoft SQL Server technology stack for more than a decade, and while I continue to be extremely bullish about it, I’ve lately changed my tune on a key component of it, namely SQL Server Integration Services, or SSIS for short. SSIS is a very powerful tool to perform extract, transform, and load (ETL) workflows on data, and can interact with pretty much any format out there. And while I’ve mostly seen it used in the context of loading data into or out of SQL Server, that certainly isn’t its only use.
+
+I’ve authored more than my share of SSIS packages over the years, and while I still feel it’s a tremendous tool to have in your arsenal (and one that in many cases may be the only one available in large enterprises with strict standards around technology usage), I’ve now decided that for reasons I’ll outline below, I’d prefer using Python for most, if not all, ETL needs. This is especially true when combining Python with two modules specifically made for manipulating and analyzing data at scale, namely Dask and Pandas.
+
+Python is free and open source
+
+Python is a completely open source language, and is maintained by the Python Software Foundation. It, and a huge number of its packages, are available completely free of charge, and you can easily contribute to the underlying source code if you see a bug or need a feature. For example, Dask and Pandas combined have had over 25,000 commits and 9,000 forks on GitHub. Both are very active projects and have large, distributed, and active communities behind them. In addition, Python can talk to pretty much any data source using other open source packages; from CSV files, to Kafka, to scraping web sites. Python as a whole is hugely popular and growing, jumping from seventh to fourth place in Stack Overflow’s 2019 Developer Survey.
+
+SSIS, on the other hand, requires you to license any machine running it just as you would any other machine running a full instance of SQL Server. So, if you want to follow good practice and offload your ETL processing on to a machine different from your SQL Server instance, you’ll have to pay fully to license that machine. Assuming you can successfully navigate the rather complex licensing for SQL Server, think about this: many ETL workloads are batch operations, meaning…

@@ -1,0 +1,99 @@
+TL;DR
+
+Manually creating portable & reproducible GPU workflows is fragile, skill intensive & laborious, even with containers. Luckily, you can more or less automate things using Docker Machine, PyTorch & Gigantum. We use these three things to demonstrate a robust system to create workflows that move seamlessly between laptop and cloud, CPU & GPU.
+
+Assumptions — You should have:
+
+Experience with Bash (on Linux/macOS) or PowerShell (on Windows). Docker CE installed locally. AWS credentials & sufficient permissions for an EC2 GPU instance.
+
+If you don’t meet these requirements, don’t despair. You can get up to speed for this post with some background reading and a little cutting & pasting.
+
+Spoiler alert — Completing this post will take far less time than Daenerys Targaryen needed to burn down King’s Landing in Episode 5 of GoT.
+
+Intro
+
+GPUs for parallel processing provide an incredible speed boost for some computations — most famously deep learning. Good GPUs can literally torch computations that are intractable on a CPU.
+
+Unfortunately, installing & configuring the necessary software environments requires skill & time. For most users, the only way to access GPUs is via one of the growing set of platforms that provide a browser interface into managed cloud environments. The basic problem with these platforms is that they are either free & computationally worthless, or functional but seem tailored to corporate budgets.
+
+One path to broader access is to empower people to do things on their own by minimizing the skill and time needed to set things up. Another approach is to make GPU workflows portable, i.e. self contained & easily functioning across various resources. For example, facilitating movement between CPU & GPU machines enables testing & debugging on cheaper CPUs, saving the expensive GPU for the actual computations. In this post, we will do both of those things.
+
+Basically, we are going to give you your own dragon when it comes to easily PyTorching reproducible and portable GPU notebooks.
+
+The Tools We Use
+
+Docker Machine is a simple Apache licensed command line tool for provisioning, configuring & managing remote virtual environments.
+
+PyTorch is a BSD licensed deep learning framework that makes it easy to switch between CPU and GPU for computation.
+
+Gigantum is an MIT licensed local application that pairs with a cloud service to make reproducible workflows that anybody can easily use.
+
+Our existence proof has three sections:
+
+A simple process to create an EC2 GPU instance with Docker Machine; Configuring the instance from a Bash prompt; Importing & running a PyTorch transfer learning notebook in a few clicks.
+
+Before we start—In order to make this post robust over different users, we have erred on the side of greater certainty in process & simplicity of tools.
+
+Section 1 — Create an EC2 p2.xlarge Instance
+
+Let’s begin.
+
+Steps 1 through 3 are one time only steps, but the Docker Machine command in Step 4 is what you will use to create a new remote whenever you want.
+
+If you haven’t used it before, Docker Machine is a simple tool for easy install, management and connection with Docker on remote hosts. Conveniently, it automates SSHing & easy port forwarding. You can learn about it here & here.
+
+Step 1 — Verify that you have Docker CE & that it is running.
+
+In a terminal (Bash or PowerShell), run:
+
+docker version
+
+You must have Docker CE running locally. If you don’t have a fairly recent version, you may want to update it. Note: you cannot use Docker Toolbox.
+
+Step 2 (Linux users only) — Install Docker Machine if you don’t have it.
+
+Distributions of Docker for Linux often don’t include Docker Machine ( but macOS & Windows do). To remedy this, run the following in a Bash terminal:
+
+base= https://github.com/docker/machine/releases/download/v0.16.0 curl -L $base/docker-machine-$(uname -s)-$(uname -m) > /tmp/docker-machine sudo install /tmp/docker-machine /usr/local/bin/docker-machine
+
+Then, log out & log in — ensuring that docker-machine will be in your PATH.
+
+Step 3 — Have AWS API credentials configured for the CLI.
+
+If you don’t have credentials then visit the console to set them up. You need:
+
+Your Access Key ID, youraccesskey. Your Secret Access Key: yoursecretkey.
+
+Make sure to configure your AWS CLI to automatically invoke the credentials for command line use, otherwise you will need to add them to the Docker Machine commands below.
+
+In a terminal, run:
+
+aws configure
+
+AWS Access Key ID [None]: youraccesskey
+
+AWS Secret Access Key [None]: yoursecretkey
+
+Default region name [None]:
+
+Default output format [None]:
+
+Step 4 — Create the instance using Docker Machine.
+
+You can now use one Docker Machine command (with multiple arguments) to set up a p2.xlarge instance.
+
+(On Linux or Mac) Enter the following command in a Bash terminal
+
+docker-machine create --driver amazonec2\
+
+--amazonec2-ami ami-0a313d6098716f372 \
+
+--amazonec2-instance-type p2.xlarge \
+
+--amazonec2-region us-east-1 \
+
+--amazonec2-root-size 64 \
+
+gigantum-gpu
+
+(On Windows) Enter the following command in a PowerShell terminal

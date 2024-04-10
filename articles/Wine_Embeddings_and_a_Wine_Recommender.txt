@@ -1,0 +1,69 @@
+RoboSomm
+
+Wine Embeddings and a Wine Recommender
+
+One of the cornerstones of previous chapters of the RoboSomm series has been to extract descriptors from professional wine reviews, and to convert these into quantitative features. In this article, we will explore a way of extracting features from wine reviews that combines the best of the existing RoboSomm series and academic literature on this topic. We will then use these features to produce a simple wine recommendation engine.
+
+The Jupyter Notebook with all relevant code can be found in this Github repository. Our dataset consists of roughly 180,000 professional wine reviews, scraped from www.winemag.com. These reviews span roughly 20 years, dozens of countries and hundreds of grape varieties.
+
+Wine Embeddings
+
+In the following section, we walk through the five steps required to create our ‘wine embeddings’: a 300-dimensional vector for each wine, summarizing its sensory profile. On the way, we will explain successful approaches others have taken in similar projects. Before we proceed, let’s pick a wine to join us on this journey:
+
+Point & Line 2016 John Sebastiano Vineyard Reserve Pinot Noir
+
+Review: Dried red flowers and sagebrush combine for an elegant aromatic entry to this bottling by two business partners who have worked in Santa Barbara’s restaurant scene for many years. Tarragon and intriguing peppercorn flavors decorate the tangy cranberry palate, which is lightly bodied but very well structured.
+
+Excellent! Time to get stuck in.
+
+Step 1: Normalize words in wine review (remove stopwords, punctuation, stemming)
+
+The first step is to normalize our text. We want to remove stopwords and any punctuation from our raw text. In addition, we will use a stemmer (Snowball Stemmer in Sci-Kit Learn) to reduce inflected words to their stem. The Pinot review becomes the following:
+
+dri red flower sagebrush combin eleg aromat entri bottl two bus partner work santa barbara restaur scene mani year tarragon intrigu peppercorn flavor decor tangi cranberri palat light_bodi veri well structur
+
+Step 2: Enhance the set of normalized words with phrases (bi-grams and tri-grams)
+
+Next, we want to account for the possibility that some of the terms we want to extract from the wine descriptions are actually combinations of words or phrases. Here, we can use the gensim package Phrases to produce a set of bi- and tri-grams for the full corpus. Running our normalized wine review through the phraser consolidates terms such as ‘light’ and ‘bodi’ which are frequently found next to each other to ‘light_bodi’:
+
+dri red flower sagebrush combin eleg aromat entri bottl two bus partner work santa_barbara restaur scene mani_year tarragon intrigu peppercorn flavor decor tangi cranberri palat light_bodi veri well structur
+
+Step 3: Use the RoboSomm wine wheels to standardize the wine descriptors in each review
+
+Wine reviewers are often creative in their use of language, and sometimes use different words to describe things that are seemingly the same. After all, are ‘wet slate’, ‘wet stone’ and ‘wet cement’ aromas not really manifestations of the same sensory experience? In addition, wine tasting has specific jargon. Terms such as ‘baked’, ‘hot’ or ‘polished’ have a specific meaning in the world of wine tasting.
+
+To standardize wine jargon and creative descriptors, researchers such as Bernard Chen have developed the Computational Wine Wheel. The Computational Wine Wheel categorizes and maps various wine terms that appear in wine reviews to create a consolidated set of descriptors. This great work, together with the contributions of others (e.g. Wine Folly and UC Davis) has been used to generate the RoboSomm wine wheels. These wine wheels were created by looking at a list of the most frequently occurring descriptors in the corpus after going through steps 1 and 2 outlined above. This list was then reviewed manually, and mapped onto a set of standardized descriptors. In total, this resulted in a mapping for over 1,000 ‘raw’ descriptors.
+
+The first of the RoboSomm wine wheels is an aroma wheel, that categorizes a variety of aromatic descriptors:
+
+Wine Aroma Wheel
+
+The second wine wheel is a non-aroma wheel, that accounts for other characteristics, such as body, sweetness and acid levels. These descriptors are not typically included in tasting wheels, but are prominent parts of a tasting experience:
+
+Wine Non-Aroma Wheel
+
+We can choose to standardize wine terms at any of the three levels of the wheel, or use the raw descriptor itself (no standardization). For now, we will map the descriptors to the outside layer of the wheel. For the Pinot Noir review we started processing, we obtain the following:
+
+dry red flower sagebrush combin elegant aromat entri bottl two bus partner work santa_barbara restaur scene mani_year tarragon intrigu pepper flavor decor tangy cranberry palat light_bodied veri well structur
+
+Note that all the descriptors that have been mapped are highlighted in bold. The other terms are either non-informative or ambiguous in the context of this analysis.
+
+Step 4: Retrieve the Word2Vec word embedding for each mapped term in the review
+
+Next, we need to consider how we will quantify our set of mapped descriptors. A common approach to doing this (and one that was used in previous chapters of the RoboSomm series!) is to represent the absence/presence of each descriptor in the corpus with a 0 or a 1. However, this approach does not take into account semantic (dis)similarities between terms. Tarragon, for instance, is more similar to sagebrush than it is to cranberry. To account for this, we can create word embeddings: vector representations of words and phrases. Researchers such as Els Lefever and her co-authors have taken a similar approach to quantifying wine reviews in their work.
+
+For the purpose of this project, we will use a technique called Word2Vec to generate a 300-dimensional embedding for every mapped term. Since wine jargon is so specific, we have to train our Word2Vec model on a representative corpus. Fortunately, our set of 180,000 wine reviews is exactly that! Having previously mapped our descriptors using our wine wheels, we have already somewhat standardized the wine terms in our corpus. This was done to eliminate unnecessary semantic nuance (e.g. consolidate ‘wet stone’, ‘wet slate’ and ‘wet cement’ to ‘wet rock’), hopefully enhancing the quality of our Word2Vec model.
+
+Our trained Word2Vec model consists of a 300-dimensional embedding for every term in our corpus. However, we can recall from the previous step in this analysis that we only really care about the terms that are relevant descriptors of a wine’s sensory experience.
+
+For our Pinot Noir, these were:
+
+dry, flower, sagebrush, elegant, tarragon, pepper, tangy, cranberry, light_bodied
+
+In the adjacent image, we can see the word embedding for each of these mapped descriptors.
+
+Step 5: Weight each word embedding in the wine review with a TF-IDF weighting, and sum the word embeddings together
+
+Now that we have a word embedding for each mapped descriptor, we need to think about how we can combine these into a single vector. Looking at our Pinot Noir example, ‘dry’ is a fairly common descriptor across all wine reviews. We want to weight that less than a rarer, more distinctive descriptor such as ‘sagebrush’. In addition, we want to take into consideration the total number of descriptors per review. If there are 20 descriptors in one review and five in another, each individual descriptor in the former review probably contributes less to the overall profile of the wine than in the latter. Term Frequency-Inverse Document Frequency (TF-IDF) takes both of these factors into consideration. TF-IDF looks at how many mapped descriptors are contained within a single review (TF), as well as at how often each mapped descriptor appears in the 180,000 wine reviews (IDF).
+
+Multiplying each mapped descriptor vector by its TF-IDF weighting gives us our set of weighted mapped descriptor vectors. We can then sum these to obtain a single wine embedding for each wine review. For our Pinot Noir, this looks something like:

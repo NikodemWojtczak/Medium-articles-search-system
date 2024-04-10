@@ -1,0 +1,23 @@
+The content for this article has been adapted from my own article published previously in opensource.com.
+
+Introduction
+
+Today's world is full of data, and images form a significant part of this data. However, to be put to any use, these images need to be processed. Image Processing is thus the process of analyzing and manipulating a digital image primarily aimed at improving its quality or extracting some information from it, which could then be used.
+
+Typical tasks in image processing include displaying images, basic manipulations like cropping, flipping, rotating, etc., Image Segmentation, Classification and feature extractions, Image restoration, and Image recognition. Python becomes an apt choice for such Image processing tasks. This is due to its growing popularity as a scientific programming language and the free availability of many State of Art Image Processing tools in its ecosystem.
+
+Let's look at some of the commonly used Python libraries for Image manipulation tasks.
+
+1. scikit Image
+
+scikit-image is an open-source Python package that works with numpy arrays. It implements algorithms and utilities in research, education, and industry applications. It is a relatively straightforward library, even for those new to Python's ecosystem. This code is of high quality and peer-reviewed, written by an active community of volunteers.
+
+Resources
+
+It has been very well documented with many examples and practical use cases. Read the documentation here.
+
+Usage
+
+The package is imported as skimage And most functions are found within the submodules. Some examples of skimage include:
+
+Image filtering

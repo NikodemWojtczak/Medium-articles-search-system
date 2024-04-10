@@ -1,0 +1,19 @@
+Advanced techniques to take your linear regression game to the next level
+
+Photo by Jeremy Thomas on Unsplash
+
+Quick intro
+
+This article aims to introduce some more advanced linear regression techniques that can dramatically improve your model results. If you haven’t mastered the basics of linear regression yet, I suggest two other articles that can help you with that: the first one introduces some fundamental concepts to understand linear regression, while the second one explains how you can spot and correct some common issues that come up while doing linear regressions.
+
+Polynomial regression
+
+As its name suggests, a linear regressions implies a linear relationship between two variables, in the form of y = ax + b. However, it might often be the case that the relationship between those two variables is not linear, but follows some other function that takes the squared (or some other power) value of x. In that case, one simple solution is to add to your explanatory variables a list of all the transformations you want to check (x squared, x to the third, and so on). This determines the degree of your polynomial (if you go up to x to the fifth, for instance, you have a polynomial of the fifth degree). Once you have your full list of explanatory variables, you can perform your linear regression as usual. It is a simple transformation but it can yield some really good results.
+
+Fixing overfitting
+
+Ridge regression
+
+Ridge regression is a special type of linear regression, which tries to reduce overfitting, by applying weights to some of the parameters, reducing the influence of parameters that might be insignificant in reality.
+
+To do this in R, we use the function glmnet(), and specify the parameter alpha = 0, to make it a Ridge regression. We will also have to specify the regularisation parameter lambda, which will determine how “strict” our regression will be with the weights it gives. The optimal value can be found by using cross-validation:

@@ -1,0 +1,21 @@
+Based on some recent conversations, I realized that text preprocessing is a severely overlooked topic. A few people I spoke to mentioned inconsistent results from their NLP applications only to realize that they were not preprocessing their text or were using the wrong kind of text preprocessing for their project.
+
+With that in mind, I thought of shedding some light around what text preprocessing really is, the different methods of text preprocessing, and a way to estimate how much preprocessing you may need. For those interested, I’ve also made some text preprocessing code snippets for you to try. Now, let’s get started!
+
+What is text preprocessing?
+
+To preprocess your text simply means to bring your text into a form that is predictable and analyzable for your task. A task here is a combination of approach and domain. For example, extracting top keywords with tfidf (approach) from Tweets (domain) is an example of a Task.
+
+Task = approach + domain
+
+One task’s ideal preprocessing can become another task’s worst nightmare. So take note: text preprocessing is not directly transferable from task to task.
+
+Let’s take a very simple example, let’s say you are trying to discover commonly used words in a news dataset. If your pre-processing step involves removing stop words because some other task used it, then you are probably going to miss out on some of the common words as you have ALREADY eliminated it. So really, it’s not a one-size-fits-all approach.
+
+Types of text preprocessing techniques
+
+There are different ways to preprocess your text. Here are some of the approaches that you should know about and I will try to highlight the importance of each.
+
+Lowercasing
+
+Lowercasing ALL your text data, although commonly overlooked, is one of the simplest and most effective form of text preprocessing. It is applicable to most text mining and NLP problems and can help in cases where your dataset is not very large and significantly helps with consistency of expected output.

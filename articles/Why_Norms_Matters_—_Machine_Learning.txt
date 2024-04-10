@@ -1,0 +1,61 @@
+Play with norms: https://www.desmos.com/calculator/wznruz7mxs
+
+Evaluation is a crucial step in all modeling and machine learning problems. Since we are often making predictions on entire datasets, providing a single number that summarizes the performance of our model is both simple and effective.
+
+There are a number of situations where we need to compress information about a dataset to a single number. For instance:
+
+Determining the magnitude of a data point in multiple dimensions
+
+of a data point in multiple dimensions Calculating the loss of a machine learning model
+
+of a machine learning model Computing the error of a predictive model
+
+In this article, I will review the most common norms used in these situations, namely the L¹ and L² norms. I will describe their similarities and differences, as well as when to use which norm. In addition, I’ll show how to visualize these norms and their use in optimization problems.
+
+Terminology
+
+There are a handful of names that describe the same quantity, so let’s clear that out of the way first. Chances are you may have heard of these phrases in multiple contexts, but they might be describing the same thing! As mentioned above, these norms are used in the context of magnitudes and distances, error approximations, and regression.
+
+L¹ Norm
+
+The L¹ norm is often referred to as the Manhattan/Taxicab Distance, the Mean Absolute Error (MAE), or the Least Absolute Shrinkage and Selection Operator (LASSO).
+
+L² Norm
+
+The L² norm is often referred to as the Euclidean Distance, the Mean Squared Error (MSE) / Least Squares Error, or the Ridge Operator.
+
+Defining L¹ & L² Norms (and Beyond!)
+
+The L¹ and L² norms are commonly used for assigning a magnitude to a vector. For a vector x having N components, the L¹ just adds up the components. Since we would like our magnitude to always be positive, we take the absolute value of the components.
+
+The L² norm takes the sum of the squared values, taking the square root at the end. The L² norm is the same as a standard distance formula, which finds the shortest path from A to B.
+
+If you start to see a pattern, then you might ask: Why stop at 2? We can create a norm for all 1 ≤ p < ∞ in this way too!
+
+Visualizing L¹ & L² Norms
+
+From the definitions, we can see that the L¹ norm just cares about the individual components, while the L² norm looks for the shortest distance.
+
+L¹ and L² norms on a city block grid.
+
+The red, blue, and yellow distances all compute the L¹ distance, while the green distance computes the L² distance. One reason the L¹ norm is described as the taxicab distance is because it describes the number of blocks you have to travel to reach your destination.
+
+Differences Visualized — Optimization
+
+Suppose we’re trying to solve an optimization problem. This means that we are trying to find the best input that minimizes some output penalty.
+
+Norms are a great choice for penalties because they assign a reasonable magnitude to each output.
+
+Consider the simplest optimization problem — solving a linear problem. This is something that involves a matrix A and a vector b. Often times these problems do not have a single solution, and may have an entire line or plane of solutions.
+
+When this is the case, we need to find the best solution out of this whole set of solutions. Introducing a norm penalty such as the L¹ or L² norm is a common approach.
+
+Play around with this graph: https://www.desmos.com/calculator/wznruz7mxs
+
+Above, the red line represents all possible solutions to the equation x + 3y = 5. The blue diamond represents all solutions with a fixed L¹ norm of 5, and the orange circle represents all solutions with the same L² norm of 5.
+
+As you can see, the solutions are different depending on which norm we decide to use. Since the L¹ norm has a diamond shape, sparse solutions are often found using the L¹ norm. Additionally, since the L² norm minimizes the Euclidean distance, solutions that eliminate outliers are often found using the L² norm.
+
+Thanks!
+
+If you’d like to play around with the graph above and see the differences between the L¹ and L² norms, check out this interactive graph on Desmos!

@@ -1,0 +1,97 @@
+Human Bias in Machine Learning
+
+Bias is an inescapable part of human nature. Previous research suggests that cognitive biases form to optimize brain function when humans are distracted. Biases are influenced by your environment, experiences, and can be difficult to eliminate. One such solution to minimize the effects of biases is to be aware of possible biases that you have or may encounter.
+
+In this post, I will be describing some of the impacts that different types of biases can cause in machine learning projects. With examples on the roots of the issues caused by these biases as well as reasoning on why bias can be useful.
+
+Due to the innate nature of biases within humans, biases are reflected in all data that exists in the world. With the increasing popularity and accessibility of Machine Learning and big data; there exists an unimaginable depth of data and accessible tools in the world. With all this data, there exists ways that bias influences data and our inferences.
+
+Biases do not just exist only within the data, there are also incognitive biases that a scientist may have while performing research, experimenting, or implementing algorithms. Simple steps such as not considering certain parameters or features when testing can lead to real consequences.
+
+The term for the bias that affects Machine Learning algorithms is Machine Bias. It relates to how biases in the data used or biases from the researcher affect the end results. Machine Bias has real world implications that bring danger and reinforces systematic bias.
+
+Example 1: Sampling Bias in Image Recognition
+
+People of Color are harder to classify for Pedestrian Detection in self driving cars.
+
+Note: This was research from a scientific paper, which does not reflect commercial self-driving systems
+
+This specific issue is caused by Sampling Bias, a form of bias that comes from imbalanced training data which doesn’t represent the environment that the model will operate in. For example, a pedestrian recognition model trained on only pictures of pedestrians in rural America will not operate well in a multicultural urban city because pedestrians from the two populations would not have similar appearances.
+
+This example has real life implementations as society move towards more self driving cars on the road. This issue is most likely caused by the lack of individuals from under represented backgrounds in the training data while training the CNN algorithm. This can also be caused by the natural difficulty of less contrast between darker skin, or darker clothing, and the background.
+
+Example 2: Prejudice Biases in Sentiment Analysis
+
+Prejudice Bias arises when algorithms take in subtle biases from the data source, even if it was sampled perfectly.
+
+The classic example used to describe this bias is a machine learning model that’s designed to differentiate between men and women in pictures. The training data contains more pictures of women in kitchens than men in kitchens, or more pictures of men coding than women, then the algorithm is trained to make incorrect inferences about the gender of people engaged in those activities due to prejudices that occur in the real world, represented in the data.
+
+Sentiment Analysis is the use of machine learning algorithms to detect the emotional or subjective sentiment of a body of text. Currently, these algorithms operate by utilizing a prebuilt word embedding, a pre-designed system of models used to produce vectors that construct linguistic context from bodies of text, to analyze the sentiment of text. However, almost all popular word embedding are trained on human data, such as news articles (word2vec) or webpages (GloVe) and are affected by the prejudice in the real world.
+
+Below is an example of the outputs of a simple sentiment analysis model built using GloVe embedding and a linear classifier. This example of a simple sentiment analysis model does not reflect of consumer level systems.
+
+text_to_sentiment("this example is pretty cool")
+
+3.8899689260
+
+text_to_sentiment("this example is ok")
+
+2.7997773492
+
+text_to_sentiment("meh, this example sucks")
+
+-1.1774475917
+
+This is how the system is expected to work, i.e “pretty cool” have correlation with other positive words, which gives it a higher score than “sucks”.
+
+text_to_sentiment("Let's go get Italian food")
+
+2.0429166109
+
+text_to_sentiment("Let's go get Chinese food")
+
+1.4094033658
+
+text_to_sentiment("Let's go get Mexican food")
+
+0.3880198556
+
+The influence of bias appears, as there are more negative webpages with the word “Mexican” and “Chinese” than the word “Italian”, the sentiment score becomes more positive with “Italian” than the other words.
+
+text_to_sentiment("My name is Emily")
+
+2.2286179365
+
+text_to_sentiment("My name is Heather")
+
+1.3976291151
+
+text_to_sentiment("My name is Yvette")
+
+0.9846380213
+
+text_to_sentiment("My name is Shaniqua")
+
+-0.4704813178
+
+This example is similar to the last, more common names tend to appear in more positive webpages, which raises positive sentiment, compared to less common names.
+
+Simply, racial bias exists within the sentiment analysis system because racial bias also appears in the data that it is trained with. When sentiments of words are trained by webpages, in the case of GloVe, ethnic words or names can have lower sentiments because of a smaller number of positive web comments and pages that contains those words or names. This creates racial bias within our model because of the data given which only enforces the systematic prejudice that exists in the real world.
+
+Prejudice bias exists in many forms, such as racial biases with prediction models in the criminal justice system and is hard to correct because it comes from a reflection of biases that exist within the real world. It is important for there to be domain knowledge on the data you are working with to be aware of the intricacies that exists within it.
+
+Example 3: Algorithmic Bias, Curated “Most played of the year”
+
+Sometimes, it really is just a problem with the algorithm. Algorithmic bias is when the algorithm, due to how it is designed, will have bias built in. Spotify creates a playlist every year based off the songs that you listened to the previous year. Because of how the algorithm is designed, there exists an algorithmic bias for songs that you listened to 2 years ago. Because the algorithm considers how much you listen to the songs in the previous playlist, it establishes a bias for those songs.
+
+But this isn’t a bad thing
+
+Humans don’t usually experience drastic change in preferences in music. Songs that you enjoyed in previous years tend to be enjoyable in the current year. Bias is not inherently negative, while there exist bias within the algorithm, the algorithm works within the Sporify platform. Having biased training data is a form of preprocessed data. It is important to be aware of the bias, but it doesn’t have to be a bad thing.
+
+For example, LinkedIn has a messenger system with a great response suggestion system. This is because the messages that LinkedIn trains their model on are more biased towards business-formal messages. Biased training data can benefit a model based off the context in which they are used. LinkedIn’s response recommendation system wouldn’t work well if used for casual text messages, but is perfect for business messages in a professional career based website.
+
+It is important to be aware of the possible biases that can arise in every step of the analytical process. Being conscious of biases and how they influence our model with context is important because it can be a fatal flaw or an amazing benefit. As more data is collected and analyzed in the world, it is important to be aware of all the details and intricacies data can have.
+
+It’s important to understand that Machine Learning algorithms are algorithms. Underneath the statistics and programming are math equations simply trying to maximize or minimize an equation. At the end of the day, it’s understood that “Garbage in means Garbage out”.
+
+Notes: Because I want to focus on forms of biases that can arise from data, or implementation of models, I chose to speak a little about the technical definitions of statistical and machine learning bias.

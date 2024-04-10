@@ -1,0 +1,11 @@
+In this post, I will outline the steps I took to discover similar and dissimilar coffee-neighborhoods in Istanbul locals’ favorite districts.
+
+As part of my IBM data science course project, I was made to come up with a problem and find a solution to it by gathering, exploring and analyzing location data. Being a lover of Istanbul and coffee, I decided to come up with something that strides the two subjects.
+
+Istanbul is one of the biggest and most populous cities in the world, the only city that exists on two continents. Both parts of the city are divided by the Bosphorous strait. Two Districts loved by Istanbul residents are Beşiktaş (be-shik-tash) and Kadıköy (ka-di-koy) on the European and Asian side respectively. While these districts have a lot in common, they have their fair share of differences as well, the surge of coffee shops for one. In fact, according to Foursquare, 8 of 15 best coffee shops in Istanbul are located in Beşiktaş and Kadıköy.
+
+There is a fierce debate among residents about the neighborhood to best enjoy a cup of coffee. This report will address the issue by providing insights drawn from data. This study will be of interest to both visitors of Istanbul and locals who yet to discover the hidden similarities between the two most sought after neighborhoods. The report will help readers to:
+
+Be more familiar with the discussed neighborhoods Understand the relationship between coffee shops and other neighborhood attributes Discover the similarities between neighborhoods in terms of coffee shops and other attributes Be able to make better-informed decisions about where to coffee in Istanbul like a resident
+
+The neighborhoods that will be examined are shown on the map with the red markers.

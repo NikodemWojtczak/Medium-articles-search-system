@@ -1,0 +1,19 @@
+Data Science From the Ground Up
+
+The Basics: Linear Regression
+
+Linear regression models are for many the first predictive models covered. While conceptually simple, they have some key features that make them flexible, powerful and explicable. While newer and more conceptually complicated models may outperform a linear regression, linear models continue to see wide usage, particularly in social science and policy spheres where data collection can be expensive and there is substantial value in highly interpretable models. Extensions of the linear regression like Ridge and Lasso can help avoid overfitting in feature-rich models and even perform feature selection. Logistic regression fits the linear framework to classification problems. First, let’s look at how a plane-vanilla linear regression works.
+
+What
+
+Linear regression models an output variable as a linear combination of input features. What does that mean exactly? Let’s start with the simplest case and get a sense for how the model works and then think about how it scales it up to more complicated cases with more features.
+
+A linear model attempts to find the simplest relationship between a feature variable and the output as possible. Often this is described as ‘fitting a line’. You may remember from algebra class that any given line can be expressed as some form of the equation:
+
+Where y is your dependent variable/output, m is a slope and x is your input/independent variable. For each unit you increase x by, y increases by m units (or decreases if m is negative). The term b is an intercept term which shifts your line up or down without changing the slope. Linear regression tries find a similar relationship between an input feature and dependent variable, and ends up creating a similar formula:
+
+In one variable it looks just like a line, except we’ve renamed the coefficient m to the greek letter beta. Let’s visualize a simple example. Here’s a collection of data points:
+
+Some points to consider
+
+This is, like every real world data set, a little noisy, but there’s clearly a trend: as you increase x, y increases as well. Perhaps this relationship can be well estimated with a line. How do you choose which…

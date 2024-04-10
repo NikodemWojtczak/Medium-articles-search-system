@@ -1,0 +1,31 @@
+Lessons from a real Machine Learning project, part 2: the traps of data exploration
+
+This is the second story of the series, so I’m going to brutally shrink the intro. I’m writing to share what a real, enterprise-level Machine Learning project taught me and my team. If you are curious to know more, feel free to check out the first chapter: from Jupyter to Luigi.
+
+The beginning: a tedious summary
+
+At university, I heard about Data Exploration. A tedious preliminary step, before the real fun begins. You summarize your dataset, draw some charts, and check the assumptions of your models.
+
+Easy, but not very useful, right?
+
+The lesson: the traps of data exploration
+
+This bad opinion is quite widespread, but essentially flawed. To show why, let’s compare a formal definition of Data Exploration to our experience. According to Wikipedia:
+
+Data Exploration is an approach similar to initial data analysis, whereby a data analyst uses visual exploration to understand what is in a dataset and the characteristics of the data.
+
+First part.
+
+Data Exploration is an approach similar to initial data analysis.
+
+Actually, it is initial data analysis. Exploration should come before any statistical analysis and machine learning model.
+
+This is critical to avoid a first trap: summary indicators, such as mean and standard deviation.
+
+The Simpson’s paradox is a well-known example which shows how global indicators may be superficial and misleading. It is a toy, academic case study, but something similar may also happen in the real world, as you will see in a minute.
+
+Second part.
+
+Data Exploration happens when a data analyst uses visual exploration to understand what is in a dataset.
+
+Of course, it is more complex than this. Imagine reading a huge table, with thousands of rows and tens of columns, full of numbers. You are visually exploring the data but there is no way you may get some insight.

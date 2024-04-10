@@ -1,0 +1,27 @@
+During my journey in studying data science outside of formal education, I found that motivation was the key to navigating the complexity of the subject and not getting disheartened by the wealth of information that makes up the well-publicised data scientist skillset. In the following article, I am going to talk about why motivation is so important when studying data science, explain how you can get and stay motivated, and share with you a copy of my personal learning curriculum and scoring system for learning data science.
+
+Why is motivation so important when learning data science? If you Google something like ‘what skills are needed for a career in data science’ you will be presented with an extensive list of skills.
+
+These will include things like:
+
+Software Development
+
+Computer Science
+
+Statistics
+
+Mathematics
+
+Data Engineering
+
+Domain Knowledge
+
+Machine Learning
+
+Deep Learning
+
+Communication
+
+and many more
+
+Data science is cited as being its own discipline, but each of these areas is a discipline in itself. How then do you learn what appears to be an insurmountable set of skills in a reasonable amount of time? How do you know which skills to learn first? When starting out it can be very easy to quickly become demotivated and abandon your learning in the face of what appears to be an almost impossible task.

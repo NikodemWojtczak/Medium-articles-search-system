@@ -1,0 +1,19 @@
+Simple Surveillance System with the Tensorflow Object Detection API Gilbert Tanner · Follow Published in Towards Data Science · 5 min read · Jul 21, 2019 -- 2 Listen Share
+
+Photo by Bernard Hermant on Unsplash
+
+Surveillance is an integral part of security and is used all over the world to ensure the safety of valuables as well as people.
+
+Even though surveillance is controversial in some situations. Especially when connected to surveillance of human beings it is necessary for other tasks like watching over valuables, monitoring operations, ensuring employee safety as well as loss prevention and public safety.
+
+Surveillance, mostly, is a repetitive mostly trivial tasks which raises the question:
+
+Can machines possibly automate surveillance?
+
+This is a question a lot of people not familiar with deep learning might have on their mind.
+
+Anyone with a little knowledge of deep learning and computer vision can probably tell them that deep learning has surpassed human performance on most computer vision task.
+
+Figure 2: Error on Image Classification with the ImageNet data-set(Source)
+
+The same progress was also achieved in the domain of object detection so yes, a deep learning models is more that capable to detect the right objects in images most of the time.

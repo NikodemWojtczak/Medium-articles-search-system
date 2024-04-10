@@ -1,0 +1,29 @@
+In my previous post What is XLNet and why it outperforms BERT, I mainly talked about the difference between XLNet (AR language model) and BERT (AE language model) and the Permutation Language Modeling.
+
+I believe that having an intuitive understanding of XLNet is far important than the implementation detail, so I only explained the Permutation Language Modeling and don’t mention another important part, the Two-Stream Self-Attention architecture. But as Jiaming Chen mentioned in the comment, the Two-Stream Self-Attention is another highlight in the XLNet paper, so I wrote this post to explain the Two-Stream Self-Attention as clearly as possible.
+
+The content is structured as follows.
+
+A quick review of Permutation Language Modeling
+
+What problems the permutation brought?
+
+Does BERT have such problem?
+
+How XLNet solve the problem?
+
+Attention mask: How XLNet implement permutation?
+
+A quick review of Permutation Language Modeling
+
+Special term:
+
+AR language model: autoregressive language model
+
+AE language model: autoencoder language model
+
+In order to make this post more independent, here I give a brief summary of What is XLNet and why it outperforms BERT.
+
+XLNet proposed that using Permutation Language Modeling to make the AR language model learn from bi-directional context. By this way, it can avoid the disadvantages brought by the MASK method in AE language model.
+
+The permutation method is to get permutations of a sequence, and using the previous t-1 tokens as the context to predict the t-th position token. For example, we have a sentence [x1, x2, x3, x4] and x3 is the t-th position token that we want to predict. First, we get permutations of the sentence.

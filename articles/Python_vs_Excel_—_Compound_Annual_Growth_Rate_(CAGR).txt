@@ -1,0 +1,107 @@
+One of my greatest frustrations with Microsoft Excel (or Google Sheets) is the lack of an inbuilt function to calculate the compound annual growth rate or CAGR (XIRR is the closest but it’s not the same). This means that in every case where I needed to conduct a quick Excel CAGR analysis, I would need to write the Excel formula for CAGR.
+
+Every. Single. Time.
+
+If you don’t know already, the Excel formula for CAGR is as follows:
+
+= (End Value / Start Value) ^ (1 / Number of Years) -1
+
+where the End Value is the latest value of the given time period, the Start Value is the first value of the given time period, and the Number of Years is the number of years over which you would want to calculate the annual growth rate.
+
+In an Excel sheet it may look something like this:
+
+CAGR formula to calculate growth rate between 2010 and 2018
+
+It’s a rather simple formula that can be easily be relied upon… except when the table grows longer with more years!
+
+Just add one more year, and you now need to specify the correct cells for the formula again
+
+Datasets tend to grow, and this presents a problem for an analyst who has to ensure formulas are all correct at all times! (I’ve been there. I had to fix a much more complicated formula for a much bigger dataset, correcting a mistake that has gone unnoticed for an entire year because the formula was buried beneath the sea of data!)
+
+This frustration is a reason why I’ve moved from spreadsheet to programming (specifically Python with the Pandas library) for data analysis. I’m still relatively new to Python but already I’m experiencing its tremendous versatility and efficiency over Excel (like not having to wait a few hours for an Excel sheet to fill all missing values).
+
+Here you’ll see why it’s much better and more efficient to program the CAGR function and apply it to a dataframe converted from a spreadsheet.
+
+Let’s start by defining the CAGR function in Python:
+
+def cagr(start_value, end_value, num_periods): return (end_value / start_value) ** (1 / (num_periods - 1)) - 1
+
+And that’s it! Two lines of code to have your very own CAGR function. You will notice here that there is a slight difference with the Excel function. In this function, there is a minus 1 after num_periods. This allows me to correctly calculate the CAGR by specifying the total number of time periods as an argument rather than the number of compounding periods (which is always minus 1 of the total). I do this because I have, in the past, made repeated mistakes of incorrectly specifying the number of compounding periods on Excel.
+
+Now that you have your CAGR function, you can either save it into a separate Python file (from which you can import into any other Python file) or just code it into the file where you will be loading the Excel table into a dataframe and apply it there.
+
+To apply your CAGR function, first import the Pandas library:
+
+import pandas as pd
+
+Pandas is an open-source, easy to use Python library that can convert any csv or Excel file into a dataframe for data analysis. It’s a must-have for any data analyst programming in Python.
+
+Next, load the Excel into a Pandas dataframe:
+
+ExcelFile = 'ExcelTable.xlsx' #name of my Excel file
+
+df = pd.read_excel(ExcelFile, index_col='Year')
+
+Notice that I’ve added a parameter index_col to assign the ‘Year’ column as the index, leaving ‘Yearly Income (RM)’ as the only column in the dataframe.
+
+Do a print function on your dataframe to see if the Excel table was successfully converted into a dataframe:
+
+print(df)
+
+Looks like it came out right
+
+You now have a dataframe to which you can apply the CAGR function.
+
+The keys to the CAGR function in Python, and why it is much easier to use in Python, are the variables below:
+
+start_value = float(df.iloc[0])
+
+end_value = float(df.iloc[-1])
+
+num_periods = len(df)
+
+These variables will extract the arguments you need for your CAGR function, and in this case, the output returns:
+
+36000.00
+
+102000.00
+
+9
+
+The great thing about these variables is that the code does not have to change even as your dataset grows. Using the .iloc method together with list indexing ensures that the function will always use the first row as the start value and the last row as the end value, and the len function will always count correctly the total number of time periods.
+
+Even if you add an extra year(s), the code works the same. Say for example, you add a row to the dataframe:
+
+df.loc[2019] =[84000]
+
+Running a print function on the same variables will return a different output in accordance with the new data:
+
+36000.00
+
+84000.00
+
+10
+
+If you want to specify a time period, say 5 years between 2012 and 2016, for the CAGR calculation, you can also use the .loc method to easily do so:
+
+start_value = float(df.loc[2012])
+
+end_value = float(df.loc[2016])
+
+num_periods = len(df.loc[2012:2016])
+
+Slicing and dicing
+
+Now let’s try to apply the CAGR function to this sliced dataset by using the variables as input arguments:
+
+result = cagr(start_value, end_value, num_periods)
+
+print(result) 0.12801507993497308
+
+But wait! The output shows the result in a float type with too many decimals. Though I personally prefer this kind of output, it is generally not friendly to many eyes. We will need string formatting to present the output in percentages:
+
+print("{:.2%}".format(result)) 12.80%
+
+Much more human-friendly.
+
+And that’s all you need to perform CAGR analysis in Python!

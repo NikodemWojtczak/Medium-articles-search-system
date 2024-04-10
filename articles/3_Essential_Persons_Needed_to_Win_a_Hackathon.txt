@@ -1,0 +1,15 @@
+Team composition is a very crucial factor to win a hackathon. As hackathon is a very demanding type of competition, usually within 48 hours, participants will need to hand in a decent presentation deck and a functionable prototype. Therefore, to complete the tasks more effectively, you need teammates with diversified background. Ideally speaking, every team should have at least 1 programmer, 1 businessman and 1 designer.
+
+Photo by Vlad Hilitanu on Unsplash
+
+As mentioned previously, there are 4 main types of hackathons, the hackathon mentioned in this article refers to the third one. If you are interested to know the differences among the common hackathon types, please read my previous article.
+
+Photo by cyda
+
+1. Programmer: Develop the Core of the Solution
+
+Programmer is a very broad term, it can be further divided into front-end developer, back-end developer and data scientist. Depends on the topic, a team may need more than 1 type of programmer.
+
+For front-end developer, they mainly cooperate with designer to transform the wireframe into a real application. This group of people must be familiar with at least 1 type of front-end developing language like CSS and HTML for website development. Front-end developer undoubtedly also needs to work hand in hand with back-end developer as their working pieces should be able to communicate with each other. It may take your team more than half day to solve compatibility problems.
+
+The role of a back-end developer is to build the core functions of the prototype. The reasons why you need to have a workable prototype in the final presentation as it is the most valid proof to tell the judges that your solution is technically feasible. Same for data scientist, big data is a very hot topic now, in hackathons providing datasets, it is also expecting participants to build a model or give insights from the data. Again, same as front-end developer, these two groups of people are also specialists and have solid knowledge of programming languages or related softwares like JavaScript, R and Python.

@@ -1,0 +1,117 @@
+Have a look how you can choose from a variety of collections in the left pane. I simply chose aerosol and it landed me with two choices- the L2 Swath 3km and the L2 Swath 10 km data. It simply represents the amount of area covered in one single snapshot of the earth (it such projects, it always helps to think about the data as images of the earth, because that’s what they really are!). So depending on whether you wish to work with a 3 km x 3 km area or a 10 km x 10 km area, you may choose the required collection.
+
+Rest of the options are pretty straightforward. The menu asks you to put in the time duration, the location, and displays the files (in HDF) format that you can download. The filenames carry essential information about the file:
+
+What your file name says!
+
+Since I wanted to analyse AOD over North India for a year, I downloaded HDF files over the required region for every single day of the year. The files can be found in my Github repo.
+
+Loading data into Python
+
+After a lot of failures and frustrations, I came across gdal (geospatial data abstraction library) that proved to be pretty useful in handling the above data. However, gdal proved harder for me to install using Python’s default package manager pip . So I went ahead and straightaway installed it into my Anaconda environment; just do conda install gdal and I was good to go.
+
+Opening a single file
+
+The following code opens up the file pointed to by the path.
+
+Each file downloaded has loads of sub-datasets attached to it. Just for having a look at what we got, GetSubDatasets() can list different datasets separately, returning a path to open the dataset and a desc of the dataset. Printing the descriptions tell you a lot about the kind of data you are dealing with:
+
+Just a small number in this screen. There are several others to deal with as well
+
+Basically the names are mostly self-explanatory. Attached to the description are the size of the matrix (to the left) the dataset is formatted into and the datatype used to store the data (to the right). So let’s write some general functions to load any particular sub-dataset that we wish to.
+
+The above function takes the FILEPATH and loads the SUBDATASET_NAME from that very file. For instance, to open the first sub-dataset in the file, simply point FILEPATH to the directory where the HDF file has been stored, and pass Scan_Start_Time mod04(64-bit floating-point) to SUBDATSET_NAME . This code will open the sub-dataset, read it as an array ( subdataset.ReadAsArray() ), and return a pandas dataframe that can be worked upon later.
+
+Getting data at the location you wish
+
+If you need the averaged product over the entire region, simply average the entire matrix and that shall be the AOD over that region for that day (though you need to handle missing data. We’ll come to that in a minute). But if you, need to extract only a small portion of that 10 km x 10 km image, you need to find the pixel on the image that is closest to the location you are looking for.
+
+So how do you do this? Although I believe there would be several methods to go about this, I did that following process:
+
+Open the Latitude sub-dataset and find the row number of the cell whose value is closest the latitude I am looking for. This idea comes from the understanding that every cell in the latitude sub-dataset represents the latitude of that pixel in the image. Now using the row number from step 1, I’ll find the column number of pixel in the Longitude sub-dataset that is closest to the place I am looking for. So now I have the row number and the column number of the pixel that is closest to the location (geographical coordinates) I am aiming at. I can now open other sub-datasets, say Deep_Blue_Aerosol_Optical_Depth_550_Land mod04 (16-bit integer) and extract the value at that pixel. This value gives me the AOD measured over that place using Deep Blue retrieval algorithm for that day. We might want to have an average of say 9 to 25 pixels, centred about the pixel we just found, just in case, the pixel has NULL value for that day (data over that pixel for that day couldn’t be recorded).
+
+Finds the latitude pixel
+
+The above code finds the row number of the pixel whose value (essentially the latitude) is closest to the CITY_LATIDUDE we are looking for.
+
+Finds the longitude pixel
+
+A similar story with the longitudes. Do notice that instead of searching in the entire matrix, I search in the row whose row number I just found in the previous function (denoted by LATITUDE_ROW_NUMBER ).
+
+The above one is a pretty straightforward function that, given a particular sub-dataset, the row number found by the latitude function, and the column number found by the longitude function, returns the value of the product at that pixel in that sub-dataset.
+
+The last thing we need is to somehow handle which sub-dataset to open, find the pixel coordinates, and get a required average (basically put everything above together):
+
+Quite evidently, the above function finds lat_row and the corresponding lon_column, decides which sub-datasets to consider, and averages over a grid of 9 cells (with our pixel at the centre of it). Something like below:
+
+Also note in the datasets, a value of -9999 represents failure to record data for that location. So I simply put a 0 there.
+
+Handling loads of data…
+
+The above driver code simply iterates over all HDF files in a month, extracts the Scattering Angle, AOD (Deep Blue), Cloud Fraction, Combined (Deep Blue and Dark Target retrieval algorithms combined), and the Angstrom exponent, adds everything to a list, converts all into a series by pd.Series() , and adds a new column to the pd.DataFrame() . Finally, we can export that month’s .csv files for further analysis.
+
+Analysis
+
+The following two helper routines will help us in plotting each month’s data as well as average the parameter so that we may look at its average variation over a period of time. A couple of things that I included in the plot routine was to superpose the line plots one after the other, retrieved whatever was returned by the function, got the figure out of it (using get_figure() ), and saved the figure to file, for further use.
+
+Everything’s pretty obvious out here. I used a dictionary to track which month is being processed in what order (for instance, according to the filename, April was the first month to be processed). It simply required creating a map as given, and when appending the averaged Deep Blue AOD data, append the integer corresponding to the month in the calendar. This shall help in sorting the list, and returning a variation in time, from January to December.
+
+I’ll share a few of the plots and some insights I could make out of them. Find the others here.
+
+General trend first
+
+The above figure plots the annual variation of average Aerosol Product. y-axis reports values retrieved from the Deep Blue algorithm. To get the actual value, the retrieved values need to be scaled by 0.001 (the scaling factor used by MODIS).
+
+The above figure is the averaged monthly AOD variation over the entire year. It can be seen that the AOD rises in the summers, falls during the monsoons, and again rises in the winters
+
+January 2018 trends (Note MODIS data uses a scale factor of 0.001. So the actual values are obtained when the data values are multiplied with the scale factor)
+
+Variation of Deep Blue AOD and Cloud Fraction over January 2018
+
+The above figure plots values of AOD obtained from Deep Blue retrieval algorithm and the values of cloud fraction data obtained. It is clear that in general, whenever the cloud fraction is high, AOD tends to be low. In reality, it isn’t low, just that the satellite-imaging sensor is not able to record data for that day. And do observe the spike around Jan 2. And if you think a little, you will realise that spike is all of the New Year celebrations!
+
+Variation of Combined AOD and Cloud Fraction over January 2018
+
+It can be reasonably seen here that the Combined AOD using Dark Target and Deep Blue gives a somewhat incorrect estimation of the AOD. Most of the days have been reported as having ~ 0 AOD (or clear skies). It is a known fact though, that this is not a case, especially around New Year.
+
+Variation of Deep Blue AOD and Scattering Angle over Januray 2018
+
+Both Deep Blue AOD and Scattering Angle are scaled up by a factor of 0.001. It can be seen here how a spike in AOD causes an abrupt spike in the scattering angle, suggesting more blockage of sunlight.
+
+Variation of Deep Blue AOD and Angstrom Exponent over January 2018
+
+Angstrom Exponent is a measure of how the AOD changes relative to the various wavelength of light (known as ‘spectral dependence’). This is related to the aerosol particle size. Higher values suggest coarser particles, while smaller values suggest finer ones. Here, typically higher values ~ 0.5 (500 * 0.001[scale factor]) suggest typically finer particles. A PM2.5 study can complement this finding.
+
+Strange results were found in August data. MODIS failed to retrieve AOD data due to consistently high cloud fraction during this month.
+
+Variation of Deep Blue AOD and Cloud Fraction over August 2018
+
+As expected, other variables also suffered from similar consequence.
+
+Variation of Combined AOD and Cloud Fraction over August 2018
+
+Variation of Deep Blue AOD and Angstrom Exponent over August 2018
+
+Variation of Deep Blue AOD and Scattering Angle over August 2018
+
+Summary
+
+Finally, let us draw some inferences out here:
+
+Fall in AOD levels during the monsoons is due to heavy insolation , facilitating columnar mixing of the aerosols.
+
+in AOD levels during the is due to , facilitating columnar mixing of the aerosols. Rise in AOD levels during the winters is due to less insolation and cold temperatures ; opposing columnar mixing of aerosols due to low atmospheric boundary layers and trapping the aerosols near the land.
+
+in AOD levels during the is due to and ; opposing columnar mixing of aerosols due to low atmospheric boundary layers and trapping the aerosols near the land. Stronger convention in summer (mostly from western disturbances and trade winds) accompanied by a deeper atmospheric boundary layer causes aerosol collection over Kanpur in summer.
+
+in (mostly from western disturbances and trade winds) accompanied by a causes over Kanpur in summer. Cloud fraction is an important factor in AOD measurements. Higher cloud fractions usually result in no data for the day . In this report, such days are replaced with the mean of the month under consideration .
+
+. In this report, such days are . NASA’s Deep Blue retrieval algorithm gives more accurate results than Dark Target retrieval over land imagery.
+
+over land imagery. People in Kanpur did burst a lot of crackers on New Year and on Diwali eve in 2018! Kanpus on Jan 1, 2018 and on Diwali was too hazy to even record an image to get data, and Jan 2, 2018 saw ~ 1.2 AOD.
+
+Due to consistently high cloud fraction, August 2018 saw a straight failure to record AOD data.
+
+There is so much more you can do with MODIS data. You can find forest covers data, study oceans, and much more. I hope this article helps you to deal with any MODIS product, and you can complete your study without any hassle.
+
+Have a good day!

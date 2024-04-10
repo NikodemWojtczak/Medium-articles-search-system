@@ -1,0 +1,41 @@
+The Support Team — SVM
+
+A Support Vector Machine (SVM) is a very powerful and versatile Machine Learning model. SVM can be used for classification or regression problem and outlier detection. It is one of the most popular models in Machine Learning that any Data Scientist interested in Machine Learning should have in their toolbox. SVMs are particularly well suited for classifying small or medium-sized complex datasets; small datasets would be just two classes and medium-sized would be more than two classes. You will be introduced to SVM linear and nonlinear classifier and a sprinkle of math to better understand SVMs.
+
+Awesome right!
+
+Linear Support Vector Machine Classification
+
+When we think of the SVM classifier, we can compare it to a street between two sidewalks. The sidewalks of the SVM classifier are two different classes and the wider the street, the larger the margin.
+
+In Machine Learning, we have to keep variance and bias well-balanced to have a good fit model. If you decrease the margin with SVM classifiers, the bias will decrease and the variance will increase (and vice versa, where an increase in the margin will result in an increase in bias and decrease in variance). Notice that adding more instances outside of the margins or “off the street” will not affect the decision boundary at all (the line between the margin). The reason is because it is fully supported by the instances (the red data points on the picture below) located on the edge of the street. These instances are called support vectors. The professional or technical way to explain this would be that the instances are separated by the hyperplane that is best fit due to the adjusted constraints of the margin.
+
+The dotted line margin hold the constraints
+
+Hard and Soft Margin Classification
+
+If we keep all instances off the street and on the right side, this is called hard margin classification. There are two main issues with hard margin classification. Hard Margin Classification only works if the data is linearly separable also Hard Margins are very sensitive to outliers. We can use soft margin classifications to avoid these issues. To avoid issues it is recommended to use a more flexible model with soft margin classifications. Conversely, hard margins will result in overfitting of a model that allows zero errors. Sometimes it can be helpful to allow for errors in the training set, because it may produce a more generalizable model when applied to new datasets. Forcing rigid margins can result in a model that performs perfectly in the training set, but is possibly over-fit / less generalizable when applied to a new dataset. Identifying the best settings for ‘cost’ is probably related to the specific data set you are working with.
+
+Regularization
+
+Using the C hyper-parameter in Scikit-Learn we can adjust the constraints w *x + b = 1 and w*x+b = -1 to create a soft margin. Make sure to scale your data using Standard Scalar and have your dual parameter set to False. Using a high C value the classifier makes fewer margin violations but ends up with a smaller margin. Conversely using a low C value the margin is much larger, but many instances end up on the hyperplane. If the SVM model is overfitting you can use C hyper-parameter to regularize it.
+
+High C
+
+Low C
+
+Top High C, Bottom Low C
+
+The gamma parameter is the inverse of the standard deviation of the RBF kernel (Gaussian function), which is used as a similarity measure between two points. Intuitively, a small gamma value defines a Gaussian function with a large variance. In this case, two points can be considered similar even if they are far from each other. On the other hand, a large gamma value means define a Gaussian function with a small variance and in this case, two points are considered similar just if they are close to each other.
+
+NonLinear SVM Classifier
+
+Although linear SVM classifiers are efficient and work surprisingly well in many cases, many datasets are not even close to being linearly separable. One approach to handling nonlinear datasets is to add more features. Adding polynomial features is simple to implement and can work great with all sorts of Machine Learning algorithms. At a low polynomial degree it cannot deal with very complex datasets, while with a high polynomial degrees it creates a huge number of features, making the model too slow.
+
+Luckily we have Kernel Trick, the Kernel Trick is a technique in machine learning to avoid some intensive computation in some algorithms, which makes some computation goes from infeasible too feasible.In machine learning, kernel methods are a class of algorithms for pattern analysis, whose best known member is the support vector machine (SVM). The general task of pattern analysis is to find and study general types of relations (for example clusters, rankings, principal components, correlations, classifications) in datasets. For many algorithms that solve these tasks, the data in raw representation have to be explicitly transformed into feature vector representations via a user-specified feature map: in contrast, kernel methods require only a user-specified kernel, i.e., a similarity function over pairs of data points in raw representation.
+
+Kernel methods owe their name to the use of kernel functions, which enable them to operate in a high-dimensional, implicit feature space without ever computing the coordinates of the data in that space, but rather by simply computing the inner products between the images of all pairs of data in the feature space. This operation is often computationally cheaper than the explicit computation of the coordinates. This approach is called the “kernel trick”]. Kernel functions have been introduced for sequence data, graphs, text, images, as well as vectors.
+
+In Conclusion
+
+We have fully discussed what and Support Vector Machines are while giving a small portion of the math. SVM is a great tool to have in the Data Science world. SVM can also get overwhelming due to the added dimensions. This can cause the curse of dimensionality, which can be hard to picture and interpret. To reduce that we would use either Principle Component Analysis (PCA) and Linear Discriminant Analysis (LDA). With great power holds great support vector machines. Hope this blog helped you to better understand a bit about SVM.

@@ -1,0 +1,61 @@
+Take it up a notch
+
+Whereas V(s) is a mapping from state to estimated value of that state, the Q function — Q(s, a) is only one component different from V function. Instead of thinking that you receive a value when you are in a specific state, think one step forward, you are in a state and by taking a specific action you receive a corresponding value. In essence, both functions have no difference, but by binding state with action together convenient our life. For instance, recall the result of grid world using value iteration, we get a estimated value for each state, but to have our policy π(s, a), which is a mapping from state to action, we need to go one step further by choosing the action that could get into the maximum value of next state. However, in Q-function, state and action are paired in the first place, which means when one has the optimal Q-function, he has the optimal action of that state.
+
+Besides Q-function, we are going to add more fun to our game:
+
+The agent action is non-deterministic
+
+Reward decays with ratio γ
+
+Non-deterministic means that the agent will not be able to go where it intends to go. When it takes an action, it will has a probability to crash in a different action.
+
+The decay rate γ is between 0 and 1. It indicates how much the agent cares about future reward, as 1 means reward never decays, the agent equally cares about all rewards in the future, and 0 means the agent cares about only the reward of current state. This factor helps to tune the long-term vision of agent — imagine a strategic game like go, sometimes a seem-to-be stupid action at the current state will be worthy in terms of long-term interests and victory.
+
+That’s it! Let’s get our hands on implementation.[full code]
+
+Board Settings
+
+Board
+
+The board settings are mostly same as previously discussed, the only difference is agent action taking. When it takes action, it will has 0.8 probability get into the desired state and equal probability in a perpendicular state. That is, if the agent chooses to go up, it has 0.8 probability going up and 0.1 probability going left and right.
+
+In determine the agent next position, we will take the action returning the chooseActionProb() and leverage nxtPosition() function we already defined.
+
+The nxtPosition() function takes in an action, validate the legitimacy of that action and return the state of that action.
+
+Agent
+
+Let’s jump to the main course — how Q value computed and updated through iterations.
+
+Q-value update
+
+Firstly, at each step, an agent takes action a , collecting corresponding reward r , and moves from state s to s' . So a whole pair of (s, a, s',r) is considered at each step.
+
+Secondly, we give an estimation of current Q value, which equals to current reward plus maximum Q value of next state times a decay rate γ. One thing worth noting is that we set all intermediate reward as 0, so the agent won’t be able to collect any non-zero reward until the end state, either 1 or -1.(This is not compulsory, you can try out other reward and see how the agent acts)
+
+Lastly, we update the estimation of the current Q value by adding α times a temporal difference(which is the difference between new estimation and current value).
+
+Q-value Initialisation
+
+The whole update is pretty much the same as value iteration, despite that Q value considers action and state as a pair. When initialising Q value, we need to set each state and each action to 0 and store them in a dictionary as Q_value[state][action]=0 .
+
+Action
+
+In terms of action taking, it will still be based on exploration rate as we discussed in exploration&exploitation. When the agent exploits the state, it will take the action that maximises the Q value according to current estimation of Q-value.
+
+Update Q-value
+
+Similar to value iteration, the Q value update is also in a reversed fashion and each update will be conducted at the end of a game.
+
+At the end of the game, we explicitly set all actions of the last state as the current reward which is either 1 or -1, but this part is optional, it helps to converge faster. The following part is same as value iteration, except that we add a decay_gamma here(note: the self.decay_gamma * reward should be self.decay_gamma * reward + 0 as the reward of current state we set to 0).
+
+Play the Game
+
+Let’s kick off ! After 50 rounds of playing, we have the following update of state-action pair.
+
+result after 50 rounds
+
+We start at (2, 0) , and the maximum action should be up which values 0.209 and then reaches (1, 0) , from there the best action is still up with value 0.339 , and so on and so forth … Finally we get our policy up -> up -> right -> right -> right . We can see by propagating and updating, our agent is clever enough to generate the best action at each state. And a good thing about Q-learning is that we directly get the best action at each state comparing to basic value iteration.
+
+Please check out the full code here and welcome to comment or contribute if you find any caveats !

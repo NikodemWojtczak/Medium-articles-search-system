@@ -1,0 +1,11 @@
+If, like me, you’ve tried to raise a toddler at the same time as training a machine, then let’s be honest, you’ve compared these two things before. And if you’re not into artificial intelligence but have observed toddlers before in your life, welcome to the wonderful world of machine learning aka parenting a machine.
+
+Before we get to the details, a quick disclaimer: no toddlers were hurt during the writing of this article. Like any parent, I just spend many, many hours watching my baby discover the world and scratch my head at his behavioral patterns like any data scientist has done before in front of their train/test results.
+
+“At first, it’s dumb like a rock”
+
+Think I’m lying? This quote is from Jim Stern who gave a lecture I attended in Paris about machine learning (and not about kids; I’m not that offensive towards kids).
+
+But yes, the main idea is that machine learning consists of training a machine to complete a specific task, just like you would want to train your kid to pick up dirty laundry and put it in the washing machine while you sit back on the couch (guilty!). The main difference here, however, is that your child already knows what a piece of clothing looks like, and if you give them directions on how to do laundry then it’s safe to assume that they already know how to walk, grab, pull, and drop; those are just a set of actions they have already assimilated through other experiences in their young lives. So what’s the key that will ultimately unlock your ability to be lazy on the couch while your laundry is magically done for you? Context. You give the child examples, show them how to do each step, and because you love them you congratulate them when they do it correctly.
+
+Well, machine learning is pretty much the same, except the “child” has the capacities of a toddler but the experiences of a newborn. In this case, you have to start by teaching them that those five baby sausage-looking things they have at the end of that one long sausage-looking thing are fingers, a hand and an arm, and then how you use them to do things like grabbing and pulling. The dataset you then give to that machine is everything it needs to begin…

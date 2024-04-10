@@ -1,0 +1,85 @@
+Innocent Interpretations for Some Suspicious Statistics; General Election Data Exploration. (part 1)
+
+Looking at the 2019 elections in Israel. Some results appear weird, sure, but is there evidence of actual malfeasance, or is there a simpler explanation? Avishalom Shalit · Follow Published in Towards Data Science · 5 min read · Apr 22, 2019 -- Listen Share
+
+My favourite analogy in statistics(made by Cassie Kozyrkov) is the analogy to the English/American legal system.
+
+The “Null Hypothesis” being the presumption of innocence (leading to acquittal) and the rejection of that can only be due to the presentation of evidence of guilt “beyond a reasonable doubt.” the P value we select is that level of beyond a reasonable doubt. (which is different depending on the issue at stake)
+
+Our story begins with a post on social media. The following “anomaly” in a specific polling station was making the rounds.
+
+All the parties got votes that were “Very Round Numbers”™
+
+These are indeed suspicious looking. OK, let’s dive in.
+
+TL;DR and disclaimer
+
+In this multipart series, in some cases I will be able to present simple, innocent mathematical explanations for ostensibly suspicious results. In other cases I won’t. Note that there are more than 10,000 ballot boxes, so even a rare numerical anomaly is expected to crop up several times.
+
+Getting Started
+
+I started looking for other anomalies. Maybe round numbers are too obvious, but what are the odds that a party will get exactly a third of the votes? Half?
+
+Histogram Time
+
+True Data: Here is a histogram of the vote fraction of a specific party in all polling stations; Note the most common values are reduced small rationals: 1/2, 1/3, 3/7, 1/4, 2/5, 1/5, 4/9. weird, right?
+
+Foul play?!? Did we “get them”?
+
+Before I answer, can you think of an explanation of why exactly 1/2 is so popular? [Take a minute]
+
+[beat]
+
+Well, small rational fractions have a lot more going for them. You can get EXACTLY 1/3 by having 100 out of 300, 101 of 303, etc. but to get 200/601, well, you must have a very specific vote tally, and a very specific vote count for that party. So those values aren’t as common.
+
+Is this enough to explain the oddity?
+
+Here are the results of a simple model (we pick random numbers for the total number of votes in the polling station, and number of votes for a specific party, given that party’s national total)
+
+The small rationals making an appearance again, even in a random model. (described in appendix B)
+
+Non damning histogram
+
+So, now that we have a simple explanation for these rational numbers in the data, what would be a good way to look at our data?
+
+How about if we let the histogram do what it wanted to from the start, which was to bin the data?If we take 100 bins, we can see if bin 50 is a lot more likely than bin 51 or 49 and thus judge.
+
+Binning makes the rational anomalies disappear.
+
+Well, it looks like we don’t have enough evidence to convict. In the world where the Null hypothesis is true (no fudging) the evidence presented is actually quite reasonable and not at all surprising.
+
+That is not to say that there weren’t instances of a single tally that was fudged and set to exactly 1/2 of the votes for a specific party, it is just not the conspiracy that it appeared to have been (with dozens of polling stations agreeing on the same ratio.)
+
+Next up
+
+This post will be first in a series.
+
+In the next weeks I will explore other anomalies.
+
+I’ll revisit the anomaly that started it all, and I’ll explore some weird rational relationships between parties. (i.e. one party getting 1/2 or twice that of another party)
+
+If you’ve noticed some other weird lines you’d like me to look at, comment and I’ll have a look.
+
+Get Ready
+
+Whet your appetite on this row of vote tallies (from one polling station).
+
+Note the recurring rational relationships. e.g. 25–25–75–150 ; 27–135 it also has the numbers 21,23,24,25,25,26,27. Suspicious, sure. Guilty?
+
+Is that weird enough to be suspect or just a coincidence? find out next week.
+
+Appendix A — code to load data.
+
+The results of the tallies per polling station are in here https://media21.bechirot.gov.il/files/expb.csv
+
+Here is some boilerplate python for loading that file (11K rows), and renaming the columns to English, So you can see for yourself, and find some more suspicious results.
+
+Also includes the code that generates the histograms above.
+
+Appendix B simplistic model
+
+Fitting a normal distribution to the number of valid votes per polling station (centred at 400 with sigma=100, ignoring the peak at 800)
+
+and a poisson distribution for the number of votes per party given the national party fractions, picking lambda from a distribution that matches the national vote fraction per ballot for that party.
+
+This is a bit simplistic I know, e.g. a PCA accounting for vote trends for different parties in different municipalities would be better. But this is good enough for now, it produces a viable reason for all those small rational numbers.

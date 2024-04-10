@@ -1,0 +1,17 @@
+Using Neural Networks
+
+Neural networks are able to learn features from analysing a dataset, and then classify an unseen image based on weights. A great introduction on neural networks can be found here. Features are extracted in the convolutional layers, where a kernel is passed over the image to extract a certain feature. In the end result, multiple kernels learn all the features within a dataset, in order to make classifications. This solves the issue of feature extraction in OCR methods.
+
+Furthermore, using neural networks on a database, rather than classical methods, means no manual hardcoding is needed. Instead, parameters are learnt during the training process. This makes deep learning methods more resilient to changes in handwriting styles, and alleviates the challenges in feature extraction in classical methods. However, the output accuracy depends strongly on the quality and completeness of the dataset used in the training process.
+
+The creation of the MNIST Database propelled research towards using neural networks for handwriting recognition. The database contains 70,000 handwritten digits, and has been used in deep learning since 1998. In LeCuns’ pioneering paper, heads were turned by the introduction of neural networks for handwriting. Using LeNet-5, and distorting the MNIST digits, an error rate of 0.7% was immediately achieved — A vast improvement from classical methods.
+
+Examples of digits from the MNIST database. Image via https://www.oreilly.com
+
+Beyond this, neural networks have been used to classify even unseen alphabets. This means, models can be generalised for any language, and does not require training on a speciﬁc character database, such as MNIST. Graves produced 91.4% accuracy on an unseen arabic characters.
+
+The use of convolutional neural networks (CNNs) peaked in 2011, when Ciresan analysed handwriting, achieving a tiny 0.27% error rate. To do this, seven deep CNNs trained identical classiﬁers on data, pre-processed in diﬀerent ways. This was made more achievable by advances in hardware, where powerful GPUs handle deep learning tasks efficiently, and are now widely used in the community. The errors diﬀered as much as possible, and outputs were averaged. The results are comparable to human-like performance.
+
+The formation of CNNs used by Cisresan et al. to achieve 0.27% error rate. Image from https://ieeexplore.ieee.org/document/6065487
+
+Arguably, the two problems determined by classical methods have been solved. Neural networks can recognise any handwriting, in any style, from any alphabet. The technology is already being harnessed by the New York Times, to restore old print in their archives. Roche is analysing petabytes of medical PDFs daily, to accelerate admin in healthcare. What is next?

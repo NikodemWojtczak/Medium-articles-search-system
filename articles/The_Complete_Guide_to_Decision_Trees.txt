@@ -1,0 +1,11 @@
+The Complete Guide to Decision Trees
+
+A complete introduction to decision trees, how to use them for regression and classification, and how to implement the algorithm in a project setting Marco Peixeiro · Follow Published in Towards Data Science · 9 min read · Jul 25, 2019 -- 2 Share
+
+They are… don’t even try something else
+
+Tree-based methods can be used for regression or classification. They involve segmenting the prediction space into a number of simple regions. The set of splitting rules can be summarized in a tree, hence the name decision tree methods.
+
+A single decision tree is often not as performant as linear regression, logistic regression, LDA, etc. However, by introducing bagging, random forests, and boosting, it can result in dramatic improvements in prediction accuracy at the expense of some loss in interpretation.
+
+In this post, we introduce everything you need to know about decision trees, bagging, random forests, and boosting. It will be a long read, but it will be worth it!

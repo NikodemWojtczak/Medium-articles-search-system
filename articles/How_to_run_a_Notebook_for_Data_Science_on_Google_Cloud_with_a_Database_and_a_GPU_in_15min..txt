@@ -1,0 +1,129 @@
+How to run a Notebook for Data Science on Google Cloud with a Database and a GPU in 15min. Defend Intelligence · Follow Published in Towards Data Science · 5 min read · Feb 23, 2019 -- 2 Listen Share
+
+Setting up your Cloud Shell
+
+First of all you will need to have a Google account and have access to your Google Cloud console here.
+
+Once logged, if it is your first use of google cloud, you will have to create your project by clicking on “Select a project” and then “New Project” at the top right side of the popup window and follow the few simple steps to create your first project:
+
+Once done you should see the name of your project instead of New project in the top banner of your Google Cloud console window.
+
+Now open your Cloud Shell (you will need to activated it if it is your first click, just click on “start cloud shell”) by clicking on this icon at the top right side of your Google Cloud console window:
+
+Your cloud shell window should appeared at the bottom of your current Google cloud console windows. The coloured text it is the name of your project for example my project here is name “firstproj”+an id provided by Google:
+
+Once there be sure to have your ggcloud components up to date and ready:
+
+sudo gcloud components update
+
+Install and Setting up Data Lab
+
+Activate API
+
+Google Cloud console require from you to activate API to allow them to run on your project, if you do not you will have to deal with an HTTPError 403: Access Not Configured ERROR. Go there and let’s activate API required : https://console.developers.google.com/apis/library
+
+Search for Compute Engine API and Enable it (you will need to create billing account if it is not already done) , be sure that Google Cloud Storage API is already enabled:
+
+Install DataLab
+
+gcloud components install datalab
+
+Now we are going to create a datalab, this command will create an instance with basics requirements for Data Science (I selected here the n1-highmen-8 with 8 vCPUs and 52 GB of memory, do not hesitate to change the machine type. To check for machine details click here and for the pricing here ):
+
+datalab beta create-gpu your-datalab-instance-name --machine-type n1-highmem-8
+
+You will have to accepte NVidia GPU Driver installation and then select a zone and follow the view steps to gain access to your datalab instance with SSH.
+
+Important Note : By default create-gpu command create an instance with a Nvidia Tesla K80 which is only available on those selected zones :
+
+us-west1-b
+
+us-central1-a
+
+us-central1-c
+
+us-east1-c
+
+us-east1-d
+
+europe-west1-b
+
+europe-west1-d
+
+asia-east1-a
+
+asia-east1-b
+
+Once the installation is complete you can run your datalab in a windows browser by typing in your Cloud Shell the following command:
+
+datalab connect your-datalab-instance-name
+
+And then open it a window browser by setting your port to 8081 by clicking on Change Port :
+
+Here you go ! You just installed your Datalab Google instance and it should look like the image below. You can now use it bascially like an Usual Jupyter Notebook.
+
+Setting up your Google Cloud Storage
+
+An instance should not been use as a storage environment it is why Google Cloud come with many different service to provide different kind of Storage service. Here we will use the simplest one: Google Cloud storage .
+
+Go to the “Storage” service of google cloud by click to your left side menu.
+
+Create a bucket:
+
+And you are all set, Google cloud storage is really simple by it’s simple clicking access as an usual OS-like system :
+
+Use your Google Cloud Storage on your Datalab
+
+Here it is a simple example function to read a file and a csv from your bucket.
+
+import google.datalab.storage as storage
+
+import pandas as pd from io
+
+import BytesIO
+
+def get_bucket(bucket_target):
+
+shared_bucket = storage.Bucket(str(bucket_name))
+
+return shared_bucket def read_file_from_bucket(file_target):
+
+shared_bucket = get_bucket(bucket_target)
+
+sample_object = shared_bucket.object(str(file_target)
+
+sample_text = sample_object.read_stream()
+
+return sample_text def read_csv_from_bucket(bucket_name,csv_file_name):
+
+%gcs read --object gs://+bucket_name+/+file_name --variable csv_as_bytes
+
+df = pd.read_csv(BytesIO(csv_as_bytes))
+
+return df
+
+To print content of your bucket :
+
+shared_bucket = get_bucket(bucket_name)
+
+for obj in shared_bucket.objects():
+
+if obj.key.find('/') < 0:
+
+print(obj.key)
+
+To print a text file for example :
+
+sample_text = read_file_from_bucket(file_name)
+
+print(sample_text)
+
+To get a csv table as a dataframe:
+
+df = read_csv_from_bucket(bucket_target,file_target)
+
+df.head()
+
+Now you have a high performance notebook ready connected to a storage cloud ready to be use for your Data Science project !
+
+Enjoy ! :-)

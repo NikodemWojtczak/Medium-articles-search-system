@@ -1,0 +1,79 @@
+Computer Vision — An Introduction
+
+In the previous blog, I discussed Visual Perception and its both biological and computational aspects. This blog is specifically about computational Visual Perception, also known as Computer Vision.
+
+What is Computer Vision?
+
+Computer vision has been around for more than 50 years, but recently, we see a major resurgence of interest in how machines ‘see’ and how computer vision can be used to build products for consumers and businesses. Few examples of such applications are- Amazon Go, Google Lens, Autonomous Vehicles, Face Recognition.
+
+The key driving factor behind all these is Computer Vision. In the simplest terms, Computer Vision is the discipline under a broad area of Artificial Intelligence which teaches machines to see. Its goal is to extract meaning from pixels.
+
+From the biological science point of view, its aims are to come up with computational models of the human visual system. From the engineering point of view, computer vision aims to build autonomous systems which could perform some of the tasks which the human visual system can perform (and even surpass it in many cases).
+
+A brief history
+
+n the summer of the year 1966, Seymour Papert and Marvin Minsky at MIT Artificial Intelligence group started a project titled Summer Vision Project. The aim of the project was to build a system that can analyze a scene and identify objects in the scene. So the vast, puzzling area of computer vision that researchers and tech giants are still trying to decode was first thought to be simple enough for an undergraduate summer project by the very people who pioneered artificial intelligence.
+
+In the 70s, taking ideas from studies of the cerebellum, hippocampus and cortex for human perception, David Marr, a neuroscientist at MIT, set up the building blocks for the modern Computer Vision and thus is known as the father of the modern Computer Vision. Majority of his thoughts are culminated in the major book simply titled VISION.
+
+Deep Vision
+
+Deep Learning has taken off since 2012. Deep learning is a subset of machine learning where artificial neural networks, algorithms inspired by the human brain, learn from large amounts of data. Powering recommender systems, identify and tags friends in photos, translate your voice to text, translate text into different languages, Deep Learning has transformed Computer vision leading towards superior performance.
+
+Image classification error rate over time, drastic drop after the introduction of deep learning. source — tractable.ai
+
+These Deep Learning based computer vision algorithms such as Convolutional Neural Networks have started giving promising results with superior accuracies even surpassing human level accuracy on some tasks.
+
+Applications
+
+Smartphones: QR codes, computational photography (Android Lens Blur, iPhone Portrait Mode), panorama construction (Google Photo Spheres), face detection, expression detection (smile), Snapchat filters (face tracking), Google Lens, Night Sight (Pixel)
+
+Web: Image search, Google photos (face recognition, object recognition, scene recognition, geolocalization from vision), Facebook (image captioning), Google maps aerial imaging (image stitching), YouTube (content categorization)
+
+VR/AR: Outside-in tracking (HTC VIVE), inside out tracking (simultaneous localization and mapping, HoloLens), object occlusion (dense depth estimation)
+
+Medical imaging: CAT / MRI reconstruction, assisted diagnosis, automatic pathology, connectomics, AI-guided surgery
+
+Media: Visual effects for film, TV (reconstruction), virtual sports replay (reconstruction), semantics-based auto edits (reconstruction, recognition)
+
+Insurance: Claims automation, Damage analysis, Property inspection
+
+source — Roadzen
+
+For an exhaustive list of Computer Vision applications in industry, see this page maintained by David Lowe, Senior Research Scientist at Google.
+
+Challenges
+
+Even after a huge amount of work published, Computer vision is not solved. It works only under few constraints. One main reason for this difficulty is that the human visual system is simply too good for many tasks e.g.- face recognition. A human can recognize faces under all kinds of variations in illumination, viewpoint, expression, etc. which a computer suffers in such situations.
+
+Privacy and Ethics — While using surveillance, The cutting edge of the insurance industry involves adjusting premiums and policies by monitoring driving behavior, But on the other hand, Vision powered surveillance systems pose a great risk on privacy and ethics. As an example, we see China, Using Facial Recognition To Track Ethnic Minorities. More recently San Francisco has become the first US city to ban the use of facial recognition by its government.
+
+Lack of explainability — Modern neural network based algorithms are still a black box with some extent. So when a model classifies an image as a car, we don’t actually know what caused it to do so. Explainability is a key requirement in several areas like — Insurance and Autonomous driving which is currently missing in these algorithms.
+
+https://www.economist.com/science-and-technology/2018/02/15/for-artificial-intelligence-to-thrive-it-must-explain-itself
+
+https://www.darpa.mil/program/explainable-artificial-intelligence
+
+Deep Fakes — On one solving deep learning based vision is solving many real-world problems, but on the other end, it is creating some problems as well. Using deep learning techniques, now anybody with a powerful GPU and training data can create a believable fake image or videos with DeepFakes.
+
+This problem is so dangerous, that Pentagon, through the Defense Advanced Research Projects Agency (DARPA), is working with several of the country’s biggest research institutions to tackle DeepFakes.
+
+Adversarial attacks — Adversarial examples are inputs to machine learning models that an attacker has intentionally designed to cause the model to make a mistake; they’re like optical illusions for machines.
+
+Computer vision model fails to recognize a person when a patch of paper is attached to him
+
+Future of Computer Vision
+
+As per a report, Computer Vision market was valued at 2.37 billion U.S. dollars in 2017, and it is expected to reach 25.32 billion U.S. dollars by 2023, at a CAGR of 47.54%.
+
+The world is undergoing a deep digital transformation, especially India that shows no signs of slow down. Average monthly data consumption of Jio alone is 10.8 GB. According to this report, Every Minute-
+
+Users watch 4,146,600 YouTube videos
+
+Instagram users post 46,740 photos
+
+Snapchat users share 527,760 photos
+
+Which all give a huge set of opportunities to computer vision find patterns and make sense of it.
+
+Even with all the fascinating developments, AI and the area of computer vision specifically need to tackle problems associated with it currently such as bias, risk unawareness and lack of explainability. To tackle such problems, companies like Ping An has started taking baby steps, utilizing Symbolic AI, an early form of AI, into modern AI algorithms to give explainability of its decision but there is still a way to go.

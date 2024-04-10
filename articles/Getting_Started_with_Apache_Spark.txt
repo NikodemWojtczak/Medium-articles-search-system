@@ -1,0 +1,35 @@
+Getting Started with Apache Spark
+
+Photo by Markus Spiske on Unsplash
+
+Apache Spark is explained as a ‘fast and general engine for large-scale data processing.’ However, that doesn’t even begin to encapsulate the reason it has become such a prominent player in the big data space. Apache Spark is a distributed computing platform, and its adoption by big data companies has been on the rise at an eye-catching rate.
+
+Spark Architecture
+
+The architecture of spark looks as follows:
+
+Spark Eco-System — Image by Author
+
+Spark is a distributed processing engine, but it does not have its own distributed storage and cluster manager for resources. It runs on top of out of the box cluster resource manager and distributed storage.
+
+Spark core has two parts to it:
+
+Core APIs: The Unstructured APIs(RDDs), Structured APIs(DataFrames, Datasets). Available in Scala, Python, Java, and R.
+
+Compute Engine: Memory Management, Task Scheduling, Fault Recovery, Interacting with Cluster Manager.
+
+Note: We will see Core API implementations in Java towards the end of the article.
+
+Outside the Core APIs Spark provides:
+
+Spark SQL: Interact with structured data through SQL like queries.
+
+Streaming: Consume and Process a continuous stream of data.
+
+MLlib: Machine Learning Library. However, I wouldn’t recommend training deep learning models here.
+
+GraphX: Typical Graph Processing Algorithm.
+
+All the above four directly depend upon spark core APIs for distributed computing.
+
+Advantages of Spark

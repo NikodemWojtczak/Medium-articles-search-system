@@ -1,0 +1,253 @@
+CNN Sentiment Analysis
+
+Convolutional neural networks, or CNNs, form the backbone of multiple modern computer vision systems. Image classification, object detection, semantic segmentation — all these tasks can be tackled by CNNs successfully. At first glance, it seems to be counterintuitive to use the same technique for a task as different as Natural Language Processing. This post is my attempt to explain the intuition behind this approach using the famous IMDb dataset.
+
+After reading this post, you will:
+
+Learn how to preprocess text using torchtext Understand the idea behind convolutions Learn how to represent text as images Build a basic CNN Sentiment Analysis model in PyTorch
+
+Let’s get started!
+
+Data
+
+The IMDb dataset for binary sentiment classification contains a set of 25,000 highly polar movie reviews for training and 25,000 for testing. Luckily, it is a part of torchtext, so it is straightforward to load and pre-process it in PyTorch:
+
+# Create an instance that turns text into tensors
+
+TEXT = data.Field(tokenize = 'spacy', batch_first = True)
+
+LABEL = data.LabelField(dtype = torch.float) # Load data from torchtext
+
+train_data, test_data = datasets.IMDB.splits(TEXT, LABEL)
+
+train_data, valid_data = train_data.split() # Select only the most important 30000 words
+
+MAX_VOCAB_SIZE = 30_000 # Build vocabulary
+
+TEXT.build_vocab(train_data,
+
+max_size = MAX_VOCAB_SIZE,
+
+# Load pretrained embeddings
+
+vectors = "glove.6B.100d",
+
+unk_init = torch.Tensor.normal_) LABEL.build_vocab(train_data)
+
+The data.Field class defines a datatype together with instructions for converting it to Tensor. In this case, we are using SpaCy tokenizer to segment text into individual tokens (words). After that, we build a vocabulary so that we can convert our tokens into integer numbers later. The vocabulary is constructed with all words present in our train dataset. Additionally, we load pre-trained GloVe embeddings so that we don’t need to train our own word vectors from scratch. If you’re wondering what word embeddings are, they are a form of word representation that bridges the human understanding of language to that of a machine. To learn more, read this article. Since we will be training our model in batches, we will also create data iterators that output a specific number of samples at a time:
+
+# Create PyTorch iterators to use in training
+
+train_iterator, valid_iterator, test_iterator = data.BucketIterator.splits(
+
+(train_data, valid_data, test_data),
+
+batch_size = BATCH_SIZE,
+
+device = device)
+
+BucketIterator is a module in torchtext that is specifically optimized to minimize the amount of padding needed while producing freshly shuffled batches for each new epoch. Now we are done with text preprocessing, so it’s time to learn more about CNNs.
+
+Convolutions
+
+Convolutions are sliding window functions applied to a matrix that achieve specific results (e. g., image blur, edge detection.) The sliding window is called a kernel, filter, or feature detector. The visualization shows six 3×3 kernels that multiply their values element-wise with the original matrix, then sum them up. To get the full convolution, we do this for each element by sliding the filter over the entire matrix:
+
+CNNs are just several layers of convolutions with activation functions like ReLU that make it possible to model non-linear relationships. By applying this set of dot products, we can extract relevant information from images, starting from edges on shallower levels to identifying the entire objects on deeper levels of neural networks. Unlike traditional neural networks that simply flatten the input, CNNs can extract spatial relationships that are especially useful for image data. But how about the text?
+
+CNNs for NLP
+
+Remember the word embeddings we discussed above? That’s where they come into play. Images are just some points in space, just like the word vectors are. By representing each word with a vector of numbers of a specific length and stacking a bunch of words on top of each other, we get an “image.” Computer vision filters usually have the same width and height and slide over local parts of an image. In NLP, we typically use filters that slide over word embeddings — matrix rows. Therefore, filters usually have the same width as the length of the word embeddings. The height varies but is generally from 1 to 5, which corresponds to different n-grams. N-grams are just a bunch of subsequent words. By analyzing sequences, we can better understand the meaning of a sentence. For example, the word “like” alone has an opposite meaning compared to the bi-gram “don’t like”; the latter gives us a better understanding of the real meaning. In a way, by analyzing n-grams, we are capturing the spatial relationships in texts, which makes it easier for the model to understand the sentiment. The visualization below summarizes the concepts we just covered:
+
+Source: Lopez et al. (2017) Link: https://arxiv.org/pdf/1703.03091.pdf
+
+PyTorch Model
+
+Let’s now build a binary CNN classifier. We will base our model on the built-in PyTorch nn.Module:
+
+class CNN_Text(nn.Module):
+
+''' Define network architecture and forward path. '''
+
+def __init__(self, vocab_size,
+
+vector_size, n_filters,
+
+filter_sizes, output_dim,
+
+dropout, pad_idx):
+
+
+
+super().__init__()
+
+
+
+# Create word embeddings from the input words
+
+self.embedding = nn.Embedding(vocab_size, vector_size,
+
+padding_idx = pad_idx)
+
+
+
+# Specify convolutions with filters of different sizes (fs)
+
+self.convs = nn.ModuleList([nn.Conv2d(in_channels = 1,
+
+out_channels = n_filters,
+
+kernel_size = (fs, vector_size))
+
+for fs in filter_sizes])
+
+
+
+# Add a fully connected layer for final predicitons
+
+self.linear = nn.Linear(len(filter_sizes) \
+
+* n_filters, output_dim)
+
+
+
+# Drop some of the nodes to increase robustness in training
+
+self.dropout = nn.Dropout(dropout)
+
+
+
+
+
+
+
+def forward(self, text):
+
+'''Forward path of the network.'''
+
+# Get word embeddings and formt them for convolutions
+
+embedded = self.embedding(text).unsqueeze(1)
+
+
+
+# Perform convolutions and apply activation functions
+
+conved = [F.relu(conv(embedded)).squeeze(3)
+
+for conv in self.convs]
+
+
+
+# Pooling layer to reduce dimensionality
+
+pooled = [F.max_pool1d(conv, conv.shape[2]).squeeze(2)
+
+for conv in conved]
+
+
+
+# Dropout layer
+
+cat = self.dropout(torch.cat(pooled, dim = 1))
+
+return self.linear(cat)
+
+In the init function, we specify different layer types: embedding, convolution, dropout, and linear. All these layers are integrated into PyTorch and are very easy to use. The only tricky part is calculating the correct number of dimensions. In the case of the linear layer, it will be equal to the number of filters you use (I use 100, but you can pick any other number) multiplied by the number of different filter sizes (5 in my case.) We can think of the weights of this linear layer as “weighting up the evidence” from each of the 500 n-grams. The forward function specifies the order in which these layers should be applied. Notice that we also use max-pooling layers. The idea behind max-pooling is that the maximum value is the “most important” feature for determining the sentiment of the review, which corresponds to the “most important” n-gram is identified through backpropagation. Max-pooling is also useful for reducing the number of parameters and computations in the network.
+
+Once we specified our network architecture, let’s load the pre-trained GloVe embeddings we imported before:
+
+# Initialize weights with pre-trained embeddings
+
+model.embedding.weight.data.copy_(TEXT.vocab.vectors) # Zero the initial weights of the UNKnown and padding tokens.
+
+UNK_IDX = TEXT.vocab.stoi[TEXT.unk_token] # The string token used as padding. Default: “<pad>”.
+
+PAD_IDX = TEXT.vocab.stoi[TEXT.pad_token] model.embedding.weight.data[UNK_IDX] = torch.zeros(EMBEDDING_DIM)
+
+model.embedding.weight.data[PAD_IDX] = torch.zeros(EMBEDDING_DIM)
+
+model = model.to(device)
+
+The second part of this code chunk sets the unknown vectors (the ones that are not present in the vocabulary) and the padding vectors (used in case the input size is smaller than the height of the largest filter) to zeros. We’re now ready to train and evaluate our model.
+
+You can find the full training and evaluation code in this notebook:
+
+Before training the model, we need to specify the network optimizer and the loss function. Adam and binary cross-entropy are popular choices for classification problems. To train our model, we get the model predictions, calculate how accurate they are using the loss function, and backpropagate through the network to optimize weights before the next run. We perform all these actions in the model.train() mode. To evaluate the model, don’t forget to turn the model.eval() mode on to make sure we’re not dropping half of the nodes with the dropout (while improving the robustness in the training phase, it will hurt during evaluation). We also don’t need to calculate the gradient in the evaluation phase so that we can turn it off with the help of the torch.no_grad() mode.
+
+After training the model for several epochs (use GPU to speed it up), I got the following losses and accuracies:
+
+Losses and Accuracies
+
+The graph indicates signs of overfitting since both training loss and accuracy keep improving while the validation loss and accuracy get worse. To avoid using the overfitted model, we only save the model in case the validation loss increased. In this case, the validation loss was the highest after the third epoch. In the training loop, this part looks as follows:
+
+if valid_loss < best_valid_loss:
+
+best_valid_loss = valid_loss
+
+torch.save(model.state_dict(), 'CNN-model.pt')
+
+The performance of this model on the previously unseen test set is quite good: 85.43%. Finally, let’s predict the sentiment of some polar reviews using the CNN-model. To do so, we need to write a function that tokenizes user input and turns it into a tensor. After that, we get predictions using the model we just trained:
+
+def sentiment(model, sentence, min_len = 5):
+
+'''Predict user-defined review sentiment.'''
+
+model.eval()
+
+tokenized = [tok.text for tok in nlp.tokenizer(sentence)]
+
+if len(tokenized) < min_len:
+
+tokenized += ['<pad>'] * (min_len - len(tokenized))
+
+# Map words to word embeddings
+
+indexed = [TEXT.vocab.stoi[t] for t in tokenized]
+
+tensor = torch.LongTensor(indexed).to(device)
+
+tensor = tensor.unsqueeze(0)
+
+# Get predicitons
+
+prediction = torch.sigmoid(model(tensor))
+
+return prediction.item()
+
+In the original dataset, we have labels “pos” and “negs” that got mapped to 0 and 1, respectively. Let’s see how well our model performs on positive, negative, and neutral reviews:
+
+reviews = ['This is the best movie I have ever watched!',
+
+'This is an okay movie',
+
+'This was a waste of time! I hated this movie.']
+
+scores = [sentiment(model, review) for review in reviews]
+
+The model predictions are 0.007, 0.493, and 0.971 respectively, which is pretty good! Let’s try some tricker examples:
+
+tricky_reviews = ['This is not the best movie I have ever watched!',
+
+'Some would say it is an okay movie, but I found it terrific.',
+
+'This was a waste of time! I did not like this movie.']
+
+scores = [sentiment(model, review) for review in tricky_reviews]
+
+scores
+
+Unfortunately, since the model has been trained on polar reviews, it finds it quite hard to classify tricky statements. For example, the first tricky review got a score of 0.05, which is quite confident ‘yes’ even though negation is present in the sentence. Try playing around with different n-grams to see whether some of them are more important then others, maybe a model with bi-grams and 3-grams would perform better than a combination of different n-grams we used.
+
+Table of reviews and their sentiment scores
+
+Conclusion
+
+In this post, we went through the concept of convolutions and discussed how they can be used to work with text. We also learned how to preprocess datasets from PyTorch and built a binary classification model for sentiment analysis. Despite being fooled by tricky examples, the model performs quite well. I hope you enjoyed reading this post and feel free to reach out to me if you have any questions!
+
+References
+
+Britz, D. (2015). Understanding Convolutional Neural Networks for NLP. Retrieved from: http://www.wildml.com/2015/11/understanding-convolutional-neural-networks-for-nlp/
+
+Lopez, M. M., & Kalita, J. (2017). Deep Learning applied to NLP. arXiv preprint arXiv:1703.03091. Retrieved from: https://arxiv.org/pdf/1703.03091.pdf
+
+Trevett, B. (2019). Convolutional Sentiment Analysis. Retrieved from: https://github.com/bentrevett/pytorch-sentiment-analysis/blob/master/4%20-%20Convolutional%20Sentiment%20Analysis.ipynb

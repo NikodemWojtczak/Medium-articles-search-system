@@ -1,0 +1,25 @@
+Photo by Kelly Sikkema on Unsplash
+
+We as Data Scientists face doing many repetitive and similar tasks. That includes creating weekly reports, executing extract, transform, load (ETL) jobs, or training models using different parameter sets. Often, we end up having a bunch of Python scripts, where we change parameters in code every time we run them. I hate doing this! That’s why I got into the habit of transforming my scripts into reusable command-line interface (CLI) tools. This increased my efficiency and made me more productive in my daily life. I started doing this using Argparse but this was not enjoyable as I had to produce a lot of ugly code. So I thought, can’t I achieve that without having to write a lot of code over and over again? Can I even enjoy writing CLI tools?
+
+Click is your friend!
+
+So what is Click? From the webpage:
+
+It (Click) aims to make the process of writing command-line tools quick and fun while also preventing any frustration caused by the inability to implement an intended CLI API.
+
+To me, that sounds great, doesn’t it?
+
+In this article, I give you a hands-on guide on how to build Python CLIs using Click. I build up an example step by step that shows you the basic features and benefits Click offers. After this tutorial, you should be able to write your next CLI tool with joy and in a blink of an eye :) So let’s get our hands dirty!
+
+The Tutorial
+
+In this tutorial, we build up a Python CLI using Click that evolves step by step. I start with the basics, and with each step, I introduce a new concept offered by Click. Apart from Click, I use Poetry to manage dependencies and packages.
+
+Preparation
+
+First, let’s install Poetry. There are various ways of doing that, see my article, but here we use pip
+
+pip install poetry==0.12.7
+
+Next, we use Poetry to create a project named cli-tutorial, add click and funcy as a dependency, and create a file cli.py that we later fill with code

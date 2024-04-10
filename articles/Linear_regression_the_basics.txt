@@ -1,0 +1,35 @@
+Understanding the foundations of linear regression techniques
+
+Regression techniques help you measure the extent to which variables are related. They allow you to say, for instance, that “for each square meter in a house, it will cost an extra $6,000” (in this case those variables are house area and its price).
+
+Linear regression is the type of regression we do when that relationship is linear. In our example, it is probably the case: extra squared meters will always add more or less the same to the house price. Now let’s think of house price per number of bathrooms: although adding a second bathroom to your house will increase its price, it is very unlikely that the 12th bathroom will make much difference to a house that already has 11 of them.
+
+In regression techniques, we always have our target numeric variable (Y) and our explanatory variables (X1, X2, …. ). In this case, since we are trying to explain house prices, that’s our Y. In the first example, our X was the house area and, in the second one, its number of bathrooms. We also might have multiple X (for instance, if we take area, number of bathrooms and year of the last renovation).
+
+Now let’s do our first regression, using R. We will work on a public dataset with data from house sales in King County, USA, available here. We can then load it, and take a look at the variables:
+
+IN:
+
+path = 'insert you file path here'
+
+data = read.csv(paste(path,'kc_house_data.csv', sep = ""))
+
+colnames(data) OUT:
+
+[1] "id" "date" "price" "bedrooms" "bathrooms" "sqft_living"
+
+[7] "sqft_lot" "floors" "waterfront" "view" "condition" "grade"
+
+[13] "sqft_above" "sqft_basement" "yr_built" "yr_renovated" "zipcode" "lat"
+
+[19] "long" "sqft_living15" "sqft_lot15"
+
+So here we have price and sqft_living (the living area in square feet). Let’s take a look at these two variables behave together:
+
+IN:
+
+attach(data)
+
+plot(sqft_living,price)
+
+Here we have a scatterplot, where each dot represents a house, with its area in the X axis and its price in the Y axis. As expected, it looks like the bigger the house, the more expensive it is. Also, that…

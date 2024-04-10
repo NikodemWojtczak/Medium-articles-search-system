@@ -1,0 +1,39 @@
+Akash Ganga (Milky Way)
+
+This work was done as a part of MOAD’s internship program.
+
+Introduction to Astronomical Imaging
+
+A video comparing the age of the universe to the time humankind has spent on science (most of our scientific progress has taken place in time that is equal to 0.000 0001% Age of Universe)
+
+Four centuries ago, Galileo looked up at the moon and pondered over the night sky. Fast forward: we have footsteps on the moon and will soon have footsteps on Mars! Humankind has made tremendous progress in the little time we have had on Earth. We have discovered the origins of the universe and have made simulations to map out the future of the universe.
+
+Our initial studies of the night sky were done with our naked eyes, and then, using simple telescopes that enhanced our vision. These studies used what is known as ‘optical light images’ of the night sky.
+
+An image of the night sky using ‘optical light’.
+
+In addition to optical light images, images can be made with any type of electromagnetic radiation. For example, when you visit a doctor with a broken leg, the doc might photograph your leg with ‘x-rays’ instead of ‘optical light’.
+
+In the image below, we have two pictures, one using optical light and another using infrared light.
+
+The image in optical light (left) and infrared light (right). [NASA/IPAC]
+
+With the development of ground-based telescopes and satellites (The Hubble Space Telescope was launched in 1990), we can take pictures of the universe with the different type of electromagnetic radiation. In the image below, we see the picture of the same galaxy but with five different types of light.
+
+The image of a galaxy in the gamma, visible, UV, radio and infrared spectrums. [NASA]
+
+With advanced telescopes, astronomers have collected numerous images of the night sky. Their work has helped us develop maps of the universe in the electromagnetic spectrum and these images and maps have taught us much about the universe. If we keep studying these images and maps, we are bound to continue making groundbreaking discoveries.
+
+The only problem is that there is far too much data for our astronomers to process. The image below, called the eXtreme Deep Field, taken from 1 degree of the night sky, has over 3000 galaxies! It is a considerable challenge to classify and label all the galaxies in these images (let us not even think of labelling all the stars we see/do not see, inside these galaxies).
+
+The eXtreme Deep Field, a photo assembled by combining 10 years of NASA Hubble Space Telescope photographs taken of a patch of sky at the centre of the original Hubble Ultra Deep Field. The image on the left is what is visible with a naked eye, while the image on the right is the Deep Field image of a small section of the night sky [NASA, ESA, and the HUDF09 Team]
+
+Our current approach to label and classify the galaxies in these images is to crowdsource the images: get the help of civilians to help classify galaxies (GalazyZoo). However, using a computer to help with the classification might be a better approach. Once trained with machine learning, computers will be a lot more competent in this task.
+
+The aim of our project, Akash Ganga, is to create a machine learning model to help with galaxy classification.
+
+Our unique approach to Galaxy Morphology —Transfer Learning
+
+Some groups have tried to train ML agents in the past to perform galaxy classification by training ML agents from scratch. For this Akash Ganga, we used Transfer Learning to train our model.
+
+Transfer Learning is the concept of taking a pre-trained ML model, such as Google’s Inception net, or VVG16, and modifying the model’s end layers to suit the new classification needs. The benefits of Transfer Learning is that the trained models such as VVG16 have had thousands of hours of training. A lot of this training might actually be involved in teaching the model basic feature extraction of the images. By using the pre-trained model, we already have weights ready for feature extraction. All that is left to train, is any of the new layers added to allow for classification of the new classes.

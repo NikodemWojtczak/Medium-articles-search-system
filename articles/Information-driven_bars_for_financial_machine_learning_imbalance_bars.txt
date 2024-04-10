@@ -1,0 +1,41 @@
+Photo by Javier Allegue, at Unsplash
+
+In previous articles we talked about tick bars, volume bars and dollar bars, alternative types of bars which allow market activity-dependent sampling based on the number of ticks, volume or dollar value exchanged. Additionally, we saw how these bars display better statistical properties such as lower serial correlation when compared to traditional time-based bars. In this article we will talk about information-driven bars and specifically about imbalance bars. These bars aim to extract information encoded in the observed sequence of trades and notify us of a change in the imbalance of trades. The early detection of an imbalance change will allow us to anticipate a potential change of trend before reaching a new equilibrium.
+
+The concept behind imbalance bars
+
+Imbalance bars were firstly described in the literature by Lopez de Prado in his book Advances in Financial Machine Learning (2018). In his own words:
+
+The purpose of information-driven bars is to sample more frequently when new information arrives to the market. […] By synchronizing sampling with the arrival of informed traders, we may be able to make decisions before prices reach a new equilibrium level.
+
+Imbalance bars can be applied to tick, volume or dollar data to produce tick (TIB), volume (VIB) and dollar (DIB) imbalance bars, respectively. Volume and dollar bars are just an extension of tick bars so in this article we will focus mainly on tick imbalance bars and then we will briefly discuss how to extend them to handle volume or dollar information.
+
+The main idea behind imbalance bars is that, based on the imbalance of the sequence of trades, we generate some expectation or threshold and we sample a bar every time the imbalance exceeds that threshold/expectation. But how do we calculate the imbalance? And how do we define the threshold? Let’s try to answer these questions.
+
+What is tick imbalance?
+
+Given a sequence of trades, we apply the so-called tick rule to generate a list of signed ticks (bt). You can see the tick rule in Formula 1. Essentially, for each trade:
+
+if the price is higher than in the previous trade, we set the signed tick as 1; if the price is lower than in the previous trade, we set the signed tick as -1; if the price is the same as in the previous trade, we set the signed tick equal to the previous signed tick.
+
+Formula 1. Tick rule to define signed ticks [1,-1]. pt is the price of trade t and delta-pt is the increment in price respect p(t-1). b(t-1) is the signed tick at t-1.
+
+By applying the tick rule we transform all trades to signed ticks (either 1 or -1). This sequence of 1s and -1s can be summed up (cumulative sum) to calculate how imbalanced is the market (Formula 2) at any time T.
+
+Formula 2. Cumulative sum of signed ticks up to time T.
+
+The intuition behind the signed tick imbalance is that we want to create a metric to see how many trades have been done towards a “higher price” direction (+1) or towards a “lower price” direction (-1). In the tick imbalance definition we assume that, in general, there will be more ticks towards a particular up/down direction if there are more informed traders that believe on a particular direction. Finally, we assume that the presence of a higher amount of informed traders towards a particular direction is correlated with information arrival (e.g. favorable technical indicators or news releases) that could lead the market to a new equilibrium. The goal of imbalance bars is to detect these inflows of information as early as possible so we can be notified on time of a potential trading opportunity.
+
+How do we set the threshold?
+
+At the beginning of each imbalance bar, we look at the sequence of old signed ticks and we calculate how much the signed tick sequence is imbalanced towards 1 or -1 by calculating an exponentially weighted moving average (EWMA). Finally, we multiply the EWMA value (the expected imbalance) by the expected bar length (number of ticks) and the result is the threshold or expectation that our cumulative sum of signed ticks must surpass (in absolute value) to trigger the sampling of a new candle.
+
+How do we define a tick imbalance bar?
+
+In mathematical terms we define a tick imbalance bar (TIB) as a contiguous subset of ticks that satisfy the following condition:
+
+Formula 3. Tick imbalance bar definition.
+
+A visual example
+
+Let’s look at a visual example:

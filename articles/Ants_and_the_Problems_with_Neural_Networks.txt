@@ -1,0 +1,19 @@
+Ants and the Problems with Neural Networks
+
+Photo by Mikhail Vasilyev on Unsplash
+
+Ants are pretty dumb. They live for a week and don’t do much besides walking around, looking for food and carrying twigs to their anthill (now that I think about it, we humans also don’t do much else).
+
+But they are also dumb apart from living uninspired ant lives. They are dumb in a technical sense: an individual ant has just at the order of 250.000 (2,5*10⁵) neurons. As a comparison: an average homo sapiens has on average 80 billion neurons (8*10¹⁰), so if we assume that intelligence scales in at least some ways with the size of the brain (ignoring the fact that some animals have larger brains than we do), then we are approximately 320.000 times as smart as ants.
+
+But despite the tininess of their brains, ants have their moments. They are constantly doing things that are so sophisticated that they could be taken straight out of a university-level math exam. One of these things is called dead reckoning.
+
+Dead reckoning
+
+When ants like the Cataglyphis bicolor go out foraging for food, they leave their home and move into the direction of an expected food source. As they don’t know precisely where the food source is to be found, they walk around in wobbly lines and circles (see this paper by Maroudas and Harkness for more details and an illustration). If you have observed ants in the wild, you might have thought that it all looks completely random.
+
+But once the ant has found the food source and taken its share, it goes straight back to its home. And when I say straight, I mean literally along a straight line, without the help of any landmarks to guide them.
+
+Dead reckoning is the art of knowing where you are by remembering where you came from. No one really knows why it’s called dead reckoning. You need to be very much alive to do it. And it’s no trivial task.
+
+For ants to keep an understanding of where they are, they need to take into account the time with which they travel in a certain direction and the velocity with which they do it. They need to sum up all the small displacements of their path over long stretches of time, and they need to be able to store this information reliably and…

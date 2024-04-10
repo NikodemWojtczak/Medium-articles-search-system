@@ -1,0 +1,15 @@
+Interviewer: Haebichan Jung, Project Lead at TowardsDataScience.com. Data Scientist at Recurly, SF.
+
+Interviewee: Dr. Jeannette Wing, Avanessians Director of the Data Science Institute and Professor of Computer Science at Columbia University (2017-). Former Corporate Vice President at Microsoft Research (2013–2017). Former Head of the Computer Science Department at Carnegie Mellon University (Twice).
+
+What were your main responsibilities at Microsoft Research?
+
+There were two main functions for running the corporate research lab.
+
+I was in charge of the basic research labs. It was about pushing state-of-the-art in all forms of research. By then Microsoft Research (MR) was covering more than just computer science (CS). We had biologists, social scientists, economists, etc. I was speaking to the core business of Microsoft and making sure that great technologies that MR researchers produced were available to business units and ensuring that business units would always be one step ahead in terms of technologies and anticipating the future.
+
+I was in charge of both of these responsibilities across all our research labs across the globe, such as ones in Redmond, New York City, Cambridge (England), Bangalore (India), and Beijing (China).
+
+Were you involved in Microsoft’s investments in AI projects? If so, what were some challenges you faced?
+
+I was involved in the investing in research related to machine learning, AI, and data science more generally in terms of people we hired and projects we supported, as well as our engagements with the business units. I was in an actual business unit called “AI and Research”. The AI part of that business unit worked with other business units to make sure that other business units were aware of the latest ML and AI techniques and how to take advantage of the research ideas that were coming out from the research arm of the…

@@ -1,0 +1,25 @@
+Machine learning is such an active field of research that you’ll often see white papers referenced in the documentation of libraries. In the proceeding article we’ll cover batch normalization which was characterized by Loffe and Szegedy. If you’re the kind of person who likes to get their information directly from the source, checkout the proceeding link to their white paper.
+
+Batch normalization is used to stabilize and perhaps accelerate the learning process. It does so by applying a transformation that maintains the mean activation close to 0 and the activation standard deviation close to 1.
+
+Backpropagation
+
+At a high level, backpropagation modifies the weights in order to lower the value of cost function. However, before we can understand the reasoning behind batch normalization, it’s critical that we grasp the actual mathematics underlying backpropagation.
+
+To make the problem simpler, we will assume we have a neural network consisting of two layers, each with a single neuron.
+
+We can express output of each neuron using the following formulas:
+
+Where:
+
+L = the layer in the neural network
+
+w = the weight with which the outgoing edges from the neuron are multiplied
+
+a = output from the neuron in the previous layer (the value of the incoming edge)
+
+σ = the activation function
+
+b = the output from the bias neuron (the value of the incoming edge)
+
+A typical example of a cost function is mean squared error. For an individual sample, we subtract the actual value (i.e. y) from…

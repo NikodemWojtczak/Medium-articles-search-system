@@ -1,0 +1,29 @@
+Limitation 4 — Misapplication
+
+Related to the second limitation discussed previously, there is purported to be a “crisis of machine learning in academic research” whereby people blindly use machine learning to try and analyze systems that are either deterministic or stochastic in nature.
+
+For reasons discussed in limitation two, applying machine learning on deterministic systems will succeed, but the algorithm which not be learning the relationship between the two variables, and will not know when it is violating physical laws. We simply gave some inputs and outputs to the system and told it to learn the relationship — like someone translating word for word out of a dictionary, the algorithm will only appear to have a facile grasp of the underlying physics.
+
+For stochastic (random) systems, things are a little less obvious. The crisis of machine learning for random systems manifests itself in two ways:
+
+P-hacking
+
+Scope of the analysis
+
+P-hacking
+
+When one has access to large data, which may have hundreds, thousands, or even millions of variables, it is not too difficult to find a statistically significant result (given that the level of statistical significance needed for most scientific research is p < 0.05). This often leads to spurious correlations being found that are usually obtained by p-hacking (looking through mountains of data until a correlation showing statistically significant results is found). These are not true correlations and are just responding to the noise in the measurements.
+
+This has resulted in individuals ‘fishing’ for statistically significant correlations through large data sets, and masquerading these as true correlations. Sometimes, this is an innocent mistake (in which case the scientist should be better trained), but other times, it is done to increase the number of papers a researcher has published — even in the world of academia, competition is strong and people will do anything to improve their metrics.
+
+Scope of the Analysis
+
+There are inherent differences in the scope of the analysis for machine learning as compared with statistical modeling — statistical modeling is inherently confirmatory, and machine learning is inherently exploratory.
+
+We can consider confirmatory analysis and models to be the kind of thing that someone does in a Ph.D. program or in a research field. Imagine you are working with an advisor and trying to develop a theoretical framework to study some real-world system. This system has a set of pre-defined features that it is influenced by, and, after carefully designing experiments and developing hypotheses you are able to run tests to determine the validity of your hypotheses.
+
+Exploratory, on the other hand, lacks a number of qualities associated with the confirmatory analysis. In fact, in the case of truly massive amounts of data and information, the confirmatory approaches completely break down due to the sheer volume of data. In other words, it simply is not possible to carefully lay out a finite set of testable hypotheses in the presence of hundreds, much less thousands, much less millions of features.
+
+Therefore and, again, broadly speaking, machine learning algorithms and approaches are best suited for exploratory predictive modeling and classification with massive amounts of data and computationally complex features. Some will contend that they can be used on “small” data but why would one do so when classic, multivariate statistical methods are so much more informative?
+
+ML is a field which, in large part, addresses issues derived from information technology, computer science, and so on, these can be both theoretical and applied problems. As such, it is related to fields such as physics, mathematics, probability, and statistics but ML is really a field unto itself, a field which is unencumbered by the concerns raised in the other disciplines. Many of the solutions ML experts and practitioners come up with are painfully mistaken…but they get the job done.

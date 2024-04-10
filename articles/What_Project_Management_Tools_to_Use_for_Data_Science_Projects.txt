@@ -1,0 +1,143 @@
+What Project Management Tools to Use for Data Science Projects
+
+Traditional project management methodologies do not work as stand-alone approaches in data science. Knowing the strengths of each for certain situations can be a powerful way-out. Andrew Stepanov · Follow Published in Towards Data Science · 7 min read · May 24, 2019 -- Listen Share
+
+Source: unsplash.com
+
+In case you have never thought about this, now it is time to face the truth about projects and project management. This is what we deal with on a daily basis. Project management as a professional sphere is booming and there is a dramatic increase in professional project managers and jobs requiring project-oriented skills.
+
+The Project Management Institute, the leading global organization for project management, indicates that by 2027, employers will need almost 88 million employees directly involved in project management and project management-oriented roles — a mind-blowing amount.
+
+If you are engaged in data science, machine learning, etc., you know how important it is to structure information, schedule and plan steps and phases. According to Jeffery Leek, the professor at Johns Hopkins Bloomberg School of Public Health, co-editor at Simply Statistics and Biostatistics, and co-director at JHU Data Science Lab, almost 20% of the time on a data science project is spent just to organize and document all the work. Pretty much, isn’t it?
+
+Project management methodologies in data science projects
+
+In its nature, data science project management relies on common project management methodologies yet not all of them can be successfully applied to their fullest. As this is a relatively new field, data science may require something new or at least, a combination of standard approaches.
+
+However, as data science is still evolving and has not straightforwardly shaped itself, there can’t be a unique answer to the question of what methodology works best in these projects.
+
+In general, the following methodologies can be distinguished:
+
+· CRISP-DM as a traditional approach in data science project management.
+
+· Waterfall as a traditional approach.
+
+· Scrum as an Agile approach.
+
+· Kanban as an Agile approach.
+
+This is not the full list of methodologies used in data science projects. But you will definitely find applications based on the described above approaches. That’s why I will describe tools that are based purely on them. They will help identify key points each approach can help with to develop a model that will specifically work for you.
+
+Project management tools for data science projects
+
+CRISP-DM
+
+When we deal with data science, data mining is one of the most crucial steps in the work process. And when we speak about standards of mining, CRISP-DM that stands for Cross-industry standard process for data mining comes to mind immediately as this is probably the best well-known standard.
+
+According to CRISP-DM, there are six iterative phases in the data science project management.
+
+· Understanding a business problem where you have to ask a lot of questions.
+
+· Data understanding and acquisition from multiple sources like Web servers, logs, databases, online repositories.
+
+· Data preparation that includes data cleaning and data transformation. Usually, this phase is the most time-consuming.
+
+· Data modeling when you build and assess a model. This is the core activity.
+
+· Evaluation that includes visualization and communication.
+
+· Deployment and maintenance with final reports and a project review.
+
+Pros of the methodology: flexible and cyclical nature; task-focused approach; easy to implement.
+
+Cons of the methodology: does not work for teams; does not cover communication issues.
+
+What tools to use in CRISP-DM?
+
+RapidMiner
+
+RapidMiner has been recognized as a leader in the 2019 Gartner Magic Quadrant for Data Science and Machine Learning Platforms. So, if you are seriously engaged in data science, need a predictive analysis of large models and data, this tool is your perfect choice.
+
+Pros of the software: a serious tool that provides with everything you need to work with data; intuitive interface; visualization that explains analyzed results.
+
+Cons of the software: pricing that may look too high for unprepared users; lack of tutorials.
+
+Alternative: Orange.
+
+Waterfall
+
+This approach gives a clear consequential picture of all the tasks that were defined from the very beginning of a project. A project or certain its phases are broken into smaller parts and connected with dependencies. When you chunk, plans are much easier and more efficient to manage. Changes are not supposed here, however, they may occur.
+
+This methodology does not work for the data discovery process. However, if the processes can be viewed as tangible phases, it may be useful for planning.
+
+The most widespread tool that is successfully used here is a Gantt chart.
+
+Pros of the methodology: requirements, tasks, dates, assignees are known from the very beginning; includes plenty of clear visual details; easy to follow; works well for team communication.
+
+Cons of the methodology: does not cover change management though cutting-edge Gantt chart applications allow doing it.
+
+What tools to use in Waterfall?
+
+GanttPRO
+
+GanttPRO is a robust Gantt chart software with lots of additional features. It also helps manage resources, teams, and cost what makes it also a working solution for communication and collaboration on a project. If you need to divide your project into smaller parts with associated dates, milestones, strict deadlines, and progress, choose this Gantt chart maker.
+
+Pros of the software: simple to understand; a short learning curve; intuitive interface; free 14-day trial.
+
+Cons of the software: not a perfect choice for long-term projects.
+
+Alternative: Wrike.
+
+Scrum
+
+This is one of the most widespread Agile approaches in the world with the application in a variety of industries.
+
+According to this methodology, large projects are divided into smaller phases called sprints that last from 1–2 weeks to 1–3 months. Each sprint has fixed timeframes and should achieve the deliverables that have been set at a kickoff meeting.
+
+Scrum heavily relies on customer feedback.
+
+Pros of the methodology: focus on customers; adaptive and flexible with a great degree of autonomy; in terms of data science, it allows optimizing predictability.
+
+Cons of the methodology: time-bound nature may cause troubles during the estimation phase when there are many unknown issues; does not work for long-term projects.
+
+What tools to use in Scrum?
+
+JIRA
+
+This tool requires no introduction. JIRA is known to anyone who deals with backlogs, sprints, and burndown charts. Efficient, customizable, visually appealing — this all makes JIRA one of the most popular project management tools in the world.
+
+Pros of the software: hundreds of integrations; works well for small and large projects, for small and huge teams; visual reports.
+
+Cons of the software: it requires time to learn it.
+
+Alternative: Clarizen.
+
+Kanban
+
+Kanban is a methodology that uses a board as a project and cards as tasks. A traditional Kanban board includes three columns — Done, In progress, and To do. In terms of data science projects, additional columns can be added: In development, Coding, Testing, etc.
+
+This is one more popular methodology that proved its efficiency. Kanban also refers to the Agile approach and has much in common with Scrum.
+
+At the same time, the approach puts more emphasis on work in progress with no reference to dates and roles.
+
+Pros of the methodology: emphasis on work in progress; it is flexible and easy to use; work is greatly visualized.
+
+Cons of the methodology: no accent on dates and deadlines (on the contrary, it is a plus for data science projects).
+
+What tools to use in Kanban?
+
+Trello
+
+Trello is a rock star among Kanban tools. It is very simple to use and very easy to understand. It is highly efficient for personal and team projects. Its free version works well for most of the needs.
+
+Pros of the software: a solid free version; mobile version; simple to use; visually appealing.
+
+Cons of the software: it serves well only for work in progress; no calendars.
+
+Alternative: Paymo.
+
+Mixing up methodologies and tools
+
+It is hard to find one tool that perfectly works during the lifespan of a project in data science management. Some phases will have strict deadlines, some — will not; some will need data mining and some will need no management. Data science projects exist in several stages and this is absolutely natural.
+
+By clearly signifying expectations and goals from each phase, you will realize how to more efficiently juggle with the right tools.

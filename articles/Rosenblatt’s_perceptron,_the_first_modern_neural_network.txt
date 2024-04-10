@@ -1,0 +1,11 @@
+Rosenblatt’s perceptron, the first modern neural network
+
+Over the past decade, machine learning has been having a transformative impact in numerous fields such as cognitive neurosciences, image classification, recommendation systems, or engineering. Recently, neural networks and deep learning have attracted even more attention with their successes being regularly reported by both the scientific and mainstream media, see for instance Deep Mind’s AlphaGo and AlphaGo Zero or the more recent AlphaStar. This renewed interest is partially due to the access to open-source libraries such as TensorFlow, PyTorch, Keras, or Flux.jl to name just a few.
+
+Although this increased access to efficient and versatile libraries has opened the door to innovative applications by reducing the knowledge required in computer science to implement deep learning algorithms, a good understanding of the underlying mathematical theories is still needed to come up with efficient neural network architecture for the task considered. Unfortunately, the image society has of mathematics may scare students away (see the documentary How I came to hate math for an illustration). This lack of mathematical literacy may also be one of the reasons why politics and non-tech industries are often either skeptical or way too optimistic about deep learning performances and capabilities. Additionally, Susannah Shattuck recently published a post discussing why people don’t trust AI and why the industry may be reluctant to adopt it. One of the key reasons she cites, although not the only one, is the following :
+
+In a 2018 study from IBM, 63% of respondents cited a lack of technical skills as a barrier to AI implementation.
+
+Historical perspective and objectives of this series
+
+Even though deep learning made it only recently to the mainstream media, its history dates back to the early 1940s with the first mathematical model of an artificial neuron by…

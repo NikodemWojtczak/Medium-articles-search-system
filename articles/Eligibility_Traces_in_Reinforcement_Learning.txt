@@ -1,0 +1,41 @@
+Eligibility Traces in Reinforcement Learning
+
+Photo by Didier Provost on Unsplash
+
+Update: The best way of learning and practicing Reinforcement Learning is by going to http://rl-lab.com
+
+What is Eligibility Traces ?
+
+In short and a straight forward manner, Eligibility Traces is a kind of mathematical trick that improves the performance of Temporal Difference methods, in Reinforcement Learning.
+
+Here are the benefits of Eligibility Traces:
+
+Provide a way of implementing Monte Carlo in online fashion (does not wait for the episode to finish) and on problems without episodes.
+
+Provide an algorithmic mechanism that uses a short-term memory vector.
+
+Computational efficiency by storing a single vector memory instead a list of feature vectors.
+
+instead a list of feature vectors. Learning is done continually rather than waiting results at the end of an episode.
+
+The Forward View
+
+Remember that in Temporal Difference and Monte Carlo methods update a state based on future rewards. This is done either by looking directly one step ahead or by waiting the episode to finish.
+
+This approach is called the Forward View.
+
+In Forward View we look ahead n steps for future rewards
+
+In TD(0) we look one step ahead, while in Monte Carlo we look ahead until the episode is terminated and we collect the discounted results.
+
+However there is a middle ground, in which we look n-steps ahead.
+
+The n-steps Forward View
+
+As explained in the previous section, looking ahead can vary from one step ahead to the end of the episode as the case of Monte Carlo.
+
+So, n-steps is some kind of middle ground.
+
+Remember that in Monte Carlo we execute the episodes, get their returns Gi and average those returns to compute the state value.
+
+Note that length (number of steps) of each episode may vary from one episode to the other. It is not constant!

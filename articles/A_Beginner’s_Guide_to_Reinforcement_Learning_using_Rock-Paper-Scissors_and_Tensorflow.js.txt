@@ -1,0 +1,21 @@
+The goal: To build an agent that is able to learn the rules of RPS using reinforcement learning and neural networks. This means that we want the agent to be able to choose Rock given that the user chooses Scissors.
+
+Reinforcement learning intuitively can be described as the following:
+
+loop: do something based on beliefs → get a positive or negative reward → update beliefs based on reward
+
+So when framing a reinforcement learning problem you have to keep the above cycle in mind. So we can break down the RPS game in the same manner.
+
+The Agent has some beliefs about which move it should choose when the User chooses a move. i.e., the agent thinks it should choose Rock when the User chooses Paper. The User gives the agent a positive or negative reward for the move the Agent chose. The Agent updates it’s beliefs about whether it should have chosen Rock when the User chose paper.
+
+Keeping this in mind, the tutorial is broken down into two sections:
+
+script.js that will contain the code to perform the reinforcement learning cycle. index.html which will allow the user to interact with the learning agent and visualize the learning in real time.
+
+We will start with the script.js.
+
+Choose Move
+
+The start of the learning cycle is ‘do something based on the Agent’s beliefs’. In this context that means choosing a move given the User’s move.
+
+lines 6–12: In the evaluation phase, we want to see how well the Agent has learned. Therefore, the move that is chosen is the one with the highest value. i.e., the move that the Agent has the most confidence in. This is done with the help of a Neural Network.

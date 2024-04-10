@@ -1,0 +1,59 @@
+Repetition in Songs: A Python Tutorial
+
+Credit: Unsplash
+
+Everyone has heard a song or knows what a song sounds like. I can carelessly say everyone can define a song …in their own words. Just for the benefit of the doubt, a song (according to Wikipedia) is a single work of music that is typically intended to be sung by the human voice with distinct and fixed pitches and patterns using sound and silence and a variety of forms that often include the repetition of sections.
+
+In his journal article called “The complexity of Songs”, computer scientist Donald Knuth capitalized on the tendency of popular songs to devolve from long and content-rich ballads to highly repetitive texts. As some may waste no time agreeing with his notion, it does raise some questions like: Does repetitiveness really help songs become a hit? Is music really becoming more repetitive over time?
+
+In an attempt to teach some basic python code in the form of a case study, I am going to test this hypothesis (Are popular songs really repetitive?)with one of my favorite songs. One way to test this hypothesis is to figure out the unique words and calculate the fraction of those words to the total number of words in a song.
+
+In this tutorial, we’ll cover:
+
+Variables and data types
+
+Lists and Dictionaries
+
+Basic Arithmetic operations
+
+Built-in Functions and Loops
+
+Prerequisite Knowledge
+
+To get the most out of this tutorial, you can follow along by running the codes yourself.
+
+The music we will be using is entitled ‘Perfect’ by Ed Sheeran. You can copy the lyrics here. However, the lyrics I am using in this analysis was cleaned out to get a conclusive result. For example, I changed words like “we’ll” to “we will” etc. You can get my version of the lyrics here The editor used was Jupiter NoteBook. Here is a quick tutorial on how to install and use it.
+
+For the purpose of this case study, we will streamline our hypothesis by asking two major questions:
+
+How many unique words were used compared to the whole lyrics of our case study song — Perfect by Ed Sheeran?
+
+What are the most repetitive words used and how many times were they used throughout the song?
+
+Let's get started analyzing already
+
+The Basic
+
+1. A String is a list of characters. A character is anything you can type on the keyboard in one keystroke, like a letter, a number, or a backslash. However, Python recognizes strings as anything that is delimited by quotation marks either a double quote (“ “) or a single quote (‘ ‘) at the beginning and end of a character or text. For example: ‘Hello world’
+
+For this case study, a string is our lyrics as seen below
+
+2. Variables are typically descriptive names, words or symbols used to assign or store values. In other words, they are storage placeholders for any datatype. It is quite handy in order to refer to a value at any time. A variable is always assigned with an equal sign, followed by the value of the
+
+variable. (A way to view your code output is to use a print function. As you may already know with Jupyter notebook, an output can be viewed without a print function)
+
+To store the lyrics, we will assign it a variable named perfect_lyrics .
+
+3. Lists can be created simply by putting different comma-separated values between square brackets. It can have any number of items and they may be of different types (integer, float, string etc.). It can even have another list as an item. For example:
+
+list1 = [1,'mouse', 3.5, [2,'is',5.0]]
+
+#3.5 is a float
+
+Now that we have gotten a sense of what a list looks like. Let go back to our data.
+
+Since one of our aims is to figure out the number of unique words used, it means we will need to do a bit of counting i.e to count each word. In order to achieve these, we will not only have to put our string into a list but will have to separate each word using a .split() method. Therefore our dataset will look like this
+
+Input
+
+Output

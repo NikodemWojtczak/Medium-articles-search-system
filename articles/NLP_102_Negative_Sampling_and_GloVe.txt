@@ -1,0 +1,65 @@
+NLP 102: Negative Sampling and GloVe
+
+Photo by Joshua Sortino on Unsplash
+
+One way to generate a good quality word embedding from a corpus is using Word2Vec — CBOW or Skip-gram model. Both models have a few things in common:
+
+The training samples consisted of a pair of words selected based on proximity of occurrence.
+
+The last layer in the network was a softmax function.
+
+Problems With CBoW/Skip-gram
+
+Firstly, for each training sample, only the weights corresponding to the target word might get a significant update. While training a neural network model, in each back-propagation pass we try to update all the weights in the hidden layer. The weight corresponding to non-target words would receive a marginal or no change at all, i.e. in each pass we only make very sparse updates.
+
+Secondly, for every training sample, the calculation of the final probabilities using the softmax is quite an expensive operation as it involves a summation of scores over all the words in our vocabulary for normalizing.
+
+The softmax function.
+
+So for each training sample, we are performing an expensive operation to calculate the probability for words whose weight might not even be updated or be updated so marginally that it is not worth the extra overhead.
+
+To overcome these two problems, instead of brute forcing our way to create our training samples, we try to reduce the number of weights updated for each training sample.
+
+Negative Sampling
+
+Negative sampling allows us to only modify a small percentage of the weights, rather than all of them for each training sample. We do this by slightly modifying our problem. Instead of trying to predict the probability of being a nearby word for all the words in the vocabulary, we try to predict the probability that our training sample words are neighbors or not. Referring to our previous example of (orange, juice), we don’t try to predict the probability for juice to be a nearby word i.e P(juice|orange), we try to predict whether (orange, juice) are nearby words or not by calculating P(1|<orange, juice>).
+
+So instead of having one giant softmax — classifying among 10,000 classes, we have now turned it into 10,000 binary classification problem.
+
+We further simplify the problem by randomly selecting a small number of “negative” words k(a hyper-parameter, let’s say 5) to update the weights for. (In this context, a “negative” word is one for which we want the network to output a 0).
+
+For our training sample (orange, juice), we will take five words, say apple, dinner, dog, chair, house and use them as negative samples. For this particular iteration we will only calculate the probabilities for juice, apple, dinner, dog, chair, house. Hence, the loss will only be propagated back for them and therefore only the weights corresponding to them will be updated.
+
+The Objective Function
+
+Overall Objective function in Skip-gram and Negative Sampling. Here sigmoid = 1/(1+exp(x)), t is the time step and theta are the various variables at that time step, all the U and V vectors.
+
+The first term tries to maximize the probability of occurrence for actual words that lie in the context window, i.e. they co-occur. While the second term, tries to iterate over some random words j that don’t lie in the window and minimize their probability of co-occurrence.
+
+We sample the random words based on their frequency of occurrence. P(w) = U(w) raised to the 3/4 power, where U(w) is a unigram distribution. The 3/4 power makes less frequent words be sampled more often, without it probability of sampling frequent words such as “the”, “is” etc would be much higher than words like “zebra”, “elephant” etc.
+
+In our above mentioned example, we try to maximize the probability P(1|<orange, juice>) and maximize (because we have a negative sign in front of it in our objective function, so when we will choose the max value, we will encourage them from NOT happening) the probability of our negative samples P(1|<orange, apple>), P(1|<orange, dinner>), P(1|<orange,dog>), P(1|<orange, chair>), P(1|<orange, house>).
+
+A small value of k is chosen for large data sets, roughly around 2 to 5. While for smaller data sets, a relatively larger value is preferred, around 5 to 20.
+
+Sub Sampling
+
+The distribution of words in a corpus is not uniform. Some words occur more frequently than the other. Words such as “the” “is” “are” etc, occur so frequently that omitting a few instances while training the model won’t affect its final embedding. Moreover, most of the occurrences of them don’t tell us much about its contextual meaning.
+
+In sub-sampling, we limit the number of samples for a word by capping their frequency of occurrence. For frequently occurring words, we remove a few of their instances both as a neighboring word and as the input word.
+
+Performance Considerations
+
+The training time of word2Vec can be significantly reduced by using parallel training on multiple-CPU machine. The hyper-parameter choice is crucial for performance (both speed and accuracy), however, varies for different applications. The main choices to make are:
+
+Architecture : skip-gram (slower, better for infrequent words) vs CBOW (fast).
+
+: skip-gram (slower, better for infrequent words) vs CBOW (fast). The Training Algorithm : hierarchical softmax (better for infrequent words) vs negative sampling (better for frequent words, better with low dimensional vectors).
+
+: hierarchical softmax (better for infrequent words) vs negative sampling (better for frequent words, better with low dimensional vectors). Sub-sampling of Frequent Words : can improve both accuracy and speed for large data sets (useful values are in range 1e-3 to 1e-5).
+
+: can improve both accuracy and speed for large data sets (useful values are in range 1e-3 to 1e-5). Dimensionality of the word vectors : usually more is better, but not always.
+
+: usually more is better, but not always. Context (window) Size: for skip-gram usually around 10, for CBOW around 5.
+
+Almost all the objective functions used are convex, so initialization matter. In practice, using small random numbers to initialize the word embedding yields good results.

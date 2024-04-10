@@ -1,0 +1,159 @@
+Artificial Intelligence will Make the Workplace More Human, not Less Pedro Uria-Recio · Follow 11 min read · Aug 8, 2019 -- 2 Listen Share
+
+Abstract
+
+New AI systems have beyond-human cognitive abilities, which many of us fear could potentially dehumanize the future of work. AI will indeed automate most repetitive and physical tasks, and part of the quantitative tasks such as programming and even data science. However, by automating these skills, AI will push human professionals up the skillset ladder into uniquely human skills such as creativity, social abilities, empathy, and sense-making, which machines cannot automate. As a result, AI will make the workplace more human, not less. This is the gift of AI to Mankind. However, humans will need to change jobs and learn new skills throughout their lives. This will not be easy for everyone.
+
+TEDx Talk about the article
+
+If you don’t want to read it, watch it. Here is my TEDx Talk about this very article.
+
+Artificial Intelligence will Make the Workplace More Human, Not Less | Pedro Uria-Recio | TEDxIMU
+
+Robotic Dystopias
+
+Robotic dystopias, where robots replace humans or even rise up against humans, are a recurrent topic in popular culture and innumerable science fiction movies.
+
+In fact, many of us can easily imagine a dystopian workplace in the near future where robots are taking control of most activities or decisions, and where human interactions or feelings do not matter much. Only productivity matters: a formula at which robots are better than humans.
+
+Apart from traditional manufacturing automation, new and more capable artificially intelligent systems are appearing in fields ranging from self-driving cars to automated supermarket check-outs and customer service bots. Remarkable innovations involve beyond-human abilities in natural language processing, strategy board games or computer vision.
+
+Deployment of Artificial Intelligence (AI) and automation can certainly help sustain global economic growth, particularly now when aging and falling natality are dragging the economy. Having said that, AI makes many people uncomfortable because it is often thought of as something that will replace humans, lead to job losses and deteriorate interpersonal relations at work.
+
+Take two. Pause & Rewind
+
+This is a very commonly accepted vision of AI. But will AI make really the workplace a colder place ruled by brute intelligence without empathy or interpersonal skills, and eventually lead to net job destruction?
+
+Take two. Pause & Rewind.
+
+AI will make the workplace more human, not less. This is the gift of AI to mankind.
+
+Human Skills and Human jobs
+
+The integration of AI into the workplace will come through augmentation of human skills rather than substitution of jobs. AI, in fact, does not automate jobs. It automates certain skills in jobs.
+
+AI does not automate jobs. It automates certain skills in jobs.
+
+A job, a person’s role in society, often performed in exchange for payment, is a collection of skills. For example, a software developer requires multiple skills ranging from coding and testing software to understanding clients’ needs and supervising junior developers.
+
+We can group human skills in three broad categories depending on their readiness for automation:
+
+Process-oriented skills include physical or repetitive activities in highly structured and predictable settings. These skills account for approximately half of the activities that people do today. Building houses or manufacturing objects, filing documents, following procurement or accounting processes are all examples of process-oriented skills.
+
+Quantitative reasoning skills require intelligence. Some examples are linguistic knowledge, problem-solving, logical and numeric reasoning, understanding analytics, and programming.
+
+Cross-functional reasoning skills are mainly related to social abilities and creativity. Some examples are making sense of things, defining a strategy, managing people, design mindset, emotional intelligence, and conflict resolution.
+
+Automation of Skills and Workforce Transitions
+
+AI will impact each one of these three categories of skills in a different degree. Machines are much better than humans in deterministic tasks involving process-oriented and quantitative reasoning skills, but humans are far better in more ambiguous cross-functional reasoning skills tasks.
+
+As a result, over the next decade, more than 80% of process-oriented tasks will be done by AI systems. Quantitative reasoning tasks will be done approximately 50% by humans and 50% machine, while humans will continue to do more than 80% of cross-functional reasoning tasks.
+
+Some professions will fall in decay, others will thrive, and most of them will drastically change. Jobs made up of process-oriented activities will see declines. Growing occupations will be linked to quantitative and cross-functional skills, which are more difficult to automate. Humans will need to move from occupations in decay to growing professions, and, in some cases, to completely new occupations.
+
+Over the next decade, more than 80% of process-oriented tasks will be done by AI systems. Quantitative reasoning tasks will be done approximately 50% by humans and 50% machine, while humans will continue to do more than 80% of cross-functional reasoning tasks.
+
+Process-Oriented Skills and No-Collar Workers
+
+Most process-oriented tasks will be done mainly by machines instead of humans. We call these machines no-collar workers. No-collar workers will be responsible for tasks such as approving loans, deciding whether a customer should be on-boarded or identifying fraud. Virtual personal assistants will take over admin tasks. Robotic customer service agents will be able to understand, diagnose and determine actions needed to resolve a wide range of customer queries.
+
+Human jobs will shift toward managing and troubleshooting these no-collar workers and humans will focus on improving their productivity. For example, as supermarkets and stores are introducing self-checkout systems, human cashiers are becoming checkout assistants, who answer customers’ questions and troubleshoot or supervise the check-out machines.
+
+Quantitative Reasoning Skills and Human-Machine Collaboration
+
+Human workers and machines will work together flawlessly, complementing each other. Machines will learn to carry out easier tasks such as following processes or crunching data. They will also realize when humans are having difficulty and will be ready to step in to assist or to request help from a human if the job is beyond their capabilities.
+
+Best performance, in fact, will be achieved through collaboration between humans and machines. A good example is cancer identification. According to Harvard research, AI algorithms can read diagnostic scans with a 92% accuracy. Humans can do it with a 96% accuracy. Together, 99%!
+
+Companies will also need to redesign jobs, assigning some tasks to humans, other tasks to machines, and finally some of them to a collaborative model, where AI augments humans. Workflows and workspaces will evolve to facilitate human-machine collaboration. For example, warehouse design may change significantly. Some areas will mainly accommodate robots while other areas will be used for human-machine interactions. Flow transitions from AI to human will occur and require systematic governance.
+
+This human-machine collaboration will create a large number of new jobs which leverage mainly quantitative reasoning skills as well as knowledge of specific digital and AI technologies. These are some of the possible new jobs:
+
+AI interaction designers will be able to communicate with personnel to translate requirements into machine functions.
+
+Simplicity consultants will simplify and streamline processes, technologies, and communication in an organization.
+
+Wellbeing coaches will be in charge of change management to enhance the collaborative relationship between humans and machines then maintain wellness among employees.
+
+Analytic HRs will use analytics to spot talent trends and to create and implement business, innovation and talent management strategies.
+
+Cross-functional Reasoning Skills and the Humanization of Work
+
+By automating process-oriented and quantitative skills, AI will push us up the skillset ladder into the cross-functional reasoning skills, including creativity and social abilities, which make us uniquely human. These essential human skills will be even more important than today.
+
+By freeing employees from these other tasks, AI will allow them to be more empathetic, to focus on creativity, customer experience, employee engagement, workplace culture, social skills, and emotional intelligence. For example, a simple customer service bot can independently answer about 80% of queries. This allows customer service representatives to focus on the other 20% that require better contextual understanding or more empathy.
+
+As a result, work will also be more rewarding. Organizations will become more collaborative and increasingly agile and nonhierarchical. Higher employee satisfaction, more creativity, more free time, reduced employee churn, and increased customer satisfaction will be some of the positive consequences of AI in the workplace. AI will make the workplace more human, not less. This is the gift of AI to mankind.
+
+A number of jobs focused on cross-functional reasoning skills are already emerging:
+
+Professional tribers will putt freelance teams together for very specific projects.
+
+Insight enablers will help companies make sense from the flood of data generated.
+
+Freelance professors will provide in-house training to skill up the workforce.
+
+UX/UI interaction specialists will devise new customer experiences that drive new business and increase loyalty by combining optimized use of AI with deep business knowledge.
+
+By automating process-oriented and quantitative skills, AI will push us up the skillset ladder into the cross-functional reasoning skills, which make us uniquely human.
+
+Unfortunately, Not Everyone Will be Able to Climb the Skillset Ladder
+
+Demand for advanced quantitative-reasoning skills such as programming will grow fast. Cross-functional reasoning skills like social, emotional, creativity, critical and thinking, will also see an increase in demand.
+
+A number of process-heavy tasks traditionally filled by well-educated and well-paid human workers will be at risk. These include, for example, tax preparers, radiologists, lawyers, translators, loan underwriters, insurance adjusters, financial analysts, and even journalists or software-engineers. Moreover, the occupational shifts will put pressure on the wages of highly automatable tasks.
+
+This kind of skillset transition has happened in history before. The transitions from manual labor to steam and then from steam to electricity took decades to mature. The automation of agriculture in the US took a generation, so there was sufficient time to educate farmers’ children with the skills needed in the new economic environment. Today AI is changing the workplace so fast that many workers themselves, not their children, will need to upgrade their skills to adapt to new jobs. In fact, workers will need to upgrade their skills multiple times in their professional lives and get used to life-long learning.
+
+Not everyone will be able to do it. A new class of people might arise: the useless class. People who are not just unemployed, but unemployable, because they will not adapt to life-training.
+
+A new class of people might arise: the useless class. People who are not just unemployed, but unemployable.
+
+Facilitating Workforce Transitions
+
+The advent of the unemployable and the risk of increased income inequality might result in social and political tensions. Delaying or blocking the adoption of AI will not help to address these challenges. Business and government alike should embrace AI to benefit from improved productivity and other societal advantages. Instead, the focus should be on facilitating workforce transitions through the following four avenues:
+
+Invest in human capital: governments, education providers and employers should improve school systems and on-the-job training in areas related to science, technology, engineering, and mathematics or associated to AI, such as programming and data science. Additionally, a new focus is required on creativity, critical thinking, as well as social and emotional skills. Through tax benefits and other incentives, governments can influence businesses to invest in human capital, to develop innovative ways of life-long learning and to institutionalize training opportunities
+
+Assure strong economic growth: economic growth is a prerequisite for job creation and wealth. Governments will need to invest in projects that contribute to employment (such as services, infrastructure or climate-change). Additionally, entrepreneurship and rapid new business formation are required. Building a more energetic ecosystem for small businesses and a competitive environment for corporations might require simpler and more advanced regulations, taxes, and incentives.
+
+Increase the dynamism of the labor market: research studies have proven than wages rise when more people change jobs more often. Governments should make labor markets flexible to allow people to change jobs more easily.
+
+Rethinking social policies: Many workers will need assistance and safety nets to adjust to the changes AI is bringing in and to find new jobs. Some voices even advocate for more comprehensive approaches such as a universal basic income. Additionally, as new varieties of work arise, such as the gig economy, issues such as income inequality and portability of benefits or insurance will need to be addressed.
+
+Delaying or blocking the adoption of AI will not help to address these challenges. Instead, the focus should be on facilitating workforce transitions.
+
+Pedro URIA RECIO
+
+Executive marketing professional with over 15 years of global experience in data-driven marketing, digital businesses, analytics, and AI, spanning across technology, telecom, and financial services. P&L responsibility for quantitative marketing. Multifaceted, resourceful and versatile former McKinsey consultant. Gifted in creating and coaching high-performing teams of marketing specialists, data scientists and digital developers across multiple countries and cultures. Brave, creative and well-balanced between forward-looking marketing strategy and hands-on digital transformation. Chicago Booth MBA and certified machine-learning professional with a tracked record of bridging the gap between business objectives and technology. Committed technology author and international keynote speaker. In private, becoming a business angel.
+
+References
+
+“AI, automation, and the future of work: Ten things to solve for”, James Manyika and Kevin Sneader, McKinsey, June 2018
+
+“In an office of machine, where will you fit in?”, Clifton B. Parker-Stanford, May 2018
+
+“No-collar workforce: Humans and machines in one loop — collaborating in roles and new talent models”, Jeff Schwartz and Sharon Chand, Deloitte, Dec 2017
+
+“AI will make us more human, shattering the glass ceiling of productivity”, Dr. Chris Brauer, IpSoft, Jan 2017
+
+“Blue or white collar? How about no collar?”, Glenn Marshall, April 2018
+
+“Humans and Machines Team Up in the No-Collar Workforce”, Anthony Abbatiello, Tim Boehm, Jeff Schwartz, and Sharon Chand, Deloitte, March 2018
+
+“What is the future of your job?”, Saadia Zahidi, Till Leopold, World Economic Forum, January 2016
+
+“The Future of Jobs”, World Economic Forum, Jan 2016
+
+“Money, banking, and economic welfare”, Paul B. Trescott, 1960
+
+“Opening Speech at Alumni Alliance Future of Work Conference”, Imran Tayebali, June 2019
+
+“AI Boosts Cancer Screens to Nearly 100 Percent Accuracy”, Christopher Wanjek, livescience.com, June 2016
+
+“Better Together“, Bonnie Prescott, Harvard Medical School, June 2016
+
+Interview in Davos for Fox News, Accenture CEO Julie Sweet, January 2018
+
+“Robotic Process Automation and other forms of Artificial Intelligence for the C-Suite”, Pedro Uria Recio, February 2018

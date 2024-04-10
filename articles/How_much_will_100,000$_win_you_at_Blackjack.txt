@@ -1,0 +1,21 @@
+Isn’t there something magical about a casino? in a theatrical sense, you walk into a casino, all the bright lights shining at you, there is a strong, soothing and sensuous smell and you hear people celebrating their wins! now you’re ecstatic, you cant wait to feel the chips in your hands, you think to yourself that this is the night, the night you always dreamed of , you’re going to make the winning of your lifetime! You begin to play Blackjack, you make significant wins, you’re feeling like you’re on cloud nine and then comes the boom. How long has the winning streak lasted? not much, Well, does this scenario look familiar to you? (Or is it just me who goes through this!)
+
+After my recent visit to a casino I came out thinking that there must be a strategy to win and I’ve to find out the probability of winning this game. I googled Blackjack strategies and almost all websites pointed me to the Basic Blackjack chart of betting, I got my head around it pretty quickly and now it was time to put it to test, what other way than simulating allot of random hands of Blackjack between players and dealer right?
+
+Well, that’s exactly what I did, Let’s assume we have 100,000$ to bet(I so wish!), each bet will cost us 10$ and we play 10,000 hands. Let’s think of the questions we can try to answer through our simulation;
+
+How much do I win after playing 10,000 hands?
+
+What are the win & loss percentages?
+
+How many Blackjack's do I hit? (1,000 atleast, one in ten hands?)
+
+How much does the Dealer make?
+
+Which hands are the luckiest?
+
+Can we create a matrix of — player cards win percentage against the dealers cards? (I’ll use this in my next casino visit and make the moolah!)
+
+Simulation Setup
+
+To simulate the casino game, let’s have 6 players playing — each with a pot of 100,000$(High rollers, man!) and a dealer. Each bet will be of 10$, a blackjack win will give a return of 3 : 2, that is a 10$ bet will return 25$ (inclusive of your 10$ bet) and a normal high win or dealer bust will give a return of 1 :1, that is a 10$ bet will return 20$. For simulation purposes, let’s ignore insurance, splits,double down and any other bonus plays. As…
