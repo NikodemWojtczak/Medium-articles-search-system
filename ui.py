@@ -29,7 +29,7 @@ def query(quenstion, number_of_responses):
 
 
 st.title("Medium articles search engine")
-st.header("Please enter your query below the webside")
+st.header("Please enter your query below")
 number_of_responses = st.number_input("How many responses do you want to get?",
                                       value=4,
                                       placeholder="Type a number...",
