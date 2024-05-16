@@ -4,9 +4,10 @@
 To run this program, the following packages need to be installed:
 - streamlit
 - langchain_community
-- langchain  
+- langchain
+- sentence-transformers
 
-To install these packages, run the following command: `pip install streamlit langchain_community langchain`
+To install these packages, run the following command: `pip install streamlit langchain_community langchain sentence-transformers`
 
 
 
