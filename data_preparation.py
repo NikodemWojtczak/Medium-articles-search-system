@@ -22,6 +22,8 @@ extractor = ArticlesExtractor()
 extractor.extract_articles_from_csv(csv_file_path=ARTICLES_CSV_PATH,
                                     output_directory=EXTRACTED_ARTICLES_DIRECTORY)
 
+
+
 # Load and chunk articles
 indexer = ArticlesIndexer(embedding_model_name=EMBEDDING_MODEL_NAME)
 split_articles = indexer.load_and_split_articles(directory_path=EXTRACTED_ARTICLES_DIRECTORY)
