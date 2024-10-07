@@ -9,25 +9,27 @@ Note:
 
 from tools.articles_indexer import ArticlesIndexer
 from tools.articles_extractor import ArticlesExtractor
-
-# Configuration constants
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"  # Name of the model from Hugging face used for generating embeddings.
-VECTOR_DB_PATH = "faiss_index"  # Path to save the FAISS vector database.
-ARTICLES_CSV_PATH = "medium.csv"  # Path to the source CSV file with articles.
-EXTRACTED_ARTICLES_DIRECTORY = "articles"  # Directory to save extracted articles as text files.
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
 # Extract articles
 extractor = ArticlesExtractor()
-extractor.extract_articles_from_csv(csv_file_path=ARTICLES_CSV_PATH,
-                                    output_directory=EXTRACTED_ARTICLES_DIRECTORY)
+extractor.extract_articles_from_csv(csv_file_path=os.environ.get("ARTICLES_CSV_PATH")
+,
+                                    output_directory=os.environ.get("EXTRACTED_ARTICLES_DIRECTORY")
+)
 
 
 
 # Load and chunk articles
-indexer = ArticlesIndexer(embedding_model_name=EMBEDDING_MODEL_NAME)
-split_articles = indexer.load_and_split_articles(directory_path=EXTRACTED_ARTICLES_DIRECTORY)
+indexer = ArticlesIndexer(embedding_model_name=os.environ.get("EMBEDDING_MODEL_NAME")
+)
+split_articles = indexer.load_and_split_articles(directory_path=os.environ.get("EXTRACTED_ARTICLES_DIRECTORY")
+)
 
 # Create and save FAISS vector database
 indexer.create_and_save_vector_db(split_documents=split_articles,
-                                  data_base_path=VECTOR_DB_PATH)
+                                  data_base_path=os.environ.get("VECTOR_DB_PATH")
+)

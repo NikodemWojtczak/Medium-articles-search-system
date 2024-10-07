@@ -15,15 +15,16 @@ Requirements:
 """
 
 import streamlit as st
+import os
 from tools.articles_indexer import ArticlesIndexer
+from dotenv import load_dotenv
 
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"  # Name of the model from Hugging face used for generating embeddings.
-VECTOR_DB_PATH = "faiss_index"  # Path to save the FAISS vector database.
+load_dotenv()
 
 
 def query(quenstion, number_of_responses):
-    articles_indexer = ArticlesIndexer(EMBEDDING_MODEL_NAME)
-    db = articles_indexer.load_vector_db(VECTOR_DB_PATH)
+    articles_indexer = ArticlesIndexer()
+    db = articles_indexer.load_vector_db(os.environ.get("VECTOR_DB_PATH"))
     return db.similarity_search(quenstion,
                                 k=number_of_responses)
 

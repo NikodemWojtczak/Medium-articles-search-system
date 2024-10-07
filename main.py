@@ -12,14 +12,15 @@ Requirements:
 """
 
 from tools.articles_indexer import ArticlesIndexer
-
-# Constants
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"  # Name of the model from Hugging face used for generating embeddings.
-VECTOR_DB_PATH = "faiss_index"  # Path to save the FAISS vector database.
+from dotenv import load_dotenv
+import os 
+load_dotenv()
 
 # Load the vector database
-articles_indexer = ArticlesIndexer(EMBEDDING_MODEL_NAME)
-db = articles_indexer.load_vector_db(VECTOR_DB_PATH)
+articles_indexer = ArticlesIndexer(os.environ.get("EMBEDDING_MODEL_NAME")
+)
+db = articles_indexer.load_vector_db(os.environ.get("VECTOR_DB_PATH")
+)
 
 while(True):
     # User input for query and number of responses
